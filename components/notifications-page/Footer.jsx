@@ -6,7 +6,7 @@ export default function Footer(props) {
         href="https://www.frontendmentor.io?ref=challenge"
         target="_blank"
         rel="noreferrer"
-        className="text-[hsl(228,45%,44%)] font-bold hover:underline"
+        className="text-[hsl(228,45%,44%)] font-extrabold hover:underline"
       >
         Frontend Mentor
       </a>
@@ -15,7 +15,7 @@ export default function Footer(props) {
         href="https://github.com/muflihanto"
         target="_blank"
         rel="noreferrer"
-        className="text-[hsl(228,45%,44%)] font-bold hover:underline"
+        className="text-[hsl(228,45%,44%)] font-extrabold hover:underline"
       >
         Muflihanto
       </a>

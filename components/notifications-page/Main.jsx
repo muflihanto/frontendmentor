@@ -1,6 +1,7 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState, useCallback } from "react";
 import Header from "./Header";
 import Notification from "./Notification";
+import { plusJakartaFont } from "../../utils/fontLoader";
 
 export default function Main() {
   const [notificationData, setNotificationData] = useState(null);
@@ -19,6 +20,19 @@ export default function Main() {
     });
     setNotificationData(marked);
   };
+  const handleRead = useCallback(
+    (index) => {
+      const newNotifData = notificationData.map((notif, id) => {
+        if (index !== id) {
+          return notif;
+        }
+        return { ...notif, isNew: !notif.isNew };
+      });
+      setNotificationData(newNotifData);
+    },
+    [notificationData]
+  );
+
   const notificationElement = useMemo(() => {
     if (notificationData) {
       return notificationData.map((notif, index) => {
@@ -26,19 +40,22 @@ export default function Main() {
           <Notification
             key={index}
             {...notif}
+            readNotif={() => {
+              handleRead(index);
+            }}
           />
         );
       });
     }
-  }, [notificationData]);
+  }, [notificationData, handleRead]);
 
   return (
-    <main className="px-4">
+    <main className={`px-4 md:max-w-screen-md md:mx-auto font-medium ${plusJakartaFont} font-plus-jakarta`}>
       <Header
         notifCount={count}
         markAsRead={markAsRead}
       />
-      {notificationElement}
+      <div className="notifications">{notificationElement}</div>
     </main>
   );
 }
