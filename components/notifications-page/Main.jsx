@@ -1,11 +1,14 @@
-import { useMemo, useEffect, useState, useCallback } from "react";
+import { useMemo, useEffect, useState, createContext, useRef } from "react";
 import Header from "./Header";
 import Notification from "./Notification";
 import { plusJakartaFont } from "../../utils/fontLoader";
 
+export const FontContext = createContext();
+
 export default function Main() {
   const [notificationData, setNotificationData] = useState(null);
   const [count, setCount] = useState(null);
+  const font = useRef(`${plusJakartaFont} font-plus-jakarta`);
   useEffect(() => {
     setNotificationData(notifications);
   }, []);
@@ -15,23 +18,9 @@ export default function Main() {
     }
   }, [notificationData]);
   const markAsRead = () => {
-    const marked = notificationData.map((notif) => {
-      return { ...notif, isNew: false };
-    });
+    const marked = notificationData.map((notif) => ({ ...notif, isNew: false }));
     setNotificationData(marked);
   };
-  const handleRead = useCallback(
-    (index) => {
-      const newNotifData = notificationData.map((notif, id) => {
-        if (index !== id) {
-          return notif;
-        }
-        return { ...notif, isNew: !notif.isNew };
-      });
-      setNotificationData(newNotifData);
-    },
-    [notificationData]
-  );
 
   const notificationElement = useMemo(() => {
     if (notificationData) {
@@ -40,23 +29,22 @@ export default function Main() {
           <Notification
             key={index}
             {...notif}
-            readNotif={() => {
-              handleRead(index);
-            }}
           />
         );
       });
     }
-  }, [notificationData, handleRead]);
+  }, [notificationData]);
 
   return (
-    <main className={`px-4 md:max-w-screen-md md:mx-auto font-medium ${plusJakartaFont} font-plus-jakarta`}>
-      <Header
-        notifCount={count}
-        markAsRead={markAsRead}
-      />
-      <div className="notifications">{notificationElement}</div>
-    </main>
+    <FontContext.Provider value={font.current}>
+      <main className={`${font.current} px-4 md:max-w-[730px] md:px-[30px] md:py-[9px] md:mx-auto font-medium md:bg-notif-neutral-100 md:rounded-xl md:shadow-[0px_0px_30px_2px_rgba(0,0,0,.03)]`}>
+        <Header
+          notifCount={count}
+          markAsRead={markAsRead}
+        />
+        <div className="notifications md:mt-5">{notificationElement}</div>
+      </main>
+    </FontContext.Provider>
   );
 }
 

@@ -8,13 +8,13 @@ const Slider = dynamic(() => import("../components/notifications-page/Slider"), 
 
 export default function NotificationPage(props) {
   return (
-    <>
+    <div className="App md:bg-notif-neutral-200 md:pt-[8vh]">
       <Head>
         <title>Notifications Page</title>
       </Head>
       <Main />
       <Footer />
       {/* <Slider basePath="/notifications-page/design" /> */}
-    </>
+    </div>
   );
 }
