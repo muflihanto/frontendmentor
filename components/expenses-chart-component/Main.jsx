@@ -1,26 +1,14 @@
+import { useContext } from "react";
+import { FontContext } from "../../pages/expenses-chart-component";
+import Header from "./Header";
+import Spending from "./Spending";
+
 export default function Main(props) {
+  const font = useContext(FontContext);
   return (
-    <>
-      {`
-        My balance
-        $921.48
-
-        Spending - Last 7 days
-
-        mon
-        tue
-        wed
-        thu
-        fri
-        sat
-        sun
-
-        Total this month
-        $478.33
-
-        +2.4%
-        from last month
-      `}
-    </>
+    <div className="flex flex-col pt-[calc(67/667*100vh)] min-h-screen px-4 bg-expenses-neutral-200">
+      <Header />
+      <Spending />
+    </div>
   );
 }

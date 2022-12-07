@@ -2,7 +2,7 @@ import Head from "next/head";
 import Main from "../components/notifications-page/Main";
 import Footer from "../components/notifications-page/Footer";
 import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/notifications-page/Slider"), {
+const Slider = dynamic(() => import("../components/Slider"), {
   ssr: false,
 });
 

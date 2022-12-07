@@ -1,6 +1,6 @@
 export default function Footer(props) {
   return (
-    <footer className="text-[11px] text-center">
+    <footer className="text-[11px] text-center absolute bottom-3 w-full">
       Challenge by{" "}
       <a
         className="text-[hsl(228,45%,44%)]"

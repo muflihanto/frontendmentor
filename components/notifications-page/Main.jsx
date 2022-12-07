@@ -1,14 +1,14 @@
 import { useMemo, useEffect, useState, createContext, useRef } from "react";
 import Header from "./Header";
 import Notification from "./Notification";
-import { plusJakartaFont } from "../../utils/fontLoader";
+import { plusJakartaSansVar } from "../../utils/fontLoader";
 
 export const FontContext = createContext();
 
 export default function Main() {
   const [notificationData, setNotificationData] = useState(null);
   const [count, setCount] = useState(null);
-  const font = useRef(`${plusJakartaFont} font-plus-jakarta`);
+  const font = useRef(`${plusJakartaSansVar} font-plus-jakarta`);
   useEffect(() => {
     setNotificationData(notifications);
   }, []);

@@ -21,9 +21,22 @@ module.exports = {
             700: "hsl(224,21%,14%)",
           },
         },
+        expenses: {
+          primary: {
+            red: "hsl(10,79%,65%)",
+            cyan: "hsl(186,34%,60%)",
+          },
+          neutral: {
+            100: "hsl(33,100%,98%)",
+            200: "hsl(27,66%,92%)",
+            300: "hsl(28,10%,53%)",
+            400: "hsl(25,47%,15%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
+        "dm-sans": ["var(--font-dm-sans)", ...fontFamily.sans],
       },
     },
   },
