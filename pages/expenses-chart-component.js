@@ -14,7 +14,7 @@ export default function ExpensesChart(props) {
   const font = useRef(`${dmSansVar} font-dm-sans`);
   return (
     <FontContext.Provider value={font.current}>
-      <div className={`${font.current} App relative`}>
+      <div className={`${font.current} App relative bg-expenses-neutral-200 min-h-screen py-5 flex items-center`}>
         <Head>
           <title>Frontend Mentor | Expenses chart component</title>
         </Head>

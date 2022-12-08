@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ChartBar from "./ChartBar";
 
 export default function Chart({ data }) {
@@ -13,9 +12,5 @@ export default function Chart({ data }) {
       />
     );
   });
-  return (
-    <>
-      <div className="flex items-end justify-between mt-[52px]">{chartElement}</div>
-    </>
-  );
+  return <div className="flex items-end justify-between mt-[52px] md:mt-[max(54px,calc(71/1024*100vh))]">{chartElement}</div>;
 }

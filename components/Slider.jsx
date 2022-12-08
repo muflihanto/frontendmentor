@@ -29,6 +29,7 @@ export default function Slider({ basePath }) {
 
   const getSliderImg = () => {
     return `${basePath}/${window.innerWidth >= 1440 ? "desktop" : "mobile"}-design.jpg`;
+    // return `${basePath}/active-states.jpg`;
   };
   const [imagePath, setImagePath] = useState(getSliderImg());
 

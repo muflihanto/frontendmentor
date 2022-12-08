@@ -1,6 +1,6 @@
 export default function Footer(props) {
   return (
-    <footer className="text-[11px] text-center absolute bottom-3 w-full">
+    <footer className="text-[11px] text-center absolute bottom-3 md:bottom-2 w-full">
       Challenge by{" "}
       <a
         className="text-[hsl(228,45%,44%)]"
@@ -13,9 +13,11 @@ export default function Footer(props) {
       . Coded by{" "}
       <a
         className="text-[hsl(228,45%,44%)]"
-        href="#"
+        href="https://github.com/muflihanto"
+        target="_blank"
+        rel="noreferrer"
       >
-        Your Name Here
+        Muflihanto
       </a>
       .
     </footer>
