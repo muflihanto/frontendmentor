@@ -33,10 +33,18 @@ module.exports = {
             400: "hsl(25,47%,15%)",
           },
         },
+        introdrop: {
+          neutral: {
+            100: "hsl(0,0%,98%)",
+            200: "hsl(0,0%,41%)",
+            300: "hsl(0,0%,8%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
         "dm-sans": ["var(--font-dm-sans)", ...fontFamily.sans],
+        epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
       },
     },
   },
