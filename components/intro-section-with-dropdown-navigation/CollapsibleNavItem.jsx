@@ -1,15 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Collapsible(props) {
-  const el = useRef(null);
-  const elCb = useCallback(
-    (node) => {
-      if (node !== null) {
-        el.current = node;
-      }
-    },
-    [el]
-  );
+  const detailsRef = useRef(null);
   const summaryRef = useRef(null);
   const contentRef = useRef(null);
   const [animation, setAnimation] = useState(null);
@@ -18,93 +10,90 @@ export default function Collapsible(props) {
 
   const handleSummaryClick = (e) => {
     e.preventDefault();
-    el.current.style.overflow = "hidden";
-    if (isClosing || !el.current.open) {
+    if (isClosing || !detailsRef.current.open) {
       open();
-    } else if (isExpanding || el.current.open) {
+    } else if (isExpanding || detailsRef.current.open) {
       shrink();
     }
   };
 
-  const handleSummaryHover = (e) => {
-    el.current.style.overflow = "hidden";
-    if (isClosing || !el.current.open) {
+  const handleSummaryHover = () => {
+    if (window.innerWidth < 1024) return;
+    if (isClosing || !detailsRef.current.open) {
       open();
     }
   };
 
   const handleSummaryLeave = (e) => {
-    el.current.style.overflow = "hidden";
-    if (e.relatedTarget.parentNode === contentRef.current || e.relatedTarget.parentNode.parentNode === contentRef.current) return;
-    if (isExpanding || el.current.open) {
+    if (window.innerWidth < 1024 || (!isExpanding && !detailsRef.current.open)) return;
+    detailsRef.current.style.overflow = "unset";
+    const pointer = e.relatedTarget;
+    if (![pointer, pointer.parentNode, pointer.parentNode.parentNode].includes(contentRef.current)) {
       shrink();
     }
   };
 
   const handleContentLeave = () => {
-    if (isExpanding || el.current.open) {
+    if (window.innerWidth < 1024) return;
+    if (isExpanding || detailsRef.current.open) {
       shrink();
     }
   };
 
-  const shrink = () => {
-    setIsClosing(true);
-    const startHeight = `${el.current.offsetHeight}px`;
-    const endHeight = `${summaryRef.current.offsetHeight}px`;
+  const animate = ({ id }) => {
+    if (animation) animation.cancel();
 
-    if (animation) {
-      animation.cancel();
+    let start, end, key, element;
+    if (window.innerWidth < 1024) {
+      detailsRef.current.style.overflow = "hidden";
+      key = "height";
+      element = detailsRef;
+      start = `${detailsRef.current.offsetHeight}px`;
+      end = `${id === "shrink" ? summaryRef.current.offsetHeight : summaryRef.current.offsetHeight + contentRef.current.offsetHeight}px`;
+    } else {
+      key = "clipPath";
+      element = contentRef;
+      start = "ellipse(0px 0px at 50% -30px)";
+      end = "ellipse(300px 300px at 50% 50%)";
+      if (id === "shrink") [start, end] = [end, start];
     }
 
     setAnimation(
-      el.current.animate(
+      element.current.animate(
         {
-          height: [startHeight, endHeight],
+          [key]: [start, end],
         },
         {
           duration: 250,
           easing: "ease-out",
-          id: "shrink",
+          id,
         }
       )
     );
   };
 
+  const shrink = () => {
+    setIsClosing(true);
+    animate({ id: "shrink" });
+  };
+
   const open = () => {
-    el.current.style.height = `${el.current.offsetHeight}px`;
-    el.current.open = true;
+    detailsRef.current.style.height = `${detailsRef.current.offsetHeight}px`;
+    detailsRef.current.open = true;
     window.requestAnimationFrame(() => expand());
   };
 
   const expand = () => {
     setIsExpanding(true);
-    const startHeight = `${el.current.offsetHeight}px`;
-    const endHeight = `${summaryRef.current.offsetHeight + contentRef.current.offsetHeight}px`;
-
-    if (animation) {
-      animation.cancel();
-    }
-
-    setAnimation(
-      el.current.animate(
-        {
-          height: [startHeight, endHeight],
-        },
-        {
-          duration: 250,
-          easing: "ease-out",
-          id: "expand",
-        }
-      )
-    );
+    animate({ id: "expand" });
   };
 
   const onAnimationFinish = (open) => {
-    el.current.open = open;
+    detailsRef.current.open = open;
     setAnimation(null);
     setIsClosing(false);
     setIsExpanding(false);
-    el.current.style.height = el.current.style.overflow = "";
+    detailsRef.current.style.height = detailsRef.current.style.overflow = "";
   };
 
   useEffect(() => {
@@ -119,14 +108,14 @@ export default function Collapsible(props) {
 
   return (
     <details
-      ref={elCb}
+      ref={detailsRef}
       className="group lg:relative"
     >
       <summary
         ref={summaryRef}
         onClick={handleSummaryClick}
-        // onMouseEnter={handleSummaryHover}
-        // onMouseLeave={handleSummaryLeave}
+        onMouseEnter={handleSummaryHover}
+        onMouseLeave={handleSummaryLeave}
         className="relative flex items-center justify-start gap-2 list-none hover:cursor-pointer w-fit"
       >
         <span>{props.label}</span>
@@ -148,8 +137,8 @@ export default function Collapsible(props) {
 
       <ul
         ref={contentRef}
-        // onMouseLeave={handleContentLeave}
-        className="pl-4 lg:absolute lg:top-10 lg:left-0 lg:bg-white lg:px-5 lg:py-6 lg:rounded-lg lg:text lg:shadow-[0px_0px_15px_10px_rgba(0,0,0,.05)] py-3 flex flex-col gap-1"
+        onMouseLeave={handleContentLeave}
+        className="pl-4 lg:absolute lg:-bottom-[180px] lg:right-0 lg:left-auto lg:bg-white lg:px-5 lg:py-6 lg:rounded-lg lg:text lg:shadow-[0px_0px_15px_10px_rgba(0,0,0,.05)] py-3 flex flex-col gap-1 lg:before:w-full lg:before:content-[''] lg:before:h-[30px] lg:before:right-0 lg:before:top-[-30px] lg:before:bg-transparent lg:before:absolute"
       >
         {props.items}
       </ul>

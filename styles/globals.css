@@ -7,3 +7,8 @@
     @apply font-epilogue;
   }
 }
+/* 
+*:focus-visible {
+  border: none;
+  outline: none;
+} */

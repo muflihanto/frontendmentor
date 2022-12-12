@@ -26,7 +26,7 @@ export default function IntroDropdown() {
           <Main />
         </div>
         <Footer />
-        <Slider basePath="/intro-section-with-dropdown-navigation/design" />
+        {/* <Slider basePath="/intro-section-with-dropdown-navigation/design" /> */}
       </div>
     </FontContext.Provider>
   );
