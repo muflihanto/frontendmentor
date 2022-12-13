@@ -5,7 +5,9 @@ const plusJakartaSans = localFont({ src: "../public/notifications-page/assets/fo
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", weight: ["400", "700"] });
 // const epilogue = Epilogue({ subsets: ["latin"], variable: "--font-epilogue", weight: ["400", "500", "700"] });
 const epilogue = localFont({ src: "../public/intro-section-with-dropdown-navigation/fonts/Epilogue-VariableFont_wght.ttf", variable: "--font-epilogue" });
+const manrope = localFont({ src: "../public/advice-generator-app/fonts/Manrope-VariableFont_wght.ttf", variable: "--font-manrope" });
 
 export const plusJakartaSansVar = plusJakartaSans.variable;
 export const dmSansVar = dmSans.variable;
 export const epilogueVar = epilogue.variable;
+export const manropeVar = manrope.variable;

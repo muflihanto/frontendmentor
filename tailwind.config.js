@@ -40,11 +40,23 @@ module.exports = {
             300: "hsl(0,0%,8%)",
           },
         },
+        advice: {
+          primary: {
+            cyan: "hsl(193,38%,86%)",
+            green: "hsl(150,100%,66%)",
+          },
+          neutral: {
+            100: "hsl(217,19%,38%)",
+            200: "hsl(217,19%,24%)",
+            300: "hsl(218,23%,16%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
         "dm-sans": ["var(--font-dm-sans)", ...fontFamily.sans],
         epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
+        manrope: ["var(--font-manrope)", ...fontFamily.sans],
       },
     },
   },
