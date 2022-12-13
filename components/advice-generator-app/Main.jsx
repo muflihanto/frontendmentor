@@ -1,15 +1,15 @@
 export default function Main(props) {
   return (
-    <div className="bg-advice-neutral-200 w-[calc(100vw-32px)] flex flex-col items-center justify-center pt-12 pb-16 rounded-xl text-advice-primary-cyan px-5 text-center relative">
-      <p className="text-[11px] text-advice-primary-green uppercase tracking-[2px]">
+    <div className="bg-advice-neutral-200 w-[calc(100vw-32px)] flex flex-col items-center justify-center pt-[39px] pb-16 rounded-xl text-advice-primary-cyan px-5 text-center relative shadow-[0px_40px_30px_-5px_rgba(0,0,0,0.05)]">
+      <p className="text-[11px] text-advice-primary-green uppercase tracking-[3.25px]">
         Advice <span>{props.id || "#Advice ID goes here"}</span>
       </p>
-      <p className="text-[24px] mt-5">{props.quote || '"Advice text goes here"'}</p>
+      <p className="text-[24px] mt-[23px] leading-[33px] tracking-[-0.25px]">{props.quote || '"Advice text goes here"'}</p>
       <svg
         width="295"
         height="16"
         xmlns="http://www.w3.org/2000/svg"
-        className="mt-7"
+        className="mt-6"
       >
         <g
           fill="none"
