@@ -1,6 +1,6 @@
 export default function Footer(props) {
   return (
-    <footer class="attribution text-advice-primary-cyan absolute w-full text-center left-0 bottom-3">
+    <footer className="attribution text-advice-primary-cyan absolute w-full text-center left-0 bottom-3">
       <span className="text-[11px]">Challenge by </span>
       <a
         href="https://www.frontendmentor.io?ref=challenge"

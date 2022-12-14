@@ -17,7 +17,7 @@ export default function AdviceGenerator() {
         quote={'"It is easy to sit up and take notice, what\'s difficult is getting up and taking action."'}
       />
       <Footer />
-      <Slider basePath="/advice-generator-app/design" />
+      {/* <Slider basePath="/advice-generator-app/design" /> */}
     </div>
   );
 }
