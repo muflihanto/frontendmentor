@@ -17,30 +17,39 @@ export default function Main() {
 
   useEffect(() => {
     fetchNewQuote();
+    // setData({
+    //   id: "117",
+    //   advice: "It is easy to sit up and take notice, what's difficult is getting up and taking action.",
+    // });
+    // setLoading(false);
   }, []);
 
   return (
-    <div className="bg-advice-neutral-200 w-[calc(100vw-32px)] flex flex-col items-center justify-center pt-[39px] pb-16 rounded-xl text-advice-primary-cyan px-5 text-center relative shadow-[0px_40px_30px_-5px_rgba(0,0,0,0.05)]">
-      <p className="text-[11px] text-advice-primary-green uppercase tracking-[3.25px]">
+    <div className="bg-advice-neutral-200 w-[calc(100vw-32px)] flex flex-col items-center justify-center pt-[39px] pb-16 rounded-xl text-advice-primary-cyan px-5 text-center max-w-[540px] lg:px-12 relative shadow-[0px_40px_30px_-5px_rgba(0,0,0,0.05)] lg:shadow-[25px_50px_50px_-5px_rgba(0,0,0,0.075)] -translate-y-[56px] lg:-translate-y-[16px] lg:pt-[48px] lg:pb-[72px]">
+      <p className="text-[11px] text-advice-primary-green uppercase tracking-[3.25px] lg:text-[13px] lg:tracking-[4px] font-bold">
         Advice <span>{isLoading ? "#..." : data ? `#${data.id}` : "#"}</span>
       </p>
-      <div className="text-[24px] mt-[23px] leading-[33px] tracking-[-0.25px]">{isLoading ? <Spinner /> : data ? `"${data.advice}"` : "..."}</div>
+      <div className="text-[24px] mt-[23px] leading-[33px] lg:text-[28px] font-bold lg:leading-[38px] lg:mt-[22px]">{isLoading ? <Spinner /> : data ? `"${data.advice}"` : "..."}</div>
       <Divider />
-      <DiceButton fetchNewQuote={fetchNewQuote} />
+      <DiceButton
+        fetchNewQuote={fetchNewQuote}
+        isLoading={isLoading}
+      />
     </div>
   );
 }
 
-const DiceButton = ({ fetchNewQuote }) => {
+const DiceButton = ({ fetchNewQuote, isLoading }) => {
   return (
     <button
-      className="w-16 aspect-square flex items-center justify-center rounded-full bg-advice-primary-green absolute -bottom-8"
+      className="absolute flex items-center justify-center w-16 rounded-full aspect-square bg-advice-primary-green -bottom-8 group"
       onClick={fetchNewQuote}
     >
       <svg
         width="24"
         height="24"
         xmlns="http://www.w3.org/2000/svg"
+        className={`${isLoading && "animate-spin"} hover:rotate-12`}
       >
         <path
           d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
@@ -60,7 +69,7 @@ const dividerImageLoader = ({ width, src }) => {
 
 const Divider = () => {
   return (
-    <div className="relative w-full mt-6 h-4">
+    <div className="relative w-full h-4 mt-6 lg:mt-10">
       <Image
         loader={dividerImageLoader}
         alt="Line Divider"

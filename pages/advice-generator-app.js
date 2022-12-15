@@ -8,7 +8,7 @@ const Slider = dynamic(() => import("../components/Slider.jsx"), {
 });
 export default function AdviceGenerator() {
   return (
-    <div className={`${manropeVar} font-manrope font-extrabold text-[28px] bg-advice-neutral-300 flex flex-col h-screen justify-start pt-[120px] items-center relative`}>
+    <div className={`${manropeVar} font-manrope font-extrabold text-[28px] bg-advice-neutral-300 flex flex-col h-screen items-center relative lg:pt-0 justify-center`}>
       <Head>
         <title>Frontend Mentor | Advice generator app</title>
       </Head>
