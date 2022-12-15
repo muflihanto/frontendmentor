@@ -125,7 +125,7 @@ export default function Slider({ basePath }) {
 
 const imgCompSlider = {
   position: "absolute",
-  zIndex: 10,
+  zIndex: 100,
   cursor: "ew-resize",
   width: "2.5rem",
   height: "2.5rem",
@@ -137,6 +137,7 @@ const imgCompSlider = {
 };
 
 const imgCompContainer = {
+  zIndex: 99,
   top: 0,
   left: 0,
   width: "auto",
