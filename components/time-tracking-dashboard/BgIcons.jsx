@@ -89,5 +89,5 @@ export default function BgIcons(props) {
     ),
   });
 
-  return <div className="relative h-[38px] overflow-hidden">{icons.current[props.activity]}</div>;
+  return <div className="relative h-[38px] lg:h-[45px] overflow-hidden">{icons.current[props.activity]}</div>;
 }

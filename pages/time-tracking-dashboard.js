@@ -7,13 +7,16 @@ import { rubikVar } from "../utils/fontLoader.js";
 
 export default function TimeTracking() {
   return (
-    <div className={`App ${rubikVar} font-rubik min-h-screen relative bg-tracking-neutral-400 text-tracking-neutral-100`}>
+    <div className={`App ${rubikVar} font-rubik min-h-screen relative bg-tracking-neutral-400 text-tracking-neutral-100 lg:flex lg:items-center`}>
       <Head>
         <title>Frontend Mentor | Time tracking dashboard</title>
       </Head>
       <Main />
       <Footer />
-      {/* <Slider basePath={"/time-tracking-dashboard/design"} /> */}
+      {/* <Slider
+        basePath={"/time-tracking-dashboard/design"}
+        // active={true}
+      /> */}
     </div>
   );
 }

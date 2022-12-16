@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export default function Slider({ basePath }) {
+export default function Slider({ basePath, active = false }) {
   const imageRef = useRef(null);
   const sliderRef = useRef(null);
   const [clicked, setClicked] = useState(false);
@@ -28,8 +28,10 @@ export default function Slider({ basePath }) {
   );
 
   const getSliderImg = () => {
-    return `${basePath}/${window.innerWidth >= 1440 ? "desktop" : "mobile"}-design.jpg`;
-    // return `${basePath}/active-states.jpg`;
+    if (!active) {
+      return `${basePath}/${window.innerWidth >= 1440 ? "desktop" : "mobile"}-design.jpg`;
+    }
+    return `${basePath}/active-states.jpg`;
   };
   const [imagePath, setImagePath] = useState(getSliderImg());
 

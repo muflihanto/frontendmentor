@@ -19,7 +19,7 @@ export default function Main() {
     "Self Care": "bg-tracking-primary-selfcare",
   });
   return (
-    <div className="w-full px-6 pt-[81.2px] pb-[80.8px] mx-auto max-w-lg grid grid-rows-[7] gap-y-6">
+    <div className="w-full px-6 pt-[81.2px] pb-[80.8px] mx-auto max-w-lg grid grid-rows-[7] gap-y-6 lg:grid-cols-4 lg:grid-rows-2 lg:max-w-[calc(1110/1440*100vw)] lg:gap-[30px] lg:h-[calc(518px)] lg:p-0">
       <User
         activeTab={activeTab}
         setActiveTab={setActiveTab}
