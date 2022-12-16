@@ -68,6 +68,17 @@ module.exports = {
             400: "hsl(226,43%,10%)",
           },
         },
+        tip: {
+          primary: "hsl(172,67%,45%)",
+          neutral: {
+            600: "hsl(183,100%,15%)",
+            500: "hsl(186,14%,43%)",
+            400: "hsl(184,14%,56%)",
+            300: "hsl(185,41%,84%)",
+            200: "hsl(189,41%,97%)",
+            100: "hsl(0,0%,100%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -75,6 +86,7 @@ module.exports = {
         epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
         manrope: ["var(--font-manrope)", ...fontFamily.sans],
         rubik: ["var(--font-rubik)", ...fontFamily.sans],
+        "space-mono": ["var(--font-space-mono)", ...fontFamily.mono],
       },
     },
   },
