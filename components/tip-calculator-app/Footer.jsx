@@ -1,6 +1,6 @@
 export default function Footer(props) {
   return (
-    <div className="text-[11px]">
+    <div className="text-[11px] absolute bottom-3">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
