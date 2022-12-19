@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Epilogue";
+  src: local("Epilogue"), url("/intro-section-with-dropdown-navigation/fonts/Epilogue-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

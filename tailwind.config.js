@@ -83,7 +83,8 @@ module.exports = {
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
         "dm-sans": ["var(--font-dm-sans)", ...fontFamily.sans],
-        epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
+        // epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
+        epilogue: ["Epilogue", ...fontFamily.sans],
         manrope: ["var(--font-manrope)", ...fontFamily.sans],
         rubik: ["var(--font-rubik)", ...fontFamily.sans],
         "space-mono": ["var(--font-space-mono)", ...fontFamily.mono],

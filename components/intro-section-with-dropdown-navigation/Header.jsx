@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuButton from "./MenuButton";
 import NavItems from "./NavItems";
 
-export default function Header(props) {
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  useEffect(() => {
+    if (window?.innerHeight > 1024) {
+      setIsMenuOpen(false);
+    }
+  }, []);
   return (
-    <header className="relative flex items-center justify-between lg:justify-start lg:gap-8 h-[75px] px-4">
-      <div>
+    <header className="relative flex items-center justify-between lg:justify-start lg:gap-[62px] h-[75px] lg:h-[84px] lg:px-[41px] px-4">
+      <div className="lg:pt-[6px]">
         <svg
           width="84"
           height="27"

@@ -3,36 +3,38 @@ import Collapsible from "./CollapsibleNavItem";
 export default function NavItems() {
   return (
     <>
-      <ul className="block lg:flex lg:h-fit lg:gap-5">
+      <ul className="block lg:flex lg:h-fit lg:gap-[40px] lg:text-introdrop-neutral-200 lg:text-[14px] lg:font-medium">
         <li>
           <Collapsible
             label="Features"
             items={<FeatureItems />}
+            addClass="lg:right-0"
           />
         </li>
         <li>
           <Collapsible
             label="Company"
             items={<CompanyItems />}
+            addClass="lg:left-0 lg:py-[20px] lg:leading-[24px]"
           />
         </li>
-        <li>
+        <li className="hover:text-introdrop-neutral-300">
           <a href="">Careers</a>
         </li>
-        <li>
+        <li className="hover:text-introdrop-neutral-300">
           <a href="">About</a>
         </li>
       </ul>
-      <div className="flex flex-col items-center w-full gap-2 mt-6 lg:flex-row lg:mt-0 lg:ml-auto lg:w-56">
+      <div className="flex flex-col items-center w-full gap-2 mt-6 lg:flex-row lg:mt-0 lg:ml-auto lg:w-fit lg:gap-[10px] lg:text-[14px] lg:text-introdrop-neutral-200 lg:font-medium">
         <a
           href=""
-          className="block w-full leading-10 text-center rounded-full hover:bg-introdrop-neutral-200/20"
+          className="lg:rounded-xl block w-full leading-10 lg:w-[102px] text-center rounded-full hover:text-introdrop-neutral-300 "
         >
           Login
         </a>
         <a
           href=""
-          className="block w-full leading-10 text-center border rounded-full border-introdrop-neutral-300 hover:bg-introdrop-neutral-200/20"
+          className="lg:rounded-xl block w-full leading-10 lg:w-[102px] text-center border rounded-full border-introdrop-neutral-200 lg:border-[2px] hover:text-introdrop-neutral-300 hover:border-introdrop-neutral-300"
         >
           Register
         </a>
@@ -112,10 +114,13 @@ const FeatureItems = () => {
     <>
       {items.map((item, index) => {
         return (
-          <li key={index}>
+          <li
+            key={index}
+            className="hover:text-introdrop-neutral-300"
+          >
             <a
               href={item.href}
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 lg:gap-[11px]"
             >
               <div className="flex items-center justify-center w-6 aspect-square">{item.icon}</div>
               <span className="h-5">{item.label}</span>
@@ -146,7 +151,10 @@ const CompanyItems = () => {
     <>
       {items.map((item, index) => {
         return (
-          <li key={index}>
+          <li
+            key={index}
+            className="hover:text-introdrop-neutral-300"
+          >
             <a href={item.href}>{item.label}</a>
           </li>
         );

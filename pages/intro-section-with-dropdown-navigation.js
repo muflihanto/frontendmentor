@@ -15,7 +15,7 @@ export default function IntroDropdown() {
     <FontContext.Provider value={`${epilogueVar} font-epilogue`}>
       <div
         id="intro-with-dropdown"
-        className={`${epilogueVar} font-epilogue max-w-screen-sm mx-auto lg:max-w-full lg:px-5`}
+        className={`${epilogueVar} font-epilogue max-w-screen-sm mx-auto lg:max-w-full lg:bg-introdrop-neutral-100`}
       >
         <Head>
           <title>Frontend Mentor | Intro section with dropdown navigation</title>
@@ -26,7 +26,10 @@ export default function IntroDropdown() {
           <Main />
         </div>
         <Footer />
-        {/* <Slider basePath="/intro-section-with-dropdown-navigation/design" /> */}
+        <Slider
+          basePath="/intro-section-with-dropdown-navigation/design"
+          active={true}
+        />
       </div>
     </FontContext.Provider>
   );

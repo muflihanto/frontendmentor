@@ -109,16 +109,16 @@ export default function Collapsible(props) {
   return (
     <details
       ref={detailsRef}
-      className="group lg:relative"
+      className="group lg:relative group"
     >
       <summary
         ref={summaryRef}
         onClick={handleSummaryClick}
         onMouseEnter={handleSummaryHover}
         onMouseLeave={handleSummaryLeave}
-        className="relative flex items-center justify-start gap-2 list-none hover:cursor-pointer w-fit"
+        className="relative flex items-center justify-start gap-2 lg:gap-[7px] list-none hover:cursor-pointer w-fit"
       >
-        <span>{props.label}</span>
+        <span className="group-open:text-introdrop-neutral-300 group-open:drop-shadow-[0_0_0.25px_hsl(0,0%,41%)]">{props.label}</span>
         <span className="inline-block transition-transform duration-[250ms] group-open:rotate-180">
           <svg
             width="10"
@@ -138,7 +138,7 @@ export default function Collapsible(props) {
       <ul
         ref={contentRef}
         onMouseLeave={handleContentLeave}
-        className="pl-4 lg:absolute lg:-bottom-[180px] lg:right-0 lg:left-auto lg:bg-white lg:px-5 lg:py-6 lg:rounded-lg lg:text lg:shadow-[0px_0px_15px_10px_rgba(0,0,0,.05)] py-3 flex flex-col gap-1 lg:before:w-full lg:before:content-[''] lg:before:h-[30px] lg:before:right-0 lg:before:top-[-30px] lg:before:bg-transparent lg:before:absolute"
+        className={`pl-4 lg:absolute lg:bottom-auto lg:top-[38px] lg:left-auto lg:bg-white lg:px-6 lg:py-5 lg:rounded-lg lg:text lg:shadow-[0px_0px_15px_10px_rgba(0,0,0,.05)] py-3 flex flex-col gap-1 lg:gap-2 lg:before:w-full lg:before:content-[''] lg:before:h-[30px] lg:before:right-0 lg:before:top-[-30px] lg:before:bg-transparent lg:before:absolute lg:w-max ${props.addClass}`}
       >
         {props.items}
       </ul>

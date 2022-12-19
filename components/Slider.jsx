@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export default function Slider({ basePath, active = false }) {
+export default function Slider({ basePath, active = false, absolutePath }) {
   const imageRef = useRef(null);
   const sliderRef = useRef(null);
   const [clicked, setClicked] = useState(false);
@@ -28,6 +28,9 @@ export default function Slider({ basePath, active = false }) {
   );
 
   const getSliderImg = () => {
+    if (absolutePath) {
+      return absolutePath;
+    }
     if (!active) {
       return `${basePath}/${window.innerWidth >= 1440 ? "desktop" : "mobile"}-design.jpg`;
     }
@@ -119,6 +122,7 @@ export default function Slider({ basePath, active = false }) {
           style={imgCompImg}
           src={imagePath}
           ref={imageRef}
+          alt="Slider"
         />
       </div>
     </>
