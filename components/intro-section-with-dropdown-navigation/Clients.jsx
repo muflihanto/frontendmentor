@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Clients() {
   return (
-    <div className="flex justify-between h-[27px] gap-[30px] pl-[8px] mt-12">
+    <div className="flex justify-between h-[27px] gap-[30px] pl-[8px] mt-12 lg:max-w-[480px]">
       <div className="relative w-full h-auto scale-[1.25] aspect-[57/10]">
         <Image
           src="/intro-section-with-dropdown-navigation/images/client-databiz.svg"

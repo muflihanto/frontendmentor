@@ -3,38 +3,38 @@ import Collapsible from "./CollapsibleNavItem";
 export default function NavItems() {
   return (
     <>
-      <ul className="block lg:flex lg:h-fit lg:gap-[40px] lg:text-introdrop-neutral-200 lg:text-[14px] lg:font-medium">
+      <ul className="flex flex-col lg:flex-row gap-[18px] lg:h-fit lg:gap-[40px] font-semibold text-introdrop-neutral-200/90 lg:text-introdrop-neutral-200 lg:text-[14px] lg:font-medium">
         <li>
           <Collapsible
             label="Features"
             items={<FeatureItems />}
-            addClass="lg:right-0"
+            addClass="lg:right-0 pl-[20px] pt-[26px] pl-[21px] "
           />
         </li>
         <li>
           <Collapsible
             label="Company"
             items={<CompanyItems />}
-            addClass="lg:left-0 lg:py-[20px] lg:leading-[24px]"
+            addClass="lg:left-0 lg:py-[20px] lg:leading-[24px] pt-[20px] pl-[24px] "
           />
         </li>
-        <li className="hover:text-introdrop-neutral-300">
+        <li className="lg:hover:text-introdrop-neutral-300">
           <a href="">Careers</a>
         </li>
-        <li className="hover:text-introdrop-neutral-300">
+        <li className="lg:hover:text-introdrop-neutral-300">
           <a href="">About</a>
         </li>
       </ul>
-      <div className="flex flex-col items-center w-full gap-2 mt-6 lg:flex-row lg:mt-0 lg:ml-auto lg:w-fit lg:gap-[10px] lg:text-[14px] lg:text-introdrop-neutral-200 lg:font-medium">
+      <div className="flex flex-col items-center w-full gap-1 mt-[22px] text-[14px] text-introdrop-neutral-200 font-medium lg:flex-row lg:mt-0 lg:ml-auto lg:w-fit lg:gap-[10px] lg:text-[14px]">
         <a
           href=""
-          className="lg:rounded-xl block w-full leading-10 lg:w-[102px] text-center rounded-full hover:text-introdrop-neutral-300 "
+          className="block w-full leading-10 lg:w-[102px] text-center rounded-[14px] lg:hover:text-introdrop-neutral-300 lg:rounded-xl"
         >
           Login
         </a>
         <a
           href=""
-          className="lg:rounded-xl block w-full leading-10 lg:w-[102px] text-center border rounded-full border-introdrop-neutral-200 lg:border-[2px] hover:text-introdrop-neutral-300 hover:border-introdrop-neutral-300"
+          className="block w-full leading-[38px] lg:w-[102px] text-center border-2 rounded-[14px] border-introdrop-neutral-200/75 lg:border-[2px] lg:hover:text-introdrop-neutral-300 lg:hover:border-introdrop-neutral-300 lg:rounded-xl"
         >
           Register
         </a>
@@ -116,13 +116,13 @@ const FeatureItems = () => {
         return (
           <li
             key={index}
-            className="hover:text-introdrop-neutral-300"
+            className="lg:hover:text-introdrop-neutral-300"
           >
             <a
               href={item.href}
-              className="flex items-center gap-3 lg:gap-[11px]"
+              className="flex items-start lg:items-center gap-3 lg:gap-[11px]"
             >
-              <div className="flex items-center justify-center w-6 aspect-square">{item.icon}</div>
+              <div className="flex items-center justify-center w-6 aspect-square scale-125 lg:scale-100">{item.icon}</div>
               <span className="h-5">{item.label}</span>
             </a>
           </li>
@@ -153,7 +153,7 @@ const CompanyItems = () => {
         return (
           <li
             key={index}
-            className="hover:text-introdrop-neutral-300"
+            className="lg:hover:text-introdrop-neutral-300"
           >
             <a href={item.href}>{item.label}</a>
           </li>

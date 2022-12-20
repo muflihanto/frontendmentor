@@ -15,21 +15,23 @@ export default function IntroDropdown() {
     <FontContext.Provider value={`${epilogueVar} font-epilogue`}>
       <div
         id="intro-with-dropdown"
-        className={`${epilogueVar} font-epilogue max-w-screen-sm mx-auto lg:max-w-full lg:bg-introdrop-neutral-100`}
+        className={`${epilogueVar} font-epilogue min-h-screen pb-16 max-w-screen-sm mx-auto lg:max-w-full lg:bg-introdrop-neutral-100 relative`}
       >
         <Head>
           <title>Frontend Mentor | Intro section with dropdown navigation</title>
         </Head>
         <Header />
-        <div className="flex flex-col lg:flex-row-reverse lg:px-32">
+        <div className="flex flex-col lg:flex-row-reverse lg:pr-[130px] lg:pl-[164px] lg:py-[46px] lg:gap-32">
           <Hero />
           <Main />
         </div>
         <Footer />
-        <Slider
+        {/* <Slider
           basePath="/intro-section-with-dropdown-navigation/design"
+          // absolutePath="/intro-section-with-dropdown-navigation/design/mobile-menu-expanded.jpg"
+          // absolutePath="/intro-section-with-dropdown-navigation/design/mobile-menu-collapsed.jpg"
           active={true}
-        />
+        /> */}
       </div>
     </FontContext.Provider>
   );

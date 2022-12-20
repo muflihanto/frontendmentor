@@ -38,9 +38,9 @@ export default function Header() {
           onTouchStart={(e) => {
             if (e.target === e.currentTarget) setIsMenuOpen(false);
           }}
-          className="fixed top-0 right-0 z-20 w-full h-full bg-introdrop-neutral-200/50"
+          className="fixed top-0 right-0 z-20 w-full h-full bg-introdrop-neutral-300/[.75]"
         >
-          <nav className="absolute right-0 w-[60vw] h-full px-5 py-5 text-introdrop-neutral-300 top-0 bg-introdrop-neutral-100 pt-[70px]">
+          <nav className="absolute right-0 w-[64vw] h-full pl-6 pr-5 py-5 text-introdrop-neutral-300 top-0 bg-white pt-[78px]">
             <NavItems />
           </nav>
         </div>

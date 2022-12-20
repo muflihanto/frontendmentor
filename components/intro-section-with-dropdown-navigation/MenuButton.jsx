@@ -23,7 +23,7 @@ export default function MenuButton(props) {
           width="26"
           height="26"
           xmlns="http://www.w3.org/2000/svg"
-          className="fixed top-6 right-4"
+          className="fixed top-[21px] right-[19px]"
         >
           <g
             fill="#151515"
