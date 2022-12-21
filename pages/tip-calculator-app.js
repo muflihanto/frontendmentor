@@ -15,7 +15,7 @@ export default function TipCalculator(props) {
       <Header />
       <Main />
       <Footer />
-      <Slider basePath="/tip-calculator-app/design" />
+      {/* <Slider basePath="/tip-calculator-app/design" /> */}
     </div>
   );
 }

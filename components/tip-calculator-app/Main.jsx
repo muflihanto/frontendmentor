@@ -1,23 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Main(props) {
   const [bill, setBill] = useState(0);
-  const [tip, setTip] = useState();
+  const [tip, setTip] = useState(0);
   const [people, setPeople] = useState(1);
-  useEffect(() => {
-    console.log(tip);
-  }, [tip]);
+  const [isCustom, setIsCustom] = useState(false);
+
+  const result = useMemo(() => {
+    const totalTip = (bill * tip) / 100;
+    const totalBill = totalTip + bill;
+    const res = {
+      tipPP: (totalTip / people).toFixed(2),
+      billPP: (totalBill / people).toFixed(2),
+    };
+    return {
+      ...res,
+    };
+  }, [tip, bill, people]);
 
   return (
-    <div className="py-9 px-8 rounded-t-[25px] bg-tip-neutral-100 mt-[40px] text-tip-neutral-500">
-      <form>
+    <div className="pt-9 pb-8 rounded-t-[25px] bg-tip-neutral-100 mt-[40px] text-tip-neutral-500 px-6">
+      <form className="flex px-2 flex-col gap-[34px]">
         <label
           htmlFor="bill"
-          className="flex flex-col"
+          className="flex flex-col gap-[10px]"
         >
-          <span>Bill</span>
+          <span className="text-[15px] leading-[15px] tracking-[.5px] font-medium">Bill</span>
           <div className="relative">
-            <span className="absolute -translate-y-1/2 pointer-events-none h-fit top-1/2 left-4">
+            <span className="absolute -translate-y-1/2 pointer-events-none h-fit top-[26px] left-[19px]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-[11px] h-[17px]"
@@ -34,15 +44,15 @@ export default function Main(props) {
               type="number"
               min={0}
               value={bill}
-              onChange={(e) => setBill(e.target.value)}
+              onChange={(e) => setBill(parseFloat(e.target.value))}
               onWheel={(e) => e.target.blur()}
-              className="text-right rounded-md px-5 w-full h-[48px] appearance-none bg-tip-neutral-200 text-tip-neutral-600 text-[24px]"
+              className="text-right rounded-md px-[17px] w-full pt-[7px] pb-[5px] appearance-none bg-tip-neutral-200 text-tip-neutral-600 text-[24px]"
             />
           </div>
         </label>
-        <fieldset>
-          <legend>Select Tip %</legend>
-          <div className="grid grid-cols-2 gap-y-4 gap-x-4">
+        <fieldset className="mt-[3px]">
+          <legend className="text-[15px] leading-[15px] tracking-[.5px] font-medium">Select Tip %</legend>
+          <div className="mt-[21px] grid grid-cols-2 gap-y-4 gap-x-4">
             {[5, 10, 15, 25, 50].map((el, index) => {
               return (
                 <TipButton
@@ -50,30 +60,35 @@ export default function Main(props) {
                   tip={tip}
                   percent={el}
                   setTip={setTip}
+                  isCustom={isCustom}
+                  setIsCustom={setIsCustom}
                 />
               );
             })}
             <label htmlFor="custom-tip">
               <input
                 type="number"
-                value={typeof tip === "number" && tip}
-                onChange={(e) => setTip(parseInt(e.target.value))}
+                value={isCustom && tip}
+                onChange={(e) => {
+                  setIsCustom(true);
+                  setTip(parseFloat(e.target.value));
+                }}
                 onWheel={(e) => e.target.blur()}
                 id="custom-tip"
                 name="tip"
                 placeholder="Custom"
-                className="w-full text-[24px] h-[50px] text-right bg-tip-neutral-200 rounded-md p-3 placeholder:text-right"
+                className="w-full text-[24px] h-[50px] text-right bg-tip-neutral-200 rounded-md leading-[24px] pt-[10px] pb-[12px] px-[18px] placeholder:text-right placeholder:text-tip-neutral-500"
               />
             </label>
           </div>
         </fieldset>
         <label
           htmlFor="bill"
-          className="flex flex-col"
+          className="flex flex-col gap-[11px]"
         >
-          <span>Number of People</span>
+          <span className="text-[15px] leading-[15px] tracking-[.5px] font-medium">Number of People</span>
           <div className="relative">
-            <span className="absolute -translate-y-1/2 pointer-events-none h-fit top-1/2 left-4">
+            <span className="absolute -translate-y-1/2 pointer-events-none h-fit top-[24px] left-[17px]">
               <svg
                 className="w-[13px] h-[16px]"
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,37 +107,39 @@ export default function Main(props) {
               value={people}
               onChange={(e) => setPeople(e.target.value)}
               onWheel={(e) => e.target.blur()}
-              className="text-right rounded-md px-5 w-full h-[48px] appearance-none bg-tip-neutral-200 text-tip-neutral-600 text-[24px]"
+              className="text-right rounded-md px-[17px] w-full pt-[7px] pb-[5px] appearance-none bg-tip-neutral-200 text-tip-neutral-600 text-[24px]"
             />
           </div>
         </label>
-        <ResultCard />
       </form>
-      {`
-    
-      Tip Amount
-      / person
-    
-      Total
-      / person
-    
-      Reset
-    `}
+      <ResultCard result={result} />
     </div>
   );
 }
 
-const ResultCard = () => {
+const ResultCard = ({ result }) => {
   return (
-    <div className="bg-tip-neutral-600 rounded-[25px]">
-      <div></div>
-      <div></div>
-      <button></button>
+    <div className="bg-tip-neutral-600 rounded-[14px] mt-[32px] pt-[43px] pb-[24px] text-[15px] leading-[15px] tracking-[.5px] flex flex-col gap-[30px] pl-6 pr-[22px]">
+      <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-[7px]">
+          <span className="text-tip-neutral-200">Tip Amount</span>
+          <span className="text-tip-neutral-400 text-[13px] -tracking-[.05px]">/ person</span>
+        </div>
+        <div className="text-tip-primary text-[32px] -tracking-[.6px]">{`$${result.tipPP || 0}`}</div>
+      </div>
+      <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-[7px]">
+          <span className="text-tip-neutral-200">Total</span>
+          <span className="text-tip-neutral-400 text-[13px] -tracking-[.05px]">/ person</span>
+        </div>
+        <div className="text-tip-primary text-[32px] -tracking-[.6px]">{`$${result.billPP || 0}`}</div>
+      </div>
+      <button className="w-full pt-[2px] font-medium text-tip-neutral-600 uppercase h-[48px] text-[20px] rounded-md block mx-auto text-center bg-tip-primary mt-2">Reset</button>
     </div>
   );
 };
 
-const TipButton = ({ tip, percent, setTip }) => {
+const TipButton = ({ tip, percent, isCustom, setTip, setIsCustom }) => {
   const peers = {
     5: ["peer/5", "peer-checked/5:text-tip-neutral-600", "peer-checked/5:bg-tip-primary"],
     10: ["peer/10", "peer-checked/10:text-tip-neutral-600", "peer-checked/10:bg-tip-primary"],
@@ -134,15 +151,18 @@ const TipButton = ({ tip, percent, setTip }) => {
     <div>
       <input
         type="radio"
-        value={String(percent)}
-        checked={typeof tip === "string" && tip === String(percent)}
-        onChange={(e) => setTip(e.target.value)}
+        value={percent}
+        checked={!isCustom && tip === percent}
+        onChange={(e) => {
+          setIsCustom(false);
+          setTip(parseFloat(e.target.value));
+        }}
         id={`${percent}%`}
         name="tip"
         className={`absolute left-0 opacity-0 ${peers[percent][0]}`}
       />
       <label
-        className={`block text-center rounded-md ${peers[percent][1]} ${peers[percent][2]} relative bg-tip-neutral-600 text-tip-neutral-200 hover:cursor-pointer leading-[50px] text-[22px]`}
+        className={`block text-center rounded-md ${peers[percent][1]} ${peers[percent][2]} relative bg-tip-neutral-600 text-tip-neutral-200 hover:cursor-pointer leading-[48px] text-[24px]`}
         htmlFor={`${percent}%`}
       >
         {`${percent}%`}
