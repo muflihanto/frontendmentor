@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-export default function Main(props) {
+export default function Main() {
   const [bill, setBill] = useState(0);
   const [tip, setTip] = useState(0);
   const [people, setPeople] = useState(1);
@@ -18,12 +18,19 @@ export default function Main(props) {
     };
   }, [tip, bill, people]);
 
+  const reset = () => {
+    setBill(0);
+    setTip(0);
+    setPeople(1);
+    setIsCustom(false);
+  };
+
   return (
-    <div className="pt-9 pb-8 rounded-t-[25px] bg-tip-neutral-100 mt-[40px] text-tip-neutral-500 px-6">
-      <form className="flex px-2 flex-col gap-[34px]">
+    <div className="pt-8 pb-8 rounded-t-[25px] bg-tip-neutral-100 mt-[40px] text-tip-neutral-500 px-6 lg:max-w-screen-md xl:max-w-[calc(23/36*100vw)] lg:mx-auto flex flex-col gap-7 lg:flex-row lg:justify-between lg:rounded-[25px] lg:mt-[87px] lg:px-8">
+      <form className="flex py-1 px-2 flex-col gap-[34px] lg:w-[calc(411/1440*100vw)] lg:px-4 lg:pt-[17px] lg:pb-[16px] lg:gap-[42px]">
         <label
           htmlFor="bill"
-          className="flex flex-col gap-[10px]"
+          className="flex flex-col gap-[10px] lg:gap-[10px]"
         >
           <span className="text-[15px] leading-[15px] tracking-[.5px] font-medium">Bill</span>
           <div className="relative">
@@ -52,7 +59,7 @@ export default function Main(props) {
         </label>
         <fieldset className="mt-[3px]">
           <legend className="text-[15px] leading-[15px] tracking-[.5px] font-medium">Select Tip %</legend>
-          <div className="mt-[21px] grid grid-cols-2 gap-y-4 gap-x-4">
+          <div className="mt-[21px] grid grid-cols-2 lg:grid-cols-3 lg:gap-x-[13.5px] gap-y-4 gap-x-4">
             {[5, 10, 15, 25, 50].map((el, index) => {
               return (
                 <TipButton
@@ -77,7 +84,7 @@ export default function Main(props) {
                 id="custom-tip"
                 name="tip"
                 placeholder="Custom"
-                className="w-full text-[24px] h-[50px] text-right bg-tip-neutral-200 rounded-md leading-[24px] pt-[10px] pb-[12px] px-[18px] placeholder:text-right placeholder:text-tip-neutral-500"
+                className="w-full text-[24px] h-[50px] text-right bg-tip-neutral-200 rounded-md leading-[24px] pt-[10px] pb-[12px] px-[18px] placeholder:text-right placeholder:text-tip-neutral-500 lg:px-[10px] lg:placeholder:text-center"
               />
             </label>
           </div>
@@ -112,29 +119,39 @@ export default function Main(props) {
           </div>
         </label>
       </form>
-      <ResultCard result={result} />
+      <ResultCard
+        result={result}
+        reset={reset}
+      />
     </div>
   );
 }
 
-const ResultCard = ({ result }) => {
+const ResultCard = ({ result, reset }) => {
+  console.log(result.tipPP);
   return (
-    <div className="bg-tip-neutral-600 rounded-[14px] mt-[32px] pt-[43px] pb-[24px] text-[15px] leading-[15px] tracking-[.5px] flex flex-col gap-[30px] pl-6 pr-[22px]">
+    <div className="bg-tip-neutral-600 rounded-[14px] pt-[43px] pb-[24px] text-[15px] leading-[15px] tracking-[.5px] flex flex-col gap-[30px] pl-6 pr-[22px] lg:w-[calc(411/1440*100vw)] lg:px-[38px] lg:pt-[60px] lg:gap-[60px] lg:pb-[40px]">
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-[7px]">
           <span className="text-tip-neutral-200">Tip Amount</span>
           <span className="text-tip-neutral-400 text-[13px] -tracking-[.05px]">/ person</span>
         </div>
-        <div className="text-tip-primary text-[32px] -tracking-[.6px]">{`$${result.tipPP || 0}`}</div>
+        <div className="text-tip-primary text-[32px] -tracking-[.6px] lg:text-[48px] lg:leading-[30px] lg:self-start">{`$${result.tipPP || 0}`}</div>
       </div>
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-[7px]">
           <span className="text-tip-neutral-200">Total</span>
           <span className="text-tip-neutral-400 text-[13px] -tracking-[.05px]">/ person</span>
         </div>
-        <div className="text-tip-primary text-[32px] -tracking-[.6px]">{`$${result.billPP || 0}`}</div>
+        <div className="text-tip-primary text-[32px] -tracking-[.6px] lg:text-[48px] lg:leading-[30px] lg:self-start">{`$${result.billPP || 0}`}</div>
       </div>
-      <button className="w-full pt-[2px] font-medium text-tip-neutral-600 uppercase h-[48px] text-[20px] rounded-md block mx-auto text-center bg-tip-primary mt-2">Reset</button>
+      <button
+        className={`w-full pt-[2px] font-medium text-tip-neutral-600 uppercase h-[48px] text-[20px] rounded-md block mx-auto text-center bg-tip-primary mt-2 lg:mt-auto disabled:bg-tip-primary/25`}
+        disabled={result.billPP === "0.00" && result.tipPP === "0.00"}
+        onClick={reset}
+      >
+        Reset
+      </button>
     </div>
   );
 };
