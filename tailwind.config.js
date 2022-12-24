@@ -79,6 +79,22 @@ module.exports = {
             100: "hsl(0,0%,100%)",
           },
         },
+        sunny: {
+          primary: {
+            red: "hsl(7,99%,70%)",
+            yellow: "hsl(51,100%,49%)",
+            "cyan-200": "hsl(167,40%,24%)",
+            blue: "hsl(198,62%,26%)",
+            "cyan-100": "hsl(168,34%,41%)",
+          },
+          neutral: {
+            500: "hsl(212,27%,19%)",
+            400: "hsl(213,9%,39%)",
+            300: "hsl(232,10%,55%)",
+            200: "hsl(210,4%,67%)",
+            100: "hsl(0,0%,100%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -88,6 +104,8 @@ module.exports = {
         manrope: ["var(--font-manrope)", ...fontFamily.sans],
         rubik: ["var(--font-rubik)", ...fontFamily.sans],
         "space-mono": ["var(--font-space-mono)", ...fontFamily.mono],
+        barlow: ["Barlow", ...fontFamily.sans],
+        fraunces: ["Fraunces", ...fontFamily.serif],
       },
     },
   },
