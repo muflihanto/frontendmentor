@@ -1,20 +1,11 @@
+import Image from "next/image";
+import Transform from "./Transform";
+
 export default function Main() {
   return (
-    <>{`
-      About
-      Services
-      Projects
-      Contact
-
-      We are creatives
-
-      Transform your brand
-
-      We are a full-service creative agency specializing in helping brands grow fast. 
-      Engage your clients through compelling visuals that do most of the marketing for you.
-
-      Learn more
-
+    <>
+      <Transform />
+      {`
       Stand out to the right audience
 
       Using a collaborative formula of designers, researchers, photographers, videographers, and copywriters, we’ll build and extend your brand in digital places. 
@@ -45,6 +36,16 @@ export default function Main() {
       Services
       Projects
       Contact
-    `}</>
+    `}
+    </>
   );
 }
+
+// {
+//   /* <Image
+//           src="/sunnyside-agency-landing-page/images/mobile/image-header.jpg"
+//           alt="Header Image"
+//           className="object-contain"
+//           fill
+//         /> */
+// }
