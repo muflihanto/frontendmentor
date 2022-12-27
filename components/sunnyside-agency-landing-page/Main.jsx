@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Gallery from "./Gallery";
 import GraphicDesign from "./GraphicDesign";
 import Photography from "./Photography";

@@ -14,7 +14,10 @@ export default function Sunnyside(props) {
       <Header />
       <Main />
       <Footer />
-      {/* <Slider basePath="/sunnyside-agency-landing-page/design" /> */}
+      {/* <Slider
+        basePath="/sunnyside-agency-landing-page/design"
+        absolutePath="/sunnyside-agency-landing-page/design/mobile-menu.jpg"
+      /> */}
     </div>
   );
 }
