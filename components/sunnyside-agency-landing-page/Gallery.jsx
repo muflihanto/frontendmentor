@@ -3,33 +3,39 @@ import Image from "next/image";
 export default function Gallery(props) {
   const images = [
     {
-      src: "/sunnyside-agency-landing-page/images/mobile/image-gallery-milkbottles.jpg",
+      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-milkbottles.jpg`,
       alt: "Milk Bottles",
     },
     {
-      src: "/sunnyside-agency-landing-page/images/mobile/image-gallery-orange.jpg",
+      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-orange.jpg`,
       alt: "Orange",
     },
     {
-      src: "/sunnyside-agency-landing-page/images/mobile/image-gallery-cone.jpg",
+      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-cone.jpg`,
       alt: "Cone",
     },
     {
-      src: "/sunnyside-agency-landing-page/images/mobile/image-gallery-sugar-cubes.jpg",
+      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-sugar-cubes.jpg`,
       alt: "Sugar Cubes",
     },
   ];
   return (
-    <div className="grid grid-cols-2 grid-rows-2">
+    <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1">
       {images.map((el, index) => {
         return (
           <div
-            className="relative w-full aspect-square"
+            className="relative w-full aspect-square lg:aspect-[360/447]"
             key={index}
           >
             <Image
-              src={el.src}
+              src="/sunnyside-agency-landing-page/images/"
               alt={el.alt}
+              loader={({ src, width }) => {
+                if (width > 1023) {
+                  return `${src}/${el.src({ isMobile: false })}`;
+                }
+                return `${src}/${el.src({ isMobile: true })}`;
+              }}
               className="object-cover"
               fill
             />

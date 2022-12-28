@@ -10,8 +10,10 @@ export default function Main() {
     <>
       <Transform />
       <StandOut />
-      <GraphicDesign />
-      <Photography />
+      <div className="lg:flex">
+        <GraphicDesign />
+        <Photography />
+      </div>
       <Testimonials />
       <Gallery />
     </>

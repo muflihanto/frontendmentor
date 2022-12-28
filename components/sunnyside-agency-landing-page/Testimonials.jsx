@@ -24,7 +24,7 @@ export default function Testimonials(props) {
   return (
     <section className="text-center pt-[64px] pb-[86px] bg-sunny-primary-red/[0.03]">
       <h3 className="text-[16px] uppercase font-fraunces font-bold tracking-[4.5px] text-sunny-neutral-200">Client testimonials</h3>
-      <div className="flex flex-col mt-[62px] gap-[65px]">
+      <div className="flex flex-col mt-[62px] gap-[65px] lg:flex-row lg:gap-0 lg:px-16">
         {testimonyData.map((el, index) => {
           return (
             <Testimony
