@@ -14,6 +14,18 @@
 }
 
 @font-face {
+  font-family: "Barlow";
+  src: local("Barlow"), url("/sunnyside-agency-landing-page/fonts/Barlow-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: local("Barlow"), url("/sunnyside-agency-landing-page/fonts/Barlow-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
   font-family: "Fraunces";
   src: local("Fraunces"), url("/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf");
 }

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-[#90d4c5] relative flex flex-col justify-center items-center pt-[69px] pb-[80px]">
+    <footer className="bg-[#90d4c5] relative flex flex-col justify-center items-center pt-[69px] pb-[80px] lg:pt-[77px] lg:pb-[71px]">
       <div className="scale-[calc(170/124*100%)] -translate-x-[6px]">
         <svg
           width="124"
@@ -14,15 +14,15 @@ export default function Footer() {
           />
         </svg>
       </div>
-      <div className="w-full mt-[44px] px-2">
+      <div className="mt-[44px] px-2 w-[375px] lg:px-[10px]">
         <ul className="flex justify-around text-[18px] text-[#2C7566]/75">
-          <li className="text-center hover:text-sunny-neutral-100">
+          <li className="font-bold text-center hover:text-sunny-neutral-100">
             <a href="">About</a>
           </li>
-          <li className="text-center hover:text-sunny-neutral-100">
+          <li className="font-bold text-center hover:text-sunny-neutral-100">
             <a href="">Services</a>
           </li>
-          <li className="text-center hover:text-sunny-neutral-100">
+          <li className="font-bold text-center hover:text-sunny-neutral-100">
             <a href="">Projects</a>
           </li>
         </ul>
