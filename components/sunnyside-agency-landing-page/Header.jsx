@@ -51,6 +51,7 @@ export default function Header(props) {
           alt="Arrow Down"
           width={36}
           height={114}
+          className="animate-bounce"
         />
       </header>
     </>
