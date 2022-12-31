@@ -95,6 +95,31 @@ module.exports = {
             100: "hsl(0,0%,100%)",
           },
         },
+        blogr: {
+          primary: {
+            red: {
+              200: "hsl(356,100%,66%)",
+              100: "hsl(355,100%,74%)",
+            },
+            blue: "hsl(208,49%,24%)",
+          },
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(240,2%,79%)",
+            300: "hsl(207,13%,34%)",
+            400: "hsl(240,10%,16%)",
+          },
+          gradient: {
+            red: {
+              100: "hsl(13,100%,72%)",
+              200: "hsl(353,100%,62%)",
+            },
+            blue: {
+              100: "hsl(237,23%,32%)",
+              200: "hsl(237,17%,21%)",
+            },
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -106,6 +131,8 @@ module.exports = {
         "space-mono": ["var(--font-space-mono)", ...fontFamily.mono],
         barlow: ["Barlow", ...fontFamily.sans],
         fraunces: ["Fraunces", ...fontFamily.serif],
+        ubuntu: ["Ubuntu", ...fontFamily.sans],
+        overpass: ["Overpass", ...fontFamily.sans],
       },
     },
   },

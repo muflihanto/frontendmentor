@@ -30,6 +30,29 @@
   src: local("Fraunces"), url("/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf");
 }
 
+@font-face {
+  font-family: "Overpass";
+  src: local("Overpass"), url("/blogr-landing-page/fonts/Overpass-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  src: local("Ubuntu"), url("/blogr-landing-page/fonts/Ubuntu-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  src: local("Ubuntu"), url("/blogr-landing-page/fonts/Ubuntu-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  src: local("Ubuntu"), url("/blogr-landing-page/fonts/Ubuntu-Bold.ttf");
+  font-weight: 700;
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
