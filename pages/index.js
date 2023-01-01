@@ -20,16 +20,13 @@ export default function Home({ paths, titles }) {
       </Head>
       <main className="flex flex-col items-center justify-center flex-1 min-h-screen px-16 py-8">
         <h1 className="text-[36px] lg:text-[3rem] text-center font-bold">Muf&apos;s Frontendmentor Challenge Solution</h1>
-        <ul className="grid items-center self-start max-w-screen-md grid-cols-2 lg:grid-cols-4 gap-4 mx-auto mt-8">
+        <ul className="grid items-center self-start max-w-screen-md grid-cols-1 gap-4 mx-auto mt-8 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4">
           {paths.map((path, index) => {
             return (
-              <li
-                key={index}
-                className="mb-2 font-semibold text-center bg-sky-600 hover:bg-sky-600/80 rounded-xl p-5 hover:cursor-pointer text-white hover:underline h-[180px] min-w-[180px] flex justify-center items-center hover:underline-offset-2 shadow-md text-[18px]"
-              >
+              <li key={index}>
                 <Link
                   href={path}
-                  className="focus-visible:outline-none"
+                  className="mb-2 font-semibold text-center bg-sky-600 hover:bg-sky-600/80 rounded-xl p-5 text-white hover:underline h-[180px] min-w-[180px] flex justify-center items-center hover:underline-offset-2 shadow-md text-[18px] focus-visible:outline-none"
                 >
                   {titles[index]}
                 </Link>

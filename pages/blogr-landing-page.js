@@ -24,6 +24,7 @@ function Main() {
   return (
     <div>
       <Future />
+      <Infrastructure />
       {`
         Company
 
@@ -34,10 +35,6 @@ function Main() {
         
         Login
         Sign Up
-
-        State of the Art Infrastructure
-        With reliability and speed in mind, worldwide data centers provide the backbone for ultra-fast connectivity. 
-        This ensures your site will load instantly, no matter where your readers are, keeping your site competitive.
 
         Free, open, simple
         Blogr is a free and open source application backed by a large community of helpful developers. It supports 
@@ -70,6 +67,26 @@ function Main() {
         LinkedIn
       `}
     </div>
+  );
+}
+
+function Infrastructure(props) {
+  return (
+    <section
+      className="relative rounded-tr-[100px] rounded-bl-[100px] h-[625px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-blue-200 to-blogr-gradient-blue-100 pt-[225.25px] mt-[267px] text-blogr-neutral-100
+    before:absolute before:rounded-tr-[100px] before:rounded-bl-[100px] before:top-0 before:bg-[top_-233px_left_50%] before:bg-[length:600px_600px] before:bg-no-repeat before:left-0 before:bg-[url('/blogr-landing-page/images/bg-pattern-circles.svg')] before:w-full before:h-full"
+    >
+      <header className="mx-auto absolute top-0 -translate-y-[calc(50%-14px)] w-[375px] aspect-[276/290]">
+        <Image
+          src="/blogr-landing-page/images/illustration-phones.svg"
+          alt="Illustration Phone"
+          className="object-contain scale-[calc(301/295*100%)]"
+          fill
+        />
+      </header>
+      <h2 className="relative z-10 px-8 text-center text-[40px] font-overpass font-medium -tracking-[1.25px] leading-[50px]">State of the Art Infrastructure</h2>
+      <p className="relative z-10 px-8 mt-[18px] tracking-[0.03px] leading-[28px] text-center text-[17px] font-overpass font-light text-blogr-neutral-200">With reliability and speed in mind, worldwide data centers provide the backbone for ultra-fast connectivity. This ensures your site will load instantly, no matter where your readers are, keeping your site competitive.</p>
+    </section>
   );
 }
 
@@ -148,7 +165,9 @@ function Header() {
   return (
     <header
       className="bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')] lg:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] bg-[top_-244px_left_-335px] relative flex flex-col justify-center items-center w-full aaspect-[375/600] rounded-bl-[100px] gap-[49px] bg-no-repeat bg-auto h-[600px]
-    lg:aspect-auto lg:w-screen lg:h-screen lg:bg-contain lg:bg-bottom lg:gap-[104px] lg:pb-[123px] lg:font-black overflow-hidden before:absolute before:w-full before:h-full before:-z-10 before:bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] before:from-blogr-gradient-red-100 before:to-blogr-gradient-red-200"
+      before:absolute before:w-full before:h-full before:-z-10 before:bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] before:from-blogr-gradient-red-100 before:to-blogr-gradient-red-200
+      lg:aspect-auto lg:w-screen lg:h-screen lg:bg-contain lg:bg-bottom lg:gap-[104px] lg:pb-[123px] lg:font-black overflow-hidden
+      "
     >
       <nav className="absolute z-10 top-0 w-full bg-transparent flex justify-between items-center px-6 h-[9rem] group lg:px-10 lg:h-[7.8rem]">
         <div className="relative w-[82px] h-auto aspect-[51/20] lg:w-[170px]">
@@ -192,7 +211,7 @@ function Header() {
                     <path
                       fill="none"
                       stroke="#FF7B86"
-                      stroke-width="2"
+                      strokeWidth="3"
                       d="M1 1l4 4 4-4"
                     />
                   </svg>
