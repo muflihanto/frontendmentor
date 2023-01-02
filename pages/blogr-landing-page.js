@@ -12,10 +12,10 @@ export default function Blogr(props) {
       <Header />
       <Main />
       <Footer />
-      <Slider
+      {/* <Slider
         basePath="/blogr-landing-page/design/"
-        // absolutePath="/blogr-landing-page/design/mobile-menu.jpg"
-      />
+        absolutePath="/blogr-landing-page/design/mobile-menu.jpg"
+      /> */}
     </div>
   );
 }
@@ -25,58 +25,70 @@ function Main() {
     <div>
       <Future />
       <Infrastructure />
-      {`
-        Company
-
-        About
-        Team
-        Blog
-        Careers
-        
-        Login
-        Sign Up
-
-        Free, open, simple
-        Blogr is a free and open source application backed by a large community of helpful developers. It supports 
-        features such as code syntax highlighting, RSS feeds, social media integration, third-party commenting tools, 
-        and works seamlessly with Google Analytics. The architecture is clean and is relatively easy to learn.
-
-        Powerful tooling
-        Batteries included. We built a simple and straightforward CLI tool that makes customization and deployment a breeze, but
-        capable of producing even the most complicated sites.
-
-        Product
-
-        Overview
-        Pricing
-        Marketplace
-        Features
-        Integrations
-
-        Company
-
-        About
-        Team
-        Blog
-        Careers
-
-        Connect
-        
-        Contact
-        Newsletter
-        LinkedIn
-      `}
+      <OtherFeatures />
     </div>
   );
 }
 
-function Infrastructure(props) {
+const navItems = [
+  {
+    parent: "Product",
+    children: ["Overview", "Pricing", "Marketplace", "Features", "Integrations"],
+  },
+  {
+    parent: "Company",
+    children: ["About", "Team", "Blog", "Careers"],
+  },
+  {
+    parent: "Connect",
+    children: ["Contact", "Newsletter", "LinkedIn"],
+  },
+];
+
+function OtherFeatures() {
+  const articles = [
+    {
+      h3: "Free, open, simple",
+      p: "Blogr is a free and open source application backed by a large community of helpful developers. It supports features such as code syntax highlighting, RSS feeds, social media integration, third-party commenting tools, and works seamlessly with Google Analytics. The architecture is clean and is relatively easy to learn.",
+    },
+    {
+      h3: "Powerful tooling",
+      p: "Batteries included. We built a simple and straightforward CLI tool that makes customization and deployment a breeze, but capable of producing even the most complicated sites.",
+    },
+  ];
+  return (
+    <section className="px-[2px] mt-[76.75px] pt-3 text-center flex flex-col overflow-hidden">
+      <h2 className="sr-only">Other Features</h2>
+      <div className="mx-auto relative w-[375px] aspect-[203/166]">
+        <Image
+          src="/blogr-landing-page/images/illustration-laptop-mobile.svg"
+          alt="Illustration Laptop"
+          className="object-contain scale-[calc(180/135.5)]"
+          fill
+        />
+      </div>
+      <div className="mt-[65px] flex-col flex gap-[44px]">
+        {articles.map((el, index) => {
+          return (
+            <Article
+              type="other"
+              key={index}
+              {...el}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function Infrastructure() {
   return (
     <section
       className="relative rounded-tr-[100px] rounded-bl-[100px] h-[625px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-blue-200 to-blogr-gradient-blue-100 pt-[225.25px] mt-[267px] text-blogr-neutral-100
     before:absolute before:rounded-tr-[100px] before:rounded-bl-[100px] before:top-0 before:bg-[top_-233px_left_50%] before:bg-[length:600px_600px] before:bg-no-repeat before:left-0 before:bg-[url('/blogr-landing-page/images/bg-pattern-circles.svg')] before:w-full before:h-full"
     >
-      <header className="mx-auto absolute top-0 -translate-y-[calc(50%-14px)] w-[375px] aspect-[276/290]">
+      <header className="mx-auto absolute top-0 -translate-y-[calc(50%-14px)] w-[375px] aspect-[276/290] overflow-hidden">
         <Image
           src="/blogr-landing-page/images/illustration-phones.svg"
           alt="Illustration Phone"
@@ -104,11 +116,11 @@ function Future() {
   return (
     <section className="text-center mt-[99px]">
       <h2 className="text-[28px] font-overpass font-medium -tracking-[0.8px] text-blogr-primary-blue">Designed for the future</h2>
-      <div className="flex flex-col mt-[52px]">
+      <div className="flex flex-col mt-[52px] overflow-hidden">
         <div className="mx-auto relative w-[375px] aspect-[203/166]">
           <Image
             src="/blogr-landing-page/images/illustration-editor-mobile.svg"
-            alt="Illustration Mobile"
+            alt="Illustration Editor"
             className="object-contain scale-[calc(331.5/306.65)]"
             fill
           />
@@ -116,7 +128,8 @@ function Future() {
         <div className="mt-[62px] flex-col flex gap-[43px]">
           {articles.map((el, index) => {
             return (
-              <FutureArticle
+              <Article
+                type="future"
                 key={index}
                 {...el}
               />
@@ -128,48 +141,117 @@ function Future() {
   );
 }
 
-function FutureArticle(props) {
+function Article(props) {
   return (
     <article className="pl-8 pr-6 group">
       <h3 className="text-[28px] font-overpass font-semibold -tracking-[0.2px] text-blogr-primary-blue mx-auto leading-[32px] px-2">{props.h3}</h3>
-      <p className="mt-[15px] font-light font-overpass text-[17px] leading-[28px] text-blogr-primary-blue group-[:nth-child(2)]:mt-[24px]">{props.p}</p>
+      <p className={`font-light font-overpass text-[17px] leading-[28px] text-blogr-primary-blue  ${props.type === "future" ? "group-first:mt-[15px] mt-[24px]" : "mt-[25px]"}`}>{props.p}</p>
     </article>
   );
 }
 
 function Footer() {
   return (
-    <footer className="text-[11px]">
-      Challenge by{" "}
-      <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-        rel="noreferrer"
-        className="text-[hsl(228,45%,44%)]"
-      >
-        Frontend Mentor
-      </a>
-      . Coded by{" "}
-      <a
-        href="#"
-        className="text-[hsl(228,45%,44%)]"
-      >
-        Your Name Here
-      </a>
-      .
+    <footer className="text-[11px] bg-blogr-neutral-400 mt-[95px] flex flex-col justify-center items-center pt-[75px] pb-[76.95px] rounded-tr-[100px] relative">
+      <div className="relative w-[102px] aspect-[51/20]">
+        <Image
+          alt="Blogr Logo"
+          src="/blogr-landing-page/images/logo.svg"
+          className="object-contain"
+          fill
+        />
+      </div>
+      <div className="mt-[76px] flex flex-col justify-start gap-[46px]">
+        {navItems.map((el, index) => {
+          return (
+            <nav key={index}>
+              <h3 className="text-center text-[18px] font-medium text-blogr-neutral-100/90 font-ubuntu">{el.parent}</h3>
+              <ul className="flex flex-col items-center justify-center mt-[27px] gap-[6px]">
+                {el.children.map((el, index) => {
+                  return (
+                    <li
+                      key={index}
+                      className="text-[18px] font-normal text-blogr-neutral-200/80 font-ubuntu"
+                    >
+                      <a href="">{el}</a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          );
+        })}
+      </div>
+      <div className="absolute left-0 w-full text-center text-blogr-neutral-200 font-overpass bottom-3">
+        Challenge by{" "}
+        <a
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+          className="font-bold text-blogr-neutral-100 font-ubuntu hover:underline"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by{" "}
+        <a
+          href="https://github.com/muflihanto"
+          target="_blank"
+          rel="noreferrer"
+          className="font-bold text-blogr-neutral-100 font-ubuntu hover:underline"
+        >
+          Muflihanto
+        </a>
+        .
+      </div>
     </footer>
+  );
+}
+
+function CollapsibleNavItems(props) {
+  const arrowSVG = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="10"
+      height="7"
+      className="transition-all group-open:rotate-180"
+    >
+      <path
+        fill="none"
+        stroke="#FF7B86"
+        strokeWidth="2"
+        d="M1 1l4 4 4-4"
+      />
+    </svg>
+  );
+  return (
+    <details className="group">
+      <summary className="font-semibold text-blogr-primary-blue/90 text-[18px] list-none flex items-center justify-center gap-2 focus-visible:outline-none">
+        <span className="group-open:text-blogr-primary-blue/75">{props.navParent}</span>
+        <span>{arrowSVG}</span>
+      </summary>
+      <ul className="flex flex-col items-center w-full pt-[25px] pb-[21px] font-semibold text-[16px] bg-blogr-neutral-200/25 text-blogr-primary-blue/75 rounded-md mt-[18px] mb-[4px] gap-[16px]">
+        {props.navChildren.map((el, index) => {
+          return (
+            <li key={index}>
+              <a href="">{el}</a>
+            </li>
+          );
+        })}
+      </ul>
+    </details>
   );
 }
 
 function Header() {
   return (
     <header
-      className="bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')] lg:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] bg-[top_-244px_left_-335px] relative flex flex-col justify-center items-center w-full aaspect-[375/600] rounded-bl-[100px] gap-[49px] bg-no-repeat bg-auto h-[600px]
-      before:absolute before:w-full before:h-full before:-z-10 before:bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] before:from-blogr-gradient-red-100 before:to-blogr-gradient-red-200
-      lg:aspect-auto lg:w-screen lg:h-screen lg:bg-contain lg:bg-bottom lg:gap-[104px] lg:pb-[123px] lg:font-black overflow-hidden
+      className="bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-red-100 to-blogr-gradient-red-200 relative flex flex-col justify-center items-center w-full aspect-[375/600] rounded-bl-[100px] gap-[49px] bg-no-repeat bg-auto h-[600px]
+      before:bg-[top_-244px_left_-335px] before:absolute before:w-full before:h-full before:z-0 before:rounded-bl-[100px] lg:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')]
+      before:overflow-hidden
+      lg:aspect-auto lg:w-screen lg:h-screen lg:bg-contain lg:bg-bottom lg:gap-[104px] lg:pb-[123px] lg:font-black 
       "
     >
-      <nav className="absolute z-10 top-0 w-full bg-transparent flex justify-between items-center px-6 h-[9rem] group lg:px-10 lg:h-[7.8rem]">
+      <nav className="absolute z-20 top-0 w-full bg-transparent flex justify-between items-center px-6 h-[9rem] group lg:px-10 lg:h-[7.8rem]">
         <div className="relative w-[82px] h-auto aspect-[51/20] lg:w-[170px]">
           <Image
             src="/blogr-landing-page/images/logo.svg"
@@ -192,91 +274,47 @@ function Header() {
             fill
           />
         </button>
-        <ul
+        <div
           tabIndex={0}
-          className="absolute top-[125px] rounded-md shadow-xl py-[31px] left-[calc(50%-2px)] -translate-x-1/2 bg-sunny-neutral-100 w-[calc(100%-52px)] flex flex-col gap-[25px] justify-center items-center focus-visible:outline-none group-focus-within:visible invisible px-5
+          className="absolute top-[125px] rounded-md shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] py-[31px] left-[calc(50%-2px)] -translate-x-1/2 bg-sunny-neutral-100 w-[calc(100%-52px)] focus-visible:outline-none group-focus-within:visible invisible px-6
           lg:visible lg:bg-transparent lg:flex-row lg:before:hidden lg:static lg:left-0 lg:w-fit lg:translate-x-0 lg:px-1 lg:gap-[49px]"
         >
-          <li className="font-overpass lg:font-medium lg:text-[18px] lg:h-[24px] w-full text-center">
-            <details className="group">
-              <summary className="font-semibold text-blogr-neutral-400 text-[18px] list-none flex items-center justify-center gap-2 focus-visible:outline-none">
-                <span>Product</span>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="7"
-                    className="transition-all group-open:rotate-180"
-                  >
-                    <path
-                      fill="none"
-                      stroke="#FF7B86"
-                      strokeWidth="3"
-                      d="M1 1l4 4 4-4"
-                    />
-                  </svg>
-                </span>
-              </summary>
-            </details>
-          </li>
-          <li className="font-overpass lg:font-medium lg:text-[18px] lg:h-[24px] w-full text-center">
-            <details className="group">
-              <summary className="font-semibold text-blogr-neutral-400 text-[18px] list-none flex items-center justify-center gap-2 focus-visible:outline-none">
-                <span>Company</span>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="7"
-                    className="transition-all group-open:rotate-180"
-                  >
-                    <path
-                      fill="none"
-                      stroke="#FF7B86"
-                      stroke-width="2"
-                      d="M1 1l4 4 4-4"
-                    />
-                  </svg>
-                </span>
-              </summary>
-            </details>
-          </li>
-          <li className="font-overpass lg:font-medium lg:text-[18px] lg:h-[24px] w-full text-center">
-            <details className="group">
-              <summary className="font-semibold text-blogr-neutral-400 text-[18px] list-none flex items-center justify-center gap-2 focus-visible:outline-none">
-                <span className="group-open:text-blogr-neutral-300">Connect</span>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="7"
-                    className="transition-all group-open:rotate-180"
-                  >
-                    <path
-                      fill="none"
-                      stroke="#FF7B86"
-                      stroke-width="2"
-                      d="M1 1l4 4 4-4"
-                    />
-                  </svg>
-                </span>
-              </summary>
-              <ul className="flex flex-col items-center w-full pt-[25px] pb-[21px] font-semibold text-[16px] bg-blogr-neutral-200/25 text-blogr-neutral-300/90 rounded-md my-[18px] gap-[16px]">
-                <li>
-                  <a href="">Contact</a>
+          <ul
+            tabIndex={0}
+            className="flex flex-col gap-[25px] justify-center items-center"
+          >
+            {navItems.map((el, index) => {
+              return (
+                <li
+                  key={index}
+                  className="font-overpass lg:font-medium lg:text-[18px] lg:h-[24px] w-full text-center"
+                >
+                  <CollapsibleNavItems
+                    navChildren={el.children}
+                    navParent={el.parent}
+                  />
                 </li>
-                <li>
-                  <a href="">Newsletter</a>
-                </li>
-                <li>
-                  <a href="">LinkedIn</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-        </ul>
+              );
+            })}
+          </ul>
+          <div className="block w-full h-0 mt-[20px] border-t-2 border-t-blogr-neutral-200/50" />
+          <div className="flex flex-col items-center justify-center mt-[19px] gap-[8px]">
+            <a
+              href=""
+              className="font-semibold font-overpass h-[48px] flex justify-center items-center text-blogr-neutral-300 text-[18px] w-[137px]"
+            >
+              Login
+            </a>
+            <a
+              href=""
+              className="ml-[3px] font-medium font-ubuntu bg-gradient-to-r h-[48px] flex justify-center items-center from-blogr-primary-red-100 to-blogr-primary-red-200 w-[137px] rounded-full text-blogr-neutral-100"
+            >
+              Sign Up
+            </a>
+          </div>
+        </div>
       </nav>
-      <div className="text-center text-blogr-neutral-100 mx-auto px-9 pt-[43px]">
+      <div className="text-center text-blogr-neutral-100 mx-auto px-9 pt-[43px] z-10">
         <h1 className="font-overpass text-[35px] leading-[45px] -tracking-[0.7px] font-medium">A modern publishing platform</h1>
         <p className="text-[18px] font-overpass font-light text-blogr-neutral-100/75 mt-[15px] leading-[23px] -tracking-[0.1px]">Grow your audience and build your online brand</p>
         <div className="grid grid-cols-2 px-[6px] gap-4 mt-[46px] font-bold font-ubuntu h-12 tracking-[0.1px]">
