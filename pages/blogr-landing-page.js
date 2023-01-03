@@ -208,7 +208,7 @@ function Footer() {
 }
 
 function CollapsibleNavItems(props) {
-  const arrowSVG = (
+  const arrowRed = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="10"
@@ -223,11 +223,27 @@ function CollapsibleNavItems(props) {
       />
     </svg>
   );
+  const arrowWhite = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="10"
+      height="7"
+    >
+      <path
+        fill="none"
+        stroke="#FFF"
+        strokeWidth="2"
+        opacity=".75"
+        d="M1 1l4 4 4-4"
+      />
+    </svg>
+  );
   return (
     <details className="group">
       <summary className="font-semibold text-blogr-primary-blue/90 text-[18px] list-none flex items-center justify-center gap-2 focus-visible:outline-none">
-        <span className="group-open:text-blogr-primary-blue/75">{props.navParent}</span>
-        <span>{arrowSVG}</span>
+        <span className="group-open:text-blogr-primary-blue/75 lg:text-blogr-neutral-100/75 lg:text-[16px] lg:font-ubuntu lg:font-medium">{props.navParent}</span>
+        <span className="block lg:hidden">{arrowRed}</span>
+        <span className="hidden lg:block">{arrowWhite}</span>
       </summary>
       <ul className="flex flex-col items-center w-full pt-[25px] pb-[21px] font-semibold text-[16px] bg-blogr-neutral-200/25 text-blogr-primary-blue/75 rounded-md mt-[18px] mb-[4px] gap-[16px]">
         {props.navChildren.map((el, index) => {
@@ -245,14 +261,18 @@ function CollapsibleNavItems(props) {
 function Header() {
   return (
     <header
-      className="bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-red-100 to-blogr-gradient-red-200 relative flex flex-col justify-center items-center w-full aspect-[375/600] rounded-bl-[100px] gap-[49px] bg-no-repeat bg-auto h-[600px]
-      before:bg-[top_-244px_left_-335px] before:absolute before:w-full before:h-full before:z-0 before:rounded-bl-[100px] lg:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')]
+      className="bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-red-100 to-blogr-gradient-red-200 relative flex flex-col justify-center items-center w-screen aspect-[375/600] rounded-bl-[100px] gap-[49px] bg-no-repeat bg-auto h-[600px]
+      before:bottom-0 before:left-0 before:bg-[top_-244px_left_-335px] before:absolute before:w-full before:h-full before:z-0 before:rounded-bl-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')]
       before:overflow-hidden
-      lg:aspect-auto lg:w-screen lg:h-screen lg:bg-contain lg:bg-bottom lg:gap-[104px] lg:pb-[123px] lg:font-black 
+      lg:bg-bottom lg:gap-[104px] lg:bg-[linear-gradient(110deg,_var(--tw-gradient-stops))] lg:justify-end lg:pb-[155px]
+      md:before:bg-no-repeat md:before:bg-[top_-1342px_right_-1295px] md:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] 
       "
     >
-      <nav className="absolute z-20 top-0 w-full bg-transparent flex justify-between items-center px-6 h-[9rem] group lg:px-10 lg:h-[7.8rem]">
-        <div className="relative w-[82px] h-auto aspect-[51/20] lg:w-[170px]">
+      <nav
+        className="absolute z-20 top-0 w-full bg-transparent flex justify-between items-center px-6 h-[9rem] group
+      lg:px-40 lg:h-[7.8rem] lg:mt-[21px] lg:justify-start lg:gap-[54px]"
+      >
+        <div className="relative w-[82px] h-auto aspect-[51/20] lg:min-w-[102px] lg:mx-[6px]">
           <Image
             src="/blogr-landing-page/images/logo.svg"
             alt="Blogr Logo"
@@ -276,12 +296,12 @@ function Header() {
         </button>
         <div
           tabIndex={0}
-          className="absolute top-[125px] rounded-md shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] py-[31px] left-[calc(50%-2px)] -translate-x-1/2 bg-sunny-neutral-100 w-[calc(100%-52px)] focus-visible:outline-none group-focus-within:visible invisible px-6
-          lg:visible lg:bg-transparent lg:flex-row lg:before:hidden lg:static lg:left-0 lg:w-fit lg:translate-x-0 lg:px-1 lg:gap-[49px]"
+          className="absolute flex flex-col top-[125px] rounded-md shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] py-[31px] left-[calc(50%-2px)] -translate-x-1/2 bg-sunny-neutral-100 w-[calc(100%-52px)] focus-visible:outline-none group-focus-within:visible invisible px-6
+          lg:visible lg:bg-transparent lg:flex-row lg:before:hidden lg:shadow-none lg:static lg:left-0 lg:w-full lg:translate-x-0 lg:px-1 lg:gap-[49px lg:justify-between lg:mt-1"
         >
           <ul
             tabIndex={0}
-            className="flex flex-col gap-[25px] justify-center items-center"
+            className="flex flex-col gap-[25px] justify-center items-center lg:flex-row lg:gap-[32px]"
           >
             {navItems.map((el, index) => {
               return (
@@ -297,27 +317,28 @@ function Header() {
               );
             })}
           </ul>
-          <div className="block w-full h-0 mt-[20px] border-t-2 border-t-blogr-neutral-200/50" />
-          <div className="flex flex-col items-center justify-center mt-[19px] gap-[8px]">
+          <div className="block w-full h-0 mt-[20px] border-t-2 border-t-blogr-neutral-200/50 lg:hidden" />
+          <div className="flex flex-col items-center justify-center mt-[19px] gap-[8px] lg:flex-row lg:mt-0 lg:gap-[27px] lg:-translate-y-[2px]">
             <a
               href=""
-              className="font-semibold font-overpass h-[48px] flex justify-center items-center text-blogr-neutral-300 text-[18px] w-[137px]"
+              className="font-semibold font-overpass h-[48px] flex justify-center items-center text-blogr-neutral-300 text-[18px] w-[137px]
+              lg:w-fit lg:text-blogr-neutral-100/75 lg:text-[16px] lg:font-ubuntu lg:font-medium lg:pt-1"
             >
               Login
             </a>
             <a
               href=""
-              className="ml-[3px] font-medium font-ubuntu bg-gradient-to-r h-[48px] flex justify-center items-center from-blogr-primary-red-100 to-blogr-primary-red-200 w-[137px] rounded-full text-blogr-neutral-100"
+              className="ml-[3px] font-medium font-ubuntu bg-gradient-to-r h-[48px] flex justify-center items-center from-blogr-gradient-red-100 to-blogr-gradient-red-200 w-[137px] rounded-full text-blogr-neutral-100 lg:bg-none lg:translate-x-[4px] lg:bg-blogr-neutral-100  lg:text-blogr-primary-red-200 lg:font-bold"
             >
               Sign Up
             </a>
           </div>
         </div>
       </nav>
-      <div className="text-center text-blogr-neutral-100 mx-auto px-9 pt-[43px] z-10">
-        <h1 className="font-overpass text-[35px] leading-[45px] -tracking-[0.7px] font-medium">A modern publishing platform</h1>
-        <p className="text-[18px] font-overpass font-light text-blogr-neutral-100/75 mt-[15px] leading-[23px] -tracking-[0.1px]">Grow your audience and build your online brand</p>
-        <div className="grid grid-cols-2 px-[6px] gap-4 mt-[46px] font-bold font-ubuntu h-12 tracking-[0.1px]">
+      <div className="text-center text-blogr-neutral-100 mx-auto px-9 pt-[43px] z-10 lg:pt-[78px]">
+        <h1 className="font-overpass text-[35px] leading-[45px] -tracking-[0.7px] font-medium lg:text-[64px] lg:-tracking-[2.2px]">A modern publishing platform</h1>
+        <p className="text-[18px] font-overpass font-light text-blogr-neutral-100/75 mt-[15px] leading-[23px] -tracking-[0.1px] lg:mt-[31px] lg:text-[20px]">Grow your audience and build your online brand</p>
+        <div className="grid grid-cols-2 px-[6px] gap-4 mt-[46px] lg:mt-[48px] font-bold font-ubuntu h-12 tracking-[0.1px] lg:w-[302px] lg:mx-auto">
           <a
             className="flex items-center justify-center rounded-full text-blogr-primary-red-200 bg-blogr-neutral-100"
             href=""
