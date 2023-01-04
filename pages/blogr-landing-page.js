@@ -5,17 +5,17 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function Blogr(props) {
   return (
-    <div className="App">
+    <div className="w-screen overflow-hidden App lg:bg-blogr-neutral-200/10">
       <Head>
         <title>Frontend Mentor | [Blogr]</title>
       </Head>
       <Header />
       <Main />
       <Footer />
-      {/* <Slider
+      <Slider
         basePath="/blogr-landing-page/design/"
-        absolutePath="/blogr-landing-page/design/mobile-menu.jpg"
-      /> */}
+        // absolutePath="/blogr-landing-page/design/mobile-menu.jpg"
+      />
     </div>
   );
 }
@@ -114,18 +114,31 @@ function Future() {
     },
   ];
   return (
-    <section className="text-center mt-[99px]">
-      <h2 className="text-[28px] font-overpass font-medium -tracking-[0.8px] text-blogr-primary-blue">Designed for the future</h2>
-      <div className="flex flex-col mt-[52px] overflow-hidden">
-        <div className="mx-auto relative w-[375px] aspect-[203/166]">
-          <Image
-            src="/blogr-landing-page/images/illustration-editor-mobile.svg"
-            alt="Illustration Editor"
-            className="object-contain scale-[calc(331.5/306.65)]"
-            fill
-          />
+    <section className="lg:relative text-center pt-[99px] lg:pt-[149px] lg:pb-[195px]">
+      <h2
+        className="text-[28px] font-overpass font-medium -tracking-[0.8px] text-blogr-primary-blue
+      lg:text-[40px] lg:-tracking-[1.3px] lg:-translate-x-[2px]"
+      >
+        Designed for the future
+      </h2>
+      <div className="flex flex-col pt-[52px] lg:flex-row-reverse lg:pt-0 lg:mt-[104px] lg:items-center lg:gap-[32px] lg:px-[164px]">
+        <div className="w-full lg:w-1/2 lg:h-[428px]">
+          <div className="mx-auto relative lg:absolute w-[375px] lg:w-[925px] aspect-[203/166] lg:aspect-[925/882] lg:top-[71px] lg:ml-[54px]">
+            <Image
+              loader={({ width, src }) => {
+                if (width > 1023) {
+                  return src + "illustration-editor-desktop.svg";
+                }
+                return src + "illustration-editor-mobile.svg";
+              }}
+              src="/blogr-landing-page/images/"
+              alt="Illustration Editor"
+              className="object-contain scale-[calc(331.5/306.65)] lg:scale-100"
+              fill
+            />
+          </div>
         </div>
-        <div className="mt-[62px] flex-col flex gap-[43px]">
+        <div className="mt-[62px] flex-col flex gap-[43px] lg:gap-[77px] lg:w-1/2 lg:mt-0 lg:-translate-y-1">
           {articles.map((el, index) => {
             return (
               <Article
@@ -143,9 +156,9 @@ function Future() {
 
 function Article(props) {
   return (
-    <article className="pl-8 pr-6 group">
-      <h3 className="text-[28px] font-overpass font-semibold -tracking-[0.2px] text-blogr-primary-blue mx-auto leading-[32px] px-2">{props.h3}</h3>
-      <p className={`font-light font-overpass text-[17px] leading-[28px] text-blogr-primary-blue  ${props.type === "future" ? "group-first:mt-[15px] mt-[24px]" : "mt-[25px]"}`}>{props.p}</p>
+    <article className="pl-8 pr-6 group lg:text-left lg:px-0">
+      <h3 className="text-[28px] font-overpass font-semibold -tracking-[0.2px] text-blogr-primary-blue mx-auto leading-[32px] px-2 lg:px-0">{props.h3}</h3>
+      <p className={`font-normal font-overpass text-[17px] leading-[28px] text-blogr-neutral-300/80 lg:text-[16px] lg:tracking-[0.45px] ${props.type === "future" ? "group-first:mt-[15px] mt-[24px] lg:group-first:mt-[26px] lg:mt-[26px]" : "mt-[25px]"}`}>{props.p}</p>
     </article>
   );
 }
