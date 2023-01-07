@@ -26,6 +26,20 @@
 }
 
 @font-face {
+  font-family: "Barlow Semi Condensed";
+  src: local("Barlow Semi Condensed"), url("/testimonials-grid-section/fonts/BarlowSemiCondensed-Medium.ttf");
+  font-weight: 500;
+  font-stretch: semi-condensed;
+}
+
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: local("Barlow Semi Condensed"), url("/testimonials-grid-section/fonts/BarlowSemiCondensed-SemiBold.ttf");
+  font-weight: 600;
+  font-stretch: semi-condensed;
+}
+
+@font-face {
   font-family: "Fraunces";
   src: local("Fraunces"), url("/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf");
 }

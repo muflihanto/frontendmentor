@@ -120,6 +120,18 @@ module.exports = {
             },
           },
         },
+        testimonials: {
+          primary: {
+            violet: "hsl(263,55%,52%)",
+            "gray-blue": "hsl(217,19%,35%)",
+            "dark-blue": "hsl(219,29%,14%)",
+            white: "hsl(0,0%,100%)",
+          },
+          neutral: {
+            gray: "hsl(0,0%,81%)",
+            grayblue: "hsl(210,46%,95%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -133,6 +145,7 @@ module.exports = {
         fraunces: ["Fraunces", ...fontFamily.serif],
         ubuntu: ["Ubuntu", ...fontFamily.sans],
         overpass: ["Overpass", ...fontFamily.sans],
+        "barlow-semi-condensed": ["Barlow Semi Condensed", ...fontFamily.sans],
       },
     },
   },
