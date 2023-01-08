@@ -5,7 +5,7 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function Testimonials(props) {
   return (
-    <div className="App font-barlow-semi-condensed bg-testimonials-neutral-grayblue">
+    <div className="App relative flex justify-center items-center w-screen px-6 py-[71px] font-barlow-semi-condensed bg-testimonials-neutral-grayblue">
       <Head>
         <title>Frontend Mentor | [Challenge Name Here]</title>
       </Head>
@@ -23,7 +23,7 @@ function Main(props) {
       name: "Daniel Clifford",
       title: "Verified Graduate",
       highlight: "I received a job offer mid-course, and the subjects I learned were current, if not more so, in the company I joined. I honestly feel I got every penny’s worth.",
-      testimony: `“I was an EMT for many years before I joined the bootcamp. I’ve been looking to make a transition and have heard some people who had an amazing experience here. I signed up for the free intro course and found it incredibly fun! I enrolled shortly thereafter. The next 12 weeks was the best - and most grueling - time of my life. Since completing the course, I’ve successfully switched careers, working as a Software Engineer at a VR startup.”`,
+      testimony: `“ I was an EMT for many years before I joined the bootcamp. I’ve been looking to make a transition and have heard some people who had an amazing experience here. I signed up for the free intro course and found it incredibly fun! I enrolled shortly thereafter. The next 12 weeks was the  best - and most grueling - time of my life. Since completing the course, I’ve successfully switched careers, working as a Software Engineer at a VR startup. ”`,
     },
     {
       avatar: "/testimonials-grid-section/images/image-jonathan.jpg",
@@ -77,7 +77,7 @@ function Main(props) {
     },
   ];
   return (
-    <section>
+    <section className="flex flex-col gap-6">
       {testimonials.map((testimony, index) => {
         return (
           <TestmimoyCard
@@ -85,6 +85,7 @@ function Main(props) {
             {...testimony}
             {...cardStyles[index]}
             hasQuoteBg={index === 0}
+            hasAvatarRing={[0, 3].includes(index)}
           />
         );
       })}
@@ -93,50 +94,52 @@ function Main(props) {
 }
 
 function TestmimoyCard(props) {
-  const { avatar, name, title, highlight, testimony, backgroundColor, textIsDark, hasQuoteBg } = props;
+  const { avatar, name, title, highlight, testimony, backgroundColor, textIsDark, hasQuoteBg, hasAvatarRing } = props;
   const textColor = textIsDark
     ? { name: "text-testimonials-primary-gray-blue", title: "text-testimonials-primary-gray-blue/50", highlight: "text-testimonials-primary-gray-blue", testimony: "text-testimonials-primary-gray-blue/70" }
-    : { name: "text-testimonials-primary-white", title: "text-testimonials-primary-white/50", highlight: "text-testimonials-primary-white", testimony: "text-testimonials-primary-white/70" };
+    : { name: "text-testimonials-neutral-gray", title: "text-testimonials-neutral-gray/50", highlight: "text-testimonials-neutral-gray", testimony: "text-testimonials-neutral-gray/70" };
   return (
-    <article className={`${backgroundColor} ${textColor.name} ${hasQuoteBg && "bg-[url('/testimonials-grid-section/images/bg-pattern-quotation.svg')] bg-no-repeat bg-[top_0px_right_10%]"}`}>
-      <div>
-        <div className="relative aspect-square w-[30px] rounded-full overflow-hidden">
+    <article className={`${backgroundColor} ${textColor.name} ${hasQuoteBg && "bg-[url('/testimonials-grid-section/images/bg-pattern-quotation.svg')] bg-no-repeat bg-[top_0px_right_10.75%]"} rounded-[8px] pl-8 pr-[34px] pt-6 pb-[32.5px] [&:nth-child(4)]:pr-[32px] group shadow-[50px_55px_20px_-40px_rgba(33,33,33,.12)]`}>
+      <div className="flex justify-start items-center">
+        <div className={`relative aspect-square ${hasAvatarRing ? "w-[28px]" : "w-[28px]"}`}>
           <Image
             src={avatar}
             alt={`${name}'s Avatar`}
-            className="object-contain"
+            className={`object-contain rounded-full ${hasAvatarRing && "ring-2 ring-[#A775F1]"}`}
             fill
           />
         </div>
-        <div>
-          <h2 className={`${textColor.name}`}>{name}</h2>
-          <p className={`${textColor.title}`}>{title}</p>
+        <div className="ml-[17px]">
+          <h2 className={`${textColor.name} text-[13px] leading-[15px] pt-[1px]`}>{name}</h2>
+          <p className={`${textColor.title} text-[11px]`}>{title}</p>
         </div>
       </div>
-      <p className={`font-semibold ${textColor.highlight}`}>{highlight}</p>
-      <p className={`${textColor.testimony}`}>{testimony}</p>
+      <p className={`font-semibold ${textColor.highlight} text-[20px] leading-[24px] mt-[15px]`}>{highlight}</p>
+      <p className={`${textColor.testimony} text-[13px] font-medium mt-[16px] group-first:pr-[14px] pr-[0px] leading-[18px]`}>{testimony}</p>
     </article>
   );
 }
 
 function Footer(props) {
   return (
-    <div className="text-[11px] text-center">
+    <div className="absolute bottom-3 w-full text-[11px] text-center">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
         target="_blank"
         rel="noreferrer"
-        className="text-[hsl(228,45%,44%)]"
+        className="text-testimonials-primary-violet underline decoration-dotted"
       >
         Frontend Mentor
       </a>
       . Coded by{" "}
       <a
-        href="#"
-        className="text-[hsl(228,45%,44%)]"
+        href="https://github.com/muflihanto"
+        target="_blank"
+        rel="noreferrer"
+        className="text-testimonials-primary-violet underline decoration-dotted"
       >
-        Your Name Here
+        Muflihanto
       </a>
       .
     </div>
