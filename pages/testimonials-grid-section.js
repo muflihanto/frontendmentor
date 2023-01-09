@@ -5,13 +5,13 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function Testimonials(props) {
   return (
-    <div className="App relative flex justify-center items-center w-screen px-6 py-[71px] font-barlow-semi-condensed bg-testimonials-neutral-grayblue">
+    <div className="App relative flex justify-center items-center w-screen px-6 py-[71px] font-barlow-semi-condensed bg-testimonials-neutral-grayblue lg:px-[165px] lg:py-[calc(164/900*100vh)]">
       <Head>
         <title>Frontend Mentor | [Challenge Name Here]</title>
       </Head>
       <Main />
       <Footer />
-      <Slider basePath="/testimonials-grid-section/design/" />
+      {/* <Slider basePath="/testimonials-grid-section/design/" /> */}
     </div>
   );
 }
@@ -58,26 +58,31 @@ function Main(props) {
     {
       backgroundColor: "bg-testimonials-primary-violet",
       textIsDark: false,
+      gridTemplate: "lg:col-start-1 lg:col-span-2",
     },
     {
       backgroundColor: "bg-testimonials-primary-gray-blue",
       textIsDark: false,
+      gridTemplate: "lg:col-start-3",
     },
     {
       backgroundColor: "bg-testimonials-primary-white",
       textIsDark: true,
+      gridTemplate: "lg:row-start-2 lg:col-start-1",
     },
     {
       backgroundColor: "bg-testimonials-primary-dark-blue",
       textIsDark: false,
+      gridTemplate: "lg:row-start-2 lg:col-start-2 lg:col-span-2",
     },
     {
       backgroundColor: "bg-testimonials-primary-white",
       textIsDark: true,
+      gridTemplate: "lg:row-start-1 lg:row-span-2 lg:col-start-4",
     },
   ];
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 lg:grid lg:grid-rows-[minmax(0,_282)_minmax(0,_266px)] lg:grid-cols-4 lg:gap-x-[30px]">
       {testimonials.map((testimony, index) => {
         return (
           <TestmimoyCard
@@ -94,12 +99,16 @@ function Main(props) {
 }
 
 function TestmimoyCard(props) {
-  const { avatar, name, title, highlight, testimony, backgroundColor, textIsDark, hasQuoteBg, hasAvatarRing } = props;
+  const { avatar, name, title, highlight, testimony, backgroundColor, textIsDark, hasQuoteBg, hasAvatarRing, gridTemplate } = props;
   const textColor = textIsDark
     ? { name: "text-testimonials-primary-gray-blue", title: "text-testimonials-primary-gray-blue/50", highlight: "text-testimonials-primary-gray-blue", testimony: "text-testimonials-primary-gray-blue/70" }
     : { name: "text-testimonials-neutral-gray", title: "text-testimonials-neutral-gray/50", highlight: "text-testimonials-neutral-gray", testimony: "text-testimonials-neutral-gray/70" };
   return (
-    <article className={`${backgroundColor} ${textColor.name} ${hasQuoteBg && "bg-[url('/testimonials-grid-section/images/bg-pattern-quotation.svg')] bg-no-repeat bg-[top_0px_right_10.75%]"} rounded-[8px] pl-8 pr-[34px] pt-6 pb-[32.5px] [&:nth-child(4)]:pr-[32px] group shadow-[50px_55px_20px_-40px_rgba(33,33,33,.12)]`}>
+    <article
+      className={`${backgroundColor} ${textColor.name} ${
+        hasQuoteBg && "bg-[url('/testimonials-grid-section/images/bg-pattern-quotation.svg')] bg-no-repeat bg-[top_0px_right_10.75%] lg:bg-[top_0px_right_18.25%]"
+      } rounded-[8px] pl-8 pr-[34px] pt-6 pb-[32.5px] lg:[&:nth-child(n+3)]:pb-[25px] [&:nth-child(4)]:pr-[32px] group shadow-[50px_55px_20px_-40px_rgba(33,33,33,.12)] lg:shadow-[45px_65px_20px_-35px_rgba(33,33,33,.08)] last:pr-[30px] ${gridTemplate}`}
+    >
       <div className="flex justify-start items-center">
         <div className={`relative aspect-square ${hasAvatarRing ? "w-[28px]" : "w-[28px]"}`}>
           <Image
@@ -115,7 +124,7 @@ function TestmimoyCard(props) {
         </div>
       </div>
       <p className={`font-semibold ${textColor.highlight} text-[20px] leading-[24px] mt-[15px]`}>{highlight}</p>
-      <p className={`${textColor.testimony} text-[13px] font-medium mt-[16px] group-first:pr-[14px] pr-[0px] leading-[18px]`}>{testimony}</p>
+      <p className={`${textColor.testimony} text-[13px] font-medium mt-[16px] group-first:pr-[14px] lg:group-first:pr-0 lg:group-[&:nth-child(4)]:pr-2 pr-[0px] leading-[18px] lg:group-[&:nth-child(n+3)]:mt-[24px]`}>{testimony}</p>
     </article>
   );
 }
