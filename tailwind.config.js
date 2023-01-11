@@ -132,6 +132,16 @@ module.exports = {
             grayblue: "hsl(210,46%,95%)",
           },
         },
+        crowdfunding: {
+          primary: {
+            100: "hsl(176,50%,47%)",
+            200: "hsl(176,72%,28%)",
+          },
+          neutral: {
+            100: "hsl(0,0%,48%)",
+            200: "hsl(0,0%,0%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -146,6 +156,7 @@ module.exports = {
         ubuntu: ["Ubuntu", ...fontFamily.sans],
         overpass: ["Overpass", ...fontFamily.sans],
         "barlow-semi-condensed": ["Barlow Semi Condensed", ...fontFamily.sans],
+        commissioner: ["Commissioner", ...fontFamily.sans],
       },
     },
   },

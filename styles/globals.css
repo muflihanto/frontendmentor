@@ -67,6 +67,11 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: "Commissioner";
+  src: local("Commissioner"), url("/crowdfunding-product-page/fonts/Commissioner-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
