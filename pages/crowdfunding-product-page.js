@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Header from "../components/crowdfunding-product-page/Header";
 // import Image from "next/image";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -17,11 +18,9 @@ export default function Crowdfunding(props) {
 
 function Main(props) {
   return (
-    <>{`
-      About
-      Discover
-      Get Started
-
+    <>
+      <Header />
+      {`
       Mastercraft Bamboo Monitor Riser
       A beautiful & handcrafted monitor stand to reduce neck and eye strain.
 
@@ -117,6 +116,7 @@ function Main(props) {
       Got it!
 
       <!-- Success modal end -->
-  `}</>
+  `}
+    </>
   );
 }
