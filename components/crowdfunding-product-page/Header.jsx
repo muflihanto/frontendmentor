@@ -1,16 +1,19 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const NavItem = ({ text }) => {
+const NavItem = ({ text, hr }) => {
   return (
-    <li className="px-6">
-      <a
-        href=""
-        className="font-medium text-crowdfunding-neutral-200"
-      >
-        {text}
-      </a>
-    </li>
+    <>
+      <li className="px-6">
+        <a
+          href=""
+          className="font-medium text-crowdfunding-neutral-200"
+        >
+          {text}
+        </a>
+      </li>
+      {hr && <hr />}
+    </>
   );
 };
 
@@ -78,13 +81,11 @@ export default function Header(props) {
             <ul className="flex flex-col gap-4 py-6 bg-white rounded-lg">
               {["About", "Discover", "Get Started"].map((el, index) => {
                 return (
-                  <>
-                    <NavItem
-                      key={index}
-                      text={el}
-                    />
-                    {index < 2 && <hr />}
-                  </>
+                  <NavItem
+                    key={index}
+                    text={el}
+                    hr={index < 2}
+                  />
                 );
               })}
             </ul>
