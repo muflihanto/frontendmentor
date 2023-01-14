@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Card from "./Card";
 
 export default function Overview(props) {
   return (
-    <div className="relative mx-auto pt-[52px] pb-[39px] bg-white w-[calc(100vw-50px)] rounded-lg shadow-sm">
+    <Card className="relative pt-[52px] pb-[39px]">
       <div className="absolute -top-[28px] left-[49.75%] -translate-x-1/2 aspect-square w-[56px]">
         <Image
           src="/crowdfunding-product-page/images/logo-mastercraft.svg"
@@ -41,6 +42,6 @@ export default function Overview(props) {
           </button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

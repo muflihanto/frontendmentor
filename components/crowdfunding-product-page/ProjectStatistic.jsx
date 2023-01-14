@@ -1,3 +1,5 @@
+import Card from "./Card";
+
 export default function Statistic(props) {
   const statisticData = [
     {
@@ -14,7 +16,7 @@ export default function Statistic(props) {
     },
   ];
   return (
-    <div className="mt-[26px] mx-auto py-[27px] bg-white w-[calc(100vw-50px)] rounded-lg shadow-sm">
+    <Card className="mt-[26px] py-[27px]">
       {statisticData.map((el, index) => (
         <Data
           value={el}
@@ -26,7 +28,7 @@ export default function Statistic(props) {
         value="89914"
         target="100000"
       />
-    </div>
+    </Card>
   );
 }
 
