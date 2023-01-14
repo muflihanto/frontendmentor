@@ -4,18 +4,23 @@ import Header from "../components/crowdfunding-product-page/Header";
 import About from "../components/crowdfunding-product-page/ProjectAbout";
 import Overview from "../components/crowdfunding-product-page/ProjectOverview";
 import Statistic from "../components/crowdfunding-product-page/ProjectStatistic";
+import SelectionModal from "../components/crowdfunding-product-page/SelectionModal";
 // import Image from "next/image";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function Crowdfunding(props) {
   return (
-    <div className="App font-commissioner bg-crowdfunding-neutral-100/5">
+    <div className="relative App font-commissioner bg-crowdfunding-neutral-100/5">
       <Head>
         <title>Frontend Mentor | Crowdfunding product page</title>
       </Head>
       <Header />
       <Main />
-      <Slider basePath="/crowdfunding-product-page/design/" />
+      {/* <Slider
+        basePath="/crowdfunding-product-page/design/"
+        absolutePath="/crowdfunding-product-page/design/mobile-design-modal-selected.jpg"
+      /> */}
+      <SelectionModal />
     </div>
   );
 }
