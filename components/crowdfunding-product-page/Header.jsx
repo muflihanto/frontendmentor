@@ -7,12 +7,12 @@ const NavItem = ({ text, hr }) => {
       <li className="px-6">
         <a
           href=""
-          className="font-medium text-crowdfunding-neutral-200"
+          className="font-medium text-crowdfunding-neutral-200 text-[18px]"
         >
           {text}
         </a>
       </li>
-      {hr && <hr />}
+      {hr && <hr className="mb-[1px]" />}
     </>
   );
 };
@@ -77,8 +77,8 @@ export default function Header(props) {
             handleClick={handleClick}
             isMenuOpen={isMenuOpen}
           />
-          <nav className="absolute right-0 invisible opacity-0 top-10 peer-aria-expanded:visible peer-aria-expanded:opacity-100 transition-all w-[calc(min(100vw,375px)-48px)]">
-            <ul className="flex flex-col gap-4 py-6 bg-white rounded-lg">
+          <nav className="absolute right-0 invisible opacity-0 top-[53px] peer-aria-expanded:visible peer-aria-expanded:opacity-100 transition-all w-[calc(min(100vw,375px)-48px)] z-20 shadow-md">
+            <ul className="flex flex-col gap-[21px] pt-[22px] bg-white rounded-lg pb-[22px]">
               {["About", "Discover", "Get Started"].map((el, index) => {
                 return (
                   <NavItem
