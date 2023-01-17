@@ -72,6 +72,11 @@
   src: local("Commissioner"), url("/crowdfunding-product-page/fonts/Commissioner-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Manrope";
+  src: local("Manrope"), url("/interactive-pricing-component/fonts/Manrope-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

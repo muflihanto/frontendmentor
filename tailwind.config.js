@@ -142,13 +142,35 @@ module.exports = {
             200: "hsl(0,0%,0%)",
           },
         },
+        pricing: {
+          primary: {
+            cyan: {
+              100: "hsl(174,77%,80%)",
+              200: "hsl(174,86%,45%)",
+            },
+            red: {
+              100: "hsl(14,92%,95%)",
+              200: "hsl(15,100%,70%)",
+            },
+            blue: "hsl(226,100%,87%)",
+          },
+          neutral: {
+            50: "hsl(0,0%,100%)",
+            100: "hsl(230,100%,99%)",
+            200: "hsl(224,65%,95%)",
+            300: "hsl(223,50%,87%)",
+            400: "hsl(225,20%,60%)",
+            500: "hsl(227,35%,25%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
         "dm-sans": ["var(--font-dm-sans)", ...fontFamily.sans],
         // epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
+        // manrope: ["var(--font-manrope)", ...fontFamily.sans],
         epilogue: ["Epilogue", ...fontFamily.sans],
-        manrope: ["var(--font-manrope)", ...fontFamily.sans],
+        manrope: ["Manrope", ...fontFamily.sans],
         rubik: ["var(--font-rubik)", ...fontFamily.sans],
         "space-mono": ["var(--font-space-mono)", ...fontFamily.mono],
         barlow: ["Barlow", ...fontFamily.sans],

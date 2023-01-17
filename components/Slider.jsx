@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export default function Slider({ basePath, active = false, absolutePath }) {
+export default function Slider({ basePath, active = false, absolutePath = null }) {
   const imageRef = useRef(null);
   const sliderRef = useRef(null);
   const [clicked, setClicked] = useState(false);
