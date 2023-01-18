@@ -3,8 +3,8 @@ import Card from "./Card";
 
 export default function Overview(props) {
   return (
-    <Card className="relative pt-[52px] pb-[39px]">
-      <div className="absolute -top-[28px] left-[49.75%] -translate-x-1/2 aspect-square w-[56px]">
+    <Card className="relative pt-[52px] pb-[39px] lg:pt-[61px] lg:pb-[47px]">
+      <div className="absolute -top-[28px] left-[49.75%] lg:left-1/2 -translate-x-1/2 aspect-square w-[56px]">
         <Image
           src="/crowdfunding-product-page/images/logo-mastercraft.svg"
           fill
@@ -12,18 +12,20 @@ export default function Overview(props) {
           alt="Mastercraft Brand Logo"
         />
       </div>
-      <div className="px-6 text-center">
-        <h1 className="font-bold text-[20px] px-1 leading-[24px]">Mastercraft Bamboo Monitor Riser</h1>
-        <p className="text-[14px] mt-[16px] leading-[24px] text-crowdfunding-neutral-100">A beautifully handcrafted monitor stand to reduce neck and eye strain.</p>
-        <div className="mt-6 h-[56px] flex justify-between">
+      <div className="px-6 text-center lg:px-12">
+        <h1 className="font-bold text-[20px] px-1 leading-[24px] lg:text-[28px]">Mastercraft Bamboo Monitor Riser</h1>
+        <p className="text-[14px] mt-[16px] leading-[24px] text-crowdfunding-neutral-100 lg:text-[16px] lg:mt-[18px]">
+          A beautiful<span className="inline lg:hidden">ly</span> <span className="hidden lg:inline">& </span>handcrafted monitor stand to reduce neck and eye strain.
+        </p>
+        <div className="mt-6 h-[56px] flex justify-between lg:mt-[38px]">
           <button
-            className="rounded-full text-white/80 font-bold pb-[2px] bg-crowdfunding-primary-100 w-[calc(100%-56px-9px)]"
+            className="rounded-full text-white/80 font-bold pb-[2px] bg-crowdfunding-primary-100 w-[calc(100%-56px-9px)] lg:w-[204px]"
             onClick={props.openSelectionModal}
             value={null}
           >
             Back this project
           </button>
-          <button className="w-[56px] h-[56px] bg-crowdfunding-neutral-200/[82%] rounded-full">
+          <button className="w-[56px] h-[56px] bg-crowdfunding-neutral-200/[82%] rounded-full lg:w-[174px] lg:bg-crowdfunding-neutral-100/10 lg:flex lg:justify-start lg:items-center">
             <svg
               width="56"
               height="56"
@@ -45,6 +47,7 @@ export default function Overview(props) {
                 />
               </g>
             </svg>
+            <span className="lg:font-bold lg:text-crowdfunding-neutral-100 lg:ml-4">Bookmark</span>
           </button>
         </div>
       </div>

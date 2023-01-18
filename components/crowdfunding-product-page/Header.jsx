@@ -4,15 +4,15 @@ import { useState } from "react";
 const NavItem = ({ text, hr }) => {
   return (
     <>
-      <li className="px-6">
+      <li className="px-6 lg:px-0">
         <a
           href=""
-          className="font-medium text-crowdfunding-neutral-200 text-[18px]"
+          className="font-medium text-crowdfunding-neutral-200 text-[18px] lg:text-white lg:text-[13px] lg:font-normal lg:block lg:leading-[20px]"
         >
           {text}
         </a>
       </li>
-      {hr && <hr className="mb-[1px]" />}
+      {hr && <hr className="mb-[1px] lg:hidden" />}
     </>
   );
 };
@@ -61,8 +61,8 @@ export default function Header(props) {
     setIsMenuOpen((prev) => !prev);
   };
   return (
-    <header className="bg-[url('/crowdfunding-product-page/images/image-hero-mobile.jpg')] lg:bg-[url('/crowdfunding-product-page/images/image-hero-desktop.jpg')] w-full h-[300px] bg-contain">
-      <div className="flex items-center justify-between px-6 pt-8 pb-20 bg-gradient-to-b from-crowdfunding-neutral-200/60 to-crowdfunding-neutral-200/0">
+    <header className="bg-[url('/crowdfunding-product-page/images/image-hero-mobile.jpg')] lg:bg-[url('/crowdfunding-product-page/images/image-hero-desktop.jpg')] bg-no-repeat w-full h-[300px] bg-contain lg:h-[400px]">
+      <div className="flex items-center justify-between px-6 pt-8 pb-20 bg-gradient-to-b from-crowdfunding-neutral-200/60 lg:pb-[60px] to-crowdfunding-neutral-200/0 lg:px-[166px] lg:pt-[48px] lg:items-start">
         <div className="relative aspect-[32/5] h-[20px]">
           <Image
             src="/crowdfunding-product-page/images/logo.svg"
@@ -71,14 +71,14 @@ export default function Header(props) {
             alt="Crowdfunding Logo"
           />
         </div>
-        <div className="relative h-[15px]">
+        <div className="relative h-[15px] lg:h-fit">
           <MenuButton
-            className="peer"
+            className="peer lg:hidden"
             handleClick={handleClick}
             isMenuOpen={isMenuOpen}
           />
-          <nav className="absolute right-0 invisible opacity-0 top-[53px] peer-aria-expanded:visible peer-aria-expanded:opacity-100 transition-all w-[calc(min(100vw,375px)-48px)] z-20 shadow-md">
-            <ul className="flex flex-col gap-[21px] pt-[22px] bg-white rounded-lg pb-[22px]">
+          <nav className="absolute right-0 invisible opacity-0 top-[53px] peer-aria-expanded:visible peer-aria-expanded:opacity-100 transition-all w-[calc(min(100vw,375px)-48px)] z-20 shadow-md lg:visible lg:static lg:opacity-100 lg:w-fit lg:shadow-none">
+            <ul className="flex flex-col gap-[21px] pt-[22px] bg-white rounded-lg pb-[22px] lg:bg-transparent lg:flex-row lg:p-0 lg:gap-[33.5px]">
               {["About", "Discover", "Get Started"].map((el, index) => {
                 return (
                   <NavItem

@@ -25,7 +25,7 @@ export default function Main(props) {
   }, []);
 
   return (
-    <div className="relative -top-14">
+    <div className="relative -top-14 lg:-top-[92px] lg:pb-[33px]">
       <Overview openSelectionModal={openSelectionModal} />
       <Statistic />
       <About openSelectionModal={openSelectionModal} />
