@@ -16,8 +16,9 @@ export default function Crowdfunding(props) {
       {/* <Slider
         basePath="/crowdfunding-product-page/design/"
         // absolutePath="/crowdfunding-product-page/design/mobile-menu.jpg"
+        // absolutePath="/crowdfunding-product-page/design/active-states-bookmarked.jpg"
         // absolutePath="/crowdfunding-product-page/design/mobile-design-modal-selected.jpg"
-        // absolutePath="/crowdfunding-product-page/design/mobile-design-modal-completed.jpg"
+        absolutePath="/crowdfunding-product-page/design/active-states-modal-completed.jpg"
       /> */}
     </div>
   );

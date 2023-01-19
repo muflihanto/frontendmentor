@@ -4,10 +4,10 @@ import { useState } from "react";
 const NavItem = ({ text, hr }) => {
   return (
     <>
-      <li className="px-6 lg:px-0">
+      <li className="px-6 lg:px-0 group">
         <a
           href=""
-          className="font-medium text-crowdfunding-neutral-200 text-[18px] lg:text-white lg:text-[13px] lg:font-normal lg:block lg:leading-[20px]"
+          className="font-medium text-crowdfunding-neutral-200 text-[18px] lg:text-white lg:text-[13px] lg:font-normal lg:block lg:leading-[20px] lg:group-hover:underline lg:group-hover:decoration-white/20"
         >
           {text}
         </a>

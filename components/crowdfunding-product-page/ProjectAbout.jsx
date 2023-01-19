@@ -42,7 +42,7 @@ function Reward({ data, value, openSelectionModal }) {
           <span className="text-crowdfunding-neutral-100/75 text-[15px] font-medium">left</span>
         </p>
         <button
-          className={`text-white/90 mt-[19px] rounded-full font-bold text-[14px] w-[157px] h-[48px] lg:m-0 ${stock === 0 ? "bg-crowdfunding-neutral-100/75 cursor-default" : "bg-crowdfunding-primary-100"}`}
+          className={`text-white/90 mt-[19px] rounded-full font-bold text-[14px] w-[157px] h-[48px] lg:m-0 ${stock === 0 ? "bg-crowdfunding-neutral-100/75 cursor-default" : "bg-crowdfunding-primary-100 hover:bg-crowdfunding-primary-200"}`}
           value={value}
           onClick={openSelectionModal}
           disabled={stock === 0}
