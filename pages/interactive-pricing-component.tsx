@@ -7,13 +7,13 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 const InteractivePricing: NextPage = () => {
   return (
-    <div className="App font-manrope">
+    <div className="App font-manrope bg-[url('/interactive-pricing-component/images/bg-pattern.svg')] bg-[length:1440px_449px] bg-[left_0px_top_-49px] bg-no-repeat min-h-screen py-[47px] font-medium">
       <Head>
         <title>Frontend Mentor | Interactive pricing component</title>
       </Head>
       <Main />
       <Footer />
-      <Slider basePath={"/interactive-pricing-component/design/"} />
+      {/* <Slider basePath={"/interactive-pricing-component/design/"} /> */}
     </div>
   );
 };
