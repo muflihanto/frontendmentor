@@ -164,6 +164,16 @@ module.exports = {
             500: "hsl(227,35%,25%)",
           },
         },
+        loopstudios: {
+          primary: {
+            white: "hsl(0,0%,100%)",
+            black: "hsl(0,0%,0%)",
+            grey: {
+              100: "hsl(0,0%,55%)",
+              200: "hsl(0,0%,41%)",
+            },
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -180,6 +190,8 @@ module.exports = {
         overpass: ["Overpass", ...fontFamily.sans],
         "barlow-semi-condensed": ["Barlow Semi Condensed", ...fontFamily.sans],
         commissioner: ["Commissioner", ...fontFamily.sans],
+        josefin: ["Josefin Sans", ...fontFamily.sans],
+        alata: ["Alata", ...fontFamily.sans],
       },
     },
   },

@@ -68,6 +68,18 @@
 }
 
 @font-face {
+  font-family: "Josefin Sans";
+  src: local("Josefin Sans"), url("/loopstudios-landing-page/fonts/JosefinSans-Light.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Alata";
+  src: local("Alata"), url("/loopstudios-landing-page/fonts/Alata-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
   font-family: "Commissioner";
   src: local("Commissioner"), url("/crowdfunding-product-page/fonts/Commissioner-VariableFont_wght.ttf");
 }
