@@ -4,22 +4,18 @@ import { Footer } from "../components/loopstudios-landing-page/Footer";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 import type { NextPage } from "next";
+import Header from "../components/loopstudios-landing-page/Header";
+import Hero from "../components/loopstudios-landing-page/Hero";
 
 const Loopstudios: NextPage = () => {
   return (
-    <div className="App font-alata">
+    <div className="relative App font-alata">
       <Head>
         <title>Frontend Mentor | Loopstudios landing page</title>
       </Head>
+      <Header />
+      <Hero />
       {`
-        About
-        Careers
-        Events
-        Products
-        Support
-
-        Immersive experiences that deliver
-
         The leader in interactive VR
 
         Founded in 2011, Loopstudios has been producing world-class virtual reality 
