@@ -200,5 +200,6 @@ module.exports = {
       addVariant("thumb", ["&[type='range']::-webkit-slider-thumb", "&[type='range']::-moz-range-thumb", "&[type='range']::-ms-thumb"]);
       addVariant("track", ["&[type='range']::-webkit-slider-runnable-track", "&[type='range']::-moz-range-track", "&[type='range']::-ms-track"]);
     }),
+    require("@tailwindcss/line-clamp"),
   ],
 };
