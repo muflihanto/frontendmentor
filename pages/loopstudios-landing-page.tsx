@@ -6,6 +6,7 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 import type { NextPage } from "next";
 import Header from "../components/loopstudios-landing-page/Header";
 import Hero from "../components/loopstudios-landing-page/Hero";
+import Interactive from "../components/loopstudios-landing-page/Interactive";
 
 const Loopstudios: NextPage = () => {
   return (
@@ -15,14 +16,8 @@ const Loopstudios: NextPage = () => {
       </Head>
       <Header />
       <Hero />
+      <Interactive />
       {`
-        The leader in interactive VR
-
-        Founded in 2011, Loopstudios has been producing world-class virtual reality 
-        projects for some of the best companies around the globe. Our award-winning 
-        creations have transformed businesses through digital experiences that bind 
-        to their brand.
-
         Our creations
 
         See all
