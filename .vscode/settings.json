@@ -1,0 +1,5 @@
+{
+  "path-autocomplete.pathMappings": {
+    "/": "${workspace}/public", // the absolute root folder is now /src,
+  }
+}

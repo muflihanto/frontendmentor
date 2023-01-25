@@ -1,34 +1,36 @@
 import Image from "next/image";
 
-export const Footer: React.FC = () => {
+const Footer: React.FC = () => {
   const navLinks = ["About", "Careers", "Events", "Products", "Support"];
   return (
-    <footer className="flex flex-col justify-start items-center pt-[56px] pb-[9px] mt-[95px] bg-loopstudios-primary-black">
-      <div className="relative aspect-[6/1] w-[144px]">
-        <Image
-          src="/loopstudios-landing-page/images/logo.svg"
-          className="object-contain"
-          alt="Loopstudios logo"
-          fill
-        />
+    <footer className="pt-[56px] pb-[9px] mt-[95px] bg-loopstudios-primary-black lg:mt-[184px] lg:pt-[44px] lg:px-[165px]">
+      <div className="flex flex-col items-center justify-start lg:items-start lg:grid lg:grid-cols-2 lg:grid-rows-[repeat(2,minmax(0,auto))]">
+        <div className="relative aspect-[6/1] w-[144px]">
+          <Image
+            src="/loopstudios-landing-page/images/logo.svg"
+            className="object-contain"
+            alt="Loopstudios logo"
+            fill
+          />
+        </div>
+        <ul className="flex flex-col items-center gap-[17.25px] mt-8 [&_*]:text-loopstudios-primary-white lg:flex-row lg:row-start-2 lg:col-start-1 lg:mt-[24px] lg:gap-[32.5px] [&_li:hover]:before:absolute [&_li:hover]:before:content-[''] [&_li:hover]:before:w-[45%] [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:relative [&_li:hover]:before:border-b-2 [&_li:hover]:before:-translate-x-1/2">
+          {navLinks.map((el, index) => {
+            return (
+              <li key={index}>
+                <a
+                  href=""
+                  className="text-[15px]"
+                >
+                  {el}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+        <SocialMediaButtons className="flex items-center gap-4 mt-12 lg:m-0 lg:place-self-end [&_li:hover]:before:absolute [&_li:hover]:before:content-[''] [&_li:hover]:before:w-[100%] [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:relative [&_li:hover]:before:border-b [&_li:hover]:before:-translate-x-1/2" />
+        <p className="mt-[17px] text-loopstudios-primary-grey-100/90 text-[15px] lg:m-0 lg:place-self-end">© 2021 Loopstudios. All rights reserved.</p>
       </div>
-      <ul className="flex flex-col items-center gap-[17.25px] mt-8 [&_*]:text-loopstudios-primary-white">
-        {navLinks.map((el, index) => {
-          return (
-            <li key={index}>
-              <a
-                href=""
-                className="text-[15px]"
-              >
-                {el}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-      <SocialMediaButtons />
-      <p className="mt-[17px] text-loopstudios-primary-grey-100/90 text-[15px]">© 2021 Loopstudios. All rights reserved.</p>
-      <div className="text-[11px] text-loopstudios-primary-white font-alata text-center [&_a]:text-loopstudios-primary-grey-200 py-4">
+      <div className="text-[11px] text-loopstudios-primary-grey-100 font-alata text-center [&_a]:text-loopstudios-primary-white py-4 [&_a]:underline [&_a]:decoration-wavy [&_a]:decoration-loopstudios-primary-grey-100">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
@@ -51,9 +53,9 @@ export const Footer: React.FC = () => {
   );
 };
 
-const SocialMediaButtons = () => {
+const SocialMediaButtons = ({ className }) => {
   return (
-    <ul className="flex items-center gap-4 mt-12">
+    <ul className={className}>
       <SCButton>
         <svg
           width="24"
@@ -122,3 +124,5 @@ const SCButton = ({ children }) => {
     </li>
   );
 };
+
+export default Footer;

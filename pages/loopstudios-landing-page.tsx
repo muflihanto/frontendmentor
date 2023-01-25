@@ -1,14 +1,14 @@
-import Head from "next/head";
-import dynamic from "next/dynamic";
-import { Footer } from "../components/loopstudios-landing-page/Footer";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
-
 import { type InferGetStaticPropsType, GetStaticProps } from "next";
 import type { NextPage } from "next";
+
+import Creations from "../components/loopstudios-landing-page/Creations";
+import Footer from "../components/loopstudios-landing-page/Footer";
+import Head from "next/head";
 import Header from "../components/loopstudios-landing-page/Header";
 import Hero from "../components/loopstudios-landing-page/Hero";
 import Interactive from "../components/loopstudios-landing-page/Interactive";
-import Creations from "../components/loopstudios-landing-page/Creations";
+import dynamic from "next/dynamic";
+const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
@@ -72,7 +72,10 @@ const Loopstudios: NextPage = ({ creations }: PageProps) => {
       <Interactive />
       <Creations creations={creations} />
       <Footer />
-      <Slider basePath="/loopstudios-landing-page/design/" />
+      {/* <Slider
+        basePath="/loopstudios-landing-page/design/"
+        absolutePath="/loopstudios-landing-page/design/active-states.jpg"
+      /> */}
     </div>
   );
 };
