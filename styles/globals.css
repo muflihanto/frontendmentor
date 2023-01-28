@@ -89,6 +89,17 @@
   src: local("Manrope"), url("/interactive-pricing-component/fonts/Manrope-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Open Sans";
+  src: local("Open Sans"), url("/huddle-landing-page-with-curved-sections/fonts/OpenSans-VariableFont_wdth,wght.ttf");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url("/huddle-landing-page-with-curved-sections/fonts/Poppins-Bold.ttf");
+  font-weight: 700;
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

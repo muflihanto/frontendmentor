@@ -174,6 +174,19 @@ module.exports = {
             },
           },
         },
+        "huddle-curve": {
+          primary: {
+            pink: {
+              200: "hsl(322,100%,66%)",
+              100: "hsl(321,100%,78%)",
+            },
+            red: "hsl(0,100%,63%)",
+          },
+          neutral: {
+            700: "hsl(192,100%,9%)",
+            100: "hsl(207,100%,98%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -192,6 +205,8 @@ module.exports = {
         commissioner: ["Commissioner", ...fontFamily.sans],
         josefin: ["Josefin Sans", ...fontFamily.sans],
         alata: ["Alata", ...fontFamily.sans],
+        "open-sans": ["Open Sans", ...fontFamily.sans],
+        poppins: ["Poppins", ...fontFamily.sans],
       },
     },
   },
