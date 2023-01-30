@@ -100,6 +100,12 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url("/huddle-landing-page-with-curved-sections/fonts/Poppins-Regular.ttf");
+  font-weight: 400;
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
