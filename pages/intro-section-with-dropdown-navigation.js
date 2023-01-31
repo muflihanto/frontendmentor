@@ -30,7 +30,7 @@ export default function IntroDropdown() {
           basePath="/intro-section-with-dropdown-navigation/design"
           // absolutePath="/intro-section-with-dropdown-navigation/design/mobile-menu-expanded.jpg"
           // absolutePath="/intro-section-with-dropdown-navigation/design/mobile-menu-collapsed.jpg"
-          active={true}
+          // active={true}
         /> */}
       </div>
     </FontContext.Provider>

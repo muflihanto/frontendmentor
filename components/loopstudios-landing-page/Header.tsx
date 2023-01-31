@@ -56,7 +56,7 @@ const Header: NextPage = () => {
             </svg>
           )}
         </button>
-        <NavItems className="flex gap-[33px] [&_a]:text-loopstudios-primary-white/90 [&_a]:text-[15px] [&_li:hover]:before:absolute [&_li:hover]:before:content-[''] [&_li:hover]:before:w-[45%] [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:relative [&_li:hover]:before:border-b-2 [&_li:hover]:before:-translate-x-1/2" />
+        <NavItems className="hidden lg:flex gap-[33px] [&_a]:text-loopstudios-primary-white/90 [&_a]:text-[15px] [&_li:hover]:before:absolute [&_li:hover]:before:content-[''] [&_li:hover]:before:w-[45%] [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:relative [&_li:hover]:before:border-b-2 [&_li:hover]:before:-translate-x-1/2" />
       </div>
       {isMenuOpen && (
         <nav className="absolute top-0 left-0 right-0 z-10 block lg:hidden">

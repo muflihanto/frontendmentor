@@ -8,15 +8,18 @@ const Slider = dynamic(() => import("../components/Slider.jsx"), { ssr: false })
 
 export default function TipCalculator(props) {
   return (
-    <div className={`App ${spaceMonoVar} font-space-mono bg-tip-neutral-300 pt-[50px] relative min-h-screen lg:pt-[163px]`}>
+    <div className={`App ${spaceMonoVar} font-space-mono bg-tip-neutral-300 pt-[50px] relative min-h-screen lg:py-[max(calc(100vh-861px),calc(87/1024*100vh))]`}>
       <Head>
         <title>Frontend Mentor | Tip calculator app</title>
       </Head>
       <Header />
       <Main />
       <Footer />
-      {/* <Slider basePath="/tip-calculator-app/design" /> */}
-      <Slider absolutePath="/tip-calculator-app/design/desktop-design-empty.jpg" />
+      {/* <Slider
+        basePath="/tip-calculator-app/design/"
+        absolutePath="/tip-calculator-app/design/desktop-design-empty.jpg"
+        // absolutePath="/tip-calculator-app/design/active-states.jpg"
+      /> */}
     </div>
   );
 }

@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Clients() {
   return (
-    <div className="flex justify-between h-[27px] gap-[30px] pl-[8px] mt-12 lg:max-w-[480px]">
-      <div className="relative w-full h-auto scale-[1.25] aspect-[57/10]">
+    <div className="grid grid-rows-1 grid-flow-col auto-cols-min h-[26px] gap-[29.5px] lg:gap-[40px] mt-12 lg:max-w-[480px] items-center justify-center lg:justify-start lg:translate-y-1">
+      <div className="relative h-[14px] lg:h-[20px] aspect-[57/10]">
         <Image
           src="/intro-section-with-dropdown-navigation/images/client-databiz.svg"
           fill
@@ -11,7 +11,7 @@ export default function Clients() {
           alt="Databiz"
         />
       </div>
-      <div className="relative w-full h-auto aspect-[73/36]">
+      <div className="relative h-[26px] lg:h-[36px] aspect-[73/36]">
         <Image
           className="object-contain"
           src="/intro-section-with-dropdown-navigation/images/client-audiophile.svg"
@@ -19,7 +19,7 @@ export default function Clients() {
           alt="Audiophile"
         />
       </div>
-      <div className="relative w-full h-auto aspect-[9/2]">
+      <div className="relative h-[14px] lg:h-[20px] aspect-[9/2]">
         <Image
           className="object-contain"
           src="/intro-section-with-dropdown-navigation/images/client-meet.svg"
@@ -27,7 +27,7 @@ export default function Clients() {
           alt="Meet"
         />
       </div>
-      <div className="relative w-full h-auto aspect-[83/24]">
+      <div className="relative h-[17px] lg:h-[24px] aspect-[83/24]">
         <Image
           className="object-contain"
           src="/intro-section-with-dropdown-navigation/images/client-maker.svg"
