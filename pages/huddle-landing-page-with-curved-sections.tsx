@@ -20,7 +20,7 @@ const HuddleCurved = () => {
       <UsersSection />
       <CtaSection />
       <Footer />
-      {/* <Slider basePath="/huddle-landing-page-with-curved-sections/design/" /> */}
+      <Slider basePath="/huddle-landing-page-with-curved-sections/design/" />
     </div>
   );
 };
@@ -59,10 +59,10 @@ export const Logo = ({ className, white }: { className: string; white?: boolean 
 
 const Header = () => {
   return (
-    <header className="w-full flex justify-between px-[24px] items-center py-6">
-      <Logo className="h-[16px]" />
-      <button className="w-[80px] flex justify-center items-center rounded-full h-6 text-huddle-curve-primary-pink-200 border border-huddle-curve-primary-pink-200">
-        <span className="text-[10px] leading-none pb-[2px] tracking-[0.1px]">Try it free</span>
+    <header className="w-full flex justify-between px-[24px] items-center py-6 lg:pl-20 lg:pr-[64px] lg:py-[78px]">
+      <Logo className="h-[16px] lg:h-[39px]" />
+      <button className="w-[80px] flex justify-center items-center rounded-full h-6 text-huddle-curve-primary-pink-200 border border-huddle-curve-primary-pink-200 lg:h-[40px] lg:w-[136px]">
+        <span className="text-[10px] leading-none pb-[2px] tracking-[0.1px] lg:text-[16px]">Try it Free</span>
       </button>
     </header>
   );
@@ -70,12 +70,12 @@ const Header = () => {
 
 const Hero = () => {
   return (
-    <div className="h-[446px] flex flex-col justify-center items-center px-6">
-      <h1 className="text-center font-poppins font-bold text-[24px] leading-[36px]">Build The Community Your Fans Will Love</h1>
-      <p className="text-center text-huddle-curve-neutral-700 text-[14px] mt-[22px] px-2 font-open-sans">Huddle re-imagines the way we build communities. You have a voice, but so does your audience. Create connections with your users as you engage in genuine discussion. </p>
+    <div className="h-[446px] flex flex-col justify-center items-center px-6 lg:justify-start lg:pt-[170px] lg:h-[564px]">
+      <h1 className="text-center font-poppins font-bold text-[24px] leading-[36px] lg:text-[48px]">Build The Community Your Fans Will Love</h1>
+      <p className="text-center text-huddle-curve-neutral-700 text-[14px] mt-[22px] px-2 font-open-sans lg:w-[640px] lg:text-[20px] lg:mt-[40px]">Huddle re-imagines the way we build communities. You have a voice, but so does your audience. Create connections with your users as you engage in genuine discussion. </p>
       <a
         href=""
-        className="w-[200px] font-bold text-huddle-curve-neutral-100 hover:bg-huddle-curve-primary-pink-100 bg-huddle-curve-primary-pink-200 shadow-[0px_5px_10px_rgba(0,0,0,.2)] text-[12px] flex items-center h-10 rounded-full justify-center mt-[48px]"
+        className="w-[200px] font-bold text-huddle-curve-neutral-100 hover:bg-huddle-curve-primary-pink-100 bg-huddle-curve-primary-pink-200 shadow-[0px_5px_10px_rgba(0,0,0,.2)] text-[12px] flex items-center h-10 rounded-full justify-center mt-[48px] lg:w-[400px] lg:h-[80px] lg:text-[20px]"
       >
         Get Started For Free
       </a>
@@ -85,7 +85,7 @@ const Hero = () => {
 
 const HeroImage = () => {
   return (
-    <div className="px-[36px] py-[10px]">
+    <div className="px-[36px] py-[10px] lg:w-[1036px] lg:px-0 lg:mx-auto">
       <ScreenMockups className="w-full" />
     </div>
   );
@@ -841,9 +841,9 @@ const ScreenMockups = ({ className }: { className: string }) => {
 
 const Statistics = () => {
   return (
-    <div className="flex flex-col lg:flex-row items-center pt-[112px] pb-[20px] [&_>_div_>_p:nth-child(3)]:place-self-center [&_>_div_>_p:nth-child(3)]:text-center [&_>_div_>_p:nth-child(3)]:text-[15px] [&_>_div_>_p:nth-child(3)]:text-huddle-curve-neutral-700/50 [&_>_div_>_p:nth-child(3)]:mt-[6px] gap-[94px] relative">
-      <div className="grid grid-rows-[repeat(3,minmax(0,auto))] w-[154px]">
-        <div className="relative aspect-[47/41] w-[30px]">
+    <div className="flex flex-col lg:flex-row items-center pt-[112px] pb-[20px] [&_>_div_>_p:nth-child(3)]:place-self-center [&_>_div_>_p:nth-child(3)]:text-center [&_>_div_>_p:nth-child(3)]:text-[15px] lg:[&_>_div_>_p:nth-child(3)]:text-[24px] [&_>_div_>_p:nth-child(3)]:text-huddle-curve-neutral-700/50 [&_>_div_>_p:nth-child(3)]:mt-[6px] lg:[&_>_div_>_p:nth-child(3)]:mt-[25px] gap-[94px] relative lg:justify-start lg:items-start lg:pt-[108px] lg:gap-[440px] lg:pl-[280px]">
+      <div className="grid grid-rows-[repeat(3,minmax(0,auto))] w-[154px] lg:place-items-start">
+        <div className="relative aspect-[47/41] w-[30px] lg:w-[47px] lg:ml-[4px]">
           <Image
             src="/huddle-landing-page-with-curved-sections/images/icon-communities.svg"
             alt="Icon Communities"
@@ -851,11 +851,11 @@ const Statistics = () => {
             className="object-contain"
           />
         </div>
-        <p className="font-bold text-[60px] leading-[82px] ">1.4k+</p>
+        <p className="font-bold text-[60px] leading-[82px] lg:text-[97px] lg:leading-none lg:mt-[14px]">1.4k+</p>
         <p>Communities Formed</p>
       </div>
-      <div className="grid grid-rows-[repeat(3,minmax(0,auto))] w-[154px]">
-        <div className="relative aspect-[48/40] w-[24px]">
+      <div className="grid grid-rows-[repeat(3,minmax(0,auto))] w-[154px] lg:place-items-start">
+        <div className="relative aspect-[48/40] w-[24px] lg:w-[40px] lg:ml-[6px] lg:mt-[3px]">
           <Image
             src="/huddle-landing-page-with-curved-sections/images/icon-messages.svg"
             alt="Icon Messages"
@@ -863,8 +863,8 @@ const Statistics = () => {
             className="object-contain"
           />
         </div>
-        <p className="font-bold text-[53px] leading-[74px] ">2.7m+</p>
-        <p>Messages Sent</p>
+        <p className="font-bold text-[53px] leading-[74px] lg:text-[97px] lg:leading-none lg:mt-[18px]">2.7m+</p>
+        <p className="lg:pr-[40px]">Messages Sent</p>
       </div>
     </div>
   );
