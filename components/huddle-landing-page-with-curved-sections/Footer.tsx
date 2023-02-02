@@ -3,23 +3,29 @@ import { Logo } from "../../pages/huddle-landing-page-with-curved-sections";
 
 const Footer = () => {
   return (
-    <footer className="pt-[53px] relative">
-      <div className="absolute top-0 left-0 aspect-[375/53] w-full">
+    <footer className="relative pt-[53px] lg:pt-[158px]">
+      <div className="absolute top-0 left-0 aspect-[375/53] w-full lg:aspect-[1440/158]">
         <Image
-          src="/huddle-landing-page-with-curved-sections/images/bg-footer-top-mobile.svg"
+          src="/huddle-landing-page-with-curved-sections/images/"
           alt="Footer Curved Background"
           className="object-contain"
+          loader={({ src, width }) => {
+            if (width > 1023) {
+              return src + "bg-footer-top-desktop.svg";
+            }
+            return src + "bg-footer-top-mobile.svg";
+          }}
           fill
         />
       </div>
-      <div className="bg-huddle-curve-neutral-700 pb-[43.48px] grid grid-rows-2 relative px-7 text-huddle-curve-neutral-100 pt-[56px] gap-y-[92px]">
+      <div className="bg-huddle-curve-neutral-700 text-huddle-curve-neutral-100 relative grid grid-rows-2 gap-y-[92px] px-7 pb-[43.48px] pt-[56px]">
         <div className="row-start-2">
           <Logo
             className="h-[32px]"
             white
           />
-          <p className="text-[14px] pr-2 mt-[16px] tracking-[0.25px] leading-[24px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nulla quam, hendrerit lacinia vestibulum a, ultrices quis sem.</p>
-          <p className="flex justify-start items-center mt-[42px] ml-[3px]">
+          <p className="mt-[16px] pr-2 text-[14px] leading-[24px] tracking-[0.25px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nulla quam, hendrerit lacinia vestibulum a, ultrices quis sem.</p>
+          <p className="mt-[42px] ml-[3px] flex items-center justify-start">
             <svg
               viewBox="0 0 18 18"
               className="w-[18px]"
@@ -36,9 +42,9 @@ const Footer = () => {
                 />
               </g>
             </svg>
-            <span className="text-[14px] tracking-[0.25px] ml-[18px]">Phone: +1-543-123-4567</span>
+            <span className="ml-[18px] text-[14px] tracking-[0.25px]">Phone: +1-543-123-4567</span>
           </p>
-          <p className="flex justify-start items-center ml-[3px] mt-[19px]">
+          <p className="ml-[3px] mt-[19px] flex items-center justify-start">
             <svg
               className="w-5"
               viewBox="0 0 20 16"
@@ -55,10 +61,10 @@ const Footer = () => {
                 />
               </g>
             </svg>
-            <span className="text-[14px] tracking-[0.25px] ml-[18px]">example@huddle.com</span>
+            <span className="ml-[18px] text-[14px] tracking-[0.25px]">example@huddle.com</span>
           </p>
 
-          <div className="flex justify-start items-center gap-[17px] mt-[48px] [&_svg]:h-[26px] [&_svg]:fill-white">
+          <div className="mt-[48px] flex items-center justify-start gap-[17px] [&_svg]:h-[26px] [&_svg]:fill-white">
             <a href="">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -89,17 +95,17 @@ const Footer = () => {
           </div>
         </div>
         <div className="row-start-1">
-          <h2 className="uppercase font-bold text-[20px]">Newsletter</h2>
-          <p className="text-[14px] pr-2 mt-[15px] tracking-[0.25px] leading-[24px]">To recieve tips on how to grow your community, sign up to our weekly newsletter. We’ll never send you spam or pass on your email address</p>
-          <form className="grid grid-rows-2 mt-[32px] grid-cols-2 gap-x-0 gap-y-4">
+          <h2 className="text-[20px] font-bold uppercase">Newsletter</h2>
+          <p className="mt-[15px] pr-2 text-[14px] leading-[24px] tracking-[0.25px]">To recieve tips on how to grow your community, sign up to our weekly newsletter. We’ll never send you spam or pass on your email address</p>
+          <form className="mt-[32px] grid grid-cols-2 grid-rows-2 gap-x-0 gap-y-4">
             <input
               type="email"
-              className="h-12 rounded-md col-span-2 text-huddle-curve-neutral-700 text-left px-4"
+              className="text-huddle-curve-neutral-700 col-span-2 h-12 rounded-md px-4 text-left"
             />
-            <button className="col-start-2 bg-huddle-curve-primary-pink-200 hover:bg-huddle-curve-primary-pink-100 rounded-md font-bold text-huddle-curve-neutral-100/75">Subscribe</button>
+            <button className="bg-huddle-curve-primary-pink-200 hover:bg-huddle-curve-primary-pink-100 text-huddle-curve-neutral-100/75 col-start-2 rounded-md font-bold">Subscribe</button>
           </form>
         </div>
-        <p className="absolute bottom-2 left-0 w-full text-[11px] text-center text-huddle-curve-neutral-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy [&_a]:text-huddle-curve-primary-pink-100">
+        <p className="text-huddle-curve-neutral-100 [&_a]:text-huddle-curve-primary-pink-100 absolute bottom-2 left-0 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy">
           Challenge by{" "}
           <a
             href="https://www.frontendmentor.io?ref=challenge"
