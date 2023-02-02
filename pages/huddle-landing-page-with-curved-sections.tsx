@@ -20,7 +20,7 @@ const HuddleCurved = () => {
       <UsersSection />
       <CtaSection />
       <Footer />
-      <Slider basePath="/huddle-landing-page-with-curved-sections/design/" />
+      {/* <Slider basePath="/huddle-landing-page-with-curved-sections/design/" /> */}
     </div>
   );
 };
