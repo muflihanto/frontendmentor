@@ -3,7 +3,7 @@ import { Logo } from "../../pages/huddle-landing-page-with-curved-sections";
 
 const Footer = () => {
   return (
-    <footer className="relative pt-[53px] lg:pt-[158px]">
+    <footer className="relative pt-[calc(100vw*53/375)] lg:pt-[calc(100vw*158/1440)]">
       <div className="absolute top-0 left-0 aspect-[375/53] w-full lg:aspect-[1440/158]">
         <Image
           src="/huddle-landing-page-with-curved-sections/images/"

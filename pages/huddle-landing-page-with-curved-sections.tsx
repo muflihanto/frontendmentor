@@ -926,7 +926,7 @@ const FlowSection = () => {
 
 const UsersSection = () => {
   return (
-    <div className="relative pt-[103px] pb-[101px] lg:pt-[156px] lg:pb-[139px]">
+    <div className="relative pt-[calc(100vw*103/375)] pb-[calc(100vw*101/375)] lg:pt-[calc(100vw*156/1440)] lg:pb-[calc(100vw*139/1440)]">
       <div className="absolute top-0 left-0 -z-10 aspect-[375/103] w-full lg:aspect-[1440/156]">
         <Image
           className="object-contain"
