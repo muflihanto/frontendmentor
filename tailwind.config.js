@@ -187,6 +187,14 @@ module.exports = {
             100: "hsl(207,100%,98%)",
           },
         },
+        "huddle-alternate": {
+          primary: "hsl(322,100%,66%)",
+          neutral: {
+            100: "hsl(193,100%,96%)",
+            200: "hsl(208,11%,55%)",
+            300: "hsl(192,100%,9%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
