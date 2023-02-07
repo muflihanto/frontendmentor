@@ -82,7 +82,7 @@ function Hero() {
         <p className="text-huddle-curve-neutral-700 font-open-sans mt-[21px] px-2 text-center text-[16px] lg:mt-[28px] lg:p-0 lg:text-left lg:text-[18px]">Huddle re-imagines the way we build communities. You have a voice, but so does your audience. Create connections with your users as you engage in genuine discussion. </p>
         <a
           href=""
-          className="text-huddle-curve-neutral-100 hover:bg-huddle-curve-primary-pink-100 bg-huddle-curve-primary-pink-200 mt-[32px] flex h-10 w-[240px] items-center justify-center rounded-full pb-[3px] text-[12px] font-bold lg:mt-[32px] lg:h-[56px] lg:w-[280px] lg:text-[14px]"
+          className="text-huddle-curve-neutral-100 hover:bg-huddle-curve-primary-pink-100 bg-huddle-curve-primary-pink-200 mx-auto mt-[32px] flex h-10 w-[240px] items-center justify-center rounded-full pb-[3px] text-[12px] font-bold lg:mx-0 lg:mt-[32px] lg:h-[56px] lg:w-[280px] lg:text-[14px]"
         >
           Get Started For Free
         </a>
