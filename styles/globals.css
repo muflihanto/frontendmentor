@@ -112,6 +112,11 @@
   font-weight: 400;
 }
 
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"), url("/coding-bootcamp-testimonials-slider/fonts/Inter-VariableFont.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

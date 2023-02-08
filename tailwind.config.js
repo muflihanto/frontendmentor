@@ -195,6 +195,12 @@ module.exports = {
             300: "hsl(192,100%,9%)",
           },
         },
+        coding: {
+          primary: {
+            200: "hsl(240,38%,20%)",
+            100: "hsl(240,18%,77%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -215,6 +221,7 @@ module.exports = {
         alata: ["Alata", ...fontFamily.sans],
         "open-sans": ["Open Sans", ...fontFamily.sans],
         poppins: ["Poppins", ...fontFamily.sans],
+        inter: ["Inter", ...fontFamily.sans],
       },
     },
   },
