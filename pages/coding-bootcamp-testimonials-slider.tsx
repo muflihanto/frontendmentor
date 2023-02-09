@@ -11,13 +11,24 @@ const CodingBootcamp = () => {
       <Head>
         <title>Frontend Mentor | Coding Bootcamp Testimonials Slider</title>
       </Head>
-      <div className="App font-inter">
+      <div className="App font-inter relative min-h-screen bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat">
         <Main />
         <Footer />
-        <DesignSlider
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 610 154"
+          className="absolute bottom-0 w-[75%]"
+        >
+          <path
+            fill="#F4F4FC"
+            fillRule="evenodd"
+            d="M610 154C469.493 123.42 358.432 86.087 276.818 42S102.93-11.42 0 14v140h610z"
+          />
+        </svg>
+        {/* <DesignSlider
           basePath="/coding-bootcamp-testimonials-slider/design/"
           absolutePath="/coding-bootcamp-testimonials-slider/design/mobile-design-slide-1.jpg"
-        />
+        /> */}
       </div>
     </>
   );
@@ -27,7 +38,7 @@ export default CodingBootcamp;
 
 function Footer() {
   return (
-    <div className="text-center text-[11px] [&_a]:text-[hsl(228,45%,55%)]">
+    <div className="absolute bottom-2 z-10 mx-auto w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-[#4A3FDB] [&_a]:underline [&_a]:decoration-[#D3629D] [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -36,19 +47,27 @@ function Footer() {
       >
         Frontend Mentor
       </a>
-      . Coded by <a href="#">Your Name Here</a>.
+      . Coded by{" "}
+      <a
+        href="https://github.com/muflihanto"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Muflihanto
+      </a>
+      .
     </div>
   );
 }
 
 function Avatar({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="relative aspect-square w-[252px] lg:w-[540px]">
+    <div className="relative aspect-square w-[253px] overflow-hidden rounded-sm shadow-[0px_40px_50px_-30px_hsla(240,38%,20%,.4),0px_0px_15px_hsla(240,38%,20%,.05)] lg:w-[540px]">
       <Image
         src={src}
         alt={alt}
         fill
-        className="object-contain shadow-[0px_40px_30px_-10px_rgba(0,0,0,.2)]"
+        className="object-contain"
       />
     </div>
   );
@@ -58,10 +77,10 @@ const data = [
   {
     img: {
       src: "/coding-bootcamp-testimonials-slider/images/image-tanya.jpg",
-      alt: "Tanya Avatar",
+      alt: "Tanya's Avatar",
     },
     testimony: "“ I’ve been interested in coding for a while but never taken the jump, until now. I couldn’t recommend this course enough. I’m now in the job of my dreams and so excited about the future. ”",
-    name: "Tanya's Sinclair",
+    name: "Tanya Sinclair",
     occupation: "UX Engineer",
   },
   {
@@ -77,10 +96,10 @@ const data = [
 
 function Testimony({ activeIndex }: { activeIndex: number }) {
   return (
-    <div className="flex flex-col [&_*]:text-center">
-      <p>{data[activeIndex].testimony}</p>
-      <p className="font-bold">{data[activeIndex].name}</p>
-      <p className="font-light">{data[activeIndex].occupation}</p>
+    <div className="text-coding-primary-200 mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] [&_*]:text-center">
+      <p className="text-[18px] font-light leading-[24px]">{data[activeIndex].testimony}</p>
+      <p className="mt-[19px] text-[15px] font-bold leading-[18px]">{data[activeIndex].name}</p>
+      <p className="text-coding-primary-100 text-[15px] font-medium">{data[activeIndex].occupation}</p>
     </div>
   );
 }
@@ -107,7 +126,7 @@ function Main() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-start">
+    <div className="flex flex-col items-center justify-center pt-[54px]">
       <Avatar
         src={data[activeIndex].img.src}
         alt={data[activeIndex].img.alt}
