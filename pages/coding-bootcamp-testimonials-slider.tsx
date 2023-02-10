@@ -11,13 +11,13 @@ const CodingBootcamp = () => {
       <Head>
         <title>Frontend Mentor | Coding Bootcamp Testimonials Slider</title>
       </Head>
-      <div className="App font-inter relative min-h-screen bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat">
+      <div className="App font-inter relative min-h-screen bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat lg:bg-[length:auto,660px] lg:bg-[right_73px_top_calc(50%-22px)]">
         <Main />
         <Footer />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 610 154"
-          className="absolute bottom-0 w-[75%]"
+          className="absolute bottom-0 w-[75%] lg:w-[610px]"
         >
           <path
             fill="#F4F4FC"
@@ -27,7 +27,7 @@ const CodingBootcamp = () => {
         </svg>
         {/* <DesignSlider
           basePath="/coding-bootcamp-testimonials-slider/design/"
-          absolutePath="/coding-bootcamp-testimonials-slider/design/mobile-design-slide-1.jpg"
+          absolutePath="/coding-bootcamp-testimonials-slider/design/desktop-design-slide-1.jpg"
         /> */}
       </div>
     </>
@@ -38,12 +38,13 @@ export default CodingBootcamp;
 
 function Footer() {
   return (
-    <div className="absolute bottom-2 z-10 mx-auto w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-[#4A3FDB] [&_a]:underline [&_a]:decoration-[#D3629D] [&_a]:decoration-wavy">
+    <div className="absolute bottom-2 z-10 mx-auto w-full text-center text-[11px] lg:bottom-4 lg:text-[13px] [&_a]:font-bold [&_a]:text-[#4A3FDB] [&_a]:underline [&_a]:decoration-[#D3629D] [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
         target="_blank"
         rel="noreferrer"
+        className="lg:hover:decoration-[1.5px]"
       >
         Frontend Mentor
       </a>
@@ -52,6 +53,7 @@ function Footer() {
         href="https://github.com/muflihanto"
         target="_blank"
         rel="noreferrer"
+        className="lg:hover:decoration-[1.5px]"
       >
         Muflihanto
       </a>
@@ -96,10 +98,12 @@ const data = [
 
 function Testimony({ activeIndex }: { activeIndex: number }) {
   return (
-    <div className="text-coding-primary-200 mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] [&_*]:text-center">
-      <p className="text-[18px] font-light leading-[24px]">{data[activeIndex].testimony}</p>
-      <p className="mt-[19px] text-[15px] font-bold leading-[18px]">{data[activeIndex].name}</p>
-      <p className="text-coding-primary-100 text-[15px] font-medium">{data[activeIndex].occupation}</p>
+    <div className="text-coding-primary-200 mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] lg:z-10 lg:my-0 lg:ml-[0px] lg:mr-[-75px] lg:w-[632px] lg:bg-[length:120px,100px] lg:bg-[left_95px_top_0px] lg:px-0 lg:pt-[65px] lg:pb-[44px] [&_*]:text-center lg:[&_*]:text-left">
+      <p className="text-[18px] font-light leading-[24px] lg:text-[32px] lg:leading-[44px]">{data[activeIndex].testimony}</p>
+      <div className="mt-[19px] lg:mt-[36px] lg:flex lg:items-center lg:gap-[8px]">
+        <p className="text-[15px] font-bold leading-[18px] lg:mt-0 lg:text-[20px] lg:leading-normal lg:tracking-[0.2px]">{data[activeIndex].name}</p>
+        <p className="text-coding-primary-100 text-[15px] font-medium lg:text-[20px]">{data[activeIndex].occupation}</p>
+      </div>
     </div>
   );
 }
@@ -125,44 +129,56 @@ function Main() {
     };
   }, []);
 
+  function SliderButton() {
+    return (
+      <div className="relative top-[-20px] flex h-[40px] w-[80px] items-center justify-around rounded-full bg-white lg:left-[60px] lg:top-[-28px] lg:h-[56px] lg:w-[112px]">
+        <button
+          onClick={() => {
+            slide();
+          }}
+          className="group"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 12 18"
+            className="h-[14px] stroke-[#8585AC] stroke-[3px] group-hover:stroke-[#4A3FDB] lg:stroke-[4px]"
+          >
+            <path
+              fill="none"
+              d="M11 1L3 9l8 8"
+            />
+          </svg>
+        </button>
+        <button
+          onClick={() => {
+            slide();
+          }}
+          className="group"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 13 18"
+            className="h-[14px] stroke-[#8585AC] stroke-[3px] group-hover:stroke-[#4A3FDB] lg:stroke-[4px]"
+          >
+            <path
+              fill="none"
+              d="M2 1l8 8-8 8"
+            />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center pt-[54px]">
-      <Avatar
-        src={data[activeIndex].img.src}
-        alt={data[activeIndex].img.alt}
-      />
-      <button className="relative top-[-20px] flex h-[40px] w-[80px] items-center justify-around rounded-full bg-white">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 12 18"
-          className="h-[14px]"
-          onClick={() => {
-            slide();
-          }}
-        >
-          <path
-            fill="none"
-            stroke="#8585AC"
-            strokeWidth="3"
-            d="M11 1L3 9l8 8"
-          />
-        </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 13 18"
-          className="h-[14px]"
-          onClick={() => {
-            slide();
-          }}
-        >
-          <path
-            fill="none"
-            stroke="#8585AC"
-            strokeWidth="3"
-            d="M2 1l8 8-8 8"
-          />
-        </svg>
-      </button>
+    <div className="flex flex-col items-center justify-center pt-[54px] lg:flex-row-reverse lg:justify-between lg:px-[165px] lg:pt-[113px]">
+      <div className="flex flex-col max-md:items-center">
+        <Avatar
+          src={data[activeIndex].img.src}
+          alt={data[activeIndex].img.alt}
+        />
+        <SliderButton />
+      </div>
       <Testimony activeIndex={activeIndex} />
     </div>
   );
