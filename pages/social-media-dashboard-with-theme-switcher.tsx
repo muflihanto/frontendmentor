@@ -1,9 +1,13 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+
+type Theme = "dark" | "light";
 
 const data = {
   facebook: {
+    username: "@nathanf",
     followers: 1987,
     views: 87,
     likes: 52,
@@ -14,16 +18,18 @@ const data = {
     },
   },
   twitter: {
+    username: "@nathanf",
     followers: 1044,
-    retweets: 117,
+    views: 117,
     likes: 507,
     statistics: {
       followers: 99,
-      retweets: 303,
+      views: 303,
       likes: 553,
     },
   },
   instagram: {
+    username: "@realnathanf",
     followers: 11734,
     views: 52000,
     likes: 5462,
@@ -34,43 +40,97 @@ const data = {
     },
   },
   youtube: {
-    subscribers: 8239,
+    username: "Nathan F.",
+    followers: 8239,
     likes: 107,
     views: 1407,
     statistics: {
-      subscribers: -144,
+      followers: -144,
       likes: -19,
       views: -12,
     },
   },
 };
 
+const ThemeContext = createContext(null);
+const ThemeProvider = ThemeContext.Provider;
+
+function useThemeContext() {
+  const themeMode = useContext(ThemeContext);
+  return themeMode;
+}
+
 const SocialDashboard = () => {
+  const [theme, setTheme] = useState<Theme>("light");
+  const toggle = () => {
+    localStorage.theme = theme === "dark" ? "light" : "dark";
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  useEffect(() => {
+    if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
   return (
-    <div className="App">
-      <Head>
-        <title>Frontend Mentor | Social media dashboard with theme switcher</title>
-      </Head>
-      <Main />
-      <Footer />
-      <Slider
-        basePath="/social-media-dashboard-with-theme-switcher/design/"
-        absolutePath="/social-media-dashboard-with-theme-switcher/design/mobile-design-light.jpg"
-      />
-    </div>
+    <ThemeProvider value={{ theme, update: toggle }}>
+      <div className="App font-inter bg-social-neutral-light-100">
+        <Head>
+          <title>Frontend Mentor | Social media dashboard with theme switcher</title>
+        </Head>
+        <Header />
+        <Main />
+        <Footer />
+        <Slider
+          basePath="/social-media-dashboard-with-theme-switcher/design/"
+          absolutePath={`/social-media-dashboard-with-theme-switcher/design/mobile-design-dark.jpg`}
+        />
+      </div>
+    </ThemeProvider>
   );
 };
 
 export default SocialDashboard;
 
+function Header() {
+  const { update } = useThemeContext();
+  const [totalFollowers, setTotalFollowers] = useState("");
+
+  useEffect(() => {
+    setTotalFollowers(
+      Array.from(Object.values(data))
+        .reduce((acc, curr) => acc + curr.followers, 0)
+        .toLocaleString()
+    );
+  }, []);
+
+  return (
+    <div className="bg-social-neutral-light-200 dark:bg-social-neutral-dark-400 rounded-b-[20px] px-6 pt-[33px] pb-[84px]">
+      <h1 className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-[34px]">Social Media Dashboard</h1>
+      <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold tracking-[0.25px]">Total Followers: {totalFollowers}</p>
+      <hr className="border-t-social-neutral-light-400 dark:border-t-social-neutral-dark-200/30 mt-[22px]" />
+      <div className="mt-[16px] flex justify-between">
+        <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold ">Dark Mode</p>
+        <button
+          className="bg-social-toggle-light dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green flex h-[24px] w-[48px] items-center justify-end rounded-full bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start"
+          onClick={() => {
+            update();
+          }}
+        >
+          <span className="bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 aspect-square h-[18px] rounded-full" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div>
       {`
-      Social Media Dashboard
-      Total Followers: 23,004
-
-      Dark Mode
 
       @nathanf
       1987

@@ -268,4 +268,5 @@ module.exports = {
     }),
     require("@tailwindcss/line-clamp"),
   ],
+  darkMode: "class",
 };
