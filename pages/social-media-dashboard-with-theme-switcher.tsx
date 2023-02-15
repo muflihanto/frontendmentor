@@ -14,8 +14,8 @@ const data = {
     likes: 52,
     statistics: {
       followers: 12,
-      views: 3,
-      likes: -2,
+      views: { display: "Page Views", value: 3 },
+      likes: { display: "Likes", value: -2 },
     },
   },
   twitter: {
@@ -25,8 +25,8 @@ const data = {
     likes: 507,
     statistics: {
       followers: 99,
-      views: 303,
-      likes: 553,
+      views: { display: "Retweets", value: 303 },
+      likes: { display: "Likes", value: 553 },
     },
   },
   instagram: {
@@ -36,8 +36,8 @@ const data = {
     likes: 5462,
     statistics: {
       followers: 1099,
-      views: 1375,
-      likes: 2257,
+      views: { display: "Profile Views", value: 1375 },
+      likes: { display: "Likes", value: 2257 },
     },
   },
   youtube: {
@@ -47,8 +47,8 @@ const data = {
     views: 1407,
     statistics: {
       followers: -144,
-      likes: -19,
-      views: -12,
+      likes: { display: "Likes", value: -19 },
+      views: { display: "Total Views", value: -12 },
     },
   },
 };
@@ -128,7 +128,7 @@ function Header() {
   );
 }
 
-function Card({ socialMedia = "facebook" }) {
+function Card({ socialMedia }) {
   const styles = {
     accentColor: {
       facebook: "bg-social-primary-facebook",
@@ -177,9 +177,83 @@ function Card({ socialMedia = "facebook" }) {
   );
 }
 
+function SummaryCard({ summary, socialMedia }) {
+  console.log(summary);
+
+  return (
+    <div className="summary-card bg-social-neutral-light-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pt-[26px] pb-[25px] pl-6 pr-[31px]">
+      <div className="text-social-neutral-light-400 text-[14px] font-bold leading-[18px]">{summary[1].display}</div>
+      <div className="relative aspect-square w-5 justify-self-end">
+        <Image
+          fill
+          className="object-contain"
+          src={`/social-media-dashboard-with-theme-switcher/images/icon-${socialMedia}.svg`}
+          alt={`${socialMedia}'s icon`}
+        />
+      </div>
+      <div className="text-social-neutral-light-500 text-[32px] font-bold">{data[socialMedia][summary[0]] < 10000 ? data[socialMedia][summary[0]] : String(Math.floor(data[socialMedia][summary[0]] / 1000)) + "k"}</div>
+      <div className="flex gap-[3px] self-end justify-self-end">
+        {summary[1].value !== 0 ? (
+          <div className="relative aspect-[2/1] w-2">
+            <Image
+              src={`/social-media-dashboard-with-theme-switcher/images/icon-${summary[1].value > 0 ? "up" : "down"}.svg`}
+              alt={`${summary[1].value > 0 ? "Up" : "Down"} Icon`}
+              fill
+              className="object-contain"
+            />
+          </div>
+        ) : null}
+        <div className={`text-[12px] font-bold leading-none ${summary[1].value === 0 ? "text-social-neutral-light-400" : summary[1].value > 0 ? "text-social-primary-green" : "text-social-primary-red"}`}>{Math.abs(summary[1].value)}%</div>
+      </div>
+    </div>
+  );
+}
+
+function SummarySection() {
+  const [summaries] = useState(() => {
+    return Object.entries(data).map(([key, value]) => {
+      return {
+        [key]: {
+          views: value.statistics.views,
+          likes: value.statistics.likes,
+        },
+      };
+    });
+  });
+
+  return (
+    <div className="mt-[48px]">
+      <h2 className="text-social-neutral-light-400 text-[24px] font-bold leading-none">Overview - Today</h2>
+      <div className="mt-[30px] flex flex-col gap-4">
+        {summaries &&
+          summaries.map((sum) => {
+            return Object.entries(sum).map((el, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className={`flex ${["instagram", "youtube"].includes(el[0]) ? "flex-col-reverse" : "flex-col"}  gap-4`}
+                >
+                  {Object.entries(el[1]).map((el2, index) => {
+                    return (
+                      <SummaryCard
+                        key={index}
+                        summary={el2}
+                        socialMedia={el[0]}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            });
+          })}
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
-    <div className="-mt-[44px] px-6 ">
+    <div className="-mt-[44px] px-6">
       <div className="flex flex-col gap-6">
         {Array.from(Object.keys(data)).map((el, index) => {
           return (
@@ -190,48 +264,14 @@ function Main() {
           );
         })}
       </div>
-      {`
-      Overview - Today
-
-      Page Views
-      87
-      3%
-
-      Likes
-      52
-      2%
-
-      Likes
-      5462
-      2257%
-
-      Profile Views
-      52k
-      1375%
-
-      Retweets
-      117
-      303%
-
-      Likes
-      507
-      553%
-
-      Likes
-      107
-      19%
-
-      Total Views
-      1407
-      12%
-    `}
+      <SummarySection />
     </div>
   );
 }
 
 function Footer() {
   return (
-    <div className="text-center text-[11px] [&_a]:text-[hsl(228,45%,44%)]">
+    <div className="text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)]">
       Challenge by{" "}
       <a
         rel="noreferrer"
@@ -240,7 +280,15 @@ function Footer() {
       >
         Frontend Mentor
       </a>
-      . Coded by <a href="#">Your Name Here</a>.
+      . Coded by{" "}
+      <a
+        href="https://github.com/muflihanto"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Muflihanto
+      </a>
+      .
     </div>
   );
 }
