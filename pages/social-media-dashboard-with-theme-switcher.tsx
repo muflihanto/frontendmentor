@@ -78,7 +78,7 @@ const SocialDashboard = () => {
 
   return (
     <ThemeProvider value={{ theme, update: toggle }}>
-      <div className="App font-inter bg-social-neutral-light-100 dark:bg-social-neutral-dark-500">
+      <div className="App font-inter bg-social-neutral-light-100 dark:bg-social-neutral-dark-500 relative">
         <Head>
           <title>Frontend Mentor | Social media dashboard with theme switcher</title>
         </Head>
@@ -87,7 +87,7 @@ const SocialDashboard = () => {
         <Footer />
         <Slider
           basePath="/social-media-dashboard-with-theme-switcher/design/"
-          absolutePath={`/social-media-dashboard-with-theme-switcher/design/mobile-design-light.jpg`}
+          absolutePath={`/social-media-dashboard-with-theme-switcher/design/mobile-design-dark.jpg`}
         />
       </div>
     </ThemeProvider>
@@ -178,11 +178,9 @@ function Card({ socialMedia }) {
 }
 
 function SummaryCard({ summary, socialMedia }) {
-  console.log(summary);
-
   return (
-    <div className="summary-card bg-social-neutral-light-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pt-[26px] pb-[25px] pl-6 pr-[31px]">
-      <div className="text-social-neutral-light-400 text-[14px] font-bold leading-[18px]">{summary[1].display}</div>
+    <div className="summary-card bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pt-[26px] pb-[25px] pl-6 pr-[31px]">
+      <div className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold leading-[18px]">{summary[1].display}</div>
       <div className="relative aspect-square w-5 justify-self-end">
         <Image
           fill
@@ -191,7 +189,7 @@ function SummaryCard({ summary, socialMedia }) {
           alt={`${socialMedia}'s icon`}
         />
       </div>
-      <div className="text-social-neutral-light-500 text-[32px] font-bold">{data[socialMedia][summary[0]] < 10000 ? data[socialMedia][summary[0]] : String(Math.floor(data[socialMedia][summary[0]] / 1000)) + "k"}</div>
+      <div className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[32px] font-bold">{data[socialMedia][summary[0]] < 10000 ? data[socialMedia][summary[0]] : String(Math.floor(data[socialMedia][summary[0]] / 1000)) + "k"}</div>
       <div className="flex gap-[3px] self-end justify-self-end">
         {summary[1].value !== 0 ? (
           <div className="relative aspect-[2/1] w-2">
@@ -223,7 +221,7 @@ function SummarySection() {
 
   return (
     <div className="mt-[48px]">
-      <h2 className="text-social-neutral-light-400 text-[24px] font-bold leading-none">Overview - Today</h2>
+      <h2 className="text-social-neutral-light-400 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-none">Overview - Today</h2>
       <div className="mt-[30px] flex flex-col gap-4">
         {summaries &&
           summaries.map((sum) => {
@@ -253,7 +251,7 @@ function SummarySection() {
 
 function Main() {
   return (
-    <div className="-mt-[44px] px-6">
+    <div className="-mt-[44px] px-6 pb-[46px]">
       <div className="flex flex-col gap-6">
         {Array.from(Object.keys(data)).map((el, index) => {
           return (
@@ -271,7 +269,7 @@ function Main() {
 
 function Footer() {
   return (
-    <div className="text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)]">
+    <div className="text-social-neutral-light-500 dark:text-social-neutral-dark-200 [&_a]:decoration-social-primary-red absolute bottom-3 left-0 w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         rel="noreferrer"
