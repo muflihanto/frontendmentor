@@ -85,10 +85,11 @@ const SocialDashboard = () => {
         <Header />
         <Main />
         <Footer />
-        <Slider
+        {/* <Slider
           basePath="/social-media-dashboard-with-theme-switcher/design/"
-          absolutePath={`/social-media-dashboard-with-theme-switcher/design/mobile-design-dark.jpg`}
-        />
+          // absolutePath={`/social-media-dashboard-with-theme-switcher/design/mobile-design-dark.jpg`}
+          absolutePath={`/social-media-dashboard-with-theme-switcher/design/desktop-design-dark.jpg`}
+        /> */}
       </div>
     </ThemeProvider>
   );
@@ -109,14 +110,16 @@ function Header() {
   }, []);
 
   return (
-    <div className="bg-social-neutral-light-200 dark:bg-social-neutral-dark-400 rounded-b-[20px] px-6 pt-[33px] pb-[84px]">
-      <h1 className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-[34px]">Social Media Dashboard</h1>
-      <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold tracking-[0.25px]">Total Followers: {totalFollowers}</p>
-      <hr className="border-t-social-neutral-light-400 dark:border-t-social-neutral-dark-200/30 mt-[22px]" />
-      <div className="mt-[16px] flex justify-between">
-        <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold ">Dark Mode</p>
+    <div className="bg-social-neutral-light-200 dark:bg-social-neutral-dark-400 rounded-b-[20px] px-6 pt-[33px] pb-[84px] lg:flex lg:items-center lg:justify-between lg:pl-[162px] lg:pr-[165px] lg:pt-[34px] lg:pb-[152px]">
+      <div>
+        <h1 className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-[34px] lg:text-[28px] lg:leading-[37px]">Social Media Dashboard</h1>
+        <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold tracking-[0.25px]">Total Followers: {totalFollowers}</p>
+      </div>
+      <hr className="border-t-social-neutral-light-400 dark:border-t-social-neutral-dark-200/30 mt-[22px] lg:hidden" />
+      <div className="mt-[16px] flex justify-between lg:mt-0 lg:mb-1 lg:gap-[14px]">
+        <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold lg:leading-[22px] lg:opacity-75">Dark Mode</p>
         <button
-          className="bg-social-toggle-light dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green flex h-[24px] w-[48px] items-center justify-end rounded-full bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start"
+          className="bg-social-toggle-light dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green flex h-[24px] w-[48px] items-center justify-end rounded-full bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start lg:pr-[3px]"
           onClick={() => {
             update();
           }}
@@ -179,7 +182,7 @@ function Card({ socialMedia }) {
 
 function SummaryCard({ summary, socialMedia }) {
   return (
-    <div className="summary-card bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pt-[26px] pb-[25px] pl-6 pr-[31px]">
+    <div className="summary-card bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pt-[26px] pb-[25px] pl-6 pr-[31px] lg:flex-1">
       <div className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold leading-[18px]">{summary[1].display}</div>
       <div className="relative aspect-square w-5 justify-self-end">
         <Image
@@ -207,6 +210,21 @@ function SummaryCard({ summary, socialMedia }) {
   );
 }
 
+function FollowersSection() {
+  return (
+    <div className="flex flex-col gap-6 lg:flex-row lg:gap-[30px]">
+      {Array.from(Object.keys(data)).map((el, index) => {
+        return (
+          <Card
+            socialMedia={el}
+            key={index}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 function SummarySection() {
   const [summaries] = useState(() => {
     return Object.entries(data).map(([key, value]) => {
@@ -220,16 +238,16 @@ function SummarySection() {
   });
 
   return (
-    <div className="mt-[48px]">
+    <div className="mt-[48px] lg:mt-[49px]">
       <h2 className="text-social-neutral-light-400 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-none">Overview - Today</h2>
-      <div className="mt-[30px] flex flex-col gap-4">
+      <div className="mt-[30px] flex flex-col gap-4 lg:mt-[26px] lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[30px] lg:gap-y-6">
         {summaries &&
           summaries.map((sum) => {
             return Object.entries(sum).map((el, idx) => {
               return (
                 <div
                   key={idx}
-                  className={`flex ${["instagram", "youtube"].includes(el[0]) ? "flex-col-reverse" : "flex-col"}  gap-4`}
+                  className={`flex ${["instagram", "youtube"].includes(el[0]) ? "flex-col-reverse lg:flex-row-reverse" : "flex-col lg:flex-row"}  gap-4 lg:gap-[30px]`}
                 >
                   {Object.entries(el[1]).map((el2, index) => {
                     return (
@@ -251,17 +269,8 @@ function SummarySection() {
 
 function Main() {
   return (
-    <div className="-mt-[44px] px-6 pb-[46px]">
-      <div className="flex flex-col gap-6">
-        {Array.from(Object.keys(data)).map((el, index) => {
-          return (
-            <Card
-              socialMedia={el}
-              key={index}
-            />
-          );
-        })}
-      </div>
+    <div className="-mt-[44px] px-6 pb-[46px] lg:-mt-[108px] lg:px-[164px] lg:pb-[75px]">
+      <FollowersSection />
       <SummarySection />
     </div>
   );
