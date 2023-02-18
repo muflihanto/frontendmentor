@@ -237,6 +237,17 @@ module.exports = {
             },
           },
         },
+        insure: {
+          primary: {
+            200: "hsl(256,26%,20%)",
+            100: "hsl(216,30%,68%)",
+          },
+          neutral: {
+            300: "hsl(270,9%,17%)",
+            200: "hsl(273,4%,51%)",
+            100: "hsl(0,0%,98%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -258,6 +269,8 @@ module.exports = {
         "open-sans": ["Open Sans", ...fontFamily.sans],
         poppins: ["Poppins", ...fontFamily.sans],
         inter: ["Inter", ...fontFamily.sans],
+        karla: ["Karla", ...fontFamily.sans],
+        "dm-serif-display": ["DM Serif Display", ...fontFamily.serif],
       },
     },
   },
