@@ -117,6 +117,17 @@
   src: local("Inter"), url("/coding-bootcamp-testimonials-slider/fonts/Inter-VariableFont.ttf");
 }
 
+@font-face {
+  font-family: "Karla";
+  src: local("Karla"), url("/insure-landing-page/fonts/Karla-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "DM Serif Display";
+  src: local("DM Serif Display"), url("/insure-landing-page/fonts/DMSerifDisplay-Regular.ttf");
+  font-weight: 400;
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
