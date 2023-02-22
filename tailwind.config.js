@@ -248,6 +248,20 @@ module.exports = {
             100: "hsl(0,0%,98%)",
           },
         },
+        "pricing-toggle": {
+          primary: {
+            gradient: {
+              100: "hsl(236,72%,79%)",
+              200: "hsl(237,63%,64%)",
+            },
+          },
+          neutral: {
+            100: "hsl(240,78%,98%)",
+            200: "hsl(234,14%,74%)",
+            300: "hsl(233,13%,49%)",
+            400: "hsl(232,13%,33%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -271,6 +285,7 @@ module.exports = {
         inter: ["Inter", ...fontFamily.sans],
         karla: ["Karla", ...fontFamily.sans],
         "dm-serif-display": ["DM Serif Display", ...fontFamily.serif],
+        montserrat: ["Montserrat", ...fontFamily.sans],
       },
     },
   },

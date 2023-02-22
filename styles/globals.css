@@ -128,6 +128,11 @@
   font-weight: 400;
 }
 
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat"), url("/pricing-component-with-toggle/fonts/Montserrat-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
