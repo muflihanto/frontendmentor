@@ -133,6 +133,18 @@
   src: local("Montserrat"), url("/pricing-component-with-toggle/fonts/Montserrat-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Barlow Condensed";
+  src: local("Barlow Condensed"), url("/project-tracking-intro-component/fonts/BarlowCondensed-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  src: local("Barlow Condensed"), url("/project-tracking-intro-component/fonts/BarlowCondensed-Bold.ttf");
+  font-weight: 700;
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

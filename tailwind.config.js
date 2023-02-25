@@ -262,6 +262,15 @@ module.exports = {
             400: "hsl(232,13%,33%)",
           },
         },
+        "project-tracking": {
+          "primary-red": "hsl(0,100%,68%)",
+          neutral: {
+            400: "hsl(230,29%,20%)",
+            300: "hsl(230,11%,40%)",
+            200: "hsl(231,7%,65%)",
+            100: "hsl(207,33%,95%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -286,6 +295,7 @@ module.exports = {
         karla: ["Karla", ...fontFamily.sans],
         "dm-serif-display": ["DM Serif Display", ...fontFamily.serif],
         montserrat: ["Montserrat", ...fontFamily.sans],
+        "barlow-condensed": ["Barlow Condensed", ...fontFamily.sans],
       },
     },
   },
