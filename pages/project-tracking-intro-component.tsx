@@ -15,7 +15,7 @@ const ProjectTracking = () => {
         <Footer />
         <Slider
           basePath="/project-tracking-intro-component/design/"
-          // absolutePath="/project-tracking-intro-component/design/mobile-navigation.jpg"
+          absolutePath="/project-tracking-intro-component/design/mobile-navigation.jpg"
         />
       </div>
     </>
@@ -46,7 +46,7 @@ function Header({ toggle, isMenuOpen }: { toggle: () => void; isMenuOpen: boolea
           >
             <path
               fill="#242942"
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M17.778.808l1.414 1.414L11.414 10l7.778 7.778-1.414 1.414L10 11.414l-7.778 7.778-1.414-1.414L8.586 10 .808 2.222 2.222.808 10 8.586 17.778.808z"
             />
           </svg>
@@ -72,12 +72,12 @@ function Header({ toggle, isMenuOpen }: { toggle: () => void; isMenuOpen: boolea
 
 function Hero() {
   return (
-    <div className="relative mt-[21px] aspect-[960/464] h-[244px]">
+    <div className="absolute -right-[138px] mt-[21px] aspect-[960/464] h-[244px]">
       <Image
         src="/project-tracking-intro-component/images/illustration-devices.svg"
         fill
         alt="Illustration Devices"
-        className="object-cover object-[9px_50%]"
+        className="object-cover"
       />
     </div>
   );
@@ -86,18 +86,39 @@ function Hero() {
 function MobileMenu() {
   return (
     <nav className="absolute top-[100px] z-10 h-[233px] w-[calc(375px-64px)] rounded-sm bg-white shadow-md">
-      <ul>
+      <ul className="flex flex-col items-center gap-[19px] px-6 py-[22px]">
         <li>
-          <a href="">Product</a>
+          <a
+            className="text-project-tracking-neutral-400 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px]"
+            href=""
+          >
+            Product
+          </a>
         </li>
         <li>
-          <a href="">Features</a>
+          <a
+            className="text-project-tracking-neutral-400 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px]"
+            href=""
+          >
+            Features
+          </a>
         </li>
         <li>
-          <a href="">Pricing</a>
+          <a
+            className="text-project-tracking-neutral-400 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px]"
+            href=""
+          >
+            Pricing
+          </a>
         </li>
+        <hr className="border-t-project-tracking-neutral-200/50 mt-[1.5px] mb-[3px] w-full border-t-[1.5px]" />
         <li>
-          <a href="">Login</a>
+          <a
+            className="text-project-tracking-neutral-200 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px]"
+            href=""
+          >
+            Login
+          </a>
         </li>
       </ul>
     </nav>
