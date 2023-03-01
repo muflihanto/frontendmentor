@@ -131,11 +131,15 @@ function MobileMenu() {
 }
 
 function Main() {
-  const [isMenuOpen, setIsMenuOpen] = useState(window?.innerWidth >= 1024);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggle = useCallback(() => {
     setIsMenuOpen((prev) => !prev);
   }, [setIsMenuOpen]);
+
+  useEffect(() => {
+    setIsMenuOpen(window?.innerWidth >= 768);
+  }, []);
 
   useEffect(() => {
     const handleWindowChange = () => {
