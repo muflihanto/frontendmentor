@@ -271,6 +271,17 @@ module.exports = {
             100: "hsl(207,33%,95%)",
           },
         },
+        "product-review": {
+          primary: {
+            cyan: "hsl(158,36%,37%)",
+            cream: "hsl(30,38%,92%)",
+          },
+          neutral: {
+            300: "hsl(212,21%,14%)",
+            200: "hsl(228,12%,48%)",
+            100: "hsl(0,0%,100%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
