@@ -282,6 +282,16 @@ module.exports = {
             100: "hsl(0,0%,100%)",
           },
         },
+        rating: {
+          "primary-orange": "hsl(25,97%,53%)",
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(217,12%,63%)",
+            300: "hsl(216,12%,54%)",
+            400: "hsl(213,19%,18%)",
+            500: "hsl(216,12%,8%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
