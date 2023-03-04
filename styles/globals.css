@@ -145,6 +145,11 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: "Outfit";
+  src: local("Outfit"), url("/qr-code-component/fonts/Outfit-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

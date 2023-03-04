@@ -292,6 +292,12 @@ module.exports = {
             500: "hsl(216,12%,8%)",
           },
         },
+        qr: {
+          100: "hsl(0,0%,100%)",
+          200: "hsl(212,45%,89%)",
+          300: "hsl(220,15%,55%)",
+          400: "hsl(218,44%,22%)",
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -317,6 +323,7 @@ module.exports = {
         "dm-serif-display": ["DM Serif Display", ...fontFamily.serif],
         montserrat: ["Montserrat", ...fontFamily.sans],
         "barlow-condensed": ["Barlow Condensed", ...fontFamily.sans],
+        outfit: ["Outfit", ...fontFamily.sans],
       },
     },
   },
