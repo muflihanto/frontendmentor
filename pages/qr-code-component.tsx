@@ -10,7 +10,7 @@ const QrCodeComponent = () => {
         <title>Frontend Mentor | QR code component</title>
       </Head>
 
-      <div className="App font-outfit relative pb-8">
+      <div className="App font-outfit bg-qr-200 relative flex min-h-screen flex-col items-center justify-center pb-8">
         <Main />
         <Footer />
         <Slider basePath="/qr-code-component/design/" />
@@ -21,13 +21,18 @@ const QrCodeComponent = () => {
 
 function Main() {
   return (
-    <>
-      {`
-        Improve your front-end skills by building projects
-
-        Scan the QR code to visit Frontend Mentor and take your coding skills to the next level
-      `}
-    </>
+    <main className="shadow-qr-300/20 mt-8 h-[497px] max-w-[calc(100%-55px)] rounded-[20px] bg-white px-[16px] py-4 shadow-xl">
+      <div className="relative aspect-square w-full overflow-hidden rounded-[10px]">
+        <Image
+          src="/qr-code-component/images/image-qr-code.png"
+          alt="QR code Image"
+          fill
+          className="object-contain"
+        />
+      </div>
+      <h1 className="text-qr-400 mt-6 px-4 text-center text-[22px] font-bold leading-[28px] tracking-[.1px]">Improve your front-end skills by building projects</h1>
+      <p className="text-qr-300 mt-4 px-3 text-center text-[15px] leading-[1.275] tracking-[.25px]">Scan the QR code to visit Frontend Mentor and take your coding skills to the next level</p>
+    </main>
   );
 }
 
