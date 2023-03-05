@@ -21,7 +21,7 @@ const QrCodeComponent = () => {
 
 function Main() {
   return (
-    <main className="shadow-qr-300/20 mt-8 h-[497px] max-w-[calc(100%-55px)] rounded-[20px] bg-white px-[16px] py-4 shadow-xl">
+    <main className="shadow-qr-300/20 mt-8 h-[497px] w-[calc(100%-55px)] max-w-[320px] rounded-[20px] bg-white px-[16px] py-4 shadow-xl">
       <div className="relative aspect-square w-full overflow-hidden rounded-[10px]">
         <Image
           src="/qr-code-component/images/image-qr-code.png"
