@@ -13,7 +13,7 @@ const QrCodeComponent = () => {
       <div className="App font-outfit bg-qr-200 relative flex min-h-screen flex-col items-center justify-center pb-8">
         <Main />
         <Footer />
-        <Slider basePath="/qr-code-component/design/" />
+        {/* <Slider basePath="/qr-code-component/design/" /> */}
       </div>
     </>
   );
@@ -38,7 +38,7 @@ function Main() {
 
 function Footer() {
   return (
-    <div className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-red-600 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-red-600 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -56,7 +56,7 @@ function Footer() {
         Muflihanto
       </a>
       .
-    </div>
+    </footer>
   );
 }
 
