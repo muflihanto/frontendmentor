@@ -298,6 +298,18 @@ module.exports = {
           300: "hsl(220,15%,55%)",
           400: "hsl(218,44%,22%)",
         },
+        nft: {
+          primary: {
+            blue: "hsl(215,51%,70%)",
+            cyan: "hsl(178,100%,50%)",
+          },
+          neutral: {
+            400: "hsl(217,54%,11%)",
+            300: "hsl(216,50%,16%)",
+            200: "hsl(215,32%,27%)",
+            100: "hsl(0,0%,100%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
