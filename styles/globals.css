@@ -150,6 +150,11 @@
   src: local("Outfit"), url("/qr-code-component/fonts/Outfit-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Red Hat Display";
+  src: local("Red Hat Display"), url("/order-summary-component/fonts/RedHatDisplay-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

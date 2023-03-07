@@ -310,6 +310,17 @@ module.exports = {
             100: "hsl(0,0%,100%)",
           },
         },
+        "order-summary": {
+          primary: {
+            100: "hsl(225,100%,94%)",
+            200: "hsl(245,75%,52%)",
+          },
+          neutral: {
+            100: "hsl(225,100%,98%)",
+            200: "hsl(224,23%,55%)",
+            300: "hsl(223,47%,23%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -336,6 +347,7 @@ module.exports = {
         montserrat: ["Montserrat", ...fontFamily.sans],
         "barlow-condensed": ["Barlow Condensed", ...fontFamily.sans],
         outfit: ["Outfit", ...fontFamily.sans],
+        "red-hat-display": ["Red Hat Display", ...fontFamily.sans],
       },
     },
   },
