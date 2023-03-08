@@ -18,15 +18,15 @@ export default function Home({ paths, titles }) {
           content="Frontendmentor Challenge Portofolio"
         />
       </Head>
-      <main className="flex flex-col items-center justify-center flex-1 min-h-screen px-16 py-8">
-        <h1 className="text-[36px] lg:text-[3rem] text-center font-bold">Muf&apos;s Frontendmentor Challenge Solution</h1>
-        <ul className="grid items-center self-start max-w-screen-md grid-cols-1 gap-4 mx-auto mt-8 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4">
+      <main className="flex min-h-screen flex-1 flex-col items-center justify-center px-16 py-8">
+        <h1 className="text-center text-[36px] font-bold lg:text-[3rem]">Muf&apos;s Frontendmentor Challenge Solution</h1>
+        <ul className="mx-auto mt-8 grid max-w-screen-md grid-cols-1 items-center gap-4 self-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {paths.map((path, index) => {
             return (
               <li key={index}>
                 <Link
                   href={path}
-                  className="mb-2 font-semibold text-center bg-sky-600 hover:bg-sky-600/80 rounded-xl p-5 text-white hover:underline h-[180px] min-w-[180px] flex justify-center items-center hover:underline-offset-2 shadow-md text-[18px] focus-visible:outline-none"
+                  className="mb-2 flex h-[180px] min-w-[180px] items-center justify-center rounded-xl bg-sky-600 p-5 text-center text-[18px] font-semibold text-white shadow-md hover:bg-sky-600/80 hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-sky-500"
                 >
                   {titles[index]}
                 </Link>

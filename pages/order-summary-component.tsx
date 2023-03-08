@@ -9,10 +9,13 @@ const OrderSummary = () => {
       <Head>
         <title>Frontend Mentor | Order summary card</title>
       </Head>
-      <div className="App font-red-hat-display bg-order-summary-primary-100 relative flex h-[100svh] w-screen items-center justify-center bg-[url('/order-summary-component/images/pattern-background-mobile.svg')] bg-no-repeat font-medium lg:bg-[url('/order-summary-component/images/pattern-background-desktop.svg')]">
+      <div className="App font-red-hat-display bg-order-summary-primary-100 relative flex min-h-[100svh] w-screen items-center justify-center bg-[url('/order-summary-component/images/pattern-background-mobile.svg')] bg-[length:100%_auto] bg-no-repeat font-medium max-lg:py-[50px] lg:bg-[url('/order-summary-component/images/pattern-background-desktop.svg')] lg:py-[calc(102/900*100vh)]">
         <Main />
         <Footer />
-        {/* <Slider basePath="/order-summary-component/design/" /> */}
+        {/* <Slider
+          basePath="/order-summary-component/design/"
+          absolutePath="/order-summary-component/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -20,7 +23,7 @@ const OrderSummary = () => {
 
 function Main() {
   return (
-    <div className="shadow-order-summary-neutral-200/30 h-[567px] max-w-[calc(375px-48px)] overflow-hidden rounded-[20px] bg-white shadow-2xl">
+    <div className="shadow-order-summary-neutral-200/30 h-[567px] w-[calc(100%-48px)] max-w-[calc(375px-48px)] overflow-hidden rounded-[20px] bg-white shadow-2xl lg:h-[697px] lg:max-w-[450px]">
       <header className="relative aspect-[45/22] w-full">
         <Image
           src="/order-summary-component/images/illustration-hero.svg"
@@ -29,10 +32,10 @@ function Main() {
           className="object-contain"
         />
       </header>
-      <main className="flex flex-col items-center px-6 py-[30px]">
-        <h1 className="text-order-summary-neutral-300 text-center text-[22px] font-black">Order Summary</h1>
-        <p className="text-order-summary-neutral-200 mt-[15px] text-center max-lg:px-3 max-lg:text-[15px] max-lg:leading-[25px]">You can now listen to millions of songs, audiobooks, and podcasts on any device anywhere you like!</p>
-        <div className="bg-order-summary-neutral-100 mt-6 flex h-20 w-full items-center rounded-xl p-4">
+      <main className="flex flex-col items-center px-6 py-[30px] lg:px-12 lg:py-[43px]">
+        <h1 className="text-order-summary-neutral-300 text-center text-[22px] font-black lg:text-[28px]">Order Summary</h1>
+        <p className="text-order-summary-neutral-200 mt-[15px] text-center max-lg:px-3 max-lg:text-[15px] max-lg:leading-[25px] lg:mt-[14px] lg:px-6 lg:text-base lg:leading-[26px]">You can now listen to millions of songs, audiobooks, and podcasts on any device anywhere you like!</p>
+        <div className="bg-order-summary-neutral-100 mt-6 flex h-20 w-full items-center rounded-xl p-4 lg:mt-5 lg:h-[98px] lg:px-6 lg:py-0 lg:pb-[1px]">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +44,7 @@ function Main() {
             >
               <g
                 fill="none"
-                fill-rule="evenodd"
+                fillRule="evenodd"
               >
                 <circle
                   cx="24"
@@ -51,28 +54,30 @@ function Main() {
                 />
                 <path
                   fill="#717FA6"
-                  fill-rule="nonzero"
+                  fillRule="nonzero"
                   d="M32.574 15.198a.81.81 0 00-.646-.19L20.581 16.63a.81.81 0 00-.696.803V26.934a3.232 3.232 0 00-1.632-.44A3.257 3.257 0 0015 29.747 3.257 3.257 0 0018.253 33a3.257 3.257 0 003.253-3.253v-8.37l9.726-1.39v5.327a3.232 3.232 0 00-1.631-.441 3.257 3.257 0 00-3.254 3.253 3.257 3.257 0 003.254 3.253 3.257 3.257 0 003.253-3.253V15.81a.81.81 0 00-.28-.613z"
                 />
               </g>
             </svg>
           </span>
-          <p className="ml-5 flex flex-col">
-            <span className="text-order-summary-neutral-300 text-[14px] font-black">Annual Plan</span>
-            <span className="text-order-summary-neutral-200 text-[14.5px]">$59.99/year</span>
+          <p className="ml-5 flex flex-col lg:gap-[3px]">
+            <span className="text-order-summary-neutral-300 text-[14px] font-black lg:text-[16px]">Annual Plan</span>
+            <span className="text-order-summary-neutral-200 text-[14.5px] lg:text-[16.5px]">$59.99/year</span>
           </p>
-          <span className="text-order-summary-primary-200 ml-auto text-[13px] font-bold underline decoration-2 underline-offset-1">Change</span>
+          <span className="text-order-summary-primary-200 ml-auto text-[13px] font-bold underline decoration-2 underline-offset-1 hover:text-[hsl(245,83%,68%)] hover:no-underline lg:text-[14px]">
+            <a href="">Change</a>
+          </span>
         </div>
-        <div className="mt-6 grid w-full grid-cols-1 grid-rows-[repeat(2,50px)] flex-col place-items-center items-center gap-y-[9px]">
+        <div className="mt-6 grid w-full grid-cols-1 grid-rows-[repeat(2,50px)] flex-col place-items-center items-center gap-y-[9px] lg:mt-[31.5px] lg:gap-y-[17px]">
           <a
             href=""
-            className="bg-order-summary-primary-200 text-order-summary-neutral-100 shadow-order-summary-neutral-200/30 flex h-[50px] w-full items-center justify-center rounded-xl text-[15px] font-black shadow-xl"
+            className="bg-order-summary-primary-200 text-order-summary-neutral-100 shadow-order-summary-neutral-200/30 flex h-[50px] w-full items-center justify-center rounded-xl text-[15px] font-black shadow-xl hover:bg-[hsl(245,83%,68%)]"
           >
             Proceed to Payment
           </a>
           <a
             href=""
-            className="text-order-summary-neutral-200 text-[15px] font-black"
+            className="text-order-summary-neutral-200 hover:text-order-summary-neutral-300 text-[15px] font-black"
           >
             Cancel Order
           </a>
