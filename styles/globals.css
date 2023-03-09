@@ -155,6 +155,11 @@
   src: local("Red Hat Display"), url("/order-summary-component/fonts/RedHatDisplay-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Lexend Deca";
+  src: local("Lexend Deca"), url("/stats-preview-card-component/fonts/LexendDeca-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;

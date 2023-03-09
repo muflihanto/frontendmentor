@@ -321,6 +321,20 @@ module.exports = {
             300: "hsl(223,47%,23%)",
           },
         },
+        "stats-preview": {
+          primary: {
+            blue: {
+              200: "hsl(233,47%,7%)",
+              100: "hsl(244,38%,16%)",
+            },
+            violet: "hsl(277,64%,61%)",
+          },
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsla(0,0%,100%,0.75)",
+            300: "hsla(0,0%,100%,0.6)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -348,6 +362,7 @@ module.exports = {
         "barlow-condensed": ["Barlow Condensed", ...fontFamily.sans],
         outfit: ["Outfit", ...fontFamily.sans],
         "red-hat-display": ["Red Hat Display", ...fontFamily.sans],
+        "lexend-deca": ["Lexend Deca", ...fontFamily.sans],
       },
     },
   },
