@@ -335,6 +335,19 @@ module.exports = {
             300: "hsla(0,0%,100%,0.6)",
           },
         },
+        "3-column": {
+          primary: {
+            orange: "hsl(31,77%,52%)",
+            cyan: {
+              100: "hsl(184,100%,22%)",
+              200: "hsl(179,100%,13%)",
+            },
+          },
+          neutral: {
+            100: "hsla(0,0%,100%,0.75)",
+            200: "hsl(0,0%,95%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -363,6 +376,7 @@ module.exports = {
         outfit: ["Outfit", ...fontFamily.sans],
         "red-hat-display": ["Red Hat Display", ...fontFamily.sans],
         "lexend-deca": ["Lexend Deca", ...fontFamily.sans],
+        "big-shoulders-display": ["Big Shoulders Display", ...fontFamily.sans],
       },
     },
   },

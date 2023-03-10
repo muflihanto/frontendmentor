@@ -160,6 +160,11 @@
   src: local("Lexend Deca"), url("/stats-preview-card-component/fonts/LexendDeca-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: local("Big Shoulders Display"), url("/3-column-preview-card-component/fonts/BigShouldersDisplay-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
