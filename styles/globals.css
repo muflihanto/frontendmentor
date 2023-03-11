@@ -108,6 +108,12 @@
 
 @font-face {
   font-family: "Poppins";
+  src: local("Poppins"), url("/huddle-landing-page-with-curved-sections/fonts/Poppins-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Poppins";
   src: local("Poppins"), url("/huddle-landing-page-with-curved-sections/fonts/Poppins-Regular.ttf");
   font-weight: 400;
 }

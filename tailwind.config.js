@@ -348,6 +348,17 @@ module.exports = {
             200: "hsl(0,0%,95%)",
           },
         },
+        "intro-signup": {
+          primary: {
+            red: "hsl(0,100%,74%) ",
+            green: "hsl(154,59%,51%)",
+          },
+          "accent-blue": "hsl(248,32%,49%)",
+          neutral: {
+            200: "hsl(249,10%,26%) ",
+            100: "hsl(246,25%,77%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
