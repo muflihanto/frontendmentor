@@ -980,7 +980,7 @@ const CtaSection = () => {
   );
 };
 
-const GrowIllustration = ({ className }) => {
+const GrowIllustration = ({ className }: { className: string }) => {
   return (
     <svg
       data-name="Layer 1"
@@ -1536,7 +1536,7 @@ const GrowIllustration = ({ className }) => {
   );
 };
 
-const FlowIllustration = ({ className }) => {
+const FlowIllustration = ({ className }: { className: string }) => {
   return (
     <svg
       data-name="Layer 1"
@@ -2825,7 +2825,7 @@ const FlowIllustration = ({ className }) => {
   );
 };
 
-const UsersIllustration = ({ className }) => {
+const UsersIllustration = ({ className }: { className: string }) => {
   return (
     <svg
       data-name="Layer 1"

@@ -1,4 +1,4 @@
-import { type InferGetStaticPropsType, GetStaticProps } from "next";
+import { type InferGetStaticPropsType, GetStaticPropsContext } from "next";
 import type { NextPage } from "next";
 
 import Creations from "../components/loopstudios-landing-page/Creations";
@@ -10,7 +10,7 @@ import Interactive from "../components/loopstudios-landing-page/Interactive";
 import dynamic from "next/dynamic";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   return {
     props: {
       creations: [
@@ -61,9 +61,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 export type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-const Loopstudios: NextPage = ({ creations }: PageProps) => {
+const Loopstudios: NextPage<PageProps> = ({ creations }: PageProps) => {
   return (
-    <div className="relative App font-alata">
+    <div className="App font-alata relative">
       <Head>
         <title>Frontend Mentor | Loopstudios landing page</title>
       </Head>

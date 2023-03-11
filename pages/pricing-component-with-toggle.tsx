@@ -10,11 +10,11 @@ interface Feature {
   price: number;
 }
 
-interface Features {
-  basic: Feature;
-  professional: Feature;
-  master: Feature;
-}
+type Features = {
+  [key in Plans]: Feature;
+};
+
+type Plans = "basic" | "professional" | "master";
 
 type Payment = "annually" | "monthly";
 
@@ -125,7 +125,7 @@ function PriceListSection({ features }: { features: Features }) {
   return (
     <div className="flex flex-col gap-[32.5px] px-6 max-lg:mx-auto max-lg:max-w-md lg:flex-row lg:items-center lg:justify-center lg:gap-0">
       {Object.entries(features).map((el, index) => {
-        const plan = el[0];
+        const plan = el[0] as Plans;
         return (
           <PriceCard
             plan={plan}

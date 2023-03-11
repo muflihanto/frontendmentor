@@ -34,7 +34,7 @@ function Main() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: Inputs) => {
     console.log(data);
     reset();
   };

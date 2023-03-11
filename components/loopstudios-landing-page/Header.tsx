@@ -5,12 +5,16 @@ import { useEffect, useState } from "react";
 const Header: NextPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
-    if (isMenuOpen) {
-      document.querySelector("body").style.overflow = "hidden";
+    const body = document.querySelector("body");
+    if (body) {
+      if (isMenuOpen) {
+        body.style.overflow = "hidden";
+      }
+
+      return () => {
+        body.style.overflow = "auto";
+      };
     }
-    return () => {
-      document.querySelector("body").style.overflow = "auto";
-    };
   }, [isMenuOpen]);
   return (
     <header className="absolute top-0 left-0 w-full">
@@ -56,18 +60,18 @@ const Header: NextPage = () => {
             </svg>
           )}
         </button>
-        <NavItems className="hidden lg:flex gap-[33px] [&_a]:text-loopstudios-primary-white/90 [&_a]:text-[15px] [&_li:hover]:before:absolute [&_li:hover]:before:content-[''] [&_li:hover]:before:w-[45%] [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:relative [&_li:hover]:before:border-b-2 [&_li:hover]:before:-translate-x-1/2" />
+        <NavItems className="[&_a]:text-loopstudios-primary-white/90 hidden gap-[33px] lg:flex [&_li:hover]:relative [&_li:hover]:before:absolute [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:before:w-[45%] [&_li:hover]:before:-translate-x-1/2 [&_li:hover]:before:border-b-2 [&_li:hover]:before:content-[''] [&_a]:text-[15px]" />
       </div>
       {isMenuOpen && (
         <nav className="absolute top-0 left-0 right-0 z-10 block lg:hidden">
-          <NavItems className="flex flex-col items-start justify-center w-screen h-screen px-6 pb-[5px] bg-loopstudios-primary-black [&_a]:text-loopstudios-primary-white/75 [&_a]:font-josefin [&_a]:uppercase [&_a]:text-[24px] gap-[13px] [&_a]:tracking-[1px]" />
+          <NavItems className="bg-loopstudios-primary-black [&_a]:text-loopstudios-primary-white/75 [&_a]:font-josefin flex h-screen w-screen flex-col items-start justify-center gap-[13px] px-6 pb-[5px] [&_a]:text-[24px] [&_a]:uppercase [&_a]:tracking-[1px]" />
         </nav>
       )}
     </header>
   );
 };
 
-const NavItems = ({ className }) => {
+const NavItems = ({ className }: { className: string }) => {
   return (
     <ul className={className}>
       <li>

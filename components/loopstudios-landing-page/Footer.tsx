@@ -1,10 +1,11 @@
 import Image from "next/image";
+import { ReactElement } from "react";
 
 const Footer: React.FC = () => {
   const navLinks = ["About", "Careers", "Events", "Products", "Support"];
   return (
-    <footer className="pt-[56px] pb-[9px] mt-[95px] bg-loopstudios-primary-black lg:mt-[184px] lg:pt-[44px] lg:px-[165px]">
-      <div className="flex flex-col items-center justify-start lg:items-start lg:grid lg:grid-cols-2 lg:grid-rows-[repeat(2,minmax(0,auto))]">
+    <footer className="bg-loopstudios-primary-black mt-[95px] pt-[56px] pb-[9px] lg:mt-[184px] lg:px-[165px] lg:pt-[44px]">
+      <div className="flex flex-col items-center justify-start lg:grid lg:grid-cols-2 lg:grid-rows-[repeat(2,minmax(0,auto))] lg:items-start">
         <div className="relative aspect-[6/1] w-[144px]">
           <Image
             src="/loopstudios-landing-page/images/logo.svg"
@@ -13,7 +14,7 @@ const Footer: React.FC = () => {
             fill
           />
         </div>
-        <ul className="flex flex-col items-center gap-[17.25px] mt-8 [&_*]:text-loopstudios-primary-white lg:flex-row lg:row-start-2 lg:col-start-1 lg:mt-[24px] lg:gap-[32.5px] [&_li:hover]:before:absolute [&_li:hover]:before:content-[''] [&_li:hover]:before:w-[45%] [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:relative [&_li:hover]:before:border-b-2 [&_li:hover]:before:-translate-x-1/2">
+        <ul className="[&_*]:text-loopstudios-primary-white mt-8 flex flex-col items-center gap-[17.25px] lg:col-start-1 lg:row-start-2 lg:mt-[24px] lg:flex-row lg:gap-[32.5px] [&_li:hover]:relative [&_li:hover]:before:absolute [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:before:w-[45%] [&_li:hover]:before:-translate-x-1/2 [&_li:hover]:before:border-b-2 [&_li:hover]:before:content-['']">
           {navLinks.map((el, index) => {
             return (
               <li key={index}>
@@ -27,10 +28,10 @@ const Footer: React.FC = () => {
             );
           })}
         </ul>
-        <SocialMediaButtons className="flex items-center gap-4 mt-12 lg:m-0 lg:place-self-end [&_li:hover]:before:absolute [&_li:hover]:before:content-[''] [&_li:hover]:before:w-[100%] [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:relative [&_li:hover]:before:border-b [&_li:hover]:before:-translate-x-1/2" />
-        <p className="mt-[17px] text-loopstudios-primary-grey-100/90 text-[15px] lg:m-0 lg:place-self-end">© 2021 Loopstudios. All rights reserved.</p>
+        <SocialMediaButtons className="mt-12 flex items-center gap-4 lg:m-0 lg:place-self-end [&_li:hover]:relative [&_li:hover]:before:absolute [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:before:w-[100%] [&_li:hover]:before:-translate-x-1/2 [&_li:hover]:before:border-b [&_li:hover]:before:content-['']" />
+        <p className="text-loopstudios-primary-grey-100/90 mt-[17px] text-[15px] lg:m-0 lg:place-self-end">© 2021 Loopstudios. All rights reserved.</p>
       </div>
-      <div className="text-[11px] text-loopstudios-primary-grey-100 font-alata text-center [&_a]:text-loopstudios-primary-white py-4 [&_a]:underline [&_a]:decoration-wavy [&_a]:decoration-loopstudios-primary-grey-100">
+      <div className="text-loopstudios-primary-grey-100 font-alata [&_a]:text-loopstudios-primary-white [&_a]:decoration-loopstudios-primary-grey-100 py-4 text-center text-[11px] [&_a]:underline [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
@@ -53,7 +54,7 @@ const Footer: React.FC = () => {
   );
 };
 
-const SocialMediaButtons = ({ className }) => {
+const SocialMediaButtons = ({ className }: { className: string }) => {
   return (
     <ul className={className}>
       <SCButton>
@@ -112,12 +113,12 @@ const SocialMediaButtons = ({ className }) => {
   );
 };
 
-const SCButton = ({ children }) => {
+const SCButton = ({ children }: { children: ReactElement }) => {
   return (
     <li>
       <a
         href=""
-        className="block w-fit h-fit"
+        className="block h-fit w-fit"
       >
         {children}
       </a>

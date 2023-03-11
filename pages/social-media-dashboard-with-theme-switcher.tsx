@@ -6,7 +6,36 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 type Theme = "dark" | "light";
 
-const data = {
+type ThemeContext = {
+  theme: Theme;
+  update: () => void;
+};
+
+type TSocialMedia = "facebook" | "instagram" | "youtube" | "twitter";
+
+type SocialMediaData = {
+  username: string;
+  followers: number;
+  views: number;
+  likes: number;
+  statistics: {
+    followers: number;
+    views: {
+      display: string;
+      value: number;
+    };
+    likes: {
+      display: string;
+      value: number;
+    };
+  };
+};
+
+type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
+
+const data: Record<TSocialMedia, SocialMediaData> = {
   facebook: {
     username: "@nathanf",
     followers: 1987,
@@ -53,7 +82,7 @@ const data = {
   },
 };
 
-const ThemeContext = createContext(null);
+const ThemeContext = createContext<ThemeContext>({ theme: "light", update: () => {} });
 const ThemeProvider = ThemeContext.Provider;
 
 function useThemeContext() {
@@ -131,7 +160,7 @@ function Header() {
   );
 }
 
-function Card({ socialMedia }) {
+function Card({ socialMedia }: { socialMedia: TSocialMedia }) {
   const styles = {
     accentColor: {
       facebook: "bg-social-primary-facebook",
@@ -180,7 +209,19 @@ function Card({ socialMedia }) {
   );
 }
 
-function SummaryCard({ summary, socialMedia }) {
+function SummaryCard({
+  summary,
+  socialMedia,
+}: {
+  summary: [
+    "views" | "likes",
+    {
+      display: string;
+      value: number;
+    }
+  ];
+  socialMedia: TSocialMedia;
+}) {
   return (
     <div className="summary-card bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pt-[26px] pb-[25px] pl-6 pr-[31px] lg:flex-1">
       <div className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold leading-[18px]">{summary[1].display}</div>
@@ -216,7 +257,7 @@ function FollowersSection() {
       {Array.from(Object.keys(data)).map((el, index) => {
         return (
           <Card
-            socialMedia={el}
+            socialMedia={el as TSocialMedia}
             key={index}
           />
         );
@@ -229,7 +270,7 @@ function SummarySection() {
   const [summaries] = useState(() => {
     return Object.entries(data).map(([key, value]) => {
       return {
-        [key]: {
+        [key as TSocialMedia]: {
           views: value.statistics.views,
           likes: value.statistics.likes,
         },
@@ -249,12 +290,12 @@ function SummarySection() {
                   key={idx}
                   className={`flex ${["instagram", "youtube"].includes(el[0]) ? "flex-col-reverse lg:flex-row-reverse" : "flex-col lg:flex-row"}  gap-4 lg:gap-[30px]`}
                 >
-                  {Object.entries(el[1]).map((el2, index) => {
+                  {(Object.entries(el[1]) as Entries<(typeof el)[1]>).map((el2, index) => {
                     return (
                       <SummaryCard
                         key={index}
                         summary={el2}
-                        socialMedia={el[0]}
+                        socialMedia={el[0] as TSocialMedia}
                       />
                     );
                   })}
