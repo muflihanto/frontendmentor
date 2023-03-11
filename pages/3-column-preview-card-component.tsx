@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -9,7 +8,7 @@ const TriColumnPreview = () => {
       <Head>
         <title>Frontend Mentor | 3-column preview card component</title>
       </Head>
-      <div className="App font-lexend-deca relative flex items-center justify-center bg-[url('/3-column-preview-card-component/images')] py-[88px]">
+      <div className="App font-lexend-deca relative flex min-h-[100svh] items-center justify-center bg-[url('/3-column-preview-card-component/images')] py-[88px] lg:pt-[calc(88/800*100vh)] lg:pb-[calc(46/800*100vh)]">
         <Cards />
         <Footer />
         {/* <Slider basePath="/3-column-preview-card-component/design/" /> */}
@@ -20,7 +19,7 @@ const TriColumnPreview = () => {
 
 function Cards() {
   return (
-    <div className="grid h-[calc(3*442px)] w-[calc(100%-48px)] max-w-[calc(375px-48px)] grid-cols-1 grid-rows-3 overflow-hidden rounded-lg">
+    <div className="grid h-[calc(3*442px)] w-[calc(100%-48px)] max-w-[calc(375px-48px)] grid-cols-1 grid-rows-3 overflow-hidden rounded-lg lg:h-[500px] lg:max-w-[calc(3*307px)] lg:grid-cols-3 lg:grid-rows-1">
       <Main />
     </div>
   );
