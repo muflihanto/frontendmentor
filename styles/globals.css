@@ -119,6 +119,12 @@
 }
 
 @font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url("/huddle-landing-page-with-curved-sections/fonts/Poppins-ExtraLight.ttf");
+  font-weight: 200;
+}
+
+@font-face {
   font-family: "Inter";
   src: local("Inter"), url("/coding-bootcamp-testimonials-slider/fonts/Inter-VariableFont.ttf");
 }
