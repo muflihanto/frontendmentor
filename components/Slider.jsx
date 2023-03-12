@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export default function Slider({ basePath, active = false, absolutePath = null }) {
+export default function Slider({ basePath, active = false, absolutePath = "" }) {
   const imageRef = useRef(null);
   const sliderRef = useRef(null);
   const [clicked, setClicked] = useState(false);
@@ -28,7 +28,7 @@ export default function Slider({ basePath, active = false, absolutePath = null }
   );
 
   const getSliderImg = () => {
-    if (absolutePath) {
+    if (Boolean(absolutePath)) {
       return absolutePath;
     }
     if (!active) {
