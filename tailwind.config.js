@@ -372,6 +372,16 @@ module.exports = {
             100: "hsl(0,0%,98%)",
           },
         },
+        "profile-card": {
+          primary: {
+            cyan: "hsl(185,75%,39%)",
+            "dark-blue": {
+              200: "hsl(229,23%,23%)",
+              100: "hsl(227,10%,46%)",
+            },
+          },
+          neutral: "hsl(0,0%,59%)",
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -401,6 +411,7 @@ module.exports = {
         "red-hat-display": ["Red Hat Display", ...fontFamily.sans],
         "lexend-deca": ["Lexend Deca", ...fontFamily.sans],
         "big-shoulders-display": ["Big Shoulders Display", ...fontFamily.sans],
+        "kumbh-sans": ["Kumbh Sans", ...fontFamily.sans],
       },
     },
   },
