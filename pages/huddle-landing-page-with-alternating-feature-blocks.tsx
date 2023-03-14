@@ -52,7 +52,7 @@ const HuddleAlternate = () => {
           </a>
         </div>
         <Footer />
-        <Slider basePath="/huddle-landing-page-with-alternating-feature-blocks/design/" />
+        {/* <Slider basePath="/huddle-landing-page-with-alternating-feature-blocks/design/" /> */}
       </div>
     </>
   );
