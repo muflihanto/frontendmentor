@@ -42,7 +42,7 @@ export default function SocialProofSection() {
       <Head>
         <title>Frontend Mentor | Social proof section</title>
       </Head>
-      <div className="App font-league-spartan bg-social-proof-neutral-100 relative flex min-h-[100svh] flex-col items-center pt-[82px] pb-[99px]">
+      <div className="App font-league-spartan bg-social-proof-neutral-100 relative flex min-h-[100svh] flex-col items-center bg-[url('/social-proof-section/images/bg-pattern-top-mobile.svg'),url('/social-proof-section/images/bg-pattern-bottom-mobile.svg')] bg-[length:100%_auto,_100%_auto] bg-[position:top,_bottom] bg-no-repeat pt-[82px] pb-[99px] md:bg-[url('/social-proof-section/images/bg-pattern-top-desktop.svg'),url('/social-proof-section/images/bg-pattern-bottom-desktop.svg')] md:bg-[length:584px_362px,_1085px_673px] md:bg-[position:top_left,bottom_right] lg:px-8 lg:pt-[107px]">
         <Main />
         <Footer />
         {/* <Slider basePath="/social-proof-section/design/" /> */}
@@ -77,7 +77,7 @@ function RatingCard({ rating, rater }: { rating: number; rater: string }) {
   };
 
   return (
-    <div className="bg-social-proof-neutral-200 flex h-[78px] w-full flex-col items-center justify-center gap-[15px] rounded pt-[1px]">
+    <div className="bg-social-proof-neutral-200 flex h-[78px] w-full flex-col items-center justify-center gap-[15px] rounded pt-[1px] lg:h-[56px] lg:w-[444px] lg:flex-row lg:justify-start lg:gap-[32px] lg:px-8 lg:pt-0 lg:pb-[1px]">
       <div className="flex gap-[8px]">{stars()}</div>
       <span className="text-social-proof-primary-magenta text-[17px] font-bold leading-none">
         Rated {rating} Stars in {rater}
@@ -88,7 +88,7 @@ function RatingCard({ rating, rater }: { rating: number; rater: string }) {
 
 function TestimonyCard({ avatar, name, testimony }: { avatar: string; name: string; testimony: string }) {
   return (
-    <div className="bg-social-proof-primary-magenta flex h-[248px] w-full flex-col overflow-hidden rounded-lg px-[32px] pt-[36px] pb-[30px]">
+    <div className="bg-social-proof-primary-magenta flex h-[248px] w-full flex-col overflow-hidden rounded-lg px-[32px] pt-[36px] pb-[30px] lg:h-[234px] lg:w-[350px]">
       <div className="flex h-12 items-center gap-[23px]">
         <div className="relative aspect-square h-10 overflow-hidden rounded-full">
           <Image
@@ -109,11 +109,13 @@ function TestimonyCard({ avatar, name, testimony }: { avatar: string; name: stri
 
 function Main() {
   return (
-    <div className="w-[calc(100vw-48px)] max-w-[calc(375px-48px)]">
-      <h1 className="text-social-proof-primary-magenta text-center text-[40px] font-bold leading-[32px] tracking-[-1.35px]">10,000+ of our users love our products.</h1>
-      <p className="text-social-proof-neutral-300 mt-[23px] text-center text-[18px] font-medium leading-[25px] tracking-[-0.2px]">We only provide great products combined with excellent customer service. See what our satisfied customers are saying about our services.</p>
+    <div className="w-[calc(100vw-48px)] max-w-[calc(375px-48px)] lg:grid lg:w-full lg:max-w-[calc(1440px-330px)] lg:grid-cols-2 lg:grid-rows-2 lg:items-center lg:gap-y-[61px] ">
+      <div className="lg:w-[420px]">
+        <h1 className="text-social-proof-primary-magenta text-center text-[40px] font-bold leading-[32px] tracking-[-1.35px] lg:text-left lg:text-[56px] lg:leading-[48px] lg:tracking-[-2px]">10,000+ of our users love our products.</h1>
+        <p className="text-social-proof-neutral-300 mt-[23px] text-center text-[18px] font-medium leading-[25px] tracking-[-0.2px] lg:mt-[26px] lg:text-left">We only provide great products combined with excellent customer service. See what our satisfied customers are saying about our services.</p>
+      </div>
 
-      <div className="mt-[39px] flex flex-col gap-4">
+      <div className="mt-[39px] flex flex-col gap-4 justify-self-end lg:mt-0 lg:w-[540px] lg:pt-[11px] [&>div:nth-child(2)]:self-center [&>div:nth-child(3)]:self-end">
         {ratings.map((el, index) => {
           return (
             <RatingCard
@@ -124,7 +126,7 @@ function Main() {
         })}
       </div>
 
-      <div className="mt-[49px] flex flex-col gap-4">
+      <div className="mt-[49px] flex flex-col gap-4 lg:col-span-2 lg:mt-0 lg:h-[266px] lg:flex-row lg:justify-between [&>div:nth-child(2)]:self-center [&>div:nth-child(3)]:self-end">
         {testimonies.map((el, index) => {
           return (
             <TestimonyCard
@@ -140,7 +142,7 @@ function Main() {
 
 function Footer() {
   return (
-    <div className="[&_a]:text-social-proof-primary-magenta [&_a]:decoration-social-proof-primary-pink absolute bottom-3 z-20 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy">
+    <div className="[&_a]:text-social-proof-primary-magenta [&_a]:decoration-social-proof-primary-pink absolute bottom-3 z-20 w-full text-center text-[11px] lg:text-[13px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
