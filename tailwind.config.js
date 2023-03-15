@@ -393,6 +393,16 @@ module.exports = {
             100: "hsl(0,0%,100%)",
           },
         },
+        "single-price": {
+          primary: {
+            cyan: "hsl(179,62%,43%)",
+            yellow: "hsl(71,73%,54%)",
+          },
+          neutral: {
+            100: "hsl(204,43%,93%)",
+            200: "hsl(218,22%,67%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
