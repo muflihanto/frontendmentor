@@ -382,6 +382,17 @@ module.exports = {
           },
           neutral: "hsl(0,0%,59%)",
         },
+        "social-proof": {
+          primary: {
+            magenta: "hsl(300,43%,22%)",
+            pink: "hsl(333,80%,67%)",
+          },
+          neutral: {
+            300: "hsl(303,10%,53%)",
+            200: "hsl(300,24%,96%)",
+            100: "hsl(0,0%,100%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -412,6 +423,7 @@ module.exports = {
         "lexend-deca": ["Lexend Deca", ...fontFamily.sans],
         "big-shoulders-display": ["Big Shoulders Display", ...fontFamily.sans],
         "kumbh-sans": ["Kumbh Sans", ...fontFamily.sans],
+        "league-spartan": ["League Spartan", ...fontFamily.sans],
       },
     },
   },

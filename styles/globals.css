@@ -182,6 +182,11 @@
   src: local("Kumbh Sans"), url("/profile-card-component/fonts/KumbhSans-VariableFont_YOPQ,wght.ttf");
 }
 
+@font-face {
+  font-family: "League Spartan";
+  src: local("League Spartan"), url("/social-proof-section/fonts/LeagueSpartan-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
