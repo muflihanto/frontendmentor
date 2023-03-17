@@ -403,6 +403,12 @@ module.exports = {
             200: "hsl(218,22%,67%)",
           },
         },
+        "huddle-intro": {
+          primary: {
+            violet: "hsl(257,40%,49%)",
+            magenta: "hsl(300,69%,71%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
