@@ -409,6 +409,12 @@ module.exports = {
             magenta: "hsl(300,69%,71%)",
           },
         },
+        "article-preview": {
+          400: "hsl(217,19%,35%)",
+          300: "hsl(214,17%,51%)",
+          200: "hsl(212,23%,69%)",
+          100: "hsl(210,46%,95%)",
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],

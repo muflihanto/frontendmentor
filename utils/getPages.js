@@ -4,7 +4,7 @@ import path from "path";
 export default function getPath() {
   const pagesDir = path.join(process.cwd(), "pages");
   const pageNames = fs.readdirSync(pagesDir);
-  const excluded = ["_app.js", "_document.js", "index.js", "api", "test-component.js"];
+  const excluded = ["_app.js", "_document.js", "index.js", "api", "test-component.js", "jotai.tsx"];
 
   const filteredPages = pageNames.filter((page) => {
     return !excluded.includes(page);
