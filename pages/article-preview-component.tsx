@@ -20,18 +20,18 @@ export default function ArticlePreviewComponent() {
 
 function Main() {
   return (
-    <div className="shadow-article-preview-300/10 h-[512px] w-[calc(100vw-48px)] max-w-[calc(375px-48px)] overflow-hidden rounded-md bg-white shadow-xl">
-      <div className="relative aspect-[327/200] w-full">
+    <div className="shadow-article-preview-300/10 grid h-[512px] w-[calc(100vw-48px)] max-w-[calc(375px-48px)] grid-cols-1 grid-rows-[fit-content(200px),auto] gap-0 overflow-hidden rounded-md bg-white shadow-xl lg:mt-[7px] lg:h-[280px] lg:w-[730px] lg:max-w-none lg:grid-cols-[285px,auto] lg:grid-rows-1 lg:rounded-[10px]">
+      <div className="relative aspect-[327/200] w-full lg:aspect-[285/280]">
         <div className="absolute top-0 left-0 z-10 h-full w-full bg-white/[.175] mix-blend-overlay" />
         <Image
           alt="Drawer"
           src="/article-preview-component/images/drawers.jpg"
           fill
-          className="object-cover object-[center_25%]"
+          className="object-cover object-[center_25%] lg:object-[0%_25%]"
         />
       </div>
-      <main className="flex h-[312px] flex-col px-8 pt-9 pb-5">
-        <h1 className="text-article-preview-400 font-bold tracking-[.2px]">Shift the overall look and feel by adding these wonderful touches to furniture in your home</h1>
+      <main className="flex h-full flex-col px-8 pt-9 pb-5 lg:px-10 lg:pt-8 lg:pb-8">
+        <h1 className="text-article-preview-400 font-bold tracking-[.2px] lg:text-[20px] lg:leading-[28px]">Shift the overall look and feel by adding these wonderful touches to furniture in your home</h1>
         <p className="text-article-preview-300 mt-[12px] text-[13px] leading-[20px] tracking-[.12px]">Ever been in a room and felt like something was missing? Perhaps it felt slightly bare and uninviting. I’ve got some simple tips to help you make any room feel complete.</p>
         <div className="mt-auto flex h-10 items-center">
           <Image
