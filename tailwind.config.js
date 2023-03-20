@@ -415,6 +415,25 @@ module.exports = {
           200: "hsl(212,23%,69%)",
           100: "hsl(210,46%,95%)",
         },
+        "faq-accordion": {
+          primary: {
+            text: {
+              blue: "hsl(238,29%,16%)",
+              red: "hsl(14,88%,65%)",
+            },
+            gradient: {
+              violet: "hsl(273,75%,66%)",
+              blue: "hsl(240,73%,65%)",
+            },
+          },
+          neutral: {
+            text: {
+              200: "hsl(237,12%,33%)",
+              100: "hsl(240,6%,50%)",
+            },
+            dividers: "hsl(240,5%,91%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
