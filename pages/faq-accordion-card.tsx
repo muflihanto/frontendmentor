@@ -59,7 +59,7 @@ function Main() {
           }}
           alt="Illustration Woman Online"
           fill
-          className="z-1 object-contain object-[position:center_calc(100%-35.5px)] pl-[1px] pr-[2px]"
+          className="z-1 object-contain object-[center_calc(100%-35.5px)] pl-[1px] pr-[2px]"
         />
         <Image
           src={"/faq-accordion-card/images/"}
@@ -71,7 +71,7 @@ function Main() {
           }}
           alt="Background Pattern"
           fill
-          className="object-contain object-[position:center_calc(100%-4px)]"
+          className="object-contain object-[center_calc(100%-4px)]"
         />
       </div>
       <h1 className="text-faq-accordion-primary-text-blue text-[32px] font-bold leading-none">FAQ</h1>
