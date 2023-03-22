@@ -434,6 +434,23 @@ module.exports = {
             dividers: "hsl(240,5%,91%)",
           },
         },
+        "base-apparel": {
+          primary: {
+            100: "hsl(0,36%,70%)",
+            200: "hsl(0,93%,68%)",
+          },
+          neutral: "hsl(0,6%,24%)",
+          gradient: {
+            white: {
+              100: "hsl(0,0%,100%)",
+              200: "hsl(0,100%,98%)",
+            },
+            red: {
+              100: "hsl(0,80%,86%)",
+              200: "hsl(0,74%,74%)",
+            },
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],

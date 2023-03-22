@@ -187,6 +187,11 @@
   src: local("League Spartan"), url("/social-proof-section/fonts/LeagueSpartan-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Josefin Sans";
+  src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
+}
+
 @layer components {
   #intro-with-dropdown * {
     @apply font-epilogue;
