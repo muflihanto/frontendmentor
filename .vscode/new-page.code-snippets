@@ -28,7 +28,7 @@
 			"  return (",
 			"    <>",
 			"      <Head>",
-			"        <title>Frontend Mentor | ${2:${TM_FILENAME_BASE/(.)([^-]*)-?/${1:/upcase}${2} /g}}</title>",
+			"        <title>Frontend Mentor | ${2:${TM_FILENAME_BASE/(.)([^-]*)(-?)/${1:/upcase}${2}${3:+ }/g}}</title>",
 			"      </Head>",
 			"      <div className=\"App min-h-[100svh] relative\">",
 			"        <Main />",
