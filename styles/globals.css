@@ -69,7 +69,7 @@
 
 @font-face {
   font-family: "Josefin Sans";
-  src: local("Josefin Sans"), url("/loopstudios-landing-page/fonts/JosefinSans-Light.ttf");
+  src: url("/loopstudios-landing-page/fonts/JosefinSans-Light.ttf");
   font-weight: 300;
 }
 
@@ -189,8 +189,20 @@
 
 @font-face {
   font-family: "Josefin Sans";
-  src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
+  src: url("/base-apparel-coming-soon/fonts/JosefinSans-Regular.ttf");
+  font-weight: 400;
 }
+
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("/base-apparel-coming-soon/fonts/JosefinSans-SemiBold.ttf");
+  font-weight: 600;
+}
+
+/* @font-face {
+  font-family: "Josefin Sans";
+  src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
+} */
 
 @layer components {
   #intro-with-dropdown * {

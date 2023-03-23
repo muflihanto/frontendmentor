@@ -63,7 +63,7 @@ function Main() {
             }}
             alt="Illustration Woman Online"
             fill
-            className="z-10 object-contain object-[center_calc(100%-35.5px)] pl-[1px] pr-[2px] lg:w-[475px] lg:origin-right lg:scale-[calc(476/391)] lg:object-[position:center_calc(48%+.5px)] lg:px-[1.5px]"
+            className="z-10 object-contain object-[center_calc(100%-35.5px)] pl-[1px] pr-[2px] lg:w-[475px] lg:origin-right lg:scale-[calc(476/391)] lg:object-[center_calc(48%+.5px)] lg:px-[1.5px]"
           />
           <Image
             src={"/faq-accordion-card/images/"}
