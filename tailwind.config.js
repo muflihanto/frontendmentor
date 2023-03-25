@@ -451,6 +451,17 @@ module.exports = {
             },
           },
         },
+        "ping-coming-soon": {
+          "primary-blue": "hsl(223,87%,63%)",
+          secondary: {
+            blue: "hsl(223,100%,88%)",
+            red: "hsl(354,100%,66%)",
+          },
+          neutral: {
+            gray: "hsl(0,0%,59%)",
+            blue: "hsl(209,33%,12%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -482,6 +493,7 @@ module.exports = {
         "big-shoulders-display": ["Big Shoulders Display", ...fontFamily.sans],
         "kumbh-sans": ["Kumbh Sans", ...fontFamily.sans],
         "league-spartan": ["League Spartan", ...fontFamily.sans],
+        "libre-franklin": ["Libre Franklin", ...fontFamily.sans],
       },
     },
   },
