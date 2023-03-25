@@ -462,6 +462,18 @@ module.exports = {
             blue: "hsl(209,33%,12%)",
           },
         },
+        "news-homepage": {
+          primary: {
+            orange: "hsl(35,77%,62%)",
+            red: "hsl(5,85%,63%)",
+          },
+          neutral: {
+            100: "hsl(36,100%,99%)",
+            200: "hsl(233,8%,79%)",
+            300: "hsl(236,13%,42%)",
+            400: "hsl(240,100%,5%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
