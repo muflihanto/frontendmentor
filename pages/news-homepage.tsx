@@ -103,13 +103,13 @@ export default function NewsHomepage() {
       <Head>
         <title>Frontend Mentor | News homepage</title>
       </Head>
-      <div className="App font-inter relative min-h-[100svh] pb-20">
+      <div className="App font-inter relative min-h-[100svh] pb-20 lg:pb-32">
         <Header />
         <Sections />
         <Footer />
         {/* <Slider
           basePath="/news-homepage/design"
-          absolutePath="/news-homepage/design/mobile-menu.jpg"
+          absolutePath="/news-homepage/design/active-states.jpg"
         /> */}
         <MobileMenu />
       </div>
@@ -121,8 +121,8 @@ function Header() {
   const setMenuOpen = useSetAtom(mobileMenuAtom);
 
   return (
-    <header className="flex h-[88px] items-center justify-between px-4 pb-1">
-      <div className="relative aspect-[65/40] h-[28px]">
+    <header className="flex h-[88px] items-center justify-between px-4 pb-1 lg:h-[184px] lg:py-0 lg:px-[min(calc(50vw-472px),165px)] lg:pt-[34px]">
+      <div className="relative aspect-[65/40] h-[28px] lg:h-10">
         <Image
           src="/news-homepage/assets/images/logo.svg"
           alt="Company Logo"
@@ -132,7 +132,7 @@ function Header() {
       </div>
       <button
         onClick={() => setMenuOpen(true)}
-        className={``}
+        className={`hidden max-lg:block`}
       >
         <svg
           viewBox="0 0 40 17"
@@ -148,13 +148,46 @@ function Header() {
           </g>
         </svg>
       </button>
+      <DesktopNav />
     </header>
+  );
+}
+
+function NavLinks() {
+  const navLinks = useAtomValue(navLinkAtom);
+  return (
+    <>
+      {navLinks.map((link, index) => {
+        return (
+          <li
+            key={index}
+            className="flex h-7 items-center text-[18px] lg:text-[16px]"
+          >
+            <a
+              href={link.href}
+              className="focus-visible:outline-news-homepage-primary-red hover:text-news-homepage-primary-red lg:text-news-homepage-neutral-300 w-full rounded px-[5px] focus-visible:outline focus-visible:outline-2 lg:px-0"
+            >
+              {link.body}
+            </a>
+          </li>
+        );
+      })}
+    </>
+  );
+}
+
+function DesktopNav() {
+  return (
+    <nav className="hidden lg:block">
+      <ul className="flex flex-row gap-[38.5px]">
+        <NavLinks />
+      </ul>
+    </nav>
   );
 }
 
 function MobileMenu() {
   const [isMenuOpen, setMenuOpen] = useAtom(mobileMenuAtom);
-  const navLinks = useAtomValue(navLinkAtom);
   return (
     <Transition
       show={isMenuOpen}
@@ -196,21 +229,7 @@ function MobileMenu() {
             </button>
             <nav className="absolute top-[142px] w-full px-5">
               <ul className="flex flex-col gap-5">
-                {navLinks.map((link, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className="flex h-7 items-center text-[18px]"
-                    >
-                      <a
-                        href={link.href}
-                        className="focus-visible:outline-news-homepage-primary-red hover:text-news-homepage-primary-red w-full rounded px-[5px] focus-visible:outline focus-visible:outline-2"
-                      >
-                        {link.body}
-                      </a>
-                    </li>
-                  );
-                })}
+                <NavLinks />
               </ul>
             </nav>
           </div>
@@ -222,7 +241,7 @@ function MobileMenu() {
 
 function Sections() {
   return (
-    <div className="px-4">
+    <div className="px-4 lg:grid lg:grid-cols-3 lg:grid-rows-[fit-content(512px),auto] lg:gap-x-[30px] lg:gap-y-[71px] lg:px-[min(calc(50vw-472px),165px)]">
       <MainSection />
       <NewPostSection />
       <PopularPostSection />
@@ -232,8 +251,8 @@ function Sections() {
 
 function MainSection() {
   return (
-    <main>
-      <div className="relative aspect-[686/600] w-full lg:aspect-[1460/600]">
+    <div className="lg:col-span-2 lg:grid lg:grid-cols-1 lg:grid-rows-[auto_182px] lg:gap-[30px]">
+      <header className="relative aspect-[686/600] w-full lg:aspect-auto lg:h-full">
         <Image
           src="/news-homepage/assets/images"
           loader={({ src, width }) => {
@@ -241,26 +260,29 @@ function MainSection() {
           }}
           alt="Web 3.0 Illustration"
           fill
+          className="lg:object-cover"
         />
-      </div>
-      <h1 className="text-news-homepage-neutral-400 mt-6 text-[40px] font-extrabold leading-none">The Bright Future of Web 3.0?</h1>
-      <p className="text-news-homepage-neutral-300 mt-4 text-[15px] leading-[26px]">We dive into the next evolution of the web that claims to put the power of the platforms back into the hands of the people. But is it really fulfilling its promise?</p>
-      <a
-        href=""
-        className="bg-news-homepage-primary-red text-news-homepage-neutral-100 hover:bg-news-homepage-neutral-400 mt-6 flex h-[48px] w-[185px] items-center justify-center text-[14px] font-bold uppercase tracking-[4.25px]"
-      >
-        Read more
-      </a>
-    </main>
+      </header>
+      <main className="lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto] lg:gap-x-7">
+        <h1 className="text-news-homepage-neutral-400 mt-6 text-[40px] font-extrabold leading-none lg:row-span-2 lg:m-0 lg:self-center lg:pb-[4px] lg:text-[56px]">The Bright Future of Web 3.0?</h1>
+        <p className="text-news-homepage-neutral-300 mt-4 text-[15px] leading-[26px] lg:mt-0 lg:leading-[24px] lg:tracking-[.05px]">We dive into the next evolution of the web that claims to put the power of the platforms back into the hands of the people. But is it really fulfilling its promise?</p>
+        <a
+          href=""
+          className="bg-news-homepage-primary-red text-news-homepage-neutral-100 hover:bg-news-homepage-neutral-400 mt-6 flex h-[48px] w-[185px] items-center justify-center text-[14px] font-bold uppercase tracking-[4.25px] lg:mb-[1px] lg:self-end"
+        >
+          Read more
+        </a>
+      </main>
+    </div>
   );
 }
 
 function NewPostSection() {
   const newPosts = useAtomValue(newPostAtom);
   return (
-    <section className="bg-news-homepage-neutral-400 mt-16 w-full px-[21px] py-[25px]">
-      <h2 className="text-news-homepage-primary-orange text-[32px] font-bold leading-none">New</h2>
-      <ul className="divide-news-homepage-neutral-300 text-news-homepage-neutral-100 mt-[31px] flex flex-col">
+    <section className="bg-news-homepage-neutral-400 mt-16 w-full px-[21px] py-[25px] lg:mt-0 lg:px-[24px] lg:pt-[32px] lg:pb-[33px]">
+      <h2 className="text-news-homepage-primary-orange text-[32px] font-bold leading-none lg:text-[40px]">New</h2>
+      <ul className="divide-news-homepage-neutral-300 text-news-homepage-neutral-100 mt-[31px] flex flex-col lg:mt-[30px]">
         {newPosts.map(({ body, title, href }, index) => {
           return (
             <Fragment key={index}>
@@ -273,9 +295,9 @@ function NewPostSection() {
                     {title}
                   </a>
                 </h3>
-                <p className="text-news-homepage-neutral-200/75 mt-1 text-[15px] leading-[26px] tracking-[.05px]">{body}</p>
+                <p className="text-news-homepage-neutral-200 mt-1 text-[15px] leading-[26px] tracking-[.05px] opacity-75 lg:mt-[5px] lg:opacity-90">{body}</p>
               </li>
-              {index !== newPosts.length - 1 ? <hr className="border-t-news-homepage-neutral-300 mt-[30px] mb-[28px] w-full" /> : null}
+              {index !== newPosts.length - 1 ? <hr className="border-t-news-homepage-neutral-300 mt-[30px] mb-[28px] w-full lg:mb-[27px]" /> : null}
             </Fragment>
           );
         })}
@@ -287,16 +309,16 @@ function NewPostSection() {
 function PopularPostSection() {
   const popularPosts = useAtomValue(popularPostAtom);
   return (
-    <section>
+    <section className="lg:col-span-3">
       <h2 className="sr-only">Popular</h2>
-      <ul className="mt-16 flex flex-col gap-[32px]">
+      <ul className="mt-16 grid grid-cols-1 grid-rows-3 gap-[32px] lg:mt-0 lg:grid-cols-3 lg:grid-rows-1 lg:gap-[30px]">
         {popularPosts.map(({ body, title, href, image }, index) => {
           return (
             <li
               key={index}
-              className="grid grid-cols-[100px,auto] grid-rows-1 items-center gap-x-6"
+              className="grid grid-cols-[100px,auto] grid-rows-1 items-center gap-x-6 lg:h-[fit-content(127px)]"
             >
-              <div className="relative h-[129px] w-[100px] lg:aspect-[200/254]">
+              <div className="relative h-[129px] w-[100px] lg:aspect-[200/254] lg:h-full">
                 <Image
                   src={"/news-homepage/assets/images/" + image.src}
                   alt={image.alt}
@@ -304,9 +326,9 @@ function PopularPostSection() {
                   className="object-cover"
                 />
               </div>
-              <div className="pb-[1px]">
-                <h3 className="text-news-homepage-neutral-200 text-[32px] font-bold leading-none">0{index + 1}</h3>
-                <h4 className="mt-[10px] text-[18px] font-extrabold">
+              <div className="pb-[1px] lg:flex lg:h-full lg:flex-col lg:self-start">
+                <h3 className="text-news-homepage-neutral-200 text-[32px] font-bold leading-none lg:-mt-[1px]">{`0${index + 1}`}</h3>
+                <h4 className="mt-[10px] text-[18px] font-extrabold lg:mt-[11px]">
                   <a
                     href={href}
                     className="hover:text-news-homepage-primary-red"
@@ -314,7 +336,7 @@ function PopularPostSection() {
                     {title}
                   </a>
                 </h4>
-                <p className="text-news-homepage-neutral-300 mt-[6px] text-[15px] leading-[26px]">{body}</p>
+                <p className="text-news-homepage-neutral-300 mt-[6px] text-[15px] leading-[26px] lg:-mb-[1px] lg:mt-auto">{body}</p>
               </div>
             </li>
           );
