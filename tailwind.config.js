@@ -474,6 +474,21 @@ module.exports = {
             400: "hsl(240,100%,5%)",
           },
         },
+        "interactive-card": {
+          primary: {
+            gradient: {
+              blue: "hsl(249,99%,64%)",
+              violet: "hsl(278,94%,30%)",
+            },
+            red: "hsl(0,100%,66%)",
+          },
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(270,3%,87%)",
+            300: "hsl(279,6%,55%)",
+            400: "hsl(278,68%,11%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -506,6 +521,7 @@ module.exports = {
         "kumbh-sans": ["Kumbh Sans", ...fontFamily.sans],
         "league-spartan": ["League Spartan", ...fontFamily.sans],
         "libre-franklin": ["Libre Franklin", ...fontFamily.sans],
+        "space-grotesk": ["Space Grotesk", ...fontFamily.sans],
       },
     },
   },

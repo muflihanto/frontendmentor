@@ -204,6 +204,11 @@
   src: local("Libre Franklin"), url("/ping-coming-soon-page/fonts/LibreFranklin-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Space Grotesk";
+  src: local("Space Grotesk"), url("/interactive-card-details-form/fonts/SpaceGrotesk-VariableFont_wght.ttf");
+}
+
 /* @font-face {
   font-family: "Josefin Sans";
   src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
