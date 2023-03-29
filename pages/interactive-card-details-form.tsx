@@ -14,15 +14,25 @@ const inputSchema = z.object({
     .string()
     .min(1, "Can't be blank")
     .regex(new RegExp(/^([0-9]{4}\s){3}[0-9]{4}$/, "i"), "Wrong format, numbers only"),
-  expMonth: z.number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" }).gte(1).lte(12).min(1, "Can't be blank"),
+  expMonth: z
+    .string()
+    .min(1, "Can't be blank")
+    .regex(/[0-9]{2}/, "Wrong format, numbers only")
+    .refine((value) => parseInt(value) <= 12 && parseInt(value) >= 1, "Invalid month"),
+  // .number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" })
+  //   .gte(1)
+  //   .lte(12)
   expYear: z
-    .number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" })
-    .gte(parseInt(new Date().getFullYear().toString().substring(2)))
-    .min(1, "Can't be blank"),
+    .string()
+    .min(1, "Can't be blank")
+    .regex(/[0-9]{2}/, "Wrong format, numbers only")
+    .refine((value) => parseInt(value) <= parseInt(new Date().getFullYear().toString().substring(2) + 5) && parseInt(value) >= parseInt(new Date().getFullYear().toString().substring(2)), "Invalid year"),
+  // .number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" })
+  // .gte(parseInt(new Date().getFullYear().toString().substring(2))),
   cvc: z
     .string()
-    .regex(/[0-9]{3}/, "Wrong format, numbers only")
-    .min(1, "Can't be blank"),
+    .min(1, "Can't be blank")
+    .regex(/[0-9]{3}/, "Wrong format, numbers only"),
 });
 
 type InputSchema = z.infer<typeof inputSchema>;
@@ -42,7 +52,8 @@ export default function InteractiveCardDetailsForm() {
         <Footer />
         {/* <Slider
           basePath="/interactive-card-details-form/design"
-          // absolutePath="/interactive-card-details-form/design/complete-state-mobile.jpg"
+          // absolutePath="/interactive-card-details-form/design/active-states.jpg"
+          // absolutePath="/interactive-card-details-form/design/complete-state-desktop.jpg"
         /> */}
       </div>
     </>
@@ -68,7 +79,7 @@ function CardPreview() {
             <div className="text-interactive-card-neutral-100 mt-[13px] flex justify-between text-[10px] uppercase lg:mt-[21.5px] lg:text-[14px]">
               <p className="tracking-[0.7px] lg:tracking-[2px]">{!!inputval?.cardholderName ? inputval.cardholderName : "Jane Appleseed"}</p>
               <p className="tracking-[1px] lg:tracking-[2px]">
-                {!!inputval?.expMonth && !isNaN(inputval.expMonth) ? inputval?.expMonth : "00"}/{!!inputval?.expYear && !isNaN(inputval.expYear) ? inputval?.expYear : "00"}
+                {inputval?.expMonth ? inputval.expMonth : "00"}/{inputval?.expYear ? inputval.expYear : "00"}
               </p>
             </div>
           </div>
@@ -87,7 +98,7 @@ function CompleteModal({ reset }: { reset: UseFormReset<InputSchema> }) {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[.5px]">
+    <div className="flex flex-col items-center pt-[.5px] lg:mb-[72px]">
       <svg
         className="w-20"
         viewBox="0 0 80 80"
@@ -167,13 +178,13 @@ function Main() {
   }, [isSubmitSuccessful, setModalOpen]);
 
   return (
-    <div className="mx-auto mt-[90px] w-full max-w-[429px] px-6 lg:mt-0 lg:translate-x-[calc(61/1440*100vw)] lg:self-center">
+    <div className="mx-auto mt-[90px] w-full max-w-[429px] px-6 lg:mt-0 lg:translate-x-[calc(61/1440*100vw)] lg:self-center lg:pt-[71px]">
       {modalOpen ? (
         <CompleteModal reset={reset} />
       ) : (
         <form
           onSubmit={onSubmit}
-          className="[&_span]:text-interactive-card-neutral-400 [&_input::placeholder]:text-interactive-card-neutral-300/50 grid w-full grid-cols-2 grid-rows-[repeat(4,auto)] gap-y-[19px] lg:gap-y-[25px] [&_span]:text-[12px] [&_span]:uppercase [&_span]:tracking-[2px] [&_input]:h-[45px] [&_input]:rounded-lg [&_input]:border [&_input]:px-[15px] [&_input]:text-[18px] [&_input:focus-visible]:outline [&_input:focus-visible]:outline-transparent"
+          className="[&_span]:text-interactive-card-neutral-400 [&_input::placeholder]:text-interactive-card-neutral-300/50 [&_input:focus-visible]:border-interactive-card-neutral-400 grid w-full grid-cols-2 grid-rows-[repeat(4,auto)] gap-y-[19px] lg:h-[423.5px] lg:place-content-start lg:gap-y-[25px] [&_span]:text-[12px] [&_span]:uppercase [&_span]:tracking-[2px] [&_input]:h-[45px] [&_input]:rounded-lg [&_input]:border [&_input]:px-[15px] [&_input]:text-[18px] [&_input:focus-visible]:outline [&_input:focus-visible]:outline-1 [&_input:focus-visible]:outline-transparent"
         >
           <label
             className="col-span-2 flex w-full flex-col gap-[7px]"
@@ -187,7 +198,7 @@ function Main() {
               placeholder="e.g. Jane Appleseed"
               className={`${!!errors.cardholderName ? "border-interactive-card-primary-red" : "border-interactive-card-neutral-200"}`}
             />
-            {!!errors.cardholderName && <p className="text-interactive-card-primary-red text-[10px]">{errors.cardholderName.message}</p>}
+            {!!errors.cardholderName && <p className="text-interactive-card-primary-red translate-y-[1px] text-[12px] leading-[16.5px]">{errors.cardholderName.message}</p>}
           </label>
           <label
             className="col-span-2 flex w-full flex-col gap-[7px]"
@@ -202,7 +213,7 @@ function Main() {
               maxLength={19}
               className={`${!!errors.cardNumber ? "border-interactive-card-primary-red" : "border-interactive-card-neutral-200"}`}
             />
-            {!!errors.cardNumber && <p className="text-interactive-card-primary-red text-[10px]">{errors.cardNumber.message}</p>}
+            {!!errors.cardNumber && <p className="text-interactive-card-primary-red translate-y-[1px] text-[12px] leading-[16.5px]">{errors.cardNumber.message}</p>}
           </label>
           <label
             className="flex w-full flex-col gap-[7px] pr-3 lg:pr-5"
@@ -215,26 +226,26 @@ function Main() {
                   className={`${!!errors.expMonth ? "border-interactive-card-primary-red" : "border-interactive-card-neutral-200"} w-full`}
                   id="expMonth"
                   type="text"
-                  {...register("expMonth", { valueAsNumber: true, required: true })}
+                  {...register("expMonth", { required: true })}
                   placeholder="MM"
                   minLength={2}
                   maxLength={2}
                 />
-                {!!errors.expMonth && <p className="text-interactive-card-primary-red text-[10px]">{errors.expMonth.message}</p>}
+                {/* {!!errors.expMonth && <p className="text-interactive-card-primary-red translate-y-[1px] text-[12px] leading-[16.5px]">{errors.expMonth.message}</p>} */}
               </div>
               <div>
                 <input
                   className={`${!!errors.expYear ? "border-interactive-card-primary-red" : "border-interactive-card-neutral-200"} w-full`}
                   id="expYear"
                   type="text"
-                  {...register("expYear", { valueAsNumber: true, required: true })}
+                  {...register("expYear", { required: true })}
                   placeholder="YY"
                   minLength={2}
                   maxLength={2}
                 />
-                {!!errors.expYear && <p className="text-interactive-card-primary-red text-[10px]">{errors.expYear.message}</p>}
               </div>
             </fieldset>
+            {!!errors.expYear && <p className="text-interactive-card-primary-red translate-y-[1px] text-[12px] leading-[16.5px]">{errors.expYear.message}</p>}
           </label>
           <label
             className="flex w-full flex-col gap-[7px]"
@@ -250,9 +261,9 @@ function Main() {
               maxLength={3}
               className={`${!!errors.cvc ? "border-interactive-card-primary-red" : "border-interactive-card-neutral-200"}`}
             />
-            {!!errors.cvc && <p className="text-interactive-card-primary-red text-[10px]">{errors.cvc.message}</p>}
+            {!!errors.cvc && <p className="text-interactive-card-primary-red translate-y-[1px] text-[12px] leading-[16.5px]">{errors.cvc.message}</p>}
           </label>
-          <button className="bg-interactive-card-neutral-400 col-span-2 mt-[9px] flex h-[53px] items-center justify-center rounded-lg text-[18px] text-white lg:mt-[15px]">Confirm</button>
+          <button className={`bg-interactive-card-neutral-400 col-span-2 mt-[9px] flex h-[53px] items-center justify-center rounded-lg text-[18px] text-white ${!!errors.cvc || !!errors.expMonth || !!errors.expYear ? "lg:mt-[2px]" : "lg:mt-[15px]"}`}>Confirm</button>
         </form>
       )}
     </div>
