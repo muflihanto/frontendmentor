@@ -489,6 +489,20 @@ module.exports = {
             400: "hsl(278,68%,11%)",
           },
         },
+        "fylo-storage": {
+          primary: {
+            gradient: {
+              100: "hsl(6,100%,80%)",
+              200: "hsl(335,100%,65%)",
+            },
+          },
+          neutral: {
+            100: "hsl(243,100%,93%)",
+            200: "hsl(229,7%,55%)",
+            300: "hsl(228,56%,26%)",
+            400: "hsl(229,57%,11%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -522,6 +536,7 @@ module.exports = {
         "league-spartan": ["League Spartan", ...fontFamily.sans],
         "libre-franklin": ["Libre Franklin", ...fontFamily.sans],
         "space-grotesk": ["Space Grotesk", ...fontFamily.sans],
+        raleway: ["Raleway", ...fontFamily.sans],
       },
     },
   },
