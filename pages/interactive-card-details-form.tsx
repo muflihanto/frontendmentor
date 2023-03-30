@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { UseFormReset } from "react-hook-form/dist/types";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
+// TODO: Fix validation rules
 const inputSchema = z.object({
   cardholderName: z.string().min(1, "Can't be blank"),
   cardNumber: z
@@ -246,6 +247,9 @@ function Main() {
               </div>
             </fieldset>
             {!!errors.expYear && <p className="text-interactive-card-primary-red translate-y-[1px] text-[12px] leading-[16.5px]">{errors.expYear.message}</p>}
+            {/*
+             // TODO: Fix error message
+            */}
           </label>
           <label
             className="flex w-full flex-col gap-[7px]"
