@@ -211,7 +211,7 @@
 
 @font-face {
   font-family: "Raleway";
-  src: local("Raleway"), url("/fylo-data-storage-component/fonts/Raleway-VariableFont_wght.ttf");
+  src: url("/fylo-data-storage-component/fonts/Raleway-VariableFont_wght.ttf");
 }
 
 /* @font-face {
