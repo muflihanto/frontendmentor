@@ -214,6 +214,18 @@
   src: url("/fylo-data-storage-component/fonts/Raleway-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/clipboard-landing-page/fonts/BaiJamjuree-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/clipboard-landing-page/fonts/BaiJamjuree-SemiBold.ttf");
+  font-weight: 600;
+}
+
 /* @font-face {
   font-family: "Josefin Sans";
   src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");

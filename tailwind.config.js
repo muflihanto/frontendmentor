@@ -503,6 +503,16 @@ module.exports = {
             400: "hsl(229,57%,11%)",
           },
         },
+        clipboard: {
+          primary: {
+            cyan: "hsl(171,66%,44%)",
+            blue: "hsl(233,100%,69%)",
+          },
+          neutral: {
+            200: "hsl(210,10%,33%)",
+            100: "hsl(201,11%,66%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -537,6 +547,7 @@ module.exports = {
         "libre-franklin": ["Libre Franklin", ...fontFamily.sans],
         "space-grotesk": ["Space Grotesk", ...fontFamily.sans],
         raleway: ["Raleway", ...fontFamily.sans],
+        "bai-jamjuree": ["Bai Jamjuree", ...fontFamily.sans],
       },
     },
   },
