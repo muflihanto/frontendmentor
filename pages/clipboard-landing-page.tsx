@@ -4,6 +4,12 @@ import dynamic from "next/dynamic";
 import { CSSProperties } from "react";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
+/*
+ * TODO : Add mobile to desktop responsivity
+ * TODO : fix sponsors section layouting
+ * TODO : fix desktop supercharge section grid layout
+ */
+
 export default function ClipboardLandingPage() {
   return (
     <>
@@ -21,16 +27,16 @@ export default function ClipboardLandingPage() {
 
 function CTA({ className = "" }: { className?: string }) {
   return (
-    <div className={"flex w-full flex-col gap-6 text-[18px] font-semibold tracking-[.4px] " + className}>
+    <div className={"flex w-full flex-col gap-6 text-[18px] font-semibold tracking-[.4px] lg:flex-row lg:justify-center lg:gap-4 " + className}>
       <a
         href=""
-        className="bg-clipboard-primary-cyan shadow-clipboard-primary-cyan/20 flex h-[56px] items-center justify-center rounded-full border-b-[3px] border-b-[hsl(171,66%,37%)] pt-1 text-white shadow-xl"
+        className="bg-clipboard-primary-cyan shadow-clipboard-primary-cyan/20 flex h-[56px] items-center justify-center rounded-full border-b-[3px] border-b-[hsl(171,66%,37%)] pt-1 text-white shadow-xl lg:w-[226px]"
       >
         Download for iOS
       </a>
       <a
         href=""
-        className="bg-clipboard-primary-blue shadow-clipboard-primary-blue/20 flex h-[56px] items-center justify-center rounded-full border-b-[3px] border-b-[hsl(232,65%,58%)] pt-1 text-white shadow-xl"
+        className="bg-clipboard-primary-blue shadow-clipboard-primary-blue/20 flex h-[56px] items-center justify-center rounded-full border-b-[3px] border-b-[hsl(232,65%,58%)] pt-1 text-white shadow-xl lg:w-[226px]"
       >
         Download for Mac
       </a>
@@ -40,7 +46,7 @@ function CTA({ className = "" }: { className?: string }) {
 
 function HeroSection() {
   return (
-    <main className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat py-[123px] px-8">
+    <main className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat py-[123px] px-8 lg:bg-[url('/clipboard-landing-page/images/bg-header-desktop.png')] lg:py-[131px]">
       <svg
         className="w-[125px]"
         viewBox="0 0 125 125"
@@ -63,8 +69,8 @@ function HeroSection() {
           />
         </g>
       </svg>
-      <h1 className="text-clipboard-neutral-200 mt-[64px] text-center text-[32px] font-semibold leading-[40px] tracking-[-.5px]">A history of everything you copy</h1>
-      <p className="text-clipboard-neutral-100 mt-4 text-center leading-[26px] tracking-[.1px]">Clipboard allows you to track and organize everything you copy. Instantly access your clipboard on all your devices.</p>
+      <h1 className="text-clipboard-neutral-200 mt-[64px] text-center text-[32px] font-semibold leading-[40px] tracking-[-.5px] lg:mt-[65px] lg:text-[46px] lg:tracking-[-.75px]">A history of everything you copy</h1>
+      <p className="text-clipboard-neutral-100 mt-4 text-center leading-[26px] tracking-[.1px] lg:mt-[25px] lg:max-w-[720px] lg:text-[20px] lg:leading-[30px]">Clipboard allows you to track and organize everything you copy. Instantly access your clipboard on all your devices.</p>
       <CTA className="mt-12" />
     </main>
   );
@@ -72,11 +78,11 @@ function HeroSection() {
 
 function SnippetSection() {
   return (
-    <section className="px-[31px] py-[37px]">
-      <h2 className="text-clipboard-neutral-200 text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] ">Keep track of your snippets</h2>
-      <p className="text-clipboard-neutral-100 mt-[16px] text-center leading-[26px] tracking-[.1px]">Clipboard instantly stores any item you copy in the cloud, meaning you can access your snippets immediately on all your devices. Our Mac and iOS apps will help you organize everything.</p>
-      <div>
-        <div className="relative mt-[65px] mb-[53px] aspect-[752/572] w-full">
+    <section className="flex flex-col items-center px-[31px] py-[37px] lg:py-[24px] lg:px-0">
+      <h2 className="text-clipboard-neutral-200 text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] lg:text-[36px] lg:tracking-[-.6px]">Keep track of your snippets</h2>
+      <p className="text-clipboard-neutral-100 mt-[16px] text-center leading-[26px] tracking-[.1px] lg:mt-6 lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">Clipboard instantly stores any item you copy in the cloud, meaning you can access your snippets immediately on all your devices. Our Mac and iOS apps will help you organize everything.</p>
+      <div className="lg:mt-[80px] lg:grid lg:h-[572px] lg:w-full lg:grid-cols-2 lg:grid-rows-1">
+        <div className="relative mt-[65px] mb-[53px] aspect-[752/572] w-full lg:mt-0 lg:h-full lg:w-auto lg:justify-self-end">
           <Image
             src="/clipboard-landing-page/images/image-computer.png"
             alt="Computer Illustration"
@@ -84,18 +90,18 @@ function SnippetSection() {
             fill
           />
         </div>
-        <div className="flex flex-col gap-[45px]">
+        <div className="flex flex-col gap-[45px] lg:ml-[110px] lg:mt-[65px] lg:max-w-[340px] lg:gap-[53px] lg:self-start">
           <article>
-            <h3 className="text-clipboard-neutral-200 text-center text-[24px] font-semibold tracking-[-.3px]">Quick Search</h3>
-            <p className="text-clipboard-neutral-100 mt-[7px] text-center leading-[26px] tracking-[.1px]">Easily search your snippets by content, category, web address, application, and more.</p>
+            <h3 className="text-clipboard-neutral-200 text-center text-[24px] font-semibold tracking-[-.3px] lg:text-left lg:tracking-[-.4px]">Quick Search</h3>
+            <p className="text-clipboard-neutral-100 mt-[7px] text-center leading-[26px] tracking-[.1px] lg:mt-[5px] lg:text-left lg:leading-[30px]">Easily search your snippets by content, category, web address, application, and more.</p>
           </article>
           <article>
-            <h3 className="text-clipboard-neutral-200 text-center text-[24px] font-semibold tracking-[-.3px]">iCloud Sync</h3>
-            <p className="text-clipboard-neutral-100 mt-[7px] text-center leading-[26px] tracking-[.1px]">Instantly saves and syncs snippets across all your devices.</p>
+            <h3 className="text-clipboard-neutral-200 text-center text-[24px] font-semibold tracking-[-.3px] lg:text-left lg:tracking-[-.4px]">iCloud Sync</h3>
+            <p className="text-clipboard-neutral-100 mt-[7px] text-center leading-[26px] tracking-[.1px] lg:mt-[5px] lg:text-left lg:leading-[30px]">Instantly saves and syncs snippets across all your devices.</p>
           </article>
           <article>
-            <h3 className="text-clipboard-neutral-200 text-center text-[24px] font-semibold tracking-[-.3px]">Complete History</h3>
-            <p className="text-clipboard-neutral-100 mt-[7px] text-center leading-[26px] tracking-[.1px]">Retrieve any snippets from the first moment you started using the app.</p>
+            <h3 className="text-clipboard-neutral-200 text-center text-[24px] font-semibold tracking-[-.3px] lg:text-left lg:tracking-[-.4px]">Complete History</h3>
+            <p className="text-clipboard-neutral-100 mt-[7px] text-center leading-[26px] tracking-[.1px] lg:mt-[5px] lg:text-left lg:leading-[30px]">Retrieve any snippets from the first moment you started using the app.</p>
           </article>
         </div>
       </div>
@@ -106,16 +112,16 @@ function SnippetSection() {
 function AccessAnywhereSection() {
   return (
     <section
-      className="px-[--section-padding] pt-[148px]"
+      className="px-[--section-padding] pt-[148px] lg:flex lg:flex-col lg:items-center lg:pt-[131px]"
       style={
         {
           "--section-padding": "13px",
         } as CSSProperties
       }
     >
-      <h2 className="text-clipboard-neutral-200 px-[calc(32px-var(--section-padding))] text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px]">Access Clipboard Anywhere</h2>
-      <p className="text-clipboard-neutral-100 mt-[16px] px-[calc(32px-var(--section-padding))] text-center leading-[26px] tracking-[.1px]">Whether you’re on the go, or at your computer, you can access all your Clipboard snippets in a few simple clicks.</p>
-      <div className="relative mt-[60px] aspect-[905/575] w-full translate-x-[1px] drop-shadow-[0_60px_20px_theme(colors.clipboard.neutral.200/.075)]">
+      <h2 className="text-clipboard-neutral-200 px-[calc(32px-var(--section-padding))] text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] lg:text-[36px] lg:tracking-[-.6px]">Access Clipboard Anywhere</h2>
+      <p className="text-clipboard-neutral-100 mt-[16px] px-[calc(32px-var(--section-padding))] text-center leading-[26px] tracking-[.1px] lg:mt-[25px] lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">Whether you’re on the go, or at your computer, you can access all your Clipboard snippets in a few simple clicks.</p>
+      <div className="relative mt-[60px] aspect-[905/575] w-full translate-x-[1px] drop-shadow-[0_60px_20px_theme(colors.clipboard.neutral.200/.075)] lg:mt-[99px] lg:w-[905px] lg:translate-x-0 lg:drop-shadow-[0_20px_20px_theme(colors.clipboard.neutral.200/.075)]">
         <Image
           src="/clipboard-landing-page/images/image-devices.png"
           alt="Devices Illustration"
@@ -129,10 +135,10 @@ function AccessAnywhereSection() {
 
 function SuperchargeWorkflow() {
   return (
-    <section className="px-8 pt-[95px] pb-[25px]">
-      <h2 className="text-clipboard-neutral-200 px-[calc(32px-var(--section-padding))] text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px]">Supercharge your workflow</h2>
-      <p className="text-clipboard-neutral-100 mt-[11px] px-[calc(32px-var(--section-padding))] text-center leading-[26px] tracking-[.1px]">We’ve got the tools to boost your productivity.</p>
-      <div className="my-[90px] flex flex-col items-center gap-[52.5px]">
+    <section className="px-8 pt-[95px] pb-[25px] lg:flex lg:flex-col lg:items-center lg:pt-[76px]">
+      <h2 className="text-clipboard-neutral-200 px-[calc(32px-var(--section-padding))] text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] lg:text-[36px] lg:tracking-[-.6px]">Supercharge your workflow</h2>
+      <p className="text-clipboard-neutral-100 mt-[11px] px-[calc(32px-var(--section-padding))] text-center leading-[26px] tracking-[.1px] lg:mt-6 lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">We’ve got the tools to boost your productivity.</p>
+      <div className="my-[90px] flex flex-col items-center gap-[52.5px] lg:mt-[72px] lg:grid lg:grid-cols-[repeat(3,348px)] lg:grid-rows-1 lg:items-start lg:gap-[32px]">
         <article className="flex flex-col items-center">
           <div className="flex h-10 items-center justify-center">
             <Image
@@ -143,7 +149,7 @@ function SuperchargeWorkflow() {
             />
           </div>
           <h3 className="text-clipboard-neutral-200 mt-[37px] text-center text-[24px] font-semibold tracking-[-.3px]">Create blacklists</h3>
-          <p className="text-clipboard-neutral-100 mt-[15px] text-center leading-[26px] tracking-[.1px]">Ensure sensitive information never makes its way to your clipboard by excluding certain sources.</p>
+          <p className="text-clipboard-neutral-100 mt-[15px] text-center leading-[26px] tracking-[.1px] lg:mt-[13px] lg:leading-[30px]">Ensure sensitive information never makes its way to your clipboard by excluding certain sources.</p>
         </article>
         <article className="flex flex-col items-center">
           <div className="flex h-10 items-center justify-center">
@@ -155,7 +161,7 @@ function SuperchargeWorkflow() {
             />
           </div>
           <h3 className="text-clipboard-neutral-200 mt-[37px] text-center text-[24px] font-semibold tracking-[-.3px]">Plain text snippets</h3>
-          <p className="text-clipboard-neutral-100 mt-[15px] text-center leading-[26px] tracking-[.1px]">Remove unwanted formatting from copied text for a consistent look.</p>
+          <p className="text-clipboard-neutral-100 mt-[15px] text-center leading-[26px] tracking-[.1px] lg:mt-[13px] lg:leading-[30px]">Remove unwanted formatting from copied text for a consistent look.</p>
         </article>
         <article className="flex flex-col items-center">
           <div className="flex h-10 items-center justify-center">
@@ -167,7 +173,7 @@ function SuperchargeWorkflow() {
             />
           </div>
           <h3 className="text-clipboard-neutral-200 mt-[37px] text-center text-[24px] font-semibold tracking-[-.3px]">Sneak preview</h3>
-          <p className="text-clipboard-neutral-100 mt-[15px] text-center leading-[26px] tracking-[.1px]">Quick preview of all snippets on your Clipboard for easy access.</p>
+          <p className="text-clipboard-neutral-100 mt-[15px] text-center leading-[26px] tracking-[.1px] lg:mt-[13px] lg:leading-[30px]">Quick preview of all snippets on your Clipboard for easy access.</p>
         </article>
       </div>
     </section>
@@ -176,8 +182,8 @@ function SuperchargeWorkflow() {
 
 function Sponsors() {
   return (
-    <div className="flex h-[471px] flex-col items-center justify-between py-4">
-      <div className="relative aspect-[165/49] h-[41px]">
+    <div className="flex h-[471px] flex-col items-center justify-between py-4 lg:mt-[27px] lg:h-auto lg:flex-row lg:px-[165px]">
+      <div className="relative aspect-[165/49] h-[41px] lg:h-[49px]">
         <Image
           src="/clipboard-landing-page/images/logo-google.png"
           fill
@@ -185,7 +191,7 @@ function Sponsors() {
           alt="Google Logo"
         />
       </div>
-      <div className="relative aspect-[139/51] h-[42.5px]">
+      <div className="relative aspect-[139/51] h-[42.5px] lg:h-[51px]">
         <Image
           src="/clipboard-landing-page/images/logo-ibm.png"
           fill
@@ -193,7 +199,7 @@ function Sponsors() {
           alt="IBM Logo"
         />
       </div>
-      <div className="relative aspect-[161/35] h-[30px]">
+      <div className="relative aspect-[161/35] h-[30px] lg:h-[35px]">
         <Image
           src="/clipboard-landing-page/images/logo-microsoft.png"
           fill
@@ -201,7 +207,7 @@ function Sponsors() {
           alt="Microsoft Logo"
         />
       </div>
-      <div className="relative aspect-[135/56] h-[47px]">
+      <div className="relative aspect-[135/56] h-[47px] lg:h-[56px]">
         <Image
           src="/clipboard-landing-page/images/logo-hp.png"
           fill
@@ -209,7 +215,7 @@ function Sponsors() {
           alt="HP Logo"
         />
       </div>
-      <div className="relative aspect-[125/30] h-[25px]">
+      <div className="relative aspect-[125/30] h-[25px] lg:h-[30px]">
         <Image
           src="/clipboard-landing-page/images/logo-vector-graphics.png"
           fill
@@ -223,17 +229,17 @@ function Sponsors() {
 
 function Available() {
   return (
-    <section className="px-[32px] py-[154px]">
-      <h2 className="text-clipboard-neutral-200 text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px]">Clipboard for iOS and Mac OS</h2>
-      <p className="text-clipboard-neutral-100 mt-[16px] text-center leading-[26px] tracking-[.1px]">Available for free on the App Store. Download for Mac or iOS, sync with iCloud and you’re ready to start adding to your clipboard.</p>
-      <CTA className="mt-[46px]" />
+    <section className="px-[32px] py-[154px] lg:flex lg:flex-col lg:items-center lg:pt-[147px] lg:pb-[134px]">
+      <h2 className="text-clipboard-neutral-200 text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] lg:text-[36px]">Clipboard for iOS and Mac OS</h2>
+      <p className="text-clipboard-neutral-100 mt-[16px] text-center leading-[26px] tracking-[.1px] lg:mt-[25px] lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">Available for free on the App Store. Download for Mac or iOS, sync with iCloud and you’re ready to start adding to your clipboard.</p>
+      <CTA className="mt-[46px] lg:mt-[47px]" />
     </section>
   );
 }
 
 function Main() {
   return (
-    <div className="w-full max-w-screen-sm">
+    <div className="w-full max-w-screen-sm lg:max-w-none">
       <HeroSection />
       <SnippetSection />
       <AccessAnywhereSection />
@@ -246,7 +252,7 @@ function Main() {
 
 function SocialIcons({ className = "" }: { className?: string }) {
   return (
-    <div className={`flex items-center gap-10 ${className}`}>
+    <div className={`flex items-center gap-10 lg:gap-6 ${className}`}>
       <svg
         className="w-6"
         viewBox="0 0 24 24"
@@ -286,16 +292,16 @@ function SocialIcons({ className = "" }: { className?: string }) {
 
 function Footer() {
   return (
-    <footer className="bg-clipboard-neutral-100/10 relative mt-[16px] h-[500.18px] w-full max-w-screen-sm py-[52px]">
-      <div className="flex flex-col items-center">
+    <footer className="bg-clipboard-neutral-100/10 relative mt-[16px] h-[500.18px] w-full max-w-screen-sm py-[52px] lg:h-auto lg:max-w-none lg:px-[165px] lg:pt-[44px] lg:pb-[25px]">
+      <div className="flex flex-col items-center lg:flex-row lg:items-start">
         <Image
           src="/clipboard-landing-page/images/logo.svg"
           width={55}
           height={55}
           alt="Clipboard Company Logo"
         />
-        <nav className="text-clipboard-neutral-200 mt-[42px] text-center text-[18px]">
-          <ul className="flex flex-col items-center gap-[23px]">
+        <nav className="text-clipboard-neutral-200 mt-[42px] text-center text-[18px] lg:ml-[min(calc(30px+(100vw-1024px)*(105/416)),135px)] lg:mt-0 lg:pt-[1px]">
+          <ul className="flex flex-col items-center gap-[23px] lg:h-[80px] lg:flex-wrap lg:items-start lg:gap-6 lg:gap-x-[min(calc(70/1440*100vw),70px)] lg:leading-none lg:[&>li]:w-[120px] lg:[&>li]:text-left">
             <li>
               <a href="">FAQs</a>
             </li>
@@ -313,9 +319,9 @@ function Footer() {
             </li>
           </ul>
         </nav>
-        <SocialIcons className="mt-[49px]" />
+        <SocialIcons className="mt-[49px] lg:ml-auto lg:mt-0 lg:self-center lg:pb-[18px]" />
       </div>
-      <p className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <p className="absolute bottom-3 left-0 w-full text-center text-[11px] lg:bottom-8 lg:px-[165px] lg:text-right [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
