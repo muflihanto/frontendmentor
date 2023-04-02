@@ -513,6 +513,22 @@ module.exports = {
             100: "hsl(201,11%,66%)",
           },
         },
+        "fylo-landing": {
+          primary: {
+            blue: {
+              200: "hsl(243,87%,12%)",
+              100: "hsl(238,22%,44%)",
+            },
+          },
+          accent: {
+            blue: "hsl(224,93%,58%)",
+            cyan: "hsl(170,45%,43%)",
+          },
+          neutral: {
+            100: "hsl(240,75%,98%)",
+            200: "hsl(0,0%,75%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
