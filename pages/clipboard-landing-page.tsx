@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { CSSProperties } from "react";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
-/*
+/**
  * TODO : Add mobile to desktop responsivity
  * TODO : fix sponsors section layouting
  * TODO : fix desktop supercharge section grid layout
