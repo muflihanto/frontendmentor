@@ -47,18 +47,39 @@ function Header() {
   );
 }
 
+function Hero() {
+  return (
+    <div className="flex flex-col items-center px-6 pt-[74px]">
+      <div className="relative ml-[1px] aspect-[1132.93/839.14] w-[calc(100%-23px)]">
+        <Image
+          src="/fylo-landing-page-with-two-column-layout/images/illustration-1.svg"
+          alt="Hero Image Illustration"
+          className="object-contain"
+          fill
+        />
+      </div>
+      <h1 className="font-open-sans text-fylo-landing-primary-blue-200 mt-[39px] text-center text-[24px] font-bold leading-[36px]">All your files in one secure location, accessible anywhere.</h1>
+      <p className="text-fylo-landing-primary-blue-200 mt-[25px] pl-3 pr-5 text-center text-[14px]">Fylo stores your most important files in one secure location. Access them wherever you need, share and collaborate with friends, family, and co-workers.</p>
+      <form
+        noValidate
+        className="font-raleway mt-[31.75px] grid w-full grid-cols-1 grid-rows-[repeat(2,40px)] gap-y-4 pl-[14px] pr-[9px]"
+      >
+        <input
+          type="emaiil"
+          placeholder="Enter your email..."
+          className=" border-fylo-landing-primary-blue-100 w-full rounded-sm border px-5 py-[1px] text-[12px] placeholder:opacity-50"
+        />
+        <button className="bg-fylo-landing-accent-blue text-fylo-landing-neutral-100 shadow-fylo-landing-primary-blue-200/10 -translate-x-[2px] rounded-sm text-[14px] font-bold shadow-md">Get Started</button>
+      </form>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <>
+      <Hero />
       {`
-         All your files in one secure location, accessible anywhere.
-       
-         Fylo stores your most important files in one secure location. 
-         Access them wherever you need, share and collaborate with friends, 
-         family, and co-workers.
-       
-         Get Started
-       
          Stay productive, wherever you are
        
          Never let location be an issue when accessing your files. Fylo has you 
