@@ -10,6 +10,7 @@ export default function FyloLandingPageWithTwoColumnLayout() {
         <title>Frontend Mentor | Fylo landing page with two column layout</title>
       </Head>
       <div className="App font-open-sans relative min-h-[100svh]">
+        <Header />
         <Main />
         <Footer />
         <Slider basePath="/fylo-landing-page-with-two-column-layout/design" />
@@ -18,14 +19,38 @@ export default function FyloLandingPageWithTwoColumnLayout() {
   );
 }
 
+function Header() {
+  return (
+    <header className="flex h-[72px] items-center justify-between px-6">
+      <div className="relative aspect-[166/49] w-20">
+        <Image
+          src="/fylo-landing-page-with-two-column-layout/images/logo.svg"
+          alt="Fylo Logo"
+          className="object-contain"
+          fill
+        />
+      </div>
+      <nav>
+        <ul className="text-fylo-landing-primary-blue-200 font-raleway flex items-center gap-[25px] text-[12px] leading-none">
+          <li>
+            <a href="">Features</a>
+          </li>
+          <li>
+            <a href="">Team</a>
+          </li>
+          <li>
+            <a href="">Sign In</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
 function Main() {
   return (
     <>
       {`
-         Features
-         Team
-         Sign In
-       
          All your files in one secure location, accessible anywhere.
        
          Fylo stores your most important files in one secure location. 
