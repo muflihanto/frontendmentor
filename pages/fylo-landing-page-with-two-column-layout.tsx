@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { CSSProperties } from "react";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function FyloLandingPageWithTwoColumnLayout() {
@@ -13,7 +14,7 @@ export default function FyloLandingPageWithTwoColumnLayout() {
         <Header />
         <Main />
         <Footer />
-        <Slider basePath="/fylo-landing-page-with-two-column-layout/design" />
+        {/* <Slider basePath="/fylo-landing-page-with-two-column-layout/design" /> */}
       </div>
     </>
   );
@@ -75,27 +76,148 @@ function Hero() {
   );
 }
 
+function ProductiveSection() {
+  return (
+    <div className="mt-[90px]">
+      <div>
+        <svg
+          viewBox="0 0 375 52"
+          className="block w-full lg:hidden"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
+          <defs>
+            <path
+              id="a"
+              d="M0 0h375v53H0z"
+            />
+          </defs>
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <mask
+              id="b"
+              fill="#fff"
+            >
+              <use xlinkHref="#a" />
+            </mask>
+            <path
+              d="M0 33.395C83.021 11.132 145.521 0 187.5 0 229.479 0 291.979 11.132 375 33.395V961H0V33.395z"
+              fill="#F8F8FE"
+              mask="url(#b)"
+            />
+          </g>
+        </svg>
+        <svg
+          viewBox="0 0 1440 114"
+          className="hidden w-full lg:block"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
+          <defs>
+            <path
+              id="a"
+              d="M0 0h1440v114H0z"
+            />
+          </defs>
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <mask
+              id="b"
+              fill="#fff"
+            >
+              <use xlinkHref="#a" />
+            </mask>
+            <path
+              d="M0 72.728C318.801 24.243 558.801 0 720 0c161.199 0 401.199 24.243 720 72.728v765.146H0V72.728z"
+              fill="#F8F8FE"
+              mask="url(#b)"
+            />
+          </g>
+        </svg>
+      </div>
+      <div className="bg-fylo-landing-neutral-100 flex flex-col items-center px-7 pb-[81px]">
+        <div className="relative my-[41px] aspect-[1077.87/813.02] w-full">
+          <Image
+            src="/fylo-landing-page-with-two-column-layout/images/illustration-2.svg"
+            alt="Productive Illustration"
+            className="object-contain"
+            fill
+          />
+        </div>
+        <h2 className="font-raleway text-fylo-landing-primary-blue-200 mt-[47px] font-bold">Stay productive, wherever you are</h2>
+        <p className="text-fylo-landing-primary-blue-100 mt-6 -ml-2 text-[14px]">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
+        <p className="text-fylo-landing-primary-blue-100 mt-4 -ml-2 text-[14px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required!</p>
+        <a
+          href=""
+          className="text-fylo-landing-accent-cyan border-b-fylo-landing-accent-cyan mt-[30px] flex h-[28px] translate-x-[1px] items-center gap-[7px] border-b"
+        >
+          <span className="text-[13px] tracking-[-.5px]">See how Fylo works</span>
+          <span className="relative aspect-square w-4">
+            <Image
+              src="/fylo-landing-page-with-two-column-layout/images/icon-arrow.svg"
+              alt="Icon Arrow"
+              fill
+              className="object-contain"
+            />
+          </span>
+        </a>
+        <Testimony />
+      </div>
+    </div>
+  );
+}
+
+function Testimony() {
+  return (
+    <div className="mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pt-[21px] pl-[26px] pr-3 text-[10px] tracking-[.4px] shadow-md">
+      <svg
+        className="w-[11px]"
+        viewBox="0 0 13 12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <text
+          transform="translate(-34 -25)"
+          fill="#07043B"
+          fillRule="evenodd"
+          fontFamily="Helvetica"
+          fontSize="45"
+        >
+          <tspan
+            x="33"
+            y="56"
+          >
+            “
+          </tspan>
+        </text>
+      </svg>
+      <p className="mt-2 leading-[18px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+      <div className="mt-[13px] flex h-6 items-center gap-2 leading-none">
+        <div className="relative aspect-square w-6 overflow-hidden rounded-full">
+          <Image
+            src="/fylo-landing-page-with-two-column-layout/images/avatar-testimonial.jpg"
+            fill
+            alt="Kyle Burton Avatar"
+          />
+        </div>
+        <div className="pt-[2px]">
+          <p className="text-[9px] font-bold">Kyle Burton</p>
+          <p className="mt-[5px] text-[6px]">Founder & CEO, Huddle</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <>
       <Hero />
-      {`
-         Stay productive, wherever you are
-       
-         Never let location be an issue when accessing your files. Fylo has you 
-         covered for all of your file storage needs.
-       
-         Securely share files and folders with friends, family and colleagues for 
-         live collaboration. No email attachments required!
-       
-         See how Fylo works
-       
-         Fylo has improved our team productivity by an order of magnitude. Since 
-         making the switch our team has become a well-oiled collaboration machine.
-       
-         Kyle Burton
-         Founder & CEO, Huddle
-       
+      <ProductiveSection />
+      {`            
          Get early access today
        
          It only takes a minute to sign up and our free starter tier is extremely generous. 
