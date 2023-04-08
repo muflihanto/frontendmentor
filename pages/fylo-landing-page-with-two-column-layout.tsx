@@ -15,7 +15,7 @@ const userInput = z.object({
 
 type UserInput = z.infer<typeof userInput>;
 
-// TODO: Add hover states
+// TODO: Add arrow hover states
 
 export default function FyloLandingPageWithTwoColumnLayout() {
   return (
@@ -122,12 +122,12 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
 
   const [formStyle] = useState({
     hero: {
-      form: "mt-[31.75px] lg:mt-[25px] grid-rows-[repeat(2,40px)] lg:grid-rows-[45px] pl-[14px] pr-[9px] gap-y-4 w-full lg:px-0 lg:grid-cols-[320px,200px] lg:gap-x-[18px]",
+      form: "mt-[31.75px] lg:mt-[25px] lg:grid-rows-[45px] pl-[14px] pr-[9px] w-full lg:px-0 lg:grid-cols-[320px,200px] lg:gap-x-[18px]",
       input: "text-[12px] px-5 py-[1px] lg:text-[15px] lg:pt-[6px]",
       button: "-translate-x-[2px] text-[14px]",
       placeholder: "Enter your email...",
       btnText: "Get Started",
-      error: "absolute top-[49px] tracking-[-0.1px] text-[13px] text-[hsl(343,40%,65%)]",
+      error: "lg:absolute lg:top-[49px] lg:tracking-[-0.1px] text-[11px] lg:text-[13px] text-[hsl(343,40%,65%)] max-lg:-mt-1",
     },
     early: {
       form: "mt-[23px] grid-rows-[34px,32px] gap-y-[7px] w-[245px] pr-[3px] lg:gap-[15px] lg:pb-[10px] lg:w-full",
@@ -135,14 +135,14 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
       button: "text-[10px] w-[calc(100%-2px)] place-self-center h-full lg:w-[200px] lg:place-self-start lg:text-[14px]",
       placeholder: "email@example.com",
       btnText: "Get Started For Free",
-      error: "text-[13px] -mt-[13px] -mb-[2px]",
+      error: "lg:text-[13px] text-[11px] -mt-1 lg:-mt-[13px] lg:-mb-[2px]",
     },
   });
 
   return (
     <form
       noValidate
-      className={`font-raleway grid grid-cols-1 ${!!errors.email && "relative"} ${formStyle[variant].form} ${variant === "early" ? (!!errors.email ? " lg:mt-[43px] lg:grid-rows-[47px,auto,48px]" : "lg:grid-rows-[50px,48px]") : ""}`}
+      className={`font-raleway grid grid-cols-1 ${!!errors.email && "relative"} ${formStyle[variant].form} ${variant === "early" ? (!!errors.email ? " grid-rows-[40px,12px,40px] lg:mt-[43px] lg:grid-rows-[47px,auto,48px]" : "lg:grid-rows-[50px,48px]") : !!errors.email ? "grid-rows-[40px,auto,40px] gap-y-2" : "grid-rows-[repeat(2,40px)] gap-y-4"}`}
       onSubmit={onSubmit}
     >
       <input
@@ -207,7 +207,6 @@ function ProductiveSection() {
           <h2 className="font-raleway text-fylo-landing-primary-blue-200 mt-[47px] font-bold lg:mt-0 lg:text-[40px] lg:tracking-[.1px]">Stay productive, wherever you are</h2>
           <p className="text-fylo-landing-primary-blue-200 mt-6 -ml-2 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:mt-[31px] lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
           <p className="text-fylo-landing-primary-blue-200 mt-4 -ml-2 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required!</p>
-          {/* TODO: add arrow hover state */}
           <a
             href=""
             className="text-fylo-landing-accent-cyan border-b-fylo-landing-accent-cyan mt-[30px] flex h-[28px] translate-x-[1px] items-center gap-[7px] border-b hover:border-b-[hsl(168,56%,66%)] hover:text-[hsl(168,56%,66%)] lg:mt-[12px] lg:h-[31px] lg:w-fit lg:translate-x-0 lg:gap-[6px]"
