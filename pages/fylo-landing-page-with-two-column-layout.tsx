@@ -1,10 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { CSSProperties, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import { faFacebookF, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+
+const userInput = z.object({
+  email: z.string().email({ message: "Please check your email" }),
+});
+
+type UserInput = z.infer<typeof userInput>;
 
 // TODO: Add hover states
 
@@ -18,7 +27,10 @@ export default function FyloLandingPageWithTwoColumnLayout() {
         <Header />
         <Main />
         <Footer />
-        {/* <Slider basePath="/fylo-landing-page-with-two-column-layout/design" /> */}
+        {/* <Slider
+          basePath="/fylo-landing-page-with-two-column-layout/design"
+          // absolutePath="/fylo-landing-page-with-two-column-layout/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -88,10 +100,25 @@ function Header() {
   );
 }
 
-// TODO: Add Form Submit Handler and Error State
 function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
   // const formStyle = useRef({
   // });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm<UserInput>({ resolver: zodResolver(userInput) });
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   const [formStyle] = useState({
     hero: {
@@ -100,27 +127,32 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
       button: "-translate-x-[2px] text-[14px]",
       placeholder: "Enter your email...",
       btnText: "Get Started",
+      error: "absolute top-[49px] tracking-[-0.1px] text-[13px] text-[hsl(343,40%,65%)]",
     },
     early: {
-      form: "mt-[23px] grid-rows-[34px,32px] gap-y-[7px] w-[245px] pr-[3px] lg:grid-rows-[50px,48px] lg:gap-[15px] lg:pb-[10px] lg:w-full lg:",
-      input: "text-[10px] px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px]",
+      form: "mt-[23px] grid-rows-[34px,32px] gap-y-[7px] w-[245px] pr-[3px] lg:gap-[15px] lg:pb-[10px] lg:w-full",
+      input: "text-[10px] px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px] text-fylo-landing-primary-blue-200 text-[12px]",
       button: "text-[10px] w-[calc(100%-2px)] place-self-center h-full lg:w-[200px] lg:place-self-start lg:text-[14px]",
       placeholder: "email@example.com",
       btnText: "Get Started For Free",
+      error: "text-[13px] -mt-[13px] -mb-[2px]",
     },
   });
 
   return (
     <form
       noValidate
-      className={`font-raleway grid grid-cols-1 ${formStyle[variant].form}`}
+      className={`font-raleway grid grid-cols-1 ${!!errors.email && "relative"} ${formStyle[variant].form} ${variant === "early" ? (!!errors.email ? " lg:mt-[43px] lg:grid-rows-[47px,auto,48px]" : "lg:grid-rows-[50px,48px]") : ""}`}
+      onSubmit={onSubmit}
     >
       <input
+        {...register("email")}
         type="email"
         placeholder={formStyle[variant].placeholder}
-        className={`border-fylo-landing-primary-blue-100 w-full rounded-sm border placeholder:opacity-50 ${formStyle[variant].input}`}
+        className={`w-full rounded-sm border placeholder:opacity-50 ${formStyle[variant].input} ${!!errors.email ? "border-[hsl(339,28%,73%)] focus-visible:outline focus-visible:outline-transparent" : "border-fylo-landing-primary-blue-100"}`}
       />
-      <button className={`bg-fylo-landing-accent-blue text-fylo-landing-neutral-100 shadow-fylo-landing-primary-blue-200/10 rounded-sm font-bold shadow-md ${formStyle[variant].button}`}>{formStyle[variant].btnText}</button>
+      {errors.email ? <p className={`${formStyle[variant].error} font-open-sans`}>{errors.email.message}</p> : null}
+      <button className={`bg-fylo-landing-accent-blue text-fylo-landing-neutral-100 shadow-fylo-landing-primary-blue-200/10 rounded-sm font-bold shadow-md hover:bg-[hsl(221,100%,71%)] ${formStyle[variant].button}`}>{formStyle[variant].btnText}</button>
     </form>
   );
 }
@@ -175,9 +207,10 @@ function ProductiveSection() {
           <h2 className="font-raleway text-fylo-landing-primary-blue-200 mt-[47px] font-bold lg:mt-0 lg:text-[40px] lg:tracking-[.1px]">Stay productive, wherever you are</h2>
           <p className="text-fylo-landing-primary-blue-200 mt-6 -ml-2 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:mt-[31px] lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
           <p className="text-fylo-landing-primary-blue-200 mt-4 -ml-2 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required!</p>
+          {/* TODO: add arrow hover state */}
           <a
             href=""
-            className="text-fylo-landing-accent-cyan border-b-fylo-landing-accent-cyan mt-[30px] flex h-[28px] translate-x-[1px] items-center gap-[7px] border-b lg:mt-[12px] lg:h-[31px] lg:w-fit lg:translate-x-0 lg:gap-[6px]"
+            className="text-fylo-landing-accent-cyan border-b-fylo-landing-accent-cyan mt-[30px] flex h-[28px] translate-x-[1px] items-center gap-[7px] border-b hover:border-b-[hsl(168,56%,66%)] hover:text-[hsl(168,56%,66%)] lg:mt-[12px] lg:h-[31px] lg:w-fit lg:translate-x-0 lg:gap-[6px]"
           >
             <span className="text-[13px] tracking-[-.5px] lg:text-[16px] lg:tracking-normal">See how Fylo works</span>
             <span className="relative aspect-square w-4 lg:mt-[4px]">
@@ -308,7 +341,7 @@ function Footer() {
         className="w-[176px] lg:aspect-[166/49] lg:h-auto lg:w-[176px]"
         variant="footer"
       />
-      <div className="text-fylo-landing-neutral-100 flex flex-col lg:mt-[23px] lg:flex-row lg:justify-start">
+      <div className="text-fylo-landing-neutral-100 [&_li:hover]:text-fylo-landing-neutral-200/70 flex flex-col lg:mt-[23px] lg:flex-row lg:justify-start">
         <div className="mt-[39px] flex flex-col gap-4 px-[2px] lg:mt-0">
           <p className="flex gap-[18px]">
             <svg
