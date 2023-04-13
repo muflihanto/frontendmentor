@@ -97,27 +97,108 @@ function Header() {
 
 function Features() {
   return (
-    <div className="text-fylo-dark-neutral grid grid-cols-1 grid-rows-4 gap-y-[85px] pt-[68px]">
-      <div className="flex flex-col items-center justify-center px-7">
+    <div className="text-fylo-dark-neutral grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px]">
+      <div className="flex flex-col items-center justify-center px-7 pb-[1px]">
         <IconAccessAnywhere className="h-[60px]" />
         <h2 className="font-raleway mt-8 text-center text-[17px] font-bold tracking-[.5px]">Access your files, anywhere</h2>
-        <p className="mt-[7px] text-center text-[14px] opacity-90">The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.</p>
+        <p className="mt-[8px] text-center text-[14px] opacity-90">The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.</p>
       </div>
-      <div className="flex flex-col items-center justify-center px-7">
-        <IconSecurity className="h-[68px]" />
-        <h2 className="font-raleway mt-8 text-center text-[17px] font-bold tracking-[.5px]">Security you can trust</h2>
+      <div className="flex flex-col items-center justify-center px-7 pb-2">
+        <IconSecurity />
+        <h2 className="font-raleway mt-7 text-center text-[17px] font-bold tracking-[.5px]">Security you can trust</h2>
         <p className="mt-[7px] text-center text-[14px] opacity-90">2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.</p>
       </div>
-      <div className="flex flex-col items-center justify-center px-7">
-        <IconCollaboration className="h-[54px]" />
-        <h2 className="font-raleway mt-8 text-center text-[17px] font-bold tracking-[.5px]">Real-time collaboration</h2>
+      <div className="flex flex-col items-center justify-center px-7 pb-[2px]">
+        <IconCollaboration />
+        <h2 className="font-raleway mt-[35px] text-center text-[17px] font-bold tracking-[.5px]">Real-time collaboration</h2>
         <p className="mt-[7px] text-center text-[14px] opacity-90">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
       </div>
-      <div className="flex flex-col items-center justify-center px-7">
-        <IconAnyFile className="h-[50px]" />
-        <h2 className="font-raleway mt-8 text-center text-[17px] font-bold tracking-[.5px]">Store any type of file</h2>
+      <div className="flex flex-col items-center justify-center px-7 pb-[2px]">
+        <IconAnyFile />
+        <h2 className="font-raleway mt-[38px] text-center text-[17px] font-bold tracking-[.5px]">Store any type of file</h2>
         <p className="mt-[7px] text-center text-[14px] opacity-90">Whether you&apos;re sharing holidays photos or work documents, Fylo has you covered allowing for all file types to be securely stored and shared.</p>
       </div>
+    </div>
+  );
+}
+
+function Productive() {
+  return (
+    <div className="text-fylo-dark-neutral mt-[111px] px-7">
+      <div className="relative mx-auto aspect-[615/465] w-[calc(100%-16px)]">
+        <Image
+          src="/fylo-dark-theme-landing-page/images/illustration-stay-productive.png"
+          alt="Productive Illustration"
+          fill
+          className="object-contain"
+        />
+      </div>
+      <h2 className="font-raleway mt-[46px] px-1 text-[18px] font-bold tracking-[.075px]">Stay productive, wherever you are</h2>
+      <p className="mt-[15px] text-[14px] opacity-90">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
+      <p className="mt-4 text-[14px] opacity-90">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
+      <a
+        href=""
+        className="border-b-fylo-dark-accent-cyan text-fylo-dark-accent-cyan mt-3 flex w-fit gap-[6px] border-b py-[4px]"
+      >
+        <span className="text-[12px]">See how Fylo works</span>
+        <svg
+          className="w-4"
+          viewBox="0 0 16 16"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
+          <defs>
+            <circle
+              id="b"
+              cx="6"
+              cy="6"
+              r="6"
+            />
+            <filter
+              x="-25%"
+              y="-25%"
+              width="150%"
+              height="150%"
+              filterUnits="objectBoundingBox"
+              id="a"
+            >
+              <feOffset
+                in="SourceAlpha"
+                result="shadowOffsetOuter1"
+              />
+              <feGaussianBlur
+                stdDeviation="1"
+                in="shadowOffsetOuter1"
+                result="shadowBlurOuter1"
+              />
+              <feColorMatrix
+                values="0 0 0 0 0.384313725 0 0 0 0 0.878431373 0 0 0 0 0.850980392 0 0 0 0.811141304 0"
+                in="shadowBlurOuter1"
+              />
+            </filter>
+          </defs>
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <g transform="translate(2 2)">
+              <use
+                fill="#000"
+                filter="url(#a)"
+                xlinkHref="#b"
+              />
+              <use
+                fill="#62E0D9"
+                xlinkHref="#b"
+              />
+            </g>
+            <path
+              d="M8.582 6l-.363.35 1.452 1.4H5.333v.5h4.338L8.22 9.65l.363.35 2.074-2z"
+              fill="#1B2330"
+            />
+          </g>
+        </svg>
+      </a>
     </div>
   );
 }
@@ -126,17 +207,8 @@ function Main() {
   return (
     <div className="bg-fylo-dark-primary-main h-[2790px]">
       <Features />
+      <Productive />
       {/* {`
-         Stay productive, wherever you are
-       
-         Never let location be an issue when accessing your files. Fylo has you covered for all of your file 
-         storage needs.
-       
-         Securely share files and folders with friends, family and colleagues for live collaboration. No email 
-         attachments required.
-       
-         See how Fylo works
-       
          Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has 
          become a well-oiled collaboration machine.
        
@@ -271,7 +343,7 @@ function IconSecurity({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 70 88"
-      className={"h-[88px]" + " " + className}
+      className={"h-[68px]" + " " + className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <g
@@ -292,7 +364,7 @@ function IconCollaboration({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 86 71"
-      className={"h-[71px]" + " " + className}
+      className={"h-[55px]" + " " + className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <g
@@ -330,7 +402,7 @@ function IconAnyFile({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 91 65"
-      className={"h-16" + " " + className}
+      className={"h-[51px]" + " " + className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <g
