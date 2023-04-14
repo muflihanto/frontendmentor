@@ -203,29 +203,90 @@ function Productive() {
   );
 }
 
+function Testimonials() {
+  return (
+    <div className="relative mt-[170px] pl-12 pr-[47px]">
+      <div className="absolute -top-4 z-10 ml-[5px] aspect-[55/45] w-[22px]">
+        <Image
+          fill
+          className="object-contain"
+          src="/fylo-dark-theme-landing-page/images/bg-quotes.png"
+          alt="Quote Background"
+        />
+      </div>
+      <div className="relative z-20 flex w-full flex-col gap-6">
+        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] h-40 w-full rounded px-5 pt-6 text-[10px]">
+          <p className="leading-[18px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none">
+            <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
+              <Image
+                fill
+                className="object-contain"
+                src="/fylo-dark-theme-landing-page/images/profile-1.jpg"
+                alt="Satish Patel Avatar"
+              />
+            </div>
+            <p className="flex flex-col gap-[7px] pt-[1px]">
+              <span className="text-[10px] font-bold tracking-[.5px]">Satish Patel</span>
+              <span className="text-[7px] tracking-[.5px]">Founder & CEO, Huddle</span>
+            </p>
+          </div>
+        </div>
+        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] h-40 w-full rounded px-5 pt-6 text-[10px]">
+          <p className="leading-[18px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none">
+            <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
+              <Image
+                fill
+                className="object-contain"
+                src="/fylo-dark-theme-landing-page/images/profile-2.jpg"
+                alt="Bruce McKenzie Avatar"
+              />
+            </div>
+            <p className="flex flex-col gap-[7px] pt-[1px]">
+              <span className="text-[10px] font-bold tracking-[.5px]">Bruce McKenzie</span>
+              <span className="text-[7px] tracking-[.5px]">Founder & CEO, Huddle</span>
+            </p>
+          </div>
+        </div>
+        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] h-40 w-full rounded px-5 pt-6 text-[10px]">
+          <p className="leading-[18px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none">
+            <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
+              <Image
+                fill
+                className="object-contain"
+                src="/fylo-dark-theme-landing-page/images/profile-3.jpg"
+                alt="Iva Boyd Avatar"
+              />
+            </div>
+            <p className="flex flex-col gap-[7px] pt-[1px]">
+              <span className="text-[10px] font-bold tracking-[.5px]">Iva Boyd</span>
+              <span className="text-[7px] tracking-[.5px]">Founder & CEO, Huddle</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div className="bg-fylo-dark-primary-main h-[2790px]">
       <Features />
       <Productive />
+      <Testimonials />
       {/* {`
-         Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has 
-         become a well-oiled collaboration machine.
+         
        
-         Satish Patel
-         Founder & CEO, Huddle
+         
+         
        
-         Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has 
-         become a well-oiled collaboration machine.
+         
        
-         Bruce McKenzie
-         Founder & CEO, Huddle
-       
-         Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has 
-         become a well-oiled collaboration machine.
-       
-         Iva Boyd
-         Founder & CEO, Huddle
+         
+         
        
          Get early access today
        
@@ -407,7 +468,7 @@ function IconAnyFile({ className }: { className?: string }) {
     >
       <g
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       >
         <path
           d="M85.588 59C88.025 59 90 57.144 90 54.853V9.236c0-1.526-1.318-2.764-2.941-2.764L85.589 59zM15 12.048v40.047C15 55.908 18.098 59 21.92 59h63.668a4.147 4.147 0 0 1-4.152-4.143V3.762A2.766 2.766 0 0 0 78.668 1h-16.61l-5.536 8.286H17.768A2.766 2.766 0 0 0 15 12.048z"
