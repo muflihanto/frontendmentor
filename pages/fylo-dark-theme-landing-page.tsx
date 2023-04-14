@@ -1,7 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function FyloDarkThemeLandingPage() {
@@ -271,30 +274,62 @@ function Testimonials() {
   );
 }
 
+const inputSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+});
+
+type InputSchema = z.infer<typeof inputSchema>;
+
+function GetEarlyAccess() {
+  const {
+    formState: { errors, isSubmitSuccessful },
+    handleSubmit,
+    register,
+    reset,
+  } = useForm<InputSchema>({
+    resolver: zodResolver(inputSchema),
+  });
+
+  const onSubmit = handleSubmit((data) => {
+    // console.log(data);
+  });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  return (
+    <div className="shadow-fylo-dark-primary-footer text-fylo-dark-neutral mx-auto flex h-[353px] w-[335px] translate-y-[160px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] shadow-lg">
+      <h2 className="font-raleway text-center text-[18px] font-bold">Get early access today</h2>
+      <p className="mt-[15px] text-center text-[14px] opacity-[.85]">It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.</p>
+      <form
+        noValidate
+        className={`mt-8 grid w-full grid-cols-1 grid-rows-[repeat(2,48px)] ${errors.email ? "relative gap-7" : "gap-6"}`}
+        onSubmit={onSubmit}
+      >
+        <input
+          {...register("email", { required: true })}
+          type="email"
+          placeholder="email@example.com"
+          className="bg-fylo-dark-neutral text-fylo-dark-primary-footer w-full rounded-full px-7 pt-1 text-[10px] placeholder:opacity-60"
+        />
+        {!!errors.email && <p className="text-fylo-dark-accent-red absolute left-2 top-[54px] text-[10px]">{errors.email.message}</p>}
+        <button className="from-fylo-dark-accent-cyan to-fylo-dark-accent-blue text-fylo-dark-neutral font-raleway flex flex-col items-center justify-center rounded-full bg-gradient-to-br text-[14px] font-bold">Get Started For Free</button>
+      </form>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div className="bg-fylo-dark-primary-main h-[2790px]">
       <Features />
       <Productive />
       <Testimonials />
+      <GetEarlyAccess />
       {/* {`
-         
-       
-         
-         
-       
-         
-       
-         
-         
-       
-         Get early access today
-       
-         It only takes a minute to sign up and our free starter tier is extremely generous. If you have any 
-         questions, our support team would be happy to help you.
-       
-         Get Started For Free
-       
          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
          dolore magna aliqua
        
@@ -316,24 +351,26 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="text-fylo-dark-neutral absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
-      Challenge by{" "}
-      <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Frontend Mentor
-      </a>
-      . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Muflihanto
-      </a>
-      .
+    <footer className="bg-fylo-dark-primary-footer h-[1729px]">
+      <p className="text-fylo-dark-neutral absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+        Challenge by{" "}
+        <a
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by{" "}
+        <a
+          href="https://github.com/muflihanto"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Muflihanto
+        </a>
+        .
+      </p>
     </footer>
   );
 }
