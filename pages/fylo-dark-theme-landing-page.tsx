@@ -19,7 +19,7 @@ export default function FyloDarkThemeLandingPage() {
         <IntroSection />
         <Main />
         <Footer />
-        {/* <Slider basePath="/fylo-dark-theme-landing-page/design" /> */}
+        <Slider basePath="/fylo-dark-theme-landing-page/design" />
       </div>
     </>
   );
@@ -41,7 +41,7 @@ function FyloLogo({ className }: { className: string }) {
 function IntroSection() {
   return (
     <div
-      className="h-[700px] bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-mobile.svg'),linear-gradient(180deg,theme(colors.fylo-dark.primary.intro),theme(colors.fylo-dark.primary.intro)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main))] bg-[position:top_280px_center,center_center] bg-no-repeat"
+      className="lg:bg-fylo-dark-primary-intro h-[700px] bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-mobile.svg'),linear-gradient(180deg,theme(colors.fylo-dark.primary.intro),theme(colors.fylo-dark.primary.intro)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main))] bg-[position:top_280px_center,center_center] bg-no-repeat lg:h-[1266px] lg:bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-desktop.svg')] lg:bg-[length:100%_auto] lg:bg-[bottom_-30px_center]"
       style={
         {
           "--bg-color-stop": "420px",
@@ -56,8 +56,8 @@ function IntroSection() {
 
 function Hero() {
   return (
-    <div className="flex flex-col items-center px-6 pt-[24px] max-lg:mx-auto max-lg:max-w-screen-sm lg:grid lg:grid-cols-[auto,640px] lg:grid-rows-1 lg:px-[80px] lg:pt-[21px]">
-      <div className="relative ml-[1px] aspect-[720/534] w-[calc(100%-23px)] lg:col-start-2 lg:row-start-1 lg:w-full lg:place-self-end">
+    <div className="mx-auto flex flex-col items-center px-6 pt-[24px] max-lg:max-w-screen-sm lg:w-[720px] lg:px-0 lg:pt-[2px]">
+      <div className="relative ml-[1px] aspect-[720/534] w-[calc(100%-23px)] lg:w-[720px]">
         <Image
           src="/fylo-dark-theme-landing-page/images/illustration-intro.png"
           alt="Hero Image Illustration"
@@ -65,12 +65,12 @@ function Hero() {
           fill
         />
       </div>
-      <div className="lg:col-start-1 lg:row-start-1 lg:self-start lg:pt-[76px]">
-        <h1 className="font-raleway text-fylo-dark-neutral mt-[32px] text-center text-[24px] font-bold leading-[36px] lg:mt-0 lg:text-left lg:text-[40px] lg:leading-[60px]">All your files in one secure location, accessible anywhere.</h1>
-        <p className="text-fylo-dark-neutral/75 mt-[15.5px] pl-4 pr-4 text-center text-[14px] lg:mt-[16px] lg:px-0 lg:pr-10 lg:text-left lg:text-[18px] lg:leading-[24px]">Fylo stores all your most important files in one secure location. Access them wherever you need, share and collaborate with friends family, and co-workers.</p>
+      <div className="lg:col-start-1 lg:row-start-1 lg:self-start lg:pt-[35px]">
+        <h1 className="font-raleway text-fylo-dark-neutral mt-[32px] text-center text-[24px] font-bold leading-[36px] lg:mt-0 lg:text-[40px] lg:leading-[60px]">All your files in one secure location, accessible anywhere.</h1>
+        <p className="text-fylo-dark-neutral/75 mt-[15.5px] pl-4 pr-4 text-center text-[14px] lg:mt-[33px] lg:px-14 lg:text-[20px] lg:leading-[30px]">Fylo stores all your most important files in one secure location. Access them wherever you need, share and collaborate with friends family, and co-workers.</p>
         <a
           href=""
-          className="from-fylo-dark-accent-cyan to-fylo-dark-accent-blue text-fylo-dark-neutral font-raleway hover:to-fylo-dark-accent-cyan mx-auto mt-8 flex h-[48px] w-[240px] flex-col items-center justify-center rounded-full bg-gradient-to-br text-[14px] font-bold"
+          className="from-fylo-dark-accent-cyan to-fylo-dark-accent-blue text-fylo-dark-neutral font-raleway hover:to-fylo-dark-accent-cyan mx-auto mt-8 flex h-[48px] w-[240px] flex-col items-center justify-center rounded-full bg-gradient-to-br text-[14px] font-bold lg:h-[56px] lg:w-[280px] lg:text-[16px]"
         >
           Get Started
         </a>
@@ -81,8 +81,8 @@ function Hero() {
 
 function Header() {
   return (
-    <header className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] lg:h-[179px]">
-      <FyloLogo className="-ml-1 w-20 lg:w-[166px]" />
+    <header className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] lg:h-[198px]">
+      <FyloLogo className="-ml-1 w-20 lg:ml-0 lg:w-[176px]" />
       <nav>
         <ul className="text-fylo-dark-neutral font-raleway flex items-center gap-[25px] text-[12px] leading-none lg:gap-[58px] lg:text-[16px]">
           <li className="opacity-75 hover:underline hover:opacity-100">
