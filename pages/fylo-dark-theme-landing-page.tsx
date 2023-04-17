@@ -102,26 +102,26 @@ function Header() {
 
 function Features() {
   return (
-    <div className="text-fylo-dark-neutral grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px]">
-      <div className="flex flex-col items-center justify-center px-7 pb-[1px]">
-        <IconAccessAnywhere className="h-[60px]" />
-        <h2 className="font-raleway mt-8 text-center text-[17px] font-bold tracking-[.5px]">Access your files, anywhere</h2>
-        <p className="mt-[8px] text-center text-[14px] opacity-90">The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.</p>
+    <div className="text-fylo-dark-neutral grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px] lg:mx-auto lg:w-[940px] lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[114px] lg:gap-y-20 lg:pt-0">
+      <div className="flex flex-col items-center justify-center px-7 pb-[1px] lg:justify-start lg:px-8">
+        <IconAccessAnywhere className="h-[60px] lg:h-[84px] lg:pt-[6px]" />
+        <h2 className="font-raleway mt-8 text-center text-[17px] font-bold tracking-[.5px] lg:mt-[26px] lg:text-[19px]">Access your files, anywhere</h2>
+        <p className="mt-[8px] text-center text-[14px] opacity-90 lg:mt-[6px] lg:pr-[4px]">The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.</p>
       </div>
-      <div className="flex flex-col items-center justify-center px-7 pb-2">
-        <IconSecurity />
-        <h2 className="font-raleway mt-7 text-center text-[17px] font-bold tracking-[.5px]">Security you can trust</h2>
-        <p className="mt-[7px] text-center text-[14px] opacity-90">2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.</p>
+      <div className="flex flex-col items-center justify-center px-7 pb-2 lg:justify-start lg:px-0 lg:pr-[30px]">
+        <IconSecurity className="lg:h-[88px]" />
+        <h2 className="font-raleway mt-7 text-center text-[17px] font-bold tracking-[.5px] lg:mt-[21px] lg:text-[19px]">Security you can trust</h2>
+        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.</p>
       </div>
-      <div className="flex flex-col items-center justify-center px-7 pb-[2px]">
-        <IconCollaboration />
-        <h2 className="font-raleway mt-[35px] text-center text-[17px] font-bold tracking-[.5px]">Real-time collaboration</h2>
-        <p className="mt-[7px] text-center text-[14px] opacity-90">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
+      <div className="flex flex-col items-center justify-center px-7 pb-[2px] lg:justify-start lg:px-4 lg:pl-[26px]">
+        <IconCollaboration className="lg:mt-[7px] lg:h-[71px]" />
+        <h2 className="font-raleway mt-[35px] text-center text-[17px] font-bold tracking-[.5px] lg:mt-[30px] lg:text-[19px]">Real-time collaboration</h2>
+        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
       </div>
-      <div className="flex flex-col items-center justify-center px-7 pb-[2px]">
-        <IconAnyFile />
-        <h2 className="font-raleway mt-[38px] text-center text-[17px] font-bold tracking-[.5px]">Store any type of file</h2>
-        <p className="mt-[7px] text-center text-[14px] opacity-90">Whether you&apos;re sharing holidays photos or work documents, Fylo has you covered allowing for all file types to be securely stored and shared.</p>
+      <div className="flex flex-col items-center justify-center px-7 pb-[2px] lg:justify-start lg:px-5 lg:pr-[30px]">
+        <IconAnyFile className="lg:mt-[10px] lg:h-[66px]" />
+        <h2 className="font-raleway mt-[38px] text-center text-[17px] font-bold tracking-[.5px] lg:mt-[32px] lg:text-[19px]">Store any type of file</h2>
+        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">Whether you&apos;re sharing holidays photos or work documents, Fylo has you covered allowing for all file types to be securely stored and shared.</p>
       </div>
     </div>
   );
