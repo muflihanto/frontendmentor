@@ -129,8 +129,8 @@ function Features() {
 
 function Productive() {
   return (
-    <div className="text-fylo-dark-neutral mt-[111px] px-7">
-      <div className="relative mx-auto aspect-[615/465] w-[calc(100%-16px)]">
+    <div className="text-fylo-dark-neutral mt-[111px] px-7 lg:mt-[127px] lg:grid lg:grid-cols-[615px,auto] lg:grid-rows-1 lg:gap-[57px] lg:px-[105px]">
+      <div className="relative mx-auto aspect-[615/465] w-[calc(100%-16px)] lg:w-full">
         <Image
           src="/fylo-dark-theme-landing-page/images/illustration-stay-productive.png"
           alt="Productive Illustration"
@@ -138,72 +138,74 @@ function Productive() {
           className="object-contain"
         />
       </div>
-      <h2 className="font-raleway mt-[46px] px-1 text-[18px] font-bold tracking-[.075px]">Stay productive, wherever you are</h2>
-      <p className="mt-[15px] text-[14px] opacity-90">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
-      <p className="mt-4 text-[14px] opacity-90">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
-      <a
-        href=""
-        className="border-b-fylo-dark-accent-cyan text-fylo-dark-accent-cyan hover:border-b-fylo-dark-neutral group mt-3 flex w-fit gap-[6px] border-b py-[4px]"
-      >
-        <span className="group-hover:text-fylo-dark-neutral text-[12px]">See how Fylo works</span>
-        <svg
-          className="w-4"
-          viewBox="0 0 16 16"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+      <div className="lg:self-centers">
+        <h2 className="font-raleway mt-[46px] px-1 text-[18px] font-bold tracking-[.075px] lg:mt-[115px] lg:w-96 lg:px-0 lg:text-[40px] lg:leading-[50px]">Stay productive, wherever you are</h2>
+        <p className="mt-[15px] text-[14px] opacity-90 lg:mt-[19px] lg:text-[16px] lg:opacity-80">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
+        <p className="mt-4 text-[14px] opacity-90 lg:text-[16px] lg:opacity-80">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
+        <a
+          href=""
+          className="border-b-fylo-dark-accent-cyan text-fylo-dark-accent-cyan hover:border-b-fylo-dark-neutral group mt-3 flex w-fit gap-[6px] border-b py-[4px] lg:mt-[20px] lg:py-[3px]"
         >
-          <defs>
-            <circle
-              id="b"
-              cx="6"
-              cy="6"
-              r="6"
-            />
-            <filter
-              x="-25%"
-              y="-25%"
-              width="150%"
-              height="150%"
-              filterUnits="objectBoundingBox"
-              id="a"
-            >
-              <feOffset
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
-              <feGaussianBlur
-                stdDeviation="1"
-                in="shadowOffsetOuter1"
-                result="shadowBlurOuter1"
-              />
-              <feColorMatrix
-                values="0 0 0 0 0.384313725 0 0 0 0 0.878431373 0 0 0 0 0.850980392 0 0 0 0.811141304 0"
-                in="shadowBlurOuter1"
-              />
-            </filter>
-          </defs>
-          <g
-            fill="none"
-            fillRule="evenodd"
+          <span className="group-hover:text-fylo-dark-neutral text-[12px] lg:text-[16px]">See how Fylo works</span>
+          <svg
+            className="w-4"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
           >
-            <g transform="translate(2 2)">
-              <use
-                fill="#000"
-                filter="url(#a)"
-                xlinkHref="#b"
+            <defs>
+              <circle
+                id="b"
+                cx="6"
+                cy="6"
+                r="6"
               />
-              <use
-                className="fill-[#62E0D9] group-hover:fill-white"
-                xlinkHref="#b"
+              <filter
+                x="-25%"
+                y="-25%"
+                width="150%"
+                height="150%"
+                filterUnits="objectBoundingBox"
+                id="a"
+              >
+                <feOffset
+                  in="SourceAlpha"
+                  result="shadowOffsetOuter1"
+                />
+                <feGaussianBlur
+                  stdDeviation="1"
+                  in="shadowOffsetOuter1"
+                  result="shadowBlurOuter1"
+                />
+                <feColorMatrix
+                  values="0 0 0 0 0.384313725 0 0 0 0 0.878431373 0 0 0 0 0.850980392 0 0 0 0.811141304 0"
+                  in="shadowBlurOuter1"
+                />
+              </filter>
+            </defs>
+            <g
+              fill="none"
+              fillRule="evenodd"
+            >
+              <g transform="translate(2 2)">
+                <use
+                  fill="#000"
+                  filter="url(#a)"
+                  xlinkHref="#b"
+                />
+                <use
+                  className="fill-[#62E0D9] group-hover:fill-white"
+                  xlinkHref="#b"
+                />
+              </g>
+              <path
+                d="M8.582 6l-.363.35 1.452 1.4H5.333v.5h4.338L8.22 9.65l.363.35 2.074-2z"
+                fill="#1B2330"
               />
             </g>
-            <path
-              d="M8.582 6l-.363.35 1.452 1.4H5.333v.5h4.338L8.22 9.65l.363.35 2.074-2z"
-              fill="#1B2330"
-            />
-          </g>
-        </svg>
-      </a>
+          </svg>
+        </a>
+      </div>
     </div>
   );
 }
