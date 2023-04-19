@@ -19,7 +19,10 @@ export default function FyloDarkThemeLandingPage() {
         <IntroSection />
         <Main />
         <Footer />
-        <Slider basePath="/fylo-dark-theme-landing-page/design" />
+        {/* <Slider
+          basePath="/fylo-dark-theme-landing-page/design"
+          // absolutePath="/fylo-dark-theme-landing-page/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -100,6 +103,7 @@ function Header() {
   );
 }
 
+// TODO: make responsive width from mobile -> desktop
 function Features() {
   return (
     <div className="text-fylo-dark-neutral grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px] lg:mx-auto lg:w-[940px] lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[114px] lg:gap-y-20 lg:pt-0">
@@ -210,10 +214,11 @@ function Productive() {
   );
 }
 
+// TODO: make responsive width from mobile -> desktop
 function Testimonials() {
   return (
-    <div className="relative mt-[170px] pl-12 pr-[47px]">
-      <div className="absolute -top-4 z-10 ml-[5px] aspect-[55/45] w-[22px]">
+    <div className="relative mx-auto mt-[170px] pl-12 pr-[47px] max-lg:max-w-[480px] lg:mt-[178px] lg:w-fit lg:px-0 min-[1280px]:w-[1160px]">
+      <div className="absolute -top-4 z-10 ml-[5px] aspect-[55/45] w-[22px] lg:-top-9 lg:-ml-2 lg:w-[55px]">
         <Image
           fill
           className="object-contain"
@@ -221,10 +226,10 @@ function Testimonials() {
           alt="Quote Background"
         />
       </div>
-      <div className="relative z-20 flex w-full flex-col gap-6">
-        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] h-40 w-full rounded px-5 pt-6 text-[10px]">
-          <p className="leading-[18px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
-          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none">
+      <div className="relative z-20 flex w-full flex-col gap-6 lg:grid lg:h-[440px] lg:grid-cols-[400px,400px] lg:grid-rows-2 lg:gap-10 min-[1280px]:h-[200px] min-[1280px]:grid-cols-3 min-[1280px]:grid-rows-1 min-[1280px]:gap-10">
+        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] lg:shadow-fylo-dark-primary-testimonial/30 h-40 w-full rounded px-5 pt-6 text-[10px] lg:h-full lg:px-[26px] lg:pt-[39px] lg:shadow-lg">
+          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none lg:mt-6">
             <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
               <Image
                 fill
@@ -239,9 +244,9 @@ function Testimonials() {
             </p>
           </div>
         </div>
-        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] h-40 w-full rounded px-5 pt-6 text-[10px]">
-          <p className="leading-[18px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
-          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none">
+        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] lg:shadow-fylo-dark-primary-testimonial/30 h-40 w-full rounded px-5 pt-6 text-[10px] lg:h-full lg:px-[26px] lg:pt-[39px] lg:shadow-lg">
+          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none lg:mt-6">
             <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
               <Image
                 fill
@@ -256,9 +261,9 @@ function Testimonials() {
             </p>
           </div>
         </div>
-        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] h-40 w-full rounded px-5 pt-6 text-[10px]">
-          <p className="leading-[18px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
-          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none">
+        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] lg:shadow-fylo-dark-primary-testimonial/30 h-40 w-full rounded px-5 pt-6 text-[10px] lg:col-span-2 lg:h-full lg:w-[400px] lg:place-self-center lg:px-[26px] lg:pt-[39px] lg:shadow-lg min-[1280px]:col-span-1">
+          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+          <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none lg:mt-6">
             <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
               <Image
                 fill
@@ -305,30 +310,31 @@ function GetEarlyAccess() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <div className="shadow-fylo-dark-primary-footer text-fylo-dark-neutral relative z-10 mx-auto flex h-[353px] w-[335px] translate-y-[160px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] shadow-lg">
-      <h2 className="font-raleway text-center text-[18px] font-bold">Get early access today</h2>
-      <p className="mt-[15px] text-center text-[14px] opacity-[.85]">It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.</p>
+    <div className="shadow-fylo-dark-primary-footer text-fylo-dark-neutral lg: relative z-10 mx-auto flex h-[353px] w-[335px] translate-y-[160px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] shadow-lg lg:h-[274px] lg:w-[862px] lg:translate-y-[202px] lg:pl-[77px] lg:pr-[76px] lg:pt-[40px]">
+      <h2 className="font-raleway text-center text-[18px] font-bold lg:text-[32px]">Get early access today</h2>
+      <p className="mt-[15px] text-center text-[14px] opacity-[.85] lg:mt-[17px] lg:px-6">It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.</p>
       <form
         noValidate
-        className={`mt-8 grid w-full grid-cols-1 grid-rows-[repeat(2,48px)] ${errors.email ? "relative gap-7" : "gap-6"}`}
+        className={`mt-8 grid w-full grid-cols-1 grid-rows-[repeat(2,48px)] lg:mt-[38px] lg:grid-cols-[480px,auto] lg:grid-rows-[48px] lg:gap-[29px] ${errors.email ? "relative gap-7" : "gap-6"}`}
         onSubmit={onSubmit}
       >
         <input
           {...register("email", { required: true })}
           type="email"
           placeholder="email@example.com"
-          className="bg-fylo-dark-neutral text-fylo-dark-primary-footer w-full rounded-full px-7 pt-1 text-[10px] placeholder:opacity-60"
+          className="bg-fylo-dark-neutral text-fylo-dark-primary-footer w-full rounded-full px-7 pt-1 text-[10px] placeholder:opacity-60 lg:px-[38px] lg:pt-[2px] lg:text-[12px]"
         />
-        {!!errors.email && <p className="text-fylo-dark-accent-red absolute left-2 top-[54px] text-[10px]">{errors.email.message}</p>}
-        <button className="from-fylo-dark-accent-cyan to-fylo-dark-accent-blue text-fylo-dark-neutral font-raleway hover:to-fylo-dark-accent-cyan flex flex-col items-center justify-center rounded-full bg-gradient-to-br text-[14px] font-bold">Get Started For Free</button>
+        {!!errors.email && <p className="text-fylo-dark-accent-red absolute left-[38px] top-[52px] text-[10px] font-bold">{errors.email.message}</p>}
+        <button className="from-fylo-dark-accent-cyan to-fylo-dark-accent-blue text-fylo-dark-neutral font-raleway hover:to-fylo-dark-accent-cyan flex flex-col items-center justify-center rounded-full bg-gradient-to-br text-[14px] font-bold lg:pb-[2px]">Get Started For Free</button>
       </form>
     </div>
   );
 }
 
+// TODO: make responsive height from mobile -> desktop
 function Main() {
   return (
-    <div className="bg-fylo-dark-primary-main h-[2790px]">
+    <div className="bg-fylo-dark-primary-main h-[2790px] lg:h-[1839px]">
       <Features />
       <Productive />
       <Testimonials />
@@ -340,7 +346,7 @@ function Main() {
 function SocialIcon() {
   return (
     <div
-      className="mt-[79px] flex gap-[11px] self-center lg:ml-[calc(186/1440*100vw)] lg:mt-[2px] lg:self-start"
+      className="mt-[79px] flex gap-[11px] self-center lg:mt-0 lg:ml-auto lg:self-start"
       style={
         {
           "--icon-diameter-mobile": "27px",
@@ -381,24 +387,26 @@ function SocialIcon() {
 
 function Footer() {
   return (
-    <footer className="bg-fylo-dark-primary-footer relative h-[1029px] px-[28px] pt-[249px]">
-      <FyloLogo className="ml-[11px] h-[52px]" />
-      <div className="text-fylo-dark-neutral/80 mt-[40px] flex flex-col">
-        <div className="flex w-full flex-col">
-          <p className="grid grid-cols-[20px,auto] grid-rows-1 gap-[20px]">
+    <footer className="bg-fylo-dark-primary-footer relative h-[1029px] px-[28px] pt-[249px] lg:h-[514px] lg:pl-[120px] lg:pr-[82px] lg:pt-[200px]">
+      <FyloLogo className="ml-[11px] h-[52px] lg:ml-0" />
+      {/* Active states design
+      <FyloLogo className="ml-[11px] h-[52px] lg:ml-0 lg:h-[32px]" /> */}
+      <div className="text-fylo-dark-neutral/80 mt-[40px] flex flex-col lg:mt-[32px] lg:flex-row">
+        <div className="flex w-full flex-col lg:h-[72px] lg:w-auto lg:flex-wrap">
+          <p className="grid grid-cols-[20px,auto] grid-rows-1 gap-[20px] lg:mr-[min(calc(62/1440*100vw),62px)] lg:w-[min(calc(400/1440*100vw),400px)] lg:text-[16px]">
             <IconLocation />
             <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
           </p>
-          <p className="mt-4 grid grid-cols-[20px,auto] grid-rows-1 items-center gap-[19px]">
+          <p className="mt-4 grid grid-cols-[20px,auto] grid-rows-1 items-center gap-[19px] lg:mt-0 lg:gap-[24px]">
             <IconPhone />
-            <span className="text-[14px]">+1-543-123-4567</span>
+            <span className="text-[14px] lg:pb-[2px]">+1-543-123-4567</span>
           </p>
-          <p className="mt-[19px] grid grid-cols-[20px,auto] grid-rows-1 items-center gap-[19px]">
+          <p className="mt-[19px] grid grid-cols-[20px,auto] grid-rows-1 items-center gap-[19px] lg:mt-[17px] lg:gap-[24px]">
             <IconEmail />
             <span className="text-[14px]">example@fylo.com</span>
           </p>
         </div>
-        <nav className="mt-[82px]">
+        <nav className="mt-[82px] lg:-mt-[1px] lg:ml-[min(calc(314/1440*100vw),314px)]">
           <ul className="flex flex-col gap-[14px]">
             <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
               <a href="">About Us</a>
@@ -414,7 +422,7 @@ function Footer() {
             </li>
           </ul>
         </nav>
-        <nav className="mt-[46px]">
+        <nav className="mt-[46px] mr-8 lg:-mt-[1px] lg:ml-[min(calc(80/1440*100vw),80px)]">
           <ul className="flex flex-col gap-[14px]">
             <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
               <a href="">Contact Us</a>
@@ -646,7 +654,7 @@ function IconPhone() {
   return (
     <svg
       viewBox="0 0 18 18"
-      className="ml-[3px] mb-[2px] w-[13px]"
+      className="ml-[3px] mb-[2px] w-[13px] lg:ml-0 lg:mt-[3px] lg:w-[18px]"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -662,7 +670,7 @@ function IconEmail() {
   return (
     <svg
       viewBox="0 0 20 16"
-      className="ml-[2px] mt-[3px] w-5"
+      className="ml-[2px] mt-[3px] w-5 lg:ml-0"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g
