@@ -61,6 +61,9 @@ function Hero() {
   return (
     <div className="mx-auto flex flex-col items-center px-6 pt-[24px] max-lg:max-w-screen-sm lg:w-[720px] lg:px-0 lg:pt-[2px]">
       <div className="relative ml-[1px] aspect-[720/534] w-[calc(100%-23px)] lg:w-[720px]">
+        {/* 
+          // TODO: make responsive image
+        */}
         <Image
           src="/fylo-dark-theme-landing-page/images/illustration-intro.png"
           alt="Hero Image Illustration"
@@ -103,7 +106,6 @@ function Header() {
   );
 }
 
-// TODO: make responsive width from mobile -> desktop
 function Features() {
   return (
     <div className="text-fylo-dark-neutral grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px] lg:mx-auto lg:w-[940px] lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[114px] lg:gap-y-20 lg:pt-0">
@@ -133,8 +135,11 @@ function Features() {
 
 function Productive() {
   return (
-    <div className="text-fylo-dark-neutral mt-[111px] px-7 lg:mt-[127px] lg:grid lg:grid-cols-[615px,auto] lg:grid-rows-1 lg:gap-[57px] lg:px-[105px]">
+    <div className="text-fylo-dark-neutral mt-[111px] px-7 lg:mt-[127px] lg:grid lg:grid-cols-[min(calc(50%),615px),auto] lg:grid-rows-1 lg:items-center lg:gap-[57px] lg:px-[105px]">
       <div className="relative mx-auto aspect-[615/465] w-[calc(100%-16px)] lg:w-full">
+        {/* 
+          // TODO: make responsive image
+        */}
         <Image
           src="/fylo-dark-theme-landing-page/images/illustration-stay-productive.png"
           alt="Productive Illustration"
@@ -142,8 +147,8 @@ function Productive() {
           className="object-contain"
         />
       </div>
-      <div className="lg:self-centers">
-        <h2 className="font-raleway mt-[46px] px-1 text-[18px] font-bold tracking-[.075px] lg:mt-[115px] lg:w-96 lg:px-0 lg:text-[40px] lg:leading-[50px]">Stay productive, wherever you are</h2>
+      <div>
+        <h2 className="font-raleway mt-[46px] px-1 text-[18px] font-bold tracking-[.075px] lg:w-96 lg:px-0 lg:text-[40px] lg:leading-[50px]">Stay productive, wherever you are</h2>
         <p className="mt-[15px] text-[14px] opacity-90 lg:mt-[19px] lg:text-[16px] lg:opacity-80">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
         <p className="mt-4 text-[14px] opacity-90 lg:text-[16px] lg:opacity-80">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
         <a
@@ -310,7 +315,7 @@ function GetEarlyAccess() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <div className="shadow-fylo-dark-primary-footer text-fylo-dark-neutral lg: relative z-10 mx-auto flex h-[353px] w-[335px] translate-y-[160px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] shadow-lg lg:h-[274px] lg:w-[862px] lg:translate-y-[202px] lg:pl-[77px] lg:pr-[76px] lg:pt-[40px]">
+    <div className="shadow-fylo-dark-primary-footer text-fylo-dark-neutral relative z-10 mx-auto -mt-[16.1px] flex h-[353px] w-[335px] translate-y-[176.1px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] shadow-lg lg:h-[274px] lg:w-[862px] lg:translate-y-[202px] lg:pl-[77px] lg:pr-[76px] lg:pt-[40px]">
       <h2 className="font-raleway text-center text-[18px] font-bold lg:text-[32px]">Get early access today</h2>
       <p className="mt-[15px] text-center text-[14px] opacity-[.85] lg:mt-[17px] lg:px-6">It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.</p>
       <form
@@ -331,10 +336,9 @@ function GetEarlyAccess() {
   );
 }
 
-// TODO: make responsive height from mobile -> desktop
 function Main() {
   return (
-    <div className="bg-fylo-dark-primary-main h-[2790px] lg:h-[1839px]">
+    <div className="bg-fylo-dark-primary-main [2790px] h-auto lg:pb-[86px]">
       <Features />
       <Productive />
       <Testimonials />
