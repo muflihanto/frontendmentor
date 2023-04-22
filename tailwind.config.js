@@ -543,6 +543,25 @@ module.exports = {
           },
           neutral: "hsl(0,0%,100%)",
         },
+        "interactive-comment": {
+          primary: {
+            blue: {
+              200: "hsl(238,40%,52%)",
+              100: "hsl(239,57%,85%)",
+            },
+            red: {
+              200: "hsl(358,79%,66%)",
+              100: "hsl(357,100%,86%)",
+            },
+          },
+          neutral: {
+            500: "hsl(212,24%,26%)",
+            400: "hsl(211,10%,45%)",
+            300: "hsl(223,19%,93%)",
+            200: "hsl(228,33%,97%)",
+            100: "hsl(0,0%,100%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
