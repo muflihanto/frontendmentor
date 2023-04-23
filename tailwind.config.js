@@ -597,6 +597,7 @@ module.exports = {
         "space-grotesk": ["Space Grotesk", ...fontFamily.sans],
         raleway: ["Raleway", ...fontFamily.sans],
         "bai-jamjuree": ["Bai Jamjuree", ...fontFamily.sans],
+        "rubiks": ["Rubiks", ...fontFamily.sans],
       },
     },
   },

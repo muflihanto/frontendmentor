@@ -226,6 +226,11 @@
   font-weight: 600;
 }
 
+@font-face {
+  font-family: "Rubiks";
+  src: url("/interactive-comments-section/fonts/Rubik-VariableFont_wght.ttf");
+}
+
 /* @font-face {
   font-family: "Josefin Sans";
   src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
