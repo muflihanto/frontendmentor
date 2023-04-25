@@ -1,9 +1,12 @@
 import rawData from "../../public/interactive-comments-section/data.json";
 import { atomWithStorage } from "jotai/utils";
-import type { User, Comment, Reply } from "../../pages/interactive-comments-section";
+import { User, Comment, Reply } from "../../pages/interactive-comments-section";
 import { useAtom } from "jotai";
 import { Fragment, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>("data", rawData);
 
@@ -39,13 +42,25 @@ const getLatestId = () => {
   return latestId;
 };
 
-// const latestId = atomWithStorage<number>("id",()=>{
+const latestIdAtom = atomWithStorage<number>("id", getLatestId());
 
-// })
+const zNewComment = z.object({ content: z.string() });
 
 export default function Main() {
   const [data, setData] = useAtom(dataAtom);
   const [vote, setVote] = useAtom(voteAtom);
+  const [latestId, setLatestId] = useAtom(latestIdAtom);
+
+  // useEffect(() => {
+  //   console.log(latestId);
+  // }, [latestId]);
+
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = useForm<z.infer<typeof zNewComment>>({ resolver: zodResolver(zNewComment) });
 
   const update = useCallback((id: number, data: Comment[] | Reply[], type: "increment" | "decrement") => {
     data.forEach((comment) => {
@@ -67,6 +82,24 @@ export default function Main() {
     },
     [setData, update]
   );
+
+  // TODO: fixme: new comment layout
+  // TODO: fixme: date type and validation
+  const handleAddComment = handleSubmit((c) => {
+    const newComment: Comment = { content: c.content, createdAt: new Date().getDate(), id: latestId + 1, score: 0, user: data.currentUser, replies: [] };
+    setData((prev) => {
+      const { comments } = prev;
+      return { ...prev, comments: [...comments, newComment] };
+    });
+    setLatestId((prev) => prev + 1);
+    console.log({ newComment });
+  });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [reset, isSubmitSuccessful]);
 
   const renderReplies = (replies: Reply[], parent: boolean = true) => {
     if (replies.length > 0)
@@ -197,8 +230,11 @@ export default function Main() {
     <div className="flex max-w-md flex-col items-center gap-4 px-4 py-8">
       {data.comments.map((comment) => {
         return (
-          <div key={comment.id}>
-            <div className="bg-interactive-comment-neutral-100 rounded-lg p-4 pr-5">
+          <div
+            key={comment.id}
+            className="w-full"
+          >
+            <div className="bg-interactive-comment-neutral-100 w-full rounded-lg p-4 pr-5">
               <div className="flex items-center gap-4">
                 <div className="relative h-8 w-8">
                   <Image
@@ -208,7 +244,7 @@ export default function Main() {
                   />
                 </div>
                 <p className="text-interactive-comment-neutral-500 font-rubiks pb-[2px] font-medium tracking-[.1px]">{comment.user.username}</p>
-                {data.currentUser.username === comment.user.username && <p>you</p>}
+                {data.currentUser.username === comment.user.username && <span className="text-interactive-comment-neutral-100 before:bg-interactive-comment-primary-blue-200 relative z-10 ml-2 px-[6px] text-[13px] before:absolute before:left-0 before:-top-[1px] before:z-[-1] before:h-[19px] before:w-full before:rounded-sm before:content-['']">you</span>}
                 <p className="text-interactive-comment-neutral-400 pb-[2px]">{comment.createdAt}</p>
               </div>
               <p className="text-interactive-comment-neutral-400 mt-[15px]">{comment.content}</p>
@@ -257,7 +293,7 @@ export default function Main() {
                 <div className="flex gap-2">
                   {data.currentUser.username === comment.user.username ? (
                     <>
-                      <button className="flex items-center">
+                      <button className="mr-[8px] flex items-center gap-2">
                         <svg
                           viewBox="0 0 12 14"
                           className="w-3"
@@ -268,9 +304,9 @@ export default function Main() {
                             fill="#ED6368"
                           />
                         </svg>
-                        <span className="text-interactive-comment-primary-red-200 font-medium">Delete</span>
+                        <span className="text-interactive-comment-primary-red-200 pb-[3px] font-medium">Delete</span>
                       </button>
-                      <button className="flex items-center">
+                      <button className="flex translate-x-1 items-center gap-2">
                         <svg
                           viewBox="0 0 14 14"
                           className="w-[14px]"
@@ -281,7 +317,7 @@ export default function Main() {
                             fill="#5357B6"
                           />
                         </svg>
-                        <span className="text-interactive-comment-primary-blue-200 font-medium">Edit</span>
+                        <span className="text-interactive-comment-primary-blue-200 pb-[3px] font-medium">Edit</span>
                       </button>
                     </>
                   ) : (
@@ -308,9 +344,12 @@ export default function Main() {
           </div>
         );
       })}
-      <div className="bg-interactive-comment-neutral-100 w-full rounded p-4 pb-[14px]">
+      <form
+        className="bg-interactive-comment-neutral-100 w-full rounded p-4 pb-[14px]"
+        onSubmit={handleAddComment}
+      >
         <textarea
-          name="comment"
+          {...register("content")}
           className="border-interactive-comment-neutral-300 h-24 w-full resize-none rounded border px-[22px] py-[10px] placeholder:font-medium"
           placeholder="Add a comment..."
         />
@@ -324,7 +363,7 @@ export default function Main() {
           </div>
           <button className="bg-interactive-comment-primary-blue-200 h-12 w-[104px] rounded-lg font-medium uppercase text-white">Send</button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

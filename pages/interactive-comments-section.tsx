@@ -13,10 +13,10 @@ const zUser = z.object({
   username: z.string(),
 });
 
-const zBaseComment = z.object({
+export const zBaseComment = z.object({
   id: z.number(),
   content: z.string(),
-  createdAt: z.string(),
+  createdAt: z.union([z.string(), z.number()]),
   score: z.number(),
   user: zUser,
 });
