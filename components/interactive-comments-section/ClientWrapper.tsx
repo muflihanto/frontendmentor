@@ -7,8 +7,75 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import updateLocale from "dayjs/plugin/updateLocale";
 
-const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>("data", rawData);
+dayjs.extend(relativeTime, {
+  thresholds: [
+    { l: "s", r: 1 },
+    { l: "m", r: 1 },
+    { l: "mm", r: 59, d: "minute" },
+    { l: "h", r: 1 },
+    { l: "hh", r: 23, d: "hour" },
+    { l: "d", r: 1 },
+    { l: "dd", r: 6, d: "day" },
+    { l: "w", r: 1 },
+    { l: "ww", r: 3, d: "week" },
+    { l: "M", r: 1 },
+    { l: "MM", r: 11, d: "month" },
+    { l: "y", r: 1 },
+    { l: "yy", d: "year" },
+  ],
+});
+dayjs.extend(updateLocale);
+dayjs.updateLocale("en", {
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: "a few seconds",
+    m: "%d minute",
+    mm: "%d minutes",
+    h: "an hour",
+    hh: "%d hours",
+    d: "a day",
+    dd: "%d days",
+    w: "%d week",
+    ww: "%d weeks",
+    M: "%d month",
+    MM: "%d months",
+    y: "%d year",
+    yy: "%d years",
+  },
+});
+
+const transformDate = (data: typeof rawData) => {
+  const { comments } = data;
+
+  const dates: [number, any][] = [
+    [1, "month"],
+    [2, "week"],
+    [1, "week"],
+    [2, "day"],
+  ];
+
+  const formatDate = (dat: Comment[] | Reply[]) => {
+    dat.forEach((c) => {
+      c.createdAt = dayjs()
+        .subtract(dates[c.id - 1][0], dates[c.id - 1][1])
+        .format();
+      if (!!c.replies && c.replies.length > 0) {
+        formatDate(c.replies);
+      }
+    });
+  };
+
+  formatDate(comments);
+
+  return { ...data, comments };
+};
+
+const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>("data", transformDate(rawData));
 
 const getVotes = () => {
   let obj: { [x: string]: "up" | "down" | null } = {};
@@ -86,7 +153,7 @@ export default function Main() {
   // TODO: fixme: new comment layout
   // TODO: fixme: date type and validation
   const handleAddComment = handleSubmit((c) => {
-    const newComment: Comment = { content: c.content, createdAt: new Date().getDate(), id: latestId + 1, score: 0, user: data.currentUser, replies: [] };
+    const newComment: Comment = { content: c.content, createdAt: dayjs().format(), id: latestId + 1, score: 0, user: data.currentUser, replies: [] };
     setData((prev) => {
       const { comments } = prev;
       return { ...prev, comments: [...comments, newComment] };
@@ -181,7 +248,7 @@ function Card({ data, currentUser, variant, handleUpdate }: { data: Comment | Re
           {data.user.username}
           {currentUser.username === data.user.username && <span className="text-interactive-comment-neutral-100 before:bg-interactive-comment-primary-blue-200 relative z-10 ml-2 px-[6px] text-[13px] before:absolute before:left-0 before:-top-[1px] before:z-[-1] before:h-[19px] before:w-full before:rounded-sm before:content-['']">you</span>}
         </p>
-        <p className="text-interactive-comment-neutral-400 pb-[2px]">{data.createdAt}</p>
+        <p className="text-interactive-comment-neutral-400 pb-[2px]">{dayjs(data.createdAt).fromNow()}</p>
       </div>
       <p className="text-interactive-comment-neutral-400 mt-[15px]">
         {variant === "reply" && <span className="text-interactive-comment-primary-blue-200 font-medium">@{(data as Reply).replyingTo} </span>}

@@ -20,6 +20,7 @@
     "@hookform/resolvers": "^2.9.11",
     "@next/font": "^13.0.6",
     "@tailwindcss/line-clamp": "^0.4.2",
+    "dayjs": "^1.11.7",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "jotai": "^2.0.3",
