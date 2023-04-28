@@ -5,14 +5,13 @@ import { z } from "zod";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const Main = dynamic(import("../components/interactive-comments-section/ClientWrapper"), { ssr: false });
 
-const zUser = z.object({
+export const zUser = z.object({
   image: z.object({
     png: z.string().endsWith(".png"),
     webp: z.string().endsWith(".webp"),
   }),
   username: z.string(),
 });
-
 export const zBaseComment = z.object({
   id: z.number(),
   content: z.string(),
@@ -20,10 +19,10 @@ export const zBaseComment = z.object({
   score: z.number(),
   user: zUser,
 });
-
-const zReply = zBaseComment.extend({
+export const zReply = zBaseComment.extend({
   replyingTo: z.string(),
 });
+export const zNewComment = z.object({ content: z.string() });
 
 export type User = z.infer<typeof zUser>;
 export type Reply = z.infer<typeof zReply> & {

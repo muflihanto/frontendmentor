@@ -1,64 +1,22 @@
 import rawData from "../../public/interactive-comments-section/data.json";
 import { atomWithStorage } from "jotai/utils";
-import { User, Comment, Reply } from "../../pages/interactive-comments-section";
+import { type User, type Comment, type Reply, zNewComment } from "../../pages/interactive-comments-section";
 import { useAtom } from "jotai";
 import { Fragment, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import updateLocale from "dayjs/plugin/updateLocale";
-
-dayjs.extend(relativeTime, {
-  thresholds: [
-    { l: "s", r: 1 },
-    { l: "m", r: 1 },
-    { l: "mm", r: 59, d: "minute" },
-    { l: "h", r: 1 },
-    { l: "hh", r: 23, d: "hour" },
-    { l: "d", r: 1 },
-    { l: "dd", r: 6, d: "day" },
-    { l: "w", r: 1 },
-    { l: "ww", r: 3, d: "week" },
-    { l: "M", r: 1 },
-    { l: "MM", r: 11, d: "month" },
-    { l: "y", r: 1 },
-    { l: "yy", d: "year" },
-  ],
-});
-dayjs.extend(updateLocale);
-dayjs.updateLocale("en", {
-  relativeTime: {
-    future: "in %s",
-    past: "%s ago",
-    s: "a few seconds",
-    m: "%d minute",
-    mm: "%d minutes",
-    h: "an hour",
-    hh: "%d hours",
-    d: "a day",
-    dd: "%d days",
-    w: "%d week",
-    ww: "%d weeks",
-    M: "%d month",
-    MM: "%d months",
-    y: "%d year",
-    yy: "%d years",
-  },
-});
+import dayjs from "../../utils/dayjs";
 
 const transformDate = (data: typeof rawData) => {
   const { comments } = data;
-
   const dates: [number, any][] = [
     [1, "month"],
     [2, "week"],
     [1, "week"],
     [2, "day"],
   ];
-
   const formatDate = (dat: Comment[] | Reply[]) => {
     dat.forEach((c) => {
       c.createdAt = dayjs()
@@ -69,14 +27,9 @@ const transformDate = (data: typeof rawData) => {
       }
     });
   };
-
   formatDate(comments);
-
   return { ...data, comments };
 };
-
-const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>("data", transformDate(rawData));
-
 const getVotes = () => {
   let obj: { [x: string]: "up" | "down" | null } = {};
   function getId(input: Comment[] | Reply[]) {
@@ -90,9 +43,6 @@ const getVotes = () => {
   getId(rawData.comments);
   return obj;
 };
-
-const voteAtom = atomWithStorage<{ [x: string]: "up" | "down" | null }>("vote", getVotes());
-
 const getLatestId = () => {
   let latestId: number = NaN;
   function getId(input: Comment[] | Reply[]) {
@@ -109,25 +59,12 @@ const getLatestId = () => {
   return latestId;
 };
 
+const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>("data", transformDate(rawData));
+const voteAtom = atomWithStorage<{ [x: string]: "up" | "down" | null }>("vote", getVotes());
 const latestIdAtom = atomWithStorage<number>("id", getLatestId());
-
-const zNewComment = z.object({ content: z.string() });
 
 export default function Main() {
   const [data, setData] = useAtom(dataAtom);
-  const [vote, setVote] = useAtom(voteAtom);
-  const [latestId, setLatestId] = useAtom(latestIdAtom);
-
-  // useEffect(() => {
-  //   console.log(latestId);
-  // }, [latestId]);
-
-  const {
-    register,
-    formState: { errors, isSubmitSuccessful },
-    reset,
-    handleSubmit,
-  } = useForm<z.infer<typeof zNewComment>>({ resolver: zodResolver(zNewComment) });
 
   const update = useCallback((id: number, data: Comment[] | Reply[], type: "increment" | "decrement") => {
     data.forEach((comment) => {
@@ -150,28 +87,10 @@ export default function Main() {
     [setData, update]
   );
 
-  // TODO: fixme: new comment layout
-  // TODO: fixme: date type and validation
-  const handleAddComment = handleSubmit((c) => {
-    const newComment: Comment = { content: c.content, createdAt: dayjs().format(), id: latestId + 1, score: 0, user: data.currentUser, replies: [] };
-    setData((prev) => {
-      const { comments } = prev;
-      return { ...prev, comments: [...comments, newComment] };
-    });
-    setLatestId((prev) => prev + 1);
-    console.log({ newComment });
-  });
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-  }, [reset, isSubmitSuccessful]);
-
   const renderReplies = (replies: Reply[], parent: boolean = true) => {
     if (replies.length > 0)
       return (
-        <div className={`border-l-interactive-comment-neutral-300 flex flex-col gap-4 border-l-2 pl-4 ${parent && "mt-4"}`}>
+        <div className={`border-l-interactive-comment-neutral-300 flex flex-col gap-4 border-l-2 pl-4 lg:ml-[44px] lg:gap-6 lg:pl-[42px] ${parent && "mt-4 lg:mt-5"}`}>
           {replies.map((reply) => {
             return (
               <Fragment key={reply.id}>
@@ -189,8 +108,12 @@ export default function Main() {
       );
   };
 
+  // useEffect(() => {
+  //   console.log(latestId);
+  // }, [latestId]);
+
   return (
-    <div className="flex max-w-md flex-col items-center gap-4 px-4 py-8">
+    <div className="flex max-w-md flex-col items-center gap-4 px-4 py-8 lg:max-w-[764px] lg:gap-[20px] lg:py-16">
       {data.comments.map((comment) => {
         return (
           <div
@@ -207,26 +130,8 @@ export default function Main() {
           </div>
         );
       })}
-      <form
-        className="bg-interactive-comment-neutral-100 w-full rounded p-4 pb-[14px]"
-        onSubmit={handleAddComment}
-      >
-        <textarea
-          {...register("content")}
-          className="border-interactive-comment-neutral-300 h-24 w-full resize-none rounded border px-[22px] py-[10px] placeholder:font-medium"
-          placeholder="Add a comment..."
-        />
-        <div className="mt-[14px] flex items-center justify-between">
-          <div className="relative h-8 w-8">
-            <Image
-              fill
-              alt={data.currentUser.username + " Avatar"}
-              src={"/interactive-comments-section" + data.currentUser.image.webp.slice(1)}
-            />
-          </div>
-          <button className="bg-interactive-comment-primary-blue-200 h-12 w-[104px] translate-y-[-1px] rounded-lg pb-[2px] font-medium uppercase text-white">Send</button>
-        </div>
-      </form>
+
+      <NewCommentForm />
     </div>
   );
 }
@@ -235,7 +140,7 @@ function Card({ data, currentUser, variant, handleUpdate }: { data: Comment | Re
   const [vote, setVote] = useAtom(voteAtom);
 
   return (
-    <div className="bg-interactive-comment-neutral-100 rounded-lg p-4 pr-5">
+    <div className={`bg-interactive-comment-neutral-100 rounded-lg p-4 pr-5 lg:relative lg:pl-[89px] lg:pt-6 lg:pb-2 ${variant === "reply" ? "break-words lg:pr-[16px]" : "lg:pr-[40px]"}`}>
       <div className="flex items-center gap-4">
         <div className="relative h-8 w-8">
           <Image
@@ -250,14 +155,14 @@ function Card({ data, currentUser, variant, handleUpdate }: { data: Comment | Re
         </p>
         <p className="text-interactive-comment-neutral-400 pb-[2px]">{dayjs(data.createdAt).fromNow()}</p>
       </div>
-      <p className="text-interactive-comment-neutral-400 mt-[15px]">
+      <p className="text-interactive-comment-neutral-400 mt-[15px] lg:mt-[14px]">
         {variant === "reply" && <span className="text-interactive-comment-primary-blue-200 font-medium">@{(data as Reply).replyingTo} </span>}
         {data.content}
       </p>
       <div className="mt-[17px] flex items-center justify-between">
-        <div className={`${!!vote[`id${data.id}`] ? "bg-interactive-comment-neutral-300" : "bg-interactive-comment-neutral-200"} grid h-10 w-[100px] grid-cols-3 grid-rows-1 items-center justify-center rounded-xl px-1 pb-[2px]`}>
+        <div className={`${!!vote[`id${data.id}`] ? "bg-interactive-comment-neutral-300" : "bg-interactive-comment-neutral-200"} grid h-10 w-[100px] grid-cols-3 grid-rows-1 items-center justify-center rounded-xl px-1 pb-[2px] lg:absolute lg:left-[24px] lg:top-[24px] lg:h-[100px] lg:w-10 lg:grid-cols-1 lg:grid-rows-3`}>
           <button
-            className={`text-[20px] font-medium ${vote[`id${data.id}`] === "up" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"} `}
+            className={`text-[20px] font-medium lg:text-center ${vote[`id${data.id}`] === "up" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"} `}
             onClick={() => {
               if (vote[`id${data.id}`] === "up") {
                 setVote((prev) => {
@@ -296,7 +201,7 @@ function Card({ data, currentUser, variant, handleUpdate }: { data: Comment | Re
             &mdash;
           </button>
         </div>
-        <div className="flex gap-[6px]">
+        <div className="flex gap-[6px] lg:absolute lg:right-[30px] lg:top-[24px] lg:h-8 lg:gap-[12px]">
           {currentUser.username === data.user.username ? (
             <>
               <button className="mr-[8px] flex items-center gap-2">
@@ -346,5 +251,54 @@ function Card({ data, currentUser, variant, handleUpdate }: { data: Comment | Re
         </div>
       </div>
     </div>
+  );
+}
+
+function NewCommentForm({ variant = "comment" }: { variant?: "reply" | "comment" }) {
+  const [data, setData] = useAtom(dataAtom);
+  const [latestId, setLatestId] = useAtom(latestIdAtom);
+
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = useForm<z.infer<typeof zNewComment>>({ resolver: zodResolver(zNewComment) });
+
+  const handleAddComment = handleSubmit((c) => {
+    const newComment: Comment = { content: c.content, createdAt: dayjs().format(), id: latestId + 1, score: 0, user: data.currentUser, replies: [] };
+    setData((prev) => {
+      const { comments } = prev;
+      return { ...prev, comments: [...comments, newComment] };
+    });
+    setLatestId((prev) => prev + 1);
+    console.log({ newComment });
+  });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [reset, isSubmitSuccessful]);
+
+  return (
+    <form
+      className="bg-interactive-comment-neutral-100 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded p-4 pb-[14px] lg:flex lg:grid-cols-[auto,auto,auto] lg:grid-rows-1 lg:items-start lg:p-6 lg:pr-[25px]"
+      onSubmit={handleAddComment}
+    >
+      <div className="relative col-start-1 row-start-2 aspect-square h-8 w-8 lg:mt-1 lg:h-10 lg:w-10">
+        <Image
+          fill
+          alt={data.currentUser.username + " Avatar"}
+          src={"/interactive-comments-section" + data.currentUser.image.webp.slice(1)}
+        />
+      </div>
+      <textarea
+        {...register("content")}
+        className="border-interactive-comment-neutral-300 col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border px-[22px] py-[10px] placeholder:font-medium lg:flex-1"
+        placeholder="Add a comment..."
+      />
+      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white lg:mt-[1px] lg:self-start">{variant === "comment" ? "Send" : "Reply"}</button>
+    </form>
   );
 }
