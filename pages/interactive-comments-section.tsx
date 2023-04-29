@@ -23,6 +23,7 @@ export const zReply = zBaseComment.extend({
   replyingTo: z.string(),
 });
 export const zNewComment = z.object({ content: z.string() });
+export const zNewReply = z.object({ content: z.string(), replyingTo: z.string() });
 
 export type User = z.infer<typeof zUser>;
 export type Reply = z.infer<typeof zReply> & {
@@ -41,7 +42,10 @@ export default function InteractiveCommentsSection() {
       <div className="App font-rubiks bg-interactive-comment-neutral-200 relative flex min-h-[100svh] flex-col items-center">
         <Main />
         <Footer />
-        {/* <Slider basePath="/interactive-comments-section/design" /> */}
+        {/* <Slider
+          basePath="/interactive-comments-section/design"
+          absolutePath="/interactive-comments-section/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
