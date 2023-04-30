@@ -65,6 +65,7 @@ const latestIdAtom = atomWithStorage<number>("id", getLatestId());
 
 export default function Main() {
   const [data, setData] = useAtom(dataAtom);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const update = useCallback((id: number, data: Comment[] | Reply[], type: "increment" | "decrement") => {
     data.forEach((comment) => {
@@ -99,6 +100,9 @@ export default function Main() {
                   data={reply}
                   handleUpdate={handleUpdate}
                   variant="reply"
+                  openDeleteModal={() => {
+                    setDeleteModalOpen(true);
+                  }}
                 />
                 {!!reply.replies && renderReplies(reply.replies, false)}
               </div>
@@ -125,6 +129,9 @@ export default function Main() {
               data={comment}
               handleUpdate={handleUpdate}
               variant="comment"
+              openDeleteModal={() => {
+                setDeleteModalOpen(true);
+              }}
             />
             {!!comment.replies && renderReplies(comment.replies)}
           </div>
@@ -132,11 +139,19 @@ export default function Main() {
       })}
 
       <NewCommentForm />
+
+      {deleteModalOpen && (
+        <DeleteModal
+          close={() => {
+            setDeleteModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }
 
-function Card({ data, currentUser, variant, handleUpdate }: { data: Comment | Reply; currentUser: User; variant: "comment" | "reply"; handleUpdate: (id: number, type: "increment" | "decrement") => void }) {
+function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { data: Comment | Reply; currentUser: User; variant: "comment" | "reply"; handleUpdate: (id: number, type: "increment" | "decrement") => void; openDeleteModal: () => void }) {
   const [vote, setVote] = useAtom(voteAtom);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
 
@@ -206,7 +221,12 @@ function Card({ data, currentUser, variant, handleUpdate }: { data: Comment | Re
           <div className="flex gap-[6px] lg:absolute lg:right-[30px] lg:top-[24px] lg:h-8 lg:gap-[12px]">
             {currentUser.username === data.user.username ? (
               <>
-                <button className="mr-[8px] flex items-center gap-2">
+                <button
+                  className="mr-[8px] flex items-center gap-2"
+                  onClick={() => {
+                    openDeleteModal();
+                  }}
+                >
                   <svg
                     viewBox="0 0 12 14"
                     className="w-3"
@@ -371,5 +391,34 @@ function NewCommentForm({ variant = "comment", replyingTo, parentId, toggle }: {
       )}
       <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white lg:mt-[1px] lg:self-start">{variant === "comment" ? "Send" : "Reply"}</button>
     </form>
+  );
+}
+
+function DeleteModal({ close }: { close: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  return (
+    <div className="fixed top-0 left-0 z-40 flex h-[100svh] w-screen flex-col items-center justify-center bg-black/50 px-4 pt-[2px] lg:pt-0">
+      <div className="max-w-[400px] rounded-lg bg-white px-[27px] pt-[21px] pb-[24px] lg:px-[32px] lg:pb-[32px] lg:pt-[28px]">
+        <h2 className="text-interactive-comment-neutral-500 text-[20px] font-medium lg:text-[24px]">Delete comment</h2>
+        <p className="text-interactive-comment-neutral-400 mt-[12px] lg:mt-[15px]">Are you sure you want to delete this comment? This will remove the comment and can{"'"}t be undone.</p>
+        <div className="mt-[17px] grid h-[48px] grid-cols-2 grid-rows-1 gap-3 lg:mt-[21px] lg:gap-[14px]">
+          <button
+            className="text-interactive-comment-neutral-100 bg-interactive-comment-neutral-400 rounded-lg pb-[2px] font-medium uppercase"
+            onClick={() => {
+              close();
+            }}
+          >
+            No, cancel
+          </button>
+          <button className="text-interactive-comment-neutral-100 bg-interactive-comment-primary-red-200 rounded-lg pb-[2px] font-medium uppercase">Yes, delete</button>
+        </div>
+      </div>
+    </div>
   );
 }

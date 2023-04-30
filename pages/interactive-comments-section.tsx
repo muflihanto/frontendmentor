@@ -44,7 +44,8 @@ export default function InteractiveCommentsSection() {
         <Footer />
         {/* <Slider
           basePath="/interactive-comments-section/design"
-          absolutePath="/interactive-comments-section/design/active-states.jpg"
+          // absolutePath="/interactive-comments-section/design/active-states.jpg"
+          absolutePath="/interactive-comments-section/design/desktop-modal.jpg"
         /> */}
       </div>
     </>
