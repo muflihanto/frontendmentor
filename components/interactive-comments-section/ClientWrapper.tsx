@@ -1,13 +1,14 @@
 import rawData from "../../public/interactive-comments-section/data.json";
 import { atomWithStorage } from "jotai/utils";
 import { type User, type Comment, type Reply, zNewComment, zNewReply } from "../../pages/interactive-comments-section";
-import { useAtom } from "jotai";
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import dayjs from "../../utils/dayjs";
+import { useOnClickOutside } from "usehooks-ts";
 
 const transformDate = (data: typeof rawData) => {
   const { comments } = data;
@@ -62,10 +63,12 @@ const getLatestId = () => {
 const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>("data", transformDate(rawData));
 const voteAtom = atomWithStorage<{ [x: string]: "up" | "down" | null }>("vote", getVotes());
 const latestIdAtom = atomWithStorage<number>("id", getLatestId());
+const idToDeleteAtom = atom<number | null>(null);
 
 export default function Main() {
   const [data, setData] = useAtom(dataAtom);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const setIdToDelete = useSetAtom(idToDeleteAtom);
 
   const update = useCallback((id: number, data: Comment[] | Reply[], type: "increment" | "decrement") => {
     data.forEach((comment) => {
@@ -143,6 +146,7 @@ export default function Main() {
       {deleteModalOpen && (
         <DeleteModal
           close={() => {
+            setIdToDelete(null);
             setDeleteModalOpen(false);
           }}
         />
@@ -154,6 +158,7 @@ export default function Main() {
 function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { data: Comment | Reply; currentUser: User; variant: "comment" | "reply"; handleUpdate: (id: number, type: "increment" | "decrement") => void; openDeleteModal: () => void }) {
   const [vote, setVote] = useAtom(voteAtom);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
+  const setIdToDelete = useSetAtom(idToDeleteAtom);
 
   return (
     <>
@@ -224,6 +229,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                 <button
                   className="mr-[8px] flex items-center gap-2"
                   onClick={() => {
+                    setIdToDelete(data.id);
                     openDeleteModal();
                   }}
                 >
@@ -395,6 +401,36 @@ function NewCommentForm({ variant = "comment", replyingTo, parentId, toggle }: {
 }
 
 function DeleteModal({ close }: { close: () => void }) {
+  const cardRef = useRef(null);
+  const [data, setData] = useAtom(dataAtom);
+  const idToDelete = useAtomValue(idToDeleteAtom);
+
+  const handleDelete = useCallback(
+    (id: number) => {
+      const filteredComments = data.comments.filter((comment) => {
+        return comment.id !== id;
+      });
+      const deleteReply = (id: number, replies: Reply[]) => {
+        const reps = replies.filter((rep) => {
+          return rep.id !== id;
+        });
+        reps.forEach((rep) => {
+          if (!!rep.replies && rep.replies.length > 0) {
+            rep.replies = deleteReply(id, rep.replies);
+          }
+        });
+        return reps;
+      };
+      filteredComments.forEach((comment) => {
+        if (!!comment.replies && comment.replies.length > 0) {
+          comment.replies = deleteReply(id, comment.replies);
+        }
+      });
+      setData((prev) => ({ ...prev, comments: filteredComments }));
+    },
+    [data, setData]
+  );
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -402,9 +438,16 @@ function DeleteModal({ close }: { close: () => void }) {
     };
   }, []);
 
+  useOnClickOutside(cardRef, () => {
+    close();
+  });
+
   return (
     <div className="fixed top-0 left-0 z-40 flex h-[100svh] w-screen flex-col items-center justify-center bg-black/50 px-4 pt-[2px] lg:pt-0">
-      <div className="max-w-[400px] rounded-lg bg-white px-[27px] pt-[21px] pb-[24px] lg:px-[32px] lg:pb-[32px] lg:pt-[28px]">
+      <div
+        className="max-w-[400px] rounded-lg bg-white px-[27px] pt-[21px] pb-[24px] lg:px-[32px] lg:pb-[32px] lg:pt-[28px]"
+        ref={cardRef}
+      >
         <h2 className="text-interactive-comment-neutral-500 text-[20px] font-medium lg:text-[24px]">Delete comment</h2>
         <p className="text-interactive-comment-neutral-400 mt-[12px] lg:mt-[15px]">Are you sure you want to delete this comment? This will remove the comment and can{"'"}t be undone.</p>
         <div className="mt-[17px] grid h-[48px] grid-cols-2 grid-rows-1 gap-3 lg:mt-[21px] lg:gap-[14px]">
@@ -416,7 +459,17 @@ function DeleteModal({ close }: { close: () => void }) {
           >
             No, cancel
           </button>
-          <button className="text-interactive-comment-neutral-100 bg-interactive-comment-primary-red-200 rounded-lg pb-[2px] font-medium uppercase">Yes, delete</button>
+          <button
+            className="text-interactive-comment-neutral-100 bg-interactive-comment-primary-red-200 rounded-lg pb-[2px] font-medium uppercase"
+            onClick={() => {
+              if (!!idToDelete) {
+                handleDelete(idToDelete);
+                close();
+              }
+            }}
+          >
+            Yes, delete
+          </button>
         </div>
       </div>
     </div>
