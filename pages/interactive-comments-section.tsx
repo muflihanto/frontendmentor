@@ -24,6 +24,7 @@ export const zReply = zBaseComment.extend({
 });
 export const zNewComment = z.object({ content: z.string() });
 export const zNewReply = z.object({ content: z.string(), replyingTo: z.string() });
+export const zEdit = z.object({ content: z.string() });
 
 export type User = z.infer<typeof zUser>;
 export type Reply = z.infer<typeof zReply> & {
@@ -44,8 +45,8 @@ export default function InteractiveCommentsSection() {
         <Footer />
         {/* <Slider
           basePath="/interactive-comments-section/design"
-          // absolutePath="/interactive-comments-section/design/active-states.jpg"
-          absolutePath="/interactive-comments-section/design/desktop-modal.jpg"
+          absolutePath="/interactive-comments-section/design/active-states.jpg"
+          // absolutePath="/interactive-comments-section/design/desktop-modal.jpg"
         /> */}
       </div>
     </>

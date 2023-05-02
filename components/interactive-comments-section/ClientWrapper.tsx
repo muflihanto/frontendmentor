@@ -1,6 +1,6 @@
 import rawData from "../../public/interactive-comments-section/data.json";
 import { atomWithStorage } from "jotai/utils";
-import { type User, type Comment, type Reply, zNewComment, zNewReply } from "../../pages/interactive-comments-section";
+import { type User, type Comment, type Reply, zNewComment, zNewReply, zEdit } from "../../pages/interactive-comments-section";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -141,7 +141,7 @@ export default function Main() {
         );
       })}
 
-      <NewCommentForm />
+      <NewEntryForm />
 
       {deleteModalOpen && (
         <DeleteModal
@@ -158,6 +158,7 @@ export default function Main() {
 function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { data: Comment | Reply; currentUser: User; variant: "comment" | "reply"; handleUpdate: (id: number, type: "increment" | "decrement") => void; openDeleteModal: () => void }) {
   const [vote, setVote] = useAtom(voteAtom);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const setIdToDelete = useSetAtom(idToDeleteAtom);
 
   return (
@@ -177,10 +178,21 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
           </p>
           <p className="text-interactive-comment-neutral-400 pb-[2px]">{dayjs(data.createdAt).fromNow()}</p>
         </div>
-        <p className="text-interactive-comment-neutral-400 mt-[15px] lg:mt-[14px]">
-          {variant === "reply" && <span className="text-interactive-comment-primary-blue-200 font-medium">@{(data as Reply).replyingTo} </span>}
-          {data.content}
-        </p>
+        {!!isEditOpen ? (
+          <EditForm
+            id={data.id}
+            data={data}
+            variant={variant}
+            toggle={() => {
+              setIsEditOpen(false);
+            }}
+          />
+        ) : (
+          <p className="text-interactive-comment-neutral-400 mt-[15px] lg:mt-[14px]">
+            {variant === "reply" && <span className="text-interactive-comment-primary-blue-200 font-medium">@{(data as Reply).replyingTo} </span>}
+            {data.content}
+          </p>
+        )}
         <div className="mt-[17px] flex items-center justify-between">
           <div className={`${!!vote[`id${data.id}`] ? "bg-interactive-comment-neutral-300" : "bg-interactive-comment-neutral-200"} grid h-10 w-[100px] grid-cols-3 grid-rows-1 items-center justify-center rounded-xl px-1 pb-[2px] lg:absolute lg:left-[24px] lg:top-[24px] lg:h-[100px] lg:w-10 lg:grid-cols-1 lg:grid-rows-3`}>
             <button
@@ -245,7 +257,12 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                   </svg>
                   <span className="text-interactive-comment-primary-red-200 pb-[2px] font-medium">Delete</span>
                 </button>
-                <button className="flex translate-x-[3.25px] items-center gap-2">
+                <button
+                  className="flex translate-x-[3.25px] items-center gap-2"
+                  onClick={() => {
+                    setIsEditOpen((p) => !p);
+                  }}
+                >
                   <svg
                     viewBox="0 0 14 14"
                     className="w-[14px]"
@@ -285,7 +302,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
         </div>
       </div>
       {isReplyOpen && (
-        <NewCommentForm
+        <NewEntryForm
           variant="reply"
           replyingTo={data.user.username}
           parentId={data.id}
@@ -298,7 +315,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
   );
 }
 
-function NewCommentForm({ variant = "comment", replyingTo, parentId, toggle }: { variant?: "reply" | "comment"; replyingTo?: string; parentId?: number; toggle?: () => void }) {
+function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { variant?: "reply" | "comment"; replyingTo?: string; parentId?: number; toggle?: () => void }) {
   const [data, setData] = useAtom(dataAtom);
   const [latestId, setLatestId] = useAtom(latestIdAtom);
   const schemas = {
@@ -396,6 +413,66 @@ function NewCommentForm({ variant = "comment", replyingTo, parentId, toggle }: {
         />
       )}
       <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white lg:mt-[1px] lg:self-start">{variant === "comment" ? "Send" : "Reply"}</button>
+    </form>
+  );
+}
+
+function EditForm({ id, toggle, data, variant }: { id: number; toggle: () => void; data: Comment | Reply; variant?: "reply" | "comment" }) {
+  const setData = useSetAtom(dataAtom);
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+    setFocus,
+  } = useForm<z.infer<typeof zEdit>>({ resolver: zodResolver(zEdit) });
+
+  // TODO: FIXME: handle user mention highlighting in reply
+  const handleEdit = handleSubmit((c) => {
+    const editedEntry: Pick<Comment, "content" | "createdAt"> = { content: variant === "comment" ? c.content : c.content.split(" ").slice(1).join(" "), createdAt: dayjs().format() };
+    setData((prev) => {
+      const { comments } = prev;
+      const searchById = (data: Comment[] | Reply[], id: number) => {
+        data.forEach((dat, index) => {
+          if (dat.id === id) {
+            data[index] = { ...dat, ...editedEntry };
+          } else {
+            if (dat.replies) {
+              searchById(dat.replies, id);
+            }
+          }
+        });
+      };
+      searchById(comments, id);
+      console.log({ editedEntry, comments, id });
+      return { ...prev, comments };
+    });
+    // console.log({ editedEntry });
+  });
+
+  useEffect(() => {
+    setFocus("content");
+  }, [setFocus]);
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+      toggle();
+    }
+  }, [reset, isSubmitSuccessful, toggle]);
+
+  return (
+    <form
+      className={`bg-interactive-comment-neutral-100 mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded pb-[14px] pr-[10px]`}
+      onSubmit={handleEdit}
+    >
+      <textarea
+        {...register("content", { required: true, value: variant === "comment" ? data.content : `@${(data as Reply).replyingTo} ${data.content}` })}
+        className="border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500 col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border px-[22px] py-[10px] pr-[24px] placeholder:font-medium focus-visible:outline focus-visible:outline-transparent lg:h-[124px]"
+        placeholder="Add a comment..."
+        required
+      />
+      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white lg:mt-[1px] lg:self-start">Update</button>
     </form>
   );
 }
