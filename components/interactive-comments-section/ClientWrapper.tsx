@@ -196,7 +196,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
         <div className="mt-[17px] flex items-center justify-between">
           <div className={`${!!vote[`id${data.id}`] ? "bg-interactive-comment-neutral-300" : "bg-interactive-comment-neutral-200"} grid h-10 w-[100px] grid-cols-3 grid-rows-1 items-center justify-center rounded-xl px-1 pb-[2px] lg:absolute lg:left-[24px] lg:top-[24px] lg:h-[100px] lg:w-10 lg:grid-cols-1 lg:grid-rows-3`}>
             <button
-              className={`text-[20px] font-medium lg:text-center ${vote[`id${data.id}`] === "up" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"} `}
+              className={`hover:text-interactive-comment-primary-blue-200 text-[20px] font-medium lg:text-center ${vote[`id${data.id}`] === "up" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"} `}
               onClick={() => {
                 if (vote[`id${data.id}`] === "up") {
                   setVote((prev) => {
@@ -216,7 +216,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
             </button>
             <div className="text-interactive-comment-primary-blue-200 text-center text-[17px] font-medium">{data.score}</div>
             <button
-              className={`text-[16px] font-medium ${vote[`id${data.id}`] === "down" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"}`}
+              className={`hover:text-interactive-comment-primary-blue-200 text-[16px] font-medium ${vote[`id${data.id}`] === "down" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"}`}
               onClick={() => {
                 if (vote[`id${data.id}`] === "down") {
                   setVote((prev) => {
@@ -239,7 +239,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
             {currentUser.username === data.user.username ? (
               <>
                 <button
-                  className="mr-[8px] flex items-center gap-2"
+                  className="mr-[8px] flex items-center gap-2 hover:opacity-40 active:opacity-60"
                   onClick={() => {
                     setIdToDelete(data.id);
                     openDeleteModal();
@@ -258,7 +258,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                   <span className="text-interactive-comment-primary-red-200 pb-[2px] font-medium">Delete</span>
                 </button>
                 <button
-                  className="flex translate-x-[3.25px] items-center gap-2"
+                  className="flex translate-x-[3.25px] items-center gap-2 hover:opacity-40 active:opacity-60"
                   onClick={() => {
                     setIsEditOpen((p) => !p);
                   }}
@@ -278,7 +278,7 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
               </>
             ) : (
               <button
-                className="flex items-center gap-1 pb-[2px]"
+                className="flex items-center gap-1 pb-[2px] hover:opacity-40 active:opacity-60"
                 onClick={() => {
                   setIsReplyOpen((p) => !p);
                 }}
@@ -412,7 +412,7 @@ function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { v
           {...register("replyingTo", { value: replyingTo })}
         />
       )}
-      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white lg:mt-[1px] lg:self-start">{variant === "comment" ? "Send" : "Reply"}</button>
+      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">{variant === "comment" ? "Send" : "Reply"}</button>
     </form>
   );
 }
@@ -472,7 +472,7 @@ function EditForm({ id, toggle, data, variant }: { id: number; toggle: () => voi
         placeholder="Add a comment..."
         required
       />
-      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white lg:mt-[1px] lg:self-start">Update</button>
+      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">Update</button>
     </form>
   );
 }
