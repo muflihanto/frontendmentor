@@ -562,6 +562,30 @@ module.exports = {
             100: "hsl(0,0%,100%)",
           },
         },
+        "result-summary": {
+          primary: {
+            red: "hsl(0,100%,67%)",
+            yellow: "hsl(39,100%,56%)",
+            teal: "hsl(166,100%,37%)",
+            blue: "hsl(234,85%,45%)",
+          },
+          gradients: {
+            background: {
+              100: "hsl(252,100%,67%)",
+              200: "hsl(241,81%,54%)",
+            },
+            circle: {
+              100: "hsla(256,72%,46%,1)",
+              200: "hsla(241,72%,46%,0)",
+            },
+          },
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(221,100%,96%)",
+            300: "hsl(241,100%,89%)",
+            400: "hsl(224,30%,27%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -597,7 +621,8 @@ module.exports = {
         "space-grotesk": ["Space Grotesk", ...fontFamily.sans],
         raleway: ["Raleway", ...fontFamily.sans],
         "bai-jamjuree": ["Bai Jamjuree", ...fontFamily.sans],
-        "rubiks": ["Rubiks", ...fontFamily.sans],
+        rubiks: ["Rubiks", ...fontFamily.sans],
+        "hanken-grotesk": ["Hanken Grotesk", ...fontFamily.sans],
       },
     },
   },

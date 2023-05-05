@@ -231,6 +231,11 @@
   src: url("/interactive-comments-section/fonts/Rubik-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("/results-summary-component/assets/fonts/HankenGrotesk-VariableFont_wght.ttf");
+}
+
 /* @font-face {
   font-family: "Josefin Sans";
   src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
