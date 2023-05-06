@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -9,10 +8,13 @@ export default function ResultsSummaryComponent() {
       <Head>
         <title>Frontend Mentor | Results summary component</title>
       </Head>
-      <div className="App font-hanken-grotesk relative min-h-[100svh] font-medium">
+      <div className="App font-hanken-grotesk relative flex min-h-[100svh] justify-center font-medium md:items-center md:py-10">
         <Main />
         <Footer />
-        {/* <Slider basePath="/results-summary-component/design" /> */}
+        {/* <Slider
+          basePath="/results-summary-component/design"
+          absolutePath="/results-summary-component/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -20,20 +22,20 @@ export default function ResultsSummaryComponent() {
 
 function Main() {
   return (
-    <div>
-      <div className="from-result-summary-gradients-background-100 to-result-summary-gradients-background-200 text-result-summary-neutral-100 flex h-[356px] w-full flex-col items-center rounded-b-[32px] bg-gradient-to-b py-[22px]">
-        <h1 className="text-[18px]">Your Result</h1>
-        <div className="from-result-summary-gradients-circle-100 to-result-summary-gradients-circle-200 mt-[22px] flex aspect-square h-[140px] flex-col items-center justify-center rounded-full bg-gradient-to-b pt-[13px]">
-          <div className="text-[55px] font-extrabold leading-none">76</div>
-          <div className="text-result-summary-neutral-300/75 mt-[6px]">of 100</div>
+    <div className="md:bg-result-summary-neutral-100 w-full md:grid md:h-[512px] md:max-w-[735px] md:grid-cols-2 md:grid-rows-1 md:rounded-[32px] md:shadow-[0px_20px_50px_theme(colors.result-summary.neutral.300_/_60%)]">
+      <div className="from-result-summary-gradients-background-100 to-result-summary-gradients-background-200 text-result-summary-neutral-100 flex h-[356px] w-full flex-col items-center rounded-b-[32px] bg-gradient-to-b from-[-40%] py-[22px] md:h-full md:rounded-[32px] md:py-[35px]">
+        <h1 className="text-result-summary-neutral-300 text-[18px] font-bold md:pr-2 md:text-[24px]">Your Result</h1>
+        <div className="from-result-summary-gradients-circle-100 to-result-summary-gradients-circle-200 mt-[22px] flex aspect-square h-[140px] flex-col items-center justify-center rounded-full bg-gradient-to-b pt-[13px] md:mt-[33px] md:h-[200px] md:pr-[2px] md:pb-[2px]">
+          <div className="text-[55px] font-extrabold leading-none md:text-[72px]">76</div>
+          <div className="text-result-summary-neutral-300/75 mt-[6px] md:mt-[2px] md:text-[18px]">of 100</div>
         </div>
-        <h2 className="mt-[21px] pr-1 text-[24px] font-extrabold">Great</h2>
-        <div className="text-result-summary-neutral-300 mt-[5px] w-[280px] text-center leading-[22px]">You scored higher than 65% of the people who have taken these tests.</div>
+        <h2 className="mt-[21px] pr-1 text-[24px] font-bold md:mt-[25px] md:pr-[5px] md:text-[32px]">Great</h2>
+        <div className="text-result-summary-neutral-300 mt-[5px] w-[280px] text-center leading-[22px] md:mt-[11px] md:w-[260px] md:text-[18px] md:leading-[23px]">You scored higher than 65% of the people who have taken these tests.</div>
       </div>
-      <div className="px-[max(30px,calc(50vw-240px))] pt-[22px] pb-[30px]">
-        <h2 className="text-result-summary-neutral-400 px-[2px] text-[18px] font-bold">Summary</h2>
-        <ul className="mt-[22px] flex flex-col gap-4">
-          <li className="bg-result-summary-primary-red/5 flex h-[56px] w-full items-center rounded-md px-[16px] pb-[2px]">
+      <div className="pt-[22px] pb-[30px] max-md:px-[max(30px,calc(50vw-240px))] md:px-10 md:pt-[35px]">
+        <h2 className="text-result-summary-neutral-400 px-[2px] text-[18px] font-bold md:px-0 md:text-[24px]">Summary</h2>
+        <ul className="mt-[22px] flex flex-col gap-4 md:mt-[26px] md:text-[18px]">
+          <li className="bg-result-summary-primary-red/5 flex h-[56px] w-full items-center rounded-md px-[16px] pb-[2px] md:rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -54,7 +56,7 @@ function Main() {
               <span className="text-result-summary-neutral-400 mr-[4px]">80</span> / 100
             </div>
           </li>
-          <li className="bg-result-summary-primary-yellow/5 flex h-[56px] w-full items-center rounded-md px-[16px] pb-[2px]">
+          <li className="bg-result-summary-primary-yellow/5 flex h-[56px] w-full items-center rounded-md px-[16px] pb-[2px] md:rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -90,7 +92,7 @@ function Main() {
               <span className="text-result-summary-neutral-400 mr-[4px]">92</span> / 100
             </div>
           </li>
-          <li className="bg-result-summary-primary-teal/5 flex h-[56px] w-full items-center rounded-md px-[16px] pb-[2px]">
+          <li className="bg-result-summary-primary-teal/5 flex h-[56px] w-full items-center rounded-md px-[16px] pb-[2px] md:rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -112,7 +114,7 @@ function Main() {
               <span className="text-result-summary-neutral-400 mr-[4px]">61</span> / 100
             </div>
           </li>
-          <li className="bg-result-summary-primary-blue/5 flex h-[56px] w-full items-center rounded-md px-[16px]">
+          <li className="bg-result-summary-primary-blue/5 flex h-[56px] w-full items-center rounded-md px-[16px] md:rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -141,7 +143,7 @@ function Main() {
             </div>
           </li>
         </ul>
-        <button className="text-result-summary-neutral-100 bg-result-summary-neutral-400 mt-6 flex h-[56px] w-full items-center justify-center rounded-full text-[18px] font-bold">Continue</button>
+        <button className="text-result-summary-neutral-100 bg-result-summary-neutral-400 hover:from-result-summary-gradients-background-100 hover:to-result-summary-gradients-background-200 mt-6 flex h-[56px] w-full items-center justify-center rounded-full text-[18px] font-bold hover:bg-gradient-to-b hover:from-[-40%] md:mt-[41px]">Continue</button>
       </div>
     </div>
   );
@@ -149,7 +151,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-2 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-2 w-full text-center text-[11px] md:bottom-3 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
