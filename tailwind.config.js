@@ -586,6 +586,19 @@ module.exports = {
             400: "hsl(224,30%,27%)",
           },
         },
+        "age-calculator": {
+          primary: {
+            purple: "hsl(259,100%,65%)",
+            red: "hsl(0,100%,67%)",
+          },
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(0,0%,94%)",
+            300: "hsl(0,0%,86%)",
+            400: "hsl(0,1%,44%)",
+            500: "hsl(0,0%,8%)",
+          }
+        }
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
