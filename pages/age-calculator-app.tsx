@@ -22,11 +22,37 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 const dateInputsSchema = z
   .object({
-    day: z.number().min(1, "Must be a valid day"),
-    month: z.number().min(1, "Must be a valid month").max(12, "Must be a valid month"),
-    year: z.number().min(1900, "Must be a valid year").max(new Date().getFullYear(), "Must be a valid year"),
+    day: z.number({ required_error: "This field is required", invalid_type_error: "This field is required" }).min(1, "Must be a valid day").max(31, "Must be a valid day"),
+    month: z.number({ required_error: "This field is required", invalid_type_error: "This field is required" }).min(1, "Must be a valid month").max(12, "Must be a valid month"),
+    year: z.number({ required_error: "This field is required", invalid_type_error: "This field is required" }).min(1900, "Must be a valid year").max(new Date().getFullYear(), "Must be in the past"),
   })
+  .required()
   .superRefine((val, ctx) => {
+    const date = `${val.year}-${val.month}-${val.day}`;
+    const now = dayjs();
+    if (now.diff(date) < 0) {
+      if (val.year > now.year()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Must be in the past",
+          path: ["year"],
+        });
+      } else {
+        if (val.month > now.month() + 1) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Must be in the past",
+            path: ["month"],
+          });
+        } else if (val.day > now.date()) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Must be in the past",
+            path: ["day"],
+          });
+        }
+      }
+    }
     if ([1, 3, 5, 7, 8, 10, 12].includes(val.month) && val.day > 31) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -39,7 +65,7 @@ const dateInputsSchema = z
         message: "Must be a valid day",
         path: ["day"],
       });
-    } else {
+    } else if (val.month === 2) {
       if (new Date(val.year, 1, 29).getMonth() === 1) {
         if (val.day > 29) {
           ctx.addIssue({
@@ -69,7 +95,10 @@ export default function AgeCalculatorApp() {
       <div className="App bg-age-calculator-neutral-200 relative flex min-h-[100svh] flex-col items-center py-[88px] lg:justify-center lg:py-[80px]">
         <Main />
         <Footer />
-        {/* <Slider basePath="/age-calculator-app/design" /> */}
+        {/* <Slider
+          basePath="/age-calculator-app/design"
+          absolutePath="/age-calculator-app/design/desktop-error-empty.jpg"
+        /> */}
       </div>
     </>
   );
@@ -89,15 +118,15 @@ function Main() {
     const date = `${data.year}-${data.month}-${data.day}`;
     const now = dayjs();
     setDiff({
-      day: (now.diff(date, "day") % 31).toString(),
+      day: (now.diff(date, "day") % 30).toString(),
       month: (now.diff(date, "month") % 12).toString(),
       year: now.diff(date, "year").toString(),
     });
-    // console.log(data);
+    // console.log(now.diff(date));
   });
 
   return (
-    <div className="bg-age-calculator-neutral-100 h-[486px] w-[calc(100vw-32px)] max-w-md rounded-[24px] rounded-br-[100px] px-6 pt-[47px] lg:h-[652px] lg:max-w-[840px] lg:px-[56px] lg:pt-[55px]">
+    <div className={`bg-age-calculator-neutral-100 h-[486px] w-[calc(100vw-32px)] max-w-md rounded-[24px] rounded-br-[100px] px-6 pt-[47px] lg:max-w-[840px] lg:rounded-br-[200px] lg:px-[56px] lg:pt-[55px] ${!!errors.day || !!errors.month || !!errors.year ? "h-[680px] translate-y-[31px]" : "lg:h-[652px]"}`}>
       <form
         onSubmit={onSubmit}
         className="flex w-full flex-col items-center lg:relative"
@@ -108,39 +137,48 @@ function Main() {
             className="flex flex-col gap-[5px] lg:gap-[9px]"
             htmlFor="day"
           >
-            <p className="text-age-calculator-neutral-400 font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px]">Day</p>
+            <p className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${!!errors.day || !!errors.month || !!errors.year ? "text-age-calculator-primary-red" : "text-age-calculator-neutral-400"}`}>Day</p>
             <input
               placeholder="DD"
-              className="text-age-calculator-neutral-500 font-poppins border-age-calculator-neutral-300 h-[54px] w-full rounded-md border px-[15px] text-[20px] font-extrabold lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold"
+              className={`text-age-calculator-neutral-500 font-poppins h-[54px] w-full rounded-md border px-[15px] text-[20px] font-extrabold focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+                !!errors.day || !!errors.month || !!errors.year ? "focus-visible:border-age-calculator-primary-red border-age-calculator-primary-red" : "focus-visible:border-age-calculator-primary-purple border-age-calculator-neutral-300 "
+              }`}
               type="number"
               {...register("day", { required: true, valueAsNumber: true, min: 1, minLength: 1 })}
             />
+            {!!errors.day && <p className="font-poppins text-age-calculator-primary-red -mt-[2px] mb-[1px] w-full text-[14px] italic lg:max-w-[160px]">{errors.day.message}</p>}
           </label>
           <label
             className="flex flex-col gap-[5px] lg:gap-[9px]"
             htmlFor="month"
           >
-            <p className="text-age-calculator-neutral-400 font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px]">Month</p>
+            <p className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${!!errors.day || !!errors.month || !!errors.year ? "text-age-calculator-primary-red" : "text-age-calculator-neutral-400"}`}>Month</p>
             <input
               placeholder="MM"
-              className="text-age-calculator-neutral-500 font-poppins border-age-calculator-neutral-300 h-[54px] w-full rounded-md border px-[15px] text-[20px] font-extrabold lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold"
+              className={`text-age-calculator-neutral-500 font-poppins h-[54px] w-full rounded-md border px-[15px] text-[20px] font-extrabold focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+                !!errors.day || !!errors.month || !!errors.year ? "focus-visible:border-age-calculator-primary-red border-age-calculator-primary-red" : "focus-visible:border-age-calculator-primary-purple border-age-calculator-neutral-300 "
+              }`}
               type="number"
               {...register("month", { required: true, valueAsNumber: true, min: 1, minLength: 1 })}
             />
+            {!!errors.month && <p className="font-poppins text-age-calculator-primary-red -mt-[2px] mb-[1px] w-full text-[14px] italic lg:max-w-[160px]">{errors.month.message}</p>}
           </label>
           <label
             className="flex flex-col gap-[5px] lg:gap-[9px]"
             htmlFor="year"
           >
-            <p className="text-age-calculator-neutral-400 font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px]">Year</p>
+            <p className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${!!errors.day || !!errors.month || !!errors.year ? "text-age-calculator-primary-red" : "text-age-calculator-neutral-400"}`}>Year</p>
             <input
               placeholder="YYYY"
-              className="text-age-calculator-neutral-500 font-poppins border-age-calculator-neutral-300 h-[54px] w-full rounded-md border px-[15px] text-[20px] font-extrabold lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold"
+              className={`text-age-calculator-neutral-500 font-poppins h-[54px] w-full rounded-md border px-[15px] text-[20px] font-extrabold focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+                !!errors.day || !!errors.month || !!errors.year ? "focus-visible:border-age-calculator-primary-red border-age-calculator-primary-red" : "focus-visible:border-age-calculator-primary-purple border-age-calculator-neutral-300 "
+              }`}
               type="number"
               min={1}
               max={new Date().getFullYear()}
               {...register("year", { required: true, valueAsNumber: true, min: 1, minLength: 1 })}
             />
+            {!!errors.year && <p className="font-poppins text-age-calculator-primary-red -mt-[2px] mb-[1px] w-full text-[14px] italic lg:max-w-[160px]">{errors.year.message}</p>}
           </label>
         </div>
         <button className="bg-age-calculator-primary-purple hover:bg-age-calculator-neutral-500 flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full p-5 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]">
