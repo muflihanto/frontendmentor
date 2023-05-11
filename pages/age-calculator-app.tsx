@@ -1,12 +1,13 @@
 import Head from "next/head";
 // import Image from "next/image";
-import dynamic from "next/dynamic";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "../utils/dayjs";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import CountUp from "react-countup";
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO:
 // - View an age in years, months, and days after submitting a valid date through the form
@@ -18,7 +19,8 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 //   - The date is invalid e.g. 31/04/1991 (there are 30 days in April)
 // - View the optimal layout for the interface depending on their device's screen size
 // - See hover and focus states for all interactive elements on the page
-// - **Bonus**: See the age numbers animate to their final number when the form is submitted
+
+// TODO: See the age numbers animate to their final number when the form is submitted
 
 const dateInputsSchema = z
   .object({
@@ -202,15 +204,54 @@ function Main() {
       </form>
       <div className="text-age-calculator-neutral-500 font-poppins mt-[65px] flex flex-col gap-[6px] text-[56px] font-extrabold italic leading-none tracking-[-1px] lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]">
         <p>
-          <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">{!!diff.year ? diff.year : "- -"}</span>
+          <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
+            {!!diff.year ? (
+              <CountUp
+                start={0}
+                end={Number(diff.year)}
+                delay={0}
+                duration={2}
+              >
+                {({ countUpRef }) => <span ref={countUpRef} />}
+              </CountUp>
+            ) : (
+              "- -"
+            )}
+          </span>
           <span className="lg:ml-[12px]">years</span>
         </p>
         <p>
-          <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">{!!diff.month ? diff.month : "- -"}</span>
+          <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
+            {!!diff.month ? (
+              <CountUp
+                start={0}
+                end={Number(diff.month)}
+                delay={0}
+                duration={2}
+              >
+                {({ countUpRef }) => <span ref={countUpRef} />}
+              </CountUp>
+            ) : (
+              "- -"
+            )}
+          </span>
           <span className="lg:ml-[12px]">months</span>
         </p>
         <p>
-          <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">{!!diff.day ? diff.day : "- -"}</span>
+          <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
+            {!!diff.day ? (
+              <CountUp
+                start={0}
+                end={Number(diff.day)}
+                delay={0}
+                duration={2}
+              >
+                {({ countUpRef }) => <span ref={countUpRef} />}
+              </CountUp>
+            ) : (
+              "- -"
+            )}
+          </span>
           <span className="lg:ml-[12px]">days</span>
         </p>
       </div>
