@@ -597,8 +597,22 @@ module.exports = {
             300: "hsl(0,0%,86%)",
             400: "hsl(0,1%,44%)",
             500: "hsl(0,0%,8%)",
-          }
-        }
+          },
+        },
+        ecommerce: {
+          primary: {
+            200: "hsl(26,100%,55%)",
+            100: "hsl(25,100%,94%)",
+          },
+          neutral: {
+            500: "hsl(220,13%,13%)",
+            400: "hsl(219,9%,45%)",
+            300: "hsl(220,14%,75%)",
+            200: "hsl(223,64%,98%)",
+            100: "hsl(0,0%,100%)",
+            600: "hsl(0,0%,0%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
