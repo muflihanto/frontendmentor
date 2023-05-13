@@ -1,8 +1,16 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+
+// TODO:
+// - View the optimal layout for the site depending on their device's screen size
+// - See hover states for all interactive elements on the page
+// - Open a lightbox gallery by clicking on the large product image
+// - Switch the large product image by clicking on the small thumbnail images
+// - Add items to the cart
+// - View the cart and remove items from it
 
 export default function EcommerceProductPage() {
   return (
@@ -23,7 +31,7 @@ export default function EcommerceProductPage() {
 function Main() {
   return (
     <div>
-      <SlideShow />
+      <Lightbox />
       {`
          Collections
          Men
@@ -91,8 +99,98 @@ function Header() {
   );
 }
 
-function SlideShow() {
-  return <div className="bg-ecommerce-primary-200 h-[300px] w-full"></div>;
+function Lightbox() {
+  const [leftPos, setLeftPos] = useState(0);
+
+  return (
+    <div className="bg-ecommerce-primary-200 relative h-[300px] w-full overflow-hidden">
+      <button
+        className="bg-ecommerce-primary-100 absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px]"
+        onClick={() => {
+          setLeftPos((p) => {
+            return p !== 0 ? p - 1 : 3;
+          });
+        }}
+      >
+        <svg
+          viewBox="0 0 12 18"
+          className="w-[12px]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11 1 3 9l8 8"
+            stroke="#1D2026"
+            strokeWidth={4}
+            fill="none"
+            fillRule="evenodd"
+          />
+        </svg>
+      </button>
+      <div
+        className="relative left-0 flex h-full w-fit translate-x-[calc(var(--translate)*100vw*-1)] gap-0 transition-all duration-150"
+        style={
+          {
+            "--translate": leftPos,
+          } as CSSProperties
+        }
+      >
+        <div className="relative h-full w-[100vw]">
+          <Image
+            src="/ecommerce-product-page/images/image-product-1.jpg"
+            alt="Product 1"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="relative h-full w-[100vw]">
+          <Image
+            src="/ecommerce-product-page/images/image-product-2.jpg"
+            alt="Product 2"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="relative h-full w-[100vw]">
+          <Image
+            src="/ecommerce-product-page/images/image-product-3.jpg"
+            alt="Product 3"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="relative h-full w-[100vw]">
+          <Image
+            src="/ecommerce-product-page/images/image-product-4.jpg"
+            alt="Product 4"
+            fill
+            className="object-cover"
+          />
+        </div>
+      </div>
+      <button
+        className="bg-ecommerce-primary-100 absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px]"
+        onClick={() => {
+          setLeftPos((p) => {
+            return p !== 3 ? p + 1 : 0;
+          });
+        }}
+      >
+        <svg
+          viewBox="0 0 13 18"
+          className="w-[13px]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m2 1 8 8-8 8"
+            stroke="#1D2026"
+            strokeWidth={4}
+            fill="none"
+            fillRule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  );
 }
 
 function Footer() {

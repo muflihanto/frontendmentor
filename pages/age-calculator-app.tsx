@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import dayjs from "../utils/dayjs";
-import CountUp from "react-countup";
+import { CountUp } from "use-count-up";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -207,13 +207,11 @@ function Main() {
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
             {!!diff.year ? (
               <CountUp
+                isCounting
                 start={0}
                 end={Number(diff.year)}
-                delay={0}
                 duration={2}
-              >
-                {({ countUpRef }) => <span ref={countUpRef} />}
-              </CountUp>
+              />
             ) : (
               "- -"
             )}
@@ -224,13 +222,11 @@ function Main() {
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
             {!!diff.month ? (
               <CountUp
+                isCounting
                 start={0}
                 end={Number(diff.month)}
-                delay={0}
                 duration={2}
-              >
-                {({ countUpRef }) => <span ref={countUpRef} />}
-              </CountUp>
+              />
             ) : (
               "- -"
             )}
@@ -241,13 +237,11 @@ function Main() {
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
             {!!diff.day ? (
               <CountUp
+                isCounting
                 start={0}
                 end={Number(diff.day)}
-                delay={0}
                 duration={2}
-              >
-                {({ countUpRef }) => <span ref={countUpRef} />}
-              </CountUp>
+              />
             ) : (
               "- -"
             )}
