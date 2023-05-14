@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { CSSProperties, useEffect, useState } from "react";
+import { atom, useAtom } from "jotai";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO:
@@ -12,17 +13,19 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 // - Add items to the cart
 // - View the cart and remove items from it
 
+const productCountAtom = atom(0);
+
 export default function EcommerceProductPage() {
   return (
     <>
       <Head>
         <title>Frontend Mentor | E-commerce product page</title>
       </Head>
-      <div className="App font-kumbh-sans relative min-h-[100svh]">
+      <div className="App [&_*]:font-kumbh-sans relative min-h-[100svh]">
         <Header />
         <Main />
         <Footer />
-        <Slider basePath="/ecommerce-product-page/design" />
+        {/* <Slider basePath="/ecommerce-product-page/design" /> */}
       </div>
     </>
   );
@@ -30,29 +33,16 @@ export default function EcommerceProductPage() {
 
 function Main() {
   return (
-    <div>
+    <div className="pb-[88px]">
       <Lightbox />
-      {`
+      <ProductDetail />
+      {/* {`
          Collections
          Men
          Women
          About
          Contact
-       
-         Sneaker Company
-       
-         Fall Limited Edition Sneakers
-       
-         These low-profile sneakers are your perfect casual wear companion. Featuring a 
-         durable rubber outer sole, they’ll withstand everything the weather can offer.
-       
-         $125.00
-         50%
-         $250.00
-       
-         0
-         Add to cart
-      `}
+      `} */}
     </div>
   );
 }
@@ -188,6 +178,56 @@ function Lightbox() {
             fillRule="evenodd"
           />
         </svg>
+      </button>
+    </div>
+  );
+}
+
+function ProductDetail() {
+  const [productCount, setProductCount] = useAtom(productCountAtom);
+
+  return (
+    <div className="mx-auto w-full max-w-[480px] px-6 pt-[21px]">
+      <p className="text-ecommerce-primary-200/80 text-[12px] font-bold uppercase tracking-[1.7px]">Sneaker Company</p>
+      <h1 className="text-ecommerce-neutral-500 mt-[13px] text-[28px] font-bold leading-[32px]">Fall Limited Edition Sneakers</h1>
+      <p className="text-ecommerce-neutral-400 mt-[16px] text-[15px] leading-[25px] tracking-[0.02px]">These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.</p>
+      <div className="mt-[21px] flex items-center">
+        <span className="text-ecommerce-neutral-500 text-[28px] font-bold tracking-[1px]">$125.00</span>
+        <span className="text-ecommerce-primary-200 bg-ecommerce-primary-100 ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded pt-[1px] font-bold tracking-[0.5px]">50%</span>
+        <span className="text-ecommerce-neutral-300 ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] line-through">$250.00</span>
+      </div>
+      <div className="bg-ecommerce-neutral-200 mt-[21px] flex h-[56px] items-center justify-between rounded-[10px] px-[10px]">
+        <button
+          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none"
+          disabled={productCount === 0}
+          onClick={() => {
+            productCount !== 0 && setProductCount((p) => p - 1);
+          }}
+        >
+          -
+        </button>
+        <div className="text-ecommerce-neutral-600 font-bold">{productCount}</div>
+        <button
+          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none"
+          onClick={() => {
+            setProductCount((p) => p + 1);
+          }}
+        >
+          +
+        </button>
+      </div>
+      <button className="bg-ecommerce-primary-200 mt-4 flex h-[56px] w-full items-center justify-center gap-4 rounded-[10px] shadow-[0px_10px_50px_theme(colors.ecommerce.primary.200/30%)]">
+        <svg
+          viewBox="0 0 22 20"
+          className="fill-ecommerce-primary-100 w-[18px]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20.925 3.641H3.863L3.61.816A.896.896 0 0 0 2.717 0H.897a.896.896 0 1 0 0 1.792h1l1.031 11.483c.073.828.52 1.726 1.291 2.336C2.83 17.385 4.099 20 6.359 20c1.875 0 3.197-1.87 2.554-3.642h4.905c-.642 1.77.677 3.642 2.555 3.642a2.72 2.72 0 0 0 2.717-2.717 2.72 2.72 0 0 0-2.717-2.717H6.365c-.681 0-1.274-.41-1.53-1.009l14.321-.842a.896.896 0 0 0 .817-.677l1.821-7.283a.897.897 0 0 0-.87-1.114ZM6.358 18.208a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm10.015 0a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm2.021-7.243-13.8.81-.57-6.341h15.753l-1.383 5.53Z"
+            fillRule="nonzero"
+          />
+        </svg>
+        <div className="text-ecommerce-primary-100 font-bold">Add to cart</div>
       </button>
     </div>
   );
