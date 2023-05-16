@@ -6,6 +6,7 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { cartAtom } from "../components/ecommerce-product-page/CartController";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const CartController = dynamic(import("../components/ecommerce-product-page/CartController"), { ssr: false });
+const MobileMenu = dynamic(import("../components/ecommerce-product-page/MobileMenu"), { ssr: false });
 
 // TODO:
 // - View the optimal layout for the site depending on their device's screen size
@@ -42,6 +43,7 @@ export const productAtom = atom<Product>({
   thumbnails: ["/ecommerce-product-page/images/image-product-1-thumbnail.jpg", "/ecommerce-product-page/images/image-product-2-thumbnail.jpg", "/ecommerce-product-page/images/image-product-3-thumbnail.jpg", "/ecommerce-product-page/images/image-product-4-thumbnail.jpg"],
 });
 export const cartOpenAtom = atom(false);
+export const menuOpenAtom = atom(false);
 
 export default function EcommerceProductPage() {
   return (
@@ -56,7 +58,7 @@ export default function EcommerceProductPage() {
         {/* <Slider
           basePath="/ecommerce-product-page/design"
           // absolutePath="/ecommerce-product-page/design/mobile-design-basket-empty.jpg"
-          absolutePath="/ecommerce-product-page/design/mobile-design-basket-filled.jpg"
+          absolutePath="/ecommerce-product-page/design/mobile-menu.jpg"
         /> */}
       </div>
     </>
@@ -70,13 +72,6 @@ function Main() {
     <div className="pb-[88px]">
       <Lightbox />
       <ProductDetail product={currentProduct} />
-      {/* {`
-         Collections
-         Men
-         Women
-         About
-         Contact
-      `} */}
     </div>
   );
 }
@@ -84,10 +79,16 @@ function Main() {
 function Header() {
   const [cartOpen, setCartOpen] = useAtom(cartOpenAtom);
   const [cartItem, setCartItem] = useAtom(cartAtom);
+  const [menuOpen, setMenuOpen] = useAtom(menuOpenAtom);
 
   return (
     <header className="flex h-[68px] items-center px-6 pb-[8px]">
-      <button className="mt-[2px] flex h-6 w-6 -translate-x-1 items-center justify-center rounded">
+      <button
+        className="mt-[2px] flex h-6 w-6 -translate-x-1 items-center justify-center rounded"
+        onClick={() => {
+          setMenuOpen(true);
+        }}
+      >
         <svg
           viewBox="0 0 16 15"
           className="w-4"
@@ -100,6 +101,7 @@ function Header() {
           />
         </svg>
       </button>
+      {menuOpen && <MobileMenu />}
       <Logo className="ml-2" />
       <button
         className="relative ml-auto mt-[4px] flex h-6 w-6 items-center justify-center rounded"
