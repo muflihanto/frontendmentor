@@ -14,8 +14,8 @@ export default function CartController({ product }: { product: Product }) {
   const cartOpen = useAtomValue(cartOpenAtom);
 
   return (
-    <>
-      <div className="bg-ecommerce-neutral-200 mt-[21px] flex h-[56px] items-center justify-between rounded-[10px] px-[10px]">
+    <div className="mt-[21px] lg:mt-[33px] lg:grid lg:grid-cols-[auto,272px] lg:grid-rows-1 lg:gap-x-4">
+      <div className="bg-ecommerce-neutral-200 flex h-[56px] items-center justify-between rounded-[10px] px-[10px] lg:px-[2px]">
         <button
           className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none"
           disabled={productCount === 0}
@@ -36,7 +36,7 @@ export default function CartController({ product }: { product: Product }) {
         </button>
       </div>
       <button
-        className="bg-ecommerce-primary-200 mt-4 flex h-[56px] w-full items-center justify-center gap-4 rounded-[10px] shadow-[0px_10px_50px_theme(colors.ecommerce.primary.200/30%)]"
+        className="bg-ecommerce-primary-200 mt-4 flex h-[56px] w-full items-center justify-center gap-4 rounded-[10px] shadow-[0px_10px_50px_theme(colors.ecommerce.primary.200/30%)] lg:mt-0"
         onClick={() => {
           const count = productCount;
           if (count > 0) {
@@ -59,7 +59,7 @@ export default function CartController({ product }: { product: Product }) {
         <div className="text-ecommerce-primary-100 font-bold">Add to cart</div>
       </button>
       {cartOpen && createPortal(<CartPopup />, document.body)}
-    </>
+    </div>
   );
 }
 
@@ -74,7 +74,7 @@ function CartPopup() {
 
   return (
     <div
-      className={`bg-ecommerce-neutral-100 [&_*]:font-kumbh-sans absolute left-1/2 top-[76px] z-50 w-[calc(100vw-15px)] max-w-[480px] -translate-x-1/2 rounded-[10px] shadow-2xl sm:left-auto sm:right-[8px] sm:translate-x-0 ${cartItem.length === 0 ? "h-[256px]" : "min-h-[256px]"}`}
+      className={`bg-ecommerce-neutral-100 [&_*]:font-kumbh-sans absolute left-1/2 top-[76px] z-50 w-[calc(100vw-15px)] max-w-[360px] -translate-x-1/2 rounded-[10px] shadow-2xl sm:left-auto sm:right-[8px] sm:translate-x-0 lg:right-[88px] lg:top-[94px] ${cartItem.length === 0 ? "h-[256px]" : "min-h-[256px]"}`}
       ref={ref}
     >
       <h2 className={`text-ecommerce-neutral-500 flex h-[68px] w-full items-center border-b px-6 font-bold ${cartItem.length === 0 ? "pb-[2px]" : "pb-2"}`}>Cart</h2>

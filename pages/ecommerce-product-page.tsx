@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { CSSProperties, useEffect, useRef, useState } from "react";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { CSSProperties, useEffect, useState } from "react";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 import { cartAtom } from "../components/ecommerce-product-page/CartController";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const CartController = dynamic(import("../components/ecommerce-product-page/CartController"), { ssr: false });
@@ -45,6 +45,33 @@ export const productAtom = atom<Product>({
 export const cartOpenAtom = atom(false);
 export const menuOpenAtom = atom(false);
 
+export type Nav = {
+  text: string;
+  href: string;
+};
+export const navs: Nav[] = [
+  {
+    text: "Collections",
+    href: "",
+  },
+  {
+    text: "Men",
+    href: "",
+  },
+  {
+    text: "Women",
+    href: "",
+  },
+  {
+    text: "About",
+    href: "",
+  },
+  {
+    text: "Contact",
+    href: "",
+  },
+];
+
 export default function EcommerceProductPage() {
   return (
     <>
@@ -58,7 +85,7 @@ export default function EcommerceProductPage() {
         {/* <Slider
           basePath="/ecommerce-product-page/design"
           // absolutePath="/ecommerce-product-page/design/mobile-design-basket-empty.jpg"
-          absolutePath="/ecommerce-product-page/design/mobile-menu.jpg"
+          absolutePath="/ecommerce-product-page/design/active-states-basket-empty.jpg"
         /> */}
       </div>
     </>
@@ -69,22 +96,22 @@ function Main() {
   const currentProduct = useAtomValue(productAtom);
 
   return (
-    <div className="pb-[88px]">
-      <Lightbox />
+    <div className="pb-[88px] lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-[28px] lg:px-[165px] lg:pt-[91px]">
+      <Lightbox product={currentProduct} />
       <ProductDetail product={currentProduct} />
     </div>
   );
 }
 
 function Header() {
-  const [cartOpen, setCartOpen] = useAtom(cartOpenAtom);
-  const [cartItem, setCartItem] = useAtom(cartAtom);
-  const [menuOpen, setMenuOpen] = useAtom(menuOpenAtom);
+  const setCartOpen = useSetAtom(cartOpenAtom);
+  const cartItem = useAtomValue(cartAtom);
+  const setMenuOpen = useSetAtom(menuOpenAtom);
 
   return (
-    <header className="flex h-[68px] items-center px-6 pb-[8px]">
+    <header className="flex h-[68px] items-center px-6 pb-[8px] lg:relative lg:h-[112px] lg:px-[165px]">
       <button
-        className="mt-[2px] flex h-6 w-6 -translate-x-1 items-center justify-center rounded"
+        className="mt-[2px] flex h-6 w-6 -translate-x-1 items-center justify-center rounded lg:hidden"
         onClick={() => {
           setMenuOpen(true);
         }}
@@ -101,10 +128,27 @@ function Header() {
           />
         </svg>
       </button>
-      {menuOpen && <MobileMenu />}
-      <Logo className="ml-2" />
+      <MobileMenu navs={navs} />
+      <Logo className="ml-2 lg:ml-0 lg:mt-[2px]" />
+      <nav className="text-ecommerce-neutral-400 ml-14 text-[15px] max-lg:hidden">
+        <ul className="flex gap-[32.75px] tracking-[.1px]">
+          {navs.map((nav, index) => {
+            const { text, href } = nav;
+            return (
+              <li key={index}>
+                <a
+                  href={href}
+                  className=""
+                >
+                  {text}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
       <button
-        className="relative ml-auto mt-[4px] flex h-6 w-6 items-center justify-center rounded"
+        className="relative ml-auto mt-[4px] flex h-6 w-6 items-center justify-center rounded lg:mt-[3px]"
         onClick={() => {
           setCartOpen((c) => !c);
         }}
@@ -121,7 +165,7 @@ function Header() {
         </svg>
         {cartItem.length !== 0 && <span className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 absolute -right-[5px] -top-1 flex h-[13px] w-5 items-center justify-center rounded-full text-[10px] font-bold">{cartItem.length}</span>}
       </button>
-      <button className="relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2">
+      <button className="relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2 lg:ml-[45px] lg:h-[50px] lg:w-[50px]">
         <Image
           src={"/ecommerce-product-page/images/image-avatar.png"}
           className="object-contain"
@@ -129,114 +173,128 @@ function Header() {
           fill
         />
       </button>
+      <hr className="absolute bottom-0 left-1/2 w-[calc(100%-330px)] -translate-x-1/2 border-t max-lg:hidden" />
     </header>
   );
 }
 
-function Lightbox() {
+function Lightbox({ product }: { product: Product }) {
   const [leftPos, setLeftPos] = useState(0);
 
+  // useInterval(() => {
+  //   setLeftPos((p) => {
+  //     return p !== 3 ? p + 1 : 0;
+  //   });
+  // }, 5000);
+
   return (
-    <div className="bg-ecommerce-primary-200 relative h-[300px] w-full overflow-hidden">
-      <button
-        className="bg-ecommerce-primary-100 absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px]"
-        onClick={() => {
-          setLeftPos((p) => {
-            return p !== 0 ? p - 1 : 3;
-          });
-        }}
-      >
-        <svg
-          viewBox="0 0 12 18"
-          className="w-[12px]"
-          xmlns="http://www.w3.org/2000/svg"
+    <div>
+      <div className="bg-ecommerce-primary-200 relative mx-auto h-[calc(100vw-375px+300px)] max-h-[445px] w-full max-w-[445px] overflow-hidden lg:rounded-2xl">
+        <button
+          className="bg-ecommerce-primary-100 absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px] lg:hidden"
+          onClick={() => {
+            setLeftPos((p) => {
+              return p !== 0 ? p - 1 : 3;
+            });
+          }}
         >
-          <path
-            d="M11 1 3 9l8 8"
-            stroke="#1D2026"
-            strokeWidth={4}
-            fill="none"
-            fillRule="evenodd"
-          />
-        </svg>
-      </button>
-      <div
-        className="relative left-0 flex h-full w-fit translate-x-[calc(var(--translate)*100vw*-1)] gap-0 transition-all duration-150"
-        style={
-          {
-            "--translate": leftPos,
-          } as CSSProperties
-        }
-      >
-        <div className="relative h-full w-[100vw]">
-          <Image
-            src="/ecommerce-product-page/images/image-product-1.jpg"
-            alt="Product 1"
-            fill
-            className="object-cover"
-          />
+          <svg
+            viewBox="0 0 12 18"
+            className="w-[12px]"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M11 1 3 9l8 8"
+              stroke="#1D2026"
+              strokeWidth={4}
+              fill="none"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+        <div
+          className="relative left-0 flex h-full w-[400%] translate-x-[var(--translate)] gap-0 transition-all duration-150"
+          style={
+            {
+              "--translate": `calc(${leftPos} * -${100 / product.images.length}%)`,
+            } as CSSProperties
+          }
+        >
+          {product.images.map((img, index) => {
+            return (
+              <div
+                className="relative h-full w-[100%]"
+                key={index}
+              >
+                <Image
+                  src={img}
+                  alt={`Product ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            );
+          })}
         </div>
-        <div className="relative h-full w-[100vw]">
-          <Image
-            src="/ecommerce-product-page/images/image-product-2.jpg"
-            alt="Product 2"
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="relative h-full w-[100vw]">
-          <Image
-            src="/ecommerce-product-page/images/image-product-3.jpg"
-            alt="Product 3"
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="relative h-full w-[100vw]">
-          <Image
-            src="/ecommerce-product-page/images/image-product-4.jpg"
-            alt="Product 4"
-            fill
-            className="object-cover"
-          />
-        </div>
+        <button
+          className="bg-ecommerce-primary-100 absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px] lg:hidden"
+          onClick={() => {
+            setLeftPos((p) => {
+              return p !== 3 ? p + 1 : 0;
+            });
+          }}
+        >
+          <svg
+            viewBox="0 0 13 18"
+            className="w-[13px]"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m2 1 8 8-8 8"
+              stroke="#1D2026"
+              strokeWidth={4}
+              fill="none"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
       </div>
-      <button
-        className="bg-ecommerce-primary-100 absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px]"
-        onClick={() => {
-          setLeftPos((p) => {
-            return p !== 3 ? p + 1 : 0;
-          });
-        }}
-      >
-        <svg
-          viewBox="0 0 13 18"
-          className="w-[13px]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m2 1 8 8-8 8"
-            stroke="#1D2026"
-            strokeWidth={4}
-            fill="none"
-            fillRule="evenodd"
-          />
-        </svg>
-      </button>
+      <div className="mx-auto mt-8 flex w-[445px] justify-between max-lg:hidden">
+        {product.thumbnails.map((thumb, index) => {
+          return (
+            <button
+              key={index}
+              className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] ${leftPos === index && "ring-ecommerce-primary-200 ring-2 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-['']"}`}
+              onClick={() => {
+                setLeftPos(index);
+              }}
+            >
+              <Image
+                src={thumb}
+                alt={`Product Thumbnail ${index + 1}`}
+                className="object-contain"
+                fill
+              />
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 function ProductDetail({ product }: { product: Product }) {
   return (
-    <div className="mx-auto w-full max-w-[480px] px-6 pt-[21px]">
-      <p className="text-ecommerce-primary-200/80 text-[12px] font-bold uppercase tracking-[1.7px]">{product.brand}</p>
-      <h1 className="text-ecommerce-neutral-500 mt-[13px] text-[28px] font-bold leading-[32px]">{product.name}</h1>
-      <p className="text-ecommerce-neutral-400 mt-[16px] text-[15px] leading-[25px] tracking-[0.02px]">{product.description}</p>
-      <div className="mt-[21px] flex items-center">
-        <span className="text-ecommerce-neutral-500 text-[28px] font-bold tracking-[1px]">${product.price.toFixed(2)}</span>
-        <span className="text-ecommerce-primary-200 bg-ecommerce-primary-100 ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded pt-[1px] font-bold tracking-[0.5px]">{product.discount}%</span>
-        <span className="text-ecommerce-neutral-300 ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] line-through">${product.originalPrice.toFixed(2)}</span>
+    <div className="mx-auto w-full max-w-[445px] px-6 pt-[21px] lg:px-0 lg:pt-[59px]">
+      <p className="text-ecommerce-primary-200/80 text-[12px] font-bold uppercase tracking-[1.7px] lg:text-[14px] lg:tracking-[1.2px]">{product.brand}</p>
+      <h1 className="text-ecommerce-neutral-500 mt-[13px] text-[28px] font-bold leading-[32px] lg:mt-[17px] lg:text-[44px] lg:leading-[48px]">{product.name}</h1>
+      <p className="text-ecommerce-neutral-400 mt-[16px] text-[15px] leading-[25px] tracking-[0.02px] lg:mt-[35px] lg:text-[16px] lg:leading-[26px] lg:tracking-[0.075px]">{product.description}</p>
+      <div className="mt-[21px] flex items-center lg:flex-col lg:items-start lg:gap-1">
+        <p className="flex items-center lg:px-[1px]">
+          <span className="text-ecommerce-neutral-500 text-[28px] font-bold tracking-[1px]">${product.price.toFixed(2)}</span>
+          <span className="text-ecommerce-primary-200 bg-ecommerce-primary-100 ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded pt-[1px] font-bold tracking-[0.5px]">{product.discount}%</span>
+        </p>
+        <p className="text-ecommerce-neutral-300 ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] line-through lg:ml-0">${product.originalPrice.toFixed(2)}</p>
       </div>
       <CartController product={product} />
     </div>
