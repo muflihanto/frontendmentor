@@ -149,6 +149,7 @@ function Header() {
       </nav>
       <button
         className="relative ml-auto mt-[4px] flex h-6 w-6 items-center justify-center rounded lg:mt-[3px]"
+        id="cart-toggle"
         onClick={() => {
           setCartOpen((c) => !c);
         }}

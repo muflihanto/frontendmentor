@@ -2,9 +2,10 @@ import { createPortal } from "react-dom";
 import { cartOpenAtom, productCountAtom, type Product, type CartItem } from "../../pages/ecommerce-product-page";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useRef } from "react";
-import { useOnClickOutside } from "usehooks-ts";
+import { useEffectOnce, useOnClickOutside } from "usehooks-ts";
 import Image from "next/image";
 import { atomWithStorage } from "jotai/utils";
+import { Transition } from "@headlessui/react";
 
 export const cartAtom = atomWithStorage<CartItem[]>("cartItem", []);
 
@@ -58,7 +59,12 @@ export default function CartController({ product }: { product: Product }) {
         </svg>
         <div className="text-ecommerce-primary-100 font-bold">Add to cart</div>
       </button>
-      {cartOpen && createPortal(<CartPopup />, document.body)}
+      {createPortal(
+        <Transition show={cartOpen}>
+          <CartPopup />
+        </Transition>,
+        document.body
+      )}
     </div>
   );
 }
@@ -68,14 +74,30 @@ function CartPopup() {
   const setCartOpen = useSetAtom(cartOpenAtom);
   const [cartItem, setCartItem] = useAtom(cartAtom);
 
-  useOnClickOutside(ref, () => {
-    // setCartOpen(false);
+  useEffectOnce(() => {
+    if (ref.current) {
+      (ref.current as unknown as HTMLDivElement)?.focus();
+    }
+  });
+
+  useOnClickOutside(ref, (e) => {
+    const { target }: any = e;
+    if (![target.id, target.parentElement.id, target.parentElement.parentElement.id].includes("cart-toggle")) {
+      setCartOpen(false);
+    }
   });
 
   return (
-    <div
+    <Transition.Child
+      enter="transition-all duration-75"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-all duration-150"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
       className={`bg-ecommerce-neutral-100 [&_*]:font-kumbh-sans absolute left-1/2 top-[76px] z-50 w-[calc(100vw-15px)] max-w-[360px] -translate-x-1/2 rounded-[10px] shadow-2xl sm:left-auto sm:right-[8px] sm:translate-x-0 lg:right-[88px] lg:top-[94px] ${cartItem.length === 0 ? "h-[256px]" : "min-h-[256px]"}`}
       ref={ref}
+      tabIndex={1}
     >
       <h2 className={`text-ecommerce-neutral-500 flex h-[68px] w-full items-center border-b px-6 font-bold ${cartItem.length === 0 ? "pb-[2px]" : "pb-2"}`}>Cart</h2>
       <div className={`flex h-[calc(100%-68px)] w-full flex-col items-center pb-3 ${cartItem.length === 0 ? "justify-center" : "pb-8 pt-6"}`}>
@@ -111,6 +133,7 @@ function CartPopup() {
                           });
                         });
                       }}
+                      tabIndex={1}
                     >
                       <svg
                         className="mt-[1px] w-[14px]"
@@ -135,12 +158,17 @@ function CartPopup() {
                 );
               })}
             </div>
-            <button className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] font-bold">Checkout</button>
+            <button
+              className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] font-bold"
+              tabIndex={1}
+            >
+              Checkout
+            </button>
           </div>
         ) : (
           <p className="text-ecommerce-neutral-500/80 font-medium">Your cart is empty.</p>
         )}
       </div>
-    </div>
+    </Transition.Child>
   );
 }
