@@ -135,7 +135,10 @@ function Header() {
           {navs.map((nav, index) => {
             const { text, href } = nav;
             return (
-              <li key={index}>
+              <li
+                key={index}
+                className="hover:before:bg-ecommerce-primary-200 hover:text-ecommerce-neutral-600 hover:relative hover:before:absolute hover:before:bottom-[-49px] hover:before:left-0 hover:before:z-20 hover:before:h-1 hover:before:w-full hover:before:content-['']"
+              >
                 <a
                   href={href}
                   className=""
@@ -148,7 +151,7 @@ function Header() {
         </ul>
       </nav>
       <button
-        className="relative ml-auto mt-[4px] flex h-6 w-6 items-center justify-center rounded lg:mt-[3px]"
+        className="group relative ml-auto mt-[4px] flex h-6 w-6 items-center justify-center rounded lg:mt-[3px]"
         id="cart-toggle"
         onClick={() => {
           setCartOpen((c) => !c);
@@ -156,7 +159,7 @@ function Header() {
       >
         <svg
           viewBox="0 0 22 20"
-          className={`w-[22px] ${cartItem.length === 0 ? "fill-[#69707D]" : "fill-ecommerce-neutral-600"}`}
+          className={`group-hover:fill-ecommerce-neutral-600 w-[22px] ${cartItem.length === 0 ? "fill-[#69707D]" : "fill-ecommerce-neutral-600"}`}
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -166,7 +169,7 @@ function Header() {
         </svg>
         {cartItem.length !== 0 && <span className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 absolute -right-[5px] -top-1 flex h-[13px] w-5 items-center justify-center rounded-full text-[10px] font-bold">{cartItem.length}</span>}
       </button>
-      <button className="relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2 lg:ml-[45px] lg:h-[50px] lg:w-[50px]">
+      <button className="hover:ring-ecommerce-primary-200 relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2 hover:ring lg:ml-[45px] lg:h-[50px] lg:w-[50px]">
         <Image
           src={"/ecommerce-product-page/images/image-avatar.png"}
           className="object-contain"
@@ -265,7 +268,9 @@ function Lightbox({ product }: { product: Product }) {
           return (
             <button
               key={index}
-              className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] ${leftPos === index && "ring-ecommerce-primary-200 ring-2 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-['']"}`}
+              className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:z-10 hover:before:h-full hover:before:w-full hover:before:bg-white/50 hover:before:content-[''] ${
+                leftPos === index && "ring-ecommerce-primary-200 ring-2 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
+              }`}
               onClick={() => {
                 setLeftPos(index);
               }}

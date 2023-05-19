@@ -18,7 +18,7 @@ export default function CartController({ product }: { product: Product }) {
     <div className="mt-[21px] lg:mt-[33px] lg:grid lg:grid-cols-[auto,272px] lg:grid-rows-1 lg:gap-x-4">
       <div className="bg-ecommerce-neutral-200 flex h-[56px] items-center justify-between rounded-[10px] px-[10px] lg:px-[2px]">
         <button
-          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none"
+          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none hover:opacity-50 disabled:cursor-default disabled:hover:opacity-100"
           disabled={productCount === 0}
           onClick={() => {
             productCount !== 0 && setProductCount((p) => p - 1);
@@ -28,7 +28,7 @@ export default function CartController({ product }: { product: Product }) {
         </button>
         <div className="text-ecommerce-neutral-600 font-bold">{productCount}</div>
         <button
-          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none"
+          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none hover:opacity-50 disabled:cursor-default disabled:hover:opacity-100"
           onClick={() => {
             setProductCount((p) => p + 1);
           }}
@@ -37,7 +37,7 @@ export default function CartController({ product }: { product: Product }) {
         </button>
       </div>
       <button
-        className="bg-ecommerce-primary-200 mt-4 flex h-[56px] w-full items-center justify-center gap-4 rounded-[10px] shadow-[0px_10px_50px_theme(colors.ecommerce.primary.200/30%)] lg:mt-0"
+        className="bg-ecommerce-primary-200 hover:bg-ecommerce-primary-200/70 mt-4 flex h-[56px] w-full items-center justify-center gap-4 rounded-[10px] shadow-[0px_10px_50px_theme(colors.ecommerce.primary.200/30%)] lg:mt-0"
         onClick={() => {
           const count = productCount;
           if (count > 0) {
@@ -99,7 +99,7 @@ function CartPopup() {
       ref={ref}
       tabIndex={1}
     >
-      <h2 className={`text-ecommerce-neutral-500 flex h-[68px] w-full items-center border-b px-6 font-bold ${cartItem.length === 0 ? "pb-[2px]" : "pb-2"}`}>Cart</h2>
+      <h2 className={`text-ecommerce-neutral-500 flex h-[68px] w-full items-center border-b px-6 font-bold lg:pb-2 ${cartItem.length === 0 ? "pb-[2px]" : "pb-2"}`}>Cart</h2>
       <div className={`flex h-[calc(100%-68px)] w-full flex-col items-center pb-3 ${cartItem.length === 0 ? "justify-center" : "pb-8 pt-6"}`}>
         {cartItem.length > 0 ? (
           <div className="w-full px-6">
@@ -125,7 +125,7 @@ function CartPopup() {
                       </p>
                     </div>
                     <button
-                      className="ml-auto"
+                      className="group ml-auto"
                       onClick={() => {
                         setCartItem((prev) => {
                           return prev.filter((item, idx) => {
@@ -136,7 +136,7 @@ function CartPopup() {
                       tabIndex={1}
                     >
                       <svg
-                        className="mt-[1px] w-[14px]"
+                        className="group-hover:fill-ecommerce-neutral-600 mt-[1px] w-[14px] fill-[#C3CAD9]"
                         viewBox="0 0 14 16"
                         xmlns="http://www.w3.org/2000/svg"
                         xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -148,7 +148,6 @@ function CartPopup() {
                           />
                         </defs>
                         <use
-                          fill="#C3CAD9"
                           fillRule="nonzero"
                           xlinkHref="#a"
                         />
@@ -159,7 +158,7 @@ function CartPopup() {
               })}
             </div>
             <button
-              className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] font-bold"
+              className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 hover:bg-ecommerce-primary-200/70 mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] font-bold"
               tabIndex={1}
             >
               Checkout
