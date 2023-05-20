@@ -7,6 +7,7 @@ import { cartAtom } from "../components/ecommerce-product-page/CartController";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const CartController = dynamic(import("../components/ecommerce-product-page/CartController"), { ssr: false });
 const MobileMenu = dynamic(import("../components/ecommerce-product-page/MobileMenu"), { ssr: false });
+const Lightbox = dynamic(import("../components/ecommerce-product-page/Lightbox"), { ssr: false });
 
 // TODO:
 // - View the optimal layout for the site depending on their device's screen size
@@ -44,6 +45,7 @@ export const productAtom = atom<Product>({
 });
 export const cartOpenAtom = atom(false);
 export const menuOpenAtom = atom(false);
+export const lightboxOpenAtom = atom({ open: false, position: 0 });
 
 export type Nav = {
   text: string;
@@ -85,7 +87,7 @@ export default function EcommerceProductPage() {
         {/* <Slider
           basePath="/ecommerce-product-page/design"
           // absolutePath="/ecommerce-product-page/design/mobile-design-basket-empty.jpg"
-          absolutePath="/ecommerce-product-page/design/active-states-basket-empty.jpg"
+          absolutePath="/ecommerce-product-page/design/active-states-lightbox.jpg"
         /> */}
       </div>
     </>
@@ -97,8 +99,9 @@ function Main() {
 
   return (
     <div className="pb-[88px] lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-[28px] lg:px-[165px] lg:pt-[91px]">
-      <Lightbox product={currentProduct} />
+      <PhotoSlide product={currentProduct} />
       <ProductDetail product={currentProduct} />
+      <Lightbox product={currentProduct} />
     </div>
   );
 }
@@ -182,14 +185,9 @@ function Header() {
   );
 }
 
-function Lightbox({ product }: { product: Product }) {
+function PhotoSlide({ product }: { product: Product }) {
   const [leftPos, setLeftPos] = useState(0);
-
-  // useInterval(() => {
-  //   setLeftPos((p) => {
-  //     return p !== 3 ? p + 1 : 0;
-  //   });
-  // }, 5000);
+  const setOpen = useSetAtom(lightboxOpenAtom);
 
   return (
     <div>
@@ -230,6 +228,12 @@ function Lightbox({ product }: { product: Product }) {
                 className="relative h-full w-[100%]"
                 key={index}
               >
+                <button
+                  className="relative z-10 flex h-full w-full items-center justify-center opacity-0 max-lg:hidden"
+                  onClick={() => {
+                    setOpen({ open: true, position: index });
+                  }}
+                />
                 <Image
                   src={img}
                   alt={`Product ${index + 1}`}
@@ -263,7 +267,7 @@ function Lightbox({ product }: { product: Product }) {
           </svg>
         </button>
       </div>
-      <div className="mx-auto mt-8 flex w-[445px] justify-between max-lg:hidden">
+      <div className="mx-auto mt-8 flex w-full max-w-[445px] justify-between max-lg:hidden">
         {product.thumbnails.map((thumb, index) => {
           return (
             <button
