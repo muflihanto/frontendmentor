@@ -54,17 +54,30 @@ export default function MainContent() {
   const [theme, setTheme] = useAtom(calculatorThemeAtom);
 
   return (
-    <div className={`text-calculator-th1-text-100 min-h-[100svh] w-screen ${classes[theme].bg1} p-3`}>
-      {/* <button
-        className={`flex h-6 w-12 items-center rounded-full border p-1 ${theme === 1 ? "justify-start" : theme === 2 ? "justify-center" : "justify-end"}`}
-        onClick={() => {
-          setTheme((t) => {
-            return t === 3 ? 1 : ((t + 1) as calculatorTheme);
-          });
-        }}
-      >
-        <div className={`${classes[theme].key3} h-3 w-3 rounded-full`}></div>
-      </button> */}
+    <div className={`text-calculator-th1-text-100 [&_*]:font-league-spartan min-h-[100svh] w-screen [&_*]:font-bold ${classes[theme].bg1} px-6 py-[28px]`}>
+      <div className={`flex items-center justify-between ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>
+        <p className="pl-[7px] text-[32px] tracking-[-0.5px]">calc</p>
+        <div className="flex flex-col items-end gap-[5px] pb-[2px]">
+          <p className="grid w-[70px] grid-cols-3 grid-rows-1 items-center px-[10px] text-[12px] leading-none">
+            <span className="text-left">1</span>
+            <span className="text-center">2</span>
+            <span className="text-right">3</span>
+          </p>
+          <div className="flex items-center gap-[26px]">
+            <p className="pt-[4px] text-[12px] uppercase tracking-[1px]">theme</p>
+            <button
+              className={`flex h-[26px] w-[71px] items-center rounded-full px-[5px] ${classes[theme].bg2} ${theme === 1 ? "justify-start" : theme === 2 ? "justify-center" : "justify-end"}`}
+              onClick={() => {
+                setTheme((t) => {
+                  return t === 3 ? 1 : ((t + 1) as calculatorTheme);
+                });
+              }}
+            >
+              <div className={`${classes[theme].key3} h-4 w-4 rounded-full`}></div>
+            </button>
+          </div>
+        </div>
+      </div>
       <Footer />
     </div>
   );
