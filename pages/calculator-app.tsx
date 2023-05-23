@@ -12,10 +12,10 @@ export default function CalculatorApp() {
       </Head>
       <div className="App relative min-h-[100svh]">
         <MainContent />
-        <Slider
+        {/* <Slider
           basePath="/calculator-app/design"
           absolutePath="/calculator-app/design/mobile-design-theme-1.jpg"
-        />
+        /> */}
       </div>
     </>
   );
