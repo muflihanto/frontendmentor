@@ -14,7 +14,8 @@ export default function CalculatorApp() {
         <MainContent />
         {/* <Slider
           basePath="/calculator-app/design"
-          absolutePath="/calculator-app/design/mobile-design-theme-1.jpg"
+          // absolutePath="/calculator-app/design/mobile-design-theme-1.jpg"
+          absolutePath="/calculator-app/design/desktop-design-theme-1.jpg"
         /> */}
       </div>
     </>

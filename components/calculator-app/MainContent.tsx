@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
@@ -82,10 +83,12 @@ export default function MainContent() {
 
   return (
     <>
-      <div className={`text-calculator-th1-text-100 [&_*]:font-league-spartan min-h-[100svh] w-screen [&_*]:font-bold ${classes[theme].bg1} px-6 py-[28px]`}>
-        <Header />
-        <Screen />
-        <Keyboard />
+      <div className={`text-calculator-th1-text-100 [&_*]:font-league-spartan flex min-h-[100svh] w-screen justify-center lg:items-center [&_*]:font-bold ${classes[theme].bg1} px-6 py-[28px]`}>
+        <div className="w-full min-w-[calc(360px-48px)] max-w-[540px]">
+          <Header />
+          <Screen />
+          <Keyboard />
+        </div>
       </div>
       <Footer />
     </>
@@ -99,24 +102,29 @@ function Header() {
   return (
     <>
       <div className={`flex items-center justify-between ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>
-        <p className="pl-[7px] text-[32px] tracking-[-0.5px]">calc</p>
-        <div className="flex flex-col items-end gap-[5px] pb-[2px]">
-          <p className="grid w-[70px] grid-cols-3 grid-rows-1 items-center px-[10px] text-[12px] leading-none">
+        <p className="pl-[7px] text-[32px] tracking-[-0.5px] lg:pt-1 lg:leading-none">calc</p>
+        <div className="flex flex-col items-end gap-[5px] pb-[2px] lg:pb-[8px]">
+          <p className="grid w-[70px] grid-cols-3 grid-rows-1 items-center px-[10px] text-[12px] leading-none lg:text-[14px]">
             <span className="text-left">1</span>
             <span className="text-center">2</span>
             <span className="text-right">3</span>
           </p>
           <div className="flex items-center gap-[26px]">
-            <p className="pt-[4px] text-[12px] uppercase tracking-[1px]">theme</p>
+            <p className="pt-[4px] text-[12px] uppercase tracking-[1px] lg:pt-[2px] lg:leading-none">theme</p>
             <button
-              className={`group flex h-[26px] w-[71px] items-center rounded-full px-[5px] ${classes[theme].bg2} ${theme === 1 ? "justify-start" : theme === 2 ? "justify-center" : "justify-end"}`}
+              className={`group relative flex h-[26px] w-[71px] items-center rounded-full px-[5px] ${classes[theme].bg2}`}
               onClick={() => {
                 setTheme((t) => {
                   return t === 3 ? 1 : ((t + 1) as calculatorTheme);
                 });
               }}
             >
-              <div className={`${classes[theme].key3} h-4 w-4 rounded-full group-hover:brightness-125`}></div>
+              <motion.div
+                // transition={{ bounce: 0.8, ease: "easeInOut" }}
+                animate={{ left: theme === 1 ? "5px" : theme === 2 ? "calc(50% - 8px)" : "calc(100% - 21px)" }}
+                className={`${classes[theme].key3} absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full group-hover:brightness-125`}
+                // ${theme === 1 ? "" : theme === 2 ? "mx-auto" : "ml-auto"}
+              ></motion.div>
             </button>
           </div>
         </div>
@@ -130,8 +138,8 @@ function Screen() {
   const theme = useAtomValue(calculatorThemeAtom);
 
   return (
-    <div className={`mt-7 h-[88px] w-full rounded-[10px] ${classes[theme].bg3}`}>
-      <p className={`flex h-full w-full items-center justify-end px-6 text-[40px] tracking-[-0.6px] ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>399,981</p>
+    <div className={`mt-7 h-[88px] w-full rounded-[10px] lg:mt-6 lg:h-[128px] ${classes[theme].bg3}`}>
+      <p className={`flex h-full w-full items-center justify-end px-6 text-[40px] tracking-[-0.6px] lg:px-8 lg:text-[56px] ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>399,981</p>
     </div>
   );
 }
@@ -141,18 +149,19 @@ function Keyboard() {
   const theme = useAtomValue(calculatorThemeAtom);
 
   return (
-    <div className={`mt-6 h-[420px] w-full rounded-[10px] p-6 ${classes[theme].bg2}`}>
-      <div className="grid grid-cols-4 grid-rows-5 gap-[13px]">
+    <div className={`mt-6 h-[420px] w-full rounded-[10px] p-6 lg:h-[480px] lg:p-8 lg:pl-[30px] ${classes[theme].bg2}`}>
+      <div className="grid grid-cols-4 grid-rows-5 gap-[13px] lg:gap-x-[24px] lg:gap-y-6">
         {keys.map((key, index) => {
           return (
-            <button
+            <motion.button
+              whileTap={{ scale: 0.95 }}
               key={index}
-              className={`${(key.type === "reset" || key.type === "equal") && "col-span-2"} flex h-16 items-center justify-center rounded-[6px] border-b-4 pt-2 uppercase hover:brightness-125 ${index === 3 || index > 15 ? "pb-[6px] text-[19px]" : index === 15 ? "pt-[14px] text-[22px]" : "text-[32px]"} ${
+              className={`${(key.type === "reset" || key.type === "equal") && "col-span-2"} flex h-16 items-center justify-center rounded-[6px] border-b-4 pt-2 uppercase hover:brightness-125 lg:rounded-[10px] ${index === 3 || index > 15 ? "pb-[6px] text-[19px] lg:pb-[4px] lg:text-[28px]" : index === 15 ? "pt-[14px] text-[22px] lg:text-[24px]" : "text-[32px] lg:pb-[2px] lg:text-[40px]"} ${
                 index === 3 || index === 16 ? [classes[theme].key1, classes[theme].key2, classes[theme].text1].join(" ") : index === 17 ? [classes[theme].key3, classes[theme].key4, classes[theme].text1].join(" ") : [classes[theme].key5, classes[theme].key6, classes[theme].text2].join(" ")
               }`}
             >
               {key.key}
-            </button>
+            </motion.button>
           );
         })}
       </div>
