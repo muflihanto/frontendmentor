@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import Mexp from "math-expression-evaluator";
+import { useEffect, useRef, useState } from "react";
+import indexesOf, { getMaxIndex } from "../../utils/indexesOf";
 
 export type calculatorTheme = 1 | 2 | 3;
 
@@ -74,7 +76,7 @@ const keys: Key[] = [
   { key: ".", type: "dot" },
   { key: "0", type: "number" },
   { key: "/", type: "operator" },
-  { key: "x", type: "operator" },
+  { key: "*", type: "operator" },
   { key: "reset", type: "reset" },
   { key: "=", type: "equal" },
 ];
@@ -102,6 +104,8 @@ export default function MainContent() {
 // - Perform mathematical operations like addition, subtraction, multiplication, and division
 // - Adjust the color theme based on their preference
 // - **Bonus**: Have their initial theme preference checked using `prefers-color-scheme` and have any additional changes saved in the browser
+
+// TODO: Format display
 
 function Header() {
   const classes = useAtomValue(themeClassAtom);
@@ -147,10 +151,7 @@ function Screen() {
 
   return (
     <div className={`mt-7 h-[88px] w-full rounded-[10px] px-6 lg:mt-6 lg:h-[128px] lg:px-8 ${classes[theme].bg3}`}>
-      <p className={`flex h-full w-full items-center justify-end overflow-hidden text-[40px] tracking-[-0.6px] lg:text-[56px] ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>
-        {/* 399,981 */}
-        {!!display ? display : "0"}
-      </p>
+      <p className={`flex h-full w-full items-center justify-end overflow-hidden text-[40px] tracking-[-0.6px] lg:text-[56px] ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>{!!display ? display.replace("*", "x") : "0"}</p>
     </div>
   );
 }
@@ -158,48 +159,9 @@ function Screen() {
 function Keyboard() {
   const classes = useAtomValue(themeClassAtom);
   const theme = useAtomValue(calculatorThemeAtom);
-  const setDisplay = useSetAtom(displayAtom);
-  const [input, setInput] = useState<string>("");
+  const [display, setDisplay] = useAtom(displayAtom);
   const currentInputType = useRef<KeyType>();
   const [isFloat, setIsFloat] = useState(false);
-
-  const handleNumKey = (k: Key) => {
-    if (!currentInputType.current) {
-      setInput(k.key);
-      setDisplay(k.key);
-    } else {
-      // switch (currentInputType.current) {
-      //   case "number":
-      //   case "dot":
-      //   case "operator":
-      //     // const tmpInput = (() => {
-      //     //   if (input.length === 1) {
-      //     //     return [input[0] + k.key];
-      //     //   }
-      //     //   return [...input.slice(0, -1), input[-1] + k.key];
-      //     // })();
-      //     // setInput(tmpInput);
-      //     // setDisplay(tmpInput.slice(-1)[0]);
-      //     break;
-      //   default:
-      //     console.log("default");
-      // }
-      const tmpInput = String(input) + k.key;
-      setInput(tmpInput);
-      setDisplay(tmpInput);
-    }
-    currentInputType.current = k.type;
-  };
-
-  const handleReset = () => {
-    // setInput([]);
-    // setDisplay("");
-    // setIsFloat(false);
-    setInput("");
-    setDisplay("");
-    setIsFloat(false);
-    currentInputType.current = undefined;
-  };
 
   const getCharType = (char: string): KeyType => {
     const ch = keys.find((c) => {
@@ -208,33 +170,84 @@ function Keyboard() {
     return ch?.type!;
   };
 
+  const handleNumKey = (k: Key) => {
+    if (!currentInputType.current) {
+      if (k.key === "0") return;
+      setDisplay(k.key);
+    } else {
+      setDisplay((d) => {
+        return (d.slice(-1) === "0" && getCharType(d.slice(-2)[0]) === "operator" ? d.slice(0, -1) : d) + k.key;
+      });
+    }
+    currentInputType.current = k.type;
+  };
+
+  const handleReset = () => {
+    setDisplay("");
+    setIsFloat(false);
+    currentInputType.current = undefined;
+  };
+
   const handleDelete = () => {
     if (!currentInputType.current) return;
 
     if (currentInputType.current === "dot") {
       setIsFloat(false);
     }
-    const tmpInput = input.length > 1 ? input.slice(0, -1) : "";
-    setInput(tmpInput);
-    setDisplay(tmpInput);
-    currentInputType.current = input.length > 1 ? getCharType(input.slice(-1)) : undefined;
+
+    if (currentInputType.current === "operator" && !isFloat) {
+      const dotIndex = getMaxIndex(display, /[\.]/g);
+      if (!!dotIndex) {
+        const oprIndex = getMaxIndex(display.slice(0, -1), /\+|\-|\/|\*/g);
+        if (!oprIndex || dotIndex > oprIndex) setIsFloat(true);
+      }
+    }
+
+    setDisplay((d) => (d.length > 1 ? d.slice(0, -1) : ""));
+    currentInputType.current = display.length > 1 ? getCharType(display.slice(-2, -1)) : undefined;
   };
 
   const handleDot = () => {
+    if (isFloat) return;
+
     if (!currentInputType.current) {
-      setInput("0.");
       setDisplay("0.");
-      currentInputType.current = "dot";
-      setIsFloat(true);
+    } else {
+      if (currentInputType.current === "del") return;
+      setDisplay((d) => d + `${currentInputType.current === "operator" && "0"}.`);
     }
+    setIsFloat(true);
+
+    currentInputType.current = "dot";
+  };
+
+  const handleOperator = (key: Key) => {
+    if (!currentInputType.current) {
+      setDisplay("0" + key.key);
+    } else {
+      const curr = (["operator", "dot"] as KeyType[]).includes(currentInputType.current) ? display.slice(0, -1) : display;
+      setDisplay(curr + key.key);
+    }
+
+    setIsFloat(false);
+    currentInputType.current = key.type;
+  };
+
+  const handleEqual = () => {
+    const mex = new Mexp();
+    // @ts-expect-error
+    const result = String(mex.eval(display));
+    setDisplay(result);
+    setIsFloat(result.includes("."));
+    currentInputType.current = "number";
   };
 
   useEffect(() => {
-    if (input.length < 1) {
+    if (display.length < 1) {
       setIsFloat(false);
     }
-    console.log({ input, curr: currentInputType.current });
-  }, [input]);
+    // console.log({ display, curr: currentInputType.current });
+  }, [display]);
 
   return (
     <div className={`mt-6 h-[420px] w-full rounded-[10px] p-6 lg:h-[480px] lg:p-8 lg:pl-[30px] ${classes[theme].bg2}`}>
@@ -255,13 +268,25 @@ function Keyboard() {
                   case "del":
                     handleDelete();
                     break;
+                  case "dot":
+                    handleDot();
+                    break;
+                  case "operator":
+                    handleOperator(key);
+                    break;
+                  case "equal":
+                    handleEqual();
+                    break;
+                  default:
+                    console.log("invalid input");
+                    break;
                 }
               }}
               className={`${(key.type === "reset" || key.type === "equal") && "col-span-2"} flex h-16 items-center justify-center rounded-[6px] border-b-4 pt-2 uppercase hover:brightness-125 lg:rounded-[10px] ${index === 3 || index > 15 ? "pb-[6px] text-[19px] lg:pb-[4px] lg:text-[28px]" : index === 15 ? "pt-[14px] text-[22px] lg:text-[24px]" : "text-[32px] lg:pb-[2px] lg:text-[40px]"} ${
                 index === 3 || index === 16 ? [classes[theme].key1, classes[theme].key2, classes[theme].text1].join(" ") : index === 17 ? [classes[theme].key3, classes[theme].key4, classes[theme].text1].join(" ") : [classes[theme].key5, classes[theme].key6, classes[theme].text2].join(" ")
               }`}
             >
-              {key.key}
+              {key.key.replace("*", "x")}
             </motion.button>
           );
         })}
