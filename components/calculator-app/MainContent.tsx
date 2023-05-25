@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { atom, useAtom, useAtomValue } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 
 export type calculatorTheme = 1 | 2 | 3;
 
@@ -49,6 +50,7 @@ export const themeClassAtom = atom({
     text3: "text-calculator-th3-text-300",
   },
 });
+export const displayAtom = atom("");
 
 export type KeyType = "number" | "operator" | "dot" | "equal" | "del" | "reset";
 export type Key = {
@@ -95,9 +97,16 @@ export default function MainContent() {
   );
 }
 
+// TODO:
+// - See the size of the elements adjust based on their device's screen size
+// - Perform mathematical operations like addition, subtraction, multiplication, and division
+// - Adjust the color theme based on their preference
+// - **Bonus**: Have their initial theme preference checked using `prefers-color-scheme` and have any additional changes saved in the browser
+
 function Header() {
   const classes = useAtomValue(themeClassAtom);
   const [theme, setTheme] = useAtom(calculatorThemeAtom);
+  const setDisplay = useSetAtom(displayAtom);
 
   return (
     <>
@@ -120,10 +129,8 @@ function Header() {
               }}
             >
               <motion.div
-                // transition={{ bounce: 0.8, ease: "easeInOut" }}
                 animate={{ left: theme === 1 ? "5px" : theme === 2 ? "calc(50% - 8px)" : "calc(100% - 21px)" }}
                 className={`${classes[theme].key3} absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full group-hover:brightness-125`}
-                // ${theme === 1 ? "" : theme === 2 ? "mx-auto" : "ml-auto"}
               ></motion.div>
             </button>
           </div>
@@ -136,10 +143,14 @@ function Header() {
 function Screen() {
   const classes = useAtomValue(themeClassAtom);
   const theme = useAtomValue(calculatorThemeAtom);
+  const display = useAtomValue(displayAtom);
 
   return (
-    <div className={`mt-7 h-[88px] w-full rounded-[10px] lg:mt-6 lg:h-[128px] ${classes[theme].bg3}`}>
-      <p className={`flex h-full w-full items-center justify-end px-6 text-[40px] tracking-[-0.6px] lg:px-8 lg:text-[56px] ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>399,981</p>
+    <div className={`mt-7 h-[88px] w-full rounded-[10px] px-6 lg:mt-6 lg:h-[128px] lg:px-8 ${classes[theme].bg3}`}>
+      <p className={`flex h-full w-full items-center justify-end overflow-hidden text-[40px] tracking-[-0.6px] lg:text-[56px] ${theme === 1 ? classes[theme].text1 : classes[theme].text2}`}>
+        {/* 399,981 */}
+        {!!display ? display : "0"}
+      </p>
     </div>
   );
 }
@@ -147,6 +158,83 @@ function Screen() {
 function Keyboard() {
   const classes = useAtomValue(themeClassAtom);
   const theme = useAtomValue(calculatorThemeAtom);
+  const setDisplay = useSetAtom(displayAtom);
+  const [input, setInput] = useState<string>("");
+  const currentInputType = useRef<KeyType>();
+  const [isFloat, setIsFloat] = useState(false);
+
+  const handleNumKey = (k: Key) => {
+    if (!currentInputType.current) {
+      setInput(k.key);
+      setDisplay(k.key);
+    } else {
+      // switch (currentInputType.current) {
+      //   case "number":
+      //   case "dot":
+      //   case "operator":
+      //     // const tmpInput = (() => {
+      //     //   if (input.length === 1) {
+      //     //     return [input[0] + k.key];
+      //     //   }
+      //     //   return [...input.slice(0, -1), input[-1] + k.key];
+      //     // })();
+      //     // setInput(tmpInput);
+      //     // setDisplay(tmpInput.slice(-1)[0]);
+      //     break;
+      //   default:
+      //     console.log("default");
+      // }
+      const tmpInput = String(input) + k.key;
+      setInput(tmpInput);
+      setDisplay(tmpInput);
+    }
+    currentInputType.current = k.type;
+  };
+
+  const handleReset = () => {
+    // setInput([]);
+    // setDisplay("");
+    // setIsFloat(false);
+    setInput("");
+    setDisplay("");
+    setIsFloat(false);
+    currentInputType.current = undefined;
+  };
+
+  const getCharType = (char: string): KeyType => {
+    const ch = keys.find((c) => {
+      return c.key === char;
+    });
+    return ch?.type!;
+  };
+
+  const handleDelete = () => {
+    if (!currentInputType.current) return;
+
+    if (currentInputType.current === "dot") {
+      setIsFloat(false);
+    }
+    const tmpInput = input.length > 1 ? input.slice(0, -1) : "";
+    setInput(tmpInput);
+    setDisplay(tmpInput);
+    currentInputType.current = input.length > 1 ? getCharType(input.slice(-1)) : undefined;
+  };
+
+  const handleDot = () => {
+    if (!currentInputType.current) {
+      setInput("0.");
+      setDisplay("0.");
+      currentInputType.current = "dot";
+      setIsFloat(true);
+    }
+  };
+
+  useEffect(() => {
+    if (input.length < 1) {
+      setIsFloat(false);
+    }
+    console.log({ input, curr: currentInputType.current });
+  }, [input]);
 
   return (
     <div className={`mt-6 h-[420px] w-full rounded-[10px] p-6 lg:h-[480px] lg:p-8 lg:pl-[30px] ${classes[theme].bg2}`}>
@@ -156,6 +244,19 @@ function Keyboard() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               key={index}
+              onClick={() => {
+                switch (key.type) {
+                  case "number":
+                    handleNumKey(key);
+                    break;
+                  case "reset":
+                    handleReset();
+                    break;
+                  case "del":
+                    handleDelete();
+                    break;
+                }
+              }}
               className={`${(key.type === "reset" || key.type === "equal") && "col-span-2"} flex h-16 items-center justify-center rounded-[6px] border-b-4 pt-2 uppercase hover:brightness-125 lg:rounded-[10px] ${index === 3 || index > 15 ? "pb-[6px] text-[19px] lg:pb-[4px] lg:text-[28px]" : index === 15 ? "pt-[14px] text-[22px] lg:text-[24px]" : "text-[32px] lg:pb-[2px] lg:text-[40px]"} ${
                 index === 3 || index === 16 ? [classes[theme].key1, classes[theme].key2, classes[theme].text1].join(" ") : index === 17 ? [classes[theme].key3, classes[theme].key4, classes[theme].text1].join(" ") : [classes[theme].key5, classes[theme].key6, classes[theme].text2].join(" ")
               }`}
