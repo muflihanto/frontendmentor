@@ -213,8 +213,7 @@ function Keyboard() {
     if (!currentInputType.current) {
       setDisplay("0.");
     } else {
-      if (currentInputType.current === "del") return;
-      setDisplay((d) => d + `${currentInputType.current === "operator" && "0"}.`);
+      setDisplay((d) => d + `${currentInputType.current === "operator" ? "0" : ""}.`);
     }
     setIsFloat(true);
 
