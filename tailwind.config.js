@@ -690,6 +690,18 @@ module.exports = {
             },
           },
         },
+        countdown: {
+          primary: {
+            blue: "hsl(237,18%,59%)",
+            red: "hsl(345,95%,68%)",
+          },
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(236,21%,26%)",
+            300: "hsl(235,16%,14%)",
+            400: "hsl(234,17%,12%)",
+          }
+        }
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -727,6 +739,7 @@ module.exports = {
         "bai-jamjuree": ["Bai Jamjuree", ...fontFamily.sans],
         rubiks: ["Rubiks", ...fontFamily.sans],
         "hanken-grotesk": ["Hanken Grotesk", ...fontFamily.sans],
+        "red-hat-text": ["Red Hat Text", ...fontFamily.sans],
       },
     },
   },
