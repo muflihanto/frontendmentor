@@ -1,6 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import { useAnimate } from "framer-motion";
+import { useInterval } from "usehooks-ts";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function LaunchCountdownTimer() {
@@ -21,7 +24,7 @@ export default function LaunchCountdownTimer() {
         <Main />
         <SocialIcons />
         <Footer />
-        <Slider basePath="/launch-countdown-timer/design" />
+        {/* <Slider basePath="/launch-countdown-timer/design" /> */}
       </div>
     </>
   );
@@ -29,16 +32,173 @@ export default function LaunchCountdownTimer() {
 
 function Main() {
   return (
-    <div className="text-countdown-neutral-100 flex h-full w-full flex-col items-center justify-center">
-      <h1 className="px-8 text-center text-[18px] font-bold uppercase tracking-[5px]">We&lsquo;re launching soon</h1>
-      <div className="grid w-full grid-cols-4 grid-rows-2">
-        <div className="col-span-4"></div>
-        <div className="text-center text-[8px] font-light uppercase tracking-[2px]">Days</div>
-        <div className="text-center text-[8px] font-light uppercase tracking-[2px]">Hours</div>
-        <div className="text-center text-[8px] font-light uppercase tracking-[2px]">Minutes</div>
-        <div className="text-center text-[8px] font-light uppercase tracking-[2px]">Seconds</div>
-      </div>
+    <div className="text-countdown-neutral-100 flex h-full w-full flex-col items-center justify-center pb-[193px]">
+      <h1 className="px-8 text-center text-[18px] font-bold uppercase leading-[24px] tracking-[6.2px]">We&lsquo;re launching soon</h1>
+      <CountdownTimer />
     </div>
+  );
+}
+
+function CountdownTimer() {
+  // const [time, setTime] = useState(777600);
+  const [days, setDays] = useState(9);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [parent, animate] = useAnimate();
+  const duration = useRef(1000);
+
+  const handleAnimate = () => {
+    // animate(".top", { rotateX: ["0deg", "180deg", "0deg"] }, { ease: "easeInOut", duration: 1 });
+    setSeconds((t) => {
+      if (t - 1 === -1) return 59;
+      return t - 1;
+    });
+  };
+
+  useInterval(handleAnimate, duration.current);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      const handleMinuteChange = setInterval(() => {
+        setMinutes((t) => {
+          if (t - 1 === -1) return 59;
+          return t - 1;
+        });
+      }, duration.current);
+
+      return () => {
+        clearInterval(handleMinuteChange);
+      };
+    }
+  }, [seconds]);
+
+  useEffect(() => {
+    if (seconds === 0 && minutes === 0) {
+      const handleHourChange = setInterval(() => {
+        setHours((t) => {
+          if (t - 1 === -1) return 23;
+          return t - 1;
+        });
+      }, duration.current);
+
+      return () => {
+        clearInterval(handleHourChange);
+      };
+    }
+  }, [seconds, minutes]);
+
+  useEffect(() => {
+    if (seconds === 0 && minutes === 0 && hours === 0) {
+      const handleDayChange = setInterval(() => {
+        setDays((t) => {
+          return t - 1;
+        });
+      }, duration.current);
+
+      return () => {
+        clearInterval(handleDayChange);
+      };
+    }
+  }, [seconds, minutes, hours]);
+
+  return (
+    <>
+      <div
+        className="mt-14 grid w-full grid-cols-[repeat(4,70px)] grid-rows-[var(--card-height),auto] justify-center gap-x-[16px] gap-y-3"
+        style={
+          {
+            "--card-height": "66px",
+          } as CSSProperties
+        }
+      >
+        <div
+          className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[36px] font-bold tracking-tight"
+          ref={parent}
+        >
+          <div className="top">{days < 10 ? `0${days}` : days}</div>
+          {/* <div className="bottom">08</div> */}
+        </div>
+        <div className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[36px] font-bold tracking-tight">
+          <div className="top">{hours < 10 ? `0${hours}` : hours}</div>
+          {/* <div className="bottom">23</div> */}
+        </div>
+        <div className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[36px] font-bold tracking-tight">
+          <div className="top">{minutes < 10 ? `0${minutes}` : minutes}</div>
+          {/* <div className="bottom">55</div> */}
+        </div>
+        <div className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[36px] font-bold tracking-tight">
+          <div className="top">{seconds < 10 ? `0${seconds}` : seconds}</div>
+          {/* <div className="bottom">41</div> */}
+        </div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Days</div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Hours</div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Minutes</div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Seconds</div>
+      </div>
+
+      <style jsx>{`
+        .flip-card {
+          overflow: hidden;
+          filter: drop-shadow(0px 5px 0.1px hsl(234, 17%, 12%));
+        }
+
+        .flip-card::before,
+        .flip-card::after,
+        .top::before {
+          position: absolute;
+          content: "";
+        }
+
+        .flip-card::before,
+        .flip-card::after {
+          --dot-radius: 6px;
+          top: 50%;
+          width: var(--dot-radius);
+          height: var(--dot-radius);
+          border-radius: var(--dot-radius);
+          background-color: hsl(235, 16%, 14%);
+          z-index: 30;
+        }
+
+        .flip-card::before {
+          left: 0;
+          transform: translate(-50%, -50%);
+        }
+
+        .flip-card::after {
+          right: 0;
+          transform: translate(50%, -50%);
+        }
+
+        .top,
+        .bottom {
+          position: absolute;
+          width: 100%;
+          line-height: var(--card-height);
+          overflow: hidden;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .top::before {
+          width: 100%;
+          height: 50%;
+          left: 0;
+          top: 0;
+          background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.2));
+        }
+
+        .bottom {
+          bottom: 0;
+          height: 50%;
+          z-index: 20;
+          background-color: hsl(236, 21%, 26%);
+          justify-content: flex-end;
+        }
+      `}</style>
+    </>
   );
 }
 
