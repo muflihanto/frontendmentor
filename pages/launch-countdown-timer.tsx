@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useAnimate } from "framer-motion";
-import { useInterval } from "usehooks-ts";
+import { useEffectOnce, useInterval } from "usehooks-ts";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function LaunchCountdownTimer() {
@@ -13,12 +13,9 @@ export default function LaunchCountdownTimer() {
         <title>Frontend Mentor | Launch countdown timer</title>
       </Head>
       <div
-        className="App [&_*]:font-red-hat-text bg-countdown-neutral-300 relative flex min-h-[100svh] flex-col items-center justify-center"
+        className="App [&_*]:font-red-hat-text bg-countdown-neutral-300 relative flex min-h-[100dvh] flex-col items-center justify-center bg-[length:920px_auto,auto_auto,100%_100%] bg-[position:bottom_43px_right_-67.5px,top_center,center] bg-no-repeat md:bg-[length:100vw_auto,auto_auto,100%_100%] md:bg-[position:bottom_43px_center,top_center,center]"
         style={{
           backgroundImage: "url('/launch-countdown-timer/images/pattern-hills.svg'), url('/launch-countdown-timer/images/bg-stars.svg') ,linear-gradient(rgb(30, 31, 41), #241c2b 80%, #2F2439 80%, #2F2439 100%)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "920px auto, auto auto , 100% 100%",
-          backgroundPosition: "bottom 43px right -67.5px, top center ,center",
         }}
       >
         <Main />
@@ -41,6 +38,17 @@ function Main() {
 
 function FlipCard({ value, maxValue, duration = 1000 }: { value: number; maxValue: number; duration?: number }) {
   const [ref, flip] = useAnimate();
+  const [init, setInit] = useState(true);
+
+  useEffectOnce(() => {
+    const timeout = setTimeout(() => {
+      setInit(false);
+    }, duration);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
 
   useEffect(() => {
     flip(".top-flip", { rotateX: ["0deg", "90deg"] }, { ease: "easeIn", duration: duration / 2000 });
@@ -50,13 +58,13 @@ function FlipCard({ value, maxValue, duration = 1000 }: { value: number; maxValu
   return (
     <>
       <div
-        className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[32px] font-bold tracking-tight"
+        className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[36px] font-bold tracking-tight"
         ref={ref}
       >
-        <div className="top">{value < 10 ? `0${value}` : value}</div>
-        <div className="bottom">{value + 1 < 10 ? `0${value + 1}` : value + 1 > maxValue ? `00` : value + 1}</div>
-        <div className="top-flip">{value + 1 < 10 ? `0${value + 1}` : value + 1 > maxValue ? `00` : value + 1}</div>
-        <div className="bottom-flip">{value < 10 ? `0${value}` : value}</div>
+        <div className="top">{init ? (value < 10 ? `0${value}` : value) : value < 10 ? `0${value}` : value}</div>
+        <div className="bottom">{init ? "--" : value + 1 < 10 ? `0${value + 1}` : value + 1 > maxValue ? `00` : value + 1}</div>
+        <div className="top-flip">{init ? "--" : value + 1 < 10 ? `0${value + 1}` : value + 1 > maxValue ? `00` : value + 1}</div>
+        <div className="bottom-flip">{init ? (value < 10 ? `0${value}` : value) : value < 10 ? `0${value}` : value}</div>
       </div>
 
       <style jsx>{`
@@ -138,50 +146,25 @@ function FlipCard({ value, maxValue, duration = 1000 }: { value: number; maxValu
 }
 
 function CountdownTimer() {
-  const [days, setDays] = useState(8);
-  const [hours, setHours] = useState(23);
-  const [minutes, setMinutes] = useState(59);
-  const [seconds, setSeconds] = useState(59);
-  const duration = useRef(1000);
+  const [time, setTime] = useState(9 * 24 * 60 * 60);
+  const [duration] = useState(1000);
 
-  const handleSecond = () => {
-    setSeconds((t) => {
-      if (t - 1 === -1) return 59;
-      return t - 1;
-    });
+  const handleTime = () => {
+    if (time > 0) {
+      setTime((t) => t - 1);
+    }
   };
 
-  useEffect(() => {
-    if (seconds === 0) {
-      const handleMinuteChange = setTimeout(() => {
-        setMinutes((t) => {
-          if (t - 1 === -1) return 59;
-          return t - 1;
-        });
-      }, duration.current);
+  const timeUnits = useMemo(() => {
+    return {
+      seconds: time % 60,
+      minutes: Math.floor(time / 60) % 60,
+      hours: Math.floor(time / 3600) % 24,
+      days: Math.floor(time / (3600 * 24)),
+    };
+  }, [time]);
 
-      return () => {
-        clearTimeout(handleMinuteChange);
-      };
-    }
-  }, [seconds]);
-
-  useEffect(() => {
-    if (seconds === 0 && minutes === 0) {
-      const handleHourChange = setTimeout(() => {
-        setHours((t) => {
-          if (t - 1 === -1) return 23;
-          return t - 1;
-        });
-      }, duration.current);
-
-      return () => {
-        clearTimeout(handleHourChange);
-      };
-    }
-  }, [seconds, minutes]);
-
-  useInterval(handleSecond, duration.current);
+  useInterval(handleTime, duration);
 
   return (
     <>
@@ -194,23 +177,23 @@ function CountdownTimer() {
         }
       >
         <FlipCard
-          value={days}
-          duration={duration.current}
+          value={timeUnits.days}
+          duration={duration}
           maxValue={0}
         />
         <FlipCard
-          value={hours}
-          duration={duration.current}
+          value={timeUnits.hours}
+          duration={duration}
           maxValue={23}
         />
         <FlipCard
-          value={minutes}
-          duration={duration.current}
+          value={timeUnits.minutes}
+          duration={duration}
           maxValue={59}
         />
         <FlipCard
-          value={seconds}
-          duration={duration.current}
+          value={timeUnits.seconds}
+          duration={duration}
           maxValue={59}
         />
         <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Days</div>
