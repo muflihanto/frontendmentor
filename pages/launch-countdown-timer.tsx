@@ -3,7 +3,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useAnimate } from "framer-motion";
-import { useEffectOnce, useInterval } from "usehooks-ts";
+import { useEffectOnce, useInterval, useWindowSize } from "usehooks-ts";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function LaunchCountdownTimer() {
@@ -12,12 +12,7 @@ export default function LaunchCountdownTimer() {
       <Head>
         <title>Frontend Mentor | Launch countdown timer</title>
       </Head>
-      <div
-        className="App [&_*]:font-red-hat-text bg-countdown-neutral-300 relative flex min-h-[100dvh] flex-col items-center justify-center bg-[length:920px_auto,auto_auto,100%_100%] bg-[position:bottom_43px_right_-67.5px,top_center,center] bg-no-repeat md:bg-[length:100vw_auto,auto_auto,100%_100%] md:bg-[position:bottom_43px_center,top_center,center]"
-        style={{
-          backgroundImage: "url('/launch-countdown-timer/images/pattern-hills.svg'), url('/launch-countdown-timer/images/bg-stars.svg') ,linear-gradient(rgb(30, 31, 41), #241c2b 80%, #2F2439 80%, #2F2439 100%)",
-        }}
-      >
+      <div className="App [&_*]:font-red-hat-text bg-countdown-neutral-300 relative flex min-h-[100dvh] flex-col items-center justify-center bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-130px),#2F2439_calc(100vh-130px),#2F2439_100%)] bg-[length:920px_auto,auto_auto,100%_100%] bg-[position:bottom_43px_right_-67.5px,top_center,center] bg-no-repeat md:bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-90px),#2F2439_calc(100vh-90px),#2F2439_100%)] md:bg-[length:100vw_auto,auto_auto,100%_100%] md:bg-[position:bottom_center,top_3px_center,center]">
         <Main />
         <SocialIcons />
         <Footer />
@@ -29,8 +24,8 @@ export default function LaunchCountdownTimer() {
 
 function Main() {
   return (
-    <div className="text-countdown-neutral-100 flex h-full w-full flex-col items-center justify-center pb-[193px]">
-      <h1 className="px-8 text-center text-[18px] font-bold uppercase leading-[24px] tracking-[6.2px]">We&lsquo;re launching soon</h1>
+    <div className="text-countdown-neutral-100 flex h-full w-full flex-col items-center justify-center pb-[193px] md:pb-[210px]">
+      <h1 className="px-8 text-center text-[18px] font-bold uppercase leading-[24px] tracking-[6.2px] md:text-[22px] md:tracking-[7.5px]">We&lsquo;re launching soon</h1>
       <CountdownTimer />
     </div>
   );
@@ -58,7 +53,7 @@ function FlipCard({ value, maxValue, duration = 1000 }: { value: number; maxValu
   return (
     <>
       <div
-        className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[36px] font-bold tracking-tight"
+        className="flip-card bg-countdown-neutral-200 text-countdown-primary-red relative flex flex-col items-center justify-center rounded text-[32px] font-bold tracking-tight md:rounded-lg md:text-[78px]"
         ref={ref}
       >
         <div className="top">{init ? (value < 10 ? `0${value}` : value) : value < 10 ? `0${value}` : value}</div>
@@ -99,6 +94,16 @@ function FlipCard({ value, maxValue, duration = 1000 }: { value: number; maxValu
         .flip-card::after {
           right: 0;
           transform: translate(50%, -50%);
+        }
+
+        @media (min-width: 768px) {
+          .flip-card {
+            filter: drop-shadow(0px 8px 0.1px hsl(234, 17%, 12%));
+          }
+          .flip-card::before,
+          .flip-card::after {
+            --dot-radius: 12px;
+          }
         }
 
         .top,
@@ -148,6 +153,7 @@ function FlipCard({ value, maxValue, duration = 1000 }: { value: number; maxValu
 function CountdownTimer() {
   const [time, setTime] = useState(9 * 24 * 60 * 60);
   const [duration] = useState(1000);
+  const { width } = useWindowSize();
 
   const handleTime = () => {
     if (time > 0) {
@@ -169,10 +175,10 @@ function CountdownTimer() {
   return (
     <>
       <div
-        className="mt-14 grid w-full grid-cols-[repeat(4,70px)] grid-rows-[var(--card-height),auto] justify-center gap-x-[16px] gap-y-3"
+        className="mt-14 grid w-full grid-cols-[repeat(4,70px)] grid-rows-[var(--card-height),auto] justify-center gap-x-[16px] gap-y-3 md:mt-[106px] md:grid-cols-[repeat(4,147px)] md:gap-x-[33px] md:gap-y-[24px]"
         style={
           {
-            "--card-height": "66px",
+            "--card-height": width < 768 ? "66px" : "140px",
           } as CSSProperties
         }
       >
@@ -196,10 +202,10 @@ function CountdownTimer() {
           duration={duration}
           maxValue={59}
         />
-        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Days</div>
-        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Hours</div>
-        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Minutes</div>
-        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px]">Seconds</div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px] md:text-[14px] md:tracking-[6px]">Days</div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px] md:text-[14px] md:tracking-[6px]">Hours</div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px] md:text-[14px] md:tracking-[6px]">Minutes</div>
+        <div className="text-countdown-primary-blue text-center text-[8px] font-bold uppercase tracking-[2.2px] md:text-[14px] md:tracking-[6px]">Seconds</div>
       </div>
 
       <style jsx>{`
@@ -269,7 +275,7 @@ function CountdownTimer() {
 
 function SocialIcons() {
   return (
-    <nav className="absolute bottom-12 left-1/2 flex -translate-x-1/2 items-center gap-8">
+    <nav className="absolute bottom-12 left-1/2 flex -translate-x-1/2 items-center gap-8 md:bottom-[72px]">
       <ul>
         <li className="group">
           <a href="">
