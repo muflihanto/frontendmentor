@@ -236,6 +236,12 @@
 }
 
 @font-face {
+  font-family: "Josefin Sans";
+  src: url("/todo-app/fonts/JosefinSans-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
   font-family: "Libre Franklin";
   src: local("Libre Franklin"), url("/ping-coming-soon-page/fonts/LibreFranklin-VariableFont_wght.ttf");
 }
