@@ -151,7 +151,7 @@ function FlipCard({ value, maxValue, duration = 1000 }: { value: number; maxValu
 }
 
 function CountdownTimer() {
-  const [time, setTime] = useState(9 * 24 * 60 * 60);
+  const [time, setTime] = useState(14 * 24 * 60 * 60);
   const [duration] = useState(1000);
   const { width } = useWindowSize();
 

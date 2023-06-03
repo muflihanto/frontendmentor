@@ -1,0 +1,26 @@
+[
+  {
+    "activity": "Complete online JavaScript course",
+    "completed": true
+  },
+  {
+    "activity": "Jog around the park 3x",
+    "completed": false
+  },
+  {
+    "activity": "10 minutes meditation",
+    "completed": false
+  },
+  {
+    "activity": "Read for 1 hour",
+    "completed": false
+  },
+  {
+    "activity": "Pick up groceries",
+    "completed": false
+  },
+  {
+    "activity": "Complete Todo App on Frontend Mentor",
+    "completed": false
+  }
+]
