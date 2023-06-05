@@ -20,13 +20,15 @@ export default function TodoApp() {
       <Head>
         <title>Frontend Mentor | Todo app</title>
       </Head>
-      <div className="App font-josefin bg-todo-neutral-light-100 dark:bg-todo-neutral-dark-700 relative min-h-[100dvh] bg-[url('/todo-app/images/bg-mobile-light.jpg')] bg-[length:100%] bg-no-repeat pb-[64.5px] pt-[45px] dark:bg-[url('/todo-app/images/bg-mobile-dark.jpg')] lg:bg-[url('/todo-app/images/bg-desktop-light.jpg')] lg:dark:bg-[url('/todo-app/images/bg-desktop-dark.jpg')]">
+      <div className="App font-josefin bg-todo-neutral-light-100 dark:bg-todo-neutral-dark-700 relative min-h-[100dvh] bg-[url('/todo-app/images/bg-mobile-light.jpg')] bg-[length:100%] bg-fixed bg-no-repeat pb-[64.5px] pt-[45px] dark:bg-[url('/todo-app/images/bg-mobile-dark.jpg')] lg:bg-[url('/todo-app/images/bg-desktop-light.jpg')] lg:pb-[45px] lg:pt-[78px] lg:dark:bg-[url('/todo-app/images/bg-desktop-dark.jpg')]">
         <Main />
         <Footer />
         {/* <Slider
           basePath="/todo-app/design"
-          absolutePath="/todo-app/design/mobile-design-light.jpg"
+          // absolutePath="/todo-app/design/mobile-design-light.jpg"
           // absolutePath="/todo-app/design/mobile-design-dark.jpg"
+          // absolutePath="/todo-app/design/desktop-design-light.jpg"
+          absolutePath="/todo-app/design/desktop-design-dark.jpg"
         /> */}
       </div>
     </>

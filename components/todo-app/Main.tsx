@@ -38,8 +38,8 @@ function Header() {
 
   return (
     <header className="flex items-center justify-center px-[24px]">
-      <div className="flex w-full max-w-screen-sm items-center justify-between">
-        <h1 className="text-todo-neutral-light-100 pl-[1px] text-[26px] font-bold uppercase leading-[32px] tracking-[10.25px] dark:leading-[31.5px]">TODO</h1>
+      <div className="flex w-full max-w-[540px] items-center justify-between">
+        <h1 className="text-todo-neutral-light-100 pl-[1px] text-[26px] font-bold uppercase leading-[32px] tracking-[10.25px] dark:leading-[31.5px] lg:pl-0 lg:text-[40px] lg:leading-none lg:tracking-[15px] lg:dark:leading-none">TODO</h1>
         <motion.button
           onClick={() => {
             toggle();
@@ -49,7 +49,7 @@ function Header() {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 26 26"
-              className="mb-[6px] h-[20px] w-[20px]"
+              className="mb-[6px] w-[20px] lg:-mr-[1px] lg:mb-0 lg:w-[26px] lg:-translate-y-[5px]"
             >
               <path
                 fill="#FFF"
@@ -61,7 +61,7 @@ function Header() {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 26 26"
-              className="mb-[4px] h-[20px] w-[20px]"
+              className="mb-[4px] w-[20px] lg:mb-0 lg:w-[26px] lg:-translate-y-[4px]"
             >
               <path
                 fill="#FFF"
@@ -151,31 +151,31 @@ function Todo() {
   return (
     <form
       action=""
-      className="mt-8 flex w-full flex-col items-center bg-transparent px-6"
+      className="mt-8 flex w-full flex-col items-center bg-transparent px-6 lg:mt-10"
       onSubmit={onSubmit}
     >
       <label
         htmlFor="input"
-        className="relative w-full max-w-screen-sm"
+        className="relative w-full max-w-[540px]"
       >
-        <div className="dark:border-todo-neutral-dark-500 absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border"></div>
+        <div className="dark:border-todo-neutral-dark-500 absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border lg:left-6 lg:h-6 lg:w-6"></div>
         <input
           {...register("input")}
           type="text"
-          className="dark:bg-todo-neutral-dark-600 bg-todo-neutral-light-100 shadow-todo-neutral-light-300/25 dark:text-todo-neutral-dark-200 h-12 w-full rounded-md px-5 pl-[52px] pt-[2px] text-[12px] leading-none tracking-[-.25px] shadow-lg dark:shadow-black/25 dark:placeholder:opacity-70"
+          className="dark:bg-todo-neutral-dark-600 bg-todo-neutral-light-100 shadow-todo-neutral-light-300/25 dark:text-todo-neutral-dark-200 h-12 w-full rounded-md px-5 pl-[52px] pt-[2px] text-[12px] leading-none tracking-[-.25px] shadow-lg dark:shadow-black/25 dark:placeholder:opacity-70 lg:h-16 lg:pl-[72px] lg:pt-[4px] lg:text-[18px] lg:shadow-[0px_20px_20px_var(--tw-shadow-colored)]"
           placeholder="Create a new todo..."
         />
       </label>
-      <div className="shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 mt-4 w-full max-w-screen-sm rounded-md bg-white shadow-lg dark:shadow-black/50">
+      <div className="shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 mt-4 w-full max-w-[540px] rounded-md bg-white shadow-lg dark:shadow-black/50 lg:mt-6 lg:shadow-[0px_40px_10px_-20px_var(--tw-shadow-colored),0px_25px_25px_20px_var(--tw-shadow-colored)] lg:shadow-black/[.025] lg:dark:shadow-black/[.15]">
         {data.filter(filter).map((d, index) => {
           return (
             <motion.div
               key={index}
-              className={`border-b-todo-neutral-light-200 dark:border-b-todo-neutral-dark-500 flex h-[53px] w-full items-center border-b px-5`}
+              className={`border-b-todo-neutral-light-200 dark:border-b-todo-neutral-dark-500 group flex h-[53px] w-full items-center border-b px-5 lg:px-6 ${index === 0 ? "lg:h-[64px]" : "lg:h-[65px]"}`}
             >
               <button
                 type="button"
-                className={`flex h-5 w-5 items-center justify-center rounded-full ${d.completed ? "from-todo-primary-green to-todo-primary-violet bg-gradient-to-br" : "border-todo-neutral-light-200 dark:border-todo-neutral-dark-500 border"}`}
+                className={`flex h-5 w-5 items-center justify-center rounded-full lg:h-6 lg:w-6 ${d.completed ? "from-todo-primary-green to-todo-primary-violet bg-gradient-to-br" : "border-todo-neutral-light-200 dark:border-todo-neutral-dark-500 border"}`}
                 onClick={() => {
                   toggleCompleted(index);
                 }}
@@ -184,7 +184,7 @@ function Todo() {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 11 9"
-                    className="h-2"
+                    className="h-2 lg:h-[9px]"
                   >
                     <path
                       fill="none"
@@ -195,10 +195,10 @@ function Todo() {
                   </svg>
                 ) : null}
               </button>
-              <p className={`ml-3 pt-[2px] text-[12px] leading-none tracking-[-.2px]  ${d.completed ? "text-todo-neutral-light-300 dark:text-todo-neutral-dark-400 line-through" : "text-todo-neutral-light-500 dark:text-todo-neutral-dark-200"}`}>{d.activity}</p>
+              <p className={`ml-3 pt-[2px] text-[12px] leading-none tracking-[-.2px] lg:ml-6 lg:pt-1 lg:text-[18px] ${d.completed ? "text-todo-neutral-light-300 dark:text-todo-neutral-dark-400 line-through" : "text-todo-neutral-light-500 dark:text-todo-neutral-dark-200"}`}>{d.activity}</p>
               <button
                 type="button"
-                className="ml-auto flex items-center justify-center rounded-full"
+                className="ml-auto flex items-center justify-center rounded-full transition-all lg:invisible lg:group-hover:visible"
                 onClick={() => {
                   deleteItem(index);
                 }}
@@ -218,10 +218,40 @@ function Todo() {
             </motion.div>
           );
         })}
-        <div className="text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 flex h-[50px] items-center justify-between px-5 pb-[2px] text-[12px] tracking-[-.2px] ">
-          <p>{`${data.filter((d) => !d.completed).length} items left`}</p>
+        <div className="text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 flex h-[50px] items-center justify-between px-5 pb-[2px] text-[12px] tracking-[-.2px] lg:grid lg:grid-cols-3 lg:px-6 lg:pt-[5px] lg:text-[14px]">
+          <p className="lg:text-left">{`${data.filter((d) => !d.completed).length} items left`}</p>
+          <div className="flex gap-5 max-lg:hidden">
+            <button
+              type="button"
+              onClick={() => {
+                setFilterType("all");
+              }}
+              className={`${filterType === "all" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+            >
+              All
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setFilterType("active");
+              }}
+              className={`${filterType === "active" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+            >
+              Active
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setFilterType("completed");
+              }}
+              className={`${filterType === "completed" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+            >
+              Completed
+            </button>
+          </div>
           <button
             type="button"
+            className="lg:text-right lg:tracking-[-.2px]"
             onClick={() => {
               clearCompleted();
             }}
@@ -230,7 +260,7 @@ function Todo() {
           </button>
         </div>
       </div>
-      <div className="dark:bg-todo-neutral-dark-600 shadow-todo-neutral-light-300/25 mt-4 flex h-[48px] w-full max-w-screen-sm items-center justify-center gap-[20px] rounded-md bg-white pt-1 shadow-lg dark:shadow-[0px_5px_10px_rgba(0,0,0,.2),0px_50px_15px_-10px_rgba(0,0,0,.125)]">
+      <div className="dark:bg-todo-neutral-dark-600 shadow-todo-neutral-light-300/25 mt-4 flex h-[48px] w-full max-w-[540px] items-center justify-center gap-[20px] rounded-md bg-white pt-1 shadow-lg dark:shadow-[0px_5px_10px_rgba(0,0,0,.2),0px_50px_15px_-10px_rgba(0,0,0,.125)] lg:hidden">
         <button
           type="button"
           onClick={() => {
@@ -259,7 +289,7 @@ function Todo() {
           Completed
         </button>
       </div>
-      <p className="text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 mt-10 w-full text-center text-[14px] tracking-[-.2px]">Drag and drop to reorder list</p>
+      <p className="text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 mt-10 w-full text-center text-[14px] tracking-[-.2px] lg:mt-[49px]">Drag and drop to reorder list</p>
     </form>
   );
 }
