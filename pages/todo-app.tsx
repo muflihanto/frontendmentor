@@ -28,7 +28,9 @@ export default function TodoApp() {
           // absolutePath="/todo-app/design/mobile-design-light.jpg"
           // absolutePath="/todo-app/design/mobile-design-dark.jpg"
           // absolutePath="/todo-app/design/desktop-design-light.jpg"
-          absolutePath="/todo-app/design/desktop-design-dark.jpg"
+          // absolutePath="/todo-app/design/desktop-design-dark.jpg"
+          absolutePath="/todo-app/design/active-states-light.jpg"
+          // absolutePath="/todo-app/design/active-states-dark.jpg"
         /> */}
       </div>
     </>

@@ -162,7 +162,7 @@ function Todo() {
         <input
           {...register("input")}
           type="text"
-          className="dark:bg-todo-neutral-dark-600 bg-todo-neutral-light-100 shadow-todo-neutral-light-300/25 dark:text-todo-neutral-dark-200 h-12 w-full rounded-md px-5 pl-[52px] pt-[2px] text-[12px] leading-none tracking-[-.25px] shadow-lg dark:shadow-black/25 dark:placeholder:opacity-70 lg:h-16 lg:pl-[72px] lg:pt-[4px] lg:text-[18px] lg:shadow-[0px_20px_20px_var(--tw-shadow-colored)]"
+          className="dark:bg-todo-neutral-dark-600 bg-todo-neutral-light-100 shadow-todo-neutral-light-300/25 text-todo-neutral-light-500 dark:text-todo-neutral-dark-200 caret-todo-primary-blue h-12 w-full rounded-md px-5 pl-[52px] pt-[2px] text-[12px] leading-none tracking-[-.25px] shadow-lg focus-visible:outline focus-visible:outline-transparent dark:shadow-black/25 dark:placeholder:opacity-70 lg:h-16 lg:pl-[72px] lg:pt-[4px] lg:text-[18px] lg:shadow-[0px_20px_20px_var(--tw-shadow-colored)]"
           placeholder="Create a new todo..."
         />
       </label>
@@ -175,7 +175,11 @@ function Todo() {
             >
               <button
                 type="button"
-                className={`flex h-5 w-5 items-center justify-center rounded-full lg:h-6 lg:w-6 ${d.completed ? "from-todo-primary-green to-todo-primary-violet bg-gradient-to-br" : "border-todo-neutral-light-200 dark:border-todo-neutral-dark-500 border"}`}
+                className={`flex h-5 w-5 items-center justify-center rounded-full lg:h-6 lg:w-6 ${
+                  d.completed
+                    ? "from-todo-primary-green to-todo-primary-violet bg-gradient-to-br"
+                    : "border-todo-neutral-light-200 dark:border-todo-neutral-dark-500 border hover:border-transparent hover:[background:linear-gradient(white,white)_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box] dark:hover:border-transparent dark:hover:[background:linear-gradient(theme(colors.todo.neutral.dark.600),theme(colors.todo.neutral.dark.600))_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box]"
+                }`}
                 onClick={() => {
                   toggleCompleted(index);
                 }}
@@ -206,10 +210,9 @@ function Todo() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 18 18"
-                  className="h-[12px] w-[12px]"
+                  className="dark:hover:fill-todo-neutral-dark-200 hover:fill-todo-neutral-light-400 w-[12px] fill-[#494C6B] lg:w-[18px]"
                 >
                   <path
-                    fill="#494C6B"
                     fillRule="evenodd"
                     d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
                   />
@@ -226,7 +229,7 @@ function Todo() {
               onClick={() => {
                 setFilterType("all");
               }}
-              className={`${filterType === "all" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+              className={`${filterType === "all" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:hover:text-todo-neutral-dark-200 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
             >
               All
             </button>
@@ -235,7 +238,7 @@ function Todo() {
               onClick={() => {
                 setFilterType("active");
               }}
-              className={`${filterType === "active" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+              className={`${filterType === "active" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:hover:text-todo-neutral-dark-200 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
             >
               Active
             </button>
@@ -244,14 +247,14 @@ function Todo() {
               onClick={() => {
                 setFilterType("completed");
               }}
-              className={`${filterType === "completed" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+              className={`${filterType === "completed" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:hover:text-todo-neutral-dark-200 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
             >
               Completed
             </button>
           </div>
           <button
             type="button"
-            className="lg:text-right lg:tracking-[-.2px]"
+            className="dark:hover:text-todo-neutral-dark-200 hover:text-todo-neutral-light-500 lg:text-right lg:tracking-[-.2px]"
             onClick={() => {
               clearCompleted();
             }}
@@ -266,7 +269,7 @@ function Todo() {
           onClick={() => {
             setFilterType("all");
           }}
-          className={`${filterType === "all" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+          className={`${filterType === "all" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:hover:text-todo-neutral-dark-200 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
         >
           All
         </button>
@@ -275,7 +278,7 @@ function Todo() {
           onClick={() => {
             setFilterType("active");
           }}
-          className={`${filterType === "active" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+          className={`${filterType === "active" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:hover:text-todo-neutral-dark-200 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
         >
           Active
         </button>
@@ -284,7 +287,7 @@ function Todo() {
           onClick={() => {
             setFilterType("completed");
           }}
-          className={`${filterType === "completed" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
+          className={`${filterType === "completed" ? "text-todo-primary-blue" : "text-todo-neutral-light-400 dark:hover:text-todo-neutral-dark-200 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400"} text-[14px] font-bold tracking-[-.25px]`}
         >
           Completed
         </button>
