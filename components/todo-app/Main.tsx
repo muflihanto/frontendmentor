@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useDragControls, useMotionValue } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useDarkMode } from "usehooks-ts";
@@ -8,6 +8,7 @@ import { useAtom } from "jotai";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Reorder } from "framer-motion";
 
 export type Data = {
   activity: string;
@@ -166,59 +167,25 @@ function Todo() {
           placeholder="Create a new todo..."
         />
       </label>
-      <div className="shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 mt-4 w-full max-w-[540px] rounded-md bg-white shadow-lg dark:shadow-black/50 lg:mt-6 lg:shadow-[0px_40px_10px_-20px_var(--tw-shadow-colored),0px_25px_25px_20px_var(--tw-shadow-colored)] lg:shadow-black/[.025] lg:dark:shadow-black/[.15]">
+      <Reorder.Group
+        axis="y"
+        values={data}
+        onReorder={(newOrder) => {
+          if (filterType === "all") {
+            setData(newOrder);
+          }
+        }}
+        className="shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 relative mt-4 w-full max-w-[540px] rounded-md bg-white shadow-lg dark:shadow-black/50 lg:mt-6 lg:shadow-[0px_40px_10px_-20px_var(--tw-shadow-colored),0px_25px_25px_20px_var(--tw-shadow-colored)] lg:shadow-black/[.025] lg:dark:shadow-black/[.15]"
+      >
         {data.filter(filter).map((d, index) => {
           return (
-            <motion.div
+            <Item
               key={index}
-              className={`border-b-todo-neutral-light-200 dark:border-b-todo-neutral-dark-500 group flex h-[53px] w-full items-center border-b px-5 lg:px-6 ${index === 0 ? "lg:h-[64px]" : "lg:h-[65px]"}`}
-            >
-              <button
-                type="button"
-                className={`flex h-5 w-5 items-center justify-center rounded-full lg:h-6 lg:w-6 ${
-                  d.completed
-                    ? "from-todo-primary-green to-todo-primary-violet bg-gradient-to-br"
-                    : "border-todo-neutral-light-200 dark:border-todo-neutral-dark-500 border hover:border-transparent hover:[background:linear-gradient(white,white)_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box] dark:hover:border-transparent dark:hover:[background:linear-gradient(theme(colors.todo.neutral.dark.600),theme(colors.todo.neutral.dark.600))_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box]"
-                }`}
-                onClick={() => {
-                  toggleCompleted(index);
-                }}
-              >
-                {d.completed ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 11 9"
-                    className="h-2 lg:h-[9px]"
-                  >
-                    <path
-                      fill="none"
-                      stroke="#FFF"
-                      strokeWidth={2}
-                      d="M1 4.304L3.696 7l6-6"
-                    />
-                  </svg>
-                ) : null}
-              </button>
-              <p className={`ml-3 pt-[2px] text-[12px] leading-none tracking-[-.2px] lg:ml-6 lg:pt-1 lg:text-[18px] ${d.completed ? "text-todo-neutral-light-300 dark:text-todo-neutral-dark-400 line-through" : "text-todo-neutral-light-500 dark:text-todo-neutral-dark-200"}`}>{d.activity}</p>
-              <button
-                type="button"
-                className="ml-auto flex items-center justify-center rounded-full transition-all lg:invisible lg:group-hover:visible"
-                onClick={() => {
-                  deleteItem(index);
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 18 18"
-                  className="dark:hover:fill-todo-neutral-dark-200 hover:fill-todo-neutral-light-400 w-[12px] fill-[#494C6B] lg:w-[18px]"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
-                  />
-                </svg>
-              </button>
-            </motion.div>
+              index={index}
+              d={d}
+              toggleCompleted={toggleCompleted}
+              deleteItem={deleteItem}
+            />
           );
         })}
         <div className="text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 flex h-[50px] items-center justify-between px-5 pb-[2px] text-[12px] tracking-[-.2px] lg:grid lg:grid-cols-3 lg:px-6 lg:pt-[5px] lg:text-[14px]">
@@ -262,7 +229,7 @@ function Todo() {
             Clear Completed
           </button>
         </div>
-      </div>
+      </Reorder.Group>
       <div className="dark:bg-todo-neutral-dark-600 shadow-todo-neutral-light-300/25 mt-4 flex h-[48px] w-full max-w-[540px] items-center justify-center gap-[20px] rounded-md bg-white pt-1 shadow-lg dark:shadow-[0px_5px_10px_rgba(0,0,0,.2),0px_50px_15px_-10px_rgba(0,0,0,.125)] lg:hidden">
         <button
           type="button"
@@ -294,5 +261,71 @@ function Todo() {
       </div>
       <p className="text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 mt-10 w-full text-center text-[14px] tracking-[-.2px] lg:mt-[49px]">Drag and drop to reorder list</p>
     </form>
+  );
+}
+
+function Item({ index, d, toggleCompleted, deleteItem }: { index: number; d: Data; toggleCompleted: (itemIndex: number) => void; deleteItem: (itemIndex: number) => void }) {
+  const y = useMotionValue(0);
+  const controls = useDragControls();
+
+  return (
+    <Reorder.Item
+      value={d}
+      className={`border-b-todo-neutral-light-200 dark:border-b-todo-neutral-dark-500 group relative flex h-[53px] w-full items-center border-b px-5 lg:px-6 ${index === 0 ? "lg:h-[64px]" : "lg:h-[65px]"}`}
+      style={{ y }}
+      dragListener={false}
+      dragControls={controls}
+    >
+      <button
+        type="button"
+        className={`flex h-5 w-5 items-center justify-center rounded-full lg:h-6 lg:w-6 ${
+          d.completed
+            ? "from-todo-primary-green to-todo-primary-violet bg-gradient-to-br"
+            : "border-todo-neutral-light-200 dark:border-todo-neutral-dark-500 border hover:border-transparent hover:[background:linear-gradient(white,white)_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box] dark:hover:border-transparent dark:hover:[background:linear-gradient(theme(colors.todo.neutral.dark.600),theme(colors.todo.neutral.dark.600))_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box]"
+        }`}
+        onClick={() => {
+          toggleCompleted(index);
+        }}
+      >
+        {d.completed ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 11 9"
+            className="h-2 lg:h-[9px]"
+          >
+            <path
+              fill="none"
+              stroke="#FFF"
+              strokeWidth={2}
+              d="M1 4.304L3.696 7l6-6"
+            />
+          </svg>
+        ) : null}
+      </button>
+      <p
+        onPointerDown={(e) => controls.start(e)}
+        className={`ml-3 cursor-pointer select-none pt-[2px] text-[12px] leading-none tracking-[-.2px] lg:ml-6 lg:pt-1 lg:text-[18px] ${d.completed ? "text-todo-neutral-light-300 dark:text-todo-neutral-dark-400 line-through" : "text-todo-neutral-light-500 dark:text-todo-neutral-dark-200"}`}
+      >
+        {d.activity}
+      </p>
+      <button
+        type="button"
+        className="ml-auto flex items-center justify-center rounded-full transition-all lg:invisible lg:group-hover:visible"
+        onClick={() => {
+          deleteItem(index);
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 18 18"
+          className="dark:hover:fill-todo-neutral-dark-200 hover:fill-todo-neutral-light-400 w-[12px] fill-[#494C6B] lg:w-[18px]"
+        >
+          <path
+            fillRule="evenodd"
+            d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
+          />
+        </svg>
+      </button>
+    </Reorder.Item>
   );
 }
