@@ -1,5 +1,5 @@
 import { motion, useDragControls, useMotionValue } from "framer-motion";
-import Image from "next/image";
+// import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useDarkMode } from "usehooks-ts";
 import _data from "./data.json";
@@ -9,13 +9,20 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Reorder } from "framer-motion";
+import { nanoid } from "nanoid";
 
 export type Data = {
   activity: string;
   completed: boolean;
+  id: string;
 };
 
-const dataAtom = atomWithStorage<Data[]>("todo-data", _data);
+const dataAtom = atomWithStorage<Data[]>(
+  "todo-data",
+  _data.map((d) => {
+    return { ...d, id: nanoid() };
+  })
+);
 
 export default function Main() {
   return (
@@ -99,6 +106,7 @@ function Todo() {
         {
           activity: dat.input,
           completed: false,
+          id: nanoid(),
         },
       ];
     });
@@ -180,7 +188,7 @@ function Todo() {
         {data.filter(filter).map((d, index) => {
           return (
             <Item
-              key={index}
+              key={d.id}
               index={index}
               d={d}
               toggleCompleted={toggleCompleted}
