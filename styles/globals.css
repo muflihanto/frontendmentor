@@ -283,6 +283,18 @@
   src: url("/launch-countdown-timer/fonts/RedHatText-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Roboto";
+  src: url("/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Bold.ttf");
+  font-weight: 700;
+}
+
 /* @font-face {
   font-family: "Josefin Sans";
   src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");

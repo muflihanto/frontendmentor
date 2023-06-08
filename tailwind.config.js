@@ -700,13 +700,13 @@ module.exports = {
             200: "hsl(236,21%,26%)",
             300: "hsl(235,16%,14%)",
             400: "hsl(234,17%,12%)",
-          }
+          },
         },
         todo: {
           primary: {
             blue: "hsl(220,98%,61%)",
             green: "hsl(192,100%,67%)",
-            violet: "hsl(280,87%,65%)"
+            violet: "hsl(280,87%,65%)",
           },
           neutral: {
             light: {
@@ -724,9 +724,18 @@ module.exports = {
               300: "hsl(234,11%,52%)",
               400: "hsl(233,14%,35%)",
               500: "hsl(237,14%,26%)",
-            }
-          }
-        }
+            },
+          },
+        },
+        newsletter: {
+          primary: "hsl(4,100%,67%)",
+          neutral: {
+            400: "hsl(234,29%,20%)",
+            300: "hsl(235,18%,26%)",
+            200: "hsl(231,7%,60%)",
+            100: "hsl(0,0%,100%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -765,6 +774,7 @@ module.exports = {
         rubiks: ["Rubiks", ...fontFamily.sans],
         "hanken-grotesk": ["Hanken Grotesk", ...fontFamily.sans],
         "red-hat-text": ["Red Hat Text", ...fontFamily.sans],
+        roboto: ["Roboto", ...fontFamily.sans],
       },
     },
   },
