@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { twMerge } from "tailwind-merge";
 import { useEffect } from "react";
 import { useWindowSize } from "usehooks-ts";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - Add their email and submit the form
@@ -22,19 +23,35 @@ const zInputSchema = z.object({
 });
 type InputSchema = z.infer<typeof zInputSchema>;
 
+const isSuccessOpenAtom = atom(false);
+
 export default function NewsletterSignUpWithSuccessMessage() {
+  const isSuccessOpen = useAtomValue(isSuccessOpenAtom);
+
+  useEffect(() => {
+    if (isSuccessOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isSuccessOpen]);
+
   return (
     <>
       <Head>
         <title>Frontend Mentor | Newsletter sign-up form with success message</title>
       </Head>
       <div className="App font-roboto lg:bg-newsletter-neutral-300 relative min-h-[100dvh] lg:flex lg:items-center lg:justify-center lg:py-10">
+        {isSuccessOpen ? <SuccessScreen /> : null}
         <div className="bg-newsletter-neutral-100 flex flex-col lg:-mt-[1px] lg:h-[641px] lg:w-[926px] lg:flex-row-reverse lg:justify-between lg:rounded-[36px] lg:p-6 lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_30px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
           <IllustrationSignUp />
           <Main />
         </div>
         <Footer />
-        {/* <Slider basePath="/newsletter-sign-up-with-success-message/design" /> */}
+        {/* <Slider
+          basePath="/newsletter-sign-up-with-success-message/design"
+          absolutePath="/newsletter-sign-up-with-success-message/design/mobile-success.jpg"
+        /> */}
       </div>
     </>
   );
@@ -50,6 +67,8 @@ function Main() {
     resolver: zodResolver(zInputSchema),
   });
 
+  const setScreen = useSetAtom(isSuccessOpenAtom);
+
   const onSubmit = handleSubmit((data) => {
     console.log(data);
   });
@@ -57,8 +76,9 @@ function Main() {
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
+      setScreen(true);
     }
-  }, [reset, isSubmitSuccessful]);
+  }, [reset, isSubmitSuccessful, setScreen]);
 
   return (
     <div className="w-full lg:flex lg:flex-1 lg:items-center lg:justify-center">
@@ -96,18 +116,6 @@ function Main() {
           </label>
         </form>
       </div>
-      {/* {`       
-         <!-- Success message start -->
-       
-         Thanks for subscribing!
-       
-         A confirmation email has been sent to ash@loremcompany.com. 
-         Please open it and click the button inside to confirm your subscription.
-       
-         Dismiss message
-       
-         <!-- Success message end -->
-      `} */}
     </div>
   );
 }
@@ -969,6 +977,48 @@ function IllustrationSignUp() {
         </svg>
       )}
     </>
+  );
+}
+
+function SuccessScreen() {
+  const setScreen = useSetAtom(isSuccessOpenAtom);
+  const closeMenu = () => {
+    setScreen(false);
+  };
+  return (
+    <div className="bg-news-homepage-neutral-100 fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll px-6 py-10">
+      <div className="flex flex-col place-self-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-16"
+          viewBox="0 0 21 21"
+        >
+          <g fill="none">
+            <circle
+              cx="10.5"
+              cy="10.5"
+              r="10.5"
+              fill="#FF6155"
+            />
+            <path
+              stroke="#FFF"
+              strokeWidth={1.5}
+              d="M6 11.381 8.735 14 15 8"
+            />
+          </g>
+        </svg>
+        <h1 className="text-newsletter-neutral-400 mt-10 text-[40px] font-bold leading-none">Thanks for subscribing!</h1>
+        <p className="text-newsletter-neutral-300 mt-[23px]">
+          A confirmation email has been sent to <span className="text-newsletter-neutral-400 font-bold">ash@loremcompany.com</span>. Please open it and click the button inside to confirm your subscription.
+        </p>
+      </div>
+      <button
+        className="text-news-homepage-neutral-100 bg-newsletter-neutral-400 h-[56px] w-full rounded-lg pl-[2px] pt-[2px] font-bold"
+        onClick={closeMenu}
+      >
+        Dismiss message
+      </button>
+    </div>
   );
 }
 
