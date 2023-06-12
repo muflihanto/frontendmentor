@@ -42,11 +42,14 @@ export default function NewsletterSignUpWithSuccessMessage() {
         <title>Frontend Mentor | Newsletter sign-up form with success message</title>
       </Head>
       <div className="App font-roboto lg:bg-newsletter-neutral-300 relative min-h-[100dvh] lg:flex lg:items-center lg:justify-center lg:py-10">
-        {isSuccessOpen ? <SuccessScreen /> : null}
-        <div className="bg-newsletter-neutral-100 flex flex-col lg:-mt-[1px] lg:h-[641px] lg:w-[926px] lg:flex-row-reverse lg:justify-between lg:rounded-[36px] lg:p-6 lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_30px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
-          <IllustrationSignUp />
-          <Main />
-        </div>
+        {isSuccessOpen ? (
+          <SuccessScreen />
+        ) : (
+          <div className="bg-newsletter-neutral-100 flex flex-col lg:-mt-[1px] lg:h-[641px] lg:w-[926px] lg:flex-row-reverse lg:justify-between lg:rounded-[36px] lg:p-6 lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_30px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
+            <IllustrationSignUp />
+            <Main />
+          </div>
+        )}
         <Footer />
         {/* <Slider
           basePath="/newsletter-sign-up-with-success-message/design"
@@ -985,6 +988,7 @@ function SuccessScreen() {
   const closeMenu = () => {
     setScreen(false);
   };
+
   return (
     <div className="bg-news-homepage-neutral-100 fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll px-6 py-10">
       <div className="flex flex-col place-self-center">
