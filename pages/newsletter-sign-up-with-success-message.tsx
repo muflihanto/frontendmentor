@@ -1,13 +1,14 @@
 import Head from "next/head";
-// import Image from "next/image";
-import dynamic from "next/dynamic";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { twMerge } from "tailwind-merge";
 import { useEffect } from "react";
 import { useWindowSize } from "usehooks-ts";
-import { atom, useAtomValue, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+
+// import Image from "next/image";
+import dynamic from "next/dynamic";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - Add their email and submit the form
@@ -24,6 +25,7 @@ const zInputSchema = z.object({
 type InputSchema = z.infer<typeof zInputSchema>;
 
 const isSuccessOpenAtom = atom(false);
+const emailAtom = atom("");
 
 export default function NewsletterSignUpWithSuccessMessage() {
   const isSuccessOpen = useAtomValue(isSuccessOpenAtom);
@@ -53,7 +55,7 @@ export default function NewsletterSignUpWithSuccessMessage() {
         <Footer />
         {/* <Slider
           basePath="/newsletter-sign-up-with-success-message/design"
-          absolutePath="/newsletter-sign-up-with-success-message/design/mobile-success.jpg"
+          absolutePath="/newsletter-sign-up-with-success-message/design/error-states.jpg"
         /> */}
       </div>
     </>
@@ -71,9 +73,11 @@ function Main() {
   });
 
   const setScreen = useSetAtom(isSuccessOpenAtom);
+  const setEmail = useSetAtom(emailAtom);
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    setEmail(data.email);
+    // console.log(data);
   });
 
   useEffect(() => {
@@ -112,10 +116,10 @@ function Main() {
               type="email"
               id="email"
               placeholder="email@company.com"
-              className="border-newsletter-neutral-200/75 mt-2 h-[56px] w-full rounded-[8px] border px-[23px]"
+              className="border-newsletter-neutral-200/75 focus:border-newsletter-neutral-300 text-newsletter-neutral-300 mt-2 h-[56px] w-full rounded-[8px] border px-[23px] focus-visible:outline focus-visible:outline-transparent"
               {...register("email", { required: true })}
             />
-            <button className="bg-newsletter-neutral-400 text-newsletter-neutral-100 mt-6 flex h-[56px] w-full items-center justify-center rounded-lg pt-[2px] font-bold">Subscribe to monthly newsletter</button>
+            <button className="bg-newsletter-neutral-400 text-newsletter-neutral-100 mt-6 flex h-[56px] w-full items-center justify-center rounded-lg pt-[2px] font-bold hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]">Subscribe to monthly newsletter</button>
           </label>
         </form>
       </div>
@@ -985,13 +989,16 @@ function IllustrationSignUp() {
 
 function SuccessScreen() {
   const setScreen = useSetAtom(isSuccessOpenAtom);
+  const [email, setEmail] = useAtom(emailAtom);
+
   const closeMenu = () => {
+    setEmail("");
     setScreen(false);
   };
 
   return (
-    <div className="bg-news-homepage-neutral-100 fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll px-6 py-10">
-      <div className="flex flex-col place-self-center">
+    <div className="bg-news-homepage-neutral-100 fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll px-6 py-10 lg:static lg:h-[520px] lg:w-[505px] lg:gap-0 lg:rounded-[36px] lg:p-16 lg:pt-[48px] lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
+      <div className="flex flex-col place-self-center lg:place-self-start">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-16"
@@ -1011,13 +1018,13 @@ function SuccessScreen() {
             />
           </g>
         </svg>
-        <h1 className="text-newsletter-neutral-400 mt-10 text-[40px] font-bold leading-none">Thanks for subscribing!</h1>
+        <h1 className="text-newsletter-neutral-400 mt-10 text-[40px] font-bold leading-none lg:-translate-y-[1px] lg:text-[56px]">Thanks for subscribing!</h1>
         <p className="text-newsletter-neutral-300 mt-[23px]">
-          A confirmation email has been sent to <span className="text-newsletter-neutral-400 font-bold">ash@loremcompany.com</span>. Please open it and click the button inside to confirm your subscription.
+          A confirmation email has been sent to <span className="text-newsletter-neutral-400 font-bold">{email}</span>. Please open it and click the button inside to confirm your subscription.
         </p>
       </div>
       <button
-        className="text-news-homepage-neutral-100 bg-newsletter-neutral-400 h-[56px] w-full rounded-lg pl-[2px] pt-[2px] font-bold"
+        className="text-news-homepage-neutral-100 bg-newsletter-neutral-400 h-[56px] w-full rounded-lg pl-[2px] pt-[2px] font-bold hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]"
         onClick={closeMenu}
       >
         Dismiss message
