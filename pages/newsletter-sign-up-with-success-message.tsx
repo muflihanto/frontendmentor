@@ -8,8 +8,8 @@ import { useWindowSize } from "usehooks-ts";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 
 // import Image from "next/image";
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - Add their email and submit the form
 // TODO: - See a success message with their email after successfully submitting the form
@@ -20,7 +20,7 @@ const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 // TODO: - See hover and focus states for all interactive elements on the page
 
 const zInputSchema = z.object({
-  email: z.string().email().min(1),
+  email: z.string().min(1, "Email required").email("Valid email required"),
 });
 type InputSchema = z.infer<typeof zInputSchema>;
 
@@ -109,14 +109,18 @@ function Main() {
         <form
           className="mt-10 w-full"
           onSubmit={onSubmit}
+          noValidate
         >
           <label htmlFor="email">
-            <p className="text-newsletter-neutral-400 text-[12px] font-bold">Email address</p>
+            <div className="flex">
+              <p className="text-newsletter-neutral-400 text-[12px] font-bold">Email address</p>
+              {errors.email ? <p className="text-newsletter-primary ml-auto text-[12px] font-bold">{errors.email.message}</p> : null}
+            </div>
             <input
               type="email"
               id="email"
               placeholder="email@company.com"
-              className="border-newsletter-neutral-200/75 focus:border-newsletter-neutral-300 text-newsletter-neutral-300 mt-2 h-[56px] w-full rounded-[8px] border px-[23px] focus-visible:outline focus-visible:outline-transparent"
+              className={`mt-2 h-[56px] w-full rounded-[8px] border px-[23px] focus-visible:outline focus-visible:outline-transparent ${errors.email ? "border-newsletter-primary bg-newsletter-primary/[15%] text-newsletter-primary placeholder:text-newsletter-primary/50" : "border-newsletter-neutral-200/75 focus:border-newsletter-neutral-300 text-newsletter-neutral-300 "}`}
               {...register("email", { required: true })}
             />
             <button className="bg-newsletter-neutral-400 text-newsletter-neutral-100 mt-6 flex h-[56px] w-full items-center justify-center rounded-lg pt-[2px] font-bold hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]">Subscribe to monthly newsletter</button>
