@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -61,7 +61,7 @@ export default function RoomHomepage() {
         <Footer />
         {/* <Slider
           basePath="/room-homepage/design"
-          absolutePath="/room-homepage/design/mobile-navigation.jpg"
+          // absolutePath="/room-homepage/design/mobile-navigation.jpg"
         /> */}
       </div>
     </>
@@ -191,8 +191,15 @@ function Slide() {
   const [activeProduct, setActiveProduct] = useState(0);
 
   return (
-    <div className="relative grid h-full grid-cols-1 grid-rows-[360px_auto]">
-      <div className="relative w-full">
+    <div
+      className="relative grid h-full grid-cols-1 grid-rows-[var(--height)_auto]"
+      style={
+        {
+          "--height": "calc(360/375*100vw)",
+        } as CSSProperties
+      }
+    >
+      <div className="relative aspect-[375/360] w-full">
         <Image
           src={"/room-homepage/images/"}
           loader={({ src, width }) => {
@@ -203,7 +210,7 @@ function Slide() {
           alt={`Product ${activeProduct + 1}`}
         />
       </div>
-      <div className="h-full w-full px-8 py-[61px]">
+      <div className="h-[410px] w-full px-8 py-[61px]">
         <h1 className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px]">{product[activeProduct].title}</h1>
         <p className="text-room-primary-200 mt-[15px] font-medium leading-[22px] tracking-[-.35px]">{product[activeProduct].description}</p>
         <a
@@ -224,7 +231,7 @@ function Slide() {
           </svg>
         </a>
       </div>
-      <div className="absolute right-0 top-[calc(360px-56px)] flex h-[56px] w-[112px]">
+      <div className="absolute right-0 top-[calc(var(--height)-56px)] flex h-[56px] w-[112px]">
         <button
           onClick={() => {
             setActiveProduct((prev) => {
@@ -275,24 +282,44 @@ function Slide() {
 function About() {
   return (
     <div>
-      <h2>About our furniture</h2>
-      <p>Our multifunctional collection blends design and function to suit your individual taste. Make each room unique, or pick a cohesive theme that best express your interests and what inspires you. Find the furniture pieces you need, from traditional to contemporary styles or anything in between. Product specialists are available to help you create your dream space.</p>
+      <div className="relative aspect-[210/133] w-full">
+        <Image
+          src="/room-homepage/images/image-about-dark.jpg"
+          alt="About Dark Image"
+          fill
+          className="object-cover"
+        />
+      </div>
+      <div className="flex h-[303.8px] flex-col justify-center p-8 pt-10">
+        <h2 className="text-[15px] font-bold uppercase tracking-[5.2px]">About our furniture</h2>
+        <p className="text-room-primary-200 mt-4 leading-[22px] tracking-[-.35px]">
+          Our multifunctional collection blends design and function to suit your individual taste. Make each room unique, or pick a cohesive theme that best express your interests and what inspires you. Find the furniture pieces you need, from traditional to contemporary styles or anything in between. Product specialists are available to help you create your dream space.
+        </p>
+      </div>
+      <div className="relative aspect-[220/133] w-full">
+        <Image
+          src="/room-homepage/images/image-about-light.jpg"
+          alt="About Light Image"
+          fill
+          className="object-cover"
+        />
+      </div>
     </div>
   );
 }
 
 function Main() {
   return (
-    <div className="grid h-[1538px] grid-cols-1 grid-rows-2">
+    <div className="grid grid-cols-1 grid-rows-[auto,auto]">
       <Slide />
-      {/* <About /> */}
+      <About />
     </div>
   );
 }
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="text-room-primary-300 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
