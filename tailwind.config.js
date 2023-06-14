@@ -736,6 +736,14 @@ module.exports = {
             100: "hsl(0,0%,100%)",
           },
         },
+        room: {
+          primary: {
+            200: "hsl(0,0%,63%)",
+            400: "hsl(0,0%,0%)",
+            100: "hsl(0,0%,100%)",
+            300: "hsl(0,0%,27%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
