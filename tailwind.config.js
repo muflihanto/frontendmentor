@@ -744,6 +744,10 @@ module.exports = {
             300: "hsl(0,0%,27%)",
           },
         },
+        "ip-address": {
+          200: "hsl(0,0%,17%)",
+          100: "hsl(0,0%,59%)"
+        }
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
