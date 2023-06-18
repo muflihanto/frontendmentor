@@ -61,12 +61,12 @@ function Intro() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <div className="relative mx-auto flex min-h-[300px] w-full max-w-screen-sm flex-col items-center bg-[url('/ip-address-tracker/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat">
-      <div className="absolute left-1/2 top-0 z-10 flex w-[calc(100vw-48px)] max-w-[calc(640px-48px)] -translate-x-1/2 flex-col items-center pt-[28px]">
-        <h1 className="w-full text-center text-[26px] leading-none tracking-[-.25px] text-white">IP Address Tracker</h1>
+    <div className="relative flex min-h-[300px] w-full flex-col items-center bg-[url('/ip-address-tracker/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat lg:min-h-[280px] lg:bg-[url('/ip-address-tracker/images/pattern-bg-desktop.png')]">
+      <div className="absolute left-1/2 top-0 z-10 flex w-[calc(100vw-48px)] max-w-[calc(640px-48px)] -translate-x-1/2 flex-col items-center pt-[28px] lg:max-w-[calc(100vw-330px)] lg:pt-[32px]">
+        <h1 className="w-full text-center text-[26px] leading-none tracking-[-.25px] text-white lg:text-[32px] lg:tracking-[-.4px]">IP Address Tracker</h1>
         <form
           noValidate
-          className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white"
+          className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white lg:mt-[30px] lg:w-[555px]"
         >
           <input
             type="text"
@@ -101,8 +101,8 @@ function Intro() {
 
 function DetailCard() {
   return (
-    <div className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white">
-      <ul className="flex flex-col items-center gap-[22px] py-[27px] pr-[2px]">
+    <div className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-[161px]">
+      <ul className="flex flex-col items-center gap-[22px] py-[27px] pr-[2px] lg:flex-row lg:items-start lg:gap-[calc(22/1440*100vw)] lg:divide-x lg:py-[37px] lg:pr-[22px]">
         <ListItem>
           <ListHeading>IP Address</ListHeading>
           <ListDetail>192.212.174.101</ListDetail>
@@ -126,18 +126,18 @@ function DetailCard() {
 }
 
 function ListItem({ children }: { children: ReactNode }) {
-  return <li className="flex flex-col items-center gap-[5px]">{children}</li>;
+  return <li className="flex flex-col items-center gap-[5px] lg:h-full lg:flex-1 lg:items-start lg:gap-[14px] lg:px-[calc(32/1440*100vw)]">{children}</li>;
 }
 function ListHeading({ children }: { children: ReactNode }) {
-  return <div className="text-ip-address-100 text-[10px] font-bold uppercase leading-none tracking-[1.5px]">{children}</div>;
+  return <div className="text-ip-address-100 text-[10px] font-bold uppercase leading-none tracking-[1.5px] lg:text-[13px] lg:tracking-[1.2px]">{children}</div>;
 }
 function ListDetail({ children }: { children?: ReactNode }) {
-  return <div className="text-ip-address-200 text-[20px] tracking-[-.1px]">{children}</div>;
+  return <div className="text-ip-address-200 text-[20px] tracking-[-.1px] lg:text-[26px] lg:leading-[30.5px] lg:tracking-[-.2px]">{children}</div>;
 }
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 z-10 w-full text-center text-[11px] max-lg:bottom-5 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"

@@ -24,8 +24,7 @@ export default function Map() {
     <MapContainer
       center={center}
       zoom={12}
-      className="left-1/2 max-w-screen-sm -translate-x-1/2"
-      style={{ height: "528px", zIndex: 5 }}
+      className="left-1/2 z-[5] h-[calc(100dvh-300px)] w-screen -translate-x-1/2 max-lg:min-h-[528px] lg:h-[calc(100dvh-280px)]"
       scrollWheelZoom={false}
       zoomControl={false}
     >
