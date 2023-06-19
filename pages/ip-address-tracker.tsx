@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const Map = dynamic(() => import("../components/ip-address-tracker/Map"), { ssr: false });
 
@@ -41,6 +41,18 @@ const zInputSchema = z.object({
   ipAddress: z.string().min(1, "").ip(""),
 });
 type InputSchema = z.infer<typeof zInputSchema>;
+type Detail = {
+  ip: string;
+  hostname: string;
+  anycast: boolean;
+  city: string;
+  region: string;
+  country: string;
+  loc: string;
+  org: string;
+  postal: string;
+  timezone: string;
+};
 
 function Intro() {
   const {
@@ -48,10 +60,16 @@ function Intro() {
     reset,
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
-  } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema), values: { ipAddress: "192.212.174.101" } });
+  } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema) });
+  const [detail, setDetail] = useState<Detail>();
 
   const onClick = handleSubmit((data) => {
-    console.log(data);
+    fetch(`/api/getIpInfo?ip=${data.ipAddress}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDetail(data.data);
+        // console.log(data);
+      });
   });
 
   useEffect(() => {
@@ -93,32 +111,33 @@ function Intro() {
           </button>
         </form>
 
-        <DetailCard />
+        <DetailCard detail={detail} />
       </div>
     </div>
   );
 }
 
-function DetailCard() {
+function DetailCard({ detail }: { detail?: Detail }) {
   return (
     <div className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-[161px]">
       <ul className="flex flex-col items-center gap-[22px] py-[27px] pr-[2px] lg:flex-row lg:items-start lg:gap-[calc(22/1440*100vw)] lg:divide-x lg:py-[37px] lg:pr-[22px]">
         <ListItem>
           <ListHeading>IP Address</ListHeading>
-          <ListDetail>192.212.174.101</ListDetail>
+          <ListDetail>{detail ? detail.ip : "-"}</ListDetail>
         </ListItem>
         <ListItem>
           <ListHeading>Location</ListHeading>
-          <ListDetail>Brooklyn, NY 10001</ListDetail>
+          <ListDetail>{detail ? `${detail.country}, ${detail.city} ${detail.postal ?? ""}` : "-"}</ListDetail>
         </ListItem>
         <ListItem>
           <ListHeading>Timezone</ListHeading>
-          <ListDetail>UTC -05:00</ListDetail>
+          {/* TODO: change timezone to utc */}
+          <ListDetail>{detail ? detail.timezone : "-"}</ListDetail>
           {/* <!-- add offset value dynamically using the API --> */}
         </ListItem>
         <ListItem>
           <ListHeading>ISP</ListHeading>
-          <ListDetail>SpaceX Starlink</ListDetail>
+          <ListDetail>{detail ? detail.org.split(" ").slice(1).join(" ") : "-"}</ListDetail>
         </ListItem>
       </ul>
     </div>
