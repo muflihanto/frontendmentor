@@ -5,8 +5,11 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode, useEffect, useState } from "react";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const Map = dynamic(() => import("../components/ip-address-tracker/Map"), { ssr: false });
+
+const locAtom = atom("");
 
 // TODO: View the optimal layout for each page depending on their device's screen size
 // TODO: See hover states for all interactive elements on the page
@@ -29,10 +32,12 @@ export default function IpAddressTracker() {
 }
 
 function Main() {
+  const loc = useAtomValue(locAtom);
+
   return (
     <>
       <Intro />
-      <Map />
+      <Map loc={loc} />
     </>
   );
 }
@@ -62,6 +67,7 @@ function Intro() {
     formState: { errors, isSubmitSuccessful },
   } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema) });
   const [detail, setDetail] = useState<Detail>();
+  const setLoc = useSetAtom(locAtom);
 
   const onClick = handleSubmit((data) => {
     fetch(`/api/getIpInfo?ip=${data.ipAddress}`)
@@ -77,6 +83,12 @@ function Intro() {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
+
+  useEffect(() => {
+    if (detail?.loc) {
+      setLoc(detail.loc);
+    }
+  }, [detail, setLoc]);
 
   return (
     <div className="relative flex min-h-[300px] w-full flex-col items-center bg-[url('/ip-address-tracker/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat lg:min-h-[280px] lg:bg-[url('/ip-address-tracker/images/pattern-bg-desktop.png')]">
@@ -119,7 +131,7 @@ function Intro() {
 
 function DetailCard({ detail }: { detail?: Detail }) {
   return (
-    <div className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-[161px]">
+    <div className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-auto lg:min-h-[161px]">
       <ul className="flex flex-col items-center gap-[22px] py-[27px] pr-[2px] lg:flex-row lg:items-start lg:gap-[calc(22/1440*100vw)] lg:divide-x lg:py-[37px] lg:pr-[22px]">
         <ListItem>
           <ListHeading>IP Address</ListHeading>

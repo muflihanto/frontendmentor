@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { type LatLngExpression, icon } from "leaflet";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const markerIcon = icon({
   iconUrl: "/ip-address-tracker/images/icon-location.svg",
@@ -14,11 +14,24 @@ export function ChangeView({ coords }: { coords: LatLngExpression }) {
   return null;
 }
 
-export default function Map() {
-  const [geoData, setGeoData] = useState<{ lat: number; lng: number }>({ lat: 64.536634, lng: 16.779852 });
+export default function Map({ loc }: { loc?: string }) {
+  const getLoc = useCallback((input: string | undefined) => {
+    if (!!input) {
+      const [lat, lng] = input.split(",").map((data) => Number(data));
+      return { lat, lng };
+    }
+    return { lat: 64.536634, lng: 16.779852 };
+  }, []);
+
+  const [geoData, setGeoData] = useState<{ lat: number; lng: number }>(getLoc(loc));
+
   const center = useMemo<LatLngExpression>(() => {
     return [geoData.lat, geoData.lng];
   }, [geoData]);
+
+  useEffect(() => {
+    setGeoData(getLoc(loc));
+  }, [getLoc, loc]);
 
   return (
     <MapContainer
