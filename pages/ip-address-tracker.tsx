@@ -5,18 +5,43 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode, useEffect, useState } from "react";
-import { atom, useAtomValue, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useEffectOnce } from "usehooks-ts";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const Map = dynamic(() => import("../components/ip-address-tracker/Map"), { ssr: false });
 
 const locAtom = atom("");
+const detailAtom = atom<Detail | undefined>(undefined);
+export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
+  const loc = get(locAtom);
+  if (!!loc) {
+    const [lat, lng] = loc.split(",").map((data) => Number(data));
+    return { lat, lng };
+  }
+  return { lat: 43.73155840383045, lng: 7.414983972724603 };
+});
 
 // TODO: View the optimal layout for each page depending on their device's screen size
 // TODO: See hover states for all interactive elements on the page
 // TODO: See their own IP address on the map on the initial page load
 // TODO: Search for any IP addresses or domains and see the key information and location
 
-export default function IpAddressTracker() {
+export const getServerSideProps: GetServerSideProps<{
+  detail: Detail;
+}> = async () => {
+  const res = await fetch(`https://ipinfo.io/json?token=${process.env.IPINFO_TOKEN}`);
+  const detail: Detail = await res.json();
+  return { props: { detail } };
+};
+
+export default function IpAddressTracker({ detail }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const setDetail = useSetAtom(detailAtom);
+
+  useEffectOnce(() => {
+    setDetail(detail);
+  });
+
   return (
     <>
       <Head>
@@ -32,12 +57,11 @@ export default function IpAddressTracker() {
 }
 
 function Main() {
-  const loc = useAtomValue(locAtom);
-
+  const geoData = useAtomValue(coordAtom);
   return (
     <>
       <Intro />
-      <Map loc={loc} />
+      <Map geoData={geoData} />
     </>
   );
 }
@@ -66,7 +90,7 @@ function Intro() {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
   } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema) });
-  const [detail, setDetail] = useState<Detail>();
+  const [detail, setDetail] = useAtom(detailAtom);
   const setLoc = useSetAtom(locAtom);
 
   const onClick = handleSubmit((data) => {
