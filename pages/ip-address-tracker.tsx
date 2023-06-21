@@ -4,11 +4,11 @@ import dynamic from "next/dynamic";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useMemo } from "react";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useEffectOnce } from "usehooks-ts";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { useHydrateAtoms } from "jotai/utils";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const Map = dynamic(() => import("../components/ip-address-tracker/Map"), { ssr: false });
 
 const locAtom = atom("");
@@ -36,12 +36,7 @@ export const getServerSideProps: GetServerSideProps<{
 };
 
 export default function IpAddressTracker({ detail }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const setDetail = useSetAtom(detailAtom);
-
-  useEffectOnce(() => {
-    setDetail(detail);
-  });
-
+  useHydrateAtoms([[detailAtom, detail]]);
   return (
     <>
       <Head>
@@ -154,26 +149,38 @@ function Intro() {
 }
 
 function DetailCard({ detail }: { detail?: Detail }) {
+  const location = useMemo(() => {
+    if (!!detail) {
+      const { country, city, postal } = detail;
+      if (!!country && !!city) {
+        return `${country}, ${city}${!!postal ? ` ${postal}` : ""}`;
+      } else if (!!country) {
+        return `${country}`;
+      }
+    }
+    return null;
+  }, [detail]);
+
   return (
     <div className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-auto lg:min-h-[161px]">
       <ul className="flex flex-col items-center gap-[22px] py-[27px] pr-[2px] lg:flex-row lg:items-start lg:gap-[calc(22/1440*100vw)] lg:divide-x lg:py-[37px] lg:pr-[22px]">
         <ListItem>
           <ListHeading>IP Address</ListHeading>
-          <ListDetail>{detail ? detail.ip : "-"}</ListDetail>
+          <ListDetail>{detail?.ip ?? "-"}</ListDetail>
         </ListItem>
         <ListItem>
           <ListHeading>Location</ListHeading>
-          <ListDetail>{detail ? `${detail.country}, ${detail.city} ${detail.postal ?? ""}` : "-"}</ListDetail>
+          <ListDetail>{location ?? "-"}</ListDetail>
         </ListItem>
         <ListItem>
           <ListHeading>Timezone</ListHeading>
           {/* TODO: change timezone to utc */}
-          <ListDetail>{detail ? detail.timezone : "-"}</ListDetail>
+          <ListDetail>{detail?.timezone ?? "-"}</ListDetail>
           {/* <!-- add offset value dynamically using the API --> */}
         </ListItem>
         <ListItem>
           <ListHeading>ISP</ListHeading>
-          <ListDetail>{detail ? detail.org.split(" ").slice(1).join(" ") : "-"}</ListDetail>
+          <ListDetail>{detail?.org ? detail.org.split(" ").slice(1).join(" ") : "-"}</ListDetail>
         </ListItem>
       </ul>
     </div>
