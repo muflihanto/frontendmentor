@@ -8,6 +8,7 @@ import { ReactNode, useEffect, useMemo } from "react";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useHydrateAtoms } from "jotai/utils";
+import requestIp from "request-ip";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const Map = dynamic(() => import("../components/ip-address-tracker/Map"), { ssr: false });
 
@@ -29,8 +30,8 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 
 export const getServerSideProps: GetServerSideProps<{
   detail: Detail;
-}> = async () => {
-  const res = await fetch(`https://ipinfo.io/json?token=${process.env.IPINFO_TOKEN}`);
+}> = async ({ req }) => {
+  const res = await fetch(`https://ipinfo.io/${requestIp.getClientIp(req)}/?token=${process.env.IPINFO_TOKEN}`);
   const detail: Detail = await res.json();
   return { props: { detail } };
 };

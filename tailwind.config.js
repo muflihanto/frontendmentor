@@ -747,6 +747,28 @@ module.exports = {
         "ip-address": {
           200: "hsl(0,0%,17%)",
           100: "hsl(0,0%,59%)"
+        },
+        "chat-app": {
+          primary: {
+            text: {
+              subhead: "hsl(276,100%,81%)",
+              chatleft: "hsl(276,55%,52%)",
+              chatright: "hsl(271,15%,43%)",
+              placeholder: "hsl(206,6%,79%)",
+              mainhead: "hsl(271,36%,24%)",
+              paragraph: "hsl(270,7%,64%)"
+            },
+            gradients: {
+              magenta: "hsl(293,100%,63%)",
+              violet: "hsl(264,100%,61%)"
+            }
+          },
+          secondary: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(270,20%,96%)",
+            400: "hsl(271,36%,24%)",
+            300: "hsl(289,100%,72%)",
+          }
         }
       },
       fontFamily: {
