@@ -12,10 +12,10 @@ export default function ChatAppCssIllustration() {
       <Head>
         <title>Frontend Mentor | Chat app CSS illustration</title>
       </Head>
-      <div className="App font-rubiks relative min-h-[100svh]">
+      <div className="App font-rubiks bg-chat-app-secondary-200/50 relative h-[936px] min-h-[100svh]">
         <Main />
         <Footer />
-        <Slider basePath="/chat-app-css-illustration/design" />
+        {/* <Slider basePath="/chat-app-css-illustration/design" /> */}
       </div>
     </>
   );
@@ -23,8 +23,15 @@ export default function ChatAppCssIllustration() {
 
 function Main() {
   return (
-    <>
-      {`
+    <div className="flex w-full flex-col items-center">
+      <div className="my-[64px] flex h-[505px] items-center justify-center">
+        <div className="bg-chat-app-primary-gradients-magenta h-full w-[247px] rounded-xl"></div>
+      </div>
+      <div className="flex flex-col items-center px-9">
+        <h1 className="text-chat-app-primary-text-mainhead text-center text-[40px] font-medium leading-[46px]">Simple booking</h1>
+        <p className="text-chat-app-primary-text-paragraph mt-6 text-center leading-[28px]">Stay in touch with our dog walkers through the chat interface. This makes it easy to discuss arrangements and make bookings. Once the walk has been completed you can rate your walker and book again all through the chat.</p>
+      </div>
+      {/* {`
          Samuel Green
          Available to Walk
        
@@ -46,13 +53,11 @@ function Main() {
        
          Type a message…
        
-         Simple booking
+         
        
-         Stay in touch with our dog walkers through the chat interface. This makes it easy to 
-         discuss arrangements and make bookings. Once the walk has been completed you can rate 
-         your walker and book again all through the chat.
-      `}
-    </>
+         
+      `} */}
+    </div>
   );
 }
 
