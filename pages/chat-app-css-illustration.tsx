@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { CSSProperties, PropsWithChildren } from "react";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { CSSProperties, PropsWithChildren, useEffect } from "react";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 import { BsChevronCompactLeft, BsThreeDotsVertical, BsChevronRight } from "react-icons/bs";
 import { twMerge } from "tailwind-merge";
+import { stagger, animate } from "framer-motion";
 
 // TODO: View the optimal layout for the component depending on their device's screen size
 // TODO: **Bonus**: See the chat interface animate on the initial load
@@ -25,6 +26,12 @@ export default function ChatAppCssIllustration() {
 }
 
 function Main() {
+  useEffect(() => {
+    animate([
+      ["div.chat", { scale: [0, 1], transformOrigin: "top left" }, { delay: stagger(2), duration: 0.3 }],
+      ["div.radio", { scale: [0, 1], transformOrigin: "left" }, { delay: 2 }],
+    ]);
+  }, []);
   return (
     <div className="relative z-10 flex w-full flex-col items-center">
       <div
@@ -94,7 +101,7 @@ function Main() {
 
 function ChatImages({ images }: { images: string[] }) {
   return (
-    <div className="mb-2 grid w-auto max-w-[136px] grid-cols-3 gap-2 self-end">
+    <div className="chat mb-2 grid w-auto max-w-[136px] grid-cols-3 gap-2 self-end">
       {images.map((image, index) => {
         return (
           <div
@@ -120,7 +127,7 @@ function ChatGroup({ variant, children }: PropsWithChildren<{ variant?: "left" |
 
 function RadioChat({ className, price, description }: { className?: string; price: number; description: string }) {
   return (
-    <div className={twMerge("text-chat-app-primary-text-chatleft from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet mb-[8px] flex h-[32px] w-[160px] items-center self-start rounded-[10px] rounded-bl-[4px] bg-gradient-to-r px-[8px] py-[6px] pr-4 text-[8px] leading-[11px]", className)}>
+    <div className={twMerge("text-chat-app-primary-text-chatleft from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet radio mb-[8px] flex h-[32px] w-[160px] items-center self-start rounded-[10px] rounded-bl-[4px] bg-gradient-to-r px-[8px] py-[6px] pr-4 text-[8px] leading-[11px]", className)}>
       <div className="border-chat-app-secondary-200/20 aspect-square w-3 rounded-full border" />
       <p className="text-chat-app-secondary-100/75 ml-2">{description}</p>
       <p className="text-chat-app-secondary-100 ml-auto pt-[1px] text-[12px] font-bold">${price}</p>
@@ -129,11 +136,11 @@ function RadioChat({ className, price, description }: { className?: string; pric
 }
 
 function ChatLeft({ children, className }: PropsWithChildren<{ className?: string }>) {
-  return <div className={twMerge("bg-chat-app-primary-text-chatright/[8%] text-chat-app-primary-text-chatleft mb-[8px] h-auto w-fit max-w-[128px] self-start rounded-[10px] rounded-bl-[4px] px-[8px] py-[6px] text-[8px] leading-[11px]", className)}>{children}</div>;
+  return <div className={twMerge("bg-chat-app-primary-text-chatright/[8%] text-chat-app-primary-text-chatleft chat mb-[8px] h-auto w-fit max-w-[128px] self-start rounded-[10px] rounded-bl-[4px] px-[8px] py-[6px] text-[8px] leading-[11px]", className)}>{children}</div>;
 }
 
 function ChatRight({ children, className }: PropsWithChildren<{ className?: string }>) {
-  return <div className={twMerge("bg-chat-app-secondary-100 text-chat-app-primary-text-chatright mb-[8px] h-auto w-auto max-w-[128px] self-end rounded-[10px] rounded-br-[4px] px-[8px] py-[6px] text-[8px] leading-[11px] shadow-sm", className)}>{children}</div>;
+  return <div className={twMerge("bg-chat-app-secondary-100 text-chat-app-primary-text-chatright chat mb-[8px] h-auto w-auto max-w-[128px] self-end rounded-[10px] rounded-br-[4px] px-[8px] py-[6px] text-[8px] leading-[11px] shadow-sm", className)}>{children}</div>;
 }
 
 function Footer() {
