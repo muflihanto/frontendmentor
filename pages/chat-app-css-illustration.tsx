@@ -1,7 +1,10 @@
 import Head from "next/head";
-// import Image from "next/image";
+import Image from "next/image";
 import dynamic from "next/dynamic";
+import { CSSProperties, PropsWithChildren } from "react";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { BsChevronCompactLeft, BsThreeDotsVertical, BsChevronRight } from "react-icons/bs";
+import { twMerge } from "tailwind-merge";
 
 // TODO: View the optimal layout for the component depending on their device's screen size
 // TODO: **Bonus**: See the chat interface animate on the initial load
@@ -23,42 +26,114 @@ export default function ChatAppCssIllustration() {
 
 function Main() {
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="relative z-10 flex w-full flex-col items-center">
+      <div
+        className="from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet absolute -left-[calc(var(--width)-50vw)] top-0 -z-10 h-[500px] w-[var(--width)] rounded-br-full bg-gradient-to-bl from-[-50%]"
+        style={
+          {
+            "--width": "225px",
+          } as CSSProperties
+        }
+      />
       <div className="my-[64px] flex h-[505px] items-center justify-center">
-        <div className="bg-chat-app-primary-gradients-magenta h-full w-[247px] rounded-xl"></div>
+        <div className="bg-chat-app-secondary-100 h-full w-[247px] overflow-hidden rounded-[30px] p-[10px] pt-[11px] shadow-2xl">
+          <div className="bg-chat-app-secondary-200 grid h-full w-full grid-rows-[66px_auto] overflow-hidden rounded-[20px]">
+            <div className="from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet before:bg-chat-app-secondary-100 relative flex h-full w-full items-center rounded-b-md bg-gradient-to-l px-3 py-[8px] pt-[25px] shadow-lg before:absolute before:left-1/2 before:top-0 before:z-10 before:h-[18px] before:w-[130px] before:-translate-x-1/2 before:rounded-b-[14px]">
+              <BsChevronCompactLeft className="text-chat-app-secondary-100 stroke-2 text-[11px]" />
+              <div className="border-chat-app-secondary-100 relative ml-1 aspect-square w-6 overflow-hidden rounded-full border">
+                <Image
+                  src="/chat-app-css-illustration/images/avatar.jpg"
+                  alt="Samuel Green Avatar"
+                  fill
+                />
+              </div>
+              <div className="text-chat-app-secondary-100 ml-2 mt-[1px] flex flex-col gap-[3.5px]">
+                <h2 className="text-[11px] font-medium leading-none">Samuel Green</h2>
+                <p className="text-chat-app-primary-text-subhead text-[8px] leading-none">Available to Walk</p>
+              </div>
+              <BsThreeDotsVertical className="text-chat-app-secondary-100 ml-auto stroke-1 text-[11px]" />
+            </div>
+            <div className="flex h-full flex-col justify-end px-[7px] py-[11px]">
+              <ChatGroup>
+                <ChatLeft>That sounds great. I’d be happy with that.</ChatLeft>
+                <ChatLeft>Could you send over some pictures of your dog, please?</ChatLeft>
+              </ChatGroup>
+              <ChatGroup variant="right">
+                <ChatImages images={["/chat-app-css-illustration/images/dog-image-1.jpg", "/chat-app-css-illustration/images/dog-image-2.jpg", "/chat-app-css-illustration/images/dog-image-3.jpg"]} />
+                <ChatRight>Here are a few pictures. She’s a happy girl!</ChatRight>
+                <ChatRight>Can you make it?</ChatRight>
+              </ChatGroup>
+              <ChatGroup>
+                <ChatLeft>She looks so happy! The time we discussed works. How long shall I take her out for?</ChatLeft>
+                <RadioChat
+                  description="30 minute walk"
+                  price={29}
+                />
+                <RadioChat
+                  description="1 hour walk"
+                  price={49}
+                />
+              </ChatGroup>
+              <div className="bg-chat-app-secondary-100 flex h-[34px] w-full items-center justify-between rounded-full pl-[17px] pr-1">
+                <p className="text-chat-app-primary-text-placeholder mt-1 text-[9px] leading-none">Type a message…</p>
+                <div className="bg-chat-app-primary-text-mainhead flex aspect-square w-6 items-center justify-center overflow-hidden rounded-full">
+                  <BsChevronRight className="text-chat-app-secondary-100 stroke-2 text-[11px]" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="flex flex-col items-center px-9">
         <h1 className="text-chat-app-primary-text-mainhead text-center text-[40px] font-medium leading-[46px]">Simple booking</h1>
         <p className="text-chat-app-primary-text-paragraph mt-6 text-center leading-[28px]">Stay in touch with our dog walkers through the chat interface. This makes it easy to discuss arrangements and make bookings. Once the walk has been completed you can rate your walker and book again all through the chat.</p>
       </div>
-      {/* {`
-         Samuel Green
-         Available to Walk
-       
-         That sounds great. I’d be happy with that.
-       
-         Could you send over some pictures of your dog, please?
-       
-         Here are a few pictures. She’s a happy girl!
-       
-         Can you make it?
-       
-         She looks so happy! The time we discussed works. How long shall I take her out for?
-       
-         30 minute walk
-         $29
-       
-         1 hour walk
-         $49
-       
-         Type a message…
-       
-         
-       
-         
-      `} */}
     </div>
   );
+}
+
+function ChatImages({ images }: { images: string[] }) {
+  return (
+    <div className="mb-2 grid w-auto max-w-[136px] grid-cols-3 gap-2 self-end">
+      {images.map((image, index) => {
+        return (
+          <div
+            className="relative aspect-square w-[40px] overflow-hidden rounded-[10px]"
+            key={index}
+          >
+            <Image
+              fill
+              className="object-contain"
+              src={image}
+              alt={`Dog Image ${index + 1}`}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ChatGroup({ variant, children }: PropsWithChildren<{ variant?: "left" | "right" }>) {
+  return <div className={`mb-2 flex flex-col ${variant === "right" ? "items-end self-end" : "items-start self-start"}`}>{children}</div>;
+}
+
+function RadioChat({ className, price, description }: { className?: string; price: number; description: string }) {
+  return (
+    <div className={twMerge("text-chat-app-primary-text-chatleft from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet mb-[8px] flex h-[32px] w-[160px] items-center self-start rounded-[10px] rounded-bl-[4px] bg-gradient-to-r px-[8px] py-[6px] pr-4 text-[8px] leading-[11px]", className)}>
+      <div className="border-chat-app-secondary-200/20 aspect-square w-3 rounded-full border" />
+      <p className="text-chat-app-secondary-100/75 ml-2">{description}</p>
+      <p className="text-chat-app-secondary-100 ml-auto pt-[1px] text-[12px] font-bold">${price}</p>
+    </div>
+  );
+}
+
+function ChatLeft({ children, className }: PropsWithChildren<{ className?: string }>) {
+  return <div className={twMerge("bg-chat-app-primary-text-chatright/[8%] text-chat-app-primary-text-chatleft mb-[8px] h-auto w-fit max-w-[128px] self-start rounded-[10px] rounded-bl-[4px] px-[8px] py-[6px] text-[8px] leading-[11px]", className)}>{children}</div>;
+}
+
+function ChatRight({ children, className }: PropsWithChildren<{ className?: string }>) {
+  return <div className={twMerge("bg-chat-app-secondary-100 text-chat-app-primary-text-chatright mb-[8px] h-auto w-auto max-w-[128px] self-end rounded-[10px] rounded-br-[4px] px-[8px] py-[6px] text-[8px] leading-[11px] shadow-sm", className)}>{children}</div>;
 }
 
 function Footer() {
