@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { CSSProperties, PropsWithChildren, useEffect } from "react";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 import { BsChevronCompactLeft, BsThreeDotsVertical, BsChevronRight } from "react-icons/bs";
@@ -16,9 +16,9 @@ export default function ChatAppCssIllustration() {
       <Head>
         <title>Frontend Mentor | Chat app CSS illustration</title>
       </Head>
-      <div className="App font-rubiks bg-chat-app-secondary-200/50 relative h-[936px] min-h-[100svh]">
+      <div className="App font-rubiks bg-chat-app-secondary-200/50 relative min-h-[100dvh] max-lg:h-[936px]">
         <Main />
-        <Footer />
+        {/* <Footer /> */}
         {/* <Slider basePath="/chat-app-css-illustration/design" /> */}
       </div>
     </>
@@ -28,21 +28,21 @@ export default function ChatAppCssIllustration() {
 function Main() {
   useEffect(() => {
     animate([
-      ["div.chat", { scale: [0, 1], transformOrigin: "top left" }, { delay: stagger(2), duration: 0.3 }],
-      ["div.radio", { scale: [0, 1], transformOrigin: "left" }, { delay: 2 }],
+      ["div.chat", { scale: [0, 1] }, { delay: stagger(2), duration: 0.3 }],
+      ["div.radio", { scale: [0, 1] }, { delay: 2 }],
     ]);
   }, []);
   return (
-    <div className="relative z-10 flex w-full flex-col items-center">
+    <div className="relative z-10 flex w-full flex-col items-center lg:h-[100dvh] lg:min-h-[540px] lg:flex-row lg:justify-center lg:gap-[124px] lg:pl-[100px]">
       <div
-        className="from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet absolute -left-[calc(var(--width)-50vw)] top-0 -z-10 h-[500px] w-[var(--width)] rounded-br-full bg-gradient-to-bl from-[-50%]"
+        className="from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet absolute -left-[calc(var(--width)-50vw)] top-0 -z-10 h-[510px] w-[var(--width)] rounded-br-full bg-gradient-to-bl from-[-50%] lg:left-[-90px] lg:h-[calc(700/800*100vh)] lg:w-[510px] lg:rounded-b-[255px] lg:bg-[linear-gradient(200deg,var(--tw-gradient-stops))] lg:from-[-40%]"
         style={
           {
-            "--width": "225px",
+            "--width": "260px",
           } as CSSProperties
         }
       />
-      <div className="my-[64px] flex h-[505px] items-center justify-center">
+      <div className="my-[64px] flex h-[505px] items-center justify-center lg:my-0">
         <div className="bg-chat-app-secondary-100 h-full w-[247px] overflow-hidden rounded-[30px] p-[10px] pt-[11px] shadow-2xl">
           <div className="bg-chat-app-secondary-200 grid h-full w-full grid-rows-[66px_auto] overflow-hidden rounded-[20px]">
             <div className="from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet before:bg-chat-app-secondary-100 relative flex h-full w-full items-center rounded-b-md bg-gradient-to-l px-3 py-[8px] pt-[25px] shadow-lg before:absolute before:left-1/2 before:top-0 before:z-10 before:h-[18px] before:w-[130px] before:-translate-x-1/2 before:rounded-b-[14px]">
@@ -91,9 +91,9 @@ function Main() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center px-9">
-        <h1 className="text-chat-app-primary-text-mainhead text-center text-[40px] font-medium leading-[46px]">Simple booking</h1>
-        <p className="text-chat-app-primary-text-paragraph mt-6 text-center leading-[28px]">Stay in touch with our dog walkers through the chat interface. This makes it easy to discuss arrangements and make bookings. Once the walk has been completed you can rate your walker and book again all through the chat.</p>
+      <div className="flex flex-col items-center px-9 lg:w-[442px] lg:items-start lg:px-0">
+        <h1 className="text-chat-app-primary-text-mainhead text-center text-[40px] font-medium leading-[46px] lg:text-left">Simple booking</h1>
+        <p className="text-chat-app-primary-text-paragraph mt-6 text-center leading-[28px] lg:text-left">Stay in touch with our dog walkers through the chat interface. This makes it easy to discuss arrangements and make bookings. Once the walk has been completed you can rate your walker and book again all through the chat.</p>
       </div>
     </div>
   );
@@ -122,7 +122,7 @@ function ChatImages({ images }: { images: string[] }) {
 }
 
 function ChatGroup({ variant, children }: PropsWithChildren<{ variant?: "left" | "right" }>) {
-  return <div className={`mb-2 flex flex-col ${variant === "right" ? "items-end self-end" : "items-start self-start"}`}>{children}</div>;
+  return <div className={`mb-2 flex flex-col ${variant === "right" ? "items-end self-end [&>div]:origin-top-right" : "items-start self-start [&>div]:origin-top-left"}`}>{children}</div>;
 }
 
 function RadioChat({ className, price, description }: { className?: string; price: number; description: string }) {
