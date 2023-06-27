@@ -746,7 +746,7 @@ module.exports = {
         },
         "ip-address": {
           200: "hsl(0,0%,17%)",
-          100: "hsl(0,0%,59%)"
+          100: "hsl(0,0%,59%)",
         },
         "chat-app": {
           primary: {
@@ -756,20 +756,29 @@ module.exports = {
               chatright: "hsl(271,15%,43%)",
               placeholder: "hsl(206,6%,79%)",
               mainhead: "hsl(271,36%,24%)",
-              paragraph: "hsl(270,7%,64%)"
+              paragraph: "hsl(270,7%,64%)",
             },
             gradients: {
               magenta: "hsl(293,100%,63%)",
-              violet: "hsl(264,100%,61%)"
-            }
+              violet: "hsl(264,100%,61%)",
+            },
           },
           secondary: {
             100: "hsl(0,0%,100%)",
             200: "hsl(270,20%,96%)",
             400: "hsl(271,36%,24%)",
             300: "hsl(289,100%,72%)",
-          }
-        }
+          },
+        },
+        "job-listings": {
+          primary: "hsl(180,29%,50%)",
+          neutral: {
+            100: "hsl(180,52%,96%)",
+            200: "hsl(180,31%,95%)",
+            300: "hsl(180,8%,52%)",
+            400: "hsl(180,14%,20%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
