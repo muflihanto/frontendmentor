@@ -20,14 +20,14 @@ export default function getPath() {
       .join(" ");
   };
 
-  const pageTitles = filteredPages.map((page) => {
-    return titleCase(page.split("-").join(" ")).split(".")[0];
+  const pages = filteredPages.map((page) => {
+    return {
+      title: titleCase(page.split("-").join(" ")).split(".")[0],
+      path: page.split(".")[0],
+    };
   });
 
   return {
-    titles: pageTitles,
-    paths: filteredPages.map((page) => {
-      return page.split(".")[0];
-    }),
+    pages,
   };
 }
