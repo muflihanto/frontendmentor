@@ -5,6 +5,7 @@ import Image from "next/image";
 import _data from "../public/static-job-listings/data.json";
 import { Fragment, HTMLProps, PropsWithChildren, useEffect, useMemo } from "react";
 import { atom, useAtom, useSetAtom } from "jotai";
+import { match } from "ts-pattern";
 
 // TODO: View the optimal layout for the site depending on their device's screen size
 // TODO: See hover states for all interactive elements on the page
@@ -39,6 +40,7 @@ type Entries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
 type FilterEntries = Entries<Filter>;
+type ExtractSet<Type> = Type extends Set<infer X> ? X : never;
 
 const initFilter: Filter = {
   languages: new Set(),
@@ -237,6 +239,8 @@ function Main() {
     });
   };
 
+  const handleDelete = <T,>(set: Set<T>, e: T) => {};
+
   return (
     <div className="flex w-full flex-col items-center">
       {!isFilterEmpty && (
@@ -250,31 +254,24 @@ function Main() {
                   <Fragment key={index}>
                     {Array.from(entry[1]).map((e, eindex) => {
                       const onClick = () => {
-                        if (entry[0] === "languages") {
-                          setFilters((filt) => {
-                            const newSet = filt.languages;
-                            newSet.delete(e as Language);
-                            return { ...filt, languages: newSet };
-                          });
-                        } else if (entry[0] === "levels") {
-                          setFilters((filt) => {
-                            const newSet = filt.levels;
-                            newSet.delete(e as Level);
-                            return { ...filt, levels: newSet };
-                          });
-                        } else if (entry[0] === "roles") {
-                          setFilters((filt) => {
-                            const newSet = filt.roles;
-                            newSet.delete(e as Role);
-                            return { ...filt, roles: newSet };
-                          });
-                        } else {
-                          setFilters((filt) => {
-                            const newSet = filt.tools;
-                            newSet.delete(e as Tool);
-                            return { ...filt, tools: newSet };
-                          });
-                        }
+                        setFilters((filt) => {
+                          const newSet = filt[entry[0]];
+                          match(entry[0])
+                            .with("languages", () => {
+                              (newSet as Set<Language>).delete(e as Language);
+                            })
+                            .with("levels", () => {
+                              (newSet as Set<Level>).delete(e as Level);
+                            })
+                            .with("roles", () => {
+                              (newSet as Set<Role>).delete(e as Role);
+                            })
+                            .with("tools", () => {
+                              (newSet as Set<Tool>).delete(e as Tool);
+                            })
+                            .exhaustive();
+                          return { ...filt, [entry[0]]: newSet };
+                        });
                       };
                       return (
                         <FilterButton
