@@ -279,6 +279,11 @@
 }
 
 @font-face {
+  font-family: "Public Sans";
+  src: url("/easybank-landing-page/fonts/PublicSans-VariableFont_wght.ttf");
+}
+
+@font-face {
   font-family: "Red Hat Text";
   src: url("/launch-countdown-timer/fonts/RedHatText-VariableFont_wght.ttf");
 }

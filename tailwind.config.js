@@ -779,6 +779,19 @@ module.exports = {
             400: "hsl(180,14%,20%)",
           },
         },
+        "easybank": {
+          primary: {
+            blue: "hsl(233,26%,24%)",
+            green: "hsl(136,65%,51%)",
+            cyan: "hsl(192,70%,51%)",
+          },
+          neutral: {
+            400: "hsl(233,8%,62%)",
+            300: "hsl(220,16%,96%)",
+            200: "hsl(0,0%,98%)",
+            100: "hsl(0,0%,100%)",
+          }
+        }
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -818,6 +831,7 @@ module.exports = {
         "hanken-grotesk": ["Hanken Grotesk", ...fontFamily.sans],
         "red-hat-text": ["Red Hat Text", ...fontFamily.sans],
         roboto: ["Roboto", ...fontFamily.sans],
+        public: ["Public Sans", ...fontFamily.sans],
       },
     },
   },
