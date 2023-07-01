@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { HTMLProps, PropsWithChildren, useState } from "react";
+import { HTMLProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
 // TODO: - See hover states for all interactive elements on the page
@@ -18,7 +18,7 @@ export default function EasybankLandingPage() {
         <Header />
         <Main />
         <Footer />
-        <Slider basePath="/easybank-landing-page/design" />
+        {/* <Slider basePath="/easybank-landing-page/design" /> */}
       </div>
     </>
   );
@@ -123,7 +123,7 @@ function Features() {
   );
 }
 
-function Feature({ children, icon, heading, description, className, ...props }: PropsWithChildren<HTMLProps<HTMLDivElement> & Feature>) {
+function Feature({ icon, heading, description, className, ...props }: HTMLProps<HTMLDivElement> & Feature) {
   return (
     <div
       {...props}
@@ -136,85 +136,197 @@ function Feature({ children, icon, heading, description, className, ...props }: 
   );
 }
 
+type Article = {
+  author: string;
+  title: string;
+  summary: string;
+  cover: string;
+};
+
+function LatestArticles() {
+  const articles: Article[] = [
+    {
+      author: "Claire Robinson",
+      title: "Receive money in any currency with no fees",
+      summary: "The world is getting smaller and we’re becoming more mobile. So why should you be forced to only receive money in a single",
+      cover: "/easybank-landing-page/images/image-currency.jpg",
+    },
+    {
+      author: "Wilson Hutton",
+      title: "Treat yourself without worrying about money",
+      summary: "Our simple budgeting feature allows you to separate out your spending and set realistic limits each month. That means you",
+      cover: "/easybank-landing-page/images/image-restaurant.jpg",
+    },
+    {
+      author: "Wilson Hutton",
+      title: "Take your Easybank card wherever you go",
+      summary: "We want you to enjoy your travels. This is why we don’t charge any fees on purchases while you’re abroad. We’ll even show you",
+      cover: "/easybank-landing-page/images/image-plane.jpg",
+    },
+    {
+      author: "Claire Robinson",
+      title: "Our invite-only Beta accounts are now live!",
+      summary: "After a lot of hard work by the whole team, we’re excited to launch our closed beta. It’s easy to request an invite through the site",
+      cover: "/easybank-landing-page/images/image-confetti.jpg",
+    },
+  ];
+  return (
+    <div className="flex w-full flex-col items-center px-[24px] py-[88px] pb-[89px]">
+      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.3px]">Latest Articles</h2>
+      <div className="mt-8 flex flex-col items-center gap-[25px]">
+        {articles.map((article) => {
+          return (
+            <Article
+              key={article.title}
+              {...article}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Article({ author, cover, summary, title, className, ...props }: HTMLProps<HTMLDivElement> & Article) {
+  return (
+    <div
+      className={twMerge("shadow-easybank-primary-blue/5 h-[394px] overflow-hidden rounded-[5px] shadow", className)}
+      {...props}
+    >
+      <div className="relative aspect-[327/200] h-[200px]">
+        <Image
+          className="object-cover"
+          src={cover}
+          alt={`${title} illustration`}
+          fill
+        />
+      </div>
+      <div className="bg-easybank-neutral-100 text-easybank-neutral-400 h-full w-full px-[31px] py-[29px]">
+        <p className="text-[10px] leading-none tracking-[-.2px]">By {author}</p>
+        <h3 className="text-easybank-primary-blue mt-[12px] leading-[20px] tracking-[-.35px]">{title}</h3>
+        <p className="mt-[8px] text-[13px] leading-[18px] tracking-[-.25px]">{summary} ...</p>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div className="bg-easybank-neutral-200">
       <Intro />
       <Features />
-      {`
+      <LatestArticles />
+      {/* {`
          Home
          About
          Contact
          Blog
          Careers
-       
-       
-         Latest Articles
-       
-         By Claire Robinson
-         Receive money in any currency with no fees
-         The world is getting smaller and we’re becoming more mobile. So why should you be 
-         forced to only receive money in a single …
-       
-         By Wilson Hutton
-         Treat yourself without worrying about money
-         Our simple budgeting feature allows you to separate out your spending and set 
-         realistic limits each month. That means you …
-       
-         By Wilson Hutton
-         Take your Easybank card wherever you go
-         We want you to enjoy your travels. This is why we don’t charge any fees on purchases 
-         while you’re abroad. We’ll even show you …
-       
-         By Claire Robinson
-         Our invite-only Beta accounts are now live!
-         After a lot of hard work by the whole team, we’re excited to launch our closed beta. 
-         It’s easy to request an invite through the site ...
-       
-         
-       
-         About Us
-         Contact
-         Blog
-         Careers
-         Support
-         Privacy Policy
-       
-         Request Invite
-       
-         © Easybank. All Rights Reserved
-      `}
+      `} */}
+    </div>
+  );
+}
+
+function SocialIcons() {
+  const socialMedia: { icon: IconVariant; href: string }[] = [
+    {
+      icon: "facebook",
+      href: "",
+    },
+    {
+      icon: "youtube",
+      href: "",
+    },
+    {
+      icon: "twitter",
+      href: "",
+    },
+    {
+      icon: "pinterest",
+      href: "",
+    },
+    {
+      icon: "instagram",
+      href: "",
+    },
+  ];
+  return (
+    <div className="mt-8 flex items-center gap-[15.5px]">
+      {socialMedia.map(({ href, icon }) => {
+        return (
+          <a
+            href={href}
+            key={icon}
+            className="flex h-6 items-center justify-center"
+          >
+            <Icon
+              className="h-6"
+              variant={icon}
+            />
+          </a>
+        );
+      })}
     </div>
   );
 }
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
-      Challenge by{" "}
-      <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Frontend Mentor
-      </a>
-      . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Muflihanto
-      </a>
-      .
+    <footer className="bg-easybank-primary-blue relative pb-[43.5px] pt-[40px]">
+      <div className="flex flex-col items-center">
+        <Logo variant="footer" />
+        <SocialIcons />
+        <nav className="mt-[37px]">
+          <ul className="text-easybank-neutral-300 flex flex-col items-center gap-[19px] text-[15px] leading-none tracking-[-.25px]">
+            <li>
+              <a href="">About Us</a>
+            </li>
+            <li>
+              <a href="">Contact</a>
+            </li>
+            <li>
+              <a href="">Blog</a>
+            </li>
+            <li>
+              <a href="">Careers</a>
+            </li>
+            <li>
+              <a href="">Support</a>
+            </li>
+            <li>
+              <a href="">Privacy Policy</a>
+            </li>
+          </ul>
+        </nav>
+        <button className="from-easybank-primary-green to-easybank-primary-cyan text-easybank-neutral-100 mt-[38px] flex h-[44px] w-[162px] items-center justify-center rounded-full bg-gradient-to-r text-[14px] font-bold">Request Invite</button>
+        <p className="text-easybank-neutral-400 mt-[25px] text-[15px] tracking-[-.25px]">© Easybank. All Rights Reserved</p>
+      </div>
+      <div className="text-easybank-neutral-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+        Challenge by{" "}
+        <a
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by{" "}
+        <a
+          href="https://github.com/muflihanto"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Muflihanto
+        </a>
+        .
+      </div>
     </footer>
   );
 }
 
 // SVG's
 
-function Logo(props: HTMLProps<SVGSVGElement>) {
+function Logo({ variant, ...props }: HTMLProps<SVGSVGElement> & { variant?: "header" | "footer" }) {
   return (
     <svg
       {...props}
@@ -245,7 +357,7 @@ function Logo(props: HTMLProps<SVGSVGElement>) {
         fillRule="evenodd"
       >
         <path
-          fill="#2D314D"
+          fill={!variant || variant === "header" ? "#2D314D" : "#FFFFFF"}
           fillRule="nonzero"
           d="M37.754 15.847c2.852 0 5.152-1.622 5.952-4.216h-3.897c-.376.665-1.14 1.066-2.055 1.066-1.237 0-2.065-.674-2.32-1.978h8.44c.051-.352.081-.694.081-1.037 0-3.335-2.537-5.95-6.201-5.95-3.568 0-6.175 2.564-6.175 6.049 0 3.473 2.628 6.066 6.175 6.066zm2.344-7.297h-4.596c.317-1.129 1.11-1.749 2.252-1.749 1.181 0 2 .613 2.344 1.75zm10.946 7.296c1.32 0 2.5-.434 3.43-1.188l.336.804h3.027V4.093h-2.919l-.4.88c-.94-.775-2.135-1.222-3.474-1.222-3.476 0-5.961 2.505-5.961 6.026 0 3.533 2.485 6.07 5.961 6.07zm.524-3.467c-1.467 0-2.545-1.108-2.545-2.593 0-1.475 1.069-2.583 2.545-2.583 1.466 0 2.544 1.108 2.544 2.583 0 1.485-1.078 2.593-2.544 2.593zm13.123 3.467c3.02 0 5.025-1.554 5.025-3.93 0-2.883-2.387-3.256-4.183-3.575-1.08-.193-1.95-.344-1.95-.99 0-.527.422-.838 1.05-.838.71 0 1.197.337 1.197 1.063h3.667c-.044-2.303-1.92-3.843-4.816-3.843-2.912 0-4.854 1.47-4.854 3.75 0 2.757 2.337 3.289 4.1 3.574 1.092.181 1.952.368 1.952 1.024 0 .587-.543.88-1.116.88-.742 0-1.32-.383-1.32-1.214h-3.77c.036 2.463 1.919 4.1 5.018 4.1zm8.1 3.858c2.936 0 4.344-1.257 5.877-4.736l4.764-10.863h-4.206l-2.249 6.263-2.412-6.263H70.31l4.698 10.43c-.53 1.414-.983 1.804-2.48 1.804H71.45v3.365h1.341zm18.504-3.858c3.5 0 5.973-2.515 5.973-6.048S94.796 3.75 91.295 3.75a5.332 5.332 0 00-2.825.784V0H84.6v15.474h2.897l.37-.844c.923.771 2.102 1.216 3.428 1.216zm-.523-3.467c-1.467 0-2.545-1.108-2.545-2.58 0-1.486 1.078-2.594 2.545-2.594 1.466 0 2.544 1.108 2.544 2.593 0 1.473-1.087 2.58-2.544 2.58zm13.598 3.467c1.32 0 2.5-.434 3.43-1.188l.336.804h3.027V4.093h-2.918l-.401.88c-.939-.775-2.135-1.222-3.474-1.222-3.476 0-5.96 2.505-5.96 6.026 0 3.533 2.484 6.07 5.96 6.07zm.524-3.467c-1.467 0-2.545-1.108-2.545-2.593 0-1.475 1.07-2.583 2.545-2.583 1.467 0 2.545 1.108 2.545 2.583 0 1.485-1.078 2.593-2.545 2.593zm12.653 3.095V9.403c0-1.447.702-2.3 1.923-2.3.986 0 1.483.657 1.483 1.98v6.39h3.915V8.543c0-2.897-1.733-4.773-4.373-4.773-1.47 0-2.733.565-3.58 1.508l-.537-1.172h-2.747v11.369h3.916zm13.748 0v-4.808l2.848 4.808h4.616l-3.902-5.95 3.543-5.419h-4.397l-2.708 4.454V0h-3.916v15.474h3.916z"
         />
@@ -379,8 +491,8 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
         <svg
           {...props}
           xmlns="http://www.w3.org/2000/svg"
-          width={20}
-          height={20}
+          className={twMerge("h-5", props.className)}
+          viewBox="0 0 20 20"
         >
           <path
             fill="#FFF"
@@ -409,8 +521,8 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
         <svg
           {...props}
           xmlns="http://www.w3.org/2000/svg"
-          width={21}
-          height={20}
+          className={twMerge("h-5", props.className)}
+          viewBox="0 0 21 20"
         >
           <path
             fill="#FFF"
@@ -511,8 +623,8 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
         <svg
           {...props}
           xmlns="http://www.w3.org/2000/svg"
-          width={20}
-          height={20}
+          className={twMerge("h-5", props.className)}
+          viewBox="0 0 20 20"
         >
           <path
             fill="#FFF"
@@ -525,8 +637,8 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
         <svg
           {...props}
           xmlns="http://www.w3.org/2000/svg"
-          width={21}
-          height={18}
+          className={"h-[21px]"}
+          viewBox="0 0 21 18"
         >
           <path
             fill="#FFF"
@@ -539,8 +651,8 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
         <svg
           {...props}
           xmlns="http://www.w3.org/2000/svg"
-          width={21}
-          height={20}
+          viewBox="0 0 21 20"
+          className={twMerge("h-5", props.className)}
         >
           <path
             fill="#FFF"
