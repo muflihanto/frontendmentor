@@ -1,7 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { HTMLProps, useState } from "react";
+import { HTMLProps, PropsWithChildren, useState } from "react";
+import { twMerge } from "tailwind-merge";
 const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
@@ -79,11 +80,67 @@ function Intro() {
   );
 }
 
+type Feature = { icon: IconVariant; heading: string; description: string };
+
+function Features() {
+  const features: Feature[] = [
+    {
+      icon: "online",
+      heading: "Online Banking",
+      description: "Our modern web and mobile applications allow you to keep track of your finances wherever you are in the world.",
+    },
+    {
+      icon: "budgeting",
+      heading: "Simple Budgeting",
+      description: "See exactly where your money goes each month. Receive notifications when you’re close to hitting your limits.",
+    },
+    {
+      icon: "onboarding",
+      heading: "Fast Onboarding",
+      description: "We don’t do branches. Open your account in minutes online and start taking control of your finances right away.",
+    },
+    {
+      icon: "api",
+      heading: "Open API",
+      description: "Manage your savings, investments, pension, and much more from one account. Tracking your money has never been easier.",
+    },
+  ];
+  return (
+    <div className="bg-easybank-neutral-300 flex flex-col items-center px-[24px] py-[64px]">
+      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.5px]">Why choose Easybank?</h2>
+      <p className="text-easybank-neutral-400 mt-[16px] text-center text-[15px] leading-[25px] tracking-[-.25px]">We leverage Open Banking to turn your bank account into your financial hub. Control your finances like never before.</p>
+      <div className="mt-14 flex flex-col items-center gap-8">
+        {features.map((feature, index) => {
+          return (
+            <Feature
+              key={index}
+              {...feature}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Feature({ children, icon, heading, description, className, ...props }: PropsWithChildren<HTMLProps<HTMLDivElement> & Feature>) {
+  return (
+    <div
+      {...props}
+      className={twMerge("flex flex-col items-center", className)}
+    >
+      <Icon variant={icon} />
+      <h3 className="text-easybank-primary-blue mt-7 text-[20px] font-light leading-none tracking-[-0.4px]">{heading}</h3>
+      <p className="text-easybank-neutral-400 mt-[20px] text-center text-[15px] leading-[25px] tracking-[-0.25px]">{description}</p>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div className="bg-easybank-neutral-200">
       <Intro />
-      <div className="bg-easybank-neutral-300 h-[48px]"></div>
+      <Features />
       {`
          Home
          About
@@ -91,31 +148,6 @@ function Main() {
          Blog
          Careers
        
-         Request Invite
-         
-
-         Why choose Easybank?
-       
-         We leverage Open Banking to turn your bank account into your financial hub. Control 
-         your finances like never before.
-       
-         Online Banking
-         Our modern web and mobile applications allow you to keep track of your finances 
-         wherever you are in the world.
-       
-         Simple Budgeting
-         See exactly where your money goes each month. Receive notifications when you’re 
-         close to hitting your limits.
-       
-         Fast Onboarding
-         We don’t do branches. Open your account in minutes online and start taking control 
-         of your finances right away.
-       
-         Open API
-         Manage your savings, investments, pension, and much more from one account. Tracking 
-         your money has never been easier.
-       
-         
        
          Latest Articles
        
