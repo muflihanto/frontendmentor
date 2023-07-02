@@ -1,6 +1,7 @@
+import { Popover } from "@headlessui/react";
 import Head from "next/head";
 import Image from "next/image";
-import { HTMLProps, useState } from "react";
+import { HTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -18,7 +19,10 @@ export default function EasybankLandingPage() {
         <Header />
         <Main />
         <Footer />
-        {/* <Slider basePath="/easybank-landing-page/design" /> */}
+        {/* <Slider
+          basePath="/easybank-landing-page/design"
+          absolutePath="/easybank-landing-page/design/mobile-navigation.jpg"
+        /> */}
       </div>
     </>
   );
@@ -34,16 +38,25 @@ function Header() {
 }
 
 function MobileMenuButton() {
-  const [open, setOpen] = useState(false);
   return (
-    <button
-      className="flex items-center justify-center"
-      onClick={() => {
-        setOpen(!open);
+    <Popover>
+      {({ open }) => {
+        return (
+          <>
+            <Popover.Button className="flex h-6 w-6 items-center justify-center">{open ? <Icon variant="close" /> : <Icon variant="hamburger" />}</Popover.Button>
+            <Popover.Panel className="from-easybank-primary-blue absolute left-0 top-16 h-[600px] w-full bg-gradient-to-b to-transparent p-[24px]">
+              <div className="text-easybank-primary-blue flex w-full flex-col items-center gap-[26px] rounded bg-white p-[32px] pb-[34px] text-[19px] [&>a]:leading-none [&>a]:tracking-[-.5px]">
+                <a href="">Home</a>
+                <a href="">About</a>
+                <a href="">Contact</a>
+                <a href="">Blog</a>
+                <a href="">Careers</a>
+              </div>
+            </Popover.Panel>
+          </>
+        );
       }}
-    >
-      {open ? <Icon variant="close" /> : <Icon variant="hamburger" />}
-    </button>
+    </Popover>
   );
 }
 
@@ -216,13 +229,6 @@ function Main() {
       <Intro />
       <Features />
       <LatestArticles />
-      {/* {`
-         Home
-         About
-         Contact
-         Blog
-         Careers
-      `} */}
     </div>
   );
 }
