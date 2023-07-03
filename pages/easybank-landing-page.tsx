@@ -1,8 +1,9 @@
 import { Popover } from "@headlessui/react";
 import Head from "next/head";
 import Image from "next/image";
-import { HTMLProps } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, HTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
+import { useWindowSize } from "usehooks-ts";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -21,7 +22,7 @@ export default function EasybankLandingPage() {
         <Footer />
         {/* <Slider
           basePath="/easybank-landing-page/design"
-          absolutePath="/easybank-landing-page/design/mobile-navigation.jpg"
+          // absolutePath="/easybank-landing-page/design/mobile-navigation.jpg"
         /> */}
       </div>
     </>
@@ -29,10 +30,11 @@ export default function EasybankLandingPage() {
 }
 
 function Header() {
+  const { width } = useWindowSize();
   return (
     <div className="bg-easybank-neutral-100 relative z-10 flex h-16 w-full items-center justify-between px-6">
       <Logo />
-      <MobileMenuButton />
+      {width < 1024 && <MobileMenuButton />}
     </div>
   );
 }
@@ -60,22 +62,22 @@ function MobileMenuButton() {
   );
 }
 
+function RequestInvite({ className, ...props }: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+  return (
+    <button
+      {...props}
+      className={twMerge("from-easybank-primary-green to-easybank-primary-cyan text-easybank-neutral-100 mt-8 flex h-[44px] w-[162px] items-center justify-center rounded-full bg-gradient-to-r text-[14px] font-bold", className)}
+    >
+      Request Invite
+    </button>
+  );
+}
+
 function Intro() {
   return (
     <div>
-      <div className="relative z-0 h-[320px] -translate-y-[64px]">
-        <div className="absolute left-0 top-0 aspect-[375/423] w-full lg:aspect-[1271/1034]">
-          <Image
-            loader={({ src, width }) => {
-              return src + (width > 1023 ? "bg-intro-desktop.svg" : "bg-intro-mobile.svg");
-            }}
-            src={"/easybank-landing-page/images/"}
-            alt="Intro Background"
-            className="object-contain"
-            fill
-          />
-        </div>
-        <div className="absolute -bottom-[43px] left-1/2 aspect-[767/939] w-[calc(100%-32px)] -translate-x-[calc(50%+1px)]">
+      <div className="relative z-0 h-[350px] -translate-y-[64px] bg-[url('/easybank-landing-page/images/bg-intro-mobile.svg')] bg-cover bg-[center_bottom_calc(-73/375*100vw)] bg-no-repeat lg:bg-[url('/easybank-landing-page/images/bg-intro-desktop.svg')]">
+        <div className="absolute -bottom-[12px] left-1/2 aspect-[767/939] w-[calc(375px-32px)] -translate-x-[calc(50%+1px)]">
           <Image
             src="/easybank-landing-page/images/image-mockups.png"
             alt="Mockup"
@@ -84,10 +86,10 @@ function Intro() {
           />
         </div>
       </div>
-      <div className="mt-[2px] flex w-full flex-col items-center pb-[88px]">
+      <div className="mt-[-28px] flex w-full flex-col items-center pb-[88px]">
         <h1 className="text-easybank-primary-blue text-center text-[39px] font-light leading-[47px] -tracking-[0.1px]">Next generation digital banking</h1>
         <p className="text-easybank-neutral-400 mt-[16px] max-w-[320px] text-center text-[15px] leading-[25px] tracking-[-.2px]">Take your financial life online. Your Easybank account will be a one-stop-shop for spending, saving, budgeting, investing, and much more.</p>
-        <button className="from-easybank-primary-green to-easybank-primary-cyan text-easybank-neutral-100 mt-8 flex h-[44px] w-[162px] items-center justify-center rounded-full bg-gradient-to-r text-[14px] font-bold">Request Invite</button>
+        <RequestInvite />
       </div>
     </div>
   );
@@ -304,7 +306,7 @@ function Footer() {
             </li>
           </ul>
         </nav>
-        <button className="from-easybank-primary-green to-easybank-primary-cyan text-easybank-neutral-100 mt-[38px] flex h-[44px] w-[162px] items-center justify-center rounded-full bg-gradient-to-r text-[14px] font-bold">Request Invite</button>
+        <RequestInvite className="mt-[38px]" />
         <p className="text-easybank-neutral-400 mt-[25px] text-[15px] tracking-[-.25px]">© Easybank. All Rights Reserved</p>
       </div>
       <div className="text-easybank-neutral-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
