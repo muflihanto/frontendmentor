@@ -16,7 +16,7 @@ export default function EasybankLandingPage() {
       <Head>
         <title>Frontend Mentor | Easybank landing page</title>
       </Head>
-      <div className="App font-public relative min-h-[100svh]">
+      <div className="App font-public relative min-h-[100svh] lg:overflow-hidden">
         <Header />
         <Main />
         <Footer />
@@ -32,10 +32,31 @@ export default function EasybankLandingPage() {
 function Header() {
   const { width } = useWindowSize();
   return (
-    <div className="bg-easybank-neutral-100 relative z-10 flex h-16 w-full items-center justify-between px-6">
-      <Logo />
-      {width < 1024 && <MobileMenuButton />}
+    <div className="bg-easybank-neutral-100 relative z-10 flex h-16 w-full items-center justify-between px-6 lg:grid lg:h-20 lg:grid-cols-3 lg:grid-rows-1 lg:px-[165px]">
+      <Logo className="lg:mt-[6px]" />
+      {width < 1024 ? (
+        <MobileMenuButton />
+      ) : (
+        <>
+          <div className="text-easybank-neutral-400 flex items-center gap-[29.5px] justify-self-center pb-[1px] text-[15px] [&>a]:leading-none [&>a]:tracking-[-.5px]">
+            <NavigationLinks />
+          </div>
+          <RequestInvite className="mt-0 justify-self-end lg:max-w-[164px]" />
+        </>
+      )}
     </div>
+  );
+}
+
+function NavigationLinks() {
+  return (
+    <>
+      <a href="">Home</a>
+      <a href="">About</a>
+      <a href="">Contact</a>
+      <a href="">Blog</a>
+      <a href="">Careers</a>
+    </>
   );
 }
 
@@ -48,11 +69,7 @@ function MobileMenuButton() {
             <Popover.Button className="flex h-6 w-6 items-center justify-center">{open ? <Icon variant="close" /> : <Icon variant="hamburger" />}</Popover.Button>
             <Popover.Panel className="from-easybank-primary-blue absolute left-0 top-16 h-[600px] w-full bg-gradient-to-b to-transparent p-[24px]">
               <div className="text-easybank-primary-blue flex w-full flex-col items-center gap-[26px] rounded bg-white p-[32px] pb-[34px] text-[19px] [&>a]:leading-none [&>a]:tracking-[-.5px]">
-                <a href="">Home</a>
-                <a href="">About</a>
-                <a href="">Contact</a>
-                <a href="">Blog</a>
-                <a href="">Careers</a>
+                <NavigationLinks />
               </div>
             </Popover.Panel>
           </>
@@ -75,9 +92,9 @@ function RequestInvite({ className, ...props }: DetailedHTMLProps<ButtonHTMLAttr
 
 function Intro() {
   return (
-    <div>
-      <div className="relative z-0 h-[350px] -translate-y-[64px] bg-[url('/easybank-landing-page/images/bg-intro-mobile.svg')] bg-cover bg-[center_bottom_calc(-73/375*100vw)] bg-no-repeat lg:bg-[url('/easybank-landing-page/images/bg-intro-desktop.svg')]">
-        <div className="absolute -bottom-[12px] left-1/2 aspect-[767/939] w-[calc(375px-32px)] -translate-x-[calc(50%+1px)]">
+    <div className="lg:flex lg:h-[656px] lg:w-screen lg:flex-row-reverse lg:justify-stretch lg:gap-[68px]">
+      <div className="relative z-0 h-[350px] -translate-y-[64px] bg-[url('/easybank-landing-page/images/bg-intro-mobile.svg')] bg-cover bg-[center_bottom_calc(-73/375*100vw)] bg-no-repeat lg:h-full lg:w-full lg:translate-y-0 lg:bg-[url('/easybank-landing-page/images/bg-intro-desktop.svg')] lg:bg-[length:1271px_1034px] lg:bg-[bottom_-118px_left_-48px]">
+        <div className="absolute -bottom-[12px] left-1/2 aspect-[767/939] w-[calc(375px-32px)] -translate-x-[calc(50%+1px)] lg:bottom-[-160.75px] lg:left-0 lg:w-full lg:translate-x-[17.1%]">
           <Image
             src="/easybank-landing-page/images/image-mockups.png"
             alt="Mockup"
@@ -86,10 +103,10 @@ function Intro() {
           />
         </div>
       </div>
-      <div className="mt-[-28px] flex w-full flex-col items-center pb-[88px]">
-        <h1 className="text-easybank-primary-blue text-center text-[39px] font-light leading-[47px] -tracking-[0.1px]">Next generation digital banking</h1>
-        <p className="text-easybank-neutral-400 mt-[16px] max-w-[320px] text-center text-[15px] leading-[25px] tracking-[-.2px]">Take your financial life online. Your Easybank account will be a one-stop-shop for spending, saving, budgeting, investing, and much more.</p>
-        <RequestInvite />
+      <div className="mt-[-28px] flex w-full flex-col items-center pb-[88px] lg:ml-[165px] lg:mt-0 lg:w-[440px] lg:min-w-[440px] lg:items-start lg:self-center lg:py-0">
+        <h1 className="text-easybank-primary-blue text-center text-[39px] font-light leading-[47px] -tracking-[0.1px] lg:text-left lg:text-[56px] lg:leading-[64px] lg:tracking-[-.75px]">Next generation digital banking</h1>
+        <p className="text-easybank-neutral-400 mt-[16px] max-w-[320px] text-center text-[15px] leading-[25px] tracking-[-.2px] lg:mt-6 lg:max-w-none lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">Take your financial life online. Your Easybank account will be a one-stop-shop for spending, saving, budgeting, investing, and much more.</p>
+        <RequestInvite className="lg:mt-9" />
       </div>
     </div>
   );
@@ -121,10 +138,10 @@ function Features() {
     },
   ];
   return (
-    <div className="bg-easybank-neutral-300 flex flex-col items-center px-[24px] py-[64px]">
-      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.5px]">Why choose Easybank?</h2>
-      <p className="text-easybank-neutral-400 mt-[16px] text-center text-[15px] leading-[25px] tracking-[-.25px]">We leverage Open Banking to turn your bank account into your financial hub. Control your finances like never before.</p>
-      <div className="mt-14 flex flex-col items-center gap-8">
+    <div className="bg-easybank-neutral-300 flex flex-col items-center px-[24px] py-[64px] lg:w-full lg:items-start lg:px-[165px] lg:pb-[100px] lg:pt-[98px]">
+      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.5px] lg:w-1/2 lg:text-left lg:text-[40px] lg:leading-normal lg:tracking-[-.75px]">Why choose Easybank?</h2>
+      <p className="text-easybank-neutral-400 mt-[16px] text-center text-[15px] leading-[25px] tracking-[-.25px] lg:mt-[19px] lg:w-7/12 lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">We leverage Open Banking to turn your bank account into your financial hub. Control your finances like never before.</p>
+      <div className="mt-14 flex flex-col items-center gap-8 lg:mt-[71px] lg:grid lg:w-full lg:grid-cols-4 lg:grid-rows-1 lg:gap-[28.5px]">
         {features.map((feature, index) => {
           return (
             <Feature
@@ -142,11 +159,11 @@ function Feature({ icon, heading, description, className, ...props }: HTMLProps<
   return (
     <div
       {...props}
-      className={twMerge("flex flex-col items-center", className)}
+      className={twMerge("flex flex-col items-center lg:items-start", className)}
     >
       <Icon variant={icon} />
-      <h3 className="text-easybank-primary-blue mt-7 text-[20px] font-light leading-none tracking-[-0.4px]">{heading}</h3>
-      <p className="text-easybank-neutral-400 mt-[20px] text-center text-[15px] leading-[25px] tracking-[-0.25px]">{description}</p>
+      <h3 className="text-easybank-primary-blue mt-7 text-[20px] font-light leading-none tracking-[-0.4px] lg:mt-[43px] lg:text-left lg:text-[24px]">{heading}</h3>
+      <p className="text-easybank-neutral-400 mt-[20px] text-center text-[15px] leading-[25px] tracking-[-0.25px] lg:mt-7 lg:text-left lg:text-[16px] lg:leading-[26px]">{description}</p>
     </div>
   );
 }
