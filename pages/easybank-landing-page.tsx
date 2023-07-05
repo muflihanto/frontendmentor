@@ -16,13 +16,13 @@ export default function EasybankLandingPage() {
       <Head>
         <title>Frontend Mentor | Easybank landing page</title>
       </Head>
-      <div className="App font-public relative min-h-[100svh] lg:overflow-hidden">
+      <div className="App font-public relative min-h-[100svh] lg:max-w-[100vw] lg:overflow-hidden">
         <Header />
         <Main />
         <Footer />
         {/* <Slider
           basePath="/easybank-landing-page/design"
-          // absolutePath="/easybank-landing-page/design/mobile-navigation.jpg"
+          absolutePath="/easybank-landing-page/design/active-states.jpg"
         /> */}
       </div>
     </>
@@ -94,7 +94,7 @@ function Intro() {
   return (
     <div className="lg:flex lg:h-[656px] lg:w-screen lg:flex-row-reverse lg:justify-stretch lg:gap-[68px]">
       <div className="relative z-0 h-[350px] -translate-y-[64px] bg-[url('/easybank-landing-page/images/bg-intro-mobile.svg')] bg-cover bg-[center_bottom_calc(-73/375*100vw)] bg-no-repeat lg:h-full lg:w-full lg:translate-y-0 lg:bg-[url('/easybank-landing-page/images/bg-intro-desktop.svg')] lg:bg-[length:1271px_1034px] lg:bg-[bottom_-118px_left_-48px]">
-        <div className="absolute -bottom-[12px] left-1/2 aspect-[767/939] w-[calc(375px-32px)] -translate-x-[calc(50%+1px)] lg:bottom-[-160.75px] lg:left-0 lg:w-full lg:translate-x-[17.1%]">
+        <div className="absolute -bottom-[12px] left-1/2 aspect-[767/939] w-[calc(375px-32px)] -translate-x-[calc(50%+1px)] lg:bottom-[-160.75px] lg:left-0 lg:w-[767px] lg:translate-x-[17.1%]">
           <Image
             src="/easybank-landing-page/images/image-mockups.png"
             alt="Mockup"
@@ -203,9 +203,9 @@ function LatestArticles() {
     },
   ];
   return (
-    <div className="flex w-full flex-col items-center px-[24px] py-[88px] pb-[89px]">
-      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.3px]">Latest Articles</h2>
-      <div className="mt-8 flex flex-col items-center gap-[25px]">
+    <div className="flex w-full flex-col items-center px-[24px] py-[88px] pb-[89px] lg:items-start lg:px-[165px] lg:pb-[81px] lg:pt-[94px]">
+      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.3px] lg:w-fit lg:text-left lg:text-[40px] lg:tracking-[-.4px]">Latest Articles</h2>
+      <div className="mt-8 flex w-full flex-col items-center gap-[25px] lg:mt-[54px] lg:grid lg:grid-cols-4 lg:grid-rows-1 lg:gap-[30px]">
         {articles.map((article) => {
           return (
             <Article
@@ -222,10 +222,10 @@ function LatestArticles() {
 function Article({ author, cover, summary, title, className, ...props }: HTMLProps<HTMLDivElement> & Article) {
   return (
     <div
-      className={twMerge("shadow-easybank-primary-blue/5 h-[394px] overflow-hidden rounded-[5px] shadow", className)}
+      className={twMerge("shadow-easybank-primary-blue/5 h-[394px] w-full overflow-hidden rounded-[5px] shadow max-lg:max-w-screen-sm", className)}
       {...props}
     >
-      <div className="relative aspect-[327/200] h-[200px]">
+      <div className="relative h-[200px] w-full">
         <Image
           className="object-cover"
           src={cover}
@@ -233,7 +233,7 @@ function Article({ author, cover, summary, title, className, ...props }: HTMLPro
           fill
         />
       </div>
-      <div className="bg-easybank-neutral-100 text-easybank-neutral-400 h-full w-full px-[31px] py-[29px]">
+      <div className="bg-easybank-neutral-100 text-easybank-neutral-400 h-full w-full px-[31px] py-[29px] lg:px-[24px] lg:pt-[29.5px]">
         <p className="text-[10px] leading-none tracking-[-.2px]">By {author}</p>
         <h3 className="text-easybank-primary-blue mt-[12px] leading-[20px] tracking-[-.35px]">{title}</h3>
         <p className="mt-[8px] text-[13px] leading-[18px] tracking-[-.25px]">{summary} ...</p>
@@ -276,16 +276,16 @@ function SocialIcons() {
     },
   ];
   return (
-    <div className="mt-8 flex items-center gap-[15.5px]">
+    <div className="mt-8 flex items-center gap-[15.5px] lg:mt-auto lg:gap-[12.5px]">
       {socialMedia.map(({ href, icon }) => {
         return (
           <a
             href={href}
             key={icon}
-            className="flex h-6 items-center justify-center"
+            className="flex h-6 items-center justify-center lg:h-5"
           >
             <Icon
-              className="h-6"
+              className="h-6 lg:h-5"
               variant={icon}
             />
           </a>
@@ -297,12 +297,12 @@ function SocialIcons() {
 
 function Footer() {
   return (
-    <footer className="bg-easybank-primary-blue relative pb-[43.5px] pt-[40px]">
-      <div className="flex flex-col items-center">
+    <footer className="bg-easybank-primary-blue relative pb-[43.5px] pt-[40px] lg:pb-[48px] lg:pt-[48px]">
+      <div className="flex flex-col items-center lg:h-[95px] lg:flex-wrap lg:items-start lg:px-[165px]">
         <Logo variant="footer" />
         <SocialIcons />
-        <nav className="mt-[37px]">
-          <ul className="text-easybank-neutral-300 flex flex-col items-center gap-[19px] text-[15px] leading-none tracking-[-.25px]">
+        <nav className="mt-[37px] lg:-ml-[30px] lg:mt-0 lg:h-full lg:py-[6.5px]">
+          <ul className="text-easybank-neutral-300 flex flex-col items-center gap-[19px] text-[15px] leading-none tracking-[-.25px] lg:grid lg:h-full lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-3 lg:gap-x-[calc(96/1440*100vw)]">
             <li>
               <a href="">About Us</a>
             </li>
@@ -323,10 +323,10 @@ function Footer() {
             </li>
           </ul>
         </nav>
-        <RequestInvite className="mt-[38px]" />
-        <p className="text-easybank-neutral-400 mt-[25px] text-[15px] tracking-[-.25px]">© Easybank. All Rights Reserved</p>
+        <RequestInvite className="mt-[38px] lg:ml-auto lg:mt-[1px]" />
+        <p className="text-easybank-neutral-400 mt-[25px] text-[15px] tracking-[-.25px] lg:ml-auto lg:mt-[26px]">© Easybank. All Rights Reserved</p>
       </div>
-      <div className="text-easybank-neutral-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <div className="text-easybank-neutral-100 absolute bottom-3 w-full text-center text-[11px] lg:px-[165px] lg:text-right [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
@@ -662,7 +662,7 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
         <svg
           {...props}
           xmlns="http://www.w3.org/2000/svg"
-          className={"h-[21px]"}
+          className={twMerge(props.className, "h-[21px] lg:h-[18px]")}
           viewBox="0 0 21 18"
         >
           <path

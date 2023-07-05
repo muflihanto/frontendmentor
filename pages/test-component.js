@@ -5,13 +5,13 @@ import Accordion from "../components/test-component/accordion";
 export default function Test(props) {
   const [isOpen, setIsOpen] = useState(true);
   return (
-    <div className="w-screen h-screen bg-white">
-      <header className="relative flex items-center justify-between lg:justify-start lg:gap-8 h-[75px] px-4 bg-white">
+    <div className="h-screen w-screen bg-white">
+      <header className="relative flex h-[75px] items-center justify-between bg-white px-4 lg:justify-start lg:gap-8">
         <Head>
           <title>Test Component</title>
         </Head>
         <div>Logo</div>
-        <nav className="justify-between hidden lg:flex lg:items-center lg:w-full">
+        <nav className="hidden justify-between lg:flex lg:w-full lg:items-center">
           <ul className="block lg:flex lg:h-fit lg:gap-5">
             <li>
               <Accordion />
@@ -21,7 +21,7 @@ export default function Test(props) {
         <button className="ml-auto">Login</button>
 
         <button
-          className={`absolute z-30 block p-2 ${isOpen ? "bg-slate-700 text-gray-50" : "bg-white"}  rounded-md right-2 top-2 lg:hidden`}
+          className={`absolute z-30 block p-2 ${isOpen ? "bg-slate-700 text-gray-50" : "bg-white"}  right-2 top-2 rounded-md lg:hidden`}
           onClick={() => {
             setIsOpen((prev) => !prev);
           }}
@@ -37,9 +37,9 @@ export default function Test(props) {
             onTouchStart={(e) => {
               if (e.target === e.currentTarget) setIsOpen(false);
             }}
-            className="fixed top-0 right-0 z-20 w-full h-full bg-introdrop-neutral-200/50 lg:hidden"
+            className="bg-introdrop-neutral-200/50 fixed right-0 top-0 z-20 h-full w-full lg:hidden"
           >
-            <nav className="shadow-2xl absolute right-0 w-[60vw] h-full px-5 py-5 text-introdrop-neutral-300 top-0 bg-introdrop-neutral-100 pt-[70px]">
+            <nav className="text-introdrop-neutral-300 bg-introdrop-neutral-100 absolute right-0 top-0 h-full w-[60vw] px-5 py-5 pt-[70px] shadow-2xl">
               <ul className="block lg:flex lg:h-fit lg:gap-5">
                 <li>
                   <Accordion />
@@ -49,6 +49,14 @@ export default function Test(props) {
           </div>
         )}
       </header>
+      <div>
+        <svg>
+          <use
+            href="/index/logo.svg#easybank-logo"
+            className="text-[#2D314D]"
+          />
+        </svg>
+      </div>
     </div>
   );
 }
