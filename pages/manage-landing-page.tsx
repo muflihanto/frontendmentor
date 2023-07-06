@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, SVGProps, useState } from "react";
+import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, SVGProps, useEffect, useState } from "react";
 import { cn } from "../utils/cn";
 import clsx from "clsx";
+import { motion } from "framer-motion";
+import { useWindowSize } from "usehooks-ts";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -41,16 +43,28 @@ function Logo({ variant, className, ...props }: { variant: "header" | "footer" }
   );
 }
 
-function Header() {
+function MobileNav() {
   const [open, setOpen] = useState(false);
+  const { width } = useWindowSize();
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (width > 1023) {
+      setOpen(false);
+    }
+  }, [width, setOpen]);
+
   return (
-    <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px]">
-      <Logo
-        variant="header"
-        className="h-[18px]"
-      />
+    <>
       <button
-        className="mb-2 flex w-[25px] items-center justify-center"
+        className={cn("mb-2 flex w-[25px] items-center justify-center", "relative z-20")}
         onClick={() => {
           setOpen((o) => !o);
         }}
@@ -71,6 +85,47 @@ function Header() {
           />
         )}
       </button>
+
+      <motion.div
+        animate={{
+          opacity: open ? 1 : 0,
+          display: "flex",
+          transitionEnd: {
+            display: open ? "flex" : "none",
+          },
+        }}
+        initial={{ display: "none", opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="fixed left-0 top-0 z-10 flex h-screen w-full origin-top flex-col items-center bg-gradient-to-b from-transparent to-black/60 pt-[103px]"
+      >
+        <div className={"text-manage-primary-blue flex h-[291px] w-[calc(100%-48px)] max-w-screen-sm flex-col items-center justify-center gap-[31px] rounded bg-white px-[32px] pt-[2px] font-bold [&>a]:leading-none [&>a]:tracking-[-.5px]"}>
+          <NavigationLinks />
+        </div>
+      </motion.div>
+    </>
+  );
+}
+
+function NavigationLinks() {
+  return (
+    <>
+      <a href="">Pricing</a>
+      <a href="">Product</a>
+      <a href="">About Us</a>
+      <a href="">Careers</a>
+      <a href="">Community</a>
+    </>
+  );
+}
+
+function Header() {
+  return (
+    <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px]">
+      <Logo
+        variant="header"
+        className="h-[18px]"
+      />
+      <MobileNav />
     </header>
   );
 }
@@ -121,14 +176,6 @@ function Intro() {
           className="mt-[28px]"
         />
       </div>
-      {/* <div className="absolute bottom-0 left-0 -z-10 aspect-square w-[455px]">
-        <Image
-          src="/manage-landing-page/images/bg-tablet-pattern.svg"
-          fill
-          className="object-contain"
-          alt="pattern"
-        />
-      </div> */}
     </div>
   );
 }
@@ -138,12 +185,7 @@ function Main() {
     <div>
       <Intro />
       {/* {`
-         Pricing
-         Product
-         About Us
-         Careers
-         Community
-       
+
          Get Started
        
          
