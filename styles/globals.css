@@ -300,6 +300,24 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Bold.ttf");
+  font-weight: 700;
+}
+
 /* @font-face {
   font-family: "Josefin Sans";
   src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");

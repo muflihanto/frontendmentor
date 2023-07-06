@@ -791,6 +791,18 @@ module.exports = {
             200: "hsl(0,0%,98%)",
             100: "hsl(0,0%,100%)",
           }
+        },
+        manage: {
+          primary: {
+            red: "hsl(12,88%,59%)",
+            blue: "hsl(228,39%,23%)"
+          },
+          neutral: {
+            300: "hsl(227,12%,61%)",
+            400: "hsl(233,12%,13%)",
+            200: "hsl(13,100%,96%)",
+            100: "hsl(0,0%,98%)",
+          }
         }
       },
       fontFamily: {
@@ -832,6 +844,7 @@ module.exports = {
         "red-hat-text": ["Red Hat Text", ...fontFamily.sans],
         roboto: ["Roboto", ...fontFamily.sans],
         public: ["Public Sans", ...fontFamily.sans],
+        "be-vietnam-pro": ["Be Vietnam Pro", ...fontFamily.sans],
       },
     },
   },
