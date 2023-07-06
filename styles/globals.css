@@ -302,6 +302,12 @@
 
 @font-face {
   font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Light.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
   src: url("/manage-landing-page/fonts/BeVietnamPro-Regular.ttf");
   font-weight: 400;
 }

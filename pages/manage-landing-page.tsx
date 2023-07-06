@@ -1,7 +1,10 @@
 import Head from "next/head";
-// import Image from "next/image";
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import Image from "next/image";
+import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, SVGProps, useState } from "react";
+import { cn } from "../utils/cn";
+import clsx from "clsx";
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
 // TODO: - See hover states for all interactive elements on the page
@@ -16,19 +19,125 @@ export default function ManageLandingPage() {
       <Head>
         <title>Frontend Mentor | Manage landing page</title>
       </Head>
-      <div className="App font-be-vietnam-pro relative min-h-[100svh]">
+      <div className={"App font-be-vietnam-pro relative min-h-[100svh]"}>
+        <Header />
         <Main />
         <Footer />
-        <Slider basePath="/manage-landing-page/design" />
+        {/* <Slider basePath="/manage-landing-page/design" /> */}
       </div>
     </>
   );
 }
 
+function Logo({ variant, className, ...props }: { variant: "header" | "footer" } & SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      className={cn(`${variant === "header" ? "text-[#242D52]" : "text-manage-neutral-100"}`, className)}
+      viewBox="0 0 146 24"
+      {...props}
+    >
+      <use href="/manage-landing-page/images/logo.svg#manage-logo" />
+    </svg>
+  );
+}
+
+function Header() {
+  const [open, setOpen] = useState(false);
+  return (
+    <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px]">
+      <Logo
+        variant="header"
+        className="h-[18px]"
+      />
+      <button
+        className="mb-2 flex w-[25px] items-center justify-center"
+        onClick={() => {
+          setOpen((o) => !o);
+        }}
+      >
+        {open ? (
+          <Image
+            src={"/manage-landing-page/images/icon-close.svg"}
+            alt="Close Button"
+            height={22}
+            width={21}
+          />
+        ) : (
+          <Image
+            src={"/manage-landing-page/images/icon-hamburger.svg"}
+            alt="Hamburger Button"
+            height={18}
+            width={25}
+          />
+        )}
+      </button>
+    </header>
+  );
+}
+
+function GetStarted({ variant, className, ...props }: { variant: "primary" | "secondary" } & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+  return (
+    <button
+      className={cn(
+        variant === "primary" && "bg-manage-primary-red text-manage-neutral-100 shadow-manage-primary-red/30 shadow-lg", // primary variant
+        variant === "secondary" && "bg-manage-neutral-100 text-manage-primary-red", // secondary variant
+        "flex h-[45px] w-[136px] items-center justify-center rounded-full pt-[2px] text-[12px] font-bold",
+        className
+      )}
+      {...props}
+    >
+      Get Started
+    </button>
+  );
+}
+
+function Intro() {
+  return (
+    <div
+      className={clsx(
+        "flex w-full flex-col items-center px-[16.5px] pb-[92px] pt-[105px]",
+        "bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg'),_url('/manage-landing-page/images/bg-tablet-pattern.svg')] bg-[length:var(--bg-top-size)_var(--bg-top-size),_var(--bg-bottom-size)_var(--bg-bottom-size)] bg-[position:top_-114px_right_-137px,_bottom_0px_right_-184px] bg-no-repeat" //bg
+      )}
+      style={
+        {
+          "--bg-top-size": "calc(456/375 * 100vw)",
+          "--bg-bottom-size": "calc(317/375 * 100vw)",
+        } as CSSProperties
+      }
+    >
+      <div className="relative aspect-[580/525] w-full">
+        <Image
+          src={"/manage-landing-page/images/illustration-intro.svg"}
+          alt="Intro Illustration"
+          className="object-contain"
+          fill
+        />
+      </div>
+      <div className="mt-[6px] flex flex-col items-center px-[15.5px]">
+        <h1 className="text-manage-primary-blue text-center text-[40px] font-bold leading-[1.25] tracking-[-.05em]">Bring everyone together to build better products.</h1>
+        <p className="text-manage-neutral-300 mt-[5px] text-center font-light leading-[1.75]">Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.</p>
+        <GetStarted
+          variant="primary"
+          className="mt-[28px]"
+        />
+      </div>
+      {/* <div className="absolute bottom-0 left-0 -z-10 aspect-square w-[455px]">
+        <Image
+          src="/manage-landing-page/images/bg-tablet-pattern.svg"
+          fill
+          className="object-contain"
+          alt="pattern"
+        />
+      </div> */}
+    </div>
+  );
+}
+
 function Main() {
   return (
-    <>
-      {`
+    <div>
+      <Intro />
+      {/* {`
          Pricing
          Product
          About Us
@@ -37,12 +146,7 @@ function Main() {
        
          Get Started
        
-         Bring everyone together to build better products.
-       
-         Manage makes it simple for software teams to plan day-to-day 
-         tasks while keeping the larger team goals in view.
-       
-         Get Started
+         
        
          What’s different about Manage?
        
@@ -104,8 +208,8 @@ function Main() {
          Go
        
          Copyright 2020. All Rights Reserved
-      `}
-    </>
+      `} */}
+    </div>
   );
 }
 

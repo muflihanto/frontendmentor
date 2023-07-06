@@ -20,6 +20,7 @@
     "@hookform/resolvers": "^2.9.11",
     "@react-aria/numberfield": "^3.5.0",
     "@tailwindcss/line-clamp": "^0.4.2",
+    "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "eslint": "^8.40.0",
     "framer-motion": "^10.12.16",
