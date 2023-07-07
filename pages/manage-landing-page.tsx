@@ -21,7 +21,7 @@ export default function ManageLandingPage() {
       <Head>
         <title>Frontend Mentor | Manage landing page</title>
       </Head>
-      <div className={"App font-be-vietnam-pro relative min-h-[100svh]"}>
+      <div className={"App font-be-vietnam relative min-h-[100svh]"}>
         <Header />
         <Main />
         <Footer />
@@ -134,9 +134,9 @@ function GetStarted({ variant, className, ...props }: { variant: "primary" | "se
   return (
     <button
       className={cn(
-        variant === "primary" && "bg-manage-primary-red text-manage-neutral-100 shadow-manage-primary-red/30 shadow-lg", // primary variant
+        variant === "primary" && "bg-manage-primary-red text-manage-neutral-200 shadow-manage-primary-red/30 shadow-lg", // primary variant
         variant === "secondary" && "bg-manage-neutral-100 text-manage-primary-red", // secondary variant
-        "flex h-[45px] w-[136px] items-center justify-center rounded-full pt-[2px] text-[12px] font-bold",
+        "flex h-[44px] w-[136px] items-center justify-center rounded-full pt-[1px] text-[12px] font-bold tracking-[.4px]",
         className
       )}
       {...props}
@@ -155,8 +155,8 @@ function Intro() {
       )}
       style={
         {
-          "--bg-top-size": "calc(456/375 * 100vw)",
-          "--bg-bottom-size": "calc(317/375 * 100vw)",
+          "--bg-top-size": "min(calc(456/375 * 100vw), 814px)",
+          "--bg-bottom-size": "min(calc(317/375 * 100vw), 814px)",
         } as CSSProperties
       }
     >
@@ -168,14 +168,70 @@ function Intro() {
           fill
         />
       </div>
-      <div className="mt-[6px] flex flex-col items-center px-[15.5px]">
-        <h1 className="text-manage-primary-blue text-center text-[40px] font-bold leading-[1.25] tracking-[-.05em]">Bring everyone together to build better products.</h1>
-        <p className="text-manage-neutral-300 mt-[5px] text-center font-light leading-[1.75]">Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.</p>
+      <div className="mt-[2px] flex flex-col items-center px-[15.5px]">
+        <h1 className="text-manage-primary-blue text-center text-[40px] font-bold leading-[1.25] tracking-[-.025em]">Bring everyone together to build better products.</h1>
+        <p className="text-manage-neutral-300 mt-[8px] text-center font-light leading-[1.75]">Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.</p>
         <GetStarted
           variant="primary"
-          className="mt-[28px]"
+          className="mt-[29.5px]"
         />
       </div>
+    </div>
+  );
+}
+
+type SellingPoint = {
+  idx: string;
+  title: string;
+  desc: string;
+};
+
+function USP() {
+  const [sellingPoints] = useState<SellingPoint[]>([
+    {
+      idx: "01",
+      title: "Track company-wide progress",
+      desc: "See how your day-to-day tasks fit into the wider vision. Go from tracking progress at the milestone level all the way done to the smallest of details. Never lose sight of the bigger picture again.",
+    },
+    {
+      idx: "02",
+      title: "Advanced built-in reports",
+      desc: "Set internal delivery estimates and track progress toward company goals. Our customisable dashboard helps you build out the reports you need to keep key stakeholders informed.",
+    },
+    {
+      idx: "03",
+      title: "Everything you need in one place",
+      desc: "Stop jumping from one service to another to communicate, store files, track tasks and share documents. Manage offers an all-in-one team productivity solution.",
+    },
+  ]);
+  return (
+    <div className="flex flex-col items-center pb-40">
+      <div className="px-11 pt-[1px]">
+        <h2 className="text-manage-primary-blue text-center text-[30px] font-bold leading-[1.5] tracking-[-.5px]">What’s different about Manage?</h2>
+        <p className="text-manage-neutral-300 mt-[13px] text-center text-[14px] leading-[2]">Manage provides all the functionality your team needs, without the complexity. Our software is tailor-made for modern digital product teams.</p>
+      </div>
+      <div className="mt-[54px] flex w-full flex-col gap-[46px]">
+        {sellingPoints.map((sell, index) => {
+          return (
+            <SellingPoint
+              {...sell}
+              key={index}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function SellingPoint({ idx, title, desc }: SellingPoint) {
+  return (
+    <div className={"w-full pl-4"}>
+      <h3 className="text-manage-primary-blue bg-manage-neutral-200 flex h-[39px] items-center gap-[14px] overflow-hidden rounded-l-full font-bold leading-[12px] tracking-[-.25px]">
+        <span className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-[67px] items-center justify-center rounded-full pb-1">{idx}</span>
+        <span className="pb-1">{title}</span>
+      </h3>
+      <p className="text-manage-neutral-300 mt-[9px] pr-6 text-[14px] leading-[2]">{desc}</p>
     </div>
   );
 }
@@ -184,35 +240,19 @@ function Main() {
   return (
     <div>
       <Intro />
+      <USP />
       {/* {`
 
          Get Started
        
+                
+         
+         
          
        
-         What’s different about Manage?
-       
-         Manage provides all the functionality your team needs, without 
-         the complexity. Our software is tailor-made for modern digital 
-         product teams. 
-       
-         01
-         Track company-wide progress
-         See how your day-to-day tasks fit into the wider vision. Go from 
-         tracking progress at the milestone level all the way done to the 
-         smallest of details. Never lose sight of the bigger picture again.
-       
-         02
-         Advanced built-in reports
-         Set internal delivery estimates and track progress toward company 
-         goals. Our customisable dashboard helps you build out the reports 
-         you need to keep key stakeholders informed.
-       
-         03
-         Everything you need in one place
-         Stop jumping from one service to another to communicate, store files, 
-         track tasks and share documents. Manage offers an all-in-one team 
-         productivity solution.
+         
+         
+         
        
          What they’ve said
        

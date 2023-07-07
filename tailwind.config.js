@@ -844,6 +844,7 @@ module.exports = {
         "red-hat-text": ["Red Hat Text", ...fontFamily.sans],
         roboto: ["Roboto", ...fontFamily.sans],
         public: ["Public Sans", ...fontFamily.sans],
+        "be-vietnam": ["Be Vietnam", ...fontFamily.sans],
         "be-vietnam-pro": ["Be Vietnam Pro", ...fontFamily.sans],
       },
     },
