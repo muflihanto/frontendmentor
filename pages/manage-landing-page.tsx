@@ -1,10 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, SVGProps, useEffect, useState } from "react";
+import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLProps, SVGProps, useEffect, useState } from "react";
 import { cn } from "../utils/cn";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useWindowSize } from "usehooks-ts";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -135,7 +138,7 @@ function GetStarted({ variant, className, ...props }: { variant: "primary" | "se
     <button
       className={cn(
         variant === "primary" && "bg-manage-primary-red text-manage-neutral-200 shadow-manage-primary-red/30 shadow-lg", // primary variant
-        variant === "secondary" && "bg-manage-neutral-100 text-manage-primary-red", // secondary variant
+        variant === "secondary" && "bg-manage-neutral-100 text-manage-primary-red shadow-manage-neutral-400/10 pb-[2px] shadow-lg", // secondary variant
         "flex h-[44px] w-[136px] items-center justify-center rounded-full pt-[1px] text-[12px] font-bold tracking-[.4px]",
         className
       )}
@@ -205,7 +208,7 @@ function USP() {
     },
   ]);
   return (
-    <div className="flex flex-col items-center pb-40">
+    <div className="mb-[16.5px] flex flex-col items-center">
       <div className="px-11 pt-[1px]">
         <h2 className="text-manage-primary-blue text-center text-[30px] font-bold leading-[1.5] tracking-[-.5px]">What’s different about Manage?</h2>
         <p className="text-manage-neutral-300 mt-[13px] text-center text-[14px] leading-[2]">Manage provides all the functionality your team needs, without the complexity. Our software is tailor-made for modern digital product teams.</p>
@@ -231,7 +234,62 @@ function SellingPoint({ idx, title, desc }: SellingPoint) {
         <span className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-[67px] items-center justify-center rounded-full pb-1">{idx}</span>
         <span className="pb-1">{title}</span>
       </h3>
-      <p className="text-manage-neutral-300 mt-[9px] pr-6 text-[14px] leading-[2]">{desc}</p>
+      <p className="text-manage-neutral-300 mt-[8.5px] pb-[.5px] pr-6 text-[14px] leading-[2]">{desc}</p>
+    </div>
+  );
+}
+
+type Testimony = {
+  avatar: string;
+  name: string;
+  testimony: string;
+};
+
+function Testimonials() {
+  const [testimonies] = useState<Testimony[]>([
+    {
+      avatar: "/manage-landing-page/images/avatar-anisha.png",
+      name: "Anisha Li",
+      testimony: "Manage has supercharged our team’s workflow. The ability to maintain visibility on larger milestones at all times keeps everyone motivated.",
+    },
+    {
+      avatar: "/manage-landing-page/images/avatar-ali.png",
+      name: "Ali Bravo",
+      testimony: "We have been able to cancel so many other subscriptions since using Manage. There is no more cross-channel confusion and everyone is much more focused.",
+    },
+    {
+      avatar: "/manage-landing-page/images/avatar-richard.png",
+      name: "Richard Watts",
+      testimony: "Manage allows us to provide structure and process. It keeps us organized and focused. I can’t stop recommending them to everyone I talk to!",
+    },
+    {
+      avatar: "/manage-landing-page/images/avatar-shanai.png",
+      name: "Shanai Gough",
+      testimony: "Their software allows us to track, manage and collaborate on our projects from anywhere. It keeps the whole team in-sync without being intrusive.",
+    },
+  ]);
+
+  return (
+    <div className="flex flex-col items-center py-[42.5px]">
+      <h2 className="text-manage-primary-blue text-center text-[32px] font-bold leading-[1.5] tracking-[-.7px]">What they’ve said</h2>
+      <div className="h-[425px]"></div>
+      <GetStarted variant="primary" />
+    </div>
+  );
+}
+
+function Testimony({ testimony }: { testimony: Testimony }) {
+  return <div></div>;
+}
+
+function Simplify() {
+  return (
+    <div className="bg-manage-primary-red flex h-[404.43px] flex-col items-center justify-center bg-[url('/manage-landing-page/images/bg-simplify-section-mobile.svg')] bg-left bg-no-repeat p-8 pt-[33px]">
+      <h2 className="text-manage-neutral-100 text-center text-[40px] font-bold leading-[1.25] tracking-[-.75px]">Simplify how your team works today.</h2>
+      <GetStarted
+        variant="secondary"
+        className="mt-[29px]"
+      />
     </div>
   );
 }
@@ -241,80 +299,136 @@ function Main() {
     <div>
       <Intro />
       <USP />
-      {/* {`
-
-         Get Started
-       
-                
-         
-         
-         
-       
-         
-         
-         
-       
-         What they’ve said
-       
-         Anisha Li
-         “Manage has supercharged our team’s workflow. The ability to maintain 
-         visibility on larger milestones at all times keeps everyone motivated.”
-       
-         Ali Bravo
-         “We have been able to cancel so many other subscriptions since using 
-         Manage. There is no more cross-channel confusion and everyone is much 
-         more focused.”
-       
-         Richard Watts
-         “Manage allows us to provide structure and process. It keeps us organized 
-         and focused. I can’t stop recommending them to everyone I talk to!”
-       
-         Shanai Gough
-         “Their software allows us to track, manage and collaborate on our projects 
-         from anywhere. It keeps the whole team in-sync without being intrusive.”
-       
-         Get Started
-       
-         Simplify how your team works today.
-         Get Started
-       
-         Home
-         Pricing
-         Products
-         About Us
-         Careers
-         Community
-         Privacy Policy
-       
-         Updates in your inbox…
-         Go
-       
-         Copyright 2020. All Rights Reserved
-      `} */}
+      <Testimonials />
+      <Simplify />
     </div>
   );
 }
 
-function Footer() {
+type IconVariant = "facebook" | "instagram" | "twitter" | "pinterest" | "youtube";
+
+function Icon({ variant }: { variant: IconVariant }) {
+  const [viewboxes] = useState<{
+    [k in IconVariant]: string;
+  }>({
+    facebook: "0 0 20 20",
+    pinterest: "0 0 20 20",
+    instagram: "0 0 21 20",
+    youtube: "0 0 21 20",
+    twitter: "0 0 21 18",
+  });
+
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
-      Challenge by{" "}
-      <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-        rel="noreferrer"
+    <svg
+      className="flex aspect-square h-full items-center justify-center"
+      viewBox={viewboxes[variant]}
+    >
+      <use href={`/manage-landing-page/images/icon-${variant}.svg#icon`} />
+    </svg>
+  );
+}
+
+function SocialIcons({ className }: HTMLProps<HTMLDivElement>) {
+  return (
+    <div className={cn("flex", className)}>
+      {(["facebook", "youtube", "twitter", "pinterest", "instagram"] as IconVariant[]).map((sns) => {
+        return (
+          <a
+            href=""
+            key={sns}
+            className="text-manage-neutral-100 hover:text-manage-primary-red h-full"
+          >
+            <Icon variant={sns} />
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
+const zUserInput = z.object({
+  email: z.string().min(1, "Email should not be empty").email("Please insert a valid email"),
+});
+
+type UserInput = z.infer<typeof zUserInput>;
+
+function Footer() {
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm<UserInput>({
+    resolver: zodResolver(zUserInput),
+  });
+
+  const onSubmit = handleSubmit(({ email }) => {
+    console.log(email);
+  });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      console.log("success");
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  return (
+    <footer className="bg-manage-neutral-400 relative flex h-[537px] flex-col items-center gap-[50px] px-6 pt-[51px]">
+      <form
+        onSubmit={onSubmit}
+        className="relative grid h-[44px] w-full grid-cols-[auto_80px] justify-stretch gap-[8px]"
       >
-        Frontend Mentor
-      </a>
-      . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Muflihanto
-      </a>
-      .
+        <input
+          type="text"
+          {...register("email")}
+          placeholder="Updates in your inbox…"
+          className="focus-visible:outline-manage-primary-red h-full rounded-full p-1 px-6 pb-[6px] text-[13px] font-medium tracking-[-.1px] focus-visible:outline focus-visible:outline-2"
+        />
+        <button className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-20 items-center justify-center rounded-full pb-[2px] text-[13px] font-bold uppercase">Go</button>
+        {!!errors.email && <p className="absolute left-6 top-12 text-[13px] italic text-red-500">{errors.email.message}</p>}
+      </form>
+
+      <nav className="text-manage-neutral-200 grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[78px] gap-y-[11px] pl-[10px] pt-[2px] tracking-[-1px]">
+        <a href="">Home</a>
+        <a href="">Pricing</a>
+        <a href="">Products</a>
+        <a href="">About Us</a>
+        <a href="">Careers</a>
+        <a href="">Community</a>
+        <a href="">Privacy Policy</a>
+      </nav>
+
+      <SocialIcons className="h-8 gap-[34px]" />
+
+      <div className="mr-0.5 pt-1">
+        <Logo
+          variant="footer"
+          className="h-[26px]"
+        />
+      </div>
+
+      <p className="text-manage-neutral-300 text-center text-[13px] tracking-[-.25px]">Copyright 2020. All Rights Reserved</p>
+
+      <p className="text-manage-neutral-300 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+        Challenge by{" "}
+        <a
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by{" "}
+        <a
+          href="https://github.com/muflihanto"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Muflihanto
+        </a>
+        .
+      </p>
     </footer>
   );
 }
