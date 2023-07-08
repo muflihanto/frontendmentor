@@ -779,7 +779,7 @@ module.exports = {
             400: "hsl(180,14%,20%)",
           },
         },
-        "easybank": {
+        easybank: {
           primary: {
             blue: "hsl(233,26%,24%)",
             green: "hsl(136,65%,51%)",
@@ -790,20 +790,20 @@ module.exports = {
             300: "hsl(220,16%,96%)",
             200: "hsl(0,0%,98%)",
             100: "hsl(0,0%,100%)",
-          }
+          },
         },
         manage: {
           primary: {
             red: "hsl(12,88%,59%)",
-            blue: "hsl(228,39%,23%)"
+            blue: "hsl(228,39%,23%)",
           },
           neutral: {
             300: "hsl(227,12%,61%)",
             400: "hsl(233,12%,13%)",
             200: "hsl(13,100%,96%)",
             100: "hsl(0,0%,98%)",
-          }
-        }
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -850,9 +850,18 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(function ({ addVariant }) {
+    plugin(function ({ addVariant, addUtilities }) {
       addVariant("thumb", ["&[type='range']::-webkit-slider-thumb", "&[type='range']::-moz-range-thumb", "&[type='range']::-ms-thumb"]);
       addVariant("track", ["&[type='range']::-webkit-slider-runnable-track", "&[type='range']::-moz-range-track", "&[type='range']::-ms-track"]);
+      addUtilities({
+        ".scrollbar-hidden": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+      });
     }),
   ],
   darkMode: "class",

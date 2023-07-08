@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLProps, SVGProps, useEffect, useState } from "react";
+import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLProps, SVGProps, useEffect, useRef, useState } from "react";
 import { cn } from "../utils/cn";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { useWindowSize } from "usehooks-ts";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -239,14 +239,14 @@ function SellingPoint({ idx, title, desc }: SellingPoint) {
   );
 }
 
-type Testimony = {
+type Testimonial = {
   avatar: string;
   name: string;
   testimony: string;
 };
 
 function Testimonials() {
-  const [testimonies] = useState<Testimony[]>([
+  const [testimonials] = useState<Testimonial[]>([
     {
       avatar: "/manage-landing-page/images/avatar-anisha.png",
       name: "Anisha Li",
@@ -269,26 +269,86 @@ function Testimonials() {
     },
   ]);
 
+  const carouselRef = useRef<null | HTMLDivElement>(null);
+  const { scrollXProgress } = useScroll({
+    container: carouselRef,
+  });
+
+  const [active, setActive] = useState(1);
+
+  const onClick = (idx: number) => {
+    if (!!carouselRef.current) {
+      const { scrollWidth } = carouselRef.current;
+      carouselRef.current.scrollTo(((idx - 1) / 4) * scrollWidth, 0);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center py-[42.5px]">
+    <div className="flex flex-col items-center pb-[41.93px] pt-[42.5px]">
       <h2 className="text-manage-primary-blue text-center text-[32px] font-bold leading-[1.5] tracking-[-.7px]">What they’ve said</h2>
-      <div className="h-[425px]"></div>
+      <div className="flex h-[425px] w-full max-w-[100vw] flex-col items-center justify-center overflow-hidden px-[18px] pt-[16px]">
+        <div
+          className="scrollbar-hidden flex w-full snap-x items-center gap-12 overflow-x-auto overflow-y-visible scroll-smooth pb-6 pt-10"
+          ref={carouselRef}
+          onScroll={() => {
+            setActive(Math.floor(scrollXProgress.get() * 4) + 1);
+          }}
+        >
+          {testimonials.map((testi) => {
+            return (
+              <Testimonial
+                className="min-w-[calc(100vw-32px)] shrink-0 origin-[0%] select-none snap-start scroll-ml-0"
+                testimony={testi}
+                key={testi.name}
+              />
+            );
+          })}
+        </div>
+        <div className="relative flex h-4 items-start justify-center gap-1 pt-[2px]">
+          {[1, 2, 3, 4].map((index) => {
+            return (
+              <button
+                className={cn(["border-manage-primary-red aspect-square w-2 rounded-full border"], active === index && "bg-manage-primary-red")}
+                onClick={() => {
+                  onClick(index);
+                }}
+                key={index}
+              />
+            );
+          })}
+        </div>
+      </div>
       <GetStarted variant="primary" />
     </div>
   );
 }
 
-function Testimony({ testimony }: { testimony: Testimony }) {
-  return <div></div>;
+function Testimonial({ testimony: { avatar, name, testimony: testi }, className }: { testimony: Testimonial; className?: string }) {
+  return (
+    <div className={cn("bg-manage-neutral-100 flex h-[248px] w-full flex-col items-center justify-start space-y-[24px] pl-[22px] pr-[25px]", className)}>
+      <div className="relative -mt-9 aspect-square w-[72px] overflow-hidden rounded-full">
+        <Image
+          src={avatar}
+          fill
+          alt={`${name}'s avatar`}
+          className="object-contain"
+        />
+      </div>
+      <h3 className="text-manage-primary-blue font-bold tracking-[-.25px]">{name}</h3>
+      <blockquote>
+        <p className="text-manage-neutral-300 -mt-[5px] text-center text-[14px] leading-[26px]">&ldquo;{testi}&rdquo;</p>
+      </blockquote>
+    </div>
+  );
 }
 
 function Simplify() {
   return (
-    <div className="bg-manage-primary-red flex h-[404.43px] flex-col items-center justify-center bg-[url('/manage-landing-page/images/bg-simplify-section-mobile.svg')] bg-left bg-no-repeat p-8 pt-[33px]">
-      <h2 className="text-manage-neutral-100 text-center text-[40px] font-bold leading-[1.25] tracking-[-.75px]">Simplify how your team works today.</h2>
+    <div className="bg-manage-primary-red flex h-[405px] flex-col items-center justify-center bg-[url('/manage-landing-page/images/bg-simplify-section-mobile.svg')] bg-left bg-no-repeat p-8 pt-[34px]">
+      <h2 className="text-manage-neutral-100 text-center text-[40px] font-bold leading-[1.25] tracking-[-.9px]">Simplify how your team works today.</h2>
       <GetStarted
         variant="secondary"
-        className="mt-[29px]"
+        className="mt-[28px] pt-1"
       />
     </div>
   );
@@ -389,7 +449,7 @@ function Footer() {
         {!!errors.email && <p className="absolute left-6 top-12 text-[13px] italic text-red-500">{errors.email.message}</p>}
       </form>
 
-      <nav className="text-manage-neutral-200 grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[78px] gap-y-[11px] pl-[10px] pt-[2px] tracking-[-1px]">
+      <nav className="text-manage-neutral-200 grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[75px] gap-y-[12.5px] pl-[13px] pt-[4px] text-[15px] tracking-[-.25px]">
         <a href="">Home</a>
         <a href="">Pricing</a>
         <a href="">Products</a>
