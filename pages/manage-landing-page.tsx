@@ -65,7 +65,7 @@ function MobileNav() {
   }, [width, setOpen]);
 
   return (
-    <>
+    <div className="lg:hidden">
       <button
         className={cn("mb-2 flex w-[25px] items-center justify-center", "relative z-20")}
         onClick={() => {
@@ -105,7 +105,7 @@ function MobileNav() {
           <NavigationLinks />
         </div>
       </motion.div>
-    </>
+    </div>
   );
 }
 
@@ -123,10 +123,17 @@ function NavigationLinks() {
 
 function Header() {
   return (
-    <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px]">
+    <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px] lg:h-[155px] lg:justify-between lg:px-[165px] lg:pt-0">
       <Logo
         variant="header"
-        className="h-[18px]"
+        className="h-[18px] lg:mt-[14px] lg:h-[24px]"
+      />
+      <div className="text-manage-primary-blue mr-[10px] hidden gap-[35px] text-[12.5px] font-medium lg:mt-[4px] lg:flex lg:place-self-center">
+        <NavigationLinks />
+      </div>
+      <GetStarted
+        variant="primary"
+        className="max-lg:hidden lg:place-self-end lg:self-center"
       />
       <MobileNav />
     </header>
@@ -154,7 +161,9 @@ function Intro() {
     <div
       className={clsx(
         "flex w-full flex-col items-center px-[16.5px] pb-[92px] pt-[105px]",
-        "bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg'),_url('/manage-landing-page/images/bg-tablet-pattern.svg')] bg-[length:var(--bg-top-size)_var(--bg-top-size),_var(--bg-bottom-size)_var(--bg-bottom-size)] bg-[position:top_-114px_right_-137px,_bottom_0px_right_-184px] bg-no-repeat" //bg
+        "bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg'),_url('/manage-landing-page/images/bg-tablet-pattern.svg')] bg-[length:var(--bg-top-size)_var(--bg-top-size),_var(--bg-bottom-size)_var(--bg-bottom-size)] bg-[position:top_-114px_right_-137px,_bottom_0px_right_-184px] bg-no-repeat", //bg
+        "lg:bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg')] lg:bg-[length:813.6px_813.6px] lg:bg-[top_-154px_right_-146px]", // large-bg
+        "lg:grid lg:h-[800px] lg:grid-cols-2 lg:grid-rows-1 lg:px-[165px] lg:pb-0 lg:pt-[155px]" // large veiwport
       )}
       style={
         {
@@ -163,7 +172,7 @@ function Intro() {
         } as CSSProperties
       }
     >
-      <div className="relative aspect-[580/525] w-full">
+      <div className="relative aspect-[580/525] w-full lg:col-start-2 lg:row-start-1 lg:w-[580px] lg:-translate-x-[5px] lg:-translate-y-[5px]">
         <Image
           src={"/manage-landing-page/images/illustration-intro.svg"}
           alt="Intro Illustration"
@@ -171,12 +180,12 @@ function Intro() {
           fill
         />
       </div>
-      <div className="mt-[2px] flex flex-col items-center px-[15.5px]">
-        <h1 className="text-manage-primary-blue text-center text-[40px] font-bold leading-[1.25] tracking-[-.025em]">Bring everyone together to build better products.</h1>
-        <p className="text-manage-neutral-300 mt-[8px] text-center font-light leading-[1.75]">Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.</p>
+      <div className="mt-[2px] flex flex-col items-center px-[15.5px] lg:col-start-1 lg:row-start-1 lg:items-start lg:px-0 lg:pb-[30px] lg:pr-8">
+        <h1 className="text-manage-primary-blue text-center text-[40px] font-bold leading-[1.25] tracking-[-.025em] lg:text-left lg:text-[56px] lg:leading-[1.14] lg:tracking-[-.02em]">Bring everyone together to build better products.</h1>
+        <p className="text-manage-neutral-300 mt-[8px] text-center font-light leading-[1.75] lg:mt-[34px] lg:max-w-[340px] lg:text-left lg:leading-[1.6]">Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.</p>
         <GetStarted
           variant="primary"
-          className="mt-[29.5px]"
+          className="mt-[29.5px] lg:mt-[42px]"
         />
       </div>
     </div>
@@ -207,13 +216,14 @@ function USP() {
       desc: "Stop jumping from one service to another to communicate, store files, track tasks and share documents. Manage offers an all-in-one team productivity solution.",
     },
   ]);
+
   return (
-    <div className="mb-[16.5px] flex flex-col items-center">
-      <div className="px-11 pt-[1px]">
-        <h2 className="text-manage-primary-blue text-center text-[30px] font-bold leading-[1.5] tracking-[-.5px]">What’s different about Manage?</h2>
-        <p className="text-manage-neutral-300 mt-[13px] text-center text-[14px] leading-[2]">Manage provides all the functionality your team needs, without the complexity. Our software is tailor-made for modern digital product teams.</p>
+    <div className="mb-[16.5px] flex flex-col items-center lg:mt-[37px] lg:flex-row lg:items-start lg:px-[165px]">
+      <div className="px-11 pt-[1px] lg:flex-1 lg:px-0">
+        <h2 className="text-manage-primary-blue text-center text-[30px] font-bold leading-[1.5] tracking-[-.5px] lg:text-left lg:text-[39px] lg:leading-[1.1] lg:tracking-[-.2px]">What’s different about Manage?</h2>
+        <p className="text-manage-neutral-300 mt-[13px] text-center text-[14px] leading-[2] lg:mt-8 lg:max-w-[340px] lg:text-left lg:text-base lg:leading-[1.625]">Manage provides all the functionality your team needs, without the complexity. Our software is tailor-made for modern digital product teams.</p>
       </div>
-      <div className="mt-[54px] flex w-full flex-col gap-[46px]">
+      <div className="mt-[54px] flex w-full flex-col gap-[46px] lg:mt-0 lg:flex-1 lg:gap-[41.5px]">
         {sellingPoints.map((sell, index) => {
           return (
             <SellingPoint
@@ -229,12 +239,12 @@ function USP() {
 
 function SellingPoint({ idx, title, desc }: SellingPoint) {
   return (
-    <div className={"w-full pl-4"}>
-      <h3 className="text-manage-primary-blue bg-manage-neutral-200 flex h-[39px] items-center gap-[14px] overflow-hidden rounded-l-full font-bold leading-[12px] tracking-[-.25px]">
+    <div className={"-ml-[1px] w-full pl-4"}>
+      <h3 className="text-manage-primary-blue bg-manage-neutral-200 flex h-[39px] items-center gap-[14px] overflow-hidden rounded-l-full font-bold leading-[12px] tracking-[-.25px] lg:gap-7 lg:bg-transparent">
         <span className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-[67px] items-center justify-center rounded-full pb-1">{idx}</span>
         <span className="pb-1">{title}</span>
       </h3>
-      <p className="text-manage-neutral-300 mt-[8.5px] pb-[.5px] pr-6 text-[14px] leading-[2]">{desc}</p>
+      <p className="text-manage-neutral-300 mt-[8.5px] pb-[.5px] pr-6 text-[14px] leading-[2] lg:px-0 lg:pl-[calc(67px+28px)] lg:text-base lg:leading-[1.6]">{desc}</p>
     </div>
   );
 }
@@ -344,7 +354,7 @@ function Testimonial({ testimony: { avatar, name, testimony: testi }, className 
 
 function Simplify() {
   return (
-    <div className="bg-manage-primary-red flex h-[405px] flex-col items-center justify-center bg-[url('/manage-landing-page/images/bg-simplify-section-mobile.svg')] bg-left bg-no-repeat p-8 pt-[34px]">
+    <div className="bg-manage-primary-red flex h-[405px] flex-col items-center justify-center bg-[url('/manage-landing-page/images/bg-simplify-section-mobile.svg')] bg-left bg-no-repeat p-8 pt-[34px] lg:h-[220px] lg:flex-row lg:justify-between lg:px-[165px]">
       <h2 className="text-manage-neutral-100 text-center text-[40px] font-bold leading-[1.25] tracking-[-.9px]">Simplify how your team works today.</h2>
       <GetStarted
         variant="secondary"
