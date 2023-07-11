@@ -163,7 +163,7 @@ function Intro() {
         "flex w-full flex-col items-center px-[16.5px] pb-[92px] pt-[105px]",
         "bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg'),_url('/manage-landing-page/images/bg-tablet-pattern.svg')] bg-[length:var(--bg-top-size)_var(--bg-top-size),_var(--bg-bottom-size)_var(--bg-bottom-size)] bg-[position:top_-114px_right_-137px,_bottom_0px_right_-184px] bg-no-repeat", //bg
         "lg:bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg')] lg:bg-[length:813.6px_813.6px] lg:bg-[top_-154px_right_-146px]", // large-bg
-        "lg:grid lg:h-[800px] lg:grid-cols-2 lg:grid-rows-1 lg:px-[165px] lg:pb-0 lg:pt-[155px]" // large veiwport
+        "lg:grid lg:h-[800px] lg:grid-cols-[auto_540px] lg:grid-rows-1 lg:px-[165px] lg:pb-[31px] lg:pt-[155px]" // large veiwport
       )}
       style={
         {
@@ -172,15 +172,15 @@ function Intro() {
         } as CSSProperties
       }
     >
-      <div className="relative aspect-[580/525] w-full lg:col-start-2 lg:row-start-1 lg:w-[580px] lg:-translate-x-[5px] lg:-translate-y-[5px]">
+      <div className="relative aspect-[580/525] w-full lg:col-start-2 lg:row-start-1 lg:mt-0.5">
         <Image
           src={"/manage-landing-page/images/illustration-intro.svg"}
           alt="Intro Illustration"
-          className="object-contain"
+          className="object-contain lg:translate-y-[calc(10/525*100%)] lg:scale-[calc(580/540*100%)]"
           fill
         />
       </div>
-      <div className="mt-[2px] flex flex-col items-center px-[15.5px] lg:col-start-1 lg:row-start-1 lg:items-start lg:px-0 lg:pb-[30px] lg:pr-8">
+      <div className="mt-[2px] flex flex-col items-center px-[15.5px] lg:col-start-1 lg:row-start-1 lg:items-start lg:px-0 lg:pr-8">
         <h1 className="text-manage-primary-blue text-center text-[40px] font-bold leading-[1.25] tracking-[-.025em] lg:text-left lg:text-[56px] lg:leading-[1.14] lg:tracking-[-.02em]">Bring everyone together to build better products.</h1>
         <p className="text-manage-neutral-300 mt-[8px] text-center font-light leading-[1.75] lg:mt-[34px] lg:max-w-[340px] lg:text-left lg:leading-[1.6]">Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.</p>
         <GetStarted
@@ -284,38 +284,66 @@ function Testimonials() {
     container: carouselRef,
   });
 
-  const [active, setActive] = useState(1);
+  const { width } = useWindowSize();
+
+  const [active, setActive] = useState(0);
+  const [panInfo, setPanInfo] = useState<number>();
 
   const onClick = (idx: number) => {
     if (!!carouselRef.current) {
       const { scrollWidth } = carouselRef.current;
-      carouselRef.current.scrollTo(((idx - 1) / 4) * scrollWidth, 0);
+      carouselRef.current.scrollTo((idx / 4) * scrollWidth, 0);
     }
   };
 
+  useEffect(() => {
+    if (width > 640) {
+      carouselRef.current?.scrollTo(539, 0);
+    } else {
+      onClick(1);
+    }
+  }, [width]);
+
   return (
-    <div className="flex flex-col items-center pb-[41.93px] pt-[42.5px]">
-      <h2 className="text-manage-primary-blue text-center text-[32px] font-bold leading-[1.5] tracking-[-.7px]">What they’ve said</h2>
-      <div className="flex h-[425px] w-full max-w-[100vw] flex-col items-center justify-center overflow-hidden px-[18px] pt-[16px]">
-        <div
-          className="scrollbar-hidden flex w-full snap-x items-center gap-12 overflow-x-auto overflow-y-visible scroll-smooth pb-6 pt-10"
+    <div className="flex flex-col items-center pb-[41.93px] pt-[42.5px] lg:pb-[180px] lg:pt-[125px]">
+      <h2 className="text-manage-primary-blue text-center text-[32px] font-bold leading-[1.5] tracking-[-.7px] lg:text-[40px]">What they’ve said</h2>
+      <div className="flex h-[425px] w-full max-w-[100vw] flex-col items-center justify-center overflow-hidden px-[18px] pt-[16px] sm:h-auto sm:justify-start sm:px-0 sm:pb-12 sm:pt-[64px]">
+        <motion.div
+          className={cn([
+            "scrollbar-hidden flex w-full items-center gap-8 overflow-x-auto overflow-y-visible pb-6 pt-10 sm:px-[var(--padding-inline)] sm:pb-0", // base
+            !panInfo && "snap-x scroll-smooth", // stop scrolling
+            !!panInfo && "snap-none scroll-auto", // scrolling
+          ])}
           ref={carouselRef}
+          onPanStart={(_, info) => {
+            setPanInfo(carouselRef.current!.scrollLeft);
+          }}
+          onPan={(_, info) => {
+            carouselRef.current?.scrollTo(panInfo! - info.offset.x, 0);
+          }}
+          onPanEnd={() => {
+            setPanInfo(undefined);
+          }}
+          style={
+            {
+              "--padding-inline": width > 640 ? `${(width - 539) / 2}px` : "0px",
+            } as CSSProperties
+          }
           onScroll={() => {
-            setActive(Math.floor(scrollXProgress.get() * 4) + 1);
+            setActive(Math.floor(scrollXProgress.get() * 4));
           }}
         >
           {testimonials.map((testi) => {
             return (
               <Testimonial
-                className="min-w-[calc(100vw-32px)] shrink-0 origin-[0%] select-none snap-start scroll-ml-0"
                 testimony={testi}
                 key={testi.name}
               />
             );
           })}
-        </div>
-        <div className="relative flex h-4 items-start justify-center gap-1 pt-[2px]">
-          {[1, 2, 3, 4].map((index) => {
+        </motion.div>
+        <div className="relative flex h-4 items-start justify-center gap-1 pt-[2px] lg:hidden">
+          {testimonials.map((_, index) => {
             return (
               <button
                 className={cn(["border-manage-primary-red aspect-square w-2 rounded-full border"], active === index && "bg-manage-primary-red")}
@@ -335,7 +363,7 @@ function Testimonials() {
 
 function Testimonial({ testimony: { avatar, name, testimony: testi }, className }: { testimony: Testimonial; className?: string }) {
   return (
-    <div className={cn("bg-manage-neutral-100 flex h-[248px] w-full flex-col items-center justify-start space-y-[24px] pl-[22px] pr-[25px]", className)}>
+    <div className={cn("bg-manage-neutral-100 flex h-[248px] w-full flex-col items-center justify-start space-y-[24px] pl-[22px] pr-[25px] sm:h-[220px] sm:space-y-[23px] sm:px-[41px]", "min-w-[calc(100vw-32px)] max-w-[539px] shrink-0 origin-[0%] cursor-grab select-none snap-start scroll-ml-0 sm:min-w-0 sm:snap-center", className)}>
       <div className="relative -mt-9 aspect-square w-[72px] overflow-hidden rounded-full">
         <Image
           src={avatar}
@@ -346,7 +374,7 @@ function Testimonial({ testimony: { avatar, name, testimony: testi }, className 
       </div>
       <h3 className="text-manage-primary-blue font-bold tracking-[-.25px]">{name}</h3>
       <blockquote>
-        <p className="text-manage-neutral-300 -mt-[5px] text-center text-[14px] leading-[26px]">&ldquo;{testi}&rdquo;</p>
+        <p className="text-manage-neutral-300 -mt-[5px] text-center text-[14px] leading-[26px] sm:text-base sm:leading-[26.5px]">&ldquo;{testi}&rdquo;</p>
       </blockquote>
     </div>
   );
@@ -354,11 +382,11 @@ function Testimonial({ testimony: { avatar, name, testimony: testi }, className 
 
 function Simplify() {
   return (
-    <div className="bg-manage-primary-red flex h-[405px] flex-col items-center justify-center bg-[url('/manage-landing-page/images/bg-simplify-section-mobile.svg')] bg-left bg-no-repeat p-8 pt-[34px] lg:h-[220px] lg:flex-row lg:justify-between lg:px-[165px]">
-      <h2 className="text-manage-neutral-100 text-center text-[40px] font-bold leading-[1.25] tracking-[-.9px]">Simplify how your team works today.</h2>
+    <div className="bg-manage-primary-red flex h-[405px] flex-col items-center justify-center bg-[url('/manage-landing-page/images/bg-simplify-section-mobile.svg')] bg-left bg-no-repeat p-8 pt-[34px] lg:h-[220px] lg:flex-row lg:justify-between lg:bg-[url('/manage-landing-page/images/bg-simplify-section-desktop.svg')] lg:bg-[top_-140px_left_255px] lg:px-[165px]">
+      <h2 className="text-manage-neutral-100 text-center text-[40px] font-bold leading-[1.25] tracking-[-.9px] lg:mb-2 lg:max-w-[440px] lg:text-left lg:leading-[1.1]">Simplify how your team works today.</h2>
       <GetStarted
         variant="secondary"
-        className="mt-[28px] pt-1"
+        className="mt-[28px] pt-1 lg:-mr-0.5 lg:mb-[1px] lg:mt-0"
       />
     </div>
   );
