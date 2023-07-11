@@ -178,6 +178,7 @@ function Intro() {
           alt="Intro Illustration"
           className="object-contain lg:translate-y-[calc(10/525*100%)] lg:scale-[calc(580/540*100%)]"
           fill
+          priority
         />
       </div>
       <div className="mt-[2px] flex flex-col items-center px-[15.5px] lg:col-start-1 lg:row-start-1 lg:items-start lg:px-0 lg:pr-8">
@@ -311,8 +312,9 @@ function Testimonials() {
         <motion.div
           className={cn([
             "scrollbar-hidden flex w-full items-center gap-8 overflow-x-auto overflow-y-visible pb-6 pt-10 sm:px-[var(--padding-inline)] sm:pb-0", // base
-            !panInfo && "snap-x scroll-smooth", // stop scrolling
-            !!panInfo && "snap-none scroll-auto", // scrolling
+            panInfo === undefined
+              ? "snap-x snap-mandatory scroll-smooth" // stop scrolling
+              : "snap-none snap-normal scroll-auto", // scrolling
           ])}
           ref={carouselRef}
           onPanStart={(_, info) => {
@@ -368,6 +370,7 @@ function Testimonial({ testimony: { avatar, name, testimony: testi }, className 
         <Image
           src={avatar}
           fill
+          sizes="100vw"
           alt={`${name}'s avatar`}
           className="object-contain"
         />
@@ -472,22 +475,22 @@ function Footer() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <footer className="bg-manage-neutral-400 relative flex h-[537px] flex-col items-center gap-[50px] px-6 pt-[51px]">
+    <footer className="bg-manage-neutral-400 relative flex h-[537px] flex-col items-center gap-[50px] px-6 pt-[51px] lg:grid lg:h-[calc(128px+122.3px)] lg:grid-cols-[155px_auto_272px] lg:grid-rows-2 lg:items-start lg:gap-x-0 lg:px-[171px] lg:pb-[61.3px] lg:pr-[165px] lg:pt-[62px]">
       <form
         onSubmit={onSubmit}
-        className="relative grid h-[44px] w-full grid-cols-[auto_80px] justify-stretch gap-[8px]"
+        className="relative grid h-[44px] w-full grid-cols-[auto_80px] justify-stretch gap-[8px] lg:col-start-3 lg:row-start-1 lg:mt-[3px] lg:grid-cols-[auto_64px] lg:justify-self-end"
       >
         <input
           type="text"
           {...register("email")}
           placeholder="Updates in your inbox…"
-          className="focus-visible:outline-manage-primary-red h-full rounded-full p-1 px-6 pb-[6px] text-[13px] font-medium tracking-[-.1px] focus-visible:outline focus-visible:outline-2"
+          className="focus-visible:outline-manage-primary-red h-full w-full rounded-full p-1 px-6 pb-[6px] text-[13px] font-medium tracking-[-.1px] focus-visible:outline focus-visible:outline-2 lg:px-4"
         />
-        <button className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-20 items-center justify-center rounded-full pb-[2px] text-[13px] font-bold uppercase">Go</button>
+        <button className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-full items-center justify-center rounded-full pb-[2px] text-[13px] font-bold uppercase lg:normal-case">Go</button>
         {!!errors.email && <p className="absolute left-6 top-12 text-[13px] italic text-red-500">{errors.email.message}</p>}
       </form>
 
-      <nav className="text-manage-neutral-200 grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[75px] gap-y-[12.5px] pl-[13px] pt-[4px] text-[15px] tracking-[-.25px]">
+      <nav className="text-manage-neutral-200 grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[75px] gap-y-[12.5px] pl-[13px] pt-[4px] text-[15px] tracking-[-.25px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-[720px] lg:place-content-between lg:gap-x-[18px] lg:py-0 lg:pl-[min(calc(100vw-1024px+16px),124px)]">
         <a href="">Home</a>
         <a href="">Pricing</a>
         <a href="">Products</a>
@@ -497,16 +500,16 @@ function Footer() {
         <a href="">Privacy Policy</a>
       </nav>
 
-      <SocialIcons className="h-8 gap-[34px]" />
+      <SocialIcons className="h-8 gap-[34px] lg:col-start-1 lg:row-start-2 lg:h-[20px] lg:justify-between lg:gap-0 lg:self-end lg:pr-px" />
 
-      <div className="mr-0.5 pt-1">
+      <div className="mr-0.5 pt-1 lg:col-start-1 lg:row-start-1 lg:pt-0">
         <Logo
           variant="footer"
-          className="h-[26px]"
+          className="h-[26px] lg:h-6"
         />
       </div>
 
-      <p className="text-manage-neutral-300 text-center text-[13px] tracking-[-.25px]">Copyright 2020. All Rights Reserved</p>
+      <p className="text-manage-neutral-300 text-center text-[13px] tracking-[-.25px] lg:col-start-3 lg:row-start-2 lg:self-end lg:text-right">Copyright 2020. All Rights Reserved</p>
 
       <p className="text-manage-neutral-300 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
