@@ -28,7 +28,10 @@ export default function ManageLandingPage() {
         <Header />
         <Main />
         <Footer />
-        {/* <Slider basePath="/manage-landing-page/design" /> */}
+        {/* <Slider
+          basePath="/manage-landing-page/design"
+          absolutePath="/manage-landing-page/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -128,7 +131,7 @@ function Header() {
         variant="header"
         className="h-[18px] lg:mt-[14px] lg:h-[24px]"
       />
-      <div className="text-manage-primary-blue mr-[10px] hidden gap-[35px] text-[12.5px] font-medium lg:mt-[4px] lg:flex lg:place-self-center">
+      <div className="text-manage-primary-blue mr-[10px] hidden gap-[35px] text-[12.5px] font-medium lg:mt-[4px] lg:flex lg:place-self-center [&>a:hover]:opacity-50">
         <NavigationLinks />
       </div>
       <GetStarted
@@ -145,8 +148,9 @@ function GetStarted({ variant, className, ...props }: { variant: "primary" | "se
     <button
       className={cn(
         variant === "primary" && "bg-manage-primary-red text-manage-neutral-200 shadow-manage-primary-red/30 shadow-lg", // primary variant
-        variant === "secondary" && "bg-manage-neutral-100 text-manage-primary-red shadow-manage-neutral-400/10 pb-[2px] shadow-lg", // secondary variant
+        variant === "secondary" && "bg-manage-neutral-100 text-manage-primary-red shadow-manage-neutral-400/10 hover:text-manage-primary-red/50 pb-[2px] shadow-lg lg:pb-1", // secondary variant
         "flex h-[44px] w-[136px] items-center justify-center rounded-full pt-[1px] text-[12px] font-bold tracking-[.4px]",
+        variant === "primary" && "hover:relative hover:overflow-hidden hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:h-full hover:before:w-full hover:before:bg-white/30", // hover overlay
         className
       )}
       {...props}
@@ -172,7 +176,7 @@ function Intro() {
         } as CSSProperties
       }
     >
-      <div className="relative aspect-[580/525] w-full lg:col-start-2 lg:row-start-1 lg:mt-0.5">
+      <div className="relative aspect-[580/525] w-full max-lg:max-w-[480px] lg:col-start-2 lg:row-start-1 lg:mt-0.5">
         <Image
           src={"/manage-landing-page/images/illustration-intro.svg"}
           alt="Intro Illustration"
@@ -219,7 +223,7 @@ function USP() {
   ]);
 
   return (
-    <div className="mb-[16.5px] flex flex-col items-center lg:mt-[37px] lg:flex-row lg:items-start lg:px-[165px]">
+    <div className="mb-[16.5px] flex flex-col items-center max-lg:px-[calc(50vw-320px)] lg:mt-[37px] lg:flex-row lg:items-start lg:px-[165px]">
       <div className="px-11 pt-[1px] lg:flex-1 lg:px-0">
         <h2 className="text-manage-primary-blue text-center text-[30px] font-bold leading-[1.5] tracking-[-.5px] lg:text-left lg:text-[39px] lg:leading-[1.1] lg:tracking-[-.2px]">What’s different about Manage?</h2>
         <p className="text-manage-neutral-300 mt-[13px] text-center text-[14px] leading-[2] lg:mt-8 lg:max-w-[340px] lg:text-left lg:text-base lg:leading-[1.625]">Manage provides all the functionality your team needs, without the complexity. Our software is tailor-made for modern digital product teams.</p>
@@ -241,11 +245,11 @@ function USP() {
 function SellingPoint({ idx, title, desc }: SellingPoint) {
   return (
     <div className={"-ml-[1px] w-full pl-4"}>
-      <h3 className="text-manage-primary-blue bg-manage-neutral-200 flex h-[39px] items-center gap-[14px] overflow-hidden rounded-l-full font-bold leading-[12px] tracking-[-.25px] lg:gap-7 lg:bg-transparent">
+      <h3 className="text-manage-primary-blue bg-manage-neutral-200 flex h-[39px] items-center gap-[14px] overflow-hidden rounded-l-full font-bold leading-[12px] tracking-[-.25px] sm:gap-7 sm:bg-transparent">
         <span className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-[67px] items-center justify-center rounded-full pb-1">{idx}</span>
         <span className="pb-1">{title}</span>
       </h3>
-      <p className="text-manage-neutral-300 mt-[8.5px] pb-[.5px] pr-6 text-[14px] leading-[2] lg:px-0 lg:pl-[calc(67px+28px)] lg:text-base lg:leading-[1.6]">{desc}</p>
+      <p className="text-manage-neutral-300 mt-[8.5px] pb-[.5px] pr-6 text-[14px] leading-[2] sm:px-0 sm:pl-[calc(67px+28px)] sm:text-base sm:leading-[1.6]">{desc}</p>
     </div>
   );
 }
@@ -466,6 +470,7 @@ function Footer() {
   const onSubmit = handleSubmit(({ email }) => {
     console.log(email);
   });
+  const navLinks = ["Home", "Pricing", "Products", "About Us", "Careers", "Community", "Privacy Policy"];
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -484,20 +489,27 @@ function Footer() {
           type="text"
           {...register("email")}
           placeholder="Updates in your inbox…"
-          className="focus-visible:outline-manage-primary-red h-full w-full rounded-full p-1 px-6 pb-[6px] text-[13px] font-medium tracking-[-.1px] focus-visible:outline focus-visible:outline-2 lg:px-4"
+          className={cn("focus-visible:outline-manage-primary-red text-manage-primary-red h-full w-full rounded-full p-1 px-6 pb-[6px] text-[13px] font-medium tracking-[-.1px] focus-visible:outline focus-visible:outline-2 lg:px-4", errors.email && "border border-red-500 text-red-500 focus-visible:outline-red-500")}
         />
-        <button className="bg-manage-primary-red text-manage-neutral-100 flex h-full w-full items-center justify-center rounded-full pb-[2px] text-[13px] font-bold uppercase lg:normal-case">Go</button>
-        {!!errors.email && <p className="absolute left-6 top-12 text-[13px] italic text-red-500">{errors.email.message}</p>}
+        <button className={clsx("bg-manage-primary-red text-manage-neutral-100 flex h-full w-full items-center justify-center rounded-full pb-[2px] text-[13px] font-bold uppercase lg:normal-case", "hover:relative hover:overflow-hidden hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:h-full hover:before:w-full hover:before:bg-white/30")}>Go</button>
+        {!!errors.email && <p className="absolute left-6 top-12 text-[13px] italic text-red-500/75 lg:left-4 lg:text-[9px] lg:tracking-[.3px]">{errors.email.message}</p>}
       </form>
 
-      <nav className="text-manage-neutral-200 grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[75px] gap-y-[12.5px] pl-[13px] pt-[4px] text-[15px] tracking-[-.25px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-[720px] lg:place-content-between lg:gap-x-[18px] lg:py-0 lg:pl-[min(calc(100vw-1024px+16px),124px)]">
-        <a href="">Home</a>
-        <a href="">Pricing</a>
-        <a href="">Products</a>
-        <a href="">About Us</a>
-        <a href="">Careers</a>
-        <a href="">Community</a>
-        <a href="">Privacy Policy</a>
+      <nav className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-[720px] lg:place-content-between">
+        <ul className="text-manage-neutral-200 grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[75px] gap-y-[12.5px] pl-[13px] pt-[4px] text-[15px] tracking-[-.25px] lg:gap-x-[18px] lg:py-0 lg:pl-[min(calc(100vw-1024px+16px),124px)]">
+          {navLinks.map((link, index) => {
+            return (
+              <li key={index}>
+                <a
+                  href=""
+                  className="hover:text-manage-primary-red"
+                >
+                  {link}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
 
       <SocialIcons className="h-8 gap-[34px] lg:col-start-1 lg:row-start-2 lg:h-[20px] lg:justify-between lg:gap-0 lg:self-end lg:pr-px" />
