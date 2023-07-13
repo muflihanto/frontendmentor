@@ -321,13 +321,13 @@ function Testimonials() {
               : "snap-none snap-normal scroll-auto", // scrolling
           ])}
           ref={carouselRef}
-          onPanStart={(_, info) => {
+          onMouseDown={() => {
             setPanInfo(carouselRef.current!.scrollLeft);
           }}
           onPan={(_, info) => {
-            carouselRef.current?.scrollTo(panInfo! - info.offset.x, 0);
+            panInfo !== undefined && carouselRef.current && carouselRef.current.scrollTo(panInfo! - info.offset.x, 0);
           }}
-          onPanEnd={() => {
+          onMouseUp={() => {
             setPanInfo(undefined);
           }}
           style={
