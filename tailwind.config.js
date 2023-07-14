@@ -804,6 +804,11 @@ module.exports = {
             100: "hsl(0,0%,98%)",
           },
         },
+        "space-tourism": {
+          black: "hsl(230,35%,7%)",
+          lightblue: "hsl(231,77%,90%)",
+          white: "hsl(0,0%,100%)",
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -846,6 +851,7 @@ module.exports = {
         public: ["Public Sans", ...fontFamily.sans],
         "be-vietnam": ["Be Vietnam", ...fontFamily.sans],
         "be-vietnam-pro": ["Be Vietnam Pro", ...fontFamily.sans],
+        bellefair: ["Bellefair", ...fontFamily.serif],
       },
     },
   },

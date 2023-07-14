@@ -5,11 +5,9 @@ import { Provider } from "jotai";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <Provider>
-      <Component {...pageProps} />
-    </Provider>
-  );
+  const getLayout = Component.getLayout || ((page) => page);
+
+  return <Provider>{getLayout(<Component {...pageProps} />)}</Provider>;
 }
 
 export default MyApp;

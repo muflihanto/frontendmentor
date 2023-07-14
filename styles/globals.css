@@ -348,6 +348,12 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: "Bellefair";
+  src: url("/space-tourism-website/assets/fonts/Bellefair-Regular.ttf");
+  font-weight: 400;
+}
+
 /* @font-face {
   font-family: "Josefin Sans";
   src: local("Josefin Sans"), url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
