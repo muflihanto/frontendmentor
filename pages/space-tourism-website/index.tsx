@@ -14,7 +14,8 @@ export default function Index() {
         <Main />
         {/* <Slider
           basePath=""
-          absolutePath="/space-tourism-website/design/mobile-home.jpg"
+          // absolutePath="/space-tourism-website/design/mobile-home.jpg"
+          absolutePath="/space-tourism-website/design/mobile-menu.jpg"
         /> */}
       </div>
     </>
