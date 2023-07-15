@@ -1,28 +1,31 @@
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
+import type { TouchEvent, MouseEvent } from "react";
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export default function Slider({ basePath, active = false, absolutePath = "" }) {
-  const imageRef = useRef(null);
-  const sliderRef = useRef(null);
+type Events = MouseEvent | TouchEvent;
+
+export default function Slider({ basePath, active = false, absolutePath = "" }: { basePath: string; active?: boolean; absolutePath?: string }) {
+  const sliderRef = useRef<HTMLDivElement | null>(null);
   const [clicked, setClicked] = useState(false);
   const getWidthStatus = () => {
     if (window.innerWidth <= 375) {
       return window.innerWidth;
     } else if (window.innerWidth > 375 && window.innerWidth < 1440) {
       return window.innerWidth;
-      // return 375;
     } else {
       return 1440;
     }
   };
   const [offset, setOffset] = useState({ w: getWidthStatus() });
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const containerCallbackRef = useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       if (node !== null) {
         containerRef.current = node;
         const width = `${offset.w / 4}px`;
         containerRef.current.style.width = width;
-        sliderRef.current.style.left = `calc(${width} - 20px)`;
+        sliderRef.current!.style.left = `calc(${width} - 20px)`;
       }
     },
     [offset]
@@ -39,48 +42,48 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
   };
   const [imagePath, setImagePath] = useState(getSliderImg());
 
-  const slideReady = (e) => {
+  const slideReady = (e: Events) => {
     e.preventDefault();
     setClicked(true);
   };
 
-  const getCursorPos = (e) => {
-    e = e.changedTouches ? e.changedTouches[0] : e;
-    let a = containerRef.current.getBoundingClientRect();
-    let x = e.pageX - a.left;
+  const getCursorPos = (e: Events) => {
+    let a = containerRef.current!.getBoundingClientRect();
+    let pageX = ((e as TouchEvent).changedTouches ? (e as TouchEvent).changedTouches[0] : (e as MouseEvent)).pageX;
+    let x = pageX - a.left;
     x = x - window.pageXOffset;
     return x;
   };
 
-  const slide = (pos) => {
-    containerRef.current.style.width = `${pos}px`;
-    sliderRef.current.style.left = `${containerRef.current.offsetWidth - sliderRef.current.offsetWidth / 2}px`;
+  const slide = (pos: number) => {
+    containerRef.current!.style.width = `${pos}px`;
+    sliderRef.current!.style.left = `${containerRef.current!.offsetWidth - sliderRef.current!.offsetWidth / 2}px`;
   };
 
   const slideFinish = () => {
     setClicked(false);
   };
 
-  const slideMove = (e) => {
+  const slideMove: EventListener = (e) => {
     let pos;
     if (!clicked) {
       return false;
     }
-    pos = getCursorPos(e);
+    pos = getCursorPos(e as unknown as Events);
     if (pos < 0) pos = 0;
     if (pos > offset.w) pos = offset.w;
     slide(pos);
   };
 
   const handleScroll = () => {
-    sliderRef.current.style.top = `${window.innerHeight / 2 + window.pageYOffset}px`;
+    sliderRef.current!.style.top = `${window.innerHeight / 2 + window.pageYOffset}px`;
   };
 
   const handleWindowResize = () => {
     setImagePath(getSliderImg());
     const newOffset = getWidthStatus();
     setOffset({ w: newOffset });
-    sliderRef.current.style.left = `${containerRef.current.offsetWidth - sliderRef.current.offsetWidth / 2}px`;
+    sliderRef.current!.style.left = `${containerRef.current!.offsetWidth - sliderRef.current!.offsetWidth / 2}px`;
   };
 
   useEffect(() => {
@@ -105,62 +108,27 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
       window.removeEventListener("resize", handleWindowResize);
       window.removeEventListener("scroll", handleScroll);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clicked]);
 
   return (
     <>
       <div
-        style={imgCompSlider}
+        className="absolute left-[calc(25vw-20px)] top-[50vh] z-[100] h-10 w-10 cursor-ew-resize rounded-full bg-[#2196f3] opacity-50"
         ref={sliderRef}
         onTouchStart={slideReady}
         onMouseDown={slideReady}
       />
       <div
-        style={imgCompContainer}
+        className="absolute left-0 top-0 z-[99] h-max w-auto max-w-max overflow-hidden text-left"
         ref={containerCallbackRef}
       >
         <img
-          style={imgCompImg}
+          className="block h-max w-max max-w-max object-none"
           src={imagePath}
-          ref={imageRef}
           alt="Slider"
         />
       </div>
     </>
   );
 }
-
-const imgCompSlider = {
-  position: "absolute",
-  zIndex: 100,
-  cursor: "ew-resize",
-  width: "2.5rem",
-  height: "2.5rem",
-  backgroundColor: "#2196f3",
-  opacity: "50%",
-  borderRadius: "9999px",
-  top: "50vh",
-  left: "calc(25vw - 20px)",
-};
-
-const imgCompContainer = {
-  zIndex: 99,
-  top: 0,
-  left: 0,
-  width: "auto",
-  position: "absolute",
-  maxWidth: "max-content",
-  height: "max-content",
-  overflow: "hidden",
-  textAlign: "left",
-};
-
-const imgCompImg = {
-  top: 0,
-  left: 0,
-  display: "block",
-  height: "max-content",
-  objectFit: "none",
-  width: "max-content",
-  maxWidth: "max-content",
-};

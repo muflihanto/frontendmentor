@@ -38,7 +38,7 @@ function Modal({ state, children, ...props }: PropsWithChildren<{ state: Overlay
       >
         <div
           {...modalProps}
-          className="relative flex h-full w-full flex-col py-[33px] pl-8 pr-[26.45px]"
+          className="flex h-full w-full flex-col py-[33px] pl-8 pr-[26.45px]"
           ref={ref}
         >
           {children}
@@ -80,20 +80,31 @@ function MobileNav({ label, children, ...props }: { label: string; children: (cl
 
 export default function Header({ currentPage }: { currentPage: Page }) {
   return (
-    <header className="absolute left-0 top-0 z-10 flex h-[88px] w-full items-center justify-between p-6 uppercase">
-      <Image
-        src="/space-tourism-website/assets/shared/logo.svg"
-        width={40}
-        height={40}
-        alt="Space Tourism Logo"
-      />
+    <header className="absolute left-0 top-0 z-10 flex h-[88px] w-full items-center justify-between p-6 uppercase md:h-24 md:p-0 md:pl-[39px]">
+      <div className="relative aspect-square w-10 md:w-12">
+        <Image
+          src="/space-tourism-website/assets/shared/logo.svg"
+          alt="Space Tourism Logo"
+          fill
+        />
+      </div>
 
-      <nav className={clsx(["text-white max-md:hidden"])}>
-        <ul className="flex items-center gap-4">
+      <nav className={clsx(["md:bg-space-tourism-white/[4%] text-white max-md:hidden md:h-full md:w-[450px] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)]"])}>
+        <ul className="flex items-center gap-4 md:h-full md:w-full md:justify-center md:gap-[37px]">
           {pages.map((link, index) => {
             return (
-              <li key={link}>
-                <Link href={`/space-tourism-website/${link === "home" ? "" : link}`}>0{`${index} ${link}`}</Link>
+              <li
+                key={link}
+                className="md:relative [&:nth-child(2)]:mr-[3px]"
+              >
+                <Link
+                  href={`/space-tourism-website/${link === "home" ? "" : link}`}
+                  className="peer"
+                >
+                  <span className="md:hidden lg:inline">0{`${index}`}</span>
+                  {`${link}`}
+                </Link>
+                <div className={cn(["absolute -bottom-[calc(48px-17px/2)] left-1/2 h-[3px] w-full -translate-x-1/2 bg-white peer-hover:block peer-hover:opacity-50 peer-active:block", currentPage !== link ? "hidden" : "peer-hover:opacity-100"])} />
               </li>
             );
           })}
@@ -120,11 +131,18 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                 <ul className="font-barlow-condensed text-space-tourism-white flex flex-col gap-8 uppercase leading-[19px] tracking-[2.7px]">
                   {pages.map((link, index) => {
                     return (
-                      <li key={link}>
-                        <Link href={`/space-tourism-website/${link === "home" ? "" : link}`}>
+                      <li
+                        key={link}
+                        className="relative"
+                      >
+                        <Link
+                          href={`/space-tourism-website/${link === "home" ? "" : link}`}
+                          className="peer"
+                        >
                           <span className="mr-[9px] font-bold tabular-nums tracking-[2.4px]">0{`${index}`}</span>
                           {`${link}`}
                         </Link>
+                        <div className={cn(["absolute -right-[26.45px] top-1/2 h-[31px] w-1 -translate-y-1/2 bg-white peer-hover:block peer-hover:opacity-50 peer-active:block", currentPage !== link ? "hidden" : "peer-hover:opacity-100"])} />
                       </li>
                     );
                   })}
