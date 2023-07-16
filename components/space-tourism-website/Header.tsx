@@ -80,7 +80,7 @@ function MobileNav({ label, children, ...props }: { label: string; children: (cl
 
 export default function Header({ currentPage }: { currentPage: Page }) {
   return (
-    <header className="absolute left-0 top-0 z-10 flex h-[88px] w-full items-center justify-between p-6 uppercase md:h-24 md:p-0 md:pl-[39px]">
+    <header className="absolute left-0 top-0 z-10 flex h-[88px] w-full items-center justify-between p-6 uppercase md:h-24 md:p-0 md:pl-[39px] lg:my-10 lg:justify-start lg:pl-[55px]">
       <div className="relative aspect-square w-10 md:w-12">
         <Image
           src="/space-tourism-website/assets/shared/logo.svg"
@@ -89,19 +89,21 @@ export default function Header({ currentPage }: { currentPage: Page }) {
         />
       </div>
 
-      <nav className={clsx(["md:bg-space-tourism-white/[4%] text-white max-md:hidden md:h-full md:w-[450px] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)]"])}>
-        <ul className="flex items-center gap-4 md:h-full md:w-full md:justify-center md:gap-[37px]">
+      <hr className="border-t-space-tourism-lightblue/25 relative z-10 w-[calc(100vw-260px-541.35px-min(12vw,165px))] border-t max-lg:hidden lg:ml-auto lg:translate-x-[30px]" />
+
+      <nav className={clsx(["md:bg-space-tourism-white/[4%] text-white max-md:hidden md:h-full md:w-[450px] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)] lg:w-auto lg:text-base lg:leading-[19px] lg:tracking-[2.7px]"])}>
+        <ul className="flex items-center gap-4 md:h-full md:w-full md:justify-center md:gap-[37px] lg:justify-end lg:gap-12 lg:pl-[123px] lg:pr-[min(12vw,165px)]">
           {pages.map((link, index) => {
             return (
               <li
                 key={link}
-                className="md:relative [&:nth-child(2)]:mr-[3px]"
+                className="md:relative max-lg:[&:nth-child(2)]:mr-[3px]"
               >
                 <Link
                   href={`/space-tourism-website/${link === "home" ? "" : link}`}
                   className="peer"
                 >
-                  <span className="md:hidden lg:inline">0{`${index}`}</span>
+                  <span className="font-bold tabular-nums md:hidden lg:mr-[8px] lg:inline">0{`${index}`}</span>
                   {`${link}`}
                 </Link>
                 <div className={cn(["absolute -bottom-[calc(48px-17px/2)] left-1/2 h-[3px] w-full -translate-x-1/2 bg-white peer-hover:block peer-hover:opacity-50 peer-active:block", currentPage !== link ? "hidden" : "peer-hover:opacity-100"])} />
