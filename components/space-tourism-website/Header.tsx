@@ -91,13 +91,16 @@ export default function Header({ currentPage }: { currentPage: Page }) {
 
       <hr className="border-t-space-tourism-lightblue/25 relative z-10 w-[calc(100vw-260px-541.35px-min(12vw,165px))] border-t max-lg:hidden lg:ml-auto lg:translate-x-[30px]" />
 
-      <nav className={clsx(["md:bg-space-tourism-white/[4%] text-white max-md:hidden md:h-full md:w-[450px] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)] lg:w-auto lg:text-base lg:leading-[19px] lg:tracking-[2.7px]"])}>
+      <nav className={clsx(["md:bg-space-tourism-white/[4%] max-md:hidden md:h-full md:w-[450px] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)] lg:w-auto lg:text-base lg:leading-[19px] lg:tracking-[2.7px]"])}>
         <ul className="flex items-center gap-4 md:h-full md:w-full md:justify-center md:gap-[37px] lg:justify-end lg:gap-12 lg:pl-[123px] lg:pr-[min(12vw,165px)]">
           {pages.map((link, index) => {
             return (
               <li
                 key={link}
-                className="md:relative max-lg:[&:nth-child(2)]:mr-[3px]"
+                className={cn([
+                  "md:relative max-lg:[&:nth-child(2)]:mr-[3px]", //
+                  currentPage === link ? "text-space-tourism-white" : "text-space-tourism-lightblue",
+                ])}
               >
                 <Link
                   href={`/space-tourism-website/${link === "home" ? "" : link}`}
@@ -106,7 +109,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                   <span className="font-bold tabular-nums md:hidden lg:mr-[8px] lg:inline">0{`${index}`}</span>
                   {`${link}`}
                 </Link>
-                <div className={cn(["absolute -bottom-[calc(48px-17px/2)] left-1/2 h-[3px] w-full -translate-x-1/2 bg-white peer-hover:block peer-hover:opacity-50 peer-active:block", currentPage !== link ? "hidden" : "peer-hover:opacity-100"])} />
+                <div className={cn(["absolute -bottom-[calc(48px-17px/2)] left-1/2 h-[3px] w-full -translate-x-1/2 bg-white", currentPage !== link ? "scale-0 opacity-0 transition-all duration-200 peer-hover:block peer-hover:scale-100 peer-hover:opacity-50 peer-active:block" : "peer-hover:opacity-100"])} />
               </li>
             );
           })}
@@ -144,7 +147,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                           <span className="mr-[9px] font-bold tabular-nums tracking-[2.4px]">0{`${index}`}</span>
                           {`${link}`}
                         </Link>
-                        <div className={cn(["absolute -right-[26.45px] top-1/2 h-[31px] w-1 -translate-y-1/2 bg-white peer-hover:block peer-hover:opacity-50 peer-active:block", currentPage !== link ? "hidden" : "peer-hover:opacity-100"])} />
+                        <div className={cn(["absolute -right-[26.45px] top-1/2 h-[31px] w-1 origin-center -translate-y-1/2 scale-0 bg-white transition-all duration-200 peer-hover:block peer-hover:scale-100 peer-hover:opacity-50 peer-active:block", currentPage !== link ? "hidden" : "peer-hover:opacity-100"])} />
                       </li>
                     );
                   })}
