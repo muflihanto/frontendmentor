@@ -1,11 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
+// import Image from "next/image";
 import type { TouchEvent, MouseEvent } from "react";
 import { useState, useCallback, useRef, useEffect } from "react";
 
 type Events = MouseEvent | TouchEvent;
+type SliderProps =
+  | {
+      basePath: string;
+      active?: boolean;
+      absolutePath?: string;
+    }
+  | { basePath?: never; active?: boolean; absolutePath: string };
 
-export default function Slider({ basePath, active = false, absolutePath = "" }: { basePath: string; active?: boolean; absolutePath?: string }) {
+export default function Slider({ basePath, active = false, absolutePath = "" }: SliderProps) {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const [clicked, setClicked] = useState(false);
   const getWidthStatus = () => {

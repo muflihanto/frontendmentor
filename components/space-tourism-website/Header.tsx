@@ -147,7 +147,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                           <span className="mr-[9px] font-bold tabular-nums tracking-[2.4px]">0{`${index}`}</span>
                           {`${link}`}
                         </Link>
-                        <div className={cn(["absolute -right-[26.45px] top-1/2 h-[31px] w-1 origin-center -translate-y-1/2 scale-0 bg-white transition-all duration-200 peer-hover:block peer-hover:scale-100 peer-hover:opacity-50 peer-active:block", currentPage !== link ? "hidden" : "peer-hover:opacity-100"])} />
+                        <div className={cn(["absolute -right-[26.45px] top-1/2 h-[31px] w-1 -translate-y-1/2 bg-white transition-all duration-200", currentPage !== link ? "origin-center scale-0 opacity-0 peer-hover:scale-100 peer-hover:opacity-50" : "peer-hover:opacity-100"])} />
                       </li>
                     );
                   })}
