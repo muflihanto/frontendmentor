@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { getLayout } from "../../components/space-tourism-website/Layout";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
 import _data from "../../components/space-tourism-website/data.json";
 import { useState } from "react";
@@ -18,13 +18,13 @@ export default function Tech() {
         <title>Space Tourism Website | Technology</title>
       </Head>
 
-      <div className="text-space-tourism-white flex min-h-[710px] flex-col items-center bg-[url('/space-tourism-website/assets/technology/background-technology-mobile.jpg')] bg-[length:100vw_auto] pb-[58px] pt-[88px] bg-blend-screen md:min-h-[1024px] md:bg-[url('/space-tourism-website/assets/technology/background-technology-tablet.jpg')] md:pt-[136px]">
-        <h5 className="text-space-tourism-white uppercase leading-[19px] tracking-[2.7px] md:self-start md:px-[38.5px] md:text-[20px] md:leading-6 md:tracking-[3.38px] lg:self-end lg:text-[28px] lg:leading-[34px] lg:tracking-[4.72px]">
+      <div className="text-space-tourism-white flex min-h-[max(710px,100vh)] flex-col items-center bg-[url('/space-tourism-website/assets/technology/background-technology-mobile.jpg')] bg-cover bg-no-repeat pb-[58px] pt-[88px] bg-blend-screen md:min-h-[1024px] md:bg-[url('/space-tourism-website/assets/technology/background-technology-tablet.jpg')] md:pt-[136px] lg:grid lg:min-h-[900px] lg:grid-cols-[80px_470px_auto] lg:grid-rows-[34px_527px] lg:items-start lg:gap-x-20 lg:gap-y-[26px] lg:overflow-hidden lg:bg-[url('/space-tourism-website/assets/technology/background-technology-desktop.jpg')] lg:pb-0 lg:pl-[min(166.5px,calc(166.5/1440*100vw))] lg:pt-[212px]">
+        <h5 className="text-space-tourism-white uppercase leading-[19px] tracking-[2.7px] md:self-start md:px-[38.5px] md:text-[20px] md:leading-6 md:tracking-[3.38px] lg:col-span-3 lg:px-0 lg:text-[28px] lg:leading-[34px] lg:tracking-[4.72px]">
           <span className="mr-[14px] font-bold opacity-25 lg:mr-5">03</span>Space launch 101
         </h5>
 
-        <div className="mt-8 flex w-full flex-col md:mt-[60px]">
-          <div className="relative h-[170px] w-full md:h-[310px]">
+        <div className="mt-8 flex w-full flex-col md:mt-[60px] lg:col-start-3 lg:row-start-2 lg:mt-0 lg:h-full lg:w-auto lg:place-self-end">
+          <div className="relative h-[170px] w-full md:h-[310px] lg:aspect-[515/527] lg:h-full lg:w-[515px]">
             <Image
               src={"/space-tourism-website/assets/technology/"}
               className="object-cover"
@@ -37,14 +37,14 @@ export default function Tech() {
           </div>
         </div>
 
-        <div className="font-bellefair mt-[34px] flex items-center gap-4 md:mt-14 lg:gap-6">
+        <div className="font-bellefair mt-[34px] flex items-center gap-4 md:mt-14 lg:col-start-1 lg:row-start-2 lg:mt-[111px] lg:flex-col lg:gap-8">
           {Array.from(Array(3).keys()).map((idx) => {
             return (
               <button
                 onClick={() => setTechIndex(idx)}
                 key={idx}
                 className={cn([
-                  "flex aspect-square w-10 items-center justify-center rounded-full tabular-nums leading-[18px] tracking-[1px] md:w-[60px] md:text-[24px] md:leading-[28px] md:tracking-[1.5px] lg:w-20", //
+                  "flex aspect-square w-10 items-center justify-center rounded-full tabular-nums leading-[18px] tracking-[1px] md:w-[60px] md:text-[24px] md:leading-[28px] md:tracking-[1.5px] lg:w-20 lg:text-[32px] lg:leading-[37px] lg:tracking-[2px]", //
                   idx === techIndex ? "text-space-tourism-black bg-white" : "text-space-tourism-white border border-white/25 hover:border-white",
                 ])}
               >
@@ -54,17 +54,17 @@ export default function Tech() {
           })}
         </div>
 
-        <div className="mt-[26px] flex w-[327px] flex-col items-center md:mt-11 md:w-[458px]">
+        <div className="mt-[26px] flex w-[327px] flex-col items-center md:mt-11 md:w-[458px] lg:col-start-2 lg:row-start-2 lg:mt-[111px] lg:w-full lg:items-start">
           <h6 className="text-space-tourism-lightblue text-[14px] leading-[17px] tracking-[2.36px] md:text-base md:leading-[19px] md:tracking-[2.7px]">THE TERMINOLOGY…</h6>
-          <h3 className="font-bellefair text-space-tourism-white mt-[9px] text-[24px] uppercase leading-[28px] md:mt-4 md:text-[40px] md:leading-[46px]">{tech.name}</h3>
-          <p className="font-barlow text-space-tourism-lightblue mt-4 text-center text-[15px] leading-[25px] md:text-base md:leading-[28px]">{tech.description}</p>
+          <h3 className="font-bellefair text-space-tourism-white mt-[9px] text-[24px] uppercase leading-[28px] md:mt-4 md:text-[40px] md:leading-[46px] lg:mt-[11px] lg:text-[56px] lg:leading-[64px]">{tech.name}</h3>
+          <p className="font-barlow text-space-tourism-lightblue mt-4 text-center text-[15px] leading-[25px] md:text-base md:leading-[28px] lg:mt-[17px] lg:w-[444px] lg:text-left lg:text-[18px] lg:leading-[32px]">{tech.description}</p>
         </div>
       </div>
 
       {/* <Slider
         // absolutePath="/space-tourism-website/design/mobile-technology-a.jpg"
-        absolutePath={"/space-tourism-website/design/tablet-technology-a.jpg"}
-        // absolutePath="/space-tourism-website/design/desktop-technology-a.jpg"
+        // absolutePath={"/space-tourism-website/design/tablet-technology-a.jpg"}
+        absolutePath="/space-tourism-website/design/desktop-technology-c.jpg"
       /> */}
     </>
   );
