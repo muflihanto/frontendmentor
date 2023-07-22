@@ -809,6 +809,16 @@ module.exports = {
           lightblue: "hsl(231,77%,90%)",
           white: "hsl(0,0%,100%)",
         },
+        bookmark: {
+          primary: {
+            red: "hsl(231,69%,60%)",
+            blue: "hsl(0,94%,66%)",
+          },
+          neutral: {
+            100: "hsl(229,8%,60%)",
+            200: "hsl(229,31%,21%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
