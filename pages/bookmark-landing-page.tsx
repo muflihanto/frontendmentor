@@ -119,6 +119,89 @@ function Feature() {
   );
 }
 
+type Browser = {
+  name: string;
+  image: {
+    size: string;
+    src: string;
+  };
+  minimum: string;
+};
+
+function DownloadCard({ data }: { data: Browser }) {
+  return (
+    <div className="shadow-bookmark-neutral-100/20 flex h-[370px] w-[280px] flex-col items-center pt-12 shadow-lg">
+      <div className={`relative h-[100px] ${data.image.size}`}>
+        <Image
+          src={data.image.src}
+          alt={data.name}
+          fill
+          className="object-contain"
+        />
+      </div>
+
+      <h3 className="text-bookmark-neutral-200 mt-7 text-[20px] font-medium leading-[32px] tracking-[.25px]">Add to {data.name}</h3>
+      <p className="text-bookmark-neutral-100 mt-[4px] text-center text-[15px] leading-[25px]">Minimum version {data.minimum}</p>
+
+      <Image
+        src="/bookmark-landing-page/images/bg-dots.svg"
+        width={280}
+        height={4}
+        className="mt-[33px]"
+        alt="dots"
+      />
+
+      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[24.25px] flex h-12 w-[calc(280px-48px)] items-center justify-center rounded text-[15px] text-white shadow-md">Add & Install Extension</button>
+    </div>
+  );
+}
+
+function DownloadExtension() {
+  const browsers: Browser[] = [
+    {
+      name: "Chrome",
+      image: {
+        size: "aspect-[102/100]",
+        src: "/bookmark-landing-page/images/logo-chrome.svg",
+      },
+      minimum: "62",
+    },
+    {
+      name: "Firefox",
+      image: {
+        size: "aspect-[105/100]",
+        src: "/bookmark-landing-page/images/logo-firefox.svg",
+      },
+      minimum: "55",
+    },
+    {
+      name: "Opera",
+      image: {
+        size: "aspect-[96/100]",
+        src: "/bookmark-landing-page/images/logo-opera.svg",
+      },
+      minimum: "46",
+    },
+  ];
+
+  return (
+    <div className="mt-[149px] flex flex-col items-center px-8">
+      <h2 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">Download the extension</h2>
+      <p className="text-bookmark-neutral-100 mt-[10px] text-center text-[15px] leading-[25px]">We’ve got more browsers in the pipeline. Please do let us know if you’ve got a favourite you’d like us to prioritize.</p>
+      <div className="mt-[41px] space-y-[41px]">
+        {browsers.map((browser) => {
+          return (
+            <DownloadCard
+              data={browser}
+              key={browser.name}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div className="font-rubiks pb-16">
@@ -161,6 +244,7 @@ function Main() {
       </div>
 
       <Feature />
+      <DownloadExtension />
 
       {/* {`
          Features
@@ -172,23 +256,8 @@ function Main() {
          
        
        
-         Download the extension
-       
-         We’ve got more browsers in the pipeline. Please do let us know if you’ve 
-         got a favourite you’d like us to prioritize.
-       
-         Add to Chrome
-         Minimum version 62
-         Add & Install Extension
-       
-         Add to Firefox
-         Minimum version 55
-         Add & Install Extension
-       
-         Add to Opera
-         Minimum version 46
-         Add & Install Extension
-       
+         
+              
          Frequently Asked Questions
          
          Here are some of our FAQs. If you have any other questions you’d like 
