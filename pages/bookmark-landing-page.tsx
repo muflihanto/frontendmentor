@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+import { ComponentProps, PropsWithChildren, useState } from "react";
+import { cn } from "../utils/cn";
 
 export default function BookmarkLandingPage() {
   return (
@@ -15,6 +17,105 @@ export default function BookmarkLandingPage() {
         {/* <Slider basePath="/bookmark-landing-page/design" /> */}
       </div>
     </>
+  );
+}
+
+function TabButton({ active, children, ...props }: PropsWithChildren<{ active: boolean } & ComponentProps<"button">>) {
+  return (
+    <button
+      className={cn([
+        "h-[58px] w-full text-[17px]", //
+        active && "text-bookmark-neutral-200 before:bg-bookmark-primary-red relative before:absolute before:bottom-0 before:left-1/2 before:h-1 before:w-[143px] before:-translate-x-1/2",
+      ])}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+function FeatureIllustration({ variant, ...props }: ComponentProps<"svg"> & { variant: number }) {
+  const svgProps: { className: ComponentProps<"svg">["className"] }[] = [{ className: "aspect-[536/346]" }, { className: "aspect-[478/346]" }, { className: "aspect-[440/380]" }];
+
+  return (
+    <div
+      className={cn([
+        "relative w-full", //
+        // props.className,
+        svgProps[variant].className,
+      ])}
+    >
+      <Image
+        src={`/bookmark-landing-page/images/illustration-features-tab-${variant + 1}.svg`}
+        alt={`Illustration Features Tab ${variant + 1}`}
+        fill
+        className="object-contain"
+      />
+    </div>
+  );
+
+  // return <svg viewBox={svgProps[variant].viewBox} className={cn([props.className],svgProps[variant].className)} {...props}>
+  //   <use href={`/bookmark-landing-page/images/illustration-features-tab-${variant+1}.svg#illustration-features-${variant+1}`} />
+  // </svg>
+}
+
+function Feature() {
+  const [tab, setTab] = useState(0);
+  const features = [
+    {
+      name: "Simple Bookmarking",
+      title: "Bookmark in one click",
+      description: "Organize your bookmarks however you like. Our simple drag-and-drop interface gives you complete control over how you manage your favourite sites.",
+    },
+    {
+      name: "Speedy Searching",
+      title: "Intelligent search",
+      description: "Our powerful search feature will help you find saved sites in no time at all. No need to trawl through all of your bookmarks.",
+    },
+    {
+      name: "Easy Sharing",
+      title: "Share your bookmarks",
+      description: "Easily share your bookmarks and collections with others. Create a shareable link that you can send at the click of a button.",
+    },
+  ];
+
+  return (
+    <div className="mt-[150px]">
+      <div className="flex flex-col items-center px-8">
+        <h2 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">Features</h2>
+        <p className="text-bookmark-neutral-100 mt-[10px] text-center text-[15px] leading-[25px]">Our aim is to make it quick and easy for you to access your favourite websites. Your bookmarks sync between your devices so you can access them on the go.</p>
+
+        <div className="text-bookmark-neutral-100 mt-[39px] flex w-full flex-col items-center divide-y border-y">
+          {features.map((feature, index) => {
+            return (
+              <TabButton
+                active={tab === index}
+                key={feature.name}
+                onClick={() => {
+                  setTab(index);
+                }}
+              >
+                {feature.name}
+              </TabButton>
+            );
+          })}
+        </div>
+      </div>
+
+      <div>
+        <div className="relative mt-[35px] w-full py-[37px]">
+          <div className="relative z-10 w-full px-8">
+            <FeatureIllustration variant={tab} />
+          </div>
+          <div className="bg-bookmark-primary-blue lfeft-0 absolute bottom-0 z-0 h-[203px] w-[308px] rounded-r-full" />
+        </div>
+
+        <div className="mt-[42px] flex flex-col items-center">
+          <h3 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">{features[tab].title}</h3>
+          <p className="text-bookmark-neutral-100 mt-[11px] px-8 text-center text-[15px] leading-[25px]">{features[tab].description}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -52,12 +153,14 @@ function Main() {
 
       <div className="mt-12 flex flex-col items-center px-8">
         <h1 className="text-bookmark-neutral-200 text-center text-[30px] font-medium leading-[40px]">A Simple Bookmark Manager</h1>
-        <p className="text-bookmark-neutral-100 mt-[17px] text-center text-[15px] leading-[25px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
-        <div className="mt-[31px] flex h-12 w-full items-center justify-between gap-4">
-          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 flex h-full w-full items-center justify-center rounded text-[15px] font-medium text-white shadow-md">Get it on Chrome</button>
-          <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 flex h-full w-full items-center justify-center rounded text-[15px] font-medium shadow-md">Get it on Firefox</button>
+        <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
+        <div className="mt-[32px] flex h-12 w-full items-center justify-between gap-4">
+          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 flex h-full w-full items-center justify-center rounded text-[15px] text-white shadow-md">Get it on Chrome</button>
+          <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 flex h-full w-full items-center justify-center rounded text-[15px] shadow-md">Get it on Firefox</button>
         </div>
       </div>
+
+      <Feature />
 
       {/* {`
          Features
@@ -68,38 +171,6 @@ function Main() {
        
          
        
-         
-         
-       
-         Features
-       
-         Our aim is to make it quick and easy for you to access your favourite websites. 
-         Your bookmarks sync between your devices so you can access them on the go.
-       
-         Simple Bookmarking
-         Speedy Searching
-         Easy Sharing
-       
-         Bookmark in one click
-       
-         Organize your bookmarks however you like. Our simple drag-and-drop interface 
-         gives you complete control over how you manage your favourite sites.
-       
-         More Info
-       
-         Intelligent search
-       
-         Our powerful search feature will help you find saved sites in no time at all. 
-         No need to trawl through all of your bookmarks.
-       
-         More Info
-       
-         Share your bookmarks
-       
-         Easily share your bookmarks and collections with others. Create a shareable 
-         link that you can send at the click of a button.
-       
-         More Info
        
          Download the extension
        
