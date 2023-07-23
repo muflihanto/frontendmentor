@@ -1,5 +1,5 @@
 import Head from "next/head";
-// import Image from "next/image";
+import Image from "next/image";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -20,22 +20,56 @@ export default function BookmarkLandingPage() {
 
 function Main() {
   return (
-    <div className="font-rubiks">
-      <h1 className="text-bookmark-neutral-200 text-center text-[28px] font-medium leading-[40px]">A Simple Bookmark Manager</h1>
+    <div className="font-rubiks pb-16">
+      <header className="flex h-[105px] w-full items-center justify-between px-8">
+        <svg
+          viewBox="0 0 148 25"
+          className="text-bookmark-neutral-200 h-[25px]"
+        >
+          <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
+        </svg>
+        <button className="flex aspect-square h-[18px] items-center justify-center">
+          <svg
+            viewBox="0 0 18 15"
+            className="h-[15px]"
+          >
+            <use href="/bookmark-landing-page/images/icon-hamburger.svg#icon-hamburger" />
+          </svg>
+        </button>
+      </header>
+
+      <div className="relative mt-[27px] flex h-[268px] items-center justify-center pb-[1px]">
+        <div className="relative z-10 aspect-[657/466] h-auto w-[353px]">
+          <Image
+            fill
+            src="/bookmark-landing-page/images/illustration-hero.svg"
+            alt="Bookmark Illustration"
+            className="object-contain"
+          />
+        </div>
+        <div className="bg-bookmark-primary-blue absolute bottom-0 right-0 z-0 h-[203px] w-[305px] rounded-l-full" />
+      </div>
+
+      <div className="mt-12 flex flex-col items-center px-8">
+        <h1 className="text-bookmark-neutral-200 text-center text-[30px] font-medium leading-[40px]">A Simple Bookmark Manager</h1>
+        <p className="text-bookmark-neutral-100 mt-[17px] text-center text-[15px] leading-[25px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
+        <div className="mt-[31px] flex h-12 w-full items-center justify-between gap-4">
+          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 flex h-full w-full items-center justify-center rounded text-[15px] font-medium text-white shadow-md">Get it on Chrome</button>
+          <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 flex h-full w-full items-center justify-center rounded text-[15px] font-medium shadow-md">Get it on Firefox</button>
+        </div>
+      </div>
 
       {/* {`
          Features
          Pricing
          Contact
          Login
+
        
-         A Simple Bookmark Manager
+         
        
-         A clean and simple interface to organize your favourite websites. Open a new 
-         browser tab and see your sites load instantly. Try it for free.
-       
-         Get it on Chrome
-         Get it on Firefox
+         
+         
        
          Features
        

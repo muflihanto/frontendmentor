@@ -811,8 +811,8 @@ module.exports = {
         },
         bookmark: {
           primary: {
-            red: "hsl(231,69%,60%)",
-            blue: "hsl(0,94%,66%)",
+            blue: "hsl(231,69%,60%)",
+            red: "hsl(0,94%,66%)",
           },
           neutral: {
             100: "hsl(229,8%,60%)",
