@@ -4,6 +4,7 @@ import Image from "next/image";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 import { ComponentProps, PropsWithChildren, useState } from "react";
 import { cn } from "../utils/cn";
+import { Disclosure } from "@headlessui/react";
 
 export default function BookmarkLandingPage() {
   return (
@@ -14,7 +15,10 @@ export default function BookmarkLandingPage() {
       <div className="App relative min-h-[100svh]">
         <Main />
         <Footer />
-        {/* <Slider basePath="/bookmark-landing-page/design" /> */}
+        {/* <Slider
+          basePath="/bookmark-landing-page/design"
+          // absolutePath="/bookmark-landing-page/design/mobile-active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -202,6 +206,63 @@ function DownloadExtension() {
   );
 }
 
+function FAQ() {
+  const faqs = [
+    {
+      question: "What is Bookmark?",
+      answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt justo eget ultricies fringilla. Phasellus blandit ipsum quis quam ornare mattis.",
+    },
+    {
+      question: "How can I request a new browser?",
+      answer: "Vivamus luctus eros aliquet convallis ultricies. Mauris augue massa, ultricies non ligula. Suspendisse imperdiet. Vivamus luctus eros aliquet convallis ultricies. Mauris augue massa, ultricies non ligula. Suspendisse imperdie tVivamus luctus eros aliquet convallis ultricies. Mauris augue massa, ultricies non ligula. Suspendisse imperdiet.",
+    },
+    {
+      question: "Is there a mobile app?",
+      answer: "Sed consectetur quam id neque fermentum accumsan. Praesent luctus vestibulum dolor, ut condimentum urna vulputate eget. Cras in ligula quis est pharetra mattis sit amet pharetra purus. Sed sollicitudin ex et ultricies bibendum.",
+    },
+    {
+      question: "What about other Chromium browsers?",
+      answer: "Integer condimentum ipsum id imperdiet finibus. Vivamus in placerat mi, at euismod dui. Aliquam vitae neque eget nisl gravida pellentesque non ut velit.",
+    },
+  ];
+
+  return (
+    <div className="mt-[141px] flex flex-col items-center px-8">
+      <h2 className="text-bookmark-neutral-200 text-center text-[24px] font-medium leading-[30px]">Frequently Asked Questions</h2>
+      <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px]">Here are some of our FAQs. If you have any other questions you’d like answered please feel free to email us.</p>
+      <div className="mt-[43px] flex w-full flex-col ">
+        {faqs.map(({ question, answer }, index) => {
+          return (
+            <Disclosure key={question}>
+              {({ open }) => {
+                return (
+                  <div className="border-b-bookmark-neutral-100/25 flex w-full flex-col border-b">
+                    <Disclosure.Button className={cn(["text-bookmark-neutral-200 flex h-[64px] items-center justify-between py-2 pt-4 text-left text-[15px]"])}>
+                      <div>{question}</div>
+                      <svg
+                        className={cn([
+                          "relative h-3 transition-all duration-150", //
+                          open ? "text-bookmark-primary-red rotate-180" : "text-bookmark-primary-blue",
+                        ])}
+                        viewBox="0 0 18 12"
+                      >
+                        <use href="/bookmark-landing-page/images/icon-arrow.svg#icon-arrow" />
+                        {/* #5267DF */}
+                      </svg>
+                    </Disclosure.Button>
+                    <Disclosure.Panel className="text-bookmark-neutral-100 mb-[28px] mt-[14px] text-[15px] leading-[30px] tracking-[.1px]">{answer}</Disclosure.Panel>
+                  </div>
+                );
+              }}
+            </Disclosure>
+          );
+        })}
+      </div>
+      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[47px] flex h-12 w-[114px] items-center justify-center rounded text-[15px] text-white shadow-md">More Info</button>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div className="font-rubiks pb-16">
@@ -245,6 +306,7 @@ function Main() {
 
       <Feature />
       <DownloadExtension />
+      <FAQ />
 
       {/* {`
          Features
@@ -253,15 +315,6 @@ function Main() {
          Login
 
        
-         
-       
-       
-         
-              
-         Frequently Asked Questions
-         
-         Here are some of our FAQs. If you have any other questions you’d like 
-         answered please feel free to email us.
        
          <!-- Question 1 -->
          What is Bookmark?
