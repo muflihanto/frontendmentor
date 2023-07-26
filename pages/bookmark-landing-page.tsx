@@ -2,9 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
-import { ComponentProps, PropsWithChildren, useState } from "react";
+import { ComponentProps, PropsWithChildren, useEffect, useState } from "react";
 import { cn } from "../utils/cn";
 import { Disclosure } from "@headlessui/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 export default function BookmarkLandingPage() {
   return (
@@ -12,7 +15,7 @@ export default function BookmarkLandingPage() {
       <Head>
         <title>Frontend Mentor | Bookmark landing page</title>
       </Head>
-      <div className="App relative min-h-[100svh]">
+      <div className="App font-rubiks relative min-h-[100svh]">
         <Main />
         <Footer />
         {/* <Slider
@@ -263,9 +266,53 @@ function FAQ() {
   );
 }
 
+const InputSchema = z.object({
+  email: z.string().email({ message: "Whoops, make sure it's an email" }).min(1),
+});
+
+type InputSchema = z.infer<typeof InputSchema>;
+
+function ContactUs() {
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { isSubmitSuccessful, errors },
+  } = useForm<InputSchema>({ resolver: zodResolver(InputSchema) });
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [reset, isSubmitSuccessful]);
+
+  return (
+    <div className="bg-bookmark-primary-blue mt-[123px] flex h-[360px] w-full flex-col items-center justify-center px-8 pt-[14px] text-white">
+      <h3 className="text-center text-[12.5px] font-medium uppercase leading-none tracking-[4.25px]">35,000+ already joined</h3>
+      <h2 className="mt-3 text-center text-[24px] font-medium leading-[29px]">Stay up-to-date with what we’re doing</h2>
+      <form
+        onSubmit={onSubmit}
+        className="mt-8 grid w-full max-w-screen-sm grid-cols-1 grid-rows-[repeat(2,48px)] gap-y-4 [&>*]:tracking-[.25px]"
+      >
+        <input
+          type="email"
+          {...register("email")}
+          placeholder="Enter your email address"
+          className="text-bookmark-neutral-200 placeholder:text-bookmark-neutral-100/50 h-full w-full rounded-md bg-white px-[20px] text-[14px]"
+        />
+        <button className="bg-bookmark-primary-red flex items-center justify-center rounded-md text-[14px] font-medium text-white">Contact Us</button>
+      </form>
+    </div>
+  );
+}
+
 function Main() {
   return (
-    <div className="font-rubiks pb-16">
+    <div>
       <header className="flex h-[105px] w-full items-center justify-between px-8">
         <svg
           viewBox="0 0 148 25"
@@ -307,6 +354,7 @@ function Main() {
       <Feature />
       <DownloadExtension />
       <FAQ />
+      <ContactUs />
 
       {/* {`
          Features
@@ -365,24 +413,64 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
-      Challenge by{" "}
-      <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-        rel="noreferrer"
+    <footer className="bg-bookmark-neutral-200 relative flex h-[334.25px] w-full flex-col pt-[40px] text-white">
+      <svg
+        viewBox="0 0 148 25"
+        className="h-[25px] text-white"
       >
-        Frontend Mentor
-      </a>
-      . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Muflihanto
-      </a>
-      .
+        <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
+      </svg>
+
+      <nav className="mt-[41px] flex flex-col items-center space-y-[34px] text-[15px] uppercase leading-none tracking-[1.75px]">
+        <a href="">Features</a>
+        <a href="">Pricing</a>
+        <a href="">Contact</a>
+      </nav>
+
+      <div className="mt-[48px] flex items-center justify-center gap-x-10">
+        <a
+          href=""
+          className="hover:text-bookmark-primary-red text-white"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="w-6"
+          >
+            <use href="/bookmark-landing-page/images/icon-facebook.svg#icon-facebook" />
+          </svg>
+        </a>
+        <a
+          href=""
+          className="hover:text-bookmark-primary-red text-white"
+        >
+          <svg
+            viewBox="0 0 24 20"
+            className="w-6"
+          >
+            <use href="/bookmark-landing-page/images/icon-twitter.svg#icon-twitter" />
+          </svg>
+        </a>
+      </div>
+
+      <p className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+        Challenge by{" "}
+        <a
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by{" "}
+        <a
+          href="https://github.com/muflihanto"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Muflihanto
+        </a>
+        .
+      </p>
     </footer>
   );
 }
