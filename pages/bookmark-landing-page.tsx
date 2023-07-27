@@ -1,13 +1,16 @@
 import Head from "next/head";
 import Image from "next/image";
-// import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
-import { ComponentProps, PropsWithChildren, useEffect, useState } from "react";
+import { ComponentProps, PropsWithChildren, cloneElement, useEffect, useRef, useState } from "react";
 import { cn } from "../utils/cn";
 import { Disclosure } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { AriaButtonProps, AriaModalOverlayProps, Overlay, useButton, useModalOverlay, useOverlayTrigger } from "react-aria";
+import { OverlayTriggerProps, OverlayTriggerState, useOverlayTriggerState } from "react-stately";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function BookmarkLandingPage() {
   return (
@@ -21,7 +24,210 @@ export default function BookmarkLandingPage() {
         {/* <Slider
           basePath="/bookmark-landing-page/design"
           // absolutePath="/bookmark-landing-page/design/mobile-active-states.jpg"
+          absolutePath="/bookmark-landing-page/design/mobile-active-nav.jpg"
         /> */}
+      </div>
+    </>
+  );
+}
+
+function Main() {
+  return (
+    <div>
+      <Header />
+      <Hero />
+      <Feature />
+      <DownloadExtension />
+      <FAQ />
+      <ContactUs />
+    </div>
+  );
+}
+
+function Button(props: PropsWithChildren<AriaButtonProps & ComponentProps<"button">>) {
+  const ref = useRef(null);
+  const { buttonProps } = useButton(props, ref);
+  const { children } = props;
+
+  return (
+    <button
+      {...buttonProps}
+      className={cn([props.className, buttonProps.className])}
+      ref={ref}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Modal({ state, children, ...props }: PropsWithChildren<{ state: OverlayTriggerState } & AriaModalOverlayProps>) {
+  const ref = useRef(null);
+  const { modalProps, underlayProps } = useModalOverlay(props, state, ref);
+
+  return (
+    <Overlay>
+      <div
+        className="bg-bookmark-neutral-200/95 font-rubiks fixed right-0 top-0 z-50 flex h-screen w-screen"
+        {...underlayProps}
+      >
+        <div
+          {...modalProps}
+          className="relative flex w-full flex-col items-center px-8 pb-12"
+          ref={ref}
+        >
+          {children}
+        </div>
+      </div>
+    </Overlay>
+  );
+}
+
+function MobileNav({ label, children, ...props }: { label: string; children: (close: OverlayTriggerState["close"]) => JSX.Element } & OverlayTriggerProps) {
+  const state = useOverlayTriggerState(props);
+  const { triggerProps, overlayProps } = useOverlayTrigger({ type: "menu" }, state);
+
+  return (
+    <>
+      <Button
+        className={cn(["flex items-center justify-center md:hidden", state.isOpen && "hidden"])}
+        {...triggerProps}
+      >
+        <Image
+          alt="Hamburger Icon"
+          src="/space-tourism-website/assets/shared/icon-hamburger.svg"
+          width={24}
+          height={21}
+        />
+      </Button>
+
+      {state.isOpen && (
+        <Modal
+          {...props}
+          state={state}
+        >
+          {cloneElement(children(state.close), overlayProps)}
+        </Modal>
+      )}
+    </>
+  );
+}
+
+function Header() {
+  return (
+    <header className="flex h-[105px] w-full items-center justify-between px-8">
+      <svg
+        viewBox="0 0 148 25"
+        className="text-bookmark-neutral-200 h-[25px]"
+      >
+        <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
+      </svg>
+
+      <MobileNav label="Open Mobile Navigation Menu">
+        {(close) => {
+          return (
+            <>
+              <div className="flex h-[105px] w-full items-center justify-between">
+                <svg
+                  viewBox="0 0 148 25"
+                  className="text-bookmark-neutral-200/95 h-[25px]"
+                >
+                  <use href="/bookmark-landing-page/images/logo-bookmark-white.svg#logo-bookmark-white" />
+                </svg>
+                <Button
+                  onPress={close}
+                  className="h-[15px] w-4"
+                >
+                  <Image
+                    src="/bookmark-landing-page/images/icon-close.svg"
+                    width={16}
+                    height={15}
+                    alt="Close Icon"
+                  />
+                </Button>
+              </div>
+
+              <nav className="mt-0 flex w-full flex-col items-center divide-y divide-white/25 border-y border-y-white/25">
+                <a
+                  className="flex h-[65.5px] w-full items-center justify-center pb-[1px] pr-[12px] text-[20px] uppercase tracking-[2.25px] text-white"
+                  href=""
+                >
+                  Features
+                </a>
+                <a
+                  className="flex h-[65.5px] w-full items-center justify-center pb-[1px] pr-[12px] text-[20px] uppercase tracking-[2.25px] text-white"
+                  href=""
+                >
+                  Pricing
+                </a>
+                <a
+                  className="flex h-[65.5px] w-full items-center justify-center pb-[1px] pr-[12px] text-[20px] uppercase tracking-[2.25px] text-white"
+                  href=""
+                >
+                  Contact
+                </a>
+              </nav>
+
+              <a
+                href=""
+                className="mt-[24.5px] flex h-12 w-full items-center justify-center rounded-md border-2 text-[20px] font-medium uppercase tracking-[2.25px] text-white"
+              >
+                Login
+              </a>
+
+              <div className="mt-auto flex items-center justify-center gap-x-10">
+                <a
+                  href=""
+                  className="hover:text-bookmark-primary-red text-white"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-6"
+                  >
+                    <use href="/bookmark-landing-page/images/icon-facebook.svg#icon-facebook" />
+                  </svg>
+                </a>
+                <a
+                  href=""
+                  className="hover:text-bookmark-primary-red text-white"
+                >
+                  <svg
+                    viewBox="0 0 24 20"
+                    className="w-6"
+                  >
+                    <use href="/bookmark-landing-page/images/icon-twitter.svg#icon-twitter" />
+                  </svg>
+                </a>
+              </div>
+            </>
+          );
+        }}
+      </MobileNav>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <>
+      <div className="relative mt-[27px] flex h-[268px] items-center justify-center pb-[1px]">
+        <div className="relative z-10 aspect-[657/466] h-auto w-[353px]">
+          <Image
+            fill
+            src="/bookmark-landing-page/images/illustration-hero.svg"
+            alt="Bookmark Illustration"
+            className="object-contain"
+          />
+        </div>
+        <div className="bg-bookmark-primary-blue absolute bottom-0 right-0 z-0 h-[203px] w-[305px] rounded-l-full" />
+      </div>
+
+      <div className="mt-12 flex flex-col items-center px-8">
+        <h1 className="text-bookmark-neutral-200 text-center text-[30px] font-medium leading-[40px]">A Simple Bookmark Manager</h1>
+        <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
+        <div className="mt-[32px] flex h-12 w-full items-center justify-between gap-4">
+          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 flex h-full w-full items-center justify-center rounded text-[15px] text-white shadow-md">Get it on Chrome</button>
+          <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 flex h-full w-full items-center justify-center rounded text-[15px] shadow-md">Get it on Firefox</button>
+        </div>
       </div>
     </>
   );
@@ -45,13 +251,7 @@ function FeatureIllustration({ variant, ...props }: ComponentProps<"svg"> & { va
   const svgProps: { className: ComponentProps<"svg">["className"] }[] = [{ className: "aspect-[536/346]" }, { className: "aspect-[478/346]" }, { className: "aspect-[440/380]" }];
 
   return (
-    <div
-      className={cn([
-        "relative w-full", //
-        // props.className,
-        svgProps[variant].className,
-      ])}
-    >
+    <div className={cn(["relative w-full", svgProps[variant].className])}>
       <Image
         src={`/bookmark-landing-page/images/illustration-features-tab-${variant + 1}.svg`}
         alt={`Illustration Features Tab ${variant + 1}`}
@@ -60,10 +260,6 @@ function FeatureIllustration({ variant, ...props }: ComponentProps<"svg"> & { va
       />
     </div>
   );
-
-  // return <svg viewBox={svgProps[variant].viewBox} className={cn([props.className],svgProps[variant].className)} {...props}>
-  //   <use href={`/bookmark-landing-page/images/illustration-features-tab-${variant+1}.svg#illustration-features-${variant+1}`} />
-  // </svg>
 }
 
 function Feature() {
@@ -291,122 +487,41 @@ function ContactUs() {
   }, [reset, isSubmitSuccessful]);
 
   return (
-    <div className="bg-bookmark-primary-blue mt-[123px] flex h-[360px] w-full flex-col items-center justify-center px-8 pt-[14px] text-white">
+    <div className="bg-bookmark-primary-blue mt-[123px] flex h-[360px] w-full flex-col items-center px-8 pt-[74px] text-white">
       <h3 className="text-center text-[12.5px] font-medium uppercase leading-none tracking-[4.25px]">35,000+ already joined</h3>
       <h2 className="mt-3 text-center text-[24px] font-medium leading-[29px]">Stay up-to-date with what we’re doing</h2>
       <form
         onSubmit={onSubmit}
-        className="mt-8 grid w-full max-w-screen-sm grid-cols-1 grid-rows-[repeat(2,48px)] gap-y-4 [&>*]:tracking-[.25px]"
+        noValidate
+        className="mt-8 flex w-full max-w-screen-sm flex-col gap-y-4 [&>*]:tracking-[.25px]"
       >
-        <input
-          type="email"
-          {...register("email")}
-          placeholder="Enter your email address"
-          className="text-bookmark-neutral-200 placeholder:text-bookmark-neutral-100/50 h-full w-full rounded-md bg-white px-[20px] text-[14px]"
-        />
-        <button className="bg-bookmark-primary-red flex items-center justify-center rounded-md text-[14px] font-medium text-white">Contact Us</button>
-      </form>
-    </div>
-  );
-}
-
-function Main() {
-  return (
-    <div>
-      <header className="flex h-[105px] w-full items-center justify-between px-8">
-        <svg
-          viewBox="0 0 148 25"
-          className="text-bookmark-neutral-200 h-[25px]"
+        <div
+          className={cn([
+            "relative h-12 w-full", //
+            !!errors.email && "bg-bookmark-primary-red h-[70px] rounded-md",
+          ])}
         >
-          <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
-        </svg>
-        <button className="flex aspect-square h-[18px] items-center justify-center">
-          <svg
-            viewBox="0 0 18 15"
-            className="h-[15px]"
-          >
-            <use href="/bookmark-landing-page/images/icon-hamburger.svg#icon-hamburger" />
-          </svg>
-        </button>
-      </header>
-
-      <div className="relative mt-[27px] flex h-[268px] items-center justify-center pb-[1px]">
-        <div className="relative z-10 aspect-[657/466] h-auto w-[353px]">
-          <Image
-            fill
-            src="/bookmark-landing-page/images/illustration-hero.svg"
-            alt="Bookmark Illustration"
-            className="object-contain"
+          <input
+            type="email"
+            {...register("email")}
+            placeholder="Enter your email address"
+            className={cn([
+              "text-bookmark-neutral-200 placeholder:text-bookmark-neutral-100/50 h-12 w-full rounded-md bg-white px-[20px] text-[14px]", //
+              !!errors.email && "border-bookmark-primary-red border-[2px] focus-visible:outline focus-visible:outline-transparent",
+            ])}
           />
+          {errors.email && (
+            <svg
+              viewBox="0 0 20 20"
+              className="absolute right-4 top-[14px] w-5"
+            >
+              <use href="/bookmark-landing-page/images/icon-error.svg#icon-error" />
+            </svg>
+          )}
+          {errors.email && <p className="mt-[3px] px-[11px] text-[9px] font-medium italic tracking-[0.8px]">{errors.email.message}</p>}
         </div>
-        <div className="bg-bookmark-primary-blue absolute bottom-0 right-0 z-0 h-[203px] w-[305px] rounded-l-full" />
-      </div>
-
-      <div className="mt-12 flex flex-col items-center px-8">
-        <h1 className="text-bookmark-neutral-200 text-center text-[30px] font-medium leading-[40px]">A Simple Bookmark Manager</h1>
-        <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
-        <div className="mt-[32px] flex h-12 w-full items-center justify-between gap-4">
-          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 flex h-full w-full items-center justify-center rounded text-[15px] text-white shadow-md">Get it on Chrome</button>
-          <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 flex h-full w-full items-center justify-center rounded text-[15px] shadow-md">Get it on Firefox</button>
-        </div>
-      </div>
-
-      <Feature />
-      <DownloadExtension />
-      <FAQ />
-      <ContactUs />
-
-      {/* {`
-         Features
-         Pricing
-         Contact
-         Login
-
-       
-       
-         <!-- Question 1 -->
-         What is Bookmark?
-       
-         <!-- Answer 1 -->
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt 
-         justo eget ultricies fringilla. Phasellus blandit ipsum quis quam ornare mattis.
-       
-         <!-- Question 2 -->
-         How can I request a new browser?
-       
-         <!-- Answer 2 -->
-         Vivamus luctus eros aliquet convallis ultricies. Mauris augue massa, ultricies non ligula. 
-         Suspendisse imperdiet. Vivamus luctus eros aliquet convallis ultricies. Mauris augue massa, 
-         ultricies non ligula. Suspendisse imperdie tVivamus luctus eros aliquet convallis ultricies. 
-         Mauris augue massa, ultricies non ligula. Suspendisse imperdiet.
-       
-         <!-- Question 3 -->
-         Is there a mobile app?
-       
-         <!-- Answer 3 -->
-         Sed consectetur quam id neque fermentum accumsan. Praesent luctus vestibulum dolor, ut condimentum 
-         urna vulputate eget. Cras in ligula quis est pharetra mattis sit amet pharetra purus. Sed 
-         sollicitudin ex et ultricies bibendum.
-       
-         <!-- Question 4 -->
-         What about other Chromium browsers?
-       
-         <!-- Answer 4 -->
-         Integer condimentum ipsum id imperdiet finibus. Vivamus in placerat mi, at euismod dui. Aliquam 
-         vitae neque eget nisl gravida pellentesque non ut velit.
-       
-         More Info
-       
-         35,000+ already joined
-       
-         Stay up-to-date with what we’re doing
-       
-         Contact Us
-       
-         Features
-         Pricing
-         Contact
-      `} */}
+        <button className="bg-bookmark-primary-red flex h-12 items-center justify-center rounded-md text-[14px] font-medium text-white">Contact Us</button>
+      </form>
     </div>
   );
 }
