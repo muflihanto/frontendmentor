@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ComponentProps, PropsWithChildren, cloneElement, useEffect, useRef, useState } from "react";
+import { CSSProperties, ComponentProps, PropsWithChildren, cloneElement, useEffect, useRef, useState } from "react";
 import { cn } from "../utils/cn";
 import { Disclosure } from "@headlessui/react";
 import { useForm } from "react-hook-form";
@@ -267,8 +267,8 @@ function TabButton({ active, children, ...props }: PropsWithChildren<{ active: b
   return (
     <button
       className={cn([
-        "h-[58px] w-full text-[17px]", //
-        active && "text-bookmark-neutral-200 before:bg-bookmark-primary-red relative before:absolute before:bottom-0 before:left-1/2 before:h-1 before:w-[143px] before:-translate-x-1/2",
+        "text-bookmark-neutral-200/75 h-[58px] w-full text-[17px] lg:h-[80px]", //
+        active && "text-bookmark-neutral-200 before:bg-bookmark-primary-red relative before:absolute before:bottom-0 before:left-1/2 before:h-1 before:w-[143px] before:-translate-x-1/2 lg:before:w-full",
       ])}
       {...props}
     >
@@ -313,12 +313,12 @@ function Feature() {
   ];
 
   return (
-    <div className="mt-[150px]">
+    <div className="mt-[150px] lg:mt-[90px]">
       <div className="flex flex-col items-center px-8">
-        <h2 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">Features</h2>
-        <p className="text-bookmark-neutral-100 mt-[10px] text-center text-[15px] leading-[25px]">Our aim is to make it quick and easy for you to access your favourite websites. Your bookmarks sync between your devices so you can access them on the go.</p>
+        <h2 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px] lg:text-[32px]">Features</h2>
+        <p className="text-bookmark-neutral-100 mt-[10px] text-center text-[15px] leading-[25px] lg:mt-[26px] lg:w-[540px] lg:text-[18px] lg:leading-[28px]">Our aim is to make it quick and easy for you to access your favourite websites. Your bookmarks sync between your devices so you can access them on the go.</p>
 
-        <div className="text-bookmark-neutral-100 mt-[39px] flex w-full flex-col items-center divide-y border-y lg:w-[725px] lg:flex-row lg:justify-center lg:divide-none lg:border-none">
+        <div className="text-bookmark-neutral-100 mt-[39px] flex w-full flex-col items-center divide-y border-y lg:mt-10 lg:grid lg:w-[730px] lg:grid-cols-3 lg:grid-rows-1 lg:divide-none lg:border-b lg:border-t-0">
           {features.map((feature, index) => {
             return (
               <TabButton
@@ -335,17 +335,18 @@ function Feature() {
         </div>
       </div>
 
-      <div className="lg:grid lg:grid-cols-2 lg:grid-rows-1">
-        <div className="relative mt-[35px] w-full py-[37px] lg:mt-0 lg:pr-3 ">
+      <div className="lg:mt-[72px] lg:grid lg:h-[435px] lg:grid-cols-2 lg:grid-rows-1">
+        <div className="mt-[35px] w-full py-[37px] lg:relative lg:mt-0 lg:py-0 lg:pr-[14px]">
           <div className="relative z-10 w-full px-8 lg:flex lg:items-center lg:justify-end lg:px-0">
             <FeatureIllustration variant={tab} />
           </div>
-          <div className="bg-bookmark-primary-blue absolute bottom-0 left-0 z-0 h-[203px] w-[308px] rounded-r-full" />
+          <div className="bg-bookmark-primary-blue absolute bottom-0 left-0 z-0 h-[203px] w-[308px] rounded-r-full lg:h-[352px] lg:w-[640px]" />
         </div>
 
-        <div className="mt-[42px] flex flex-col items-center lg:mt-0">
-          <h3 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">{features[tab].title}</h3>
-          <p className="text-bookmark-neutral-100 mt-[11px] px-8 text-center text-[15px] leading-[25px]">{features[tab].description}</p>
+        <div className="mt-[42px] flex flex-col items-center lg:mt-0 lg:items-start lg:justify-center lg:pb-[78px] lg:pl-[110px]">
+          <h3 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px] lg:text-left lg:text-[32px]">{features[tab].title}</h3>
+          <p className="text-bookmark-neutral-100 mt-[11px] px-8 text-center text-[15px] leading-[25px] lg:mt-[26px] lg:w-[435px] lg:px-0 lg:text-left lg:text-[18px] lg:leading-[28px]">{features[tab].description}</p>
+          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[32px] flex h-12 w-[114px] items-center justify-center rounded text-[15px] text-white shadow-md max-lg:hidden">More Info</button>
         </div>
       </div>
     </div>
@@ -361,9 +362,15 @@ type Browser = {
   minimum: string;
 };
 
-function DownloadCard({ data }: { data: Browser }) {
+function DownloadCard({ data, className, ...props }: ComponentProps<"div"> & { data: Browser }) {
   return (
-    <div className="shadow-bookmark-neutral-100/20 flex h-[370px] w-[280px] flex-col items-center pt-12 shadow-lg">
+    <div
+      className={cn([
+        "shadow-bookmark-neutral-100/20 flex h-[370px] w-[280px] flex-col items-center pt-12 shadow-lg", //
+        className,
+      ])}
+      {...props}
+    >
       <div className={`relative h-[100px] ${data.image.size}`}>
         <Image
           src={data.image.src}
@@ -418,13 +425,19 @@ function DownloadExtension() {
   ];
 
   return (
-    <div className="mt-[149px] flex flex-col items-center px-8">
-      <h2 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">Download the extension</h2>
-      <p className="text-bookmark-neutral-100 mt-[10px] text-center text-[15px] leading-[25px]">We’ve got more browsers in the pipeline. Please do let us know if you’ve got a favourite you’d like us to prioritize.</p>
-      <div className="mt-[41px] space-y-[41px]">
-        {browsers.map((browser) => {
+    <div className="mt-[149px] flex flex-col items-center px-8 lg:mt-[160px]">
+      <h2 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px] lg:text-[32px]">Download the extension</h2>
+      <p className="text-bookmark-neutral-100 mt-[10px] text-center text-[15px] leading-[25px] lg:mt-[25px] lg:w-[540px] lg:text-[18px] lg:leading-[28px]">We’ve got more browsers in the pipeline. Please do let us know if you’ve got a favourite you’d like us to prioritize.</p>
+      <div className="mt-[41px] lg:mt-[49px] lg:flex lg:items-start lg:gap-x-[34px]">
+        {browsers.map((browser, index) => {
           return (
             <DownloadCard
+              style={
+                {
+                  "--mt": index * 40 + "px",
+                } as CSSProperties
+              }
+              className="max-lg:mt-[41px] max-lg:first:mt-0 lg:mt-[--mt]"
               data={browser}
               key={browser.name}
             />
@@ -456,17 +469,17 @@ function FAQ() {
   ];
 
   return (
-    <div className="mt-[141px] flex flex-col items-center px-8">
-      <h2 className="text-bookmark-neutral-200 text-center text-[24px] font-medium leading-[30px]">Frequently Asked Questions</h2>
-      <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px]">Here are some of our FAQs. If you have any other questions you’d like answered please feel free to email us.</p>
-      <div className="mt-[43px] flex w-full flex-col ">
+    <div className="mt-[141px] flex flex-col items-center px-8 lg:mt-[160px]">
+      <h2 className="text-bookmark-neutral-200 text-center text-[24px] font-medium leading-[30px] lg:text-[32px]">Frequently Asked Questions</h2>
+      <p className="text-bookmark-neutral-100 mt-[16px] max-w-[540px] text-center text-[15px] leading-[25px] lg:mt-[27px] lg:w-[540px] lg:text-[18px] lg:leading-[28px]">Here are some of our FAQs. If you have any other questions you’d like answered please feel free to email us.</p>
+      <div className="mt-[43px] flex w-full max-w-[540px] flex-col lg:mt-[56px] lg:border-y">
         {faqs.map(({ question, answer }, index) => {
           return (
             <Disclosure key={question}>
               {({ open }) => {
                 return (
-                  <div className="border-b-bookmark-neutral-100/25 flex w-full flex-col border-b">
-                    <Disclosure.Button className={cn(["text-bookmark-neutral-200 flex h-[64px] items-center justify-between py-2 pt-4 text-left text-[15px]"])}>
+                  <div className="border-b-bookmark-neutral-100/25 group flex w-full flex-col border-b">
+                    <Disclosure.Button className={cn(["text-bookmark-neutral-200 flex h-[64px] items-center justify-between py-2 pt-4 text-left text-[15px] lg:pb-[10px] lg:pr-6 lg:text-[18px] lg:group-[:nth-child(2)]:h-[70px] lg:group-[:nth-child(2)]:pb-[16px]"])}>
                       <div>{question}</div>
                       <svg
                         className={cn([
@@ -476,7 +489,6 @@ function FAQ() {
                         viewBox="0 0 18 12"
                       >
                         <use href="/bookmark-landing-page/images/icon-arrow.svg#icon-arrow" />
-                        {/* #5267DF */}
                       </svg>
                     </Disclosure.Button>
                     <Disclosure.Panel className="text-bookmark-neutral-100 mb-[28px] mt-[14px] text-[15px] leading-[30px] tracking-[.1px]">{answer}</Disclosure.Panel>
@@ -487,7 +499,7 @@ function FAQ() {
           );
         })}
       </div>
-      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[47px] flex h-12 w-[114px] items-center justify-center rounded text-[15px] text-white shadow-md">More Info</button>
+      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[47px] flex h-12 w-[114px] items-center justify-center rounded text-[15px] text-white shadow-md lg:mt-[53px]">More Info</button>
     </div>
   );
 }
@@ -517,18 +529,18 @@ function ContactUs() {
   }, [reset, isSubmitSuccessful]);
 
   return (
-    <div className="bg-bookmark-primary-blue mt-[123px] flex h-[360px] w-full flex-col items-center px-8 pt-[74px] text-white">
-      <h3 className="text-center text-[12.5px] font-medium uppercase leading-none tracking-[4.25px]">35,000+ already joined</h3>
-      <h2 className="mt-3 text-center text-[24px] font-medium leading-[29px]">Stay up-to-date with what we’re doing</h2>
+    <div className="bg-bookmark-primary-blue mt-[123px] flex h-[360px] w-full flex-col items-center px-8 pt-[74px] text-white lg:mt-[150px] lg:pt-[72px]">
+      <h3 className="text-center text-[12.5px] font-medium uppercase leading-none tracking-[4.25px] lg:text-[13.25px] lg:tracking-[4.55px]">35,000+ already joined</h3>
+      <h2 className="mt-3 max-w-[420px] text-center text-[24px] font-medium leading-[29px] lg:mt-[37px] lg:text-[32px] lg:leading-[40px]">Stay up-to-date with what we’re doing</h2>
       <form
         onSubmit={onSubmit}
         noValidate
-        className="mt-8 flex w-full max-w-screen-sm flex-col gap-y-4 [&>*]:tracking-[.25px]"
+        className="mt-8 flex w-full max-w-[444px] flex-col gap-4 lg:mt-9 lg:grid lg:grid-cols-[300px_auto] [&>*]:tracking-[.25px]"
       >
         <div
           className={cn([
             "relative h-12 w-full", //
-            !!errors.email && "bg-bookmark-primary-red h-[70px] rounded-md",
+            !!errors.email && "bg-bookmark-primary-red h-[70px] rounded-md lg:w-[300px]",
           ])}
         >
           <input
@@ -550,7 +562,7 @@ function ContactUs() {
           )}
           {errors.email && <p className="mt-[3px] px-[11px] text-[9px] font-medium italic tracking-[0.8px]">{errors.email.message}</p>}
         </div>
-        <button className="bg-bookmark-primary-red flex h-12 items-center justify-center rounded-md text-[14px] font-medium text-white">Contact Us</button>
+        <button className="bg-bookmark-primary-red flex h-12 items-center justify-center rounded-md text-[14px] font-medium text-white lg:w-full">Contact Us</button>
       </form>
     </div>
   );
@@ -558,7 +570,7 @@ function ContactUs() {
 
 function Footer() {
   return (
-    <footer className="bg-bookmark-neutral-200 relative flex h-[334.25px] w-full flex-col pt-[40px] text-white">
+    <footer className="bg-bookmark-neutral-200 lg: relative flex h-[334.25px] w-full flex-col items-center pt-[40px] text-white lg:h-[88px] lg:flex-row lg:px-[165px] lg:pt-0">
       <svg
         viewBox="0 0 148 25"
         className="h-[25px] text-white"
@@ -566,13 +578,13 @@ function Footer() {
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
-      <nav className="mt-[41px] flex flex-col items-center space-y-[34px] text-[15px] uppercase leading-none tracking-[1.75px]">
+      <nav className="mt-[41px] flex flex-col items-center space-y-[34px] text-[15px] uppercase leading-none tracking-[1.75px] lg:ml-[64px] lg:mt-0 lg:flex-row lg:gap-11 lg:space-y-0 lg:text-[13px] lg:tracking-[1.5px]">
         <a href="">Features</a>
         <a href="">Pricing</a>
         <a href="">Contact</a>
       </nav>
 
-      <div className="mt-[48px] flex items-center justify-center gap-x-10">
+      <div className="mt-[48px] flex items-center justify-center gap-x-10 lg:ml-auto lg:mt-0">
         <a
           href=""
           className="hover:text-bookmark-primary-red text-white"
@@ -597,7 +609,7 @@ function Footer() {
         </a>
       </div>
 
-      <p className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <p className="absolute bottom-3 w-full text-center text-[11px] lg:bottom-2 lg:right-[165px] lg:w-fit [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
