@@ -24,7 +24,7 @@ export default function BookmarkLandingPage() {
         {/* <Slider
           basePath="/bookmark-landing-page/design"
           // absolutePath="/bookmark-landing-page/design/mobile-active-states.jpg"
-          absolutePath="/bookmark-landing-page/design/mobile-active-nav.jpg"
+          // absolutePath="/bookmark-landing-page/design/mobile-active-nav.jpg"
         /> */}
       </div>
     </>
@@ -114,19 +114,49 @@ function MobileNav({ label, children, ...props }: { label: string; children: (cl
 
 function Header() {
   return (
-    <header className="flex h-[105px] w-full items-center justify-between px-8">
+    <header className="flex h-[105px] w-full items-center justify-between px-8 lg:px-[165px] lg:pt-[31px]">
       <svg
         viewBox="0 0 148 25"
-        className="text-bookmark-neutral-200 h-[25px]"
+        className="text-bookmark-neutral-200 h-[25px] lg:ml-[6px]"
       >
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
+
+      <div className="text-bookmark-neutral-200 flex h-10 items-center uppercase">
+        <nav className="mr-[49px] flex items-center gap-[45px] text-[13px] tracking-[1.5px]">
+          <a
+            className=""
+            href=""
+          >
+            Features
+          </a>
+          <a
+            className=""
+            href=""
+          >
+            Pricing
+          </a>
+          <a
+            className=""
+            href=""
+          >
+            Contact
+          </a>
+        </nav>
+
+        <a
+          href=""
+          className="bg-bookmark-primary-red flex h-full w-[110px] items-center justify-center rounded text-[13px] font-medium tracking-[1.25px] text-white"
+        >
+          Login
+        </a>
+      </div>
 
       <MobileNav label="Open Mobile Navigation Menu">
         {(close) => {
           return (
             <>
-              <div className="flex h-[105px] w-full items-center justify-between">
+              <div className="flex h-[105px] w-full items-center justify-between lg:hidden">
                 <svg
                   viewBox="0 0 148 25"
                   className="text-bookmark-neutral-200/95 h-[25px]"
@@ -208,9 +238,9 @@ function Header() {
 
 function Hero() {
   return (
-    <>
-      <div className="relative mt-[27px] flex h-[268px] items-center justify-center pb-[1px]">
-        <div className="relative z-10 aspect-[657/466] h-auto w-[353px]">
+    <div className="lg:mt-[60.5px] lg:grid lg:h-[522.5px] lg:grid-cols-2 lg:grid-rows-1 lg:items-center">
+      <div className="relative mt-[27px] flex h-[268px] items-center justify-center pb-[1px] lg:col-start-2 lg:row-start-1 lg:mt-0 lg:h-full lg:justify-start">
+        <div className="relative z-10 aspect-[657/466] h-auto w-[353px] lg:ml-[11px] lg:w-[657px]">
           <Image
             fill
             src="/bookmark-landing-page/images/illustration-hero.svg"
@@ -218,18 +248,18 @@ function Hero() {
             className="object-contain"
           />
         </div>
-        <div className="bg-bookmark-primary-blue absolute bottom-0 right-0 z-0 h-[203px] w-[305px] rounded-l-full" />
+        <div className="bg-bookmark-primary-blue absolute bottom-0 right-0 z-0 h-[203px] w-[305px] rounded-l-full lg:h-[352px] lg:w-[515px]" />
       </div>
 
-      <div className="mt-12 flex flex-col items-center px-8">
-        <h1 className="text-bookmark-neutral-200 text-center text-[30px] font-medium leading-[40px]">A Simple Bookmark Manager</h1>
-        <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
-        <div className="mt-[32px] flex h-12 w-full items-center justify-between gap-4">
+      <div className="mt-12 flex flex-col items-center px-8 lg:col-start-1 lg:row-start-1 lg:mt-0 lg:items-start lg:self-start lg:pl-[165px] lg:pt-[107px]">
+        <h1 className="text-bookmark-neutral-200 text-center text-[30px] font-medium leading-[40px] lg:text-left lg:text-[48px] lg:leading-[52px] lg:tracking-[-.2px]">A Simple Bookmark Manager</h1>
+        <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px] lg:mt-[24px] lg:text-left lg:text-[18px] lg:leading-[28px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
+        <div className="mt-[32px] flex h-12 w-full items-center justify-between gap-4 lg:w-[342px]">
           <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 flex h-full w-full items-center justify-center rounded text-[15px] text-white shadow-md">Get it on Chrome</button>
           <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 flex h-full w-full items-center justify-center rounded text-[15px] shadow-md">Get it on Firefox</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -248,7 +278,7 @@ function TabButton({ active, children, ...props }: PropsWithChildren<{ active: b
 }
 
 function FeatureIllustration({ variant, ...props }: ComponentProps<"svg"> & { variant: number }) {
-  const svgProps: { className: ComponentProps<"svg">["className"] }[] = [{ className: "aspect-[536/346]" }, { className: "aspect-[478/346]" }, { className: "aspect-[440/380]" }];
+  const svgProps: { className: ComponentProps<"svg">["className"] }[] = [{ className: "aspect-[536/346] max-w-[536px]" }, { className: "aspect-[478/346] max-w-[478px]" }, { className: "aspect-[440/380] max-w-[440px]" }];
 
   return (
     <div className={cn(["relative w-full", svgProps[variant].className])}>
@@ -288,7 +318,7 @@ function Feature() {
         <h2 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">Features</h2>
         <p className="text-bookmark-neutral-100 mt-[10px] text-center text-[15px] leading-[25px]">Our aim is to make it quick and easy for you to access your favourite websites. Your bookmarks sync between your devices so you can access them on the go.</p>
 
-        <div className="text-bookmark-neutral-100 mt-[39px] flex w-full flex-col items-center divide-y border-y">
+        <div className="text-bookmark-neutral-100 mt-[39px] flex w-full flex-col items-center divide-y border-y lg:w-[725px] lg:flex-row lg:justify-center lg:divide-none lg:border-none">
           {features.map((feature, index) => {
             return (
               <TabButton
@@ -305,15 +335,15 @@ function Feature() {
         </div>
       </div>
 
-      <div>
-        <div className="relative mt-[35px] w-full py-[37px]">
-          <div className="relative z-10 w-full px-8">
+      <div className="lg:grid lg:grid-cols-2 lg:grid-rows-1">
+        <div className="relative mt-[35px] w-full py-[37px] lg:mt-0 lg:pr-3 ">
+          <div className="relative z-10 w-full px-8 lg:flex lg:items-center lg:justify-end lg:px-0">
             <FeatureIllustration variant={tab} />
           </div>
-          <div className="bg-bookmark-primary-blue lfeft-0 absolute bottom-0 z-0 h-[203px] w-[308px] rounded-r-full" />
+          <div className="bg-bookmark-primary-blue absolute bottom-0 left-0 z-0 h-[203px] w-[308px] rounded-r-full" />
         </div>
 
-        <div className="mt-[42px] flex flex-col items-center">
+        <div className="mt-[42px] flex flex-col items-center lg:mt-0">
           <h3 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px]">{features[tab].title}</h3>
           <p className="text-bookmark-neutral-100 mt-[11px] px-8 text-center text-[15px] leading-[25px]">{features[tab].description}</p>
         </div>
