@@ -24,7 +24,7 @@ export default function BookmarkLandingPage() {
         {/* <Slider
           basePath="/bookmark-landing-page/design"
           // absolutePath="/bookmark-landing-page/design/mobile-active-states.jpg"
-          // absolutePath="/bookmark-landing-page/design/mobile-active-nav.jpg"
+          absolutePath="/bookmark-landing-page/design/desktop-active-states.jpg"
         /> */}
       </div>
     </>
@@ -123,7 +123,7 @@ function Header() {
       </svg>
 
       <div className="text-bookmark-neutral-200 flex h-10 items-center uppercase">
-        <nav className="mr-[49px] flex items-center gap-[45px] text-[13px] tracking-[1.5px]">
+        <nav className="[&>a:hover]:text-bookmark-primary-red mr-[49px] flex items-center gap-[45px] text-[13px] tracking-[1.5px]">
           <a
             className=""
             href=""
@@ -146,7 +146,7 @@ function Header() {
 
         <a
           href=""
-          className="bg-bookmark-primary-red flex h-full w-[110px] items-center justify-center rounded text-[13px] font-medium tracking-[1.25px] text-white"
+          className="bg-bookmark-primary-red hover:border-bookmark-primary-red hover:text-bookmark-primary-red flex h-full w-[110px] items-center justify-center rounded text-[13px] font-medium tracking-[1.25px] text-white hover:border-2 hover:bg-white"
         >
           Login
         </a>
@@ -255,8 +255,8 @@ function Hero() {
         <h1 className="text-bookmark-neutral-200 text-center text-[30px] font-medium leading-[40px] lg:text-left lg:text-[48px] lg:leading-[52px] lg:tracking-[-.2px]">A Simple Bookmark Manager</h1>
         <p className="text-bookmark-neutral-100 mt-[16px] text-center text-[15px] leading-[25px] lg:mt-[24px] lg:text-left lg:text-[18px] lg:leading-[28px]">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
         <div className="mt-[32px] flex h-12 w-full items-center justify-between gap-4 lg:w-[342px]">
-          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 flex h-full w-full items-center justify-center rounded text-[15px] text-white shadow-md">Get it on Chrome</button>
-          <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 flex h-full w-full items-center justify-center rounded text-[15px] shadow-md">Get it on Firefox</button>
+          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 hover:text-bookmark-primary-blue hover:border-bookmark-primary-blue flex h-full w-full items-center justify-center rounded border-2 border-transparent text-[15px] text-white shadow-md hover:bg-white">Get it on Chrome</button>
+          <button className="bg-bookmark-neutral-100/10 text-bookmark-neutral-200 shadow-bookmark-neutral-100/25 hover:border-bookmark-neutral-200/75 flex h-full w-full items-center justify-center rounded border-2 border-transparent text-[15px] shadow-md">Get it on Firefox</button>
         </div>
       </div>
     </div>
@@ -267,8 +267,8 @@ function TabButton({ active, children, ...props }: PropsWithChildren<{ active: b
   return (
     <button
       className={cn([
-        "text-bookmark-neutral-200/75 h-[58px] w-full text-[17px] lg:h-[80px]", //
-        active && "text-bookmark-neutral-200 before:bg-bookmark-primary-red relative before:absolute before:bottom-0 before:left-1/2 before:h-1 before:w-[143px] before:-translate-x-1/2 lg:before:w-full",
+        "text-bookmark-neutral-200/75 hover:text-bookmark-primary-red h-[58px] w-full text-[17px] lg:h-[80px]", //
+        active && "text-bookmark-neutral-200 before:bg-bookmark-primary-red hover:text-bookmark-neutral-200 relative before:absolute before:bottom-0 before:left-1/2 before:h-1 before:w-[143px] before:-translate-x-1/2 lg:before:w-full",
       ])}
       {...props}
     >
@@ -346,7 +346,7 @@ function Feature() {
         <div className="mt-[42px] flex flex-col items-center lg:mt-0 lg:items-start lg:justify-center lg:pb-[78px] lg:pl-[110px]">
           <h3 className="text-bookmark-neutral-200 text-[24px] font-medium leading-[32px] lg:text-left lg:text-[32px]">{features[tab].title}</h3>
           <p className="text-bookmark-neutral-100 mt-[11px] px-8 text-center text-[15px] leading-[25px] lg:mt-[26px] lg:w-[435px] lg:px-0 lg:text-left lg:text-[18px] lg:leading-[28px]">{features[tab].description}</p>
-          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[32px] flex h-12 w-[114px] items-center justify-center rounded text-[15px] text-white shadow-md max-lg:hidden">More Info</button>
+          <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:text-bookmark-primary-blue mt-[32px] flex h-12 w-[114px] items-center justify-center rounded border-2 border-transparent text-[15px] text-white shadow-md hover:bg-white max-lg:hidden">More Info</button>
         </div>
       </div>
     </div>
@@ -391,7 +391,7 @@ function DownloadCard({ data, className, ...props }: ComponentProps<"div"> & { d
         alt="dots"
       />
 
-      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[24.25px] flex h-12 w-[calc(280px-48px)] items-center justify-center rounded text-[15px] text-white shadow-md">Add & Install Extension</button>
+      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:text-bookmark-primary-blue mt-[24.25px] flex h-12 w-[calc(280px-48px)] items-center justify-center rounded border-2 border-transparent text-[15px] text-white shadow-md hover:bg-white">Add & Install Extension</button>
     </div>
   );
 }
@@ -479,7 +479,7 @@ function FAQ() {
               {({ open }) => {
                 return (
                   <div className="border-b-bookmark-neutral-100/25 group flex w-full flex-col border-b">
-                    <Disclosure.Button className={cn(["text-bookmark-neutral-200 flex h-[64px] items-center justify-between py-2 pt-4 text-left text-[15px] lg:pb-[10px] lg:pr-6 lg:text-[18px] lg:group-[:nth-child(2)]:h-[70px] lg:group-[:nth-child(2)]:pb-[16px]"])}>
+                    <Disclosure.Button className={cn(["text-bookmark-neutral-200 hover:text-bookmark-primary-red flex h-[64px] items-center justify-between py-2 pt-4 text-left text-[15px] lg:pb-[10px] lg:pr-6 lg:text-[18px] lg:group-[:nth-child(2)]:h-[70px] lg:group-[:nth-child(2)]:pb-[16px]"])}>
                       <div>{question}</div>
                       <svg
                         className={cn([
@@ -491,7 +491,7 @@ function FAQ() {
                         <use href="/bookmark-landing-page/images/icon-arrow.svg#icon-arrow" />
                       </svg>
                     </Disclosure.Button>
-                    <Disclosure.Panel className="text-bookmark-neutral-100 mb-[28px] mt-[14px] text-[15px] leading-[30px] tracking-[.1px]">{answer}</Disclosure.Panel>
+                    <Disclosure.Panel className="text-bookmark-neutral-200/75 mb-[28px] mt-[14px] text-[15px] leading-[30px] tracking-[.1px] lg:mb-[30px] lg:mt-3 lg:text-[16px] lg:leading-[36px]">{answer}</Disclosure.Panel>
                   </div>
                 );
               }}
@@ -499,7 +499,7 @@ function FAQ() {
           );
         })}
       </div>
-      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 mt-[47px] flex h-12 w-[114px] items-center justify-center rounded text-[15px] text-white shadow-md lg:mt-[53px]">More Info</button>
+      <button className="bg-bookmark-primary-blue shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:text-bookmark-primary-blue mt-[47px] flex h-12 w-[114px] items-center justify-center rounded border-2 border-transparent text-[15px] text-white shadow-md hover:bg-white lg:mt-[53px]">More Info</button>
     </div>
   );
 }
@@ -529,7 +529,7 @@ function ContactUs() {
   }, [reset, isSubmitSuccessful]);
 
   return (
-    <div className="bg-bookmark-primary-blue mt-[123px] flex h-[360px] w-full flex-col items-center px-8 pt-[74px] text-white lg:mt-[150px] lg:pt-[72px]">
+    <div className="bg-bookmark-primary-blue mt-[123px] flex h-[360px] w-full flex-col items-center px-8 pt-[74px] text-white lg:mt-[149px] lg:pt-[72px]">
       <h3 className="text-center text-[12.5px] font-medium uppercase leading-none tracking-[4.25px] lg:text-[13.25px] lg:tracking-[4.55px]">35,000+ already joined</h3>
       <h2 className="mt-3 max-w-[420px] text-center text-[24px] font-medium leading-[29px] lg:mt-[37px] lg:text-[32px] lg:leading-[40px]">Stay up-to-date with what we’re doing</h2>
       <form
@@ -562,7 +562,7 @@ function ContactUs() {
           )}
           {errors.email && <p className="mt-[3px] px-[11px] text-[9px] font-medium italic tracking-[0.8px]">{errors.email.message}</p>}
         </div>
-        <button className="bg-bookmark-primary-red flex h-12 items-center justify-center rounded-md text-[14px] font-medium text-white lg:w-full">Contact Us</button>
+        <button className="bg-bookmark-primary-red hover:text-bookmark-primary-red hover:border-bookmark-primary-red flex h-12 items-center justify-center rounded-md border-2 border-transparent text-[14px] font-medium text-white hover:bg-white lg:w-full">Contact Us</button>
       </form>
     </div>
   );
@@ -570,7 +570,7 @@ function ContactUs() {
 
 function Footer() {
   return (
-    <footer className="bg-bookmark-neutral-200 lg: relative flex h-[334.25px] w-full flex-col items-center pt-[40px] text-white lg:h-[88px] lg:flex-row lg:px-[165px] lg:pt-0">
+    <footer className="bg-bookmark-neutral-200 lg: relative flex h-[334.25px] w-full flex-col items-center pt-[40px] text-white lg:h-[89px] lg:flex-row lg:px-[165px] lg:pt-0">
       <svg
         viewBox="0 0 148 25"
         className="h-[25px] text-white"
@@ -578,7 +578,7 @@ function Footer() {
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
-      <nav className="mt-[41px] flex flex-col items-center space-y-[34px] text-[15px] uppercase leading-none tracking-[1.75px] lg:ml-[64px] lg:mt-0 lg:flex-row lg:gap-11 lg:space-y-0 lg:text-[13px] lg:tracking-[1.5px]">
+      <nav className="[&>a:hover]:text-bookmark-primary-red mt-[41px] flex flex-col items-center space-y-[34px] text-[15px] uppercase leading-none tracking-[1.75px] lg:ml-[64px] lg:mt-0 lg:flex-row lg:gap-11 lg:space-y-0 lg:text-[13px] lg:tracking-[1.5px]">
         <a href="">Features</a>
         <a href="">Pricing</a>
         <a href="">Contact</a>
