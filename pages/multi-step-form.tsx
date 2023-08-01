@@ -1,12 +1,13 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "../utils/cn";
-import { atom, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -36,7 +37,20 @@ const AddOns = z.object({
 });
 type AddOns = z.infer<typeof AddOns>;
 
-const formsInputAtom = atom({});
+const defaultFormValues: PersonalInfo & Plan & AddOns = {
+  name: "",
+  email: "",
+  phone: "",
+  plan: "Arcade",
+  onlineService: false,
+  largerStorage: false,
+  customizableProfile: false,
+};
+
+const formsInputAtom = atom<typeof defaultFormValues & { completedStep: Queries["step"] }>({
+  ...defaultFormValues,
+  completedStep: undefined,
+});
 
 export default function MultiStepForm() {
   return (
@@ -47,26 +61,33 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu relative min-h-[100svh]">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-1.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-2-yearly.jpg" /> */}
       </div>
     </>
   );
 }
 
 function PersonalInfoForm() {
+  const [formsInput, setFormsInput] = useAtom(formsInputAtom);
+  const router = useRouter();
   const {
     handleSubmit,
     formState: { errors },
     register,
-  } = useForm<PersonalInfo>({ resolver: zodResolver(PersonalInfo) });
-  const setFormsInput = useSetAtom(formsInputAtom);
+  } = useForm<PersonalInfo>({ resolver: zodResolver(PersonalInfo), defaultValues: { email: formsInput.email, name: formsInput.name, phone: formsInput.phone } });
 
   const onSubmit = handleSubmit((data) => {
     setFormsInput((prev) => {
+      const prevStep = prev.completedStep;
       return {
         ...prev,
         ...data,
+        completedStep: !!prevStep && parseInt(prevStep) > 1 ? prevStep : "1",
       };
+    });
+    router.push({
+      pathname: "/multi-step-form",
+      query: { step: (router.query as Queries).step ? parseInt((router.query as Queries).step!) + 1 : 2 },
     });
   });
 
@@ -74,6 +95,7 @@ function PersonalInfoForm() {
     <form
       noValidate
       className="bg-multi-step-neutral-100 mt-[18px] h-[376px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg"
+      onSubmit={onSubmit}
     >
       <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none">Personal info</h1>
       <p className="text-multi-step-neutral-500 mt-3 leading-[25px]">Please provide your name, email address, and phone number.</p>
@@ -106,16 +128,208 @@ function PersonalInfoForm() {
           />
         </label>
       </fieldset>
+
+      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-end p-4">
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium">Next Step</button>
+      </div>
+    </form>
+  );
+}
+
+function PlanForm() {
+  const [formsInput, setFormsInput] = useAtom(formsInputAtom);
+  const router = useRouter();
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm<Plan>({ resolver: zodResolver(Plan), defaultValues: { plan: formsInput.plan } });
+
+  const onSubmit = handleSubmit((data) => {
+    setFormsInput((prev) => {
+      const prevStep = prev.completedStep;
+      return {
+        ...prev,
+        ...data,
+        completedStep: !!prevStep && parseInt(prevStep) > 2 ? prevStep : "2",
+      };
+    });
+    router.push({
+      pathname: "/multi-step-form",
+      query: { step: 3 },
+    });
+  });
+  const [planType, setPlanType] = useState<"monthly" | "yearly">("monthly");
+  const price = {
+    monthly: {
+      arcade: 9,
+      advanced: 12,
+      pro: 15,
+    },
+    yearly: {
+      arcade: 90,
+      advanced: 120,
+      pro: 150,
+    },
+  };
+
+  return (
+    <form
+      noValidate
+      className={cn([
+        "bg-multi-step-neutral-100 mb-[94px] mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg", //
+        planType === "monthly" ? "h-[500px]" : "h-[567px]",
+      ])}
+      onSubmit={onSubmit}
+    >
+      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none">Select your plan</h1>
+      <p className="text-multi-step-neutral-500 mt-3 leading-[25px]">You have the option of monthly or yearly billing.</p>
+      <div className="mt-[22px] flex w-full flex-col gap-3">
+        <label className="w-full cursor-pointer">
+          <input
+            {...register("plan", { required: true })}
+            type="radio"
+            className="peer hidden"
+            value="Arcade"
+          />
+          <div
+            className={cn([
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4", //
+              planType === "monthly" ? "h-[77px]" : "h-[99px]",
+            ])}
+          >
+            <Image
+              src="/multi-step-form/assets/images/icon-arcade.svg"
+              alt="Arcade Icon"
+              width={40}
+              height={40}
+            />
+            <div className="ml-[14px] flex h-full flex-col">
+              <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Arcade</h3>
+              <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
+                ${price[planType].arcade}/{planType === "monthly" ? "mo" : "yr"}
+              </p>
+              {planType === "yearly" && <p className="text-multi-step-primary-blue-400 mt-[3px] text-[12px]">2 months free</p>}
+            </div>
+          </div>
+        </label>
+        <label className="w-full cursor-pointer rounded">
+          <input
+            {...register("plan", { required: true })}
+            type="radio"
+            className="peer hidden"
+            value="Advanced"
+          />
+          <div
+            className={cn([
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4", //
+              planType === "monthly" ? "h-[77px]" : "h-[99px]",
+            ])}
+          >
+            <Image
+              src="/multi-step-form/assets/images/icon-advanced.svg"
+              alt="Advanced Icon"
+              width={40}
+              height={40}
+            />
+            <div className="ml-[14px] flex h-full flex-col">
+              <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Advanced</h3>
+              <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
+                ${price[planType].advanced}/{planType === "monthly" ? "mo" : "yr"}
+              </p>
+              {planType === "yearly" && <p className="text-multi-step-primary-blue-400 mt-[3px] text-[12px]">2 months free</p>}
+            </div>
+          </div>
+        </label>
+        <label className="w-full cursor-pointer rounded">
+          <input
+            {...register("plan", { required: true })}
+            type="radio"
+            className="peer hidden"
+            value="Pro"
+          />
+          <div
+            className={cn([
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4", //
+              planType === "monthly" ? "h-[77px]" : "h-[99px]",
+            ])}
+          >
+            <Image
+              src="/multi-step-form/assets/images/icon-pro.svg"
+              alt="Arcade Icon"
+              width={40}
+              height={40}
+            />
+            <div className="ml-[14px] flex h-full flex-col">
+              <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Pro</h3>
+              <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
+                ${price[planType].pro}/{planType === "monthly" ? "mo" : "yr"}
+              </p>
+              {planType === "yearly" && <p className="text-multi-step-primary-blue-400 mt-[3px] text-[12px]">2 months free</p>}
+            </div>
+          </div>
+        </label>
+      </div>
+      <div className="mt-[38px] flex w-full items-center justify-center gap-6 text-[14px] font-medium leading-none">
+        <p className="text-multi-step-primary-blue-400">Monthly</p>
+        <button
+          type="button"
+          className="bg-multi-step-primary-blue-400 relative flex h-[20px] w-[38px] items-center rounded-full px-1"
+          onClick={() => {
+            setPlanType((prev) => (prev === "monthly" ? "yearly" : "monthly"));
+          }}
+        >
+          <div
+            className={cn([
+              "bg-multi-step-neutral-100 absolute top-1 h-3 w-3 rounded-full", //
+              planType === "monthly" ? "left-1" : "right-1",
+            ])}
+          />
+        </button>
+        <p className="text-multi-step-neutral-500">Yearly</p>
+      </div>
+      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4">
+        <Link
+          className="text-multi-step-neutral-500 text-[14px] font-medium"
+          href={{
+            pathname: "/multi-step-form",
+            query: { step: 1 },
+          }}
+        >
+          Go Back
+        </Link>
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium">Next Step</button>
+      </div>
     </form>
   );
 }
 
 function Main() {
   const router = useRouter();
+  const formsInput = useAtomValue(formsInputAtom);
 
   // useEffect(() => {
   //   console.log((router.query as Queries).step);
   // }, [router]);
+
+  // useEffect(() => {
+  //   console.log(formsInput);
+  // }, [formsInput]);
+
+  useEffect(() => {
+    const step = (router.query as Queries).step;
+    if (!step) {
+      router.push({
+        pathname: "/multi-step-form",
+        query: { step: 1 },
+      });
+    } else if (parseInt(step) > parseInt(formsInput.completedStep || "1")) {
+      router.push({
+        pathname: "/multi-step-form",
+        query: { step: parseInt(formsInput.completedStep || "1") },
+      });
+    }
+  }, []);
 
   return (
     <main className="bg-multi-step-neutral-300 relative flex min-h-screen flex-col items-center bg-[url('/multi-step-form/assets/images/bg-sidebar-mobile.svg')] bg-no-repeat pt-4">
@@ -127,6 +341,7 @@ function Main() {
               className={cn([
                 "flex h-[33px] w-[33px] items-center justify-center rounded-full border pb-px pl-px text-[14px] font-bold tabular-nums", //
                 (router.query as Queries).step === String(index + 1) ? "bg-multi-step-primary-blue-100 text-multi-step-primary-blue-400 border-transparent" : "text-multi-step-neutral-100 border-multi-step-neutral-100",
+                index > parseInt(formsInput.completedStep || "0") && "pointer-events-none",
               ])}
               href={{
                 pathname: "/multi-step-form",
@@ -138,18 +353,7 @@ function Main() {
           );
         })}
       </div>
-      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : <div>{router.query.step}</div>}
-      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-end p-4">
-        <Link
-          href={{
-            pathname: "/multi-step-form",
-            query: { step: (router.query as Queries).step ? parseInt((router.query as Queries).step!) + 1 : 2 },
-          }}
-          className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium"
-        >
-          Next Step
-        </Link>
-      </div>
+      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : (router.query as Queries).step === "2" ? <PlanForm /> : <div>{router.query.step}</div>}
       {/* {`
          <!-- Sidebar start -->
 
