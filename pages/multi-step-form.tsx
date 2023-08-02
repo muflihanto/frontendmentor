@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { useEffectOnce } from "usehooks-ts";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -25,9 +26,11 @@ const PersonalInfo = z.object({
 type PersonalInfo = z.infer<typeof PersonalInfo>;
 
 const PlanValues = ["Arcade", "Advanced", "Pro"] as const;
+const planTypeAtom = atom<PlanType>("monthly");
 const Plan = z.object({
   plan: z.enum(PlanValues),
 });
+type PlanType = "monthly" | "yearly";
 type Plan = z.infer<typeof Plan>;
 
 const AddOns = z.object({
@@ -36,6 +39,17 @@ const AddOns = z.object({
   customizableProfile: z.boolean().default(false),
 });
 type AddOns = z.infer<typeof AddOns>;
+
+// const defaultFormValues: PersonalInfo & Plan & AddOns & { completedStep: Queries["step"] } = {
+//   name: "Test",
+//   email: "test@test.com",
+//   phone: "+1 234 567",
+//   plan: "Arcade",
+//   onlineService: false,
+//   largerStorage: false,
+//   customizableProfile: false,
+//   completedStep: "2",
+// };
 
 const defaultFormValues: PersonalInfo & Plan & AddOns = {
   name: "",
@@ -61,7 +75,7 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu relative min-h-[100svh]">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-2-yearly.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-3-monthly.jpg" /> */}
       </div>
     </>
   );
@@ -159,7 +173,7 @@ function PlanForm() {
       query: { step: 3 },
     });
   });
-  const [planType, setPlanType] = useState<"monthly" | "yearly">("monthly");
+  const [planType, setPlanType] = useAtom(planTypeAtom);
   const price = {
     monthly: {
       arcade: 9,
@@ -304,6 +318,136 @@ function PlanForm() {
   );
 }
 
+function AddOnsForm() {
+  const [formsInput, setFormsInput] = useAtom(formsInputAtom);
+  const router = useRouter();
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm<AddOns>({ resolver: zodResolver(AddOns), defaultValues: { customizableProfile: formsInput.customizableProfile, largerStorage: formsInput.largerStorage, onlineService: formsInput.onlineService } });
+  const planType = useAtomValue(planTypeAtom);
+
+  const onSubmit = handleSubmit((data) => {
+    setFormsInput((prev) => {
+      const prevStep = prev.completedStep;
+      return {
+        ...prev,
+        ...data,
+        completedStep: !!prevStep && parseInt(prevStep) > 3 ? prevStep : "3",
+      };
+    });
+    router.push({
+      pathname: "/multi-step-form",
+      query: { step: (router.query as Queries).step ? parseInt((router.query as Queries).step!) + 1 : 2 },
+    });
+  });
+
+  return (
+    <form
+      noValidate
+      className="bg-multi-step-neutral-100 mt-[18px] h-[383px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg"
+      onSubmit={onSubmit}
+    >
+      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none">Pick add-ons</h1>
+      <p className="text-multi-step-neutral-500 mt-3 leading-[25px]">Add-ons help enhance your gaming experience.</p>
+      <fieldset className="mt-[22px] flex w-full flex-col gap-[12px]">
+        <label className="w-full cursor-pointer">
+          <input
+            {...register("onlineService", { required: true })}
+            type="checkbox"
+            className="peer hidden"
+          />
+          <div
+            className={cn([
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+            ])}
+          >
+            <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
+              <Image
+                src="/multi-step-form/assets/images/icon-checkmark.svg"
+                alt="Checkmark Icon"
+                width={12}
+                height={9}
+              />
+            </div>
+            <div className="ml-[16px] flex flex-col">
+              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px]">Online service</h3>
+              <p className="text-multi-step-neutral-500 mt-0 text-[12px]">Access to multiplayer games</p>
+            </div>
+            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px]">+$1{planType === "monthly" ? "/mo" : "0/yr"}</p>
+          </div>
+        </label>
+        <label className="w-full cursor-pointer">
+          <input
+            {...register("largerStorage", { required: true })}
+            type="checkbox"
+            className="peer hidden"
+          />
+          <div
+            className={cn([
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+            ])}
+          >
+            <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
+              <Image
+                src="/multi-step-form/assets/images/icon-checkmark.svg"
+                alt="Checkmark Icon"
+                width={12}
+                height={9}
+              />
+            </div>
+            <div className="ml-[16px] flex flex-col">
+              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px]">Larger storage</h3>
+              <p className="text-multi-step-neutral-500 mt-0 text-[12px]">Extra 1TB of cloud save</p>
+            </div>
+            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px]">+$2{planType === "monthly" ? "/mo" : "0/yr"}</p>
+          </div>
+        </label>
+        <label className="w-full cursor-pointer">
+          <input
+            {...register("customizableProfile", { required: true })}
+            type="checkbox"
+            className="peer hidden"
+          />
+          <div
+            className={cn([
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+            ])}
+          >
+            <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
+              <Image
+                src="/multi-step-form/assets/images/icon-checkmark.svg"
+                alt="Checkmark Icon"
+                width={12}
+                height={9}
+              />
+            </div>
+            <div className="ml-[16px] flex flex-col">
+              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px]">Customizable profile</h3>
+              <p className="text-multi-step-neutral-500 mt-0 text-[12px]">Custom theme on your profile</p>
+            </div>
+            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px]">+$2{planType === "monthly" ? "/mo" : "0/yr"}</p>
+          </div>
+        </label>
+      </fieldset>
+
+      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4">
+        <Link
+          className="text-multi-step-neutral-500 text-[14px] font-medium"
+          href={{
+            pathname: "/multi-step-form",
+            query: { step: 2 },
+          }}
+        >
+          Go Back
+        </Link>
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium">Next Step</button>
+      </div>
+    </form>
+  );
+}
+
 function Main() {
   const router = useRouter();
   const formsInput = useAtomValue(formsInputAtom);
@@ -316,7 +460,7 @@ function Main() {
   //   console.log(formsInput);
   // }, [formsInput]);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     const step = (router.query as Queries).step;
     if (!step) {
       router.push({
@@ -329,7 +473,7 @@ function Main() {
         query: { step: parseInt(formsInput.completedStep || "1") },
       });
     }
-  }, []);
+  });
 
   return (
     <main className="bg-multi-step-neutral-300 relative flex min-h-screen flex-col items-center bg-[url('/multi-step-form/assets/images/bg-sidebar-mobile.svg')] bg-no-repeat pt-4">
@@ -353,7 +497,7 @@ function Main() {
           );
         })}
       </div>
-      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : (router.query as Queries).step === "2" ? <PlanForm /> : <div>{router.query.step}</div>}
+      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : (router.query as Queries).step === "2" ? <PlanForm /> : (router.query as Queries).step === "3" ? <AddOnsForm /> : <div>{router.query.step}</div>}
       {/* {`
          <!-- Sidebar start -->
 
