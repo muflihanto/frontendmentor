@@ -8,12 +8,13 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useEffectOnce } from "usehooks-ts";
+import { useEffectOnce, useWindowSize } from "usehooks-ts";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 type Queries = {
   step?: "1" | "2" | "3" | "4";
+  completed?: 1 | 0;
 };
 
 const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/);
@@ -48,7 +49,7 @@ type AddOns = z.infer<typeof AddOns>;
 //   onlineService: true,
 //   largerStorage: true,
 //   customizableProfile: false,
-//   completedStep: "3",
+//   completedStep: "4",
 // };
 
 const defaultFormValues: PersonalInfo & Plan & AddOns = {
@@ -94,7 +95,7 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu relative min-h-[100svh]">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-4-monthly.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-5.jpg" /> */}
       </div>
     </>
   );
@@ -458,11 +459,16 @@ function AddOnsForm() {
 function FinishingUp() {
   const formsInput = useAtomValue(formsInputAtom);
   const { customizableProfile, largerStorage, onlineService, plan } = formsInput;
+  const router = useRouter();
   const planType = useAtomValue(planTypeAtom);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    console.log(formsInput);
+    // console.log(formsInput);
+    router.push({
+      pathname: "/multi-step-form",
+      query: { step: 4, completed: 1 },
+    });
   };
 
   const total = price[planType][formsInput.plan] + (formsInput.onlineService ? price[planType].onlineService : 0) + (formsInput.customizableProfile ? price[planType].customizableProfile : 0) + (formsInput.largerStorage ? price[planType].largerStorage : 0);
@@ -552,6 +558,23 @@ function FinishingUp() {
   );
 }
 
+function ThankYou() {
+  const { width } = useWindowSize();
+
+  return (
+    <div className="bg-multi-step-neutral-100 mt-[18px] flex h-[400px] w-[calc(100vw-32px)] max-w-md flex-col items-center rounded-lg px-6 pt-[79px] shadow-lg">
+      <Image
+        src={"/multi-step-form/assets/images/icon-thank-you.svg"}
+        width={width > 1023 ? 80 : 56}
+        height={width > 1023 ? 80 : 56}
+        alt="Thank You Illustration"
+      />
+      <h1 className="text-multi-step-primary-blue-400 mt-[25px] text-[24px] font-bold leading-none">Thank you!</h1>
+      <p className="text-multi-step-neutral-500 mt-3 text-center leading-[25px]">Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com.</p>
+    </div>
+  );
+}
+
 function Main() {
   const router = useRouter();
   const formsInput = useAtomValue(formsInputAtom);
@@ -601,7 +624,7 @@ function Main() {
           );
         })}
       </div>
-      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : (router.query as Queries).step === "2" ? <PlanForm /> : (router.query as Queries).step === "3" ? <AddOnsForm /> : (router.query as Queries).step === "4" ? <FinishingUp /> : <div>Not Found</div>}
+      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : (router.query as Queries).step === "2" ? <PlanForm /> : (router.query as Queries).step === "3" ? <AddOnsForm /> : (router.query as Queries).step === "4" ? !!(router.query as Queries).completed ? <ThankYou /> : <FinishingUp /> : <div>Error</div>}
       {/* {`
          <!-- Sidebar start -->
 
