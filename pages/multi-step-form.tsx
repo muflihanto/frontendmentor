@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "../utils/cn";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -45,10 +45,10 @@ type AddOns = z.infer<typeof AddOns>;
 //   email: "test@test.com",
 //   phone: "+1 234 567",
 //   plan: "Arcade",
-//   onlineService: false,
-//   largerStorage: false,
+//   onlineService: true,
+//   largerStorage: true,
 //   customizableProfile: false,
-//   completedStep: "2",
+//   completedStep: "3",
 // };
 
 const defaultFormValues: PersonalInfo & Plan & AddOns = {
@@ -66,6 +66,25 @@ const formsInputAtom = atom<typeof defaultFormValues & { completedStep: Queries[
   completedStep: undefined,
 });
 
+const price = {
+  monthly: {
+    Arcade: 9,
+    Advanced: 12,
+    Pro: 15,
+    onlineService: 1,
+    largerStorage: 2,
+    customizableProfile: 2,
+  },
+  yearly: {
+    Arcade: 90,
+    Advanced: 120,
+    Pro: 150,
+    onlineService: 10,
+    largerStorage: 20,
+    customizableProfile: 20,
+  },
+};
+
 export default function MultiStepForm() {
   return (
     <>
@@ -75,7 +94,7 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu relative min-h-[100svh]">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-3-monthly.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/mobile-design-step-4-monthly.jpg" /> */}
       </div>
     </>
   );
@@ -174,18 +193,6 @@ function PlanForm() {
     });
   });
   const [planType, setPlanType] = useAtom(planTypeAtom);
-  const price = {
-    monthly: {
-      arcade: 9,
-      advanced: 12,
-      pro: 15,
-    },
-    yearly: {
-      arcade: 90,
-      advanced: 120,
-      pro: 150,
-    },
-  };
 
   return (
     <form
@@ -221,7 +228,7 @@ function PlanForm() {
             <div className="ml-[14px] flex h-full flex-col">
               <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Arcade</h3>
               <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
-                ${price[planType].arcade}/{planType === "monthly" ? "mo" : "yr"}
+                ${price[planType].Arcade}/{planType === "monthly" ? "mo" : "yr"}
               </p>
               {planType === "yearly" && <p className="text-multi-step-primary-blue-400 mt-[3px] text-[12px]">2 months free</p>}
             </div>
@@ -249,7 +256,7 @@ function PlanForm() {
             <div className="ml-[14px] flex h-full flex-col">
               <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Advanced</h3>
               <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
-                ${price[planType].advanced}/{planType === "monthly" ? "mo" : "yr"}
+                ${price[planType].Advanced}/{planType === "monthly" ? "mo" : "yr"}
               </p>
               {planType === "yearly" && <p className="text-multi-step-primary-blue-400 mt-[3px] text-[12px]">2 months free</p>}
             </div>
@@ -277,7 +284,7 @@ function PlanForm() {
             <div className="ml-[14px] flex h-full flex-col">
               <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Pro</h3>
               <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
-                ${price[planType].pro}/{planType === "monthly" ? "mo" : "yr"}
+                ${price[planType].Pro}/{planType === "monthly" ? "mo" : "yr"}
               </p>
               {planType === "yearly" && <p className="text-multi-step-primary-blue-400 mt-[3px] text-[12px]">2 months free</p>}
             </div>
@@ -448,6 +455,103 @@ function AddOnsForm() {
   );
 }
 
+function FinishingUp() {
+  const formsInput = useAtomValue(formsInputAtom);
+  const { customizableProfile, largerStorage, onlineService, plan } = formsInput;
+  const planType = useAtomValue(planTypeAtom);
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    console.log(formsInput);
+  };
+
+  const total = price[planType][formsInput.plan] + (formsInput.onlineService ? price[planType].onlineService : 0) + (formsInput.customizableProfile ? price[planType].customizableProfile : 0) + (formsInput.largerStorage ? price[planType].largerStorage : 0);
+
+  return (
+    <form
+      noValidate
+      className="bg-multi-step-neutral-100 mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pb-[34px] pt-[33px] shadow-lg"
+      onSubmit={onSubmit}
+    >
+      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none">Finishing up</h1>
+      <p className="text-multi-step-neutral-500 mt-3 leading-[25px]">Double-check everything looks OK before confirming.</p>
+
+      <div className="bg-multi-step-neutral-200 mt-[22px] w-full rounded-md px-4 pb-[18px] pt-[19px]">
+        <div className="flex items-center justify-between text-[14px]">
+          <div>
+            <p className="text-multi-step-primary-blue-400 font-medium leading-[16px]">
+              {plan} ({planType[0].toUpperCase() + planType.slice(1)})
+            </p>
+            <Link
+              href={{
+                pathname: "/multi-step-form",
+                query: { step: 2 },
+              }}
+              className="text-multi-step-neutral-500 underline"
+            >
+              Change
+            </Link>
+          </div>
+          <p className="text-multi-step-primary-blue-400 pt-0.5 font-bold leading-none">
+            ${price[planType][plan]}/{planType === "monthly" ? "mo" : "yr"}
+          </p>
+        </div>
+        {(!!customizableProfile || !!largerStorage || !!onlineService) && (
+          <>
+            <hr className="border-t-multi-step-neutral-400 my-[11px] w-full" />
+            <div className="mt-4 space-y-[18px]">
+              {onlineService && (
+                <div className="flex items-center justify-between text-[14px]">
+                  <p className="text-multi-step-neutral-500 leading-none">Online service</p>
+                  <p className="text-multi-step-primary-blue-400 font-medium leading-none">
+                    +${price[planType].onlineService}/{planType === "monthly" ? "mo" : "yr"}
+                  </p>
+                </div>
+              )}
+              {largerStorage && (
+                <div className="flex items-center justify-between text-[14px]">
+                  <p className="text-multi-step-neutral-500 leading-none">Larger storage</p>
+                  <p className="text-multi-step-primary-blue-400 font-medium leading-none">
+                    +${price[planType].largerStorage}/{planType === "monthly" ? "mo" : "yr"}
+                  </p>
+                </div>
+              )}
+              {customizableProfile && (
+                <div className="flex items-center justify-between text-[14px]">
+                  <p className="text-multi-step-neutral-500 leading-none">Customizable Profile</p>
+                  <p className="text-multi-step-primary-blue-400 font-medium leading-none">
+                    +${price[planType].customizableProfile}/{planType === "monthly" ? "mo" : "yr"}
+                  </p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className="mt-[26px] flex items-center justify-between px-4">
+        <p className="text-multi-step-neutral-500 text-[14px] leading-[16px]">Total (per {planType === "monthly" ? "month" : "year"})</p>
+        <p className="text-multi-step-primary-blue-300 text-[16px] font-bold leading-[16px]">
+          +${total}/{planType === "monthly" ? "mo" : "yr"}
+        </p>
+      </div>
+
+      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4">
+        <Link
+          className="text-multi-step-neutral-500 text-[14px] font-medium"
+          href={{
+            pathname: "/multi-step-form",
+            query: { step: 3 },
+          }}
+        >
+          Go Back
+        </Link>
+        <button className="bg-multi-step-primary-blue-300 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium">Confirm</button>
+      </div>
+    </form>
+  );
+}
+
 function Main() {
   const router = useRouter();
   const formsInput = useAtomValue(formsInputAtom);
@@ -497,7 +601,7 @@ function Main() {
           );
         })}
       </div>
-      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : (router.query as Queries).step === "2" ? <PlanForm /> : (router.query as Queries).step === "3" ? <AddOnsForm /> : <div>{router.query.step}</div>}
+      {!router.query.step || (router.query as Queries).step === "1" ? <PersonalInfoForm /> : (router.query as Queries).step === "2" ? <PlanForm /> : (router.query as Queries).step === "3" ? <AddOnsForm /> : (router.query as Queries).step === "4" ? <FinishingUp /> : <div>Not Found</div>}
       {/* {`
          <!-- Sidebar start -->
 
