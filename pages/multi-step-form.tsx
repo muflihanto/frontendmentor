@@ -49,7 +49,7 @@ type AddOns = z.infer<typeof AddOns>;
 //   onlineService: true,
 //   largerStorage: true,
 //   customizableProfile: false,
-//   completedStep: "4",
+//   completedStep: "2",
 // };
 
 const defaultFormValues: PersonalInfo & Plan & AddOns = {
@@ -95,7 +95,7 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu bg-multi-step-neutral-300 relative min-h-[100svh] lg:flex lg:min-h-[810px] lg:items-center lg:justify-center">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/desktop-design-step-3-monthly.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/desktop-design-step-4-monthly.jpg" /> */}
       </div>
     </>
   );
@@ -356,12 +356,12 @@ function AddOnsForm() {
   return (
     <form
       noValidate
-      className="bg-multi-step-neutral-100 mt-[18px] h-[383px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg"
+      className="bg-multi-step-neutral-100 mt-[18px] h-[383px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
       onSubmit={onSubmit}
     >
-      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none">Pick add-ons</h1>
-      <p className="text-multi-step-neutral-500 mt-3 leading-[25px]">Add-ons help enhance your gaming experience.</p>
-      <fieldset className="mt-[22px] flex w-full flex-col gap-[12px]">
+      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none lg:text-[32px]">Pick add-ons</h1>
+      <p className="text-multi-step-neutral-500 mt-3 leading-[25px] lg:mt-[11px]">Add-ons help enhance your gaming experience.</p>
+      <fieldset className="mt-[22px] flex w-full flex-col gap-[12px] lg:mt-[38px] lg:gap-[16px]">
         <label className="w-full cursor-pointer">
           <input
             {...register("onlineService", { required: true })}
@@ -370,7 +370,7 @@ function AddOnsForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
             ])}
           >
             <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
@@ -381,11 +381,11 @@ function AddOnsForm() {
                 height={9}
               />
             </div>
-            <div className="ml-[16px] flex flex-col">
-              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px]">Online service</h3>
-              <p className="text-multi-step-neutral-500 mt-0 text-[12px]">Access to multiplayer games</p>
+            <div className="ml-[16px] flex flex-col lg:ml-[24px]">
+              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px] lg:text-[16px] lg:leading-[22px]">Online service</h3>
+              <p className="text-multi-step-neutral-500 mt-0 text-[12px] lg:text-[14px] lg:leading-[24px]">Access to multiplayer games</p>
             </div>
-            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px]">+$1{planType === "monthly" ? "/mo" : "0/yr"}</p>
+            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px] lg:text-[14px]">+$1{planType === "monthly" ? "/mo" : "0/yr"}</p>
           </div>
         </label>
         <label className="w-full cursor-pointer">
@@ -396,7 +396,7 @@ function AddOnsForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
             ])}
           >
             <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
@@ -407,11 +407,11 @@ function AddOnsForm() {
                 height={9}
               />
             </div>
-            <div className="ml-[16px] flex flex-col">
-              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px]">Larger storage</h3>
-              <p className="text-multi-step-neutral-500 mt-0 text-[12px]">Extra 1TB of cloud save</p>
+            <div className="ml-[16px] flex flex-col lg:ml-[24px]">
+              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px] lg:text-[16px] lg:leading-[22px]">Larger storage</h3>
+              <p className="text-multi-step-neutral-500 mt-0 text-[12px] lg:text-[14px] lg:leading-[24px]">Extra 1TB of cloud save</p>
             </div>
-            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px]">+$2{planType === "monthly" ? "/mo" : "0/yr"}</p>
+            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px] lg:text-[14px]">+$2{planType === "monthly" ? "/mo" : "0/yr"}</p>
           </div>
         </label>
         <label className="w-full cursor-pointer">
@@ -422,7 +422,7 @@ function AddOnsForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
             ])}
           >
             <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
@@ -433,18 +433,18 @@ function AddOnsForm() {
                 height={9}
               />
             </div>
-            <div className="ml-[16px] flex flex-col">
-              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px]">Customizable profile</h3>
-              <p className="text-multi-step-neutral-500 mt-0 text-[12px]">Custom theme on your profile</p>
+            <div className="ml-[16px] flex flex-col lg:ml-[24px]">
+              <h3 className="text-multi-step-primary-blue-400 text-[14px] font-medium leading-[18px] lg:text-[16px] lg:leading-[22px]">Customizable profile</h3>
+              <p className="text-multi-step-neutral-500 mt-0 text-[12px] lg:text-[14px] lg:leading-[24px]">Custom theme on your profile</p>
             </div>
-            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px]">+$2{planType === "monthly" ? "/mo" : "0/yr"}</p>
+            <p className="text-multi-step-primary-blue-300 ml-auto text-[12px] lg:text-[14px]">+$2{planType === "monthly" ? "/mo" : "0/yr"}</p>
           </div>
         </label>
       </fieldset>
 
-      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4">
+      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
         <Link
-          className="text-multi-step-neutral-500 text-[14px] font-medium"
+          className="text-multi-step-neutral-500 text-[14px] font-medium lg:mb-[2px] lg:text-base"
           href={{
             pathname: "/multi-step-form",
             query: { step: 2 },
@@ -452,7 +452,7 @@ function AddOnsForm() {
         >
           Go Back
         </Link>
-        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium">Next Step</button>
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
       </div>
     </form>
   );
