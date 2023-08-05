@@ -95,7 +95,7 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu bg-multi-step-neutral-300 relative min-h-[100svh] lg:flex lg:min-h-[810px] lg:items-center lg:justify-center">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/desktop-design-step-2-monthly.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/desktop-design-step-3-monthly.jpg" /> */}
       </div>
     </>
   );
@@ -128,7 +128,7 @@ function PersonalInfoForm() {
   return (
     <form
       noValidate
-      className="bg-multi-step-neutral-100 mt-[18px] h-[376px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg lg:ml-4 lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
+      className="bg-multi-step-neutral-100 mt-[18px] h-[376px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
       onSubmit={onSubmit}
     >
       <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none lg:text-[32px]">Personal info</h1>
@@ -199,15 +199,15 @@ function PlanForm() {
     <form
       noValidate
       className={cn([
-        "bg-multi-step-neutral-100 mb-[94px] mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg", //
+        "bg-multi-step-neutral-100 mb-[94px] mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pt-[33px] shadow-lg lg:mb-0 lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none", //
         planType === "monthly" ? "h-[500px]" : "h-[567px]",
       ])}
       onSubmit={onSubmit}
     >
-      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none">Select your plan</h1>
-      <p className="text-multi-step-neutral-500 mt-3 leading-[25px]">You have the option of monthly or yearly billing.</p>
-      <div className="mt-[22px] flex w-full flex-col gap-3">
-        <label className="w-full cursor-pointer">
+      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none lg:text-[32px]">Select your plan</h1>
+      <p className="text-multi-step-neutral-500 mt-3 leading-[25px] lg:mt-[11px]">You have the option of monthly or yearly billing.</p>
+      <div className="mt-[22px] flex w-full flex-col gap-3 lg:mt-[38px] lg:flex-row lg:gap-[18px]">
+        <label className="w-full cursor-pointer lg:h-full">
           <input
             {...register("plan", { required: true })}
             type="radio"
@@ -216,8 +216,8 @@ function PlanForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4", //
-              planType === "monthly" ? "h-[77px]" : "h-[99px]",
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
+              planType === "monthly" ? "h-[77px] lg:h-[160px] lg:pb-[14px]" : "h-[99px] lg:h-[183px] lg:pb-[16px]",
             ])}
           >
             <Image
@@ -226,7 +226,7 @@ function PlanForm() {
               width={40}
               height={40}
             />
-            <div className="ml-[14px] flex h-full flex-col">
+            <div className="ml-[14px] flex h-full flex-col lg:ml-0 lg:mt-auto lg:h-auto">
               <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Arcade</h3>
               <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
                 ${price[planType].Arcade}/{planType === "monthly" ? "mo" : "yr"}
@@ -235,7 +235,7 @@ function PlanForm() {
             </div>
           </div>
         </label>
-        <label className="w-full cursor-pointer rounded">
+        <label className="w-full cursor-pointer rounded lg:h-full">
           <input
             {...register("plan", { required: true })}
             type="radio"
@@ -244,8 +244,8 @@ function PlanForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4", //
-              planType === "monthly" ? "h-[77px]" : "h-[99px]",
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
+              planType === "monthly" ? "h-[77px] lg:h-[160px] lg:pb-[14px]" : "h-[99px] lg:h-[183px] lg:pb-[16px]",
             ])}
           >
             <Image
@@ -254,7 +254,7 @@ function PlanForm() {
               width={40}
               height={40}
             />
-            <div className="ml-[14px] flex h-full flex-col">
+            <div className="ml-[14px] flex h-full flex-col lg:ml-0 lg:mt-auto lg:h-auto">
               <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Advanced</h3>
               <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
                 ${price[planType].Advanced}/{planType === "monthly" ? "mo" : "yr"}
@@ -263,7 +263,7 @@ function PlanForm() {
             </div>
           </div>
         </label>
-        <label className="w-full cursor-pointer rounded">
+        <label className="w-full cursor-pointer rounded lg:h-full">
           <input
             {...register("plan", { required: true })}
             type="radio"
@@ -272,8 +272,8 @@ function PlanForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4", //
-              planType === "monthly" ? "h-[77px]" : "h-[99px]",
+              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
+              planType === "monthly" ? "h-[77px] lg:h-[160px] lg:pb-[14px]" : "h-[99px] lg:h-[183px] lg:pb-[16px]",
             ])}
           >
             <Image
@@ -282,7 +282,7 @@ function PlanForm() {
               width={40}
               height={40}
             />
-            <div className="ml-[14px] flex h-full flex-col">
+            <div className="ml-[14px] flex h-full flex-col lg:ml-0 lg:mt-auto lg:h-auto">
               <h3 className="text-multi-step-primary-blue-400 font-medium leading-[20px]">Pro</h3>
               <p className="text-multi-step-neutral-500 mt-0.5 text-[14px]">
                 ${price[planType].Pro}/{planType === "monthly" ? "mo" : "yr"}
@@ -292,8 +292,9 @@ function PlanForm() {
           </div>
         </label>
       </div>
-      <div className="mt-[38px] flex w-full items-center justify-center gap-6 text-[14px] font-medium leading-none">
-        <p className="text-multi-step-primary-blue-400">Monthly</p>
+
+      <div className="lg:bg-multi-step-neutral-200 mt-[38px] flex w-full items-center justify-center gap-6 text-[14px] font-medium leading-none lg:mt-[32px] lg:h-12 lg:rounded lg:pr-3">
+        <p className={cn([planType === "monthly" ? "text-multi-step-primary-blue-400" : "text-multi-step-neutral-500"])}>Monthly</p>
         <button
           type="button"
           className="bg-multi-step-primary-blue-400 relative flex h-[20px] w-[38px] items-center rounded-full px-1"
@@ -308,11 +309,12 @@ function PlanForm() {
             ])}
           />
         </button>
-        <p className="text-multi-step-neutral-500">Yearly</p>
+        <p className={cn([planType !== "monthly" ? "text-multi-step-primary-blue-400" : "text-multi-step-neutral-500"])}>Yearly</p>
       </div>
-      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4">
+
+      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
         <Link
-          className="text-multi-step-neutral-500 text-[14px] font-medium"
+          className="text-multi-step-neutral-500 text-[14px] font-medium lg:mb-[2px] lg:text-base"
           href={{
             pathname: "/multi-step-form",
             query: { step: 1 },
@@ -320,7 +322,7 @@ function PlanForm() {
         >
           Go Back
         </Link>
-        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium">Next Step</button>
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
       </div>
     </form>
   );
@@ -604,8 +606,8 @@ function Main() {
   });
 
   return (
-    <main className="bg-multi-step-neutral-300 lg:shadow-multi-step-neutral-500/20 relative flex min-h-screen flex-col items-center bg-[url('/multi-step-form/assets/images/bg-sidebar-mobile.svg')] bg-no-repeat pt-4 lg:grid lg:h-[600px] lg:min-h-0 lg:w-[940px] lg:grid-cols-[274px,auto] lg:rounded-xl lg:bg-white lg:bg-none lg:p-4 lg:shadow-xl">
-      <div className="lg: flex flex-col gap-4 bg-no-repeat p-4 lg:h-full lg:w-full lg:gap-[31px] lg:rounded-xl lg:bg-[url('/multi-step-form/assets/images/bg-sidebar-desktop.svg')] lg:p-8 lg:py-[40px]">
+    <main className="bg-multi-step-neutral-300 lg:shadow-multi-step-neutral-500/20 relative flex min-h-screen flex-col items-center bg-[url('/multi-step-form/assets/images/bg-sidebar-mobile.svg')] bg-no-repeat pt-4 lg:grid lg:h-[600px] lg:min-h-0 lg:w-[940px] lg:grid-cols-[274px,auto] lg:gap-4 lg:rounded-xl lg:bg-white lg:bg-none lg:p-4 lg:shadow-xl">
+      <div className="flex gap-4 bg-no-repeat p-4 lg:h-full lg:w-full lg:flex-col lg:gap-[31px] lg:rounded-xl lg:bg-[url('/multi-step-form/assets/images/bg-sidebar-desktop.svg')] lg:p-8 lg:py-[40px]">
         {Array.from({ length: 4 }).map((_, index) => {
           return (
             <div
