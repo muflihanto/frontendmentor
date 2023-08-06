@@ -49,10 +49,10 @@ type AddOns = z.infer<typeof AddOns>;
 //   onlineService: true,
 //   largerStorage: true,
 //   customizableProfile: false,
-//   completedStep: "2",
+//   completedStep: "4",
 // };
 
-const defaultFormValues: PersonalInfo & Plan & AddOns = {
+const defaultFormValues: PersonalInfo & Plan & AddOns & { completedStep: Queries["step"] } = {
   name: "",
   email: "",
   phone: "",
@@ -60,11 +60,11 @@ const defaultFormValues: PersonalInfo & Plan & AddOns = {
   onlineService: false,
   largerStorage: false,
   customizableProfile: false,
+  completedStep: undefined,
 };
 
-const formsInputAtom = atom<typeof defaultFormValues & { completedStep: Queries["step"] }>({
+const formsInputAtom = atom<typeof defaultFormValues>({
   ...defaultFormValues,
-  completedStep: undefined,
 });
 
 const price = {
@@ -95,7 +95,7 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu bg-multi-step-neutral-300 relative min-h-[100svh] lg:flex lg:min-h-[810px] lg:items-center lg:justify-center">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/desktop-design-step-4-monthly.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/desktop-design-step-5.jpg" /> */}
       </div>
     </>
   );
@@ -478,16 +478,16 @@ function FinishingUp() {
   return (
     <form
       noValidate
-      className="bg-multi-step-neutral-100 mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pb-[34px] pt-[33px] shadow-lg"
+      className="bg-multi-step-neutral-100 mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg px-6 pb-[34px] pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
       onSubmit={onSubmit}
     >
-      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none">Finishing up</h1>
-      <p className="text-multi-step-neutral-500 mt-3 leading-[25px]">Double-check everything looks OK before confirming.</p>
+      <h1 className="text-multi-step-primary-blue-400 text-[24px] font-bold leading-none lg:text-[32px]">Finishing up</h1>
+      <p className="text-multi-step-neutral-500 mt-3 leading-[25px] lg:mt-[11px]">Double-check everything looks OK before confirming.</p>
 
-      <div className="bg-multi-step-neutral-200 mt-[22px] w-full rounded-md px-4 pb-[18px] pt-[19px]">
+      <div className="bg-multi-step-neutral-200 mt-[22px] w-full rounded-md px-4 pb-[18px] pt-[19px] lg:mt-[38px] lg:px-6 lg:pb-[26px] lg:pt-[17px]">
         <div className="flex items-center justify-between text-[14px]">
           <div>
-            <p className="text-multi-step-primary-blue-400 font-medium leading-[16px]">
+            <p className="text-multi-step-primary-blue-400 font-medium leading-[16px] lg:text-base">
               {plan} ({planType[0].toUpperCase() + planType.slice(1)})
             </p>
             <Link
@@ -500,14 +500,14 @@ function FinishingUp() {
               Change
             </Link>
           </div>
-          <p className="text-multi-step-primary-blue-400 pt-0.5 font-bold leading-none">
+          <p className="text-multi-step-primary-blue-400 pt-0.5 font-bold leading-none lg:text-base">
             ${price[planType][plan]}/{planType === "monthly" ? "mo" : "yr"}
           </p>
         </div>
         {(!!customizableProfile || !!largerStorage || !!onlineService) && (
           <>
-            <hr className="border-t-multi-step-neutral-400 my-[11px] w-full" />
-            <div className="mt-4 space-y-[18px]">
+            <hr className="border-t-multi-step-neutral-400 my-[11px] w-full lg:mt-[23px]" />
+            <div className="mt-4 space-y-[18px] lg:mt-[20px] lg:space-y-[22px]">
               {onlineService && (
                 <div className="flex items-center justify-between text-[14px]">
                   <p className="text-multi-step-neutral-500 leading-none">Online service</p>
@@ -537,16 +537,16 @@ function FinishingUp() {
         )}
       </div>
 
-      <div className="mt-[26px] flex items-center justify-between px-4">
-        <p className="text-multi-step-neutral-500 text-[14px] leading-[16px]">Total (per {planType === "monthly" ? "month" : "year"})</p>
-        <p className="text-multi-step-primary-blue-300 text-[16px] font-bold leading-[16px]">
+      <div className="mt-[26px] flex items-center justify-between px-4 lg:mt-[24px] lg:px-[25px]">
+        <p className="text-multi-step-neutral-500 text-[14px] leading-[16px] lg:pt-1 lg:leading-none">Total (per {planType === "monthly" ? "month" : "year"})</p>
+        <p className="text-multi-step-primary-blue-300 text-base font-bold leading-[16px] lg:text-[20px] lg:leading-none">
           +${total}/{planType === "monthly" ? "mo" : "yr"}
         </p>
       </div>
 
-      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4">
+      <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
         <Link
-          className="text-multi-step-neutral-500 text-[14px] font-medium"
+          className="text-multi-step-neutral-500 text-[14px] font-medium lg:mb-[2px] lg:text-base"
           href={{
             pathname: "/multi-step-form",
             query: { step: 3 },
@@ -554,7 +554,7 @@ function FinishingUp() {
         >
           Go Back
         </Link>
-        <button className="bg-multi-step-primary-blue-300 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium">Confirm</button>
+        <button className="bg-multi-step-primary-blue-300 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Confirm</button>
       </div>
     </form>
   );
@@ -564,15 +564,15 @@ function ThankYou() {
   const { width } = useWindowSize();
 
   return (
-    <div className="bg-multi-step-neutral-100 mt-[18px] flex h-[400px] w-[calc(100vw-32px)] max-w-md flex-col items-center rounded-lg px-6 pt-[79px] shadow-lg">
+    <div className="bg-multi-step-neutral-100 mt-[18px] flex h-[400px] w-[calc(100vw-32px)] max-w-md flex-col items-center rounded-lg px-6 pt-[79px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:justify-center lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[17px] lg:shadow-none">
       <Image
         src={"/multi-step-form/assets/images/icon-thank-you.svg"}
         width={width > 1023 ? 80 : 56}
         height={width > 1023 ? 80 : 56}
         alt="Thank You Illustration"
       />
-      <h1 className="text-multi-step-primary-blue-400 mt-[25px] text-[24px] font-bold leading-none">Thank you!</h1>
-      <p className="text-multi-step-neutral-500 mt-3 text-center leading-[25px]">Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com.</p>
+      <h1 className="text-multi-step-primary-blue-400 mt-[25px] text-[24px] font-bold leading-none lg:mt-[33px] lg:text-[32px]">Thank you!</h1>
+      <p className="text-multi-step-neutral-500 mt-3 text-center leading-[25px] lg:mt-[17px]">Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com.</p>
     </div>
   );
 }
