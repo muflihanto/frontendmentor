@@ -15,11 +15,6 @@ import { useEffectOnce, useWindowSize } from "usehooks-ts";
 /**
  * TODO:
  * - View the optimal layout for the interface depending on their device's screen size
- * - See hover and focus states for all interactive elements on the page
- * - Receive form validation messages if:
- *  - A field has been missed
- *  - The email address is not formatted correctly
- *  - A step is submitted, but no selection has been made
  */
 
 type Queries = {
@@ -31,8 +26,8 @@ const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[
 
 const PersonalInfo = z.object({
   name: z.string().min(1, "This field is required"),
-  email: z.string().email("Email invalid").min(1, "This field is required"),
-  phone: z.string().regex(phoneRegex, "Invalid Number!").min(1, "This field is required"),
+  email: z.string().min(1, "This field is required").email("Email invalid"),
+  phone: z.string().min(1, "This field is required").regex(phoneRegex, "Invalid Number!"),
 });
 type PersonalInfo = z.infer<typeof PersonalInfo>;
 
@@ -105,7 +100,7 @@ export default function MultiStepForm() {
       <div className="App font-ubuntu bg-multi-step-neutral-300 relative min-h-[100svh] lg:flex lg:min-h-[810px] lg:items-center lg:justify-center">
         <Main />
         <Footer />
-        {/* <Slider absolutePath="/multi-step-form/design/desktop-design-step-5.jpg" /> */}
+        {/* <Slider absolutePath="/multi-step-form/design/active-states-step-4.jpg" /> */}
       </div>
     </>
   );
@@ -145,27 +140,45 @@ function PersonalInfoForm() {
       <p className="text-multi-step-neutral-500 mt-3 leading-[25px] lg:mt-[11px]">Please provide your name, email address, and phone number.</p>
       <fieldset className="mt-[19px] flex w-full flex-col gap-[13px] lg:mt-[35px] lg:gap-[21px]">
         <label htmlFor="name">
-          <p className="text-multi-step-primary-blue-400 text-[12px] lg:text-[14px]">Name</p>
+          <p className="text-multi-step-primary-blue-400 flex justify-between text-[12px] lg:text-[14px]">
+            <span>Name</span>
+            {!!errors.name ? <span className="font-bold text-red-500">{errors.name.message}</span> : null}
+          </p>
           <input
-            className="border-multi-step-neutral-400 mt-[2px] h-[40px] w-full rounded border px-[15px] pb-px text-[15px] font-medium lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]"
+            className={cn([
+              "border-multi-step-neutral-400 focus-visible:border-multi-step-primary-blue-300 text-multi-step-primary-blue-400 mt-[2px] h-[40px] w-full rounded border px-[15px] pb-px text-[15px] font-medium focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
+              errors.name && "border-red-500 focus-visible:border-red-500",
+            ])}
             type="text"
             placeholder="e.g. Stephen King"
             {...register("name")}
           />
         </label>
         <label htmlFor="email">
-          <p className="text-multi-step-primary-blue-400 text-[12px] lg:text-[14px]">Email Address</p>
+          <p className="text-multi-step-primary-blue-400 flex justify-between text-[12px] lg:text-[14px]">
+            <span>Email Address</span>
+            {!!errors.email ? <span className="font-bold text-red-500">{errors.email.message}</span> : null}
+          </p>
           <input
-            className="border-multi-step-neutral-400 mt-[2px] h-[40px] w-full rounded border px-[15px] pb-px text-[15px] font-medium lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]"
+            className={cn([
+              "border-multi-step-neutral-400 focus-visible:border-multi-step-primary-blue-300 text-multi-step-primary-blue-400 mt-[2px] h-[40px] w-full rounded border px-[15px] pb-px text-[15px] font-medium focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
+              errors.email && "border-red-500 focus-visible:border-red-500",
+            ])}
             type="email"
             placeholder="e.g. stephenking@lorem.com"
             {...register("email")}
           />
         </label>
         <label htmlFor="phone">
-          <p className="text-multi-step-primary-blue-400 text-[12px] lg:text-[14px]">Phone Number</p>
+          <p className="text-multi-step-primary-blue-400 flex justify-between text-[12px] lg:text-[14px]">
+            <span>Phone Number</span>
+            {!!errors.phone ? <span className="font-bold text-red-500">{errors.phone.message}</span> : null}
+          </p>
           <input
-            className="border-multi-step-neutral-400 mt-[2px] h-[40px] w-full rounded border px-[15px] pb-px text-[15px] font-medium lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]"
+            className={cn([
+              "border-multi-step-neutral-400 focus-visible:border-multi-step-primary-blue-300 text-multi-step-primary-blue-400 mt-[2px] h-[40px] w-full rounded border px-[15px] pb-px text-[15px] font-medium focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
+              errors.phone && "border-red-500 focus-visible:border-red-500",
+            ])}
             type="text"
             placeholder="e.g. +1 234 567 890"
             {...register("phone")}
@@ -174,7 +187,7 @@ function PersonalInfoForm() {
       </fieldset>
 
       <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-end p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
-        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
       </div>
     </form>
   );
@@ -226,7 +239,7 @@ function PlanForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
+              "peer-checked:border-multi-step-primary-blue-300 hover:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
               planType === "monthly" ? "h-[77px] lg:h-[160px] lg:pb-[14px]" : "h-[99px] lg:h-[183px] lg:pb-[16px]",
             ])}
           >
@@ -254,7 +267,7 @@ function PlanForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
+              "peer-checked:border-multi-step-primary-blue-300 hover:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
               planType === "monthly" ? "h-[77px] lg:h-[160px] lg:pb-[14px]" : "h-[99px] lg:h-[183px] lg:pb-[16px]",
             ])}
           >
@@ -282,7 +295,7 @@ function PlanForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
+              "peer-checked:border-multi-step-primary-blue-300 hover:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 lg:flex-col lg:pt-[19px]", //
               planType === "monthly" ? "h-[77px] lg:h-[160px] lg:pb-[14px]" : "h-[99px] lg:h-[183px] lg:pb-[16px]",
             ])}
           >
@@ -324,7 +337,7 @@ function PlanForm() {
 
       <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
         <Link
-          className="text-multi-step-neutral-500 text-[14px] font-medium lg:mb-[2px] lg:text-base"
+          className="text-multi-step-neutral-500 hover:text-multi-step-primary-blue-400 text-[14px] font-medium lg:mb-[2px] lg:text-base"
           href={{
             pathname: "/multi-step-form",
             query: { step: 1 },
@@ -332,7 +345,7 @@ function PlanForm() {
         >
           Go Back
         </Link>
-        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
       </div>
     </form>
   );
@@ -380,7 +393,7 @@ function AddOnsForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+              "peer-checked:border-multi-step-primary-blue-300 hover:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
             ])}
           >
             <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
@@ -406,7 +419,7 @@ function AddOnsForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+              "peer-checked:border-multi-step-primary-blue-300 hover:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
             ])}
           >
             <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
@@ -432,7 +445,7 @@ function AddOnsForm() {
           />
           <div
             className={cn([
-              "peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+              "peer-checked:border-multi-step-primary-blue-300 hover:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 flex h-[62px] w-full items-center rounded-lg border px-[15px] lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
             ])}
           >
             <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
@@ -454,7 +467,7 @@ function AddOnsForm() {
 
       <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
         <Link
-          className="text-multi-step-neutral-500 text-[14px] font-medium lg:mb-[2px] lg:text-base"
+          className="text-multi-step-neutral-500 hover:text-multi-step-primary-blue-400 text-[14px] font-medium lg:mb-[2px] lg:text-base"
           href={{
             pathname: "/multi-step-form",
             query: { step: 2 },
@@ -462,7 +475,7 @@ function AddOnsForm() {
         >
           Go Back
         </Link>
-        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
+        <button className="bg-multi-step-primary-blue-400 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Next Step</button>
       </div>
     </form>
   );
@@ -505,7 +518,7 @@ function FinishingUp() {
                 pathname: "/multi-step-form",
                 query: { step: 2 },
               }}
-              className="text-multi-step-neutral-500 underline"
+              className="text-multi-step-neutral-500 hover:text-multi-step-primary-blue-300 underline"
             >
               Change
             </Link>
@@ -556,7 +569,7 @@ function FinishingUp() {
 
       <div className="bg-multi-step-neutral-100 fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
         <Link
-          className="text-multi-step-neutral-500 text-[14px] font-medium lg:mb-[2px] lg:text-base"
+          className="text-multi-step-neutral-500 hover:text-multi-step-primary-blue-400 text-[14px] font-medium lg:mb-[2px] lg:text-base"
           href={{
             pathname: "/multi-step-form",
             query: { step: 3 },
@@ -564,7 +577,7 @@ function FinishingUp() {
         >
           Go Back
         </Link>
-        <button className="bg-multi-step-primary-blue-300 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Confirm</button>
+        <button className="bg-multi-step-primary-blue-300 text-multi-step-neutral-100 flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium hover:bg-opacity-60 lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">Confirm</button>
       </div>
     </form>
   );
