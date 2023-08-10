@@ -1,7 +1,9 @@
 import Head from "next/head";
-// import Image from "next/image";
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import Image from "next/image";
+import { ComponentProps } from "react";
+import { cn } from "../utils/cn";
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 /**
  * TODOS:
@@ -21,18 +23,79 @@ export default function UrlShorteningApi() {
       <Head>
         <title>Frontend Mentor | Shortly URL shortening API Challenge</title>
       </Head>
-      <div className="App font-poppins relative min-h-[100svh]">
+      <div className="App font-poppins relative min-h-[100svh] pb-10 font-medium">
+        <Header />
         <Main />
         <Footer />
-        <Slider basePath="/url-shortening-api/design" />
+        {/* <Slider basePath="/url-shortening-api/design" /> */}
       </div>
     </>
   );
 }
 
+function Logo(props: ComponentProps<"svg">) {
+  return (
+    <svg
+      viewBox="0 0 121 33"
+      {...props}
+      className={cn([
+        "w-[121px]", //
+        props.className,
+      ])}
+    >
+      <use href="/url-shortening-api/images/logo.svg#shortly-logo" />
+    </svg>
+  );
+}
+
+function Header() {
+  return (
+    <header className="flex h-[96px] w-full items-center justify-between bg-transparent px-6 pt-4">
+      <Logo className="text-url-shortening-neutral-300" />
+      <button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 21"
+          className="text-url-shortening-neutral-200 w-6"
+        >
+          <g
+            fill="currentColor"
+            fillRule="evenodd"
+          >
+            <path d="M0 0h24v3H0zM0 9h24v3H0zM0 18h24v3H0z" />
+          </g>
+        </svg>
+      </button>
+    </header>
+  );
+}
+
+function Intro() {
+  return (
+    <div>
+      <div className="relative mt-[15px] h-fit max-w-[100vw] overflow-hidden pl-6">
+        <div className="relative aspect-[733/482] h-[327.5px]">
+          <Image
+            fill
+            alt="Illustration Working"
+            src="/url-shortening-api/images/illustration-working.svg"
+            className="left-0 h-[733px] w-[482px]"
+          />
+        </div>
+      </div>
+      <div className="mt-9 flex flex-col items-center px-6">
+        <h1 className="text-url-shortening-neutral-300 text-center text-[40px] font-bold leading-[48px]">More than just shorter links</h1>
+        <p className="text-url-shortening-neutral-200 mt-[13px] text-center text-[18px] leading-[30px] tracking-[.1px]">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
+        <button className="text-cente bg-url-shortening-primary-cyan mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white">Get Started</button>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
-    <>
+    <div>
+      <Intro />
       {/* {`
          Features
          Pricing
@@ -95,7 +158,7 @@ function Main() {
          Careers
          Contact
       `} */}
-    </>
+    </div>
   );
 }
 
