@@ -125,12 +125,83 @@ function Shorten() {
   );
 }
 
+type Feature = {
+  icon: string;
+  name: string;
+  description: string;
+};
+
+function Feature({ feat }: { feat: Feature }) {
+  return (
+    <div className="relative h-[268px] w-[calc(100%-48px)] max-w-sm rounded bg-white px-[28px] pt-[77px] [&:nth-child(2)]:h-[285px]">
+      <div className="bg-url-shortening-primary-violet absolute -top-[44px] left-1/2 flex h-[88px] w-[88px] -translate-x-1/2 items-center justify-center rounded-full">
+        <div
+          className={cn([
+            "relative aspect-square w-auto", //
+            feat.name === "Fully Customizable" ? "h-12" : "h-10",
+          ])}
+        >
+          <Image
+            src={feat.icon}
+            alt={feat.name + " icon"}
+            fill
+            className="object-contain"
+          />
+        </div>
+      </div>
+      <h3 className="text-url-shortening-primary-violet text-center text-[22px] font-bold">{feat.name}</h3>
+      <p className="text-url-shortening-neutral-200 mt-[14px] text-center leading-[26px] tracking-[-.5px]">{feat.description}</p>
+    </div>
+  );
+}
+
+function Features() {
+  const features: Feature[] = [
+    {
+      icon: "/url-shortening-api/images/icon-brand-recognition.svg",
+      name: "Brand Recognition",
+      description: "Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content.",
+    },
+    {
+      icon: "/url-shortening-api/images/icon-detailed-records.svg",
+      name: "Detailed Records",
+      description: "Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions.",
+    },
+    {
+      icon: "/url-shortening-api/images/icon-fully-customizable.svg",
+      name: "Fully Customizable",
+      description: "Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.",
+    },
+  ];
+
+  return (
+    <div className="mt-[7px] pb-20 tracking-[-.2px]">
+      <div className="max-w-sm px-6">
+        <h2 className="text-url-shortening-primary-violet text-center text-[27px] font-bold">Advanced Statistics</h2>
+        <p className="text-url-shortening-neutral-200 mt-[18.5px] text-center leading-[28px] tracking-[.15px]">Track how your links are performing across the web with our advanced statistics dashboard.</p>
+      </div>
+      <div className="relative mt-[90px] flex flex-col items-center gap-[91px]">
+        {features.map((feat) => {
+          return (
+            <Feature
+              feat={feat}
+              key={feat.name}
+            />
+          );
+        })}
+        <div className="bg-url-shortening-primary-cyan absolute left-1/2 top-0 -z-10 h-full w-2 -translate-x-1/2"></div>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div>
       <Intro />
       <div className="bg-url-shortening-neutral-100/20 mt-[167.25px]">
         <Shorten />
+        <Features />
       </div>
       {/* {`
          Features
