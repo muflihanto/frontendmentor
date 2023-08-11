@@ -2,6 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import { ComponentProps } from "react";
 import { cn } from "../utils/cn";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -92,10 +95,43 @@ function Intro() {
   );
 }
 
+const FormInput = z.object({
+  link: z.string().min(1, "Field required").url("Input not valid"),
+});
+type FormInput = z.infer<typeof FormInput>;
+
+function Shorten() {
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm<FormInput>({ resolver: zodResolver(FormInput) });
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
+  return (
+    <form className="bg-url-shortening-primary-violet mx-auto h-[160px] w-[calc(100vw-48px)] max-w-md -translate-y-[80px] rounded-[10px] bg-[url('/url-shortening-api/images/bg-shorten-mobile.svg')] bg-right-top bg-no-repeat p-6">
+      <input
+        type="text"
+        className="h-12 w-full rounded-[5px] px-4 pt-[3px]"
+        placeholder="Shorten a link here..."
+        {...register("link")}
+      />
+      <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white">Shorten It!</button>
+    </form>
+  );
+}
+
 function Main() {
   return (
     <div>
       <Intro />
+      <div className="bg-url-shortening-neutral-100/20 mt-[167.25px]">
+        <Shorten />
+      </div>
       {/* {`
          Features
          Pricing
