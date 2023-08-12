@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ComponentProps } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
 import { cn } from "../utils/cn";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -26,7 +26,7 @@ export default function UrlShorteningApi() {
       <Head>
         <title>Frontend Mentor | Shortly URL shortening API Challenge</title>
       </Head>
-      <div className="App font-poppins relative min-h-[100svh] pb-10 font-medium">
+      <div className="App font-poppins relative min-h-[100svh] font-medium">
         <Header />
         <Main />
         <Footer />
@@ -175,7 +175,7 @@ function Features() {
   ];
 
   return (
-    <div className="mt-[7px] pb-[79px] tracking-[-.2px]">
+    <div className="mt-[7px] pb-[79.25px] tracking-[-.2px]">
       <div className="max-w-sm px-6">
         <h2 className="text-url-shortening-primary-violet text-center text-[27px] font-bold">Advanced Statistics</h2>
         <p className="text-url-shortening-neutral-200 mt-[18.5px] text-center leading-[28px] tracking-[.15px]">Track how your links are performing across the web with our advanced statistics dashboard.</p>
@@ -279,26 +279,140 @@ function Main() {
   );
 }
 
+function FooterLink({ children, ...props }: PropsWithChildren<ComponentProps<"a">>) {
+  return (
+    <li>
+      <a
+        {...props}
+        className="text-[15px] tracking-[-.3px]"
+      >
+        {children}
+      </a>
+    </li>
+  );
+}
+function FooterLinks({ children, ...props }: PropsWithChildren<ComponentProps<"ul">>) {
+  return (
+    <ul
+      {...props}
+      className={cn([
+        "text-url-shortening-neutral-100 mt-[21px] flex flex-col items-center gap-[9px]", //
+        props.className,
+      ])}
+    >
+      {children}
+    </ul>
+  );
+}
+
+function SNSLinks({ className, ...props }: ComponentProps<"nav">) {
+  return (
+    <nav
+      {...props}
+      className={cn([
+        "flex items-center gap-6", //
+        className,
+      ])}
+    >
+      <a
+        href=""
+        className="hover:text-url-shortening-primary-cyan text-white"
+      >
+        <svg
+          className="w-6"
+          viewBox="0 0 24 24"
+        >
+          <use href="/url-shortening-api/images/icon-facebook.svg#icon-facebook" />
+        </svg>
+      </a>
+      <a
+        href=""
+        className="hover:text-url-shortening-primary-cyan text-white"
+      >
+        <svg
+          className="w-6"
+          viewBox="0 0 24 20"
+        >
+          <use href="/url-shortening-api/images/icon-twitter.svg#icon-twitter" />
+        </svg>
+      </a>
+      <a
+        href=""
+        className="hover:text-url-shortening-primary-cyan text-white"
+      >
+        <svg
+          className="w-6"
+          viewBox="0 0 24 24"
+        >
+          <use href="/url-shortening-api/images/icon-pinterest.svg#icon-pinterest" />
+        </svg>
+      </a>
+      <a
+        href=""
+        className="hover:text-url-shortening-primary-cyan text-white"
+      >
+        <svg
+          className="w-6"
+          viewBox="0 0 24 24"
+        >
+          <use href="/url-shortening-api/images/icon-instagram.svg#icon-instagram" />
+        </svg>
+      </a>
+    </nav>
+  );
+}
+
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
-      Challenge by{" "}
-      <a
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Frontend Mentor
-      </a>
-      . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Muflihanto
-      </a>
-      .
+    <footer className="bg-url-shortening-neutral-400 relative flex h-[776px] w-full flex-col items-center pt-[54px]">
+      <Logo className="text-white" />
+      <div className="mt-[48px] flex flex-col gap-[38.5px]">
+        <nav className="flex flex-col items-center">
+          <h4 className="font-bold tracking-[-.2px] text-white">Features</h4>
+          <FooterLinks>
+            <FooterLink href="">Link Shortening</FooterLink>
+            <FooterLink href="">Branded Links</FooterLink>
+            <FooterLink href="">Analytics</FooterLink>
+          </FooterLinks>
+        </nav>
+        <nav className="flex flex-col items-center">
+          <h4 className="font-bold tracking-[-.2px] text-white">Resources</h4>
+          <FooterLinks>
+            <FooterLink href="">Blog</FooterLink>
+            <FooterLink href="">Developers</FooterLink>
+            <FooterLink href="">Support</FooterLink>
+          </FooterLinks>
+        </nav>
+        <nav className="flex flex-col items-center">
+          <h4 className="font-bold tracking-[-.2px] text-white">Company</h4>
+          <FooterLinks>
+            <FooterLink href="">About</FooterLink>
+            <FooterLink href="">Our Team</FooterLink>
+            <FooterLink href="">Careers</FooterLink>
+            <FooterLink href="">Contact</FooterLink>
+          </FooterLinks>
+        </nav>
+      </div>
+      <SNSLinks className="mt-[46px]" />
+      <p className="absolute bottom-3 w-full text-center text-[11px] text-white [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+        Challenge by{" "}
+        <a
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by{" "}
+        <a
+          href="https://github.com/muflihanto"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Muflihanto
+        </a>
+        .
+      </p>
     </footer>
   );
 }
