@@ -175,7 +175,7 @@ function Features() {
   ];
 
   return (
-    <div className="mt-[7px] pb-20 tracking-[-.2px]">
+    <div className="mt-[7px] pb-[79px] tracking-[-.2px]">
       <div className="max-w-sm px-6">
         <h2 className="text-url-shortening-primary-violet text-center text-[27px] font-bold">Advanced Statistics</h2>
         <p className="text-url-shortening-neutral-200 mt-[18.5px] text-center leading-[28px] tracking-[.15px]">Track how your links are performing across the web with our advanced statistics dashboard.</p>
@@ -195,6 +195,15 @@ function Features() {
   );
 }
 
+function BoostLinks() {
+  return (
+    <div className="bg-url-shortening-primary-violet flex h-[300px] w-full flex-col items-center justify-center bg-[url('/url-shortening-api/images/bg-boost-mobile.svg')] pt-[7px]">
+      <h3 className="text-[28px] font-bold tracking-[-.75px] text-white">Boost your links today</h3>
+      <button className="text-cente bg-url-shortening-primary-cyan mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white">Get Started</button>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <div>
@@ -202,6 +211,7 @@ function Main() {
       <div className="bg-url-shortening-neutral-100/20 mt-[167.25px]">
         <Shorten />
         <Features />
+        <BoostLinks />
       </div>
       {/* {`
          Features
