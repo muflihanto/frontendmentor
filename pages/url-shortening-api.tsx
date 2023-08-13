@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ComponentProps, PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren, useEffect, useState } from "react";
 import { cn } from "../utils/cn";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { useWindowSize } from "usehooks-ts";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -30,7 +32,10 @@ export default function UrlShorteningApi() {
         <Header />
         <Main />
         <Footer />
-        {/* <Slider basePath="/url-shortening-api/design" /> */}
+        {/* <Slider
+          basePath="/url-shortening-api/design"
+          absolutePath="/url-shortening-api/design/mobile-navigation.jpg"
+        /> */}
       </div>
     </>
   );
@@ -51,24 +56,117 @@ function Logo(props: ComponentProps<"svg">) {
   );
 }
 
+function MobileNav() {
+  const [open, setOpen] = useState(false);
+  const { width } = useWindowSize();
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (width > 1023) {
+      setOpen(false);
+    }
+  }, [width, setOpen]);
+
+  return (
+    <div className="lg:hidden">
+      <button
+        className={cn([
+          "flex w-6 items-center justify-center", //
+          "relative z-20",
+        ])}
+        onClick={() => {
+          setOpen((o) => !o);
+        }}
+      >
+        {open ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-url-shortening-neutral-200 w-5"
+            viewBox="0 0 20 21"
+          >
+            <g
+              fillRule="evenodd"
+              fill="currentColor"
+            >
+              <path d="M2.575.954l16.97 16.97-2.12 2.122L.455 3.076z" />
+              <path d="M.454 17.925L17.424.955l2.122 2.12-16.97 16.97z" />
+            </g>
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 21"
+            className="text-url-shortening-neutral-200 w-6"
+          >
+            <g
+              fill="currentColor"
+              fillRule="evenodd"
+            >
+              <path d="M0 0h24v3H0zM0 9h24v3H0zM0 18h24v3H0z" />
+            </g>
+          </svg>
+        )}
+      </button>
+
+      <motion.div
+        animate={{
+          opacity: open ? 1 : 0,
+          display: "flex",
+          transitionEnd: {
+            display: open ? "flex" : "none",
+          },
+        }}
+        initial={{ display: "none", opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="fixed left-0 top-0 z-10 flex h-screen w-full origin-top flex-col items-center bg-transparent pt-[96px]"
+      >
+        <div className={"bg-url-shortening-primary-violet flex h-[383px] w-[calc(100%-48px)] max-w-screen-sm flex-col items-center rounded-xl px-6 pt-[43px] text-[18px] font-bold text-white"}>
+          <nav className="flex flex-col items-center gap-[39px] leading-none">
+            <NavigationLinks />
+          </nav>
+          <hr className="border-t-url-shortening-neutral-200/30 mb-5 mt-9 w-full border-t" />
+          <div className="grid w-full grid-cols-1 grid-rows-2 items-center gap-[15px]">
+            <a
+              href=""
+              className="flex h-12 w-full items-center justify-center"
+            >
+              Login
+            </a>
+            <a
+              href=""
+              className="bg-url-shortening-primary-cyan flex h-12 w-full items-center justify-center rounded-full text-center"
+            >
+              Sign Up
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+function NavigationLinks() {
+  return (
+    <>
+      <a href="">Features</a>
+      <a href="">Pricing</a>
+      <a href="">Resources</a>
+    </>
+  );
+}
+
 function Header() {
   return (
     <header className="flex h-[96px] w-full items-center justify-between bg-transparent px-6 pt-4">
       <Logo className="text-url-shortening-neutral-300" />
-      <button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 21"
-          className="text-url-shortening-neutral-200 w-6"
-        >
-          <g
-            fill="currentColor"
-            fillRule="evenodd"
-          >
-            <path d="M0 0h24v3H0zM0 9h24v3H0zM0 18h24v3H0z" />
-          </g>
-        </svg>
-      </button>
+      <MobileNav />
     </header>
   );
 }
