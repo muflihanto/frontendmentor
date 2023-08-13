@@ -164,7 +164,7 @@ function NavigationLinks() {
 
 function Header() {
   return (
-    <header className="flex h-[96px] w-full items-center justify-between bg-transparent px-6 pt-4">
+    <header className="flex h-[96px] w-full items-center justify-between bg-transparent px-6 pt-4 sm:px-14 md:px-20">
       <Logo className="text-url-shortening-neutral-300" />
       <MobileNav />
     </header>
@@ -174,7 +174,7 @@ function Header() {
 function Intro() {
   return (
     <div>
-      <div className="relative mt-[15px] h-fit max-w-[100vw] overflow-hidden pl-6">
+      <div className="mf: relative mx-auto mt-[15px] h-fit w-fit max-w-[100vw] overflow-hidden pl-6">
         <div className="relative aspect-[733/482] h-[327.5px]">
           <Image
             fill
@@ -184,8 +184,8 @@ function Intro() {
           />
         </div>
       </div>
-      <div className="mt-9 flex flex-col items-center px-6">
-        <h1 className="text-url-shortening-neutral-300 text-center text-[40px] font-bold leading-[48px]">More than just shorter links</h1>
+      <div className="mx-auto mt-9 flex max-w-md flex-col items-center px-6">
+        <h1 className="text-url-shortening-neutral-300 text-center text-[42px] font-bold leading-[48px] tracking-[-1px]">More than just shorter links</h1>
         <p className="text-url-shortening-neutral-200 mt-[13px] text-center text-[18px] leading-[30px] tracking-[.1px]">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
         <button className="text-cente bg-url-shortening-primary-cyan mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white">Get Started</button>
       </div>
@@ -274,7 +274,7 @@ function Features() {
 
   return (
     <div className="mt-[7px] pb-[79.25px] tracking-[-.2px]">
-      <div className="max-w-sm px-6">
+      <div className="mx-auto max-w-sm px-6">
         <h2 className="text-url-shortening-primary-violet text-center text-[27px] font-bold">Advanced Statistics</h2>
         <p className="text-url-shortening-neutral-200 mt-[18.5px] text-center leading-[28px] tracking-[.15px]">Track how your links are performing across the web with our advanced statistics dashboard.</p>
       </div>
@@ -295,7 +295,7 @@ function Features() {
 
 function BoostLinks() {
   return (
-    <div className="bg-url-shortening-primary-violet flex h-[300px] w-full flex-col items-center justify-center bg-[url('/url-shortening-api/images/bg-boost-mobile.svg')] pt-[7px]">
+    <div className="bg-url-shortening-primary-violet flex h-[300px] w-full flex-col items-center justify-center bg-[url('/url-shortening-api/images/bg-boost-mobile.svg')] bg-right bg-no-repeat pt-[7px]">
       <h3 className="text-[28px] font-bold tracking-[-.75px] text-white">Boost your links today</h3>
       <button className="text-cente bg-url-shortening-primary-cyan mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white">Get Started</button>
     </div>
@@ -394,7 +394,7 @@ function FooterLinks({ children, ...props }: PropsWithChildren<ComponentProps<"u
     <ul
       {...props}
       className={cn([
-        "text-url-shortening-neutral-100 mt-[21px] flex flex-col items-center gap-[9px]", //
+        "text-url-shortening-neutral-100 mt-[21px] flex flex-col items-center gap-[9px] sm:items-start", //
         props.className,
       ])}
     >
@@ -462,10 +462,10 @@ function SNSLinks({ className, ...props }: ComponentProps<"nav">) {
 
 function Footer() {
   return (
-    <footer className="bg-url-shortening-neutral-400 relative flex h-[776px] w-full flex-col items-center pt-[54px]">
+    <footer className="bg-url-shortening-neutral-400 relative flex h-[776px] w-full flex-col items-center pt-[54px] sm:h-auto sm:pb-[55px]">
       <Logo className="text-white" />
-      <div className="mt-[48px] flex flex-col gap-[38.5px]">
-        <nav className="flex flex-col items-center">
+      <div className="mt-[48px] flex flex-col gap-[38.5px] sm:grid sm:grid-cols-3 sm:grid-rows-1 sm:gap-14">
+        <nav className="flex flex-col items-center sm:items-start">
           <h4 className="font-bold tracking-[-.2px] text-white">Features</h4>
           <FooterLinks>
             <FooterLink href="">Link Shortening</FooterLink>
@@ -473,7 +473,7 @@ function Footer() {
             <FooterLink href="">Analytics</FooterLink>
           </FooterLinks>
         </nav>
-        <nav className="flex flex-col items-center">
+        <nav className="flex flex-col items-center sm:items-start">
           <h4 className="font-bold tracking-[-.2px] text-white">Resources</h4>
           <FooterLinks>
             <FooterLink href="">Blog</FooterLink>
@@ -481,7 +481,7 @@ function Footer() {
             <FooterLink href="">Support</FooterLink>
           </FooterLinks>
         </nav>
-        <nav className="flex flex-col items-center">
+        <nav className="flex flex-col items-center sm:items-start">
           <h4 className="font-bold tracking-[-.2px] text-white">Company</h4>
           <FooterLinks>
             <FooterLink href="">About</FooterLink>
