@@ -34,7 +34,7 @@ export default function UrlShorteningApi() {
         <Footer />
         {/* <Slider
           basePath="/url-shortening-api/design"
-          absolutePath="/url-shortening-api/design/mobile-navigation.jpg"
+          // absolutePath="/url-shortening-api/design/mobile-navigation.jpg"
         /> */}
       </div>
     </>
@@ -162,11 +162,36 @@ function NavigationLinks() {
   );
 }
 
+function LargeNav() {
+  return (
+    <div className="mb-[6px] ml-[45px] flex h-full w-full items-center justify-between bg-transparent text-[15px] max-lg:hidden">
+      <nav className="text-url-shortening-neutral-200 flex items-center gap-[30px] font-bold [&>a:last-child]:ml-[2px]">
+        <NavigationLinks />
+      </nav>
+      <div className="flex items-center gap-[5px] text-[15px] font-bold">
+        <a
+          href=""
+          className="text-url-shortening-neutral-200 flex h-10 w-[105px] items-center justify-center"
+        >
+          Login
+        </a>
+        <a
+          href=""
+          className="bg-url-shortening-primary-cyan flex h-10 w-[105px] items-center justify-center rounded-full pb-[2px] text-center text-white"
+        >
+          Sign Up
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function Header() {
   return (
-    <header className="flex h-[96px] w-full items-center justify-between bg-transparent px-6 pt-4 sm:px-14 md:px-20">
-      <Logo className="text-url-shortening-neutral-300" />
+    <header className="flex h-[96px] w-full items-center justify-between bg-transparent px-6 pt-4 sm:px-14 md:px-20 lg:h-[126px] lg:px-[165px]">
+      <Logo className="text-url-shortening-neutral-300 flex-shrink-0 lg:ml-[2px]" />
       <MobileNav />
+      <LargeNav />
     </header>
   );
 }
