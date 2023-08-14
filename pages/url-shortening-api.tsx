@@ -198,9 +198,9 @@ function Header() {
 
 function Intro() {
   return (
-    <div>
-      <div className="mf: relative mx-auto mt-[15px] h-fit w-fit max-w-[100vw] overflow-hidden pl-6">
-        <div className="relative aspect-[733/482] h-[327.5px]">
+    <div className="lg:mt-[40px] lg:flex lg:w-screen lg:flex-row-reverse lg:justify-between lg:overflow-hidden lg:pl-[165px]">
+      <div className="relative mx-auto mt-[15px] h-fit w-fit max-w-[100vw] overflow-hidden pl-6 lg:m-0 lg:w-[610px] lg:p-0">
+        <div className="relative aspect-[733/482] h-[327.5px] lg:h-[482px] lg:w-[733px]">
           <Image
             fill
             alt="Illustration Working"
@@ -209,10 +209,10 @@ function Intro() {
           />
         </div>
       </div>
-      <div className="mx-auto mt-9 flex max-w-md flex-col items-center px-6">
-        <h1 className="text-url-shortening-neutral-300 text-center text-[42px] font-bold leading-[48px] tracking-[-1px]">More than just shorter links</h1>
-        <p className="text-url-shortening-neutral-200 mt-[13px] text-center text-[18px] leading-[30px] tracking-[.1px]">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
-        <button className="text-cente bg-url-shortening-primary-cyan mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white">Get Started</button>
+      <div className="mx-auto mt-9 flex max-w-md flex-col items-center px-6 lg:mx-0 lg:mt-0 lg:w-[560px] lg:max-w-none lg:flex-shrink-0 lg:items-start lg:justify-center lg:px-0 lg:pb-[1px]">
+        <h1 className="text-url-shortening-neutral-300 text-center text-[42px] font-bold leading-[48px] tracking-[-1px] lg:text-start lg:text-[80px] lg:leading-[90px] lg:tracking-[-2.225px]">More than just shorter links</h1>
+        <p className="text-url-shortening-neutral-200 mt-[13px] text-center text-[18px] leading-[30px] tracking-[.1px] lg:mt-0 lg:text-start lg:text-[22px] lg:leading-[35px]">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
+        <button className="bg-url-shortening-primary-cyan mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-center text-[20px] font-bold text-white lg:mt-[37px] lg:text-start">Get Started</button>
       </div>
     </div>
   );
