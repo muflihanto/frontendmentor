@@ -256,8 +256,8 @@ type Feature = {
 
 function Feature({ feat }: { feat: Feature }) {
   return (
-    <div className="relative h-[268px] w-[calc(100%-48px)] max-w-sm rounded bg-white px-[28px] pt-[77px] [&:nth-child(2)]:h-[285px]">
-      <div className="bg-url-shortening-primary-violet absolute -top-[44px] left-1/2 flex h-[88px] w-[88px] -translate-x-1/2 items-center justify-center rounded-full">
+    <div className="relative h-[268px] w-[calc(100%-48px)] max-w-sm rounded bg-white px-[28px] pt-[77px] lg:px-[32px] lg:pt-[76px] [&:nth-child(2)]:h-[285px] lg:[&:nth-child(2)]:mt-[44px] lg:[&:nth-child(2)]:h-[268px] lg:[&:nth-child(3)]:mt-[88px]">
+      <div className="bg-url-shortening-primary-violet absolute -top-[44px] left-1/2 flex h-[88px] w-[88px] -translate-x-1/2 items-center justify-center rounded-full lg:left-[32px] lg:translate-x-0">
         <div
           className={cn([
             "relative aspect-square w-auto", //
@@ -272,8 +272,8 @@ function Feature({ feat }: { feat: Feature }) {
           />
         </div>
       </div>
-      <h3 className="text-url-shortening-primary-violet text-center text-[22px] font-bold">{feat.name}</h3>
-      <p className="text-url-shortening-neutral-200 mt-[14px] text-center leading-[26px] tracking-[-.5px]">{feat.description}</p>
+      <h3 className="text-url-shortening-primary-violet text-center text-[22px] font-bold lg:text-left">{feat.name}</h3>
+      <p className="text-url-shortening-neutral-200 mt-[14px] text-center leading-[26px] tracking-[-.5px] lg:text-left">{feat.description}</p>
     </div>
   );
 }
@@ -298,12 +298,12 @@ function Features() {
   ];
 
   return (
-    <div className="mt-[7px] pb-[79.25px] tracking-[-.2px]">
-      <div className="mx-auto max-w-sm px-6">
-        <h2 className="text-url-shortening-primary-violet text-center text-[27px] font-bold">Advanced Statistics</h2>
-        <p className="text-url-shortening-neutral-200 mt-[18.5px] text-center leading-[28px] tracking-[.15px]">Track how your links are performing across the web with our advanced statistics dashboard.</p>
+    <div className="mt-[7px] pb-[79.25px] tracking-[-.2px] lg:mt-[34px] lg:px-[165px] lg:pb-[119px]">
+      <div className="mx-auto max-w-sm px-6 lg:max-w-[520px] lg:px-0">
+        <h2 className="text-url-shortening-primary-violet text-center text-[27px] font-bold lg:text-[40px] lg:tracking-[-1px]">Advanced Statistics</h2>
+        <p className="text-url-shortening-neutral-200 mt-[18.5px] text-center leading-[28px] tracking-[.15px] lg:mt-[10px] lg:text-[18px] lg:leading-[32px]">Track how your links are performing across the web with our advanced statistics dashboard.</p>
       </div>
-      <div className="relative mt-[90px] flex flex-col items-center gap-[91px]">
+      <div className="relative mt-[90px] flex flex-col items-center gap-[91px] lg:mt-[98px] lg:flex-row lg:items-start lg:gap-[30px]">
         {features.map((feat) => {
           return (
             <Feature
@@ -312,7 +312,7 @@ function Features() {
             />
           );
         })}
-        <div className="bg-url-shortening-primary-cyan absolute left-1/2 top-0 -z-10 h-full w-2 -translate-x-1/2"></div>
+        <div className="bg-url-shortening-primary-cyan absolute left-1/2 top-0 -z-10 h-full w-2 -translate-x-1/2 lg:left-0 lg:top-1/2 lg:h-2 lg:w-full lg:-translate-y-[calc(50%+22px)] lg:translate-x-0" />
       </div>
     </div>
   );
