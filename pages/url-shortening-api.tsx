@@ -236,14 +236,14 @@ function Shorten() {
   });
 
   return (
-    <form className="bg-url-shortening-primary-violet mx-auto h-[160px] w-[calc(100vw-48px)] max-w-md -translate-y-[80px] rounded-[10px] bg-[url('/url-shortening-api/images/bg-shorten-mobile.svg')] bg-right-top bg-no-repeat p-6">
+    <form className="bg-url-shortening-primary-violet mx-auto h-[160px] w-[calc(100vw-48px)] max-w-md -translate-y-[80px] rounded-[10px] bg-[url('/url-shortening-api/images/bg-shorten-mobile.svg')] bg-right-top bg-no-repeat p-6 lg:flex lg:h-[168px] lg:max-w-[calc(100vw-330px)] lg:-translate-y-[84px] lg:items-center lg:gap-6 lg:bg-[url('/url-shortening-api/images/bg-shorten-desktop.svg')] lg:px-16 lg:pt-[25px]">
       <input
         type="text"
-        className="h-12 w-full rounded-[5px] px-4 pt-[3px]"
+        className="h-12 w-full rounded-[5px] px-4 pt-[3px] lg:h-16 lg:w-full lg:rounded-[11px] lg:px-8 lg:text-[20px]"
         placeholder="Shorten a link here..."
         {...register("link")}
       />
-      <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white">Shorten It!</button>
+      <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]">Shorten It!</button>
     </form>
   );
 }
@@ -331,7 +331,7 @@ function Main() {
   return (
     <div>
       <Intro />
-      <div className="bg-url-shortening-neutral-100/20 mt-[167.25px]">
+      <div className="bg-url-shortening-neutral-100/20 mt-[167.25px] lg:mt-[152px]">
         <Shorten />
         <Features />
         <BoostLinks />
