@@ -320,9 +320,9 @@ function Features() {
 
 function BoostLinks() {
   return (
-    <div className="bg-url-shortening-primary-violet flex h-[300px] w-full flex-col items-center justify-center bg-[url('/url-shortening-api/images/bg-boost-mobile.svg')] bg-right bg-no-repeat pt-[7px]">
-      <h3 className="text-[28px] font-bold tracking-[-.75px] text-white">Boost your links today</h3>
-      <button className="text-cente bg-url-shortening-primary-cyan mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white">Get Started</button>
+    <div className="bg-url-shortening-primary-violet flex h-[300px] w-full flex-col items-center justify-center bg-[url('/url-shortening-api/images/bg-boost-mobile.svg')] bg-right bg-no-repeat pt-[7px] lg:h-[250px] lg:bg-[url('/url-shortening-api/images/bg-boost-desktop.svg')] lg:pb-[10px]">
+      <h3 className="text-[28px] font-bold tracking-[-.75px] text-white lg:text-[40px] lg:tracking-[-1px]">Boost your links today</h3>
+      <button className="text-cente bg-url-shortening-primary-cyan mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white lg:mt-[22px]">Get Started</button>
     </div>
   );
 }
@@ -487,9 +487,9 @@ function SNSLinks({ className, ...props }: ComponentProps<"nav">) {
 
 function Footer() {
   return (
-    <footer className="bg-url-shortening-neutral-400 relative flex h-[776px] w-full flex-col items-center pt-[54px] sm:h-auto sm:pb-[55px]">
-      <Logo className="text-white" />
-      <div className="mt-[48px] flex flex-col gap-[38.5px] sm:grid sm:grid-cols-3 sm:grid-rows-1 sm:gap-14">
+    <footer className="bg-url-shortening-neutral-400 relative flex h-[776px] w-full flex-col items-center pt-[54px] sm:h-auto sm:pb-[55px] lg:h-[310px] lg:flex-row lg:items-start lg:px-[165px] lg:pt-[71px]">
+      <Logo className="text-white lg:-ml-[2px]" />
+      <div className="mt-[48px] flex flex-col gap-[38.5px] sm:grid sm:grid-cols-3 sm:grid-rows-1 sm:gap-14 lg:ml-auto lg:mr-[72px] lg:mt-0 lg:gap-[79px]">
         <nav className="flex flex-col items-center sm:items-start">
           <h4 className="font-bold tracking-[-.2px] text-white">Features</h4>
           <FooterLinks>
@@ -516,8 +516,8 @@ function Footer() {
           </FooterLinks>
         </nav>
       </div>
-      <SNSLinks className="mt-[46px]" />
-      <p className="absolute bottom-3 w-full text-center text-[11px] text-white [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <SNSLinks className="mt-[46px] lg:mt-[2px]" />
+      <p className="absolute bottom-3 left-0 w-full text-center text-[11px] text-white lg:px-[165px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
