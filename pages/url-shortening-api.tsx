@@ -34,7 +34,7 @@ export default function UrlShorteningApi() {
         <Footer />
         {/* <Slider
           basePath="/url-shortening-api/design"
-          // absolutePath="/url-shortening-api/design/mobile-navigation.jpg"
+          absolutePath="/url-shortening-api/design/desktop-active-states.jpg"
         /> */}
       </div>
     </>
@@ -165,19 +165,21 @@ function NavigationLinks() {
 function LargeNav() {
   return (
     <div className="mb-[6px] ml-[45px] flex h-full w-full items-center justify-between bg-transparent text-[15px] max-lg:hidden">
-      <nav className="text-url-shortening-neutral-200 flex items-center gap-[30px] font-bold [&>a:last-child]:ml-[2px]">
+      <nav className="text-url-shortening-neutral-200 [&>a:hover]:text-url-shortening-neutral-400 flex items-center gap-[30px] font-bold [&>a:last-child]:ml-[2px]">
         <NavigationLinks />
       </nav>
       <div className="flex items-center gap-[5px] text-[15px] font-bold">
+        <div className="text-url-shortening-neutral-200 flex h-10 w-[105px] items-center justify-center">
+          <a
+            href=""
+            className="hover:text-url-shortening-neutral-400"
+          >
+            Login
+          </a>
+        </div>
         <a
           href=""
-          className="text-url-shortening-neutral-200 flex h-10 w-[105px] items-center justify-center"
-        >
-          Login
-        </a>
-        <a
-          href=""
-          className="bg-url-shortening-primary-cyan flex h-10 w-[105px] items-center justify-center rounded-full pb-[2px] text-center text-white"
+          className="bg-url-shortening-primary-cyan flex h-10 w-[105px] items-center justify-center rounded-full pb-[2px] text-center text-white hover:bg-[hsl(179,56%,75%)]"
         >
           Sign Up
         </a>
@@ -212,7 +214,7 @@ function Intro() {
       <div className="mx-auto mt-9 flex max-w-md flex-col items-center px-6 lg:mx-0 lg:mt-0 lg:w-[560px] lg:max-w-none lg:flex-shrink-0 lg:items-start lg:justify-center lg:px-0 lg:pb-[1px]">
         <h1 className="text-url-shortening-neutral-300 text-center text-[42px] font-bold leading-[48px] tracking-[-1px] lg:text-start lg:text-[80px] lg:leading-[90px] lg:tracking-[-2.225px]">More than just shorter links</h1>
         <p className="text-url-shortening-neutral-200 mt-[13px] text-center text-[18px] leading-[30px] tracking-[.1px] lg:mt-0 lg:text-start lg:text-[22px] lg:leading-[35px]">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
-        <button className="bg-url-shortening-primary-cyan mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-center text-[20px] font-bold text-white lg:mt-[37px] lg:text-start">Get Started</button>
+        <button className="bg-url-shortening-primary-cyan mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-center text-[20px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-[37px] lg:text-start">Get Started</button>
       </div>
     </div>
   );
@@ -243,7 +245,7 @@ function Shorten() {
         placeholder="Shorten a link here..."
         {...register("link")}
       />
-      <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]">Shorten It!</button>
+      <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]">Shorten It!</button>
     </form>
   );
 }
@@ -322,7 +324,7 @@ function BoostLinks() {
   return (
     <div className="bg-url-shortening-primary-violet flex h-[300px] w-full flex-col items-center justify-center bg-[url('/url-shortening-api/images/bg-boost-mobile.svg')] bg-right bg-no-repeat pt-[7px] lg:h-[250px] lg:bg-[url('/url-shortening-api/images/bg-boost-desktop.svg')] lg:pb-[10px]">
       <h3 className="text-[28px] font-bold tracking-[-.75px] text-white lg:text-[40px] lg:tracking-[-1px]">Boost your links today</h3>
-      <button className="text-cente bg-url-shortening-primary-cyan mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white lg:mt-[22px]">Get Started</button>
+      <button className="text-cente bg-url-shortening-primary-cyan mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full text-[20px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-[22px]">Get Started</button>
     </div>
   );
 }
@@ -407,7 +409,7 @@ function FooterLink({ children, ...props }: PropsWithChildren<ComponentProps<"a"
     <li>
       <a
         {...props}
-        className="text-[15px] tracking-[-.3px]"
+        className="hover:text-url-shortening-primary-cyan text-[15px] tracking-[-.3px]"
       >
         {children}
       </a>
