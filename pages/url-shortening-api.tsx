@@ -7,19 +7,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { useWindowSize } from "usehooks-ts";
+import { useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+import copy from "copy-to-clipboard";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 /**
  * TODOS:
- * Build out this landing page, integrate with the [shrtcode API](https://app.shrtco.de/) and get it looking as close to the design as possible.
  * Your users should be able to:
  * - View the optimal layout for the site depending on their device's screen size
- * - Shorten any valid URL
- * - See a list of their shortened links, even after refreshing the browser
- * - Copy the shortened link to their clipboard in a single click
- * - Receive an error message when the `form` is submitted if:
- *    - The `input` field is empty
  */
 
 export default function UrlShorteningApi() {
@@ -221,9 +218,64 @@ function Intro() {
 }
 
 const FormInput = z.object({
-  link: z.string().min(1, "Field required").url("Input not valid"),
+  link: z.string().min(1, "Please add a link").url("Please add a link"),
 });
 type FormInput = z.infer<typeof FormInput>;
+
+const ApiResponse = z.object({
+  ok: z.literal(true),
+  result: z.object({
+    code: z.string(),
+    short_link: z.string(),
+    full_short_link: z.string().url(),
+    short_link2: z.string(),
+    full_short_link2: z.string().url(),
+    share_link: z.string(),
+    full_share_link: z.string().url(),
+    original_link: z.string().url(),
+  }),
+});
+type ApiResponse = z.infer<typeof ApiResponse>;
+
+function ClientOnly({ children, ...delegated }: PropsWithChildren<ComponentProps<"div">>) {
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  if (!hasMounted) {
+    return null;
+  }
+  return <div {...delegated}>{children}</div>;
+}
+
+const linksAtom = atomWithStorage<ApiResponse["result"][]>("links", []);
+
+function CopyLink({ data }: { data: ApiResponse["result"] }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="flex h-[72px] items-center rounded-lg bg-white pl-8 pr-6 lg:text-[20px]">
+      <div className="text-url-shortening-neutral-300 mt-[3px]">{data.original_link}</div>
+      <a
+        className="text-url-shortening-primary-cyan ml-auto mt-[3px]"
+        href={data.full_short_link}
+      >
+        {data.full_short_link}
+      </a>
+      <button
+        onClick={() => {
+          copy(data.full_short_link);
+          setCopied(true);
+        }}
+        className={cn([
+          "ml-6 h-10 w-[104px] rounded text-[15px] font-bold text-white", //
+          copied ? "bg-url-shortening-primary-violet hover:bg-[hsl(257,17%,50%)]" : "bg-url-shortening-primary-cyan hover:bg-[hsl(179,56%,75%)]",
+        ])}
+      >
+        {copied ? "Copied!" : "Copy"}
+      </button>
+    </div>
+  );
+}
 
 function Shorten() {
   const {
@@ -233,20 +285,61 @@ function Shorten() {
     formState: { errors, isSubmitSuccessful },
   } = useForm<FormInput>({ resolver: zodResolver(FormInput) });
 
+  const [links, setLinks] = useAtom(linksAtom);
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    // console.log(data);
+    fetch("https://api.shrtco.de/v2/shorten?url=" + data.link).then((res) => {
+      // console.log(res);
+      res.json().then((dat) => {
+        const parse = ApiResponse.safeParse(dat);
+        if (parse.success) {
+          // console.log(parse.data);
+          setLinks((p) => [...p, parse.data.result]);
+        } else {
+          console.log(parse.error);
+        }
+      });
+    });
   });
 
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <form className="bg-url-shortening-primary-violet mx-auto h-[160px] w-[calc(100vw-48px)] max-w-md -translate-y-[80px] rounded-[10px] bg-[url('/url-shortening-api/images/bg-shorten-mobile.svg')] bg-right-top bg-no-repeat p-6 lg:flex lg:h-[168px] lg:max-w-[calc(100vw-330px)] lg:-translate-y-[84px] lg:items-center lg:gap-6 lg:bg-[url('/url-shortening-api/images/bg-shorten-desktop.svg')] lg:px-16 lg:pt-[25px]">
-      <input
-        type="text"
-        className="h-12 w-full rounded-[5px] px-4 pt-[3px] lg:h-16 lg:w-full lg:rounded-[11px] lg:px-8 lg:text-[20px]"
-        placeholder="Shorten a link here..."
-        {...register("link")}
-      />
-      <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]">Shorten It!</button>
-    </form>
+    <>
+      <form
+        className="bg-url-shortening-primary-violet relative mx-auto h-[160px] w-[calc(100vw-48px)] max-w-md -translate-y-[80px] rounded-[10px] bg-[url('/url-shortening-api/images/bg-shorten-mobile.svg')] bg-right-top bg-no-repeat p-6 lg:flex lg:h-[168px] lg:max-w-[calc(100vw-330px)] lg:-translate-y-[84px] lg:items-center lg:gap-6 lg:bg-[url('/url-shortening-api/images/bg-shorten-desktop.svg')] lg:px-16 lg:pt-[25px]"
+        onSubmit={onSubmit}
+      >
+        <input
+          type="text"
+          className={cn([
+            "h-12 w-full rounded-[5px] px-4 pt-[3px] lg:h-16 lg:w-full lg:rounded-[11px] lg:px-8 lg:text-[20px]", //
+            errors.link ? "border-url-shortening-secondary-red text-url-shortening-secondary-red placeholder:text-url-shortening-secondary-red/50 border-[3px]" : "",
+          ])}
+          placeholder="Shorten a link here..."
+          {...register("link")}
+        />
+        {errors.link && <p className="text-url-shortening-secondary-red italic max-lg:mb-4 max-lg:mt-2 lg:absolute lg:bottom-[22px] lg:left-[64px]">{errors.link.message}</p>}
+        <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]">Shorten It!</button>
+      </form>
+      {links.length > 0 && (
+        <div className="mt-6 flex w-full -translate-y-[80px] flex-col gap-4 px-[165px] lg:-translate-y-[84px]">
+          {links.map((lnk, index) => {
+            return (
+              <CopyLink
+                key={index}
+                data={lnk}
+              />
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }
 
