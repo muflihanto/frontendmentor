@@ -31,7 +31,8 @@ export default function UrlShorteningApi() {
         <Footer />
         {/* <Slider
           basePath="/url-shortening-api/design"
-          absolutePath="/url-shortening-api/design/desktop-active-states.jpg"
+          absolutePath="/url-shortening-api/design/mobile-active-states.jpg"
+          // absolutePath="/url-shortening-api/design/desktop-active-states.jpg"
         /> */}
       </div>
     </>
@@ -228,8 +229,10 @@ const ApiResponse = z.object({
     code: z.string(),
     short_link: z.string(),
     full_short_link: z.string().url(),
-    short_link2: z.string(),
-    full_short_link2: z.string().url(),
+    short_link2: z.string().optional(),
+    full_short_link2: z.string().url().optional(),
+    short_link3: z.string().optional(),
+    full_short_link3: z.string().url().optional(),
     share_link: z.string(),
     full_share_link: z.string().url(),
     original_link: z.string().url(),
@@ -248,15 +251,53 @@ function ClientOnly({ children, ...delegated }: PropsWithChildren<ComponentProps
   return <div {...delegated}>{children}</div>;
 }
 
-const linksAtom = atomWithStorage<ApiResponse["result"][]>("links", []);
+const initialLinks = [
+  {
+    code: "aYuRB",
+    short_link: "shrtco.de/aYuRB",
+    full_short_link: "https://shrtco.de/aYuRB",
+    short_link2: "9qr.de/aYuRB",
+    full_short_link2: "https://9qr.de/aYuRB",
+    short_link3: "shiny.link/aYuRB",
+    full_short_link3: "https://shiny.link/aYuRB",
+    share_link: "shrtco.de/share/aYuRB",
+    full_share_link: "https://shrtco.de/share/aYuRB",
+    original_link: "https://www.frontendmentor.io",
+  },
+  {
+    code: "GKTMlb",
+    short_link: "shrtco.de/GKTMlb",
+    full_short_link: "https://shrtco.de/GKTMlb",
+    short_link2: "9qr.de/GKTMlb",
+    full_short_link2: "https://9qr.de/GKTMlb",
+    short_link3: "shiny.link/GKTMlb",
+    full_short_link3: "https://shiny.link/GKTMlb",
+    share_link: "shrtco.de/share/GKTMlb",
+    full_share_link: "https://shrtco.de/share/GKTMlb",
+    original_link: "https://twitter.com/frontendmentor",
+  },
+  {
+    code: "gob3X9",
+    short_link: "rel.ink/gob3X9",
+    full_short_link: "https://rel.ink/gob3X9",
+    share_link: "rel.ink/share/gob3X9",
+    full_share_link: "https://rel.ink/share/gob3X9",
+    original_link: "https://www.linkedin.com/company/frontend-mentor",
+  },
+];
+
+const linksAtom = atomWithStorage<ApiResponse["result"][]>("links", [
+  // ...initialLinks
+]);
 
 function CopyLink({ data }: { data: ApiResponse["result"] }) {
   const [copied, setCopied] = useState(false);
   return (
-    <div className="flex h-[72px] items-center rounded-lg bg-white pl-8 pr-6 lg:text-[20px]">
-      <div className="text-url-shortening-neutral-300 mt-[3px]">{data.original_link}</div>
+    <div className="flex h-[156px] w-full flex-col rounded-lg bg-white p-0 pt-[11px] lg:h-[72px] lg:flex-row lg:items-center lg:pl-8 lg:pr-6 lg:pt-0 lg:text-[20px]">
+      <div className="text-url-shortening-neutral-300 h-[24px] w-full truncate text-ellipsis px-4 pt-[2px] lg:mt-[3px] lg:block lg:h-auto lg:w-auto lg:p-0">{data.original_link}</div>
+      <hr className="my-[13px] w-full lg:hidden" />
       <a
-        className="text-url-shortening-primary-cyan ml-auto mt-[3px]"
+        className="text-url-shortening-primary-cyan w-full text-ellipsis px-4 lg:ml-auto lg:mt-[3px] lg:w-auto lg:px-0"
         href={data.full_short_link}
       >
         {data.full_short_link}
@@ -267,7 +308,7 @@ function CopyLink({ data }: { data: ApiResponse["result"] }) {
           setCopied(true);
         }}
         className={cn([
-          "ml-6 h-10 w-[104px] rounded text-[15px] font-bold text-white", //
+          "mx-4 mt-[13px] h-10 w-[calc(100%-32px)] rounded text-[15px] font-bold text-white lg:ml-6 lg:mr-0 lg:mt-0 lg:w-[104px]", //
           copied ? "bg-url-shortening-primary-violet hover:bg-[hsl(257,17%,50%)]" : "bg-url-shortening-primary-cyan hover:bg-[hsl(179,56%,75%)]",
         ])}
       >
@@ -312,23 +353,26 @@ function Shorten() {
   return (
     <>
       <form
-        className="bg-url-shortening-primary-violet relative mx-auto h-[160px] w-[calc(100vw-48px)] max-w-md -translate-y-[80px] rounded-[10px] bg-[url('/url-shortening-api/images/bg-shorten-mobile.svg')] bg-right-top bg-no-repeat p-6 lg:flex lg:h-[168px] lg:max-w-[calc(100vw-330px)] lg:-translate-y-[84px] lg:items-center lg:gap-6 lg:bg-[url('/url-shortening-api/images/bg-shorten-desktop.svg')] lg:px-16 lg:pt-[25px]"
+        className={cn([
+          "bg-url-shortening-primary-violet relative mx-auto w-[calc(100vw-48px)] max-w-md -translate-y-[80px] rounded-[10px] bg-[url('/url-shortening-api/images/bg-shorten-mobile.svg')] bg-right-top bg-no-repeat p-6 lg:flex lg:h-[168px] lg:max-w-[calc(100vw-330px)] lg:-translate-y-[84px] lg:items-center lg:gap-6 lg:bg-[url('/url-shortening-api/images/bg-shorten-desktop.svg')] lg:px-16 lg:pt-[25px]", //
+          errors.link ? "h-[182px]" : "h-[160px]",
+        ])}
         onSubmit={onSubmit}
       >
         <input
           type="text"
           className={cn([
-            "h-12 w-full rounded-[5px] px-4 pt-[3px] lg:h-16 lg:w-full lg:rounded-[11px] lg:px-8 lg:text-[20px]", //
-            errors.link ? "border-url-shortening-secondary-red text-url-shortening-secondary-red placeholder:text-url-shortening-secondary-red/50 border-[3px]" : "",
+            "h-12 w-full rounded-[5px] pt-[3px] lg:h-16 lg:w-full lg:rounded-[11px] lg:px-8 lg:text-[20px]", //
+            errors.link ? "border-url-shortening-secondary-red text-url-shortening-secondary-red placeholder:text-url-shortening-secondary-red/50 border-[3px] px-[13px]" : "px-4",
           ])}
           placeholder="Shorten a link here..."
           {...register("link")}
         />
-        {errors.link && <p className="text-url-shortening-secondary-red italic max-lg:mb-4 max-lg:mt-2 lg:absolute lg:bottom-[22px] lg:left-[64px]">{errors.link.message}</p>}
+        {errors.link && <p className="text-url-shortening-secondary-red text-[12px] italic max-lg:mb-4 max-lg:mt-[4px] lg:absolute lg:bottom-[22px] lg:left-[64px] lg:text-base">{errors.link.message}</p>}
         <button className="bg-url-shortening-primary-cyan mt-4 flex h-12 w-full items-center justify-center rounded-[5px] pb-px text-[18px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]">Shorten It!</button>
       </form>
       {links.length > 0 && (
-        <div className="mt-6 flex w-full -translate-y-[80px] flex-col gap-4 px-[165px] lg:-translate-y-[84px]">
+        <div className="mt-6 flex w-full -translate-y-[80px] flex-col gap-[23px] px-6 max-lg:-mb-px lg:-translate-y-[84px] lg:gap-4 lg:px-[165px]">
           {links.map((lnk, index) => {
             return (
               <CopyLink
