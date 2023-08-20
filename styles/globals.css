@@ -40,6 +40,13 @@
 }
 
 @font-face {
+  font-family: "Barlow Semi Condensed";
+  src: local("Barlow Semi Condensed"), url("/rock-paper-scissors/fonts/BarlowSemiCondensed-Bold.ttf");
+  font-weight: 700;
+  font-stretch: semi-condensed;
+}
+
+@font-face {
   font-family: "Fraunces";
   src: local("Fraunces"), url("/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf");
 }
