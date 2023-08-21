@@ -6,6 +6,7 @@ import { useEffect } from "react";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const rulesAtom = atom(false);
+const scoreAtom = atom(12);
 
 export default function RockPaperScissors() {
   return (
@@ -78,9 +79,30 @@ function RulesModal() {
   );
 }
 
+function Header() {
+  const [score, setScore] = useAtom(scoreAtom);
+
+  return (
+    <div className="border-rock-paper-scissor-neutral-header flex h-[99px] w-full items-center justify-between rounded border-[3px] pl-[21px] pr-[10px]">
+      <div className="relative mt-1 aspect-[162/99] h-[51px]">
+        <Image
+          src="/rock-paper-scissors/images/logo.svg"
+          alt="Rock Paper Scissors Logo"
+          fill
+        />
+      </div>
+      <div className="flex h-[72px] w-[80px] flex-col items-center rounded bg-white pt-[11px] shadow">
+        <h4 className="text-rock-paper-scissor-neutral-score text-[10px] uppercase leading-none tracking-[1.5px]">score</h4>
+        <h2 className="mt-px w-min text-center text-[40px] font-bold uppercase leading-none text-[hsl(246,11%,37%)]">{score}</h2>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
-    <>
+    <div className="px-[31px] pt-[30.5px]">
+      <Header />
       {/* {`
          Score
          Rules
@@ -93,7 +115,7 @@ function Main() {
        
          Play Again
       `} */}
-    </>
+    </div>
   );
 }
 
