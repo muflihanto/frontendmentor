@@ -1,14 +1,28 @@
 import Head from "next/head";
 import Image from "next/image";
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { ComponentProps, useEffect } from "react";
 import { cn } from "../utils/cn";
 import { twJoin } from "tailwind-merge";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
+/**
+ * TODO:
+ * Your users should be able to:
+ * - View the optimal layout for the game depending on their device's screen size
+ * - Play Rock, Paper, Scissors against the computer
+ * - Maintain the state of the score after refreshing the browser _(optional)_
+ * - **Bonus**: Play Rock, Paper, Scissors, Lizard, Spock against the computer _(optional)_
+ *
+ * ### Rules
+ * If the player wins, they gain 1 point. If the computer wins, the player loses one point.
+ */
+
 const rulesAtom = atom(false);
 const scoreAtom = atom(12);
+const choiceAtom = atom<ChoiceVariant | null>(null);
+const stepsAtom = atom<1 | 2 | 3 | 4>(1);
 
 export default function RockPaperScissors() {
   return (
@@ -16,12 +30,12 @@ export default function RockPaperScissors() {
       <Head>
         <title>Frontend Mentor | Rock, Paper, Scissors</title>
       </Head>
-      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[100svh] bg-gradient-to-b to-[130%] pb-[55px] font-semibold">
+      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[100svh] bg-gradient-to-b to-[130%] font-semibold">
         <Main />
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/original/mobile-step-1.jpg"
+          absolutePath="/rock-paper-scissors/design/original/mobile-step-2.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -43,7 +57,7 @@ function RulesModal() {
   return (
     <>
       <button
-        className="mt-[138.5px] h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white"
+        className="mt-auto h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white"
         onClick={() => {
           setOpen(true);
         }}
@@ -102,7 +116,8 @@ function Header() {
 
 type ChoiceVariant = "Rock" | "Paper" | "Scissors";
 type VariantStyles = Record<ChoiceVariant, { button: string; image: string }>;
-function ChoiceButton({ variant, ...props }: ComponentProps<"button"> & { variant: ChoiceVariant }) {
+type ChoiceButtonProps = ComponentProps<"button"> & { variant: ChoiceVariant };
+function ChoiceButton({ variant, disabled = false, ...props }: ChoiceButtonProps) {
   const variantStyles: VariantStyles = {
     Paper: {
       button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
@@ -117,12 +132,12 @@ function ChoiceButton({ variant, ...props }: ComponentProps<"button"> & { varian
       image: "mr-0 aspect-square w-[43px]",
     },
   };
-
   return (
     <button
       className={twJoin(
         cn([
-          "group relative flex h-[133px] w-[129px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[3px] shadow-lg transition-transform duration-75 active:scale-[97%]", // base
+          "group relative flex h-[133px] w-[129px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[3px] shadow-lg transition-transform duration-75", // base
+          disabled ? "cursor-default" : "active:scale-[97%]", // disabled
           variantStyles[variant].button, // variant
         ]),
         "border-b-[6px]"
@@ -132,8 +147,9 @@ function ChoiceButton({ variant, ...props }: ComponentProps<"button"> & { varian
       <div className="flex aspect-square w-[99px] flex-col items-center justify-center rounded-full border-t-[6px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]">
         <div
           className={cn([
-            "relative group-hover:opacity-75", // base
-            variantStyles[variant].image,
+            "relative", // base
+            !disabled && "group-hover:opacity-75", // disabled
+            variantStyles[variant].image, // variant
           ])}
         >
           <Image
@@ -149,14 +165,38 @@ function ChoiceButton({ variant, ...props }: ComponentProps<"button"> & { varian
 }
 
 function Choices() {
+  const [choice, setChoice] = useAtom(choiceAtom);
+  const setStep = useSetAtom(stepsAtom);
+
+  useEffect(() => {
+    if (choice !== null) {
+      setStep(2);
+    }
+  }, [choice, setStep]);
+
   return (
     <div className="relative mt-[100px] w-[311px]">
       <div className="relative z-10 flex flex-col items-center gap-4 pt-[3px]">
         <div className="flex w-full items-center justify-between">
-          <ChoiceButton variant="Paper" />
-          <ChoiceButton variant="Scissors" />
+          <ChoiceButton
+            variant="Paper"
+            onClick={() => {
+              setChoice("Paper");
+            }}
+          />
+          <ChoiceButton
+            variant="Scissors"
+            onClick={() => {
+              setChoice("Scissors");
+            }}
+          />
         </div>
-        <ChoiceButton variant="Rock" />
+        <ChoiceButton
+          variant="Rock"
+          onClick={() => {
+            setChoice("Rock");
+          }}
+        />
       </div>
 
       <svg
@@ -169,11 +209,34 @@ function Choices() {
   );
 }
 
-function Main() {
+function WaitForHouse() {
+  const choice = useAtomValue(choiceAtom);
+
   return (
-    <div className="flex flex-col items-center px-[31px] pt-[30.5px]">
+    <div className="relative mt-[97.5px] flex w-[316px] items-center justify-between text-white">
+      <div className="flex flex-col items-center">
+        <ChoiceButton
+          variant={choice!}
+          disabled
+        />
+        <p className="mt-5 font-bold uppercase tracking-[1.5px]">you picked</p>
+      </div>
+      <div className="-mr-[14px] flex w-[50%] flex-col items-center">
+        <div className="flex h-[133px] items-center justify-center">
+          <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10" />
+        </div>
+        <p className="mt-5 font-bold uppercase tracking-[1.5px]">the house picked</p>
+      </div>
+    </div>
+  );
+}
+
+function Main() {
+  const step = useAtomValue(stepsAtom);
+  return (
+    <div className="flex min-h-screen flex-col items-center px-[31px] pb-[55px] pt-[30.5px]">
       <Header />
-      <Choices />
+      {step === 1 ? <Choices /> : <WaitForHouse />}
       <RulesModal />
       {/* {`
          Score
@@ -193,7 +256,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-white [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
