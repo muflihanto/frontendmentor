@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import { ComponentProps, useEffect } from "react";
+import { cn } from "../utils/cn";
+import { twJoin } from "tailwind-merge";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -14,9 +16,8 @@ export default function RockPaperScissors() {
       <Head>
         <title>Frontend Mentor | Rock, Paper, Scissors</title>
       </Head>
-      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[100svh] bg-gradient-to-b to-[130%] font-semibold">
+      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[100svh] bg-gradient-to-b to-[130%] pb-[55px] font-semibold">
         <Main />
-        <RulesModal />
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
@@ -42,7 +43,7 @@ function RulesModal() {
   return (
     <>
       <button
-        className="absolute bottom-[55px] left-1/2 h-[42px] w-[130px] -translate-x-1/2 rounded-[10px] border-2 border-opacity-50 uppercase tracking-[2.5px] text-white"
+        className="mt-[138.5px] h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white"
         onClick={() => {
           setOpen(true);
         }}
@@ -99,10 +100,81 @@ function Header() {
   );
 }
 
+type ChoiceVariant = "Rock" | "Paper" | "Scissors";
+type VariantStyles = Record<ChoiceVariant, { button: string; image: string }>;
+function ChoiceButton({ variant, ...props }: ComponentProps<"button"> & { variant: ChoiceVariant }) {
+  const variantStyles: VariantStyles = {
+    Paper: {
+      button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
+      image: "mr-0.5 aspect-[49/59] w-[44px]",
+    },
+    Scissors: {
+      button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
+      image: "mr-1 aspect-[51/58] w-[45px]",
+    },
+    Rock: {
+      button: "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
+      image: "mr-0 aspect-square w-[43px]",
+    },
+  };
+
+  return (
+    <button
+      className={twJoin(
+        cn([
+          "group relative flex h-[133px] w-[129px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[3px] shadow-lg transition-transform duration-75 active:scale-[97%]", // base
+          variantStyles[variant].button, // variant
+        ]),
+        "border-b-[6px]"
+      )}
+      {...props}
+    >
+      <div className="flex aspect-square w-[99px] flex-col items-center justify-center rounded-full border-t-[6px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]">
+        <div
+          className={cn([
+            "relative group-hover:opacity-75", // base
+            variantStyles[variant].image,
+          ])}
+        >
+          <Image
+            src={`/rock-paper-scissors/images/icon-${variant.toLowerCase()}.svg`}
+            alt={`${variant} Icon`}
+            fill
+            className="object-contain"
+          />
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function Choices() {
+  return (
+    <div className="relative mt-[100px] w-[311px]">
+      <div className="relative z-10 flex flex-col items-center gap-4 pt-[3px]">
+        <div className="flex w-full items-center justify-between">
+          <ChoiceButton variant="Paper" />
+          <ChoiceButton variant="Scissors" />
+        </div>
+        <ChoiceButton variant="Rock" />
+      </div>
+
+      <svg
+        className="absolute left-1/2 top-[61px] w-[calc(375px-170px)] -translate-x-1/2 stroke-[27]"
+        viewBox="0 0 313 278"
+      >
+        <use href="/rock-paper-scissors/images/bg-triangle.svg#bg-triangle" />
+      </svg>
+    </div>
+  );
+}
+
 function Main() {
   return (
-    <div className="px-[31px] pt-[30.5px]">
+    <div className="flex flex-col items-center px-[31px] pt-[30.5px]">
       <Header />
+      <Choices />
+      <RulesModal />
       {/* {`
          Score
          Rules
