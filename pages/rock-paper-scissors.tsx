@@ -22,6 +22,7 @@ import { twJoin } from "tailwind-merge";
 const rulesAtom = atom(false);
 const scoreAtom = atom(12);
 const choiceAtom = atom<ChoiceVariant | null>(null);
+const houseAtom = atom<ChoiceVariant | null>(null);
 const stepsAtom = atom<1 | 2 | 3 | 4>(1);
 
 export default function RockPaperScissors() {
@@ -35,7 +36,7 @@ export default function RockPaperScissors() {
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/original/mobile-step-2.jpg"
+          absolutePath="/rock-paper-scissors/design/original/mobile-step-3.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -114,7 +115,8 @@ function Header() {
   );
 }
 
-type ChoiceVariant = "Rock" | "Paper" | "Scissors";
+const options = ["Rock", "Paper", "Scissors"] as const;
+type ChoiceVariant = (typeof options)[number];
 type VariantStyles = Record<ChoiceVariant, { button: string; image: string }>;
 type ChoiceButtonProps = ComponentProps<"button"> & { variant: ChoiceVariant };
 function ChoiceButton({ variant, disabled = false, ...props }: ChoiceButtonProps) {
@@ -211,6 +213,18 @@ function Choices() {
 
 function WaitForHouse() {
   const choice = useAtomValue(choiceAtom);
+  const [house, setHouse] = useAtom(houseAtom);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const getRandOptions = () => Math.floor(Math.random() * 3);
+      let opt = choice;
+      while (opt === choice) {
+        opt = options[getRandOptions()];
+      }
+      setHouse(opt);
+    }, 1000);
+  }, [choice, setHouse]);
 
   return (
     <div className="relative mt-[97.5px] flex w-[316px] items-center justify-between text-white">
@@ -223,7 +237,14 @@ function WaitForHouse() {
       </div>
       <div className="-mr-[14px] flex w-[50%] flex-col items-center">
         <div className="flex h-[133px] items-center justify-center">
-          <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10" />
+          {!!house ? (
+            <ChoiceButton
+              variant={house!}
+              disabled
+            />
+          ) : (
+            <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10" />
+          )}
         </div>
         <p className="mt-5 font-bold uppercase tracking-[1.5px]">the house picked</p>
       </div>
