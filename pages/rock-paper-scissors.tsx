@@ -21,6 +21,7 @@ import { twJoin } from "tailwind-merge";
 
 const rulesAtom = atom(false);
 const scoreAtom = atom(12);
+const winAtom = atom<boolean | undefined>(undefined);
 const choiceAtom = atom<ChoiceVariant | null>(null);
 const houseAtom = atom<ChoiceVariant | null>(null);
 const stepsAtom = atom<1 | 2 | 3 | 4>(1);
@@ -36,7 +37,7 @@ export default function RockPaperScissors() {
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/original/mobile-step-3.jpg"
+          absolutePath="/rock-paper-scissors/design/original/mobile-step-4-lose.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -117,6 +118,11 @@ function Header() {
 
 const options = ["Rock", "Paper", "Scissors"] as const;
 type ChoiceVariant = (typeof options)[number];
+const weapons: Record<ChoiceVariant, { weakTo: ChoiceVariant; strongTo: ChoiceVariant }> = {
+  Rock: { weakTo: "Paper", strongTo: "Scissors" },
+  Paper: { weakTo: "Scissors", strongTo: "Rock" },
+  Scissors: { weakTo: "Rock", strongTo: "Paper" },
+};
 type VariantStyles = Record<ChoiceVariant, { button: string; image: string }>;
 type ChoiceButtonProps = ComponentProps<"button"> & { variant: ChoiceVariant };
 function ChoiceButton({ variant, disabled = false, ...props }: ChoiceButtonProps) {
@@ -212,8 +218,11 @@ function Choices() {
 }
 
 function WaitForHouse() {
-  const choice = useAtomValue(choiceAtom);
+  const setStep = useSetAtom(stepsAtom);
+  const [choice, setChoice] = useAtom(choiceAtom);
   const [house, setHouse] = useAtom(houseAtom);
+  const [win, setWin] = useAtom(winAtom);
+  const winStyle = "relative before:absolute before:top-1/2 before:left-1/2 before:-translate-y-1/2 before:-translate-x-1/2 before:aspect-[137/133] before:w-[129px] before:rounded-full before:shadow-[0_0_0_19px_hsla(0,0%,100%,.02),0_0_0_46px_hsla(0,0%,100%,.03),0_0_0_80px_hsla(0,0%,100%,.025)] z-0";
 
   useEffect(() => {
     setTimeout(() => {
@@ -223,54 +232,80 @@ function WaitForHouse() {
         opt = options[getRandOptions()];
       }
       setHouse(opt);
+      setWin(weapons[choice!].strongTo === opt);
     }, 1000);
-  }, [choice, setHouse]);
+  }, [choice, setHouse, setWin]);
 
   return (
-    <div className="relative mt-[97.5px] flex w-[316px] items-center justify-between text-white">
-      <div className="flex flex-col items-center">
-        <ChoiceButton
-          variant={choice!}
-          disabled
-        />
-        <p className="mt-5 font-bold uppercase tracking-[1.5px]">you picked</p>
-      </div>
-      <div className="-mr-[14px] flex w-[50%] flex-col items-center">
-        <div className="flex h-[133px] items-center justify-center">
-          {!!house ? (
-            <ChoiceButton
-              variant={house!}
-              disabled
-            />
+    <>
+      <div className="relative mt-[97.5px] flex w-[316px] items-center justify-between text-white">
+        <div className="flex flex-col items-center">
+          {!!choice ? (
+            <div
+              className={cn([
+                "animate-in fade-in-5", //
+                !!win ? winStyle : "relative z-10",
+              ])}
+            >
+              <ChoiceButton
+                variant={choice!}
+                disabled
+              />
+            </div>
           ) : (
             <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10" />
           )}
+          <p className="mt-5 font-bold uppercase tracking-[1.5px]">you picked</p>
         </div>
-        <p className="mt-5 font-bold uppercase tracking-[1.5px]">the house picked</p>
+        <div className="-mr-[14px] flex w-[50%] flex-col items-center">
+          <div className="flex h-[133px] items-center justify-center">
+            {!!house ? (
+              <div
+                className={cn([
+                  "animate-in fade-in-5", //
+                  win === false ? winStyle : "relative z-10",
+                ])}
+              >
+                <ChoiceButton
+                  variant={house!}
+                  disabled
+                />
+              </div>
+            ) : (
+              <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10" />
+            )}
+          </div>
+          <p className="mt-5 font-bold uppercase tracking-[1.5px]">the house picked</p>
+        </div>
       </div>
-    </div>
+      {win !== undefined ? (
+        <div className="mt-[72px] flex flex-col items-center">
+          <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white">you {win ? "win" : "lose"}</h1>
+          <button
+            className="text-rock-paper-scissor-neutral-dark mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] shadow"
+            onClick={() => {
+              setChoice(null);
+              setWin(undefined);
+              setHouse(null);
+              setStep(1);
+            }}
+          >
+            play again
+          </button>
+        </div>
+      ) : null}
+    </>
   );
 }
 
 function Main() {
   const step = useAtomValue(stepsAtom);
+
   return (
     <div className="flex min-h-screen flex-col items-center px-[31px] pb-[55px] pt-[30.5px]">
       <Header />
       {step === 1 ? <Choices /> : <WaitForHouse />}
       <RulesModal />
-      {/* {`
-         Score
-         Rules
-       
-         You Picked
-         The House Picked
-       
-         You Win
-         You Lose
-       
-         Play Again
-      `} */}
     </div>
   );
 }

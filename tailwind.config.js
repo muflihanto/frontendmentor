@@ -840,7 +840,7 @@ module.exports = {
         "url-shortening": {
           primary: {
             cyan: "hsl(180,66%,49%)",
-            violet: "hsl(257,27%,26%)"
+            violet: "hsl(257,27%,26%)",
           },
           "secondary-red": "hsl(0,87%,67%)",
           neutral: {
@@ -848,41 +848,41 @@ module.exports = {
             200: "hsl(257,7%,63%)",
             300: "hsl(255,11%,22%)",
             400: "hsl(260,8%,14%)",
-          }
+          },
         },
         "rock-paper-scissor": {
           primary: {
             scissor: {
               100: "hsl(39,89%,49%)",
-              200: "hsl(40,84%,53%)"
+              200: "hsl(40,84%,53%)",
             },
             paper: {
               100: "hsl(230,89%,62%)",
-              200: "hsl(230,89%,65%)"
+              200: "hsl(230,89%,65%)",
             },
             rock: {
               100: "hsl(349,71%,52%)",
-              200: "hsl(349,70%,56%)"
+              200: "hsl(349,70%,56%)",
             },
             lizard: {
               100: "hsl(261,73%,60%)",
-              200: "hsl(261,72%,63%)"
+              200: "hsl(261,72%,63%)",
             },
             cyan: {
               100: "hsl(189,59%,53%)",
-              200: "hsl(189,58%,57%)"
+              200: "hsl(189,58%,57%)",
             },
           },
           neutral: {
             dark: "hsl(229,25%,31%)",
             score: "hsl(229,64%,46%)",
-            header: "hsl(217,16%,45%)"
+            header: "hsl(217,16%,45%)",
           },
           background: {
             100: "hsl(214,47%,23%)",
-            200: "hsl(237,49%,15%)"
-          }
-        }
+            200: "hsl(237,49%,15%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -943,6 +943,7 @@ module.exports = {
         },
       });
     }),
+    require("tailwindcss-animate"),
   ],
   darkMode: "class",
 };
