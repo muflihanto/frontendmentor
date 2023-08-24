@@ -28,6 +28,9 @@ const winAtom = atom<boolean | undefined>(undefined);
 const choiceAtom = atom<ChoiceVariant | null>(null);
 const houseAtom = atom<ChoiceVariant | null>(null);
 const stepsAtom = atom<1 | 2 | 3 | 4>(1);
+// const choiceAtom = atom<ChoiceVariant | null>("Scissors");
+// const houseAtom = atom<ChoiceVariant | null>("Rock");
+// const stepsAtom = atom<1 | 2 | 3 | 4>(2);
 
 export default function RockPaperScissors() {
   return (
@@ -40,7 +43,7 @@ export default function RockPaperScissors() {
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/original/desktop-step-1.jpg"
+          absolutePath="/rock-paper-scissors/design/original/desktop-step-3.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -126,42 +129,52 @@ const weapons: Record<ChoiceVariant, { weakTo: ChoiceVariant; strongTo: ChoiceVa
   Paper: { weakTo: "Scissors", strongTo: "Rock" },
   Scissors: { weakTo: "Rock", strongTo: "Paper" },
 };
-type VariantStyles = Record<ChoiceVariant, { button: string; image: string }>;
+type VariantStyles = Record<ChoiceVariant, { button: string; image: string; imageDisabled: string }>;
 type ChoiceButtonProps = ComponentProps<"button"> & { variant: ChoiceVariant };
-function ChoiceButton({ variant, disabled = false, ...props }: ChoiceButtonProps) {
+function ChoiceButton({ variant, disabled = false, className, ...props }: ChoiceButtonProps) {
   const variantStyles: VariantStyles = {
     Paper: {
       button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
       image: "mr-0.5 aspect-[49/59] w-[44px] lg:w-[67px]",
+      imageDisabled: "lg:w-[76px]",
     },
     Scissors: {
       button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
       image: "mr-1 aspect-[51/58] w-[45px] lg:mr-[9px] lg:w-[69px]",
+      imageDisabled: "lg:w-[103px] lg:mr-[10px] lg:mb-0.5",
     },
     Rock: {
       button: "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
       image: "mr-0 aspect-square w-[43px] lg:mt-[2px] lg:w-[66px]",
+      imageDisabled: "lg:w-[97px] lg:-mr-[3px]",
     },
   };
+
   return (
     <button
       className={twJoin(
         cn([
           "group relative flex h-[133px] w-[129px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[3px] shadow-lg transition-transform duration-75", // base
-          "lg:h-[203px] lg:w-[198px] lg:pt-1", //large
-          disabled ? "cursor-default" : "active:scale-[97%]", // disabled
-          variantStyles[variant].button, // variant
+          "lg:h-[203px] lg:w-[198px]", //large
+          disabled ? "cursor-default lg:h-[300px] lg:w-[294px] lg:pt-[6px] lg:shadow-md lg:shadow-black/50" : "active:scale-[97%] lg:pt-1", // disabled
+          variantStyles[variant].button, // variant,
+          className,
         ]),
-        "border-b-[6px] lg:border-b-[9px]"
+        disabled ? "lg:border-b-[13px]" : "border-b-[6px] lg:border-b-[9px]"
       )}
       {...props}
     >
-      <div className="flex aspect-square w-[99px] flex-col items-center justify-center rounded-full border-t-[6px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)] lg:w-[152px] lg:border-t-[8px]">
+      <div
+        className={cn(
+          ["flex aspect-square w-[99px] flex-col items-center justify-center rounded-full border-t-[6px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]"], //
+          disabled ? "lg:w-[225px] lg:border-t-[12px]" : "lg:w-[152px] lg:border-t-[8px]"
+        )}
+      >
         <div
           className={cn([
             "relative", // base
-            !disabled && "group-hover:opacity-75", // disabled
             variantStyles[variant].image, // variant
+            disabled ? variantStyles[variant].imageDisabled : "group-hover:opacity-75", // disabled
           ])}
         >
           <Image
@@ -256,12 +269,12 @@ function WaitForHouse() {
 
   return (
     <>
-      <div className="relative mt-[97.5px] flex w-[316px] items-center justify-between text-white">
-        <div className="flex flex-col items-center">
+      <div className="relative mt-[97.5px] flex w-[316px] items-center justify-between text-white lg:mt-[69px] lg:w-[675px] lg:items-start">
+        <div className="flex flex-col items-center lg:flex-col-reverse">
           {!!choice ? (
             <div
               className={cn([
-                "animate-in fade-in-5", //
+                "animate-in fade-in-5 lg:mt-[61px]", //
                 !!win ? winStyle : "relative z-10",
               ])}
             >
@@ -271,12 +284,12 @@ function WaitForHouse() {
               />
             </div>
           ) : (
-            <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10" />
+            <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:mt-[98px] lg:w-[224px]" />
           )}
-          <p className="mt-5 font-bold uppercase tracking-[1.5px]">you picked</p>
+          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">you picked</p>
         </div>
-        <div className="-mr-[14px] flex w-[50%] flex-col items-center">
-          <div className="flex h-[133px] items-center justify-center">
+        <div className="-mr-[14px] flex w-[50%] flex-col items-center lg:-mr-[6px] lg:flex-col-reverse">
+          <div className="flex h-[133px] items-center justify-center lg:mt-[61px] lg:h-[300px]">
             {!!house ? (
               <div
                 className={cn([
@@ -285,15 +298,15 @@ function WaitForHouse() {
                 ])}
               >
                 <ChoiceButton
-                  variant={house!}
+                  variant={house}
                   disabled
                 />
               </div>
             ) : (
-              <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10" />
+              <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:-mt-1 lg:w-[224px]" />
             )}
           </div>
-          <p className="mt-5 font-bold uppercase tracking-[1.5px]">the house picked</p>
+          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">the house picked</p>
         </div>
       </div>
       {win !== undefined ? (
