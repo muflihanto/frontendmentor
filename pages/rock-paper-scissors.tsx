@@ -35,12 +35,12 @@ export default function RockPaperScissors() {
       <Head>
         <title>Frontend Mentor | Rock, Paper, Scissors</title>
       </Head>
-      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[100svh] bg-gradient-to-b to-[130%] font-semibold">
+      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[100svh] bg-gradient-to-b to-[130%] font-semibold lg:bg-[radial-gradient(circle_at_top,var(--tw-gradient-from),var(--tw-gradient-to))] lg:to-[100%]">
         <Main />
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/original/mobile-step-4-lose.jpg"
+          absolutePath="/rock-paper-scissors/design/original/desktop-step-1.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -62,7 +62,7 @@ function RulesModal() {
   return (
     <>
       <button
-        className="mt-auto h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white"
+        className="mt-auto h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white lg:absolute lg:bottom-[31px] lg:right-[31px]"
         onClick={() => {
           setOpen(true);
         }}
@@ -103,17 +103,17 @@ function Header() {
   const score = useAtomValue(scoreAtom);
 
   return (
-    <div className="border-rock-paper-scissor-neutral-header flex h-[99px] w-full items-center justify-between rounded border-[3px] pl-[21px] pr-[10px]">
-      <div className="relative mt-1 aspect-[162/99] h-[51px]">
+    <div className="border-rock-paper-scissor-neutral-header flex h-[99px] w-full max-w-[702px] items-center justify-between rounded border-[3px] pl-[21px] pr-[10px] lg:h-[152px] lg:rounded-[16px] lg:pl-[28px] lg:pr-[22px]">
+      <div className="relative mt-1 aspect-[162/99] h-[51px] lg:mt-[3px] lg:h-[99px]">
         <Image
           src="/rock-paper-scissors/images/logo.svg"
           alt="Rock Paper Scissors Logo"
           fill
         />
       </div>
-      <div className="flex h-[72px] w-[80px] flex-col items-center rounded bg-white pt-[11px] shadow">
-        <h4 className="text-rock-paper-scissor-neutral-score text-[10px] uppercase leading-none tracking-[1.5px]">score</h4>
-        <h2 className="mt-px w-min text-center text-[40px] font-bold uppercase leading-none text-[hsl(246,11%,37%)]">{score}</h2>
+      <div className="flex h-[72px] w-[80px] flex-col items-center rounded bg-white pt-[11px] shadow lg:h-[114px] lg:w-[150px] lg:justify-center lg:rounded-lg lg:pt-[2px]">
+        <h4 className="text-rock-paper-scissor-neutral-score text-[10px] uppercase leading-none tracking-[1.5px] lg:text-[16px] lg:tracking-[2.5px]">score</h4>
+        <h2 className="mt-px w-min text-center text-[40px] font-bold uppercase leading-none text-[hsl(246,11%,37%)] lg:mt-[2px] lg:text-[64px]">{score}</h2>
       </div>
     </div>
   );
@@ -132,15 +132,15 @@ function ChoiceButton({ variant, disabled = false, ...props }: ChoiceButtonProps
   const variantStyles: VariantStyles = {
     Paper: {
       button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
-      image: "mr-0.5 aspect-[49/59] w-[44px]",
+      image: "mr-0.5 aspect-[49/59] w-[44px] lg:w-[67px]",
     },
     Scissors: {
       button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
-      image: "mr-1 aspect-[51/58] w-[45px]",
+      image: "mr-1 aspect-[51/58] w-[45px] lg:mr-[9px] lg:w-[69px]",
     },
     Rock: {
       button: "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
-      image: "mr-0 aspect-square w-[43px]",
+      image: "mr-0 aspect-square w-[43px] lg:mt-[2px] lg:w-[66px]",
     },
   };
   return (
@@ -148,14 +148,15 @@ function ChoiceButton({ variant, disabled = false, ...props }: ChoiceButtonProps
       className={twJoin(
         cn([
           "group relative flex h-[133px] w-[129px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[3px] shadow-lg transition-transform duration-75", // base
+          "lg:h-[203px] lg:w-[198px] lg:pt-1", //large
           disabled ? "cursor-default" : "active:scale-[97%]", // disabled
           variantStyles[variant].button, // variant
         ]),
-        "border-b-[6px]"
+        "border-b-[6px] lg:border-b-[9px]"
       )}
       {...props}
     >
-      <div className="flex aspect-square w-[99px] flex-col items-center justify-center rounded-full border-t-[6px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]">
+      <div className="flex aspect-square w-[99px] flex-col items-center justify-center rounded-full border-t-[6px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)] lg:w-[152px] lg:border-t-[8px]">
         <div
           className={cn([
             "relative", // base
@@ -185,8 +186,8 @@ function Choices() {
   };
 
   return (
-    <div className="relative mt-[100px] w-[311px]">
-      <div className="relative z-10 flex flex-col items-center gap-4 pt-[3px]">
+    <div className="relative mt-[100px] w-[311px] lg:mt-[60px] lg:w-[477px]">
+      <div className="relative z-10 flex flex-col items-center gap-4 pt-[3px] lg:gap-6">
         <div className="flex w-full items-center justify-between">
           <ChoiceButton
             variant="Paper"
@@ -208,7 +209,7 @@ function Choices() {
       </div>
 
       <svg
-        className="absolute left-1/2 top-[61px] w-[calc(375px-170px)] -translate-x-1/2 stroke-[27]"
+        className="absolute left-1/2 top-[61px] w-[calc(375px-170px)] -translate-x-1/2 stroke-[27] lg:left-[calc(50%+4px)] lg:top-[94px] lg:w-[313px] lg:stroke-[16px]"
         viewBox="0 0 313 278"
       >
         <use href="/rock-paper-scissors/images/bg-triangle.svg#bg-triangle" />
@@ -320,7 +321,7 @@ function Main() {
   const step = useAtomValue(stepsAtom);
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-[31px] pb-[55px] pt-[30.5px]">
+    <div className="flex min-h-screen flex-col items-center px-[31px] pb-[55px] pt-[30.5px] lg:pt-[47px]">
       <ClientOnly>
         <Header />
       </ClientOnly>
