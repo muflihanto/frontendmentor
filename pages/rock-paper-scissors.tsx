@@ -1,9 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { ComponentProps, useEffect } from "react";
+import { ComponentProps, useEffect, useRef } from "react";
 import { cn } from "../utils/cn";
 import { twJoin } from "tailwind-merge";
+import { useEffectOnce } from "usehooks-ts";
+import ClientOnly from "../components/ClientOnly";
+import { atomWithStorage } from "jotai/utils";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -20,7 +23,7 @@ import { twJoin } from "tailwind-merge";
  */
 
 const rulesAtom = atom(false);
-const scoreAtom = atom(12);
+const scoreAtom = atomWithStorage("rps_score", 12);
 const winAtom = atom<boolean | undefined>(undefined);
 const choiceAtom = atom<ChoiceVariant | null>(null);
 const houseAtom = atom<ChoiceVariant | null>(null);
@@ -97,7 +100,7 @@ function RulesModal() {
 }
 
 function Header() {
-  const [score, setScore] = useAtom(scoreAtom);
+  const score = useAtomValue(scoreAtom);
 
   return (
     <div className="border-rock-paper-scissor-neutral-header flex h-[99px] w-full items-center justify-between rounded border-[3px] pl-[21px] pr-[10px]">
@@ -173,14 +176,13 @@ function ChoiceButton({ variant, disabled = false, ...props }: ChoiceButtonProps
 }
 
 function Choices() {
-  const [choice, setChoice] = useAtom(choiceAtom);
+  const setChoice = useSetAtom(choiceAtom);
   const setStep = useSetAtom(stepsAtom);
 
-  useEffect(() => {
-    if (choice !== null) {
-      setStep(2);
-    }
-  }, [choice, setStep]);
+  const handleClick = (cv: ChoiceVariant) => {
+    setChoice(cv);
+    setStep(2);
+  };
 
   return (
     <div className="relative mt-[100px] w-[311px]">
@@ -188,21 +190,19 @@ function Choices() {
         <div className="flex w-full items-center justify-between">
           <ChoiceButton
             variant="Paper"
-            onClick={() => {
-              setChoice("Paper");
-            }}
+            onClick={() => handleClick("Paper")}
           />
           <ChoiceButton
             variant="Scissors"
             onClick={() => {
-              setChoice("Scissors");
+              handleClick("Scissors");
             }}
           />
         </div>
         <ChoiceButton
           variant="Rock"
           onClick={() => {
-            setChoice("Rock");
+            handleClick("Rock");
           }}
         />
       </div>
@@ -220,21 +220,38 @@ function Choices() {
 function WaitForHouse() {
   const setStep = useSetAtom(stepsAtom);
   const [choice, setChoice] = useAtom(choiceAtom);
+  const setScore = useSetAtom(scoreAtom);
   const [house, setHouse] = useAtom(houseAtom);
   const [win, setWin] = useAtom(winAtom);
+  const optRef = useRef<ChoiceVariant | undefined>(undefined); // debug only
   const winStyle = "relative before:absolute before:top-1/2 before:left-1/2 before:-translate-y-1/2 before:-translate-x-1/2 before:aspect-[137/133] before:w-[129px] before:rounded-full before:shadow-[0_0_0_19px_hsla(0,0%,100%,.02),0_0_0_46px_hsla(0,0%,100%,.03),0_0_0_80px_hsla(0,0%,100%,.025)] z-0";
 
-  useEffect(() => {
-    setTimeout(() => {
-      const getRandOptions = () => Math.floor(Math.random() * 3);
-      let opt = choice;
-      while (opt === choice) {
-        opt = options[getRandOptions()];
-      }
-      setHouse(opt);
-      setWin(weapons[choice!].strongTo === opt);
-    }, 1000);
-  }, [choice, setHouse, setWin]);
+  const getRandomHouse = (draw: ChoiceVariant) => {
+    if (optRef.current !== undefined) return optRef.current; // debug only
+    const getRandOptions = () => Math.floor(Math.random() * 3);
+    let res = draw;
+    while (res === draw) {
+      res = options[getRandOptions()];
+    }
+    optRef.current = res; // debug only
+    return res;
+  };
+
+  useEffectOnce(() => {
+    if (!!choice) {
+      setTimeout(() => {
+        const opt = getRandomHouse(choice);
+        if (weapons[choice].strongTo === opt) {
+          setWin(true);
+          setScore((s) => s + 1);
+        } else {
+          setWin(false);
+          setScore((s) => s - 1);
+        }
+        setHouse(opt);
+      }, 1000);
+    }
+  });
 
   return (
     <>
@@ -284,6 +301,7 @@ function WaitForHouse() {
           <button
             className="text-rock-paper-scissor-neutral-dark mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] shadow"
             onClick={() => {
+              optRef.current = undefined; // debug only
               setChoice(null);
               setWin(undefined);
               setHouse(null);
@@ -303,7 +321,9 @@ function Main() {
 
   return (
     <div className="flex min-h-screen flex-col items-center px-[31px] pb-[55px] pt-[30.5px]">
-      <Header />
+      <ClientOnly>
+        <Header />
+      </ClientOnly>
       {step === 1 ? <Choices /> : <WaitForHouse />}
       <RulesModal />
     </div>
