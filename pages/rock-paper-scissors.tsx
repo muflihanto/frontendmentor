@@ -28,9 +28,10 @@ const winAtom = atom<boolean | undefined>(undefined);
 const choiceAtom = atom<ChoiceVariant | null>(null);
 const houseAtom = atom<ChoiceVariant | null>(null);
 const stepsAtom = atom<1 | 2 | 3 | 4>(1);
-// const choiceAtom = atom<ChoiceVariant | null>("Scissors");
+// const choiceAtom = atom<ChoiceVariant | null>("Paper");
 // const houseAtom = atom<ChoiceVariant | null>("Rock");
 // const stepsAtom = atom<1 | 2 | 3 | 4>(2);
+// const winAtom = atom<boolean | undefined>(true);
 
 export default function RockPaperScissors() {
   return (
@@ -38,12 +39,12 @@ export default function RockPaperScissors() {
       <Head>
         <title>Frontend Mentor | Rock, Paper, Scissors</title>
       </Head>
-      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[100svh] bg-gradient-to-b to-[130%] font-semibold lg:bg-[radial-gradient(circle_at_top,var(--tw-gradient-from),var(--tw-gradient-to))] lg:to-[100%]">
+      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[750px] bg-gradient-to-b to-[130%] font-semibold lg:min-h-[100svh] lg:bg-[radial-gradient(circle_at_top,var(--tw-gradient-from),var(--tw-gradient-to))] lg:to-[100%]">
         <Main />
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/original/desktop-step-3.jpg"
+          absolutePath="/rock-paper-scissors/design/original/desktop-step-4-win.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -65,7 +66,7 @@ function RulesModal() {
   return (
     <>
       <button
-        className="mt-auto h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white lg:absolute lg:bottom-[31px] lg:right-[31px]"
+        className="absolute mt-auto h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white max-lg:bottom-[55px] max-lg:left-1/2 max-lg:-translate-x-1/2 lg:bottom-[31px] lg:right-[31px]"
         onClick={() => {
           setOpen(true);
         }}
@@ -136,7 +137,7 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
     Paper: {
       button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
       image: "mr-0.5 aspect-[49/59] w-[44px] lg:w-[67px]",
-      imageDisabled: "lg:w-[76px]",
+      imageDisabled: "lg:w-[98px] lg:mr-1",
     },
     Scissors: {
       button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
@@ -238,7 +239,8 @@ function WaitForHouse() {
   const [house, setHouse] = useAtom(houseAtom);
   const [win, setWin] = useAtom(winAtom);
   const optRef = useRef<ChoiceVariant | undefined>(undefined); // debug only
-  const winStyle = "relative before:absolute before:top-1/2 before:left-1/2 before:-translate-y-1/2 before:-translate-x-1/2 before:aspect-[137/133] before:w-[129px] before:rounded-full before:shadow-[0_0_0_19px_hsla(0,0%,100%,.02),0_0_0_46px_hsla(0,0%,100%,.03),0_0_0_80px_hsla(0,0%,100%,.025)] z-0";
+  const winStyle =
+    "relative before:absolute before:top-1/2 before:left-1/2 before:-translate-y-1/2 before:-translate-x-1/2 before:aspect-[137/133] before:w-[129px] lg:before:aspect-[311/300] lg:before:top-[calc(50%-6px)] lg:before:w-[294px] before:rounded-full before:shadow-[0_0_0_19px_hsla(0,0%,100%,.02),0_0_0_46px_hsla(0,0%,100%,.03),0_0_0_80px_hsla(0,0%,100%,.025)] lg:before:shadow-[0_0_0_65px_hsla(0,0%,100%,.02),0_0_0_135px_hsla(0,0%,100%,.03),0_0_0_218px_hsla(0,0%,100%,.025)] z-0";
 
   const getRandomHouse = (draw: ChoiceVariant) => {
     if (optRef.current !== undefined) return optRef.current; // debug only
@@ -255,13 +257,9 @@ function WaitForHouse() {
     if (!!choice) {
       setTimeout(() => {
         const opt = getRandomHouse(choice);
-        if (weapons[choice].strongTo === opt) {
-          setWin(true);
-          setScore((s) => s + 1);
-        } else {
-          setWin(false);
-          setScore((s) => s - 1);
-        }
+        const isWin = weapons[choice].strongTo === opt;
+        setWin(isWin);
+        setScore((s) => (isWin ? s + 1 : s - 1));
         setHouse(opt);
       }, 1000);
     }
@@ -269,7 +267,12 @@ function WaitForHouse() {
 
   return (
     <>
-      <div className="relative mt-[97.5px] flex w-[316px] items-center justify-between text-white lg:mt-[69px] lg:w-[675px] lg:items-start">
+      <div
+        className={cn(
+          ["relative mt-[97.5px] flex w-[316px] items-center justify-between text-white lg:mt-[69px] lg:items-start"], //
+          win === undefined ? "lg:w-[675px]" : "lg:-ml-[28px] lg:w-[932px]"
+        )}
+      >
         <div className="flex flex-col items-center lg:flex-col-reverse">
           {!!choice ? (
             <div
@@ -288,7 +291,24 @@ function WaitForHouse() {
           )}
           <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">you picked</p>
         </div>
-        <div className="-mr-[14px] flex w-[50%] flex-col items-center lg:-mr-[6px] lg:flex-col-reverse">
+        {win !== undefined ? (
+          <div className="absolute -bottom-[72px] left-1/2 flex -translate-x-1/2 translate-y-full flex-col items-center lg:static lg:w-[220px] lg:translate-x-[11px] lg:translate-y-0 lg:self-center lg:pt-[63px]">
+            <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white drop-shadow-md">you {win ? "win" : "lose"}</h1>
+            <button
+              className="text-rock-paper-scissor-neutral-dark hover:text-rock-paper-scissor-primary-rock-100 mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] shadow"
+              onClick={() => {
+                optRef.current = undefined; // debug only
+                setChoice(null);
+                setWin(undefined);
+                setHouse(null);
+                setStep(1);
+              }}
+            >
+              play again
+            </button>
+          </div>
+        ) : null}
+        <div className="-mr-[14px] flex w-[50%] flex-col items-center lg:-mr-[6px] lg:w-[294px] lg:flex-col-reverse">
           <div className="flex h-[133px] items-center justify-center lg:mt-[61px] lg:h-[300px]">
             {!!house ? (
               <div
@@ -309,23 +329,6 @@ function WaitForHouse() {
           <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">the house picked</p>
         </div>
       </div>
-      {win !== undefined ? (
-        <div className="mt-[72px] flex flex-col items-center">
-          <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white">you {win ? "win" : "lose"}</h1>
-          <button
-            className="text-rock-paper-scissor-neutral-dark mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] shadow"
-            onClick={() => {
-              optRef.current = undefined; // debug only
-              setChoice(null);
-              setWin(undefined);
-              setHouse(null);
-              setStep(1);
-            }}
-          >
-            play again
-          </button>
-        </div>
-      ) : null}
     </>
   );
 }
@@ -334,7 +337,7 @@ function Main() {
   const step = useAtomValue(stepsAtom);
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-[31px] pb-[55px] pt-[30.5px] lg:pt-[47px]">
+    <div className="flex min-h-screen flex-col items-center px-[31px] pt-[30.5px] lg:pb-[75px] lg:pt-[47px]">
       <ClientOnly>
         <Header />
       </ClientOnly>
