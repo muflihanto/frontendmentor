@@ -108,9 +108,9 @@ function Header() {
 
   return (
     <div className="border-rock-paper-scissor-neutral-header flex h-[99px] w-full max-w-[702px] items-center justify-between rounded border-[3px] pl-[21px] pr-[10px] lg:h-[152px] lg:rounded-[16px] lg:pl-[28px] lg:pr-[22px]">
-      <div className="relative mt-1 aspect-[162/99] h-[51px] lg:mt-[3px] lg:h-[99px]">
+      <div className="relative mt-[3px] aspect-[115/114] h-[51px] lg:mt-[3px] lg:h-[99px]">
         <Image
-          src="/rock-paper-scissors/images/logo.svg"
+          src="/rock-paper-scissors/images/logo-bonus.svg"
           alt="Rock Paper Scissors Logo"
           fill
         />
@@ -123,12 +123,14 @@ function Header() {
   );
 }
 
-const options = ["Rock", "Paper", "Scissors"] as const;
+const options = ["Rock", "Paper", "Scissors", "Lizard", "Spock"] as const;
 type ChoiceVariant = (typeof options)[number];
-const weapons: Record<ChoiceVariant, { weakTo: ChoiceVariant; strongTo: ChoiceVariant }> = {
-  Rock: { weakTo: "Paper", strongTo: "Scissors" },
-  Paper: { weakTo: "Scissors", strongTo: "Rock" },
-  Scissors: { weakTo: "Rock", strongTo: "Paper" },
+const weapons: Record<ChoiceVariant, { weakTo: ChoiceVariant[]; strongTo: ChoiceVariant[] }> = {
+  Rock: { weakTo: ["Paper", "Spock"], strongTo: ["Scissors", "Lizard"] },
+  Paper: { weakTo: ["Scissors", "Lizard"], strongTo: ["Rock", "Spock"] },
+  Scissors: { weakTo: ["Rock", "Spock"], strongTo: ["Paper", "Lizard"] },
+  Lizard: { weakTo: ["Rock", "Scissors"], strongTo: ["Paper", "Spock"] },
+  Spock: { weakTo: ["Paper", "Lizard"], strongTo: ["Scissors", "Rock"] },
 };
 type VariantStyles = Record<ChoiceVariant, { button: string; image: string; imageDisabled: string }>;
 type ChoiceButtonProps = ComponentProps<"button"> & { variant: ChoiceVariant };
@@ -136,17 +138,27 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
   const variantStyles: VariantStyles = {
     Paper: {
       button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
-      image: "mr-0.5 aspect-[49/59] w-[44px] lg:w-[67px]",
+      image: "mr-px aspect-[49/59] w-[32px] lg:w-[67px]",
       imageDisabled: "lg:w-[98px] lg:mr-1",
     },
     Scissors: {
       button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
-      image: "mr-1 aspect-[51/58] w-[45px] lg:mr-[9px] lg:w-[69px]",
+      image: "mr-[3px] aspect-[51/58] w-[33px] lg:mr-[9px] lg:w-[69px]",
       imageDisabled: "lg:w-[103px] lg:mr-[10px] lg:mb-0.5",
     },
     Rock: {
       button: "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
-      image: "mr-0 aspect-square w-[43px] lg:mt-[2px] lg:w-[66px]",
+      image: "mr-0 aspect-square w-[31.5px] lg:mt-[2px] lg:w-[66px]",
+      imageDisabled: "lg:w-[97px] lg:-mr-[3px]",
+    },
+    Lizard: {
+      button: "from-rock-paper-scissor-primary-lizard-100 to-rock-paper-scissor-primary-lizard-200 border-b-[hsl(261,52%,44%)]",
+      image: "mr-0 aspect-square mb-px w-[41px] lg:mt-[2px] lg:w-[66px]",
+      imageDisabled: "lg:w-[97px] lg:-mr-[3px]",
+    },
+    Spock: {
+      button: "from-rock-paper-scissor-primary-cyan-100 to-rock-paper-scissor-primary-cyan-200 border-b-[hsl(194,60%,42%)]",
+      image: "ml-1 mb-0.5 aspect-square w-[39px] lg:mt-[2px] lg:w-[66px]",
       imageDisabled: "lg:w-[97px] lg:-mr-[3px]",
     },
   };
@@ -155,19 +167,19 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
     <button
       className={twJoin(
         cn([
-          "group relative flex h-[133px] w-[129px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[3px] shadow-lg transition-transform duration-75", // base
+          "group relative flex h-[97px] w-[96px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[2px] shadow-lg transition-transform duration-75", // base
           "lg:h-[203px] lg:w-[198px]", //large
           disabled ? "cursor-default lg:h-[300px] lg:w-[294px] lg:pt-[6px] lg:shadow-md lg:shadow-black/50" : "active:scale-[97%] lg:pt-1", // disabled
           variantStyles[variant].button, // variant,
           className,
         ]),
-        disabled ? "lg:border-b-[13px]" : "border-b-[6px] lg:border-b-[9px]"
+        disabled ? "lg:border-b-[13px]" : "border-b-[4px] lg:border-b-[9px]"
       )}
       {...props}
     >
       <div
         className={cn(
-          ["flex aspect-square w-[99px] flex-col items-center justify-center rounded-full border-t-[6px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]"], //
+          ["flex aspect-square w-[73px] flex-col items-center justify-center rounded-full border-t-[4px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]"], //
           disabled ? "lg:w-[225px] lg:border-t-[12px]" : "lg:w-[152px] lg:border-t-[8px]"
         )}
       >
@@ -200,33 +212,45 @@ function Choices() {
   };
 
   return (
-    <div className="relative mt-[100px] w-[311px] lg:mt-[60px] lg:w-[477px]">
-      <div className="relative z-10 flex flex-col items-center gap-4 pt-[3px] lg:gap-6">
-        <div className="flex w-full items-center justify-between">
+    <div className="relative mt-[90.5px] w-[311px] lg:mt-[60px] lg:w-[477px]">
+      <div className="relative z-10 flex flex-col items-center pt-[3px] lg:gap-6">
+        <ChoiceButton
+          variant="Scissors"
+          onClick={() => {
+            handleClick("Scissors");
+          }}
+        />
+        <div className="-mt-3 flex w-full items-center justify-between">
           <ChoiceButton
-            variant="Paper"
-            onClick={() => handleClick("Paper")}
+            variant="Spock"
+            onClick={() => handleClick("Spock")}
           />
           <ChoiceButton
-            variant="Scissors"
+            variant="Paper"
             onClick={() => {
-              handleClick("Scissors");
+              handleClick("Paper");
             }}
           />
         </div>
-        <ChoiceButton
-          variant="Rock"
-          onClick={() => {
-            handleClick("Rock");
-          }}
-        />
+        <div className="mt-[26px] flex w-full items-center justify-between px-[43px]">
+          <ChoiceButton
+            variant="Lizard"
+            onClick={() => handleClick("Lizard")}
+          />
+          <ChoiceButton
+            variant="Rock"
+            onClick={() => {
+              handleClick("Rock");
+            }}
+          />
+        </div>
       </div>
 
       <svg
-        className="absolute left-1/2 top-[61px] w-[calc(375px-170px)] -translate-x-1/2 stroke-[27] lg:left-[calc(50%+4px)] lg:top-[94px] lg:w-[313px] lg:stroke-[16px]"
-        viewBox="0 0 313 278"
+        className="absolute left-1/2 top-[56px] w-[calc(375px-164px)] -translate-x-1/2 stroke-[24px] lg:left-[calc(50%+4px)] lg:top-[94px] lg:w-[313px] lg:stroke-[15px]"
+        viewBox="0 0 329 313"
       >
-        <use href="/rock-paper-scissors/images/bg-triangle.svg#bg-triangle" />
+        <use href="/rock-paper-scissors/images/bg-pentagon.svg#bg-pentagon" />
       </svg>
     </div>
   );
@@ -244,7 +268,7 @@ function WaitForHouse() {
 
   const getRandomHouse = (draw: ChoiceVariant) => {
     if (optRef.current !== undefined) return optRef.current; // debug only
-    const getRandOptions = () => Math.floor(Math.random() * 3);
+    const getRandOptions = () => Math.floor(Math.random() * 5);
     let res = draw;
     while (res === draw) {
       res = options[getRandOptions()];
@@ -257,7 +281,7 @@ function WaitForHouse() {
     if (!!choice) {
       setTimeout(() => {
         const opt = getRandomHouse(choice);
-        const isWin = weapons[choice].strongTo === opt;
+        const isWin = weapons[choice].strongTo.includes(opt);
         setWin(isWin);
         setScore((s) => (isWin ? s + 1 : s - 1));
         setHouse(opt);
