@@ -14,12 +14,6 @@ import { atomWithStorage } from "jotai/utils";
  * TODO:
  * Your users should be able to:
  * - View the optimal layout for the game depending on their device's screen size
- * - Play Rock, Paper, Scissors against the computer
- * - Maintain the state of the score after refreshing the browser _(optional)_
- * - **Bonus**: Play Rock, Paper, Scissors, Lizard, Spock against the computer _(optional)_
- *
- * ### Rules
- * If the player wins, they gain 1 point. If the computer wins, the player loses one point.
  */
 
 const rulesAtom = atom(false);
@@ -29,7 +23,7 @@ const choiceAtom = atom<ChoiceVariant | null>(null);
 const houseAtom = atom<ChoiceVariant | null>(null);
 const stepsAtom = atom<1 | 2 | 3 | 4>(1);
 // const choiceAtom = atom<ChoiceVariant | null>("Paper");
-// const houseAtom = atom<ChoiceVariant | null>("Rock");
+// const houseAtom = atom<ChoiceVariant | null>("Spock");
 // const stepsAtom = atom<1 | 2 | 3 | 4>(2);
 // const winAtom = atom<boolean | undefined>(true);
 
@@ -44,7 +38,7 @@ export default function RockPaperScissors() {
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/bonus/mobile-step-1-bonus.jpg"
+          absolutePath="/rock-paper-scissors/design/bonus/mobile-step-4-bonus.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -139,27 +133,27 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
     Paper: {
       button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
       image: "mr-px aspect-[49/59] w-[32px] lg:w-[67px]",
-      imageDisabled: "lg:w-[98px] lg:mr-1",
+      imageDisabled: "lg:w-[98px] lg:mr-1 w-[44px] mr-0.5",
     },
     Scissors: {
       button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
       image: "mr-[3px] aspect-[51/58] w-[33px] lg:mr-[9px] lg:w-[69px]",
-      imageDisabled: "lg:w-[103px] lg:mr-[10px] lg:mb-0.5",
+      imageDisabled: "lg:w-[103px] lg:mr-[10px] lg:mb-0.5 mr-[5px] w-[46px]",
     },
     Rock: {
       button: "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
       image: "mr-0 aspect-square w-[31.5px] lg:mt-[2px] lg:w-[66px]",
-      imageDisabled: "lg:w-[97px] lg:-mr-[3px]",
+      imageDisabled: "lg:w-[97px] lg:-mr-[3px] mr-0 w-[43px]",
     },
     Lizard: {
       button: "from-rock-paper-scissor-primary-lizard-100 to-rock-paper-scissor-primary-lizard-200 border-b-[hsl(261,52%,44%)]",
       image: "mr-0 aspect-square mb-px w-[41px] lg:mt-[2px] lg:w-[66px]",
-      imageDisabled: "lg:w-[97px] lg:-mr-[3px]",
+      imageDisabled: "lg:w-[97px] lg:-mr-[3px] w-[56px]",
     },
     Spock: {
       button: "from-rock-paper-scissor-primary-cyan-100 to-rock-paper-scissor-primary-cyan-200 border-b-[hsl(194,60%,42%)]",
       image: "ml-1 mb-0.5 aspect-square w-[39px] lg:mt-[2px] lg:w-[66px]",
-      imageDisabled: "lg:w-[97px] lg:-mr-[3px]",
+      imageDisabled: "lg:w-[97px] lg:-mr-[3px] -mr-0.5 w-[53px]",
     },
   };
 
@@ -169,18 +163,18 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
         cn([
           "group relative flex h-[97px] w-[96px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[2px] shadow-lg transition-transform duration-75", // base
           "lg:h-[203px] lg:w-[198px]", //large
-          disabled ? "cursor-default lg:h-[300px] lg:w-[294px] lg:pt-[6px] lg:shadow-md lg:shadow-black/50" : "active:scale-[97%] lg:pt-1", // disabled
+          disabled ? "h-[133px] w-[129px] cursor-default pt-[3px] lg:h-[300px] lg:w-[294px] lg:pt-[6px] lg:shadow-md lg:shadow-black/50" : "active:scale-[97%] lg:pt-1", // disabled
           variantStyles[variant].button, // variant,
           className,
         ]),
-        disabled ? "lg:border-b-[13px]" : "border-b-[4px] lg:border-b-[9px]"
+        disabled ? "border-b-[6px] lg:border-b-[13px]" : "border-b-[4px] lg:border-b-[9px]"
       )}
       {...props}
     >
       <div
         className={cn(
           ["flex aspect-square w-[73px] flex-col items-center justify-center rounded-full border-t-[4px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]"], //
-          disabled ? "lg:w-[225px] lg:border-t-[12px]" : "lg:w-[152px] lg:border-t-[8px]"
+          disabled ? "w-[100px] border-t-[5px] lg:w-[225px] lg:border-t-[12px]" : "lg:w-[152px] lg:border-t-[8px]"
         )}
       >
         <div
