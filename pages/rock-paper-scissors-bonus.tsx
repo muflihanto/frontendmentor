@@ -38,7 +38,7 @@ export default function RockPaperScissors() {
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/bonus/desktop-step-4-bonus.jpg"
+          absolutePath="/rock-paper-scissors/design/bonus/desktop-rules-modal-bonus.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -70,10 +70,10 @@ function RulesModal() {
 
       {open ? (
         <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-transparent md:bg-black/50">
-          <div className="absolute flex h-full w-full flex-col items-center bg-white pb-[64px] pt-[88px] md:left-1/2 md:top-1/2 md:h-[415px] md:w-[400px] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-xl md:p-8 md:pt-[33px]">
+          <div className="absolute flex h-full w-full flex-col items-center bg-white pb-[64px] pt-[88px] md:left-1/2 md:top-1/2 md:h-[461px] md:w-[400px] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-lg md:p-8 md:pt-[33px] md:shadow-md">
             <h1 className="text-rock-paper-scissor-neutral-dark text-[31px] font-bold uppercase tracking-[.5px] md:self-start md:leading-none">rules</h1>
             <svg
-              className="mt-[88.5px] w-[313px] max-md:ml-1 md:mt-12"
+              className="mt-[88.5px] w-[313px] max-md:ml-1 md:ml-1 md:mt-5 md:w-[340px]"
               viewBox="0 0 340 330"
             >
               <use href="/rock-paper-scissors/images/image-rules-bonus.svg#rules-image-bonus" />
