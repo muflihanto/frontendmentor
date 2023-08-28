@@ -38,7 +38,7 @@ export default function RockPaperScissors() {
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/bonus/mobile-step-4-bonus.jpg"
+          absolutePath="/rock-paper-scissors/design/bonus/desktop-step-1-bonus.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -102,7 +102,7 @@ function Header() {
 
   return (
     <div className="border-rock-paper-scissor-neutral-header flex h-[99px] w-full max-w-[702px] items-center justify-between rounded border-[3px] pl-[21px] pr-[10px] lg:h-[152px] lg:rounded-[16px] lg:pl-[28px] lg:pr-[22px]">
-      <div className="relative mt-[3px] aspect-[115/114] h-[51px] lg:mt-[3px] lg:h-[99px]">
+      <div className="relative mt-[3px] aspect-[115/114] h-[51px] lg:mt-[7.5px] lg:h-[114px]">
         <Image
           src="/rock-paper-scissors/images/logo-bonus.svg"
           alt="Rock Paper Scissors Logo"
@@ -132,27 +132,27 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
   const variantStyles: VariantStyles = {
     Paper: {
       button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
-      image: "mr-px aspect-[49/59] w-[32px] lg:w-[67px]",
+      image: "mr-px aspect-[49/59] w-[32px] lg:w-[49px]",
       imageDisabled: "lg:w-[98px] lg:mr-1 w-[44px] mr-0.5",
     },
     Scissors: {
       button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
-      image: "mr-[3px] aspect-[51/58] w-[33px] lg:mr-[9px] lg:w-[69px]",
+      image: "mr-[3px] aspect-[51/58] w-[33px] lg:mr-[5px] lg:mb-px lg:w-[51px]",
       imageDisabled: "lg:w-[103px] lg:mr-[10px] lg:mb-0.5 mr-[5px] w-[46px]",
     },
     Rock: {
       button: "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
-      image: "mr-0 aspect-square w-[31.5px] lg:mt-[2px] lg:w-[66px]",
+      image: "mr-0 aspect-square w-[31.5px] lg:mt-[0px] lg:w-[48px]",
       imageDisabled: "lg:w-[97px] lg:-mr-[3px] mr-0 w-[43px]",
     },
     Lizard: {
       button: "from-rock-paper-scissor-primary-lizard-100 to-rock-paper-scissor-primary-lizard-200 border-b-[hsl(261,52%,44%)]",
-      image: "mr-0 aspect-square mb-px w-[41px] lg:mt-[2px] lg:w-[66px]",
+      image: "mr-0 aspect-square mb-px w-[41px] lg:mt-[0px] lg:w-[63px]",
       imageDisabled: "lg:w-[97px] lg:-mr-[3px] w-[56px]",
     },
     Spock: {
       button: "from-rock-paper-scissor-primary-cyan-100 to-rock-paper-scissor-primary-cyan-200 border-b-[hsl(194,60%,42%)]",
-      image: "ml-1 mb-0.5 aspect-square w-[39px] lg:mt-[2px] lg:w-[66px]",
+      image: "ml-1 mb-0.5 aspect-square w-[39px] lg:ml-[5px] lg:mt-[-2px] lg:w-[58px]",
       imageDisabled: "lg:w-[97px] lg:-mr-[3px] -mr-0.5 w-[53px]",
     },
   };
@@ -162,19 +162,19 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
       className={twJoin(
         cn([
           "group relative flex h-[97px] w-[96px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[2px] shadow-lg transition-transform duration-75", // base
-          "lg:h-[203px] lg:w-[198px]", //large
+          "lg:h-[148px] lg:w-[145px]", //large
           disabled ? "h-[133px] w-[129px] cursor-default pt-[3px] lg:h-[300px] lg:w-[294px] lg:pt-[6px] lg:shadow-md lg:shadow-black/50" : "active:scale-[97%] lg:pt-1", // disabled
           variantStyles[variant].button, // variant,
           className,
         ]),
-        disabled ? "border-b-[6px] lg:border-b-[13px]" : "border-b-[4px] lg:border-b-[9px]"
+        disabled ? "border-b-[6px] lg:border-b-[13px]" : "border-b-[4px] lg:border-b-[7px]"
       )}
       {...props}
     >
       <div
         className={cn(
           ["flex aspect-square w-[73px] flex-col items-center justify-center rounded-full border-t-[4px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]"], //
-          disabled ? "w-[100px] border-t-[5px] lg:w-[225px] lg:border-t-[12px]" : "lg:w-[152px] lg:border-t-[8px]"
+          disabled ? "w-[100px] border-t-[5px] lg:w-[225px] lg:border-t-[12px]" : "lg:w-[111px] lg:border-t-[6px]"
         )}
       >
         <div
@@ -206,7 +206,7 @@ function Choices() {
   };
 
   return (
-    <div className="relative mt-[90.5px] w-[311px] lg:mt-[60px] lg:w-[477px]">
+    <div className="relative mt-[90.5px] w-[311px] lg:mt-[44px] lg:w-[472px]">
       <div className="relative z-10 flex flex-col items-center pt-[3px] lg:gap-6">
         <ChoiceButton
           variant="Scissors"
@@ -214,7 +214,7 @@ function Choices() {
             handleClick("Scissors");
           }}
         />
-        <div className="-mt-3 flex w-full items-center justify-between">
+        <div className="-mt-[43px] flex w-full items-center justify-between">
           <ChoiceButton
             variant="Spock"
             onClick={() => handleClick("Spock")}
@@ -226,7 +226,7 @@ function Choices() {
             }}
           />
         </div>
-        <div className="mt-[26px] flex w-full items-center justify-between px-[43px]">
+        <div className="mt-[26px] flex w-full items-center justify-between px-[43px] lg:mt-[14px] lg:px-[65px]">
           <ChoiceButton
             variant="Lizard"
             onClick={() => handleClick("Lizard")}
@@ -241,7 +241,7 @@ function Choices() {
       </div>
 
       <svg
-        className="absolute left-1/2 top-[56px] w-[calc(375px-164px)] -translate-x-1/2 stroke-[24px] lg:left-[calc(50%+4px)] lg:top-[94px] lg:w-[313px] lg:stroke-[15px]"
+        className="absolute left-1/2 top-[56px] w-[calc(375px-164px)] -translate-x-1/2 stroke-[24px] lg:left-[calc(50%)] lg:top-[78px] lg:w-[329px] lg:stroke-[15px]"
         viewBox="0 0 329 313"
       >
         <use href="/rock-paper-scissors/images/bg-pentagon.svg#bg-pentagon" />
@@ -355,7 +355,7 @@ function Main() {
   const step = useAtomValue(stepsAtom);
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-[31px] pt-[30.5px] lg:pb-[75px] lg:pt-[47px]">
+    <div className="flex min-h-screen flex-col items-center px-[31px] pt-[30.5px] lg:pb-[58px] lg:pt-[47px]">
       <ClientOnly>
         <Header />
       </ClientOnly>
