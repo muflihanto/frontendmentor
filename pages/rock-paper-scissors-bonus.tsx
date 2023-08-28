@@ -22,7 +22,7 @@ const winAtom = atom<boolean | undefined>(undefined);
 const choiceAtom = atom<ChoiceVariant | null>(null);
 const houseAtom = atom<ChoiceVariant | null>(null);
 const stepsAtom = atom<1 | 2 | 3 | 4>(1);
-// const choiceAtom = atom<ChoiceVariant | null>("Paper");
+// const choiceAtom = atom<ChoiceVariant | null>("Scissors");
 // const houseAtom = atom<ChoiceVariant | null>("Spock");
 // const stepsAtom = atom<1 | 2 | 3 | 4>(2);
 // const winAtom = atom<boolean | undefined>(true);
@@ -38,7 +38,7 @@ export default function RockPaperScissors() {
         <Footer />
         {/* <Slider
           // absolutePath="/rock-paper-scissors/design/original/mobile-rules-modal.jpg"
-          absolutePath="/rock-paper-scissors/design/bonus/desktop-step-1-bonus.jpg"
+          absolutePath="/rock-paper-scissors/design/bonus/desktop-step-4-bonus.jpg"
           // absolutePath="/rock-paper-scissors/design/original/desktop-rules-modal.jpg"
         /> */}
       </div>
@@ -153,7 +153,7 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
     Spock: {
       button: "from-rock-paper-scissor-primary-cyan-100 to-rock-paper-scissor-primary-cyan-200 border-b-[hsl(194,60%,42%)]",
       image: "ml-1 mb-0.5 aspect-square w-[39px] lg:ml-[5px] lg:mt-[-2px] lg:w-[58px]",
-      imageDisabled: "lg:w-[97px] lg:-mr-[3px] -mr-0.5 w-[53px]",
+      imageDisabled: "lg:w-[120px] lg:-mr-[8px] lg:mb-[6px] -mr-0.5 w-[53px]",
     },
   };
 
@@ -310,7 +310,7 @@ function WaitForHouse() {
           <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">you picked</p>
         </div>
         {win !== undefined ? (
-          <div className="absolute -bottom-[72px] left-1/2 flex -translate-x-1/2 translate-y-full flex-col items-center lg:static lg:w-[220px] lg:translate-x-[11px] lg:translate-y-0 lg:self-center lg:pt-[63px]">
+          <div className="absolute -bottom-[72px] left-1/2 flex -translate-x-1/2 translate-y-full flex-col items-center lg:static lg:w-[220px] lg:translate-x-[14px] lg:translate-y-0 lg:self-center lg:pt-[63px]">
             <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white drop-shadow-md">you {win ? "win" : "lose"}</h1>
             <button
               className="text-rock-paper-scissor-neutral-dark hover:text-rock-paper-scissor-primary-rock-100 mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] shadow"
@@ -326,7 +326,12 @@ function WaitForHouse() {
             </button>
           </div>
         ) : null}
-        <div className="-mr-[14px] flex w-[50%] flex-col items-center lg:-mr-[6px] lg:w-[294px] lg:flex-col-reverse">
+        <div
+          className={cn([
+            "-mr-[14px] flex w-[50%] flex-col items-center lg:mr-[16px] lg:w-[294px] lg:flex-col-reverse", //
+            win !== undefined && "lg:mr-0 lg:translate-x-[7px]",
+          ])}
+        >
           <div className="flex h-[133px] items-center justify-center lg:mt-[61px] lg:h-[300px]">
             {!!house ? (
               <div
