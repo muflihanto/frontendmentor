@@ -883,6 +883,18 @@ module.exports = {
             200: "hsl(237,49%,15%)",
           },
         },
+        "rest-countries": {
+          darkblue: {
+            100: "hsl(209,23%,22%)",
+            200: "hsl(207,26%,17%)",
+            300: "hsl(200,15%,8%)"
+          },
+          gray: {
+            300: "hsl(0,0%,52%)",
+            200: "hsl(0,0%,98%)",
+            100: "hsl(0,0%,100%)",
+          }
+        }
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
@@ -926,6 +938,7 @@ module.exports = {
         "be-vietnam": ["Be Vietnam", ...fontFamily.sans],
         "be-vietnam-pro": ["Be Vietnam Pro", ...fontFamily.sans],
         bellefair: ["Bellefair", ...fontFamily.serif],
+        "nunito-sans": ["Nunito Sans", ...fontFamily.sans],
       },
     },
   },
