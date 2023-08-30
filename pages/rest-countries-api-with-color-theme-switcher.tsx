@@ -1,6 +1,11 @@
+import { atom, useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
-import { useDarkMode } from "usehooks-ts";
+import { useEffect } from "react";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDebounce } from "usehooks-ts";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -12,7 +17,12 @@ import { useDarkMode } from "usehooks-ts";
  * - Click on a country to see more detailed information on a separate pag
  * - Click through to the border countries on the detail pag
  * - Toggle the color scheme between light and dark mode *(optional)*
+ *
+ * [REST Countries API](https://restcountries.com)
  */
+
+const themeAtom = atomWithStorage<boolean>("rcapi-dark-mode", false);
+const inputAtom = atom<string>("");
 
 export default function RestCountriesApiWithColorThemeSwitcher() {
   return (
@@ -26,6 +36,7 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
         <Footer />
         {/* <Slider
           basePath="/rest-countries-api-with-color-theme-switcher/design"
+          // absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-home-dark.jpg"
           absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-home-light.jpg"
         /> */}
       </div>
@@ -34,17 +45,29 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
 }
 
 function Header() {
-  const { isDarkMode, toggle } = useDarkMode(false);
+  const [dark, setDark] = useAtom(themeAtom);
+  const toggle = () => {
+    setDark((d) => !d);
+  };
+
+  useEffect(() => {
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [dark]);
+
   return (
-    <header className="shadow-rest-countries-darkblue-100/5 flex h-20 items-center justify-between px-4 shadow-md">
-      <h1 className="text-rest-countries-darkblue-200 text-[14px] font-extrabold tracking-[-.1px]">Where in the world?</h1>
+    <header className="shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 relative z-10 flex h-20 items-center justify-between px-4 shadow-md">
+      <h1 className="text-rest-countries-darkblue-200 dark:text-rest-countries-gray-100 text-[14px] font-extrabold tracking-[-.1px]">Where in the world?</h1>
       <button
-        className="text-rest-countries-darkblue-300 flex items-center px-px pt-px text-[12px] font-normal"
+        className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 flex items-center px-px pt-px text-[12px] font-normal"
         onClick={() => toggle()}
       >
         <span className="relative mr-[10px] aspect-square h-[14px]">
           <Image
-            src={isDarkMode ? "/rest-countries-api-with-color-theme-switcher/images/moon.svg" : "/rest-countries-api-with-color-theme-switcher/images/moon-outline.svg"}
+            src={dark ? "/rest-countries-api-with-color-theme-switcher/images/moon.svg" : "/rest-countries-api-with-color-theme-switcher/images/moon-outline.svg"}
             fill
             alt="Moon Icon"
           />
@@ -55,9 +78,37 @@ function Header() {
   );
 }
 
+function InputField() {
+  const [input, setInput] = useAtom(inputAtom);
+  const debouncedValue = useDebounce<string>(input, 500);
+
+  // useEffect(() => {
+  //   console.log(debouncedValue);
+  // }, [debouncedValue]);
+
+  return (
+    <form className="relative h-12 w-full">
+      <FontAwesomeIcon
+        icon={faMagnifyingGlass}
+        className="text-rest-countries-gray-300/60 absolute left-8 top-1/2 w-[15px] -translate-y-1/2"
+      />
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
+        className="shadow-rest-countries-gray-300/10 text-rest-countries-gray-300 h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] shadow-md placeholder:opacity-50"
+        placeholder="Search for a country..."
+      />
+    </form>
+  );
+}
+
 function Main() {
   return (
-    <div className="">
+    <div className="bg-rest-countries-gray-200 h-52 px-4 pt-6">
+      <InputField />
       {`
          
       `}
