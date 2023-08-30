@@ -3,9 +3,10 @@ import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect } from "react";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
+import { Listbox } from "@headlessui/react";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -21,6 +22,20 @@ import { useDebounce } from "usehooks-ts";
  * [REST Countries API](https://restcountries.com)
  */
 
+type Region = {
+  id: number;
+  name: string;
+  unavailable: boolean;
+};
+const regions: Region[] = [
+  // { id: 0, name: "Filter by Region", unavailable: false },
+  { id: 1, name: "Africa", unavailable: false },
+  { id: 2, name: "America", unavailable: false },
+  { id: 3, name: "Asia", unavailable: false },
+  { id: 4, name: "Europe", unavailable: false },
+  { id: 5, name: "Oceania", unavailable: false },
+];
+const regionFilterAtom = atom<Region | null>(null);
 const themeAtom = atomWithStorage<boolean>("rcapi-dark-mode", false);
 const inputAtom = atom<string>("");
 
@@ -105,10 +120,42 @@ function InputField() {
   );
 }
 
+function RegionFilter() {
+  const [selectedFilter, setSelectedFilter] = useAtom(regionFilterAtom);
+
+  return (
+    <Listbox
+      value={selectedFilter}
+      onChange={setSelectedFilter}
+    >
+      <Listbox.Button className="text-rest-countries-darkblue-100 group mt-10 flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm">
+        <span>{selectedFilter?.name ?? "Filter by Region"}</span>
+        <FontAwesomeIcon
+          className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180"
+          icon={faChevronDown}
+        />
+      </Listbox.Button>
+      <Listbox.Options className="text-rest-countries-darkblue-100 mt-1 flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow">
+        {regions.map((region) => (
+          <Listbox.Option
+            key={region.id}
+            value={region}
+            disabled={region.unavailable}
+            className="hover:cursor-pointer"
+          >
+            {region.name}
+          </Listbox.Option>
+        ))}
+      </Listbox.Options>
+    </Listbox>
+  );
+}
+
 function Main() {
   return (
     <div className="bg-rest-countries-gray-200 h-52 px-4 pt-6">
       <InputField />
+      <RegionFilter />
       {`
          
       `}
