@@ -2,7 +2,7 @@ import { atom, useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { faMagnifyingGlass, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
@@ -22,9 +22,11 @@ import { Listbox } from "@headlessui/react";
  * [REST Countries API](https://restcountries.com)
  */
 
+const RegionEnum = ["Africa", "America", "Asia", "Europe", "Oceania"] as const;
+type RegionEnum = (typeof RegionEnum)[number];
 type Region = {
   id: number;
-  name: string;
+  name: RegionEnum;
   unavailable: boolean;
 };
 const regions: Region[] = [
@@ -38,6 +40,13 @@ const regions: Region[] = [
 const regionFilterAtom = atom<Region | null>(null);
 const themeAtom = atomWithStorage<boolean>("rcapi-dark-mode", false);
 const inputAtom = atom<string>("");
+const exampleCountry = {
+  name: "Germany",
+  capital: "Berlin",
+  region: "Europe" as RegionEnum,
+  population: 83240525,
+  flag: "https://flagcdn.com/de.svg",
+};
 
 export default function RestCountriesApiWithColorThemeSwitcher() {
   return (
@@ -124,41 +133,74 @@ function RegionFilter() {
   const [selectedFilter, setSelectedFilter] = useAtom(regionFilterAtom);
 
   return (
-    <Listbox
-      value={selectedFilter}
-      onChange={setSelectedFilter}
-    >
-      <Listbox.Button className="text-rest-countries-darkblue-100 group mt-10 flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm">
-        <span>{selectedFilter?.name ?? "Filter by Region"}</span>
-        <FontAwesomeIcon
-          className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180"
-          icon={faChevronDown}
+    <div className="relative z-10 mt-10 self-start">
+      <Listbox
+        value={selectedFilter}
+        onChange={setSelectedFilter}
+      >
+        <Listbox.Button className="text-rest-countries-darkblue-100 group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm">
+          <span>{selectedFilter?.name ?? "Filter by Region"}</span>
+          <FontAwesomeIcon
+            className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180"
+            icon={faChevronDown}
+          />
+        </Listbox.Button>
+        <Listbox.Options className="text-rest-countries-darkblue-100 absolute left-0 top-[52px] flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow">
+          {regions.map((region) => (
+            <Listbox.Option
+              key={region.id}
+              value={region}
+              disabled={region.unavailable}
+              className="hover:cursor-pointer"
+            >
+              {region.name}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
+      </Listbox>
+    </div>
+  );
+}
+
+function CountryCard({ country }: { country: { flag: string; name: string; population: number; region: RegionEnum; capital: string } }) {
+  const localeStringPopulation = useMemo(() => country.population.toLocaleString("en-GB"), [country]);
+  return (
+    <button className="shadow-rest-countries-gray-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md">
+      <div className="relative h-[160px] w-full">
+        <Image
+          src={country.flag}
+          alt={`${country.name}'s Flag`}
+          fill
+          className="object-cover"
         />
-      </Listbox.Button>
-      <Listbox.Options className="text-rest-countries-darkblue-100 mt-1 flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow">
-        {regions.map((region) => (
-          <Listbox.Option
-            key={region.id}
-            value={region}
-            disabled={region.unavailable}
-            className="hover:cursor-pointer"
-          >
-            {region.name}
-          </Listbox.Option>
-        ))}
-      </Listbox.Options>
-    </Listbox>
+      </div>
+      <div className="flex w-full flex-col items-start px-[25px] pt-[24px] text-[14px]/[24px]">
+        <h2 className="mb-[12px] text-[18px]/[1.5] font-extrabold">{country.name}</h2>
+        <p className="text-rest-countries-darkblue-100">
+          <span className="text-rest-countries-darkblue-300 font-semibold">Population: </span>
+          {localeStringPopulation}
+        </p>
+        <p className="text-rest-countries-darkblue-100">
+          <span className="text-rest-countries-darkblue-300 font-semibold">Region: </span>
+          {country.region}
+        </p>
+        <p className="text-rest-countries-darkblue-100">
+          <span className="text-rest-countries-darkblue-300 font-semibold">Capital: </span>
+          {country.capital}
+        </p>
+      </div>
+    </button>
   );
 }
 
 function Main() {
   return (
-    <div className="bg-rest-countries-gray-200 h-52 px-4 pt-6">
+    <div className="bg-rest-countries-gray-200 min-h-52 flex flex-col items-center px-4 py-6">
       <InputField />
       <RegionFilter />
-      {`
-         
-      `}
+      <div className="mt-[32px]">
+        <CountryCard country={exampleCountry} />
+      </div>
     </div>
   );
 }
