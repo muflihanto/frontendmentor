@@ -1,4 +1,4 @@
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import { faMagnifyingGlass, faChevronDown } from "@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
 import { Listbox } from "@headlessui/react";
+import data from "../public/rest-countries-api-with-color-theme-switcher/data.json";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -22,7 +23,7 @@ import { Listbox } from "@headlessui/react";
  * [REST Countries API](https://restcountries.com)
  */
 
-const RegionName = ["Africa", "America", "Asia", "Europe", "Oceania"] as const;
+const RegionName = ["Africa", "Americas", "Asia", "Europe", "Oceania"] as const;
 type RegionName = (typeof RegionName)[number];
 type Region = {
   id: number;
@@ -30,9 +31,8 @@ type Region = {
   unavailable: boolean;
 };
 const regions: Region[] = [
-  // { id: 0, name: "Filter by Region", unavailable: false },
   { id: 1, name: "Africa", unavailable: false },
-  { id: 2, name: "America", unavailable: false },
+  { id: 2, name: "Americas", unavailable: false },
   { id: 3, name: "Asia", unavailable: false },
   { id: 4, name: "Europe", unavailable: false },
   { id: 5, name: "Oceania", unavailable: false },
@@ -40,13 +40,14 @@ const regions: Region[] = [
 const regionFilterAtom = atom<Region | null>(null);
 const themeAtom = atomWithStorage<boolean>("rcapi-dark-mode", false);
 const inputAtom = atom<string>("");
-const exampleCountry = {
-  name: "Germany",
-  capital: "Berlin",
-  region: "Europe" as RegionName,
-  population: 83240525,
-  flag: "https://flagcdn.com/de.svg",
-};
+// const exampleCountry = {
+//   name: "Germany",
+//   capital: "Berlin",
+//   region: "Europe" as RegionName,
+//   population: 83240525,
+//   flag: "https://flagcdn.com/de.svg",
+// };
+type Country = (typeof data)[number];
 
 export default function RestCountriesApiWithColorThemeSwitcher() {
   return (
@@ -162,13 +163,14 @@ function RegionFilter() {
   );
 }
 
-function CountryCard({ country }: { country: { flag: string; name: string; population: number; region: RegionName; capital: string } }) {
+// function CountryCard({ country }: { country: { flag: string; name: string; population: number; region: RegionName; capital: string } }) {
+function CountryCard({ country }: { country: Country }) {
   const localeStringPopulation = useMemo(() => country.population.toLocaleString("en-GB"), [country]);
   return (
     <button className="shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md">
       <div className="relative h-[160px] w-full">
         <Image
-          src={country.flag}
+          src={country.flags.svg}
           alt={`${country.name}'s Flag`}
           fill
           className="object-cover"
@@ -194,12 +196,34 @@ function CountryCard({ country }: { country: { flag: string; name: string; popul
 }
 
 function Main() {
+  const selectedFilter = useAtomValue(regionFilterAtom);
+
   return (
     <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-4 py-6">
       <InputField />
       <RegionFilter />
-      <div className="mt-[32px]">
-        <CountryCard country={exampleCountry} />
+      <div className="mt-[32px] flex flex-col gap-10">
+        {selectedFilter === null
+          ? data.map((ctr, index) => {
+              return (
+                <CountryCard
+                  key={index}
+                  country={ctr}
+                />
+              );
+            })
+          : data
+              .filter((ctr) => {
+                return ctr.region === selectedFilter.name;
+              })
+              .map((ctr, index) => {
+                return (
+                  <CountryCard
+                    key={index}
+                    country={ctr}
+                  />
+                );
+              })}
       </div>
     </div>
   );
