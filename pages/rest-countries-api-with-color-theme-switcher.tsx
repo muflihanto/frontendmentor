@@ -22,11 +22,11 @@ import { Listbox } from "@headlessui/react";
  * [REST Countries API](https://restcountries.com)
  */
 
-const RegionEnum = ["Africa", "America", "Asia", "Europe", "Oceania"] as const;
-type RegionEnum = (typeof RegionEnum)[number];
+const RegionName = ["Africa", "America", "Asia", "Europe", "Oceania"] as const;
+type RegionName = (typeof RegionName)[number];
 type Region = {
   id: number;
-  name: RegionEnum;
+  name: RegionName;
   unavailable: boolean;
 };
 const regions: Region[] = [
@@ -43,7 +43,7 @@ const inputAtom = atom<string>("");
 const exampleCountry = {
   name: "Germany",
   capital: "Berlin",
-  region: "Europe" as RegionEnum,
+  region: "Europe" as RegionName,
   population: 83240525,
   flag: "https://flagcdn.com/de.svg",
 };
@@ -54,7 +54,7 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
       <Head>
         <title>Frontend Mentor | Rest Countries Api With Color Theme Switcher</title>
       </Head>
-      <div className="App font-nunito-sans relative min-h-[100svh] font-light">
+      <div className="App font-nunito-sans dark:bg-rest-countries-darkblue-200 relative min-h-[100svh] font-light">
         <Header />
         <Main />
         <Footer />
@@ -83,7 +83,7 @@ function Header() {
   }, [dark]);
 
   return (
-    <header className="shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 relative z-10 flex h-20 items-center justify-between px-4 shadow-md">
+    <header className="shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/5 relative z-10 flex h-20 items-center justify-between px-4 shadow-md">
       <h1 className="text-rest-countries-darkblue-200 dark:text-rest-countries-gray-100 text-[14px] font-extrabold tracking-[-.1px]">Where in the world?</h1>
       <button
         className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 flex items-center px-px pt-px text-[12px] font-normal"
@@ -114,7 +114,7 @@ function InputField() {
     <form className="relative h-12 w-full">
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
-        className="text-rest-countries-gray-300/60 absolute left-8 top-1/2 w-[15px] -translate-y-1/2"
+        className="text-rest-countries-gray-300/60 dark:text-rest-countries-gray-100 absolute left-8 top-1/2 w-[15px] -translate-y-1/2"
       />
       <input
         type="text"
@@ -122,7 +122,7 @@ function InputField() {
         onChange={(e) => {
           setInput(e.target.value);
         }}
-        className="shadow-rest-countries-gray-300/10 text-rest-countries-gray-300 h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] shadow-md placeholder:opacity-50"
+        className="shadow-rest-countries-gray-300/10 text-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 dark:text-rest-countries-gray-100 dark:placeholder:text-rest-countries-gray-100 h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] shadow-md placeholder:opacity-50 dark:placeholder:opacity-80"
         placeholder="Search for a country..."
       />
     </form>
@@ -138,14 +138,14 @@ function RegionFilter() {
         value={selectedFilter}
         onChange={setSelectedFilter}
       >
-        <Listbox.Button className="text-rest-countries-darkblue-100 group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm">
+        <Listbox.Button className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm">
           <span>{selectedFilter?.name ?? "Filter by Region"}</span>
           <FontAwesomeIcon
             className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180"
             icon={faChevronDown}
           />
         </Listbox.Button>
-        <Listbox.Options className="text-rest-countries-darkblue-100 absolute left-0 top-[52px] flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow">
+        <Listbox.Options className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 absolute left-0 top-[52px] flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow">
           {regions.map((region) => (
             <Listbox.Option
               key={region.id}
@@ -162,10 +162,10 @@ function RegionFilter() {
   );
 }
 
-function CountryCard({ country }: { country: { flag: string; name: string; population: number; region: RegionEnum; capital: string } }) {
+function CountryCard({ country }: { country: { flag: string; name: string; population: number; region: RegionName; capital: string } }) {
   const localeStringPopulation = useMemo(() => country.population.toLocaleString("en-GB"), [country]);
   return (
-    <button className="shadow-rest-countries-gray-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md">
+    <button className="shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md">
       <div className="relative h-[160px] w-full">
         <Image
           src={country.flag}
@@ -175,17 +175,17 @@ function CountryCard({ country }: { country: { flag: string; name: string; popul
         />
       </div>
       <div className="flex w-full flex-col items-start px-[25px] pt-[24px] text-[14px]/[24px]">
-        <h2 className="mb-[12px] text-[18px]/[1.5] font-extrabold">{country.name}</h2>
-        <p className="text-rest-countries-darkblue-100">
-          <span className="text-rest-countries-darkblue-300 font-semibold">Population: </span>
+        <h2 className="dark:text-rest-countries-gray-100 mb-[12px] text-[18px]/[1.5] font-extrabold">{country.name}</h2>
+        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+          <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Population: </span>
           {localeStringPopulation}
         </p>
-        <p className="text-rest-countries-darkblue-100">
-          <span className="text-rest-countries-darkblue-300 font-semibold">Region: </span>
+        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+          <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Region: </span>
           {country.region}
         </p>
-        <p className="text-rest-countries-darkblue-100">
-          <span className="text-rest-countries-darkblue-300 font-semibold">Capital: </span>
+        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+          <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Capital: </span>
           {country.capital}
         </p>
       </div>
@@ -195,7 +195,7 @@ function CountryCard({ country }: { country: { flag: string; name: string; popul
 
 function Main() {
   return (
-    <div className="bg-rest-countries-gray-200 min-h-52 flex flex-col items-center px-4 py-6">
+    <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-4 py-6">
       <InputField />
       <RegionFilter />
       <div className="mt-[32px]">
@@ -207,7 +207,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="dark:text-rest-countries-gray-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
