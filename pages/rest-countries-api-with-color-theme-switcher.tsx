@@ -1,9 +1,9 @@
-import { atom, useAtom, useAtomValue } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
-import { faMagnifyingGlass, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faChevronDown, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
 import { Listbox } from "@headlessui/react";
@@ -48,8 +48,84 @@ const inputAtom = atom<string>("");
 //   flag: "https://flagcdn.com/de.svg",
 // };
 type Country = (typeof data)[number];
+// const exampleCountry = {
+//   name: "Belgium",
+//   topLevelDomain: [".be"],
+//   alpha2Code: "BE",
+//   alpha3Code: "BEL",
+//   callingCodes: ["32"],
+//   capital: "Brussels",
+//   altSpellings: ["BE", "België", "Belgie", "Belgien", "Belgique", "Kingdom of Belgium", "Koninkrijk België", "Royaume de Belgique", "Königreich Belgien"],
+//   subregion: "Western Europe",
+//   region: "Europe",
+//   population: 11555997,
+//   latlng: [50.83333333, 4],
+//   demonym: "Belgian",
+//   area: 30528,
+//   gini: 27.2,
+//   timezones: ["UTC+01:00"],
+//   borders: ["FRA", "DEU", "LUX", "NLD"],
+//   nativeName: "België",
+//   numericCode: "056",
+//   flags: {
+//     svg: "https://flagcdn.com/be.svg",
+//     png: "https://flagcdn.com/w320/be.png",
+//   },
+//   currencies: [
+//     {
+//       code: "EUR",
+//       name: "Euro",
+//       symbol: "€",
+//     },
+//   ],
+//   languages: [
+//     {
+//       iso639_1: "nl",
+//       iso639_2: "nld",
+//       name: "Dutch",
+//       nativeName: "Nederlands",
+//     },
+//     {
+//       iso639_1: "fr",
+//       iso639_2: "fra",
+//       name: "French",
+//       nativeName: "français",
+//     },
+//     {
+//       iso639_1: "de",
+//       iso639_2: "deu",
+//       name: "German",
+//       nativeName: "Deutsch",
+//     },
+//   ],
+//   translations: {
+//     br: "Belgia",
+//     pt: "Bélgica",
+//     nl: "België",
+//     hr: "Belgija",
+//     fa: "بلژیک",
+//     de: "Belgien",
+//     es: "Bélgica",
+//     fr: "Belgique",
+//     ja: "ベルギー",
+//     it: "Belgio",
+//     hu: "Belgium",
+//   },
+//   flag: "https://flagcdn.com/be.svg",
+//   regionalBlocs: [
+//     {
+//       acronym: "EU",
+//       name: "European Union",
+//     },
+//   ],
+//   cioc: "BEL",
+//   independent: true,
+// };
+const selectedAtom = atom<Country | null>(null);
 
 export default function RestCountriesApiWithColorThemeSwitcher() {
+  const selectedCountry = useAtomValue(selectedAtom);
+
   return (
     <>
       <Head>
@@ -57,12 +133,12 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
       </Head>
       <div className="App font-nunito-sans dark:bg-rest-countries-darkblue-200 relative min-h-[100svh] font-light">
         <Header />
-        <Main />
+        {selectedCountry === null ? <MainHome /> : <MainDetail />}
         <Footer />
         {/* <Slider
           basePath="/rest-countries-api-with-color-theme-switcher/design"
-          // absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-home-dark.jpg"
-          absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-home-light.jpg"
+          // absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-dark.jpg"
+          absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-light.jpg"
         /> */}
       </div>
     </>
@@ -166,8 +242,13 @@ function RegionFilter() {
 // function CountryCard({ country }: { country: { flag: string; name: string; population: number; region: RegionName; capital: string } }) {
 function CountryCard({ country }: { country: Country }) {
   const localeStringPopulation = useMemo(() => country.population.toLocaleString("en-GB"), [country]);
+  const setSelected = useSetAtom(selectedAtom);
+
   return (
-    <button className="shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md">
+    <button
+      className="shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md"
+      onClick={() => setSelected(country)}
+    >
       <div className="relative h-[160px] w-full">
         <Image
           src={country.flags.svg}
@@ -195,7 +276,7 @@ function CountryCard({ country }: { country: Country }) {
   );
 }
 
-function Main() {
+function MainHome() {
   const selectedFilter = useAtomValue(regionFilterAtom);
 
   return (
@@ -224,6 +305,99 @@ function Main() {
                   />
                 );
               })}
+      </div>
+    </div>
+  );
+}
+
+function MainDetail() {
+  const [selected, setSelected] = useAtom(selectedAtom);
+
+  return (
+    <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-7 pb-16 pt-[39px]">
+      <button
+        className="flex h-[34px] w-[105px] items-center justify-center gap-3 self-start rounded-sm border bg-white px-3 py-0.5 text-[14px] shadow-md"
+        onClick={() => setSelected(null)}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} />
+        <span>Back</span>
+      </button>
+
+      <div className="mt-[62px] w-full">
+        <Image
+          width={0}
+          height={0}
+          sizes="100vw"
+          src={selected!.flags.svg!}
+          alt={selected!.name!}
+          className="h-auto w-full"
+        />
+        {/* <div className="relative aspect-[319/230] w-full">
+          <Image
+            src={selected!.flags.svg!}
+            alt={selected!.name!}
+            fill
+            className="object-cover"
+          />
+        </div> */}
+
+        <h1 className="mt-[43px] text-[21px] font-extrabold">{selected?.name}</h1>
+
+        <div className="text-rest-countries-darkblue-300 mt-[22px] space-y-[11px] text-[14px] [&_span]:font-semibold">
+          <p>
+            <span>Native Name: </span>
+            {selected!.nativeName}
+          </p>
+          <p>
+            <span>Population: </span>
+            {selected!.population.toLocaleString("en-GB")}
+          </p>
+          <p>
+            <span>Region: </span>
+            {selected!.region}
+          </p>
+          <p>
+            <span>Sub Region: </span>
+            {selected!.subregion}
+          </p>
+          <p>
+            <span>Capital: </span>
+            {selected!.capital}
+          </p>
+        </div>
+
+        <div className="text-rest-countries-darkblue-300 mt-[43px] space-y-[11px] text-[14px] [&_span]:font-semibold">
+          <p>
+            <span>Top Level Domain: </span>
+            {selected!.topLevelDomain}
+          </p>
+          <p>
+            <span>Currencies: </span>
+            {selected!.currencies?.map((c) => c.name).join(", ")}
+          </p>
+          <p>
+            <span>Languages: </span>
+            {selected!.languages.map((lang) => lang.name).join(", ")}
+          </p>
+        </div>
+
+        <div className="mt-[39px]">
+          <h2 className="font-semibold">Border Countries: </h2>
+          <div className="mt-[14px] grid translate-x-[-2px] grid-cols-[repeat(3,99px)] gap-2">
+            {selected?.borders?.map((border, index) => {
+              const borderCountry = data.find((ctr) => ctr.alpha3Code === border)!;
+              return (
+                <button
+                  className="h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-[12px] shadow-md"
+                  key={index}
+                  onClick={() => setSelected(borderCountry)}
+                >
+                  {borderCountry.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
