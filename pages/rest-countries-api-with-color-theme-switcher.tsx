@@ -122,6 +122,7 @@ type Country = (typeof data)[number];
 //   independent: true,
 // };
 const selectedAtom = atom<Country | null>(null);
+const keywordFilterAtom = atom("");
 
 export default function RestCountriesApiWithColorThemeSwitcher() {
   const selectedCountry = useAtomValue(selectedAtom);
@@ -182,10 +183,12 @@ function Header() {
 function InputField() {
   const [input, setInput] = useAtom(inputAtom);
   const debouncedValue = useDebounce<string>(input, 500);
+  const setKeywordFilter = useSetAtom(keywordFilterAtom);
 
-  // useEffect(() => {
-  //   console.log(debouncedValue);
-  // }, [debouncedValue]);
+  useEffect(() => {
+    setKeywordFilter(debouncedValue);
+    console.log(debouncedValue);
+  }, [debouncedValue, setKeywordFilter]);
 
   return (
     <form className="relative h-12 w-full">
@@ -278,6 +281,7 @@ function CountryCard({ country }: { country: Country }) {
 
 function MainHome() {
   const selectedFilter = useAtomValue(regionFilterAtom);
+  const keywordFilter = useAtomValue(keywordFilterAtom);
 
   return (
     <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-4 py-6">
@@ -285,17 +289,23 @@ function MainHome() {
       <RegionFilter />
       <div className="mt-[32px] flex flex-col gap-10">
         {selectedFilter === null
-          ? data.map((ctr, index) => {
-              return (
-                <CountryCard
-                  key={index}
-                  country={ctr}
-                />
-              );
-            })
+          ? data
+              .filter((ctr) => {
+                if (keywordFilter === "") return true;
+                return ctr.name.toLowerCase().includes(keywordFilter.toLowerCase());
+              })
+              .map((ctr, index) => {
+                return (
+                  <CountryCard
+                    key={index}
+                    country={ctr}
+                  />
+                );
+              })
           : data
               .filter((ctr) => {
-                return ctr.region === selectedFilter.name;
+                if (keywordFilter === "") return ctr.region === selectedFilter.name;
+                return ctr.name.toLowerCase().includes(keywordFilter.toLowerCase()) && ctr.region === selectedFilter.name;
               })
               .map((ctr, index) => {
                 return (
