@@ -122,6 +122,7 @@ type Country = (typeof data)[number];
 //   independent: true,
 // };
 const selectedAtom = atom<Country | null>(null);
+// const selectedAtom = atom<Country | null>(exampleCountry);
 const keywordFilterAtom = atom("");
 
 export default function RestCountriesApiWithColorThemeSwitcher() {
@@ -138,8 +139,8 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
         <Footer />
         {/* <Slider
           basePath="/rest-countries-api-with-color-theme-switcher/design"
-          // absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-dark.jpg"
-          absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-light.jpg"
+          absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-dark.jpg"
+          // absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-light.jpg"
         /> */}
       </div>
     </>
@@ -187,7 +188,7 @@ function InputField() {
 
   useEffect(() => {
     setKeywordFilter(debouncedValue);
-    console.log(debouncedValue);
+    // console.log(debouncedValue);
   }, [debouncedValue, setKeywordFilter]);
 
   return (
@@ -326,7 +327,7 @@ function MainDetail() {
   return (
     <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-7 pb-16 pt-[39px]">
       <button
-        className="flex h-[34px] w-[105px] items-center justify-center gap-3 self-start rounded-sm border bg-white px-3 py-0.5 text-[14px] shadow-md"
+        className="dark:shadow-rest-countries-darkblue-300/50 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:border-rest-countries-darkblue-200 flex h-[34px] w-[105px] items-center justify-center gap-3 self-start rounded-sm border bg-white px-3 py-0.5 text-[14px] shadow-md"
         onClick={() => setSelected(null)}
       >
         <FontAwesomeIcon icon={faArrowLeft} />
@@ -351,9 +352,9 @@ function MainDetail() {
           />
         </div> */}
 
-        <h1 className="mt-[43px] text-[21px] font-extrabold">{selected?.name}</h1>
+        <h1 className="dark:text-rest-countries-gray-100 mt-[43px] text-[21px] font-extrabold">{selected?.name}</h1>
 
-        <div className="text-rest-countries-darkblue-300 mt-[22px] space-y-[11px] text-[14px] [&_span]:font-semibold">
+        <div className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 mt-[22px] space-y-[11px] text-[14px] [&_span]:font-semibold">
           <p>
             <span>Native Name: </span>
             {selected!.nativeName}
@@ -376,7 +377,7 @@ function MainDetail() {
           </p>
         </div>
 
-        <div className="text-rest-countries-darkblue-300 mt-[43px] space-y-[11px] text-[14px] [&_span]:font-semibold">
+        <div className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 mt-[43px] space-y-[11px] text-[14px] [&_span]:font-semibold">
           <p>
             <span>Top Level Domain: </span>
             {selected!.topLevelDomain}
@@ -392,13 +393,13 @@ function MainDetail() {
         </div>
 
         <div className="mt-[39px]">
-          <h2 className="font-semibold">Border Countries: </h2>
+          <h2 className="dark:text-rest-countries-gray-100 font-semibold">Border Countries: </h2>
           <div className="mt-[14px] grid translate-x-[-2px] grid-cols-[repeat(3,99px)] gap-2">
             {selected?.borders?.map((border, index) => {
               const borderCountry = data.find((ctr) => ctr.alpha3Code === border)!;
               return (
                 <button
-                  className="h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-[12px] shadow-md"
+                  className="dark:text-rest-countries-gray-100 dark:bg-rest-countries-darkblue-100 dark:border-rest-countries-darkblue-200 dark:shadow-rest-countries-darkblue-300/20 h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-[12px] shadow-md"
                   key={index}
                   onClick={() => setSelected(borderCountry)}
                 >
