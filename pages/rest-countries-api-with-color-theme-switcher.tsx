@@ -147,7 +147,7 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
   );
 }
 
-function Header() {
+export function Header() {
   const [dark, setDark] = useAtom(themeAtom);
   const toggle = () => {
     setDark((d) => !d);
@@ -414,7 +414,7 @@ function MainDetail() {
   );
 }
 
-function Footer() {
+export function Footer() {
   return (
     <footer className="dark:text-rest-countries-gray-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
