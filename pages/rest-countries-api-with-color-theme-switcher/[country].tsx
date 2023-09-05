@@ -5,14 +5,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCountry, useBorders } from "../../utils/useCountries";
 import { PropsWithChildren, ReactElement, useEffect, useMemo } from "react";
-import { Footer, Header } from "../rest-countries-api-with-color-theme-switcher";
+import { Footer, Header } from "./index";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
 
 export default function Page() {
   const router = useRouter();
-  const { data, isLoading, isFetching } = useCountry(!!router.query.country ? (router.query.country as string).split("_").join(" ") : "");
+  const { data, isLoading } = useCountry(!!router.query.country ? (router.query.country as string).split("_").join(" ") : "");
   const { data: borders, isLoading: isBorderLoading } = useBorders(data ? data[0].borders ?? [] : []);
 
   const nativeName = useMemo(() => {

@@ -7,9 +7,9 @@ import { faMagnifyingGlass, faChevronDown, faArrowLeft } from "@fortawesome/free
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
 import { Listbox } from "@headlessui/react";
-import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
+import data from "../../public/rest-countries-api-with-color-theme-switcher/all.json";
 // import data from "../public/rest-countries-api-with-color-theme-switcher/data.json";
-import { type Countries } from "../utils/types";
+import { type Countries } from "../../utils/types";
 import { useRouter } from "next/router";
 
 // import dynamic from "next/dynamic";
