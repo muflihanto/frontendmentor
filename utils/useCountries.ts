@@ -7,7 +7,7 @@ type Country = Countries[number];
 const filterKeys = ["name", "flags", "cca3", "population", "region", "subregion", "capital", "tld", "currencies", "languages", "borders"] as const;
 type CountryFiltered = Pick<Country, (typeof filterKeys)[number]>;
 type CountriesFiltered = CountryFiltered[];
-const filterQuery = "fields=name,flags,cca3,population,region,subregion,capital,topLevelDomain,currencies,languages,borders";
+const filterQuery = `fields=${filterKeys.join(",")}`;
 
 const fetchCountries = async (limit = 10) => {
   const parsed: CountriesFiltered = await ky(`https://restcountries.com/v3.1/all?${filterQuery}`).json();
@@ -39,6 +39,10 @@ const useCountry = (name: string) => {
     queryKey: ["country", name],
     queryFn: () => fetchCountry(name),
     enabled: name !== undefined,
+    retry: (count) => {
+      if (count >= 1) return false;
+      return true;
+    },
   });
 };
 

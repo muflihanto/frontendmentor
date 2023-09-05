@@ -10,6 +10,8 @@ import { Listbox } from "@headlessui/react";
 import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
 // import data from "../public/rest-countries-api-with-color-theme-switcher/data.json";
 import { type Countries } from "../utils/types";
+import { useRouter } from "next/router";
+
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -142,7 +144,7 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
         <Footer />
         {/* <Slider
           basePath="/rest-countries-api-with-color-theme-switcher/design"
-          absolutePath="/rest-countries-api-with-color-theme-switcher/design/desktop-design-home-dark.jpg"
+          absolutePath="/rest-countries-api-with-color-theme-switcher/design/desktop-design-detail-light.jpg"
           // absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-light.jpg"
         /> */}
       </div>
@@ -249,12 +251,14 @@ function RegionFilter() {
 // function CountryCard({ country }: { country: { flag: string; name: string; population: number; region: RegionName; capital: string } }) {
 function CountryCard({ country }: { country: Country }) {
   const localeStringPopulation = useMemo(() => country.population.toLocaleString("en-GB"), [country]);
-  const setSelected = useSetAtom(selectedAtom);
+  const router = useRouter();
+  // const setSelected = useSetAtom(selectedAtom);
 
   return (
     <button
       className="shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md"
-      onClick={() => setSelected(country)}
+      // onClick={() => setSelected(country)}
+      onClick={() => router.push({ pathname: `/rest-countries-api-with-color-theme-switcher/${country.name.common.toLowerCase().split(" ").join("_")}` })}
     >
       <div className="relative h-[160px] w-full">
         <Image
