@@ -1,4 +1,6 @@
-export type Countries = Array<{
+export type Countries = Array<Country>;
+
+export type Country = {
   name: {
     common: string;
     official: string;
@@ -181,4 +183,4 @@ export type Countries = Array<{
     format: string;
     regex?: string;
   };
-}>;
+};
