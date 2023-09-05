@@ -7,7 +7,9 @@ import { faMagnifyingGlass, faChevronDown, faArrowLeft } from "@fortawesome/free
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
 import { Listbox } from "@headlessui/react";
-import data from "../public/rest-countries-api-with-color-theme-switcher/data.json";
+import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
+// import data from "../public/rest-countries-api-with-color-theme-switcher/data.json";
+import { type Countries } from "../utils/types";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -47,7 +49,8 @@ const inputAtom = atom<string>("");
 //   population: 83240525,
 //   flag: "https://flagcdn.com/de.svg",
 // };
-type Country = (typeof data)[number];
+// type Country = (typeof data)[number];
+type Country = Countries[number];
 // const exampleCountry = {
 //   name: "Belgium",
 //   topLevelDomain: [".be"],
@@ -139,7 +142,7 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
         <Footer />
         {/* <Slider
           basePath="/rest-countries-api-with-color-theme-switcher/design"
-          absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-dark.jpg"
+          absolutePath="/rest-countries-api-with-color-theme-switcher/design/desktop-design-home-dark.jpg"
           // absolutePath="/rest-countries-api-with-color-theme-switcher/design/mobile-design-detail-light.jpg"
         /> */}
       </div>
@@ -162,13 +165,13 @@ export function Header() {
   }, [dark]);
 
   return (
-    <header className="shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/5 relative z-10 flex h-20 items-center justify-between px-4 shadow-md">
-      <h1 className="text-rest-countries-darkblue-200 dark:text-rest-countries-gray-100 text-[14px] font-extrabold tracking-[-.1px]">Where in the world?</h1>
+    <header className="shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/5 relative z-10 flex h-20 items-center justify-between px-4 shadow-md lg:px-20">
+      <h1 className="text-rest-countries-darkblue-200 dark:text-rest-countries-gray-100 text-[14px] font-extrabold tracking-[-.1px] lg:text-[24px]">Where in the world?</h1>
       <button
-        className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 flex items-center px-px pt-px text-[12px] font-normal"
+        className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 flex items-center px-px pt-px text-[12px] font-normal lg:text-[16px]"
         onClick={() => toggle()}
       >
-        <span className="relative mr-[10px] aspect-square h-[14px]">
+        <span className="relative mr-[10px] aspect-square h-[14px] lg:h-[16px]">
           <Image
             src={dark ? "/rest-countries-api-with-color-theme-switcher/images/moon.svg" : "/rest-countries-api-with-color-theme-switcher/images/moon-outline.svg"}
             fill
@@ -192,10 +195,10 @@ function InputField() {
   }, [debouncedValue, setKeywordFilter]);
 
   return (
-    <form className="relative h-12 w-full">
+    <form className="relative h-12 w-full md:h-[56px] md:w-[50vw] md:min-w-[360px] md:max-w-[480px]">
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
-        className="text-rest-countries-gray-300/60 dark:text-rest-countries-gray-100 absolute left-8 top-1/2 w-[15px] -translate-y-1/2"
+        className="text-rest-countries-gray-300/60 dark:text-rest-countries-gray-100 lg:text-rest-countries-darkblue-100/80 absolute left-8 top-1/2 w-[15px] -translate-y-1/2 lg:w-4"
       />
       <input
         type="text"
@@ -203,7 +206,7 @@ function InputField() {
         onChange={(e) => {
           setInput(e.target.value);
         }}
-        className="shadow-rest-countries-gray-300/10 text-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 dark:text-rest-countries-gray-100 dark:placeholder:text-rest-countries-gray-100 h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] shadow-md placeholder:opacity-50 dark:placeholder:opacity-80"
+        className="shadow-rest-countries-gray-300/10 text-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 dark:text-rest-countries-gray-100 dark:placeholder:text-rest-countries-gray-100 lg:placeholder:text-rest-countries-darkblue-100 h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] shadow-md placeholder:opacity-50 dark:placeholder:opacity-80 lg:text-[14px] lg:placeholder:opacity-80"
         placeholder="Search for a country..."
       />
     </form>
@@ -214,19 +217,19 @@ function RegionFilter() {
   const [selectedFilter, setSelectedFilter] = useAtom(regionFilterAtom);
 
   return (
-    <div className="relative z-10 mt-10 self-start">
+    <div className="relative z-10 mt-10 max-lg:self-start md:mt-0">
       <Listbox
         value={selectedFilter}
         onChange={setSelectedFilter}
       >
-        <Listbox.Button className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm">
+        <Listbox.Button className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm md:h-[56px] md:text-[14px]">
           <span>{selectedFilter?.name ?? "Filter by Region"}</span>
           <FontAwesomeIcon
-            className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180"
+            className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180 lg:w-[10px]"
             icon={faChevronDown}
           />
         </Listbox.Button>
-        <Listbox.Options className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 absolute left-0 top-[52px] flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow">
+        <Listbox.Options className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 absolute left-0 top-[52px] flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow lg:top-[60px] lg:gap-[7px] lg:py-[16px] lg:text-[14px]">
           {regions.map((region) => (
             <Listbox.Option
               key={region.id}
@@ -256,24 +259,24 @@ function CountryCard({ country }: { country: Country }) {
       <div className="relative h-[160px] w-full">
         <Image
           src={country.flags.svg}
-          alt={`${country.name}'s Flag`}
+          alt={country.flags.alt ?? `Flag of ${country.name.common}`}
           fill
           className="object-cover"
         />
       </div>
       <div className="flex w-full flex-col items-start px-[25px] pt-[24px] text-[14px]/[24px]">
-        <h2 className="dark:text-rest-countries-gray-100 mb-[12px] text-[18px]/[1.5] font-extrabold">{country.name}</h2>
-        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+        <h2 className="dark:text-rest-countries-gray-100 mb-[12px] text-[18px]/[1.5] font-extrabold">{country.name.common}</h2>
+        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 text-left">
           <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Population: </span>
           {localeStringPopulation}
         </p>
-        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 text-left">
           <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Region: </span>
           {country.region}
         </p>
-        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 text-left">
           <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Capital: </span>
-          {country.capital}
+          {country.capital?.join(", ")}
         </p>
       </div>
     </button>
@@ -285,34 +288,36 @@ function MainHome() {
   const keywordFilter = useAtomValue(keywordFilterAtom);
 
   return (
-    <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-4 py-6">
-      <InputField />
-      <RegionFilter />
-      <div className="mt-[32px] flex flex-col gap-10">
+    <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-4 py-6 md:px-20 md:pt-12">
+      <div className="flex w-full flex-col items-center md:flex-row md:justify-between">
+        <InputField />
+        <RegionFilter />
+      </div>
+      <div className="mt-[32px] flex flex-col gap-10 md:grid md:w-full md:grid-cols-[repeat(2,265px)] md:justify-evenly lg:mt-[48px] lg:grid-cols-[repeat(3,265px)] lg:gap-x-0 lg:gap-y-[74px] min-[1280px]:grid-cols-[repeat(4,265px)] min-[1280px]:justify-between">
         {selectedFilter === null
           ? data
               .filter((ctr) => {
                 if (keywordFilter === "") return true;
-                return ctr.name.toLowerCase().includes(keywordFilter.toLowerCase());
+                return ctr.name.common.toLowerCase().includes(keywordFilter.toLowerCase());
               })
               .map((ctr, index) => {
                 return (
                   <CountryCard
                     key={index}
-                    country={ctr}
+                    country={ctr as Country}
                   />
                 );
               })
           : data
               .filter((ctr) => {
                 if (keywordFilter === "") return ctr.region === selectedFilter.name;
-                return ctr.name.toLowerCase().includes(keywordFilter.toLowerCase()) && ctr.region === selectedFilter.name;
+                return ctr.name.common.toLowerCase().includes(keywordFilter.toLowerCase()) && ctr.region === selectedFilter.name;
               })
               .map((ctr, index) => {
                 return (
                   <CountryCard
                     key={index}
-                    country={ctr}
+                    country={ctr as Country}
                   />
                 );
               })}
@@ -323,6 +328,19 @@ function MainHome() {
 
 function MainDetail() {
   const [selected, setSelected] = useAtom(selectedAtom);
+  const nativeName = useMemo(() => {
+    if (!selected || !selected.name.nativeName) return "";
+
+    const nativeNamesKeys = Object.keys(selected.name.nativeName);
+    return selected.name.nativeName[nativeNamesKeys[0]].common;
+  }, [selected]);
+
+  if (!selected)
+    return (
+      <div className="flex h-56 w-56 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
+        <div className="animate-pulse rounded-full bg-blue-200 px-3 py-1 text-center text-xs font-medium leading-none text-blue-800 dark:bg-blue-900 dark:text-blue-200">loading...</div>
+      </div>
+    );
 
   return (
     <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-7 pb-16 pt-[39px]">
@@ -339,8 +357,8 @@ function MainDetail() {
           width={0}
           height={0}
           sizes="100vw"
-          src={selected!.flags.svg!}
-          alt={selected!.name!}
+          src={selected.flags.svg}
+          alt={selected.flags.alt ?? `Flag of ${selected.name.common}`}
           className="h-auto w-full"
         />
         {/* <div className="relative aspect-[319/230] w-full">
@@ -352,58 +370,62 @@ function MainDetail() {
           />
         </div> */}
 
-        <h1 className="dark:text-rest-countries-gray-100 mt-[43px] text-[21px] font-extrabold">{selected?.name}</h1>
+        <h1 className="dark:text-rest-countries-gray-100 mt-[43px] text-[21px] font-extrabold">{selected.name.common}</h1>
 
         <div className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 mt-[22px] space-y-[11px] text-[14px] [&_span]:font-semibold">
           <p>
             <span>Native Name: </span>
-            {selected!.nativeName}
+            {nativeName}
           </p>
           <p>
             <span>Population: </span>
-            {selected!.population.toLocaleString("en-GB")}
+            {selected.population.toLocaleString("en-GB")}
           </p>
           <p>
             <span>Region: </span>
-            {selected!.region}
+            {selected.region}
           </p>
           <p>
             <span>Sub Region: </span>
-            {selected!.subregion}
+            {selected.subregion}
           </p>
           <p>
             <span>Capital: </span>
-            {selected!.capital}
+            {selected.capital?.join(", ")}
           </p>
         </div>
 
         <div className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 mt-[43px] space-y-[11px] text-[14px] [&_span]:font-semibold">
           <p>
             <span>Top Level Domain: </span>
-            {selected!.topLevelDomain}
+            {selected.tld}
           </p>
           <p>
             <span>Currencies: </span>
-            {selected!.currencies?.map((c) => c.name).join(", ")}
+            {!!selected.currencies &&
+              !!Object.values(selected.currencies) &&
+              Object.values(selected.currencies)
+                .map((c) => c.name)
+                .join(", ")}
           </p>
           <p>
             <span>Languages: </span>
-            {selected!.languages.map((lang) => lang.name).join(", ")}
+            {Object.values(selected.languages!) && Object.values(selected.languages!).join(", ")}
           </p>
         </div>
 
         <div className="mt-[39px]">
           <h2 className="dark:text-rest-countries-gray-100 font-semibold">Border Countries: </h2>
           <div className="mt-[14px] grid translate-x-[-2px] grid-cols-[repeat(3,99px)] gap-2">
-            {selected?.borders?.map((border, index) => {
-              const borderCountry = data.find((ctr) => ctr.alpha3Code === border)!;
+            {selected.borders?.map((border, index) => {
+              const borderCountry = data.find((ctr) => ctr.cca3 === border)! as Country;
               return (
                 <button
                   className="dark:text-rest-countries-gray-100 dark:bg-rest-countries-darkblue-100 dark:border-rest-countries-darkblue-200 dark:shadow-rest-countries-darkblue-300/20 h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-[12px] shadow-md"
                   key={index}
                   onClick={() => setSelected(borderCountry)}
                 >
-                  {borderCountry.name}
+                  {borderCountry.name.common}
                 </button>
               );
             })}

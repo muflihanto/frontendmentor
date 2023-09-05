@@ -13,9 +13,8 @@ export default function Page() {
   const { data: borders, isLoading: isBorderLoading } = useBorders(data ? data[0].borders ?? [] : []);
 
   const nativeName = useMemo(() => {
-    if (!data || !data[0].name.nativeName) {
-      return "";
-    }
+    if (!data || !data[0].name.nativeName) return "";
+
     const nativeNames = Object.keys(data[0].name.nativeName);
     return data[0].name.nativeName[nativeNames[0]].common;
   }, [data]);
@@ -48,7 +47,7 @@ export default function Page() {
           height={0}
           sizes="100vw"
           src={data[0].flags.svg}
-          alt={data[0].name.common}
+          alt={data[0].flags.alt ?? `Flag of ${data[0].name.common}`}
           className="h-auto w-full shadow"
         />
 
