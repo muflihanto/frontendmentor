@@ -24,9 +24,7 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 });
 
 // TODO: View the optimal layout for each page depending on their device's screen size
-// TODO: See hover states for all interactive elements on the page
-// TODO: See their own IP address on the map on the initial page load
-// TODO: Search for any IP addresses or domains and see the key information and location
+// TODO: change timezone information to utc
 
 export const getServerSideProps: GetServerSideProps<{
   detail: Detail;
@@ -46,7 +44,10 @@ export default function IpAddressTracker({ detail }: InferGetServerSidePropsType
       <div className="App font-rubiks relative min-h-[100dvh] font-medium">
         <Main />
         <Footer />
-        {/* <Slider basePath="/ip-address-tracker/design" /> */}
+        {/* <Slider
+          basePath="/ip-address-tracker/design"
+          absolutePath="/ip-address-tracker/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -126,7 +127,7 @@ function Intro() {
           />
           <button
             onClick={onClick}
-            className="flex w-[58px] items-center justify-center bg-black"
+            className="flex w-[58px] items-center justify-center bg-black hover:bg-opacity-[75%]"
           >
             <svg
               className="w-[11px]"
