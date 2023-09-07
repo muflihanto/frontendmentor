@@ -2,6 +2,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCountry, useBorders } from "../../utils/useCountries";
 import { PropsWithChildren, ReactElement, useEffect } from "react";
@@ -91,13 +92,13 @@ export default function Page() {
             <div className="mt-[14px] grid translate-x-[-2px] grid-cols-[repeat(3,99px)] gap-2 min-[1200px]:grid-cols-[repeat(4,99px)] min-[1420px]:mt-0">
               {borders.map((border, index) => {
                 return (
-                  <button
-                    className="dark:text-rest-countries-gray-100 dark:bg-rest-countries-darkblue-100 dark:border-rest-countries-darkblue-200 dark:shadow-rest-countries-darkblue-300/20 h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-[12px] shadow-md lg:px-1 lg:text-[14px]"
+                  <Link
+                    className="dark:text-rest-countries-gray-100 dark:bg-rest-countries-darkblue-100 dark:border-rest-countries-darkblue-200 dark:shadow-rest-countries-darkblue-300/20 h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-center text-[12px] leading-[30px] shadow-md lg:px-1 lg:text-[14px]"
                     key={index}
-                    onClick={() => router.push({ pathname: `/rest-countries-api-with-color-theme-switcher/${border.name.common.toLowerCase().split(" ").join("_")}` })}
+                    href={`/rest-countries-api-with-color-theme-switcher/${border.name.common.toLowerCase().split(" ").join("_")}`}
                   >
                     {border.name.common}
-                  </button>
+                  </Link>
                 );
               })}
             </div>

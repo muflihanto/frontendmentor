@@ -2,6 +2,7 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
 import { faMagnifyingGlass, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -154,12 +155,10 @@ function RegionFilter() {
 }
 
 function CountryCard({ country }: { country: Country }) {
-  const router = useRouter();
-
   return (
-    <button
+    <Link
       className="shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md"
-      onClick={() => router.push({ pathname: `/rest-countries-api-with-color-theme-switcher/${country.name.common.toLowerCase().split(" ").join("_")}` })}
+      href={`/rest-countries-api-with-color-theme-switcher/${country.name.common.toLowerCase().split(" ").join("_")}`}
     >
       <div className="relative h-[160px] w-full">
         <Image
@@ -184,7 +183,7 @@ function CountryCard({ country }: { country: Country }) {
           {country.capital?.join(", ")}
         </p>
       </div>
-    </button>
+    </Link>
   );
 }
 
