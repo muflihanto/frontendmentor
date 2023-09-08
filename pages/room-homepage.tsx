@@ -1,13 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, ComponentProps, PropsWithChildren, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWindowSize } from "usehooks-ts";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { cn } from "../utils/cn";
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
-// TODO: - See hover states for all interactive elements on the page
 // TODO: - Navigate the slider using either their mouse/trackpad or keyboard
 
 type Product = {
@@ -49,6 +49,24 @@ const products: Product[] = [
     },
   },
 ];
+const links = [
+  {
+    href: "",
+    display: "Home",
+  },
+  {
+    href: "",
+    display: "Shop",
+  },
+  {
+    href: "",
+    display: "About",
+  },
+  {
+    href: "",
+    display: "Contact",
+  },
+];
 
 export default function RoomHomepage() {
   return (
@@ -62,10 +80,26 @@ export default function RoomHomepage() {
         <Footer />
         {/* <Slider
           basePath="/room-homepage/design"
-          absolutePath="/room-homepage/design/desktop-design-slide-1.jpg"
+          absolutePath="/room-homepage/design/active-states.jpg"
         /> */}
       </div>
     </>
+  );
+}
+
+function NavigationLink({ children, href }: PropsWithChildren<ComponentProps<"a">>) {
+  return (
+    <li>
+      <a
+        className={cn([
+          "text-room-primary-300 lg:text-room-primary-100 text-[17px] font-bold lowercase leading-none tracking-[-1.25px] lg:font-medium", //
+          "lg:hover:relative lg:hover:before:absolute lg:hover:before:bottom-[-10px] lg:hover:before:left-1/2 lg:hover:before:h-[2px] lg:hover:before:w-4 lg:hover:before:-translate-x-1/2 lg:hover:before:bg-white",
+        ])}
+        href={href ?? ""}
+      >
+        {children}
+      </a>
+    </li>
   );
 }
 
@@ -136,38 +170,16 @@ function Header() {
           {(!!menuOpen || width > 1023) && (
             <nav className="relative ml-auto pt-[3px] lg:ml-[56px] lg:pb-[2px] lg:pt-0">
               <ul className="flex gap-8 lg:gap-[33px]">
-                <li>
-                  <a
-                    className="text-room-primary-300 lg:text-room-primary-100 text-[17px] font-bold lowercase leading-none tracking-[-1.25px] lg:font-medium"
-                    href=""
-                  >
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-room-primary-300 lg:text-room-primary-100 text-[17px] font-bold lowercase leading-none tracking-[-1.25px] lg:font-medium"
-                    href=""
-                  >
-                    Shop
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-room-primary-300 lg:text-room-primary-100 text-[17px] font-bold lowercase leading-none tracking-[-1.25px] lg:font-medium"
-                    href=""
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-room-primary-300 lg:text-room-primary-100 text-[17px] font-bold lowercase leading-none tracking-[-1.25px] lg:font-medium"
-                    href=""
-                  >
-                    Contact
-                  </a>
-                </li>
+                {links.map((link) => {
+                  return (
+                    <NavigationLink
+                      key={link.display}
+                      href={link.href}
+                    >
+                      {link.display}
+                    </NavigationLink>
+                  );
+                })}
               </ul>
             </nav>
           )}
@@ -217,17 +229,16 @@ function Slide() {
         <p className="text-room-primary-200 mt-[15px] font-medium leading-[22px] tracking-[-.35px] lg:mt-[22px]">{product[activeProduct].description}</p>
         <a
           href={product[activeProduct].link}
-          className="mt-10 flex items-center gap-[18px] text-[15px] uppercase leading-none tracking-[12.5px] lg:mt-[23px]"
+          className="text-room-primary-400 hover:text-room-primary-200 group mt-10 flex items-center gap-[18px] text-[15px] uppercase leading-none tracking-[12.5px] lg:mt-[23px]"
         >
           Shop Now
           <svg
-            className="w-10"
+            className="fill-room-primary-400 group-hover:fill-room-primary-200 w-10"
             viewBox="0 0 40 12"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M34.05 0l5.481 5.527h.008v.008L40 6l-.461.465v.063l-.062-.001L34.049 12l-.662-.668 4.765-4.805H0v-1h38.206l-4.82-4.86L34.05 0z"
-              fill="#000"
               fillRule="nonzero"
             />
           </svg>
@@ -240,7 +251,7 @@ function Slide() {
               return prev === 0 ? 2 : prev - 1;
             });
           }}
-          className="bg-room-primary-400 flex h-full w-full items-center justify-center"
+          className="bg-room-primary-400 hover:bg-room-primary-300 flex h-full w-full items-center justify-center"
         >
           <svg
             viewBox="0 0 14 24"
@@ -261,7 +272,7 @@ function Slide() {
               return prev === 2 ? 0 : prev + 1;
             });
           }}
-          className="bg-room-primary-400 flex h-full w-full items-center justify-center"
+          className="bg-room-primary-400 hover:bg-room-primary-300 flex h-full w-full items-center justify-center"
         >
           <svg
             viewBox="0 0 14 24"
