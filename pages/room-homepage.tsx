@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { CSSProperties, ComponentProps, PropsWithChildren, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useWindowSize } from "usehooks-ts";
+import { useEventListener, useWindowSize } from "usehooks-ts";
 import { cn } from "../utils/cn";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -203,6 +203,18 @@ function Header() {
 function Slide() {
   const [product] = useState(products);
   const [activeProduct, setActiveProduct] = useState(0);
+
+  useEventListener("keyup", (event) => {
+    if (event.key === "ArrowLeft") {
+      setActiveProduct((prev) => {
+        return prev === 0 ? 2 : prev - 1;
+      });
+    } else if (event.key === "ArrowRight") {
+      setActiveProduct((prev) => {
+        return prev === 2 ? 0 : prev + 1;
+      });
+    }
+  });
 
   return (
     <div
