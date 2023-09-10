@@ -1,21 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { faFacebookF, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 const userInput = z.object({
   email: z.string().email({ message: "Please check your email" }),
 });
 
 type UserInput = z.infer<typeof userInput>;
-
-// TODO: Add arrow hover states
 
 export default function FyloLandingPageWithTwoColumnLayout() {
   return (
@@ -29,7 +27,7 @@ export default function FyloLandingPageWithTwoColumnLayout() {
         <Footer />
         {/* <Slider
           basePath="/fylo-landing-page-with-two-column-layout/design"
-          // absolutePath="/fylo-landing-page-with-two-column-layout/design/active-states.jpg"
+          absolutePath="/fylo-landing-page-with-two-column-layout/design/active-states.jpg"
         /> */}
       </div>
     </>
@@ -194,7 +192,7 @@ function ProductiveSection() {
           className="hidden object-contain lg:block"
         />
       </div>
-      <div className="bg-fylo-landing-neutral-100 flex flex-col items-center px-7 pb-[81.5px] lg:grid lg:grid-cols-[auto,540px] lg:grid-rows-1 lg:items-start lg:px-20 lg:pt-[57px] lg:pb-[106px]">
+      <div className="bg-fylo-landing-neutral-100 flex flex-col items-center px-7 pb-[81.5px] lg:grid lg:grid-cols-[auto,540px] lg:grid-rows-1 lg:items-start lg:px-20 lg:pb-[106px] lg:pt-[57px]">
         <div className="relative my-[41px] aspect-[1077.87/813.02] w-full max-lg:max-w-screen-sm lg:col-start-2 lg:my-8 lg:w-full lg:place-self-end lg:self-start">
           <Image
             src="/fylo-landing-page-with-two-column-layout/images/illustration-2.svg"
@@ -203,23 +201,21 @@ function ProductiveSection() {
             fill
           />
         </div>
-        <div className="lg:col-start-1 lg:row-start-1">
+        <div className="max-lg:flex max-lg:flex-col max-lg:items-center lg:col-start-1 lg:row-start-1">
           <h2 className="font-raleway text-fylo-landing-primary-blue-200 mt-[47px] font-bold lg:mt-0 lg:text-[40px] lg:tracking-[.1px]">Stay productive, wherever you are</h2>
-          <p className="text-fylo-landing-primary-blue-200 mt-6 -ml-2 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:mt-[31px] lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
-          <p className="text-fylo-landing-primary-blue-200 mt-4 -ml-2 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required!</p>
+          <p className="text-fylo-landing-primary-blue-200 -ml-2 mt-6 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:mt-[31px] lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
+          <p className="text-fylo-landing-primary-blue-200 -ml-2 mt-4 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required!</p>
           <a
             href=""
-            className="text-fylo-landing-accent-cyan border-b-fylo-landing-accent-cyan mt-[30px] flex h-[28px] translate-x-[1px] items-center gap-[7px] border-b hover:border-b-[hsl(168,56%,66%)] hover:text-[hsl(168,56%,66%)] lg:mt-[12px] lg:h-[31px] lg:w-fit lg:translate-x-0 lg:gap-[6px]"
+            className="text-fylo-landing-accent-cyan border-b-fylo-landing-accent-cyan group mt-[30px] flex h-[28px] w-fit translate-x-[1px] items-center gap-[7px] border-b hover:border-b-[hsl(168,56%,66%)] hover:text-[hsl(168,56%,66%)] lg:mt-[12px] lg:h-[31px] lg:w-fit lg:translate-x-0 lg:gap-[6px]"
           >
             <span className="text-[13px] tracking-[-.5px] lg:text-[16px] lg:tracking-normal">See how Fylo works</span>
-            <span className="relative aspect-square w-4 lg:mt-[4px]">
-              <Image
-                src="/fylo-landing-page-with-two-column-layout/images/icon-arrow.svg"
-                alt="Icon Arrow"
-                fill
-                className="object-contain"
-              />
-            </span>
+            <svg
+              viewBox="0 0 16 16"
+              className="w-4 text-[#3DA08F] group-hover:text-[hsl(168,56%,66%)] lg:mt-[4px]"
+            >
+              <use href="/fylo-landing-page-with-two-column-layout/images/icon-arrow.svg#fylo-icon-arrow" />
+            </svg>
           </a>
           <Testimony />
         </div>
@@ -230,26 +226,12 @@ function ProductiveSection() {
 
 function Testimony() {
   return (
-    <div className="shadow-fylo-landing-primary-blue-100/10 mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pt-[21px] pl-[26px] pr-3 text-[10px] tracking-[.4px] shadow-md lg:mt-[45px] lg:h-[216px] lg:w-[356px] lg:px-[33px] lg:pt-[25px]">
+    <div className="shadow-fylo-landing-primary-blue-100/10 mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pl-[26px] pr-3 pt-[21px] text-[10px] tracking-[.4px] shadow-md lg:mt-[45px] lg:h-[216px] lg:w-[356px] lg:px-[33px] lg:pt-[25px]">
       <svg
         className="w-[11px] lg:ml-[1px] lg:w-[14px]"
         viewBox="0 0 13 12"
-        xmlns="http://www.w3.org/2000/svg"
       >
-        <text
-          transform="translate(-34 -25)"
-          fill="#07043B"
-          fillRule="evenodd"
-          fontFamily="Helvetica"
-          fontSize="45"
-        >
-          <tspan
-            x="33"
-            y="56"
-          >
-            “
-          </tspan>
-        </text>
+        <use href="/fylo-landing-page-with-two-column-layout/images/icon-quotes.svg#fylo-icon-quotes" />
       </svg>
       <p className="mt-2 leading-[18px] lg:mt-[12px] lg:text-[13px] lg:leading-[23.15px] lg:tracking-[.5px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
       <div className="mt-[13px] flex h-6 items-center gap-2 leading-none lg:mt-[19px]">
@@ -335,7 +317,7 @@ function SocialIcon() {
 
 function Footer() {
   return (
-    <footer className="bg-fylo-landing-primary-blue-200 relative flex h-[682.97px] flex-col pt-[65px] text-white max-lg:px-[max(calc(50vw-320px),39px)] lg:h-fit lg:px-20 lg:pt-[108px] lg:pb-[70.02px]">
+    <footer className="bg-fylo-landing-primary-blue-200 relative flex h-[682.97px] flex-col pt-[65px] text-white max-lg:px-[max(calc(50vw-320px),39px)] lg:h-fit lg:px-20 lg:pb-[70.02px] lg:pt-[108px]">
       <FyloLogo
         className="w-[176px] lg:aspect-[166/49] lg:h-auto lg:w-[176px]"
         variant="footer"
@@ -387,7 +369,7 @@ function Footer() {
             </li>
           </ul>
         </nav>
-        <nav className="mt-[46px] w-full lg:mt-0 lg:ml-[calc(200/1440*100vw)] lg:w-auto">
+        <nav className="mt-[46px] w-full lg:ml-[calc(200/1440*100vw)] lg:mt-0 lg:w-auto">
           <ul className="flex flex-col gap-[14px]">
             <li>
               <a href="">Contact Us</a>
