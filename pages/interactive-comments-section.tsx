@@ -2,7 +2,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { z } from "zod";
 
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 const Main = dynamic(import("../components/interactive-comments-section/ClientWrapper"), { ssr: false });
 
 export const zUser = z.object({
