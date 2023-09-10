@@ -2,17 +2,9 @@ import Head from "next/head";
 // import Image from "next/image";
 import dynamic from "next/dynamic";
 const Main = dynamic(() => import("../components/todo-app/Main"), { ssr: false });
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: View the optimal layout for the app depending on their device's screen size
-// TODO: See hover states for all interactive elements on the page
-// TODO: Add new todos to the list
-// TODO: Mark todos as complete
-// TODO: Delete todos from the list
-// TODO: Filter by all/active/complete todos
-// TODO: Clear all completed todos
-// TODO: Toggle light and dark mode
-// TODO: **Bonus**: Drag and drop to reorder items on the list
 
 export default function TodoApp() {
   return (

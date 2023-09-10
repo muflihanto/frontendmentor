@@ -11,13 +11,7 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
-// TODO: - Add their email and submit the form
-// TODO: - See a success message with their email after successfully submitting the form
-// TODO: - See form validation messages if:
-// TODO:   - The field is left empty
-// TODO:   - The email address is not formatted correctly
 // TODO: - View the optimal layout for the interface depending on their device's screen size
-// TODO: - See hover and focus states for all interactive elements on the page
 
 const zInputSchema = z.object({
   email: z.string().min(1, "Email required").email("Valid email required"),

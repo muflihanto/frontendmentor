@@ -1,10 +1,10 @@
 import Head from "next/head";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+// import Image from "next/image";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import { useAnimate } from "framer-motion";
 import { useEffectOnce, useInterval, useWindowSize } from "usehooks-ts";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function LaunchCountdownTimer() {
   return (
