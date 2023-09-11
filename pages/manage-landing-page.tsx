@@ -12,11 +12,6 @@ import { z } from "zod";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
-// TODO: - See hover states for all interactive elements on the page
-// TODO: - See all testimonials in a horizontal slider
-// TODO: - Receive an error message when the newsletter sign up `form` is submitted if:
-// TODO:   - The `input` field is empty
-// TODO:   - The email address is not formatted correctly
 
 export default function ManageLandingPage() {
   return (

@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { CSSProperties } from "react";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 /**
  * TODO : Add mobile to desktop responsivity
@@ -46,7 +46,7 @@ function CTA({ className = "" }: { className?: string }) {
 
 function HeroSection() {
   return (
-    <main className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat py-[123px] px-8 lg:bg-[url('/clipboard-landing-page/images/bg-header-desktop.png')] lg:py-[131px]">
+    <main className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat px-8 py-[123px] lg:bg-[url('/clipboard-landing-page/images/bg-header-desktop.png')] lg:py-[131px]">
       <svg
         className="w-[125px]"
         viewBox="0 0 125 125"
@@ -78,11 +78,11 @@ function HeroSection() {
 
 function SnippetSection() {
   return (
-    <section className="flex flex-col items-center px-[31px] py-[37px] lg:py-[24px] lg:px-0">
+    <section className="flex flex-col items-center px-[31px] py-[37px] lg:px-0 lg:py-[24px]">
       <h2 className="text-clipboard-neutral-200 text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] lg:text-[36px] lg:tracking-[-.6px]">Keep track of your snippets</h2>
       <p className="text-clipboard-neutral-100 mt-[16px] text-center leading-[26px] tracking-[.1px] lg:mt-6 lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">Clipboard instantly stores any item you copy in the cloud, meaning you can access your snippets immediately on all your devices. Our Mac and iOS apps will help you organize everything.</p>
       <div className="lg:mt-[80px] lg:grid lg:h-[572px] lg:w-full lg:grid-cols-2 lg:grid-rows-1">
-        <div className="relative mt-[65px] mb-[53px] aspect-[752/572] w-full lg:mt-0 lg:h-full lg:w-auto lg:justify-self-end">
+        <div className="relative mb-[53px] mt-[65px] aspect-[752/572] w-full lg:mt-0 lg:h-full lg:w-auto lg:justify-self-end">
           <Image
             src="/clipboard-landing-page/images/image-computer.png"
             alt="Computer Illustration"
@@ -135,7 +135,7 @@ function AccessAnywhereSection() {
 
 function SuperchargeWorkflow() {
   return (
-    <section className="px-8 pt-[95px] pb-[25px] lg:flex lg:flex-col lg:items-center lg:pt-[76px]">
+    <section className="px-8 pb-[25px] pt-[95px] lg:flex lg:flex-col lg:items-center lg:pt-[76px]">
       <h2 className="text-clipboard-neutral-200 px-[calc(32px-var(--section-padding))] text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] lg:text-[36px] lg:tracking-[-.6px]">Supercharge your workflow</h2>
       <p className="text-clipboard-neutral-100 mt-[11px] px-[calc(32px-var(--section-padding))] text-center leading-[26px] tracking-[.1px] lg:mt-6 lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">We’ve got the tools to boost your productivity.</p>
       <div className="my-[90px] flex flex-col items-center gap-[52.5px] lg:mt-[72px] lg:grid lg:grid-cols-[repeat(3,348px)] lg:grid-rows-1 lg:items-start lg:gap-[32px]">
@@ -229,7 +229,7 @@ function Sponsors() {
 
 function Available() {
   return (
-    <section className="px-[32px] py-[154px] lg:flex lg:flex-col lg:items-center lg:pt-[147px] lg:pb-[134px]">
+    <section className="px-[32px] py-[154px] lg:flex lg:flex-col lg:items-center lg:pb-[134px] lg:pt-[147px]">
       <h2 className="text-clipboard-neutral-200 text-center text-[28px] font-semibold leading-[35px] tracking-[-.5px] lg:text-[36px]">Clipboard for iOS and Mac OS</h2>
       <p className="text-clipboard-neutral-100 mt-[16px] text-center leading-[26px] tracking-[.1px] lg:mt-[25px] lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">Available for free on the App Store. Download for Mac or iOS, sync with iCloud and you’re ready to start adding to your clipboard.</p>
       <CTA className="mt-[46px] lg:mt-[47px]" />
@@ -292,7 +292,7 @@ function SocialIcons({ className = "" }: { className?: string }) {
 
 function Footer() {
   return (
-    <footer className="bg-clipboard-neutral-100/10 relative mt-[16px] h-[500.18px] w-full max-w-screen-sm py-[52px] lg:h-auto lg:max-w-none lg:px-[165px] lg:pt-[44px] lg:pb-[25px]">
+    <footer className="bg-clipboard-neutral-100/10 relative mt-[16px] h-[500.18px] w-full max-w-screen-sm py-[52px] lg:h-auto lg:max-w-none lg:px-[165px] lg:pb-[25px] lg:pt-[44px]">
       <div className="flex flex-col items-center lg:flex-row lg:items-start">
         <Image
           src="/clipboard-landing-page/images/logo.svg"

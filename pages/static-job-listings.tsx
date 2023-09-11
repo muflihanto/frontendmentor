@@ -8,8 +8,6 @@ import { atom, useAtom, useSetAtom } from "jotai";
 import { match } from "ts-pattern";
 
 // TODO: View the optimal layout for the site depending on their device's screen size
-// TODO: See hover states for all interactive elements on the page
-// TODO: Filter job listings based on the categories
 
 type Job = {
   id: number;
