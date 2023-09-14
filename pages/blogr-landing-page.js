@@ -1,11 +1,11 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function Blogr(props) {
   return (
-    <div className="w-screen overflow-hidden App lg:bg-blogr-neutral-200/10">
+    <div className="App lg:bg-blogr-neutral-200/10 w-screen overflow-hidden">
       <Head>
         <title>Frontend Mentor | [Blogr]</title>
       </Head>
@@ -14,7 +14,7 @@ export default function Blogr(props) {
       <Footer />
       {/* <Slider
         basePath="/blogr-landing-page/design/"
-        // absolutePath="/blogr-landing-page/design/active-states.jpg"
+        absolutePath="/blogr-landing-page/design/active-states.jpg"
         // absolutePath="/blogr-landing-page/design/mobile-menu.jpg"
       /> */}
     </div>
@@ -58,13 +58,10 @@ function OtherFeatures() {
     },
   ];
   return (
-    <section
-      className="mt-[88.75px] text-center flex flex-col
-    lg:flex-row lg:items-center lg:mt-[232px] lg:h-[600px] lg:mb-[193px]"
-    >
+    <section className="mt-[88.75px] flex flex-col text-center lg:mb-[193px] lg:mt-[232px] lg:h-[600px] lg:flex-row lg:items-center">
       <h2 className="sr-only">Other Features</h2>
-      <header className="relative w-full h-[372px] lg:w-1/2 lg:h-full">
-        <div className="absolute w-[375px] aspect-[203/166] top-0 left-[1px] lg:w-[974px] lg:-translate-x-[280px] lg:-translate-y-[121px]">
+      <header className="relative h-[372px] w-full lg:h-full lg:w-1/2">
+        <div className="absolute left-[1px] top-0 aspect-[203/166] w-[375px] lg:w-[974px] lg:-translate-x-[280px] lg:-translate-y-[121px]">
           <Image
             loader={({ width, src }) => {
               if (width > 1023) {
@@ -74,12 +71,12 @@ function OtherFeatures() {
             }}
             src="/blogr-landing-page/images/"
             alt="Illustration Laptop"
-            className="object-contain scale-[calc(180/135.5)] lg:transform-none"
+            className="scale-[calc(180/135.5)] object-contain lg:transform-none"
             fill
           />
         </div>
       </header>
-      <div className="flex-col flex gap-[44px] mt-0 lg:w-1/2 lg:-mt-9 lg:pl-[15px] lg:pr-40 lg:gap-[77px]">
+      <div className="mt-0 flex flex-col gap-[44px] lg:-mt-9 lg:w-1/2 lg:gap-[77px] lg:pl-[15px] lg:pr-40">
         {articles.map((el, index) => {
           return (
             <Article
@@ -96,27 +93,20 @@ function OtherFeatures() {
 
 function Infrastructure() {
   return (
-    <section
-      className="relative rounded-tr-[100px] rounded-bl-[100px] h-[625px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-blue-200 to-blogr-gradient-blue-100 pt-[225.25px] mt-[267px] text-blogr-neutral-100
-    before:absolute before:rounded-tr-[100px] before:rounded-bl-[100px] before:top-0 before:bg-[top_-233px_left_50%] before:bg-[length:600px_600px] before:bg-no-repeat before:left-0 before:bg-[url('/blogr-landing-page/images/bg-pattern-circles.svg')] before:w-full before:h-full
-    lg:mt-[57px] lg:h-[400px] lg:flex lg:items-center lg:pt-0 lg:bg-[linear-gradient(120deg,_var(--tw-gradient-stops))] lg:before:bg-[top_-507px_left_-49.75%] lg:before:bg-[length:calc(169*6px)_calc(806/475*600px)]"
-    >
-      <header className="lg:relative lg:w-1/2 lg:h-full">
-        <div
-          className="mx-auto absolute top-0 -translate-y-[calc(50%-14px)] w-[375px] lg:w-[calc(212/144*375px)] aspect-[276/290]
-        lg:right-0 lg:-translate-x-[7.7%] lg:-translate-y-[calc(12%)]"
-        >
+    <section className="from-blogr-gradient-blue-200 to-blogr-gradient-blue-100 text-blogr-neutral-100 relative mt-[267px] h-[625px] rounded-bl-[100px] rounded-tr-[100px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] pt-[225.25px] before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-bl-[100px] before:rounded-tr-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-circles.svg')] before:bg-[length:600px_600px] before:bg-[top_-233px_left_50%] before:bg-no-repeat lg:mt-[57px] lg:flex lg:h-[400px] lg:items-center lg:bg-[linear-gradient(120deg,_var(--tw-gradient-stops))] lg:pt-0 lg:before:bg-[length:calc(169*6px)_calc(806/475*600px)] lg:before:bg-[top_-507px_left_-49.75%]">
+      <header className="lg:relative lg:h-full lg:w-1/2">
+        <div className="absolute top-0 mx-auto aspect-[276/290] w-[375px] -translate-y-[calc(50%-14px)] lg:right-0 lg:w-[calc(212/144*375px)] lg:-translate-x-[7.7%] lg:-translate-y-[calc(12%)]">
           <Image
             src="/blogr-landing-page/images/illustration-phones.svg"
             alt="Illustration Phone"
-            className="object-contain scale-[calc(301/295*100%)] lg:scale-100"
+            className="scale-[calc(301/295*100%)] object-contain lg:scale-100"
             fill
           />
         </div>
       </header>
       <div className="px-8 lg:w-1/2 lg:pl-4 lg:pr-40 lg:pt-[10px]">
-        <h2 className="relative z-10 text-center text-[40px] font-overpass font-medium -tracking-[1.25px] leading-[50px] lg:text-left">State of the Art Infrastructure</h2>
-        <p className="relative z-10 mt-[18px] tracking-[0.03px] leading-[28px] text-center text-[17px] font-overpass font-light text-blogr-neutral-200 lg:text-left">With reliability and speed in mind, worldwide data centers provide the backbone for ultra-fast connectivity. This ensures your site will load instantly, no matter where your readers are, keeping your site competitive.</p>
+        <h2 className="font-overpass relative z-10 text-center text-[40px] font-medium leading-[50px] -tracking-[1.25px] lg:text-left">State of the Art Infrastructure</h2>
+        <p className="font-overpass text-blogr-neutral-200 relative z-10 mt-[18px] text-center text-[17px] font-light leading-[28px] tracking-[0.03px] lg:text-left">With reliability and speed in mind, worldwide data centers provide the backbone for ultra-fast connectivity. This ensures your site will load instantly, no matter where your readers are, keeping your site competitive.</p>
       </div>
     </section>
   );
@@ -134,16 +124,11 @@ function Future() {
     },
   ];
   return (
-    <section className="lg:relative text-center pt-[99px] lg:pt-[149px] lg:pb-[195px]">
-      <h2
-        className="text-[28px] font-overpass font-medium -tracking-[0.8px] text-blogr-primary-blue
-      lg:text-[40px] lg:-tracking-[1.3px] lg:-translate-x-[2px]"
-      >
-        Designed for the future
-      </h2>
-      <div className="flex flex-col pt-[52px] lg:flex-row-reverse lg:pt-0 lg:mt-[104px] lg:items-center lg:gap-[32px] lg:px-[164px]">
-        <div className="w-full lg:w-1/2 lg:h-[428px]">
-          <div className="mx-auto relative lg:absolute w-[375px] lg:w-[925px] aspect-[203/166] lg:aspect-[925/882] lg:top-[71px] lg:ml-[54px]">
+    <section className="pt-[99px] text-center lg:relative lg:pb-[195px] lg:pt-[149px]">
+      <h2 className="font-overpass text-blogr-primary-blue text-[28px] font-medium -tracking-[0.8px] lg:-translate-x-[2px] lg:text-[40px] lg:-tracking-[1.3px]">Designed for the future</h2>
+      <div className="flex flex-col pt-[52px] lg:mt-[104px] lg:flex-row-reverse lg:items-center lg:gap-[32px] lg:px-[164px] lg:pt-0">
+        <div className="w-full lg:h-[428px] lg:w-1/2">
+          <div className="relative mx-auto aspect-[203/166] w-[375px] lg:absolute lg:top-[71px] lg:ml-[54px] lg:aspect-[925/882] lg:w-[925px]">
             <Image
               loader={({ width, src }) => {
                 if (width > 1023) {
@@ -153,12 +138,12 @@ function Future() {
               }}
               src="/blogr-landing-page/images/"
               alt="Illustration Editor"
-              className="object-contain scale-[calc(331.5/306.65)] lg:scale-100"
+              className="scale-[calc(331.5/306.65)] object-contain lg:scale-100"
               fill
             />
           </div>
         </div>
-        <div className="mt-[62px] flex-col flex gap-[43px] lg:gap-[77px] lg:w-1/2 lg:mt-0 lg:-translate-y-1">
+        <div className="mt-[62px] flex flex-col gap-[43px] lg:mt-0 lg:w-1/2 lg:-translate-y-1 lg:gap-[77px]">
           {articles.map((el, index) => {
             return (
               <Article
@@ -176,17 +161,17 @@ function Future() {
 
 function Article(props) {
   return (
-    <article className="pl-8 pr-6 group lg:text-left lg:px-0">
-      <h3 className="text-[28px] font-overpass font-semibold -tracking-[0.2px] text-blogr-primary-blue mx-auto leading-[32px] px-2 lg:px-0">{props.h3}</h3>
-      <p className={`font-normal font-overpass text-[17px] leading-[28px] text-blogr-neutral-300/80 lg:text-[16px] lg:tracking-[0.45px] lg:mt-[26px] ${props.type === "future" ? "group-first:mt-[15px] mt-[24px] lg:group-first:mt-[26px]" : "mt-[25px] "}`}>{props.p}</p>
+    <article className="group pl-8 pr-6 lg:px-0 lg:text-left">
+      <h3 className="font-overpass text-blogr-primary-blue mx-auto px-2 text-[28px] font-semibold leading-[32px] -tracking-[0.2px] lg:px-0">{props.h3}</h3>
+      <p className={`font-overpass text-blogr-neutral-300/80 text-[17px] font-normal leading-[28px] lg:mt-[26px] lg:text-[16px] lg:tracking-[0.45px] ${props.type === "future" ? "mt-[24px] group-first:mt-[15px] lg:group-first:mt-[26px]" : "mt-[25px] "}`}>{props.p}</p>
     </article>
   );
 }
 
 function Footer() {
   return (
-    <footer className="text-[11px] bg-blogr-neutral-400 mt-[95px] flex flex-col justify-center items-center pt-[75px] pb-[76.95px] rounded-tr-[100px] relative lg:flex-row lg:items-start lg:justify-between lg:pt-[70px] lg:pb-[75px] lg:px-[164px]">
-      <div className="relative w-[102px] aspect-[51/20]">
+    <footer className="bg-blogr-neutral-400 relative mt-[95px] flex flex-col items-center justify-center rounded-tr-[100px] pb-[76.95px] pt-[75px] text-[11px] lg:flex-row lg:items-start lg:justify-between lg:px-[164px] lg:pb-[75px] lg:pt-[70px]">
+      <div className="relative aspect-[51/20] w-[102px]">
         <Image
           alt="Blogr Logo"
           src="/blogr-landing-page/images/logo.svg"
@@ -194,20 +179,20 @@ function Footer() {
           fill
         />
       </div>
-      <div className="mt-[76px] flex flex-col justify-start gap-[46px] lg:mt-0 lg:flex-row lg:w-[74.25%] lg:pr-[20px] lg:pt-1 lg:-tracking-[0.4px]">
+      <div className="mt-[76px] flex flex-col justify-start gap-[46px] lg:mt-0 lg:w-[74.25%] lg:flex-row lg:pr-[20px] lg:pt-1 lg:-tracking-[0.4px]">
         {navItems.map((el, index) => {
           return (
             <nav
               key={index}
               className="lg:w-1/3"
             >
-              <h3 className="text-center text-[18px] lg:text-[16px] font-medium text-blogr-neutral-100/90 font-ubuntu lg:text-left">{el.parent}</h3>
-              <ul className="flex flex-col items-center justify-center mt-[27px] gap-[6px] lg:items-start lg:mt-[30px] lg:gap-[9px]">
+              <h3 className="text-blogr-neutral-100/90 font-ubuntu text-center text-[18px] font-medium lg:text-left lg:text-[16px]">{el.parent}</h3>
+              <ul className="mt-[27px] flex flex-col items-center justify-center gap-[6px] lg:mt-[30px] lg:items-start lg:gap-[9px]">
                 {el.children.map((el, index) => {
                   return (
                     <li
                       key={index}
-                      className="text-[18px] lg:text-[16px] font-normal text-blogr-neutral-200/80 lg:text-blogr-neutral-200/90 font-ubuntu"
+                      className="text-blogr-neutral-200/80 lg:text-blogr-neutral-200/90 font-ubuntu text-[18px] font-normal hover:underline hover:decoration-2 lg:text-[16px]"
                     >
                       <a href="">{el}</a>
                     </li>
@@ -218,13 +203,13 @@ function Footer() {
           );
         })}
       </div>
-      <div className="absolute left-0 w-full text-center text-blogr-neutral-200 font-overpass bottom-3">
+      <div className="text-blogr-neutral-200 font-overpass absolute bottom-3 left-0 w-full text-center">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
           target="_blank"
           rel="noreferrer"
-          className="font-bold text-blogr-neutral-100 font-ubuntu hover:underline"
+          className="text-blogr-neutral-100 font-ubuntu font-bold hover:underline"
         >
           Frontend Mentor
         </a>
@@ -233,7 +218,7 @@ function Footer() {
           href="https://github.com/muflihanto"
           target="_blank"
           rel="noreferrer"
-          className="font-bold text-blogr-neutral-100 font-ubuntu hover:underline"
+          className="text-blogr-neutral-100 font-ubuntu font-bold hover:underline"
         >
           Muflihanto
         </a>
@@ -245,15 +230,15 @@ function Footer() {
 
 function CollapsibleNavItems(props) {
   return (
-    <details className="group lg:relative">
-      <summary className="font-semibold text-blogr-primary-blue/90 text-[18px] list-none flex items-center justify-center gap-2 focus-visible:outline-none">
-        <span className="group-open:text-blogr-primary-blue/75 lg:group-open:text-blogr-neutral-100/75 lg:text-blogr-neutral-100/75 lg:text-[16px] lg:font-ubuntu lg:font-medium">{props.navParent}</span>
+    <details className="group/details lg:relative">
+      <summary className="text-blogr-primary-blue/90 group/summary flex list-none items-center justify-center gap-2 text-[18px] font-semibold hover:cursor-pointer focus-visible:outline-none">
+        <span className="group-open/details:text-blogr-primary-blue/75 lg:group-open/details:text-blogr-neutral-100/75 lg:text-blogr-neutral-100/75 lg:font-ubuntu group-hover/summary:font-bold group-hover/summary:tracking-[-.2px] group-hover/summary:underline lg:text-[16px] lg:font-medium">{props.navParent}</span>
         <span className="block lg:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="10"
             height="7"
-            className="transition-all group-open:rotate-180"
+            className="transition-all group-open/details:rotate-180"
           >
             <path
               fill="none"
@@ -279,10 +264,7 @@ function CollapsibleNavItems(props) {
           </svg>
         </span>
       </summary>
-      <ul
-        className="flex flex-col items-center w-full pt-[25px] pb-[21px] font-semibold text-[16px] bg-blogr-neutral-200/25 text-blogr-primary-blue/75 rounded-md mt-[18px] mb-[4px] gap-[16px]
-      lg:font-ubuntu lg:font-medium lg:absolute lg:top-[30.5px] lg:gap-[10.5px] lg:pt-[29px] lg:pb-[29px] lg:-left-6 lg:w-[166px] lg:px-6 lg:text-[15px] lg:items-start lg:bg-blogr-neutral-100 lg:rounded-[4px] lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)]"
-      >
+      <ul className="bg-blogr-neutral-200/25 text-blogr-primary-blue/75 lg:text-blogr-primary-blue lg:font-ubuntu lg:bg-blogr-neutral-100 mb-[4px] mt-[18px] flex w-full flex-col items-center gap-[16px] rounded-md pb-[21px] pt-[25px] text-[16px] font-semibold lg:absolute lg:-left-6 lg:top-[30.5px] lg:w-[166px] lg:items-start lg:gap-[10.5px] lg:rounded-[4px] lg:px-6 lg:pb-[29px] lg:pt-[29px] lg:text-[15px] lg:font-medium lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)]">
         {props.navChildren.map((el, index) => {
           return (
             <li
@@ -300,19 +282,9 @@ function CollapsibleNavItems(props) {
 
 function Header() {
   return (
-    <header
-      className="bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-red-100 to-blogr-gradient-red-200 relative flex flex-col justify-center items-center w-screen aspect-[375/600] rounded-bl-[100px] gap-[49px] bg-no-repeat bg-auto h-[600px]
-      before:bottom-0 before:left-0 before:bg-[top_-244px_left_-335px] before:absolute before:w-full before:h-full before:z-0 before:rounded-bl-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')]
-      before:overflow-hidden
-      lg:bg-bottom lg:gap-[104px] lg:bg-[linear-gradient(110deg,_var(--tw-gradient-stops))] lg:justify-end lg:pb-[155px]
-      md:before:bg-no-repeat md:before:bg-[top_-1342px_right_-1295px] md:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] 
-      "
-    >
-      <nav
-        className="absolute z-20 top-0 w-full bg-transparent flex justify-between items-center px-6 h-[9rem] group
-      lg:px-40 lg:h-[7.8rem] lg:mt-[21px] lg:justify-start lg:gap-[54px]"
-      >
-        <div className="relative w-[82px] h-auto aspect-[51/20] lg:min-w-[102px] lg:mx-[6px]">
+    <header className="from-blogr-gradient-red-100 to-blogr-gradient-red-200 relative flex aspect-[375/600] h-[600px] w-screen flex-col items-center justify-center gap-[49px] rounded-bl-[100px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] bg-auto bg-no-repeat before:absolute before:bottom-0 before:left-0 before:z-0 before:h-full before:w-full before:overflow-hidden before:rounded-bl-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')] before:bg-[top_-244px_left_-335px] md:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] md:before:bg-[top_-1342px_right_-1295px] md:before:bg-no-repeat lg:justify-end lg:gap-[104px] lg:bg-[linear-gradient(110deg,_var(--tw-gradient-stops))] lg:bg-bottom lg:pb-[155px]">
+      <nav className="group absolute top-0 z-20 flex h-[9rem] w-full items-center justify-between bg-transparent px-6 lg:mt-[21px] lg:h-[7.8rem] lg:justify-start lg:gap-[54px] lg:px-40">
+        <div className="relative aspect-[51/20] h-auto w-[82px] lg:mx-[6px] lg:min-w-[102px]">
           <Image
             src="/blogr-landing-page/images/logo.svg"
             alt="Blogr Logo"
@@ -320,7 +292,7 @@ function Header() {
             fill
           />
         </div>
-        <button className="relative w-8 h-fit aspect-[4/3] peer/menu lg:hidden group focus-visible:outline-none">
+        <button className="peer/menu group relative aspect-[4/3] h-fit w-8 focus-visible:outline-none lg:hidden">
           <Image
             src="/blogr-landing-page/images/icon-hamburger.svg"
             alt="Menu"
@@ -336,18 +308,17 @@ function Header() {
         </button>
         <div
           tabIndex={0}
-          className="absolute flex flex-col top-[125px] rounded-md shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] py-[31px] left-[calc(50%-2px)] -translate-x-1/2 bg-sunny-neutral-100 w-[calc(100%-52px)] focus-visible:outline-none group-focus-within:visible invisible px-6
-          lg:visible lg:bg-transparent lg:flex-row lg:before:hidden lg:shadow-none lg:static lg:left-0 lg:w-full lg:translate-x-0 lg:px-1 lg:gap-[49px lg:justify-between lg:mt-1"
+          className="bg-sunny-neutral-100 lg:gap-[49px invisible absolute left-[calc(50%-2px)] top-[125px] flex w-[calc(100%-52px)] -translate-x-1/2 flex-col rounded-md px-6 py-[31px] shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] focus-visible:outline-none group-focus-within:visible lg:visible lg:static lg:left-0 lg:mt-1 lg:w-full lg:translate-x-0 lg:flex-row lg:justify-between lg:bg-transparent lg:px-1 lg:shadow-none lg:before:hidden"
         >
           <ul
             tabIndex={0}
-            className="flex flex-col gap-[25px] justify-center items-center lg:flex-row lg:gap-[32px]"
+            className="flex flex-col items-center justify-center gap-[25px] lg:flex-row lg:gap-[32px]"
           >
             {navItems.map((el, index) => {
               return (
                 <li
                   key={index}
-                  className="font-overpass lg:font-medium lg:text-[18px] lg:h-[24px] w-full text-center"
+                  className="font-overpass w-full text-center lg:h-[24px] lg:text-[18px] lg:font-medium"
                 >
                   <CollapsibleNavItems
                     navChildren={el.children}
@@ -357,36 +328,35 @@ function Header() {
               );
             })}
           </ul>
-          <div className="block w-full h-0 mt-[20px] border-t-2 border-t-blogr-neutral-200/50 lg:hidden" />
-          <div className="flex flex-col items-center justify-center mt-[19px] gap-[8px] lg:flex-row lg:mt-0 lg:gap-[27px] lg:-translate-y-[2px]">
+          <div className="border-t-blogr-neutral-200/50 mt-[20px] block h-0 w-full border-t-2 lg:hidden" />
+          <div className="mt-[19px] flex flex-col items-center justify-center gap-[8px] lg:mt-0 lg:-translate-y-[2px] lg:flex-row lg:gap-[27px]">
             <a
               href=""
-              className="font-semibold font-overpass h-[48px] flex justify-center items-center text-blogr-neutral-300 text-[18px] w-[137px]
-              lg:w-fit lg:text-blogr-neutral-100/75 lg:text-[16px] lg:font-ubuntu lg:font-medium lg:pt-1"
+              className="font-overpass text-blogr-neutral-300 lg:text-blogr-neutral-100/75 lg:font-ubuntu flex h-[48px] w-[137px] items-center justify-center text-[18px] font-semibold hover:font-bold lg:w-fit lg:pt-1 lg:text-[16px] lg:font-medium"
             >
               Login
             </a>
             <a
               href=""
-              className="ml-[3px] font-medium font-ubuntu bg-gradient-to-r h-[48px] flex justify-center items-center from-blogr-gradient-red-100 to-blogr-gradient-red-200 w-[137px] rounded-full text-blogr-neutral-100 lg:bg-none lg:translate-x-[4px] lg:bg-blogr-neutral-100  lg:text-blogr-primary-red-200 lg:font-bold"
+              className="font-ubuntu from-blogr-gradient-red-100 to-blogr-gradient-red-200 text-blogr-neutral-100 lg:bg-blogr-neutral-100 lg:text-blogr-primary-red-200 hover:text-blogr-neutral-100 hover:bg-blogr-primary-red-100 ml-[3px] flex h-[48px] w-[137px] items-center justify-center rounded-full bg-gradient-to-r font-medium lg:translate-x-[4px] lg:bg-none lg:font-bold"
             >
               Sign Up
             </a>
           </div>
         </div>
       </nav>
-      <div className="text-center text-blogr-neutral-100 mx-auto px-9 pt-[43px] z-10 lg:pt-[78px]">
-        <h1 className="font-overpass text-[35px] leading-[45px] -tracking-[0.7px] font-medium lg:text-[64px] lg:-tracking-[2.2px]">A modern publishing platform</h1>
-        <p className="text-[18px] font-overpass font-light text-blogr-neutral-100/75 mt-[15px] leading-[23px] -tracking-[0.1px] lg:mt-[31px] lg:text-[20px]">Grow your audience and build your online brand</p>
-        <div className="grid grid-cols-2 px-[6px] gap-4 mt-[46px] lg:mt-[48px] font-bold font-ubuntu h-12 tracking-[0.1px] lg:w-[302px] lg:mx-auto">
+      <div className="text-blogr-neutral-100 z-10 mx-auto px-9 pt-[43px] text-center lg:pt-[78px]">
+        <h1 className="font-overpass text-[35px] font-medium leading-[45px] -tracking-[0.7px] lg:text-[64px] lg:-tracking-[2.2px]">A modern publishing platform</h1>
+        <p className="font-overpass text-blogr-neutral-100/75 mt-[15px] text-[18px] font-light leading-[23px] -tracking-[0.1px] lg:mt-[31px] lg:text-[20px]">Grow your audience and build your online brand</p>
+        <div className="font-ubuntu mt-[46px] grid h-12 grid-cols-2 gap-4 px-[6px] font-bold tracking-[0.1px] lg:mx-auto lg:mt-[48px] lg:w-[302px]">
           <a
-            className="flex items-center justify-center rounded-full text-blogr-primary-red-200 bg-blogr-neutral-100"
+            className="text-blogr-primary-red-200 bg-blogr-neutral-100 hover:text-blogr-neutral-100 hover:bg-blogr-primary-red-100 flex items-center justify-center rounded-full"
             href=""
           >
             Start for Free
           </a>
           <a
-            className="flex items-center justify-center bg-transparent border rounded-full"
+            className="hover:bg-blogr-neutral-100 hover:text-blogr-primary-red-100 flex items-center justify-center rounded-full border bg-transparent"
             href=""
           >
             Learn More
