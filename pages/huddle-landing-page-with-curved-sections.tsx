@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import dynamic from "next/dynamic";
 import Footer from "../components/huddle-landing-page-with-curved-sections/Footer";
 import Image from "next/image";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 const HuddleCurved = () => {
   return (
@@ -20,7 +20,10 @@ const HuddleCurved = () => {
       <UsersSection />
       <CtaSection />
       <Footer />
-      {/* <Slider basePath="/huddle-landing-page-with-curved-sections/design/" /> */}
+      {/* <Slider
+        basePath="/huddle-landing-page-with-curved-sections/design/"
+        absolutePath="/huddle-landing-page-with-curved-sections/design/active-states.jpg"
+      /> */}
     </div>
   );
 };
@@ -61,7 +64,7 @@ const Header = () => {
   return (
     <header className="flex w-full items-center justify-between px-[24px] py-6 lg:py-[78px] lg:pl-20 lg:pr-[64px]">
       <Logo className="h-[16px] lg:h-[39px]" />
-      <button className="text-huddle-curve-primary-pink-200 border-huddle-curve-primary-pink-200 flex h-6 w-[80px] items-center justify-center rounded-full border lg:h-[40px] lg:w-[136px]">
+      <button className="text-huddle-curve-primary-pink-200 border-huddle-curve-primary-pink-200 hover:text-huddle-curve-primary-pink-100 hover:border-huddle-curve-primary-pink-100 hover:shadow-huddle-curve-neutral-700/10 flex h-6 w-[80px] items-center justify-center rounded-full border hover:shadow lg:h-[40px] lg:w-[136px]">
         <span className="pb-[2px] text-[10px] leading-none tracking-[0.1px] lg:text-[16px]">Try it Free</span>
       </button>
     </header>
@@ -841,7 +844,7 @@ const ScreenMockups = ({ className }: { className: string }) => {
 
 const Statistics = () => {
   return (
-    <div className="[&_>_div_>_p:nth-child(3)]:text-huddle-curve-neutral-700/50 max-md:[&_>_div_>_p:nth-child(3)]:font-poppins relative flex flex-col items-center gap-[94px] pt-[112px] pb-[4px] lg:flex-row lg:items-start lg:justify-start lg:gap-[440px] lg:pb-[20px] lg:pt-[108px] lg:pl-[280px] [&_>_div_>_p:nth-child(3)]:place-self-center [&_>_div_>_p:nth-child(3)]:text-center">
+    <div className="[&_>_div_>_p:nth-child(3)]:text-huddle-curve-neutral-700/50 max-md:[&_>_div_>_p:nth-child(3)]:font-poppins relative flex flex-col items-center gap-[94px] pb-[4px] pt-[112px] lg:flex-row lg:items-start lg:justify-start lg:gap-[440px] lg:pb-[20px] lg:pl-[280px] lg:pt-[108px] [&_>_div_>_p:nth-child(3)]:place-self-center [&_>_div_>_p:nth-child(3)]:text-center">
       <div className="grid w-[154px] grid-rows-[repeat(3,minmax(0,auto))] lg:place-items-start">
         <div className="relative aspect-[47/41] w-[30px] lg:ml-[4px] lg:w-[47px]">
           <Image
@@ -872,8 +875,8 @@ const Statistics = () => {
 
 const GrowSection = () => {
   return (
-    <div className="relative pt-[calc(100vw*112/375)] pb-[calc(100vw*52/375)] lg:mt-[116px] lg:pt-[calc(100vw*124/1080)] lg:pb-[calc(100vw*104/1080)]">
-      <div className="absolute top-0 left-0 -z-10 aspect-[375/112] w-full lg:aspect-[1080/124]">
+    <div className="relative pb-[calc(100vw*52/375)] pt-[calc(100vw*112/375)] lg:mt-[116px] lg:pb-[calc(100vw*104/1080)] lg:pt-[calc(100vw*124/1080)]">
+      <div className="absolute left-0 top-0 -z-10 aspect-[375/112] w-full lg:aspect-[1080/124]">
         <Image
           className="object-contain"
           fill
@@ -916,7 +919,7 @@ const FlowSection = () => {
   return (
     <section className="flex h-[644px] flex-col items-center justify-center px-[28px] pt-[20px] lg:mt-[85px] lg:grid lg:h-[599px] lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[102px] lg:px-[130px] lg:pt-[0px]">
       <FlowIllustration className="w-[264px] lg:w-[530px]" />
-      <div className="lg:mt-[2px] lg:ml-7">
+      <div className="lg:ml-7 lg:mt-[2px]">
         <h2 className="text-huddle-curve-neutral-700 font-poppins mt-[88.5px] text-center text-[20px] font-bold lg:mt-0 lg:text-left lg:text-[40px]">Flowing Conversations</h2>
         <p className="font-open-sans text-huddle-curve-neutral-700 mt-[14px] text-center text-[14px] lg:mt-[22px] lg:text-left lg:text-[16px]">You wouldn&lsquo;t paginate a conversation in real life, so why do it online? Our threads have just-in-time loading for a more natural flow.</p>
       </div>
@@ -926,8 +929,8 @@ const FlowSection = () => {
 
 const UsersSection = () => {
   return (
-    <div className="relative pt-[calc(100vw*103/375)] pb-[calc(100vw*101/375)] lg:pt-[calc(100vw*156/1440)] lg:pb-[calc(100vw*139/1440)]">
-      <div className="absolute top-0 left-0 -z-10 aspect-[375/103] w-full lg:aspect-[1440/156]">
+    <div className="relative pb-[calc(100vw*101/375)] pt-[calc(100vw*103/375)] lg:pb-[calc(100vw*139/1440)] lg:pt-[calc(100vw*156/1440)]">
+      <div className="absolute left-0 top-0 -z-10 aspect-[375/103] w-full lg:aspect-[1440/156]">
         <Image
           className="object-contain"
           fill
@@ -941,7 +944,7 @@ const UsersSection = () => {
           alt="Section Curved Background"
         />
       </div>
-      <section className="bg-huddle-curve-neutral-100 flex h-[542px] flex-col items-center justify-center px-[27px] pb-[100px] lg:grid lg:h-fit lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[80px] lg:px-[120px] lg:pt-[44px] lg:pb-[40px]">
+      <section className="bg-huddle-curve-neutral-100 flex h-[542px] flex-col items-center justify-center px-[27px] pb-[100px] lg:grid lg:h-fit lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[80px] lg:px-[120px] lg:pb-[40px] lg:pt-[44px]">
         <UsersIllustration className="w-[268px] lg:col-start-2 lg:w-[534px] " />
         <div className="lg:col-start-1 lg:row-start-1">
           <h2 className="text-huddle-curve-neutral-700 font-poppins mt-[81px] text-center text-[20px] font-bold lg:mt-0 lg:text-left lg:text-[40px]">Your Users</h2>
