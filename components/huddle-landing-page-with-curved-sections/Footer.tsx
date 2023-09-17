@@ -1,5 +1,10 @@
 import Image from "next/image";
 import { Logo } from "../../pages/huddle-landing-page-with-curved-sections";
+import { ComponentProps, useEffect } from "react";
+import { cn } from "../../utils/cn";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Footer = () => {
   return (
@@ -46,17 +51,7 @@ const Footer = () => {
 
           <SocialIcons />
         </div>
-        <div className="max-md:row-start-1 lg:w-[520px] lg:justify-self-end">
-          <h2 className="text-[20px] font-bold uppercase lg:text-[24px]">Newsletter</h2>
-          <p className="mt-[15px] pr-2 text-[14px] leading-[24px] tracking-[0.25px] lg:mt-[16px] lg:w-[360px]">To recieve tips on how to grow your community, sign up to our weekly newsletter. We’ll never send you spam or pass on your email address</p>
-          <form className="mt-[32px] grid grid-cols-2 grid-rows-2 gap-x-0 gap-y-4 lg:mt-[40px] lg:grid-cols-[minmax(0px,auto),160px] lg:grid-rows-1 lg:gap-x-[40px]">
-            <input
-              type="email"
-              className="text-huddle-curve-neutral-700 col-span-2 h-12 rounded-md px-4 text-left lg:col-span-1"
-            />
-            <button className="bg-huddle-curve-primary-pink-200 hover:bg-huddle-curve-primary-pink-100 text-huddle-curve-neutral-100/75 col-start-2 rounded-md font-bold lg:col-start-2">Subscribe</button>
-          </form>
-        </div>
+        <SubscribeNewsletter className="max-md:row-start-1 lg:w-[520px] lg:justify-self-end" />
         <p className="text-huddle-curve-neutral-100 [&_a]:text-huddle-curve-primary-pink-100 absolute bottom-2 left-0 w-full text-center text-[11px] lg:bottom-8 lg:px-[120px] lg:text-right lg:text-[13px] [&_a:hover]:opacity-75 [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy">
           Challenge by{" "}
           <a
@@ -101,6 +96,55 @@ function SocialIcons({}) {
           <use href="/huddle-landing-page-with-curved-sections/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
+    </div>
+  );
+}
+
+const InputSchema = z.object({
+  email: z.string().min(1, "Email must not be empty").email("Check your email please"),
+});
+type InputSchema = z.infer<typeof InputSchema>;
+function SubscribeNewsletter({ className }: ComponentProps<"div">) {
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = useForm<InputSchema>({
+    resolver: zodResolver(InputSchema),
+  });
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  return (
+    <div className={cn([className])}>
+      <h2 className="text-[20px] font-bold uppercase lg:text-[24px]">Newsletter</h2>
+      <p className="mt-[15px] pr-2 text-[14px] leading-[24px] tracking-[0.25px] lg:mt-[16px] lg:w-[360px]">To recieve tips on how to grow your community, sign up to our weekly newsletter. We’ll never send you spam or pass on your email address</p>
+      <form
+        className="mt-[32px] grid grid-cols-2 grid-rows-2 gap-x-0 gap-y-4 lg:mt-[40px] lg:grid-cols-[minmax(0px,auto),160px] lg:grid-rows-1 lg:gap-x-[40px]"
+        onSubmit={onSubmit}
+      >
+        <div className="col-span-2 h-12 lg:col-span-1">
+          <input
+            type="email"
+            className={cn([
+              "text-huddle-curve-neutral-700 focus-visible:outline-huddle-curve-primary-pink-200 h-full w-full rounded-md px-4 text-left focus-visible:outline focus-visible:outline-2", //
+              !!errors.email && "text-red-500 focus-visible:outline-red-500",
+            ])}
+            {...register("email")}
+          />
+          {errors.email ? <p className="mt-[5px] text-[12.5px] text-red-400">{errors.email.message}</p> : null}
+        </div>
+        <button className="bg-huddle-curve-primary-pink-200 hover:bg-huddle-curve-primary-pink-100 text-huddle-curve-neutral-100/75 col-start-2 rounded-md font-bold lg:col-start-2">Subscribe</button>
+      </form>
     </div>
   );
 }
