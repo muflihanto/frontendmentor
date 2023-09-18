@@ -70,7 +70,7 @@ function Header() {
       <Logo className="h-[17px] lg:h-[32px]" />
       <a
         href=""
-        className="text-huddle-alternate-neutral-300 flex h-6 w-[96px] items-center justify-center rounded-full bg-white font-bold shadow-[0px_0px_10px_rgba(0,0,0,.1)] lg:h-[48px] lg:w-[200px]"
+        className="text-huddle-alternate-neutral-300 flex h-6 w-[96px] items-center justify-center rounded-full bg-white font-bold shadow-[0px_0px_10px_rgba(0,0,0,.15)] hover:text-opacity-50 hover:shadow-[0px_0px_10px_rgba(0,0,0,.1)] lg:h-[48px] lg:w-[200px]"
       >
         <span className="pb-[2px] text-[10px] leading-none tracking-[0.1px] lg:pb-[4px] lg:text-[14px]">Try it Free</span>
       </a>
@@ -133,7 +133,7 @@ function Footer() {
             <span className="ml-[19px] text-[15px] leading-[24px] tracking-[0.6px] lg:text-[16px] lg:tracking-[0px]">example@huddle.com</span>
           </p>
         </div>
-        <ul className="mt-[56px] flex flex-col gap-4 lg:col-span-2 lg:mt-0 lg:h-[120px] lg:flex-wrap [&_a]:text-[18px] lg:[&_li]:w-[208px]">
+        <ul className="mt-[56px] flex flex-col gap-4 lg:col-span-2 lg:mt-0 lg:h-[120px] lg:flex-wrap [&_a:hover]:underline [&_a:hover]:underline-offset-2 [&_a]:text-[18px] lg:[&_li]:w-[208px]">
           <li>
             <a href="">About Us</a>
           </li>
