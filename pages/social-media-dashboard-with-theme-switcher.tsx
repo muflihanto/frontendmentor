@@ -1,8 +1,9 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Image from "next/image";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 type Theme = "dark" | "light";
 
@@ -99,6 +100,7 @@ const SocialDashboard = () => {
 
   useEffect(() => {
     if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      if (theme === "light") setTheme("dark");
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
@@ -139,13 +141,13 @@ function Header() {
   }, []);
 
   return (
-    <div className="bg-social-neutral-light-200 dark:bg-social-neutral-dark-400 rounded-b-[20px] px-6 pt-[33px] pb-[84px] lg:flex lg:items-center lg:justify-between lg:pl-[162px] lg:pr-[165px] lg:pt-[34px] lg:pb-[152px]">
+    <div className="bg-social-neutral-light-200 dark:bg-social-neutral-dark-400 rounded-b-[20px] px-6 pb-[84px] pt-[33px] lg:flex lg:items-center lg:justify-between lg:pb-[152px] lg:pl-[162px] lg:pr-[165px] lg:pt-[34px]">
       <div>
         <h1 className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-[34px] lg:text-[28px] lg:leading-[37px]">Social Media Dashboard</h1>
         <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold tracking-[0.25px]">Total Followers: {totalFollowers}</p>
       </div>
       <hr className="border-t-social-neutral-light-400 dark:border-t-social-neutral-dark-200/30 mt-[22px] lg:hidden" />
-      <div className="mt-[16px] flex justify-between lg:mt-0 lg:mb-1 lg:gap-[14px]">
+      <div className="mt-[16px] flex justify-between lg:mb-1 lg:mt-0 lg:gap-[14px]">
         <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold lg:leading-[22px] lg:opacity-75">Dark Mode</p>
         <button
           className="bg-social-toggle-light dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green flex h-[24px] w-[48px] items-center justify-end rounded-full bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start lg:pr-[3px]"
@@ -223,7 +225,7 @@ function SummaryCard({
   socialMedia: TSocialMedia;
 }) {
   return (
-    <div className="summary-card bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pt-[26px] pb-[25px] pl-6 pr-[31px] lg:flex-1">
+    <div className="summary-card bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pb-[25px] pl-6 pr-[31px] pt-[26px] lg:flex-1">
       <div className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold leading-[18px]">{summary[1].display}</div>
       <div className="relative aspect-square w-5 justify-self-end">
         <Image
@@ -319,7 +321,7 @@ function Main() {
 
 function Footer() {
   return (
-    <div className="text-social-neutral-light-500 dark:text-social-neutral-dark-200 [&_a]:decoration-social-primary-red absolute bottom-3 left-0 w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-wavy">
+    <div className="text-social-neutral-light-500 dark:text-social-neutral-dark-200 [&_a]:decoration-social-primary-red absolute bottom-3 left-0 w-full text-center text-[11px] [&_a:hover]:text-white [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         rel="noreferrer"
