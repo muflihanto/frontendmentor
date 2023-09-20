@@ -1,8 +1,10 @@
 import Head from "next/head";
-import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { ComponentProps, PropsWithChildren, useCallback, useEffect, useState } from "react";
+import { cn } from "../utils/cn";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 const ProjectTracking = () => {
   return (
@@ -17,6 +19,7 @@ const ProjectTracking = () => {
         {/* <Slider
           basePath="/project-tracking-intro-component/design/"
           // absolutePath="/project-tracking-intro-component/design/mobile-navigation.jpg"
+          absolutePath="/project-tracking-intro-component/design/active-states.jpg"
         /> */}
       </div>
     </>
@@ -69,7 +72,7 @@ function Header({ toggle, isMenuOpen }: { toggle: () => void; isMenuOpen: boolea
           </svg>
         )}
       </button>
-      {isMenuOpen ? <MobileMenu /> : null}
+      {isMenuOpen ? <NavigationMenu /> : null}
     </header>
   );
 }
@@ -87,43 +90,41 @@ function Hero() {
   );
 }
 
-function MobileMenu() {
+type NavAnchorParams = PropsWithChildren & ComponentProps<"a"> & { variant: "gray" | "darkgrey" };
+
+function NavAnchor({ variant, children, href = "", className, ...props }: NavAnchorParams) {
+  return (
+    <a
+      {...props}
+      className={cn([
+        "font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px] hover:underline hover:decoration-2 md:text-[16px] md:tracking-[.5px]", // base
+        variant === "darkgrey" ? "text-project-tracking-neutral-400" : "text-project-tracking-neutral-200", // variant
+        className,
+      ])}
+      href={href}
+    >
+      {children}
+    </a>
+  );
+}
+
+function NavigationMenu() {
   return (
     <nav className="absolute top-[100px] z-10 h-[233px] w-[calc(100%-64px)] rounded-sm bg-white shadow-md md:static md:h-auto md:w-auto md:bg-transparent md:shadow-none">
       <ul className="flex flex-col items-center gap-[19px] px-6 py-[22px] md:flex-row md:gap-[42px] md:p-0">
         <li>
-          <a
-            className="text-project-tracking-neutral-400 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px] md:text-[16px] md:tracking-[.5px]"
-            href=""
-          >
-            Product
-          </a>
+          <NavAnchor variant="darkgrey">Product</NavAnchor>
         </li>
         <li>
-          <a
-            className="text-project-tracking-neutral-400 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px] md:text-[16px] md:tracking-[.5px]"
-            href=""
-          >
-            Features
-          </a>
+          <NavAnchor variant="darkgrey">Features</NavAnchor>
         </li>
         <li>
-          <a
-            className="text-project-tracking-neutral-400 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px] md:text-[16px] md:tracking-[.5px]"
-            href=""
-          >
-            Pricing
-          </a>
+          <NavAnchor variant="darkgrey">Pricing</NavAnchor>
         </li>
         <span className="bg-project-tracking-neutral-200/50 mr-1 block h-[5px] w-[5px] rounded-full max-md:hidden" />
-        <hr className="border-t-project-tracking-neutral-200/50 mt-[1.5px] mb-[3px] w-full border-t-[1.5px] md:hidden" />
+        <hr className="border-t-project-tracking-neutral-200/50 mb-[3px] mt-[1.5px] w-full border-t-[1.5px] md:hidden" />
         <li>
-          <a
-            className="text-project-tracking-neutral-200 font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px] md:text-[16px] md:tracking-[.5px]"
-            href=""
-          >
-            Login
-          </a>
+          <NavAnchor variant="gray">Login</NavAnchor>
         </li>
       </ul>
     </nav>
@@ -161,7 +162,7 @@ function Main() {
       />
       <div className="relative flex flex-col max-lg:gap-[87px] lg:mt-[51px] lg:flex-row-reverse lg:items-center lg:gap-7">
         <Hero />
-        <div className="px-8 lg:w-1/2 lg:px-0 lg:pl-[165px] lg:pr-10 lg:pb-1">
+        <div className="px-8 lg:w-1/2 lg:px-0 lg:pb-1 lg:pl-[165px] lg:pr-10">
           <p className="flex items-center gap-4">
             <span className="font-barlow-condensed bg-project-tracking-neutral-400 text-project-tracking-neutral-100 flex h-[25px] items-center justify-center rounded-full px-[10px] pb-[2px] text-[15px] font-bold uppercase leading-none tracking-[1px]">New</span>
             <span className="font-barlow-condensed text-project-tracking-neutral-200 pb-[2px] uppercase leading-none tracking-[4.6px]">Monograph Dashboard</span>
@@ -171,7 +172,7 @@ function Main() {
           <div className="mt-[27px] grid w-full grid-cols-2 items-center gap-x-1 text-center lg:mt-[64px] lg:w-[384px] lg:gap-x-4">
             <a
               href=""
-              className="bg-project-tracking-primary-red font-barlow-condensed text-project-tracking-neutral-100 grid h-10 items-center rounded-md text-[14px] font-bold uppercase leading-none tracking-[0.9px] lg:h-12 lg:text-base lg:tracking-[1px]"
+              className="bg-project-tracking-primary-red font-barlow-condensed text-project-tracking-neutral-100 grid h-10 items-center rounded-md text-[14px] font-bold uppercase leading-none tracking-[0.9px] hover:bg-opacity-75 lg:h-12 lg:text-base lg:tracking-[1px]"
             >
               Schedule a demo
             </a>
@@ -186,7 +187,7 @@ function Main() {
 function Footer() {
   return (
     <footer className="absolute bottom-3 left-0 mx-auto w-full text-center">
-      <p className="[&_a]:decoration-project-tracking-primary-red text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-wavy">
+      <p className="[&_a]:decoration-project-tracking-primary-red [&_a:hover]:text-project-tracking-primary-red [&_a:hover]:decoration-project-tracking-primary-red/75 text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
