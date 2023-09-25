@@ -2,8 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import getPages from "../utils/getPages.js";
-import { useMemo, useState, useEffect } from "react";
+import { type ChangeEvent, useMemo, useState, useEffect } from "react";
 import { useDarkMode } from "usehooks-ts";
+import type { InferGetServerSidePropsType } from "next";
 
 export async function getServerSideProps() {
   return {
@@ -11,9 +12,9 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Home({ pages }) {
+export default function Home({ pages }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [input, setInput] = useState("");
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
   const filteredPages = useMemo(() => {
