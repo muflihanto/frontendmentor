@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import getPages from "../utils/getPages.js";
+import getPages from "../utils/getPages";
 import { type ChangeEvent, useMemo, useState, useEffect } from "react";
 import { useDarkMode } from "usehooks-ts";
 import type { InferGetServerSidePropsType } from "next";
