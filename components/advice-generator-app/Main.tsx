@@ -1,15 +1,24 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { cn } from "../../utils/cn";
+
+type Advice = {
+  id: number;
+  advice: string;
+};
+type Data = {
+  slip: Advice;
+};
 
 export default function Main() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<Advice | null>(null);
   const [isLoading, setLoading] = useState(true);
 
   const fetchNewQuote = () => {
     setLoading(true);
     fetch("https://api.adviceslip.com/advice", { cache: "no-cache" })
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Data) => {
         setData(data.slip);
         setLoading(false);
       });
@@ -18,18 +27,18 @@ export default function Main() {
   useEffect(() => {
     fetchNewQuote();
     // setData({
-    //   id: "117",
+    //   id: 117,
     //   advice: "It is easy to sit up and take notice, what's difficult is getting up and taking action.",
     // });
     // setLoading(false);
   }, []);
 
   return (
-    <div className="bg-advice-neutral-200 w-[calc(100vw-32px)] flex flex-col items-center justify-center pt-[39px] pb-16 rounded-xl text-advice-primary-cyan px-5 text-center max-w-[540px] lg:px-12 relative shadow-[0px_40px_30px_-5px_rgba(0,0,0,0.05)] lg:shadow-[25px_50px_50px_-5px_rgba(0,0,0,0.075)] -translate-y-[56px] lg:-translate-y-[16px] lg:pt-[48px] lg:pb-[72px]">
-      <p className="text-[11px] text-advice-primary-green uppercase tracking-[3.25px] lg:text-[13px] lg:tracking-[4px] font-bold">
+    <div className="bg-advice-neutral-200 text-advice-primary-cyan relative flex w-[calc(100vw-32px)] max-w-[540px] -translate-y-[56px] flex-col items-center justify-center rounded-xl px-5 pb-16 pt-[39px] text-center shadow-[0px_40px_30px_-5px_rgba(0,0,0,0.05)] lg:-translate-y-[16px] lg:px-12 lg:pb-[72px] lg:pt-[48px] lg:shadow-[25px_50px_50px_-5px_rgba(0,0,0,0.075)]">
+      <p className="text-advice-primary-green text-[11px] font-bold uppercase tracking-[3.25px] lg:text-[13px] lg:tracking-[4px]">
         Advice <span>{isLoading ? "#..." : data ? `#${data.id}` : "#"}</span>
       </p>
-      <div className="text-[24px] mt-[23px] leading-[33px] lg:text-[28px] font-bold lg:leading-[38px] lg:mt-[22px]">{isLoading ? <Spinner /> : data ? `"${data.advice}"` : "..."}</div>
+      <div className="mt-[23px] text-[24px] font-bold leading-[33px] lg:mt-[22px] lg:text-[28px] lg:leading-[38px]">{isLoading ? <Spinner /> : data ? `"${data.advice}"` : "..."}</div>
       <Divider />
       <DiceButton
         fetchNewQuote={fetchNewQuote}
@@ -39,28 +48,26 @@ export default function Main() {
   );
 }
 
-const DiceButton = ({ fetchNewQuote, isLoading }) => {
+const DiceButton = ({ fetchNewQuote, isLoading }: { fetchNewQuote: () => void; isLoading: boolean }) => {
   return (
     <button
-      className="absolute flex items-center justify-center w-16 rounded-full aspect-square bg-advice-primary-green -bottom-8 group"
+      className={cn([
+        "bg-advice-primary-green group absolute -bottom-8 flex aspect-square w-16 items-center justify-center rounded-full [&:hover>img]:rotate-12", //
+        isLoading && "animate-spin",
+      ])}
       onClick={fetchNewQuote}
     >
-      <svg
-        width="24"
-        height="24"
-        xmlns="http://www.w3.org/2000/svg"
-        className={`${isLoading && "animate-spin"} hover:rotate-12`}
-      >
-        <path
-          d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
-          fill="#202733"
-        />
-      </svg>
+      <Image
+        src="/advice-generator-app/images/icon-dice.svg"
+        alt="Icon Dice"
+        width={24}
+        height={24}
+      />
     </button>
   );
 };
 
-const dividerImageLoader = ({ width, src }) => {
+const dividerImageLoader = ({ width, src }: { width: number; src: string }) => {
   if (width > 1023) {
     return src + "pattern-divider-desktop.svg";
   }
@@ -69,7 +76,7 @@ const dividerImageLoader = ({ width, src }) => {
 
 const Divider = () => {
   return (
-    <div className="relative w-full h-4 mt-6 lg:mt-10">
+    <div className="relative mt-6 h-4 w-full lg:mt-10">
       <Image
         loader={dividerImageLoader}
         alt="Line Divider"
@@ -86,7 +93,7 @@ const Spinner = () => {
     <div role="status">
       <svg
         aria-hidden="true"
-        className="w-8 h-8 text-gray-200 animate-spin dark:text-advice-neutral-100 fill-advice-primary-green"
+        className="dark:text-advice-neutral-100 fill-advice-primary-green h-8 w-8 animate-spin text-gray-200"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
