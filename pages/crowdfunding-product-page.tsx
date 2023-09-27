@@ -1,13 +1,14 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Header from "../components/crowdfunding-product-page/Header";
 import Main from "../components/crowdfunding-product-page/Main";
 // import Image from "next/image";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
-export default function Crowdfunding(props) {
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
+export default function Crowdfunding() {
   return (
-    <div className="relative App font-commissioner bg-crowdfunding-neutral-100/5">
+    <div className="App font-commissioner bg-crowdfunding-neutral-100/5 relative">
       <Head>
         <title>Frontend Mentor | Crowdfunding product page</title>
       </Head>

@@ -1,12 +1,15 @@
 import Image from "next/image";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import Card from "./Card";
 
-export default function Overview(props) {
+type OverviewProps = {
+  openSelectionModal: (e: MouseEvent<HTMLButtonElement>) => void;
+};
+export default function Overview(props: OverviewProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   return (
-    <Card className="relative pt-[52px] pb-[39px] lg:pt-[61px] lg:pb-[47px]">
-      <div className="absolute -top-[28px] left-[49.75%] lg:left-1/2 -translate-x-1/2 aspect-square w-[56px]">
+    <Card className="relative pb-[39px] pt-[52px] lg:pb-[47px] lg:pt-[61px]">
+      <div className="absolute -top-[28px] left-[49.75%] aspect-square w-[56px] -translate-x-1/2 lg:left-1/2">
         <Image
           src="/crowdfunding-product-page/images/logo-mastercraft.svg"
           fill
@@ -15,15 +18,15 @@ export default function Overview(props) {
         />
       </div>
       <div className="px-6 text-center lg:px-12">
-        <h1 className="font-bold text-[20px] px-1 leading-[24px] lg:text-[28px]">Mastercraft Bamboo Monitor Riser</h1>
-        <p className="text-[14px] mt-[16px] leading-[24px] text-crowdfunding-neutral-100 lg:text-[16px] lg:mt-[18px]">
+        <h1 className="px-1 text-[20px] font-bold leading-[24px] lg:text-[28px]">Mastercraft Bamboo Monitor Riser</h1>
+        <p className="text-crowdfunding-neutral-100 mt-[16px] text-[14px] leading-[24px] lg:mt-[18px] lg:text-[16px]">
           A beautiful<span className="inline lg:hidden">ly</span> <span className="hidden lg:inline">& </span>handcrafted monitor stand to reduce neck and eye strain.
         </p>
-        <div className="mt-6 h-[56px] flex justify-between lg:mt-[38px]">
+        <div className="mt-6 flex h-[56px] justify-between lg:mt-[38px]">
           <button
-            className="rounded-full text-white/80 font-bold pb-[2px] bg-crowdfunding-primary-100 w-[calc(100%-56px-9px)] lg:w-[204px] hover:bg-crowdfunding-primary-200"
+            className="bg-crowdfunding-primary-100 hover:bg-crowdfunding-primary-200 w-[calc(100%-56px-9px)] rounded-full pb-[2px] font-bold text-white/80 lg:w-[204px]"
             onClick={props.openSelectionModal}
-            value={null}
+            value={undefined}
           >
             Back this project
           </button>
@@ -31,7 +34,7 @@ export default function Overview(props) {
             onClick={() => {
               setIsBookmarked((prev) => !prev);
             }}
-            className={`w-[56px] h-[56px] bg-crowdfunding-neutral-200/[82%] rounded-full lg:flex lg:justify-start lg:items-center group transition-all ${isBookmarked ? "lg:w-[190px] lg:bg-crowdfunding-primary-100/[7%]" : "lg:w-[174px] lg:bg-crowdfunding-neutral-100/10"}`}
+            className={`bg-crowdfunding-neutral-200/[82%] group h-[56px] w-[56px] rounded-full transition-all lg:flex lg:items-center lg:justify-start ${isBookmarked ? "lg:bg-crowdfunding-primary-100/[7%] lg:w-[190px]" : "lg:bg-crowdfunding-neutral-100/10 lg:w-[174px]"}`}
           >
             <svg
               width="56"
@@ -56,7 +59,7 @@ export default function Overview(props) {
                 />
               </g>
             </svg>
-            <span className={`hidden lg:inline lg:font-bold lg:ml-4 ${isBookmarked ? "lg:text-crowdfunding-primary-200 group-hover:text-crowdfunding-primary-100" : "lg:text-crowdfunding-neutral-100 "}`}>{isBookmarked ? "Bookmarked" : "Bookmark"}</span>
+            <span className={`hidden lg:ml-4 lg:inline lg:font-bold ${isBookmarked ? "lg:text-crowdfunding-primary-200 group-hover:text-crowdfunding-primary-100" : "lg:text-crowdfunding-neutral-100 "}`}>{isBookmarked ? "Bookmarked" : "Bookmark"}</span>
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 import About from "./ProjectAbout";
 import Overview from "./ProjectOverview";
 import Statistic from "./ProjectStatistic";
@@ -6,10 +6,10 @@ import SelectionModal from "./SelectionModal";
 import SuccessModal from "./SuccessModal";
 import Modals from "./Modals";
 
-export default function Main(props) {
+export default function Main() {
   const [isSelectionModalOpen, setIsSelectionModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState<number>();
 
   useEffect(() => {
     if (isSelectionModalOpen || isSuccessModalOpen) {
@@ -19,8 +19,8 @@ export default function Main(props) {
     }
   }, [isSelectionModalOpen, isSuccessModalOpen]);
 
-  const openSelectionModal = useCallback((e) => {
-    setSelectedOption(parseInt(e.target.value));
+  const openSelectionModal = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+    setSelectedOption(parseInt(e.currentTarget.value));
     setIsSelectionModalOpen(true);
   }, []);
 
