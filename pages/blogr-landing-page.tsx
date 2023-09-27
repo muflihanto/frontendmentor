@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-export default function Blogr(props) {
+export default function Blogr() {
   return (
     <div className="App lg:bg-blogr-neutral-200/10 w-screen overflow-hidden">
       <Head>
@@ -159,7 +159,8 @@ function Future() {
   );
 }
 
-function Article(props) {
+type ArticleProps = { h3: string; type: "future" | "other"; p: string };
+function Article(props: ArticleProps) {
   return (
     <article className="group pl-8 pr-6 lg:px-0 lg:text-left">
       <h3 className="font-overpass text-blogr-primary-blue mx-auto px-2 text-[28px] font-semibold leading-[32px] -tracking-[0.2px] lg:px-0">{props.h3}</h3>
@@ -228,41 +229,26 @@ function Footer() {
   );
 }
 
-function CollapsibleNavItems(props) {
+type CollapsibleNavItemsProps = { navChildren: string[]; navParent: string };
+function CollapsibleNavItems(props: CollapsibleNavItemsProps) {
   return (
     <details className="group/details lg:relative">
       <summary className="text-blogr-primary-blue/90 group/summary flex list-none items-center justify-center gap-2 text-[18px] font-semibold hover:cursor-pointer focus-visible:outline-none">
         <span className="group-open/details:text-blogr-primary-blue/75 lg:group-open/details:text-blogr-neutral-100/75 lg:text-blogr-neutral-100/75 lg:font-ubuntu group-hover/summary:font-bold group-hover/summary:tracking-[-.2px] group-hover/summary:underline lg:text-[16px] lg:font-medium">{props.navParent}</span>
-        <span className="block lg:hidden">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="7"
-            className="transition-all group-open/details:rotate-180"
-          >
-            <path
-              fill="none"
-              stroke="#FF7B86"
-              strokeWidth="2"
-              d="M1 1l4 4 4-4"
-            />
-          </svg>
-        </span>
-        <span className="hidden lg:block">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="7"
-          >
-            <path
-              fill="none"
-              stroke="#FFF"
-              strokeWidth="2"
-              opacity=".75"
-              d="M1 1l4 4 4-4"
-            />
-          </svg>
-        </span>
+        <Image
+          src="/blogr-landing-page/images/icon-arrow-dark.svg"
+          alt="Red Arrow Icon"
+          width={10}
+          height={7}
+          className="block origin-center transition-all group-open/details:rotate-180 lg:hidden"
+        />
+        <Image
+          src="/blogr-landing-page/images/icon-arrow-light.svg"
+          alt="White Arrow Icon"
+          width={10}
+          height={7}
+          className="hidden shrink-0 transition-all group-open/details:rotate-180 lg:block"
+        />
       </summary>
       <ul className="bg-blogr-neutral-200/25 text-blogr-primary-blue/75 lg:text-blogr-primary-blue lg:font-ubuntu lg:bg-blogr-neutral-100 mb-[4px] mt-[18px] flex w-full flex-col items-center gap-[16px] rounded-md pb-[21px] pt-[25px] text-[16px] font-semibold lg:absolute lg:-left-6 lg:top-[30.5px] lg:w-[166px] lg:items-start lg:gap-[10.5px] lg:rounded-[4px] lg:px-6 lg:pb-[29px] lg:pt-[29px] lg:text-[15px] lg:font-medium lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)]">
         {props.navChildren.map((el, index) => {
