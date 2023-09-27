@@ -1,13 +1,21 @@
-import { ChangeEvent, ComponentProps, FormEventHandler, useState } from "react";
+import { ChangeEvent, ComponentProps, FormEventHandler, useEffect, useRef, useState } from "react";
 import Card from "./Card";
 import supportType from "./supportType.json";
+import { useCallbackRef } from "use-callback-ref";
 
 type SupportType = typeof supportType;
 
 type SelectionModalProps = { close: () => void; submit: FormEventHandler<HTMLFormElement>; initialSelection: number | undefined };
 export default function SelectionModal(props: SelectionModalProps) {
-  const [selected, setSelected] = useState<number | undefined>(props.initialSelection);
+  const [selected, setSelected] = useState(props.initialSelection);
   const [pledge, setPledge] = useState(props.initialSelection ? supportType[props.initialSelection].startsFrom : 0);
+  const optionRef = useCallbackRef<HTMLDivElement | null>(null, () => {});
+
+  useEffect(() => {
+    if (optionRef.current !== null) {
+      optionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [optionRef]);
 
   return (
     <div
@@ -31,6 +39,7 @@ export default function SelectionModal(props: SelectionModalProps) {
                 className={`group rounded-lg px-[24px] pt-[21px] -outline-offset-1 ring-1 first:pb-[31px] first:pt-8 lg:px-[28px] lg:pb-[31.5px] lg:pt-[30px] lg:first:pt-[30px] ${el.stock !== 0 && index === selected ? "ring-crowdfunding-primary-100 outline-crowdfunding-primary-100 pb-[23px] outline outline-2 ring-inset lg:pb-[23px]" : "ring-crowdfunding-neutral-100/30 pb-[29px]"} ${
                   el.stock === 0 && "opacity-50"
                 }`}
+                ref={props.initialSelection === index ? optionRef : null}
               >
                 <div className="flex flex-col items-start justify-between lg:grid lg:grid-flow-row lg:auto-rows-auto lg:grid-cols-[repeat(2,minmax(0,1fr))_auto]">
                   <RadioInput
