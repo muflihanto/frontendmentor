@@ -1,20 +1,19 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import { createContext, useRef } from "react";
 import Footer from "../components/expenses-chart-component/Footer";
 import Main from "../components/expenses-chart-component/Main";
 import { dmSansVar } from "../utils/fontLoader";
-const Slider = dynamic(() => import("../components/Slider"), {
-  ssr: false,
-});
 
-export const FontContext = createContext();
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-export default function ExpensesChart(props) {
+export const FontContext = createContext("");
+
+export default function ExpensesChart() {
   const font = useRef(`${dmSansVar} font-dm-sans`);
   return (
     <FontContext.Provider value={font.current}>
-      <div className={`${font.current} App relative bg-expenses-neutral-200 min-h-screen py-5 flex items-center`}>
+      <div className={`${font.current} App bg-expenses-neutral-200 relative flex min-h-screen items-center py-5`}>
         <Head>
           <title>Frontend Mentor | Expenses chart component</title>
         </Head>

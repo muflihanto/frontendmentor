@@ -1,6 +1,7 @@
 import ChartBar from "./ChartBar";
+import { ChartData } from "./Spending";
 
-export default function Chart({ data }) {
+export default function Chart({ data }: { data: ChartData }) {
   const maxVal = Math.max(...data.map((bar) => bar.amount));
   const chartElement = data.map((bar, index) => {
     return (
@@ -12,5 +13,5 @@ export default function Chart({ data }) {
       />
     );
   });
-  return <div className="flex items-end justify-between mt-[52px] md:mt-[max(54px,calc(71/1024*100vh))]">{chartElement}</div>;
+  return <div className="mt-[52px] flex items-end justify-between md:mt-[max(54px,calc(71/1024*100vh))]">{chartElement}</div>;
 }
