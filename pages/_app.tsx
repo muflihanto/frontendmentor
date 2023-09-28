@@ -4,9 +4,19 @@ config.autoAddCss = false;
 import { Provider } from "jotai";
 import "../styles/globals.css";
 import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
+import { AppProps } from "next/app";
+import { NextPage } from "next";
 
-function MyApp({ Component, pageProps }) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
   const [queryClient] = useState(() => new QueryClient());
 
