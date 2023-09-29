@@ -1,11 +1,10 @@
 import Image from "next/image";
 
-export default function ObjectPicture(props) {
+export default function ObjectPicture(props: { src: string }) {
   return (
     <a
       href=""
-      className="ml-auto min-w-[39px] h-[39px] relative block md:min-w-[45px]
-      md:h-[45px] md:my-[2px]"
+      className="relative ml-auto block h-[39px] min-w-[39px] md:my-[2px] md:h-[45px] md:min-w-[45px]"
     >
       <Image
         src={props.src}

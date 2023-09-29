@@ -3,11 +3,11 @@ import Header from "./Header";
 import Notification from "./Notification";
 import { plusJakartaSansVar } from "../../utils/fontLoader";
 
-export const FontContext = createContext();
+export const FontContext = createContext("");
 
 export default function Main() {
-  const [notificationData, setNotificationData] = useState(null);
-  const [count, setCount] = useState(null);
+  const [notificationData, setNotificationData] = useState<typeof notifications>([]);
+  const [count, setCount] = useState(0);
   const font = useRef(`${plusJakartaSansVar} font-plus-jakarta`);
   useEffect(() => {
     setNotificationData(notifications);
@@ -37,7 +37,7 @@ export default function Main() {
 
   return (
     <FontContext.Provider value={font.current}>
-      <main className={`${font.current} px-4 md:max-w-[730px] md:px-[30px] md:py-[9px] md:mx-auto font-medium md:bg-notif-neutral-100 md:rounded-xl md:shadow-[0px_0px_30px_2px_rgba(0,0,0,.03)]`}>
+      <main className={`${font.current} md:bg-notif-neutral-100 px-4 font-medium md:mx-auto md:max-w-[730px] md:rounded-xl md:px-[30px] md:py-[9px] md:shadow-[0px_0px_30px_2px_rgba(0,0,0,.03)]`}>
         <Header
           notifCount={count}
           markAsRead={markAsRead}
@@ -141,3 +141,5 @@ const notifications = [
     isNew: false,
   },
 ];
+
+export type Notifications = typeof notifications;

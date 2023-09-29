@@ -1,12 +1,12 @@
-export default function Footer(props) {
+export default function Footer() {
   return (
-    <footer className="text-[11px] text-center mt-8 mb-3">
+    <footer className="mb-3 mt-8 text-center text-[11px]">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
         target="_blank"
         rel="noreferrer"
-        className="text-[hsl(228,45%,44%)] font-extrabold hover:underline"
+        className="font-extrabold text-[hsl(228,45%,44%)] hover:underline"
       >
         Frontend Mentor
       </a>
@@ -15,7 +15,7 @@ export default function Footer(props) {
         href="https://github.com/muflihanto"
         target="_blank"
         rel="noreferrer"
-        className="text-[hsl(228,45%,44%)] font-extrabold hover:underline"
+        className="font-extrabold text-[hsl(228,45%,44%)] hover:underline"
       >
         Muflihanto
       </a>
