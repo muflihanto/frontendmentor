@@ -1,27 +1,28 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Footer from "../components/intro-section-with-dropdown-navigation/Footer";
 import Header from "../components/intro-section-with-dropdown-navigation/Header";
 import Hero from "../components/intro-section-with-dropdown-navigation/Hero";
 import Main from "../components/intro-section-with-dropdown-navigation/Main";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 import { epilogueVar } from "../utils/fontLoader";
 import { createContext } from "react";
 
-export const FontContext = createContext();
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
+export const FontContext = createContext("");
 
 export default function IntroDropdown() {
   return (
     <FontContext.Provider value={`${epilogueVar} font-epilogue`}>
       <div
         id="intro-with-dropdown"
-        className={`${epilogueVar} font-epilogue min-h-screen pb-16 max-w-screen-sm mx-auto lg:max-w-full lg:bg-introdrop-neutral-100 relative`}
+        className={`${epilogueVar} font-epilogue lg:bg-introdrop-neutral-100 relative mx-auto min-h-screen max-w-screen-sm pb-16 lg:max-w-full`}
       >
         <Head>
           <title>Frontend Mentor | Intro section with dropdown navigation</title>
         </Head>
         <Header />
-        <div className="flex flex-col lg:flex-row-reverse lg:pr-[130px] lg:pl-[164px] lg:py-[46px] lg:gap-32">
+        <div className="flex flex-col lg:flex-row-reverse lg:gap-32 lg:py-[46px] lg:pl-[164px] lg:pr-[130px]">
           <Hero />
           <Main />
         </div>

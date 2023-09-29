@@ -1,6 +1,10 @@
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
-export default function MenuButton(props) {
+type MenuButtonProps = {
+  isMenuOpen: boolean;
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+};
+export default function MenuButton(props: MenuButtonProps) {
   const { isMenuOpen, setIsMenuOpen } = props;
   useEffect(() => {
     if (isMenuOpen) {
@@ -16,14 +20,14 @@ export default function MenuButton(props) {
       onClick={() => {
         setIsMenuOpen((prev) => !prev);
       }}
-      className="relative z-30 pb-2 group lg:hidden"
+      className="group relative z-30 pb-2 lg:hidden"
     >
       {isMenuOpen ? (
         <svg
           width="26"
           height="26"
           xmlns="http://www.w3.org/2000/svg"
-          className="fixed top-[21px] right-[19px]"
+          className="fixed right-[19px] top-[21px]"
         >
           <g
             fill="#151515"
