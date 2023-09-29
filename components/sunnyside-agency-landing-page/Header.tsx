@@ -5,14 +5,12 @@ export default function Header() {
     <>
       <header className="bg-sunny-primary-yellow relative flex aspect-[375/538] w-full flex-col items-center justify-center gap-[49px] bg-[url('/sunnyside-agency-landing-page/images/mobile/image-header.jpg')] bg-cover pt-[11px] lg:aspect-auto lg:h-screen lg:w-screen lg:gap-[104px] lg:bg-[url('/sunnyside-agency-landing-page/images/desktop/image-header.jpg')] lg:bg-contain lg:bg-bottom lg:pb-[123px] lg:pt-0 lg:font-black">
         <nav className="group absolute top-0 z-10 flex h-[5.5rem] w-full items-center justify-between bg-transparent px-6 lg:h-[7.8rem] lg:px-10">
-          <div className="relative aspect-[31/6] h-auto w-[124px] lg:w-[170px]">
-            <Image
-              src="/sunnyside-agency-landing-page/images/logo.svg"
-              alt="Sunnyside Agency Logo"
-              className="object-contain"
-              fill
-            />
-          </div>
+          <svg
+            viewBox="0 0 124 24"
+            className="fill-sunny-neutral-100 w-[124px] lg:w-[170px]"
+          >
+            <use href="/sunnyside-agency-landing-page/images/logo.svg#sunnyside-logo" />
+          </svg>
           <button className="peer/menu relative aspect-[4/3] h-fit w-6 focus:opacity-50 lg:hidden">
             <Image
               src="/sunnyside-agency-landing-page/images/icon-hamburger.svg"
