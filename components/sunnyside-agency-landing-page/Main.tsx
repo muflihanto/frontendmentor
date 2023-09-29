@@ -19,12 +19,3 @@ export default function Main() {
     </>
   );
 }
-
-// {
-//   /* <Image
-//           src="/sunnyside-agency-landing-page/images/mobile/image-header.jpg"
-//           alt="Header Image"
-//           className="object-contain"
-//           fill
-//         /> */
-// }

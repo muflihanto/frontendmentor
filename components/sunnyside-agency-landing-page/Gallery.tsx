@@ -1,21 +1,21 @@
 import Image from "next/image";
 
-export default function Gallery(props) {
+export default function Gallery() {
   const images = [
     {
-      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-milkbottles.jpg`,
+      src: "milkbottles.jpg",
       alt: "Milk Bottles",
     },
     {
-      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-orange.jpg`,
+      src: "orange.jpg",
       alt: "Orange",
     },
     {
-      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-cone.jpg`,
+      src: "cone.jpg",
       alt: "Cone",
     },
     {
-      src: ({ isMobile }) => `${isMobile ? "mobile" : "desktop"}/image-gallery-sugar-cubes.jpg`,
+      src: "sugar-cubes.jpg",
       alt: "Sugar Cubes",
     },
   ];
@@ -24,17 +24,17 @@ export default function Gallery(props) {
       {images.map((el, index) => {
         return (
           <div
-            className="relative w-full aspect-square lg:aspect-[360/447]"
+            className="relative aspect-square w-full lg:aspect-[360/447]"
             key={index}
           >
             <Image
-              src="/sunnyside-agency-landing-page/images/"
+              src="/sunnyside-agency-landing-page/images"
               alt={el.alt}
               loader={({ src, width }) => {
                 if (width > 1023) {
-                  return `${src}/${el.src({ isMobile: false })}`;
+                  return `${src}/desktop/image-gallery-${el.src}`;
                 }
-                return `${src}/${el.src({ isMobile: true })}`;
+                return `${src}/mobile/image-gallery-${el.src}`;
               }}
               className="object-cover"
               fill
