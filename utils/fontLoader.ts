@@ -63,7 +63,6 @@ const _barlow = localFont({
 
 const _fraunces = localFont({
   src: "/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf",
-  weight: ["700", "900"],
   style: "normal",
   variable: "--font-fraunces",
 });
@@ -98,7 +97,6 @@ const _ubuntu = localFont({
 const _overpass = localFont({
   src: "/blogr-landing-page/fonts/Overpass-VariableFont_wght.ttf",
   style: "normal",
-  weight: ["300", "400", "600", "700"],
   variable: "--font-overpass",
 });
 
@@ -136,7 +134,6 @@ const _barlowSemiCondensed = localFont({
 const _commissioner = localFont({
   src: "/crowdfunding-product-page/fonts/Commissioner-VariableFont_wght.ttf",
   style: "normal",
-  weight: ["400", "500", "700"],
   variable: "--font-commissioner",
 });
 
@@ -176,7 +173,6 @@ const _alata = localFont({
 const _openSans = localFont({
   src: "/huddle-landing-page-with-curved-sections/fonts/OpenSans-VariableFont_wdth,wght.ttf",
   style: "normal",
-  weight: ["400", "600", "700"],
   variable: "--font-open-sans",
 });
 
@@ -234,14 +230,12 @@ const _poppins = localFont({
 const _inter = localFont({
   src: "/coding-bootcamp-testimonials-slider/fonts/Inter-VariableFont.ttf",
   style: "normal",
-  weight: ["300", "400", "500", "700", "800"],
   variable: "--font-inter",
 });
 
 const _karla = localFont({
   src: "/insure-landing-page/fonts/Karla-VariableFont_wght.ttf",
   style: "normal",
-  weight: ["400", "700"],
   variable: "--font-karla",
 });
 
@@ -249,13 +243,12 @@ const _dmSerifDisplay = localFont({
   src: "/insure-landing-page/fonts/DMSerifDisplay-Regular.ttf",
   style: "normal",
   weight: "400",
-  variable: "font-dm-serif-display",
+  variable: "--font-dm-serif-display",
 });
 
 const _montserrat = localFont({
   src: "/pricing-component-with-toggle/fonts/Montserrat-VariableFont_wght.ttf",
   style: "normal",
-  weight: ["500", "700"],
   variable: "--font-montserrat",
 });
 
@@ -278,62 +271,55 @@ const _barlowCondensed = localFont({
 const _outfit = localFont({
   src: "/qr-code-component/fonts/Outfit-VariableFont_wght.ttf",
   style: "normal",
-  weight: ["300", "400", "600", "700"],
   variable: "--font-outfit",
 });
 
 const _redHatDisplay = localFont({
   src: "/order-summary-component/fonts/RedHatDisplay-VariableFont_wght.ttf",
-  weight: ["500", "700", "900"],
   style: "normal",
   variable: "--font-red-hat-display",
 });
 
 const _lexendDeca = localFont({
   src: "/stats-preview-card-component/fonts/LexendDeca-VariableFont_wght.ttf",
-  weight: ["400"],
+  weight: "400",
   style: "normal",
   variable: "--font-lexend-deca",
 });
 
 const _bigShouldersDisplay = localFont({
   src: "/3-column-preview-card-component/fonts/BigShouldersDisplay-VariableFont_wght.ttf",
-  weight: ["700"],
+  weight: "700",
   style: "normal",
   variable: "--font-big-shoulders-display",
 });
 
 const _kumbhSans = localFont({
   src: "/profile-card-component/fonts/KumbhSans-VariableFont_YOPQ,wght.ttf",
-  weight: ["400", "700"],
   style: "normal",
   variable: "--font-kumbh-sans",
 });
 
 const _leagueSpartan = localFont({
   src: "/social-proof-section/fonts/LeagueSpartan-VariableFont_wght.ttf",
-  weight: ["400", "500", "600", "700"],
   style: "normal",
   variable: "--font-league-spartan",
 });
 
 const _libreFranklin = localFont({
   src: "/ping-coming-soon-page/fonts/LibreFranklin-VariableFont_wght.ttf",
-  weight: ["300", "600", "700"],
   style: "normal",
   variable: "--font-libre-franklin",
 });
 
 const _spaceGrotesk = localFont({
   src: "/interactive-card-details-form/fonts/SpaceGrotesk-VariableFont_wght.ttf",
-  weight: ["500"],
   style: "normal",
   variable: "--font-space-grotesk",
 });
 
 const _raleway = localFont({
   src: "/fylo-data-storage-component/fonts/Raleway-VariableFont_wght.ttf",
-  weight: ["400", "700"],
   style: "normal",
   variable: "--font-raleway",
 });
@@ -356,14 +342,13 @@ const _baiJamjuree = localFont({
 
 const _hankenGrotesk = localFont({
   src: "/results-summary-component/assets/fonts/HankenGrotesk-VariableFont_wght.ttf",
-  weight: ["500", "700", "800"],
   style: "normal",
   variable: "--font-hanken-grotesk",
 });
 
 const _redHatText = localFont({
   src: "/launch-countdown-timer/fonts/RedHatText-VariableFont_wght.ttf",
-  weight: ["700"],
+  weight: "700",
   style: "normal",
   variable: "--font-red-hat-text",
 });
@@ -387,7 +372,6 @@ const _roboto = localFont({
 const _publicSans = localFont({
   src: "/easybank-landing-page/fonts/PublicSans-VariableFont_wght.ttf",
   style: "normal",
-  weight: ["300", "400", "700"],
   variable: "--font-public",
 });
 
@@ -452,7 +436,6 @@ const _bellefair = localFont({
 
 const _nunitoSans = localFont({
   src: "/rest-countries-api-with-color-theme-switcher/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf",
-  weight: ["300", "600", "800"],
   style: "normal",
   variable: "--font-nunito-sans",
 });
