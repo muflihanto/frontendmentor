@@ -1,6 +1,7 @@
 import { PropsWithChildren, ReactElement } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import { barlow } from "../../utils/fonts/barlow";
 const Header = dynamic(import("./Header"), { ssr: false });
 
 export const pages = ["home", "destination", "crew", "technology"] as const;
@@ -10,8 +11,14 @@ export function Layout({ children }: PropsWithChildren) {
   const { pathname } = useRouter();
 
   return (
-    <div className="font-barlow-condensed relative">
-      <Header currentPage={(!!pathname.split("/space-tourism-website/")[1] ? pathname.split("/space-tourism-website/")[1] : "home") as Page} />
+    <div className={`relative font-barlow-condensed ${barlow.variable}`}>
+      <Header
+        currentPage={
+          (!!pathname.split("/space-tourism-website/")[1]
+            ? pathname.split("/space-tourism-website/")[1]
+            : "home") as Page
+        }
+      />
       {children}
     </div>
   );

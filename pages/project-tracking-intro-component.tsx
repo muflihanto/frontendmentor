@@ -1,7 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ComponentProps, PropsWithChildren, useCallback, useEffect, useState } from "react";
+import {
+  ComponentProps,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { cn } from "../utils/cn";
+import { barlow } from "../utils/fonts/barlow";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -12,8 +19,13 @@ const ProjectTracking = () => {
       <Head>
         <title>Frontend Mentor | Project tracking intro component</title>
       </Head>
-      <div className="bg-project-tracking-neutral-100 absolute right-0 top-0 -z-10 h-[424px] w-[50vw] rounded-bl-[60px] lg:h-[427px] lg:w-[calc(705/1440*100vw)]" />
-      <div className="App font-barlow relative pb-[75.5px] max-lg:mx-auto max-lg:max-w-screen-sm">
+      <div className="absolute right-0 top-0 -z-10 h-[424px] w-[50vw] rounded-bl-[60px] bg-project-tracking-neutral-100 lg:h-[427px] lg:w-[calc(705/1440*100vw)]" />
+      <div
+        className={cn([
+          "App relative pb-[75.5px] font-barlow max-lg:mx-auto max-lg:max-w-screen-sm",
+          barlow.variable,
+        ])}
+      >
         <Main />
         <Footer />
         {/* <Slider
@@ -26,7 +38,13 @@ const ProjectTracking = () => {
   );
 };
 
-function Header({ toggle, isMenuOpen }: { toggle: () => void; isMenuOpen: boolean }) {
+function Header({
+  toggle,
+  isMenuOpen,
+}: {
+  toggle: () => void;
+  isMenuOpen: boolean;
+}) {
   return (
     <header className="flex h-[100px] items-center justify-between px-8 lg:h-[160px] lg:px-[165px]">
       <svg
@@ -34,17 +52,11 @@ function Header({ toggle, isMenuOpen }: { toggle: () => void; isMenuOpen: boolea
         className="w-6 lg:w-8"
         viewBox="0 0 32 32"
       >
-        <g
-          fill="#323334"
-          fillRule="evenodd"
-        >
+        <g fill="#323334" fillRule="evenodd">
           <path d="M0 32V.241h23.041zM31.15 32V.241h-4.411L17.48 13.158zM3.645 32l11.854-15.879L27.353 32z" />
         </g>
       </svg>
-      <button
-        onClick={toggle}
-        className="hidden max-md:block"
-      >
+      <button onClick={toggle} className="hidden max-md:block">
         {isMenuOpen ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,10 +75,7 @@ function Header({ toggle, isMenuOpen }: { toggle: () => void; isMenuOpen: boolea
             className="w-6"
             viewBox="0 0 24 16"
           >
-            <g
-              fill="#242942"
-              fillRule="evenodd"
-            >
+            <g fill="#242942" fillRule="evenodd">
               <path d="M0 0h24v2H0zM0 7h24v2H0zM0 14h24v2H0z" />
             </g>
           </svg>
@@ -90,15 +99,24 @@ function Hero() {
   );
 }
 
-type NavAnchorParams = PropsWithChildren & ComponentProps<"a"> & { variant: "gray" | "darkgrey" };
+type NavAnchorParams = PropsWithChildren &
+  ComponentProps<"a"> & { variant: "gray" | "darkgrey" };
 
-function NavAnchor({ variant, children, href = "", className, ...props }: NavAnchorParams) {
+function NavAnchor({
+  variant,
+  children,
+  href = "",
+  className,
+  ...props
+}: NavAnchorParams) {
   return (
     <a
       {...props}
       className={cn([
         "font-barlow-condensed text-[18px] font-bold uppercase tracking-[1px] hover:underline hover:decoration-2 md:text-[16px] md:tracking-[.5px]", // base
-        variant === "darkgrey" ? "text-project-tracking-neutral-400" : "text-project-tracking-neutral-200", // variant
+        variant === "darkgrey"
+          ? "text-project-tracking-neutral-400"
+          : "text-project-tracking-neutral-200", // variant
         className,
       ])}
       href={href}
@@ -121,8 +139,8 @@ function NavigationMenu() {
         <li>
           <NavAnchor variant="darkgrey">Pricing</NavAnchor>
         </li>
-        <span className="bg-project-tracking-neutral-200/50 mr-1 block h-[5px] w-[5px] rounded-full max-md:hidden" />
-        <hr className="border-t-project-tracking-neutral-200/50 mb-[3px] mt-[1.5px] w-full border-t-[1.5px] md:hidden" />
+        <span className="mr-1 block h-[5px] w-[5px] rounded-full bg-project-tracking-neutral-200/50 max-md:hidden" />
+        <hr className="mb-[3px] mt-[1.5px] w-full border-t-[1.5px] border-t-project-tracking-neutral-200/50 md:hidden" />
         <li>
           <NavAnchor variant="gray">Login</NavAnchor>
         </li>
@@ -156,27 +174,34 @@ function Main() {
 
   return (
     <>
-      <Header
-        toggle={toggle}
-        isMenuOpen={isMenuOpen}
-      />
+      <Header toggle={toggle} isMenuOpen={isMenuOpen} />
       <div className="relative flex flex-col max-lg:gap-[87px] lg:mt-[51px] lg:flex-row-reverse lg:items-center lg:gap-7">
         <Hero />
         <div className="px-8 lg:w-1/2 lg:px-0 lg:pb-1 lg:pl-[165px] lg:pr-10">
           <p className="flex items-center gap-4">
-            <span className="font-barlow-condensed bg-project-tracking-neutral-400 text-project-tracking-neutral-100 flex h-[25px] items-center justify-center rounded-full px-[10px] pb-[2px] text-[15px] font-bold uppercase leading-none tracking-[1px]">New</span>
-            <span className="font-barlow-condensed text-project-tracking-neutral-200 pb-[2px] uppercase leading-none tracking-[4.6px]">Monograph Dashboard</span>
+            <span className="flex h-[25px] items-center justify-center rounded-full bg-project-tracking-neutral-400 px-[10px] pb-[2px] font-barlow-condensed text-[15px] font-bold uppercase leading-none tracking-[1px] text-project-tracking-neutral-100">
+              New
+            </span>
+            <span className="pb-[2px] font-barlow-condensed uppercase leading-none tracking-[4.6px] text-project-tracking-neutral-200">
+              Monograph Dashboard
+            </span>
           </p>
-          <h1 className="font-barlow-condensed text-project-tracking-neutral-400 mt-4 text-[40px] font-bold uppercase leading-none lg:text-[64px]">Powerful insights into your team</h1>
-          <p className="text-project-tracking-neutral-300 mt-[16px] pr-7 text-[18px] leading-[26px] lg:mt-[30px] lg:w-3/5 lg:leading-[27px] ">Project planning and time tracking for agile teams</p>
+          <h1 className="mt-4 font-barlow-condensed text-[40px] font-bold uppercase leading-none text-project-tracking-neutral-400 lg:text-[64px]">
+            Powerful insights into your team
+          </h1>
+          <p className="mt-[16px] pr-7 text-[18px] leading-[26px] text-project-tracking-neutral-300 lg:mt-[30px] lg:w-3/5 lg:leading-[27px] ">
+            Project planning and time tracking for agile teams
+          </p>
           <div className="mt-[27px] grid w-full grid-cols-2 items-center gap-x-1 text-center lg:mt-[64px] lg:w-[384px] lg:gap-x-4">
             <a
               href=""
-              className="bg-project-tracking-primary-red font-barlow-condensed text-project-tracking-neutral-100 grid h-10 items-center rounded-md text-[14px] font-bold uppercase leading-none tracking-[0.9px] hover:bg-opacity-75 lg:h-12 lg:text-base lg:tracking-[1px]"
+              className="grid h-10 items-center rounded-md bg-project-tracking-primary-red font-barlow-condensed text-[14px] font-bold uppercase leading-none tracking-[0.9px] text-project-tracking-neutral-100 hover:bg-opacity-75 lg:h-12 lg:text-base lg:tracking-[1px]"
             >
               Schedule a demo
             </a>
-            <span className="text-project-tracking-neutral-200 font-barlow-condensed ml-0.5 text-[14px] uppercase tracking-[2.5px] lg:text-base lg:tracking-[4.5px]">to see a preview</span>
+            <span className="ml-0.5 font-barlow-condensed text-[14px] uppercase tracking-[2.5px] text-project-tracking-neutral-200 lg:text-base lg:tracking-[4.5px]">
+              to see a preview
+            </span>
           </div>
         </div>
       </div>
@@ -187,7 +212,7 @@ function Main() {
 function Footer() {
   return (
     <footer className="absolute bottom-3 left-0 mx-auto w-full text-center">
-      <p className="[&_a]:decoration-project-tracking-primary-red [&_a:hover]:text-project-tracking-primary-red [&_a:hover]:decoration-project-tracking-primary-red/75 text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-wavy">
+      <p className="text-center text-[11px] [&_a:hover]:text-project-tracking-primary-red [&_a:hover]:decoration-project-tracking-primary-red/75 [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-project-tracking-primary-red [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
