@@ -9,6 +9,7 @@ import {
 } from "react";
 import { cn } from "../utils/cn";
 import { barlow } from "../utils/fonts/barlow";
+import { barlowCondensed } from "../utils/fonts/barlowCondensed";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -24,6 +25,7 @@ const ProjectTracking = () => {
         className={cn([
           "App relative pb-[75.5px] font-barlow max-lg:mx-auto max-lg:max-w-screen-sm",
           barlow.variable,
+          barlowCondensed.variable,
         ])}
       >
         <Main />

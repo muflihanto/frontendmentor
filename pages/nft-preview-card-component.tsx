@@ -1,8 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
+import { outfit } from "../utils/fonts/outfit";
 
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const NftPreviewCard = () => {
   return (
@@ -10,7 +11,9 @@ const NftPreviewCard = () => {
       <Head>
         <title>Frontend Mentor | NFT preview card component</title>
       </Head>
-      <div className="font-outfit bg-nft-neutral-400 text-nft-neutral-100 relative flex h-[100svh] w-screen items-center justify-center">
+      <div
+        className={`${outfit.variable} relative flex h-[100svh] w-screen items-center justify-center bg-nft-neutral-400 font-outfit text-nft-neutral-100`}
+      >
         <Main />
         <Footer />
         {/* <Slider basePath="/nft-preview-card-component/design/" /> */}
@@ -21,18 +24,15 @@ const NftPreviewCard = () => {
 
 function Main() {
   return (
-    <main className="bg-nft-neutral-300 h-[543px] max-w-[calc(375px-48px)] rounded-2xl p-6 pr-[25px]">
+    <main className="h-[543px] max-w-[calc(375px-48px)] rounded-2xl bg-nft-neutral-300 p-6 pr-[25px]">
       <header className="group relative aspect-square w-full overflow-hidden rounded-lg hover:cursor-pointer">
-        <a className="bg-nft-primary-cyan group relative z-10 flex h-full w-full items-center justify-center opacity-0 transition-all duration-300 group-hover:bg-opacity-50 group-hover:opacity-100">
+        <a className="group relative z-10 flex h-full w-full items-center justify-center bg-nft-primary-cyan opacity-0 transition-all duration-300 group-hover:bg-opacity-50 group-hover:opacity-100">
           <svg
             viewBox="0 0 48 48"
             className="z-20 w-12 transition-all duration-150 group-active:scale-90"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g
-              fill="none"
-              fillRule="evenodd"
-            >
+            <g fill="none" fillRule="evenodd">
               <path d="M0 0h48v48H0z" />
               <path
                 d="M24 9C14 9 5.46 15.22 2 24c3.46 8.78 12 15 22 15 10.01 0 18.54-6.22 22-15-3.46-8.78-11.99-15-22-15Zm0 25c-5.52 0-10-4.48-10-10s4.48-10 10-10 10 4.48 10 10-4.48 10-10 10Zm0-16c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6Z"
@@ -49,12 +49,14 @@ function Main() {
           className="object-contain"
         />
       </header>
-      <h1 className="hover:text-nft-primary-cyan mt-[27px] w-fit text-[22px] font-semibold leading-none transition-all duration-150 hover:cursor-pointer active:scale-90">
+      <h1 className="mt-[27px] w-fit text-[22px] font-semibold leading-none transition-all duration-150 hover:cursor-pointer hover:text-nft-primary-cyan active:scale-90">
         <a>Equilibrium #3429</a>
       </h1>
-      <p className="text-nft-primary-blue mt-[15px] font-light leading-[26px]">Our Equilibrium collection promotes balance and calm.</p>
+      <p className="mt-[15px] font-light leading-[26px] text-nft-primary-blue">
+        Our Equilibrium collection promotes balance and calm.
+      </p>
       <div className="mt-[14px] flex justify-between">
-        <p className="text-nft-primary-cyan flex items-center gap-[7px]">
+        <p className="flex items-center gap-[7px] text-nft-primary-cyan">
           <span>
             <svg
               viewBox="0 0 11 18"
@@ -82,12 +84,12 @@ function Main() {
               />
             </svg>
           </span>
-          <span className="text-nft-primary-blue text-[15px]">3 days left</span>
+          <span className="text-[15px] text-nft-primary-blue">3 days left</span>
         </p>
       </div>
-      <hr className="border-t-nft-primary-blue/25 mt-[14px]" />
+      <hr className="mt-[14px] border-t-nft-primary-blue/25" />
       <div className="mt-4 flex items-center gap-4">
-        <p className="border-nft-neutral-100 relative aspect-square h-[33px] rounded-full border-[1.5px]">
+        <p className="relative aspect-square h-[33px] rounded-full border-[1.5px] border-nft-neutral-100">
           <Image
             src="/nft-preview-card-component/images/image-avatar.png"
             alt="Jules Wyvern Avatar"
@@ -95,9 +97,9 @@ function Main() {
             fill
           />
         </p>
-        <p className="text-nft-primary-blue flex gap-[5px] pb-[1px] text-[15px]">
+        <p className="flex gap-[5px] pb-[1px] text-[15px] text-nft-primary-blue">
           <span>Creation of</span>
-          <span className="text-nft-neutral-100 hover:text-nft-primary-cyan font-medium transition-all duration-150 hover:cursor-pointer active:scale-90">
+          <span className="font-medium text-nft-neutral-100 transition-all duration-150 hover:cursor-pointer hover:text-nft-primary-cyan active:scale-90">
             <a>Jules Wyvern</a>
           </span>
         </p>
@@ -108,7 +110,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="[&_a]:text-nft-primary-cyan absolute bottom-3 w-full text-center text-[11px] [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:text-nft-primary-cyan [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -118,11 +120,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a href="https://github.com/muflihanto" rel="noreferrer" target="_blank">
         Muflihanto
       </a>
       .

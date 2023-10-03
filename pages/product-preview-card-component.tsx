@@ -1,9 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import { fraunces } from "../utils/fonts/fraunces";
+import { montserrat } from "../utils/fonts/montserrat";
 
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const ProductPreview = () => {
   return (
@@ -12,7 +13,7 @@ const ProductPreview = () => {
         <title>Frontend Mentor | Product preview card component</title>
       </Head>
       <div
-        className={`App flex h-screen items-center justify-center bg-product-review-primary-cream px-4 py-4 max-[750px]:min-h-[667px] ${fraunces.variable}`}
+        className={`App flex h-screen items-center justify-center bg-product-review-primary-cream px-4 py-4 max-[750px]:min-h-[667px] ${fraunces.variable} ${montserrat.variable}`}
       >
         <Main />
         <Footer />

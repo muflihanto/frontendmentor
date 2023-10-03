@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { karla } from "../utils/fonts/karla";
+import { dmSerifDisplay } from "../utils/fonts/dmSerifDisplay";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -13,7 +14,9 @@ const Insure = () => {
         <title>Frontend Mentor | Insure landing page</title>
       </Head>
 
-      <div className={`App font-karla ${karla.variable}`}>
+      <div
+        className={`App font-karla ${karla.variable} ${dmSerifDisplay.variable}`}
+      >
         <Header />
         <Main />
         <Footer />
