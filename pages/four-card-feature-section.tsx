@@ -1,8 +1,10 @@
 import Head from "next/head";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// import Image from "next/image";
 import { type ReactNode, type FC, useState } from "react";
+import { poppins } from "../utils/fonts/poppins";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 type CardVariant = "red" | "cyan" | "orange" | "blue";
 type CardSubComponents = { Heading: typeof Heading; Body: typeof Body };
@@ -14,7 +16,9 @@ const FourCardFeature = () => {
       <Head>
         <title>Frontend Mentor | Four card feature section</title>
       </Head>
-      <div className="App font-poppins bg-four-card-neutral-100 relative flex min-h-[100svh] items-center justify-center pt-[84px] pb-[78px] lg:pt-[80px] lg:pb-[50px]">
+      <div
+        className={`App relative flex min-h-[100svh] items-center justify-center bg-four-card-neutral-100 pb-[78px] pt-[84px] font-poppins lg:pb-[50px] lg:pt-[80px] ${poppins.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider basePath="/four-card-feature-section/design/" /> */}
@@ -25,29 +29,49 @@ const FourCardFeature = () => {
 
 function Main() {
   const [cards] = useState({
-    cyan: { h2: "Supervisor", p: "Monitors activity to identify project roadblocks", cardStyle: "before:bg-four-card-primary-cyan grid-area lg:row-start-2 lg:col-start-1 lg:place-self-center" },
-    red: { h2: "Team Builder", p: "Scans our talent network to create the optimal team for your project", cardStyle: "before:bg-four-card-primary-red grid-area lg:row-start-1 lg:col-start-2 lg:place-self-end " },
-    orange: { h2: "Karma", p: "Regularly evaluates our talent to ensure quality", cardStyle: "before:bg-four-card-primary-orange grid-area lg:row-start-3 lg:col-start-2" },
-    blue: { h2: "Calculator", p: "Uses data from past projects to provide better delivery estimates", cardStyle: "before:bg-four-card-primary-blue grid-area lg:row-start-2 lg:col-start-3 lg:place-self-center" },
+    cyan: {
+      h2: "Supervisor",
+      p: "Monitors activity to identify project roadblocks",
+      cardStyle:
+        "before:bg-four-card-primary-cyan grid-area lg:row-start-2 lg:col-start-1 lg:place-self-center",
+    },
+    red: {
+      h2: "Team Builder",
+      p: "Scans our talent network to create the optimal team for your project",
+      cardStyle:
+        "before:bg-four-card-primary-red grid-area lg:row-start-1 lg:col-start-2 lg:place-self-end ",
+    },
+    orange: {
+      h2: "Karma",
+      p: "Regularly evaluates our talent to ensure quality",
+      cardStyle:
+        "before:bg-four-card-primary-orange grid-area lg:row-start-3 lg:col-start-2",
+    },
+    blue: {
+      h2: "Calculator",
+      p: "Uses data from past projects to provide better delivery estimates",
+      cardStyle:
+        "before:bg-four-card-primary-blue grid-area lg:row-start-2 lg:col-start-3 lg:place-self-center",
+    },
   });
 
   return (
     <div className="flex max-w-[375px] flex-col items-center px-8 lg:max-w-none">
       <div className="text-four-card-neutral-200 lg:max-w-[520px]">
-        <h1 className="text-four-card-neutral-300 text-center text-[24px] font-extralight tracking-[0.2px] lg:text-[36px] lg:leading-[51px]">
+        <h1 className="text-center text-[24px] font-extralight tracking-[0.2px] text-four-card-neutral-300 lg:text-[36px] lg:leading-[51px]">
           Reliable, efficient delivery
           <span className="font-semibold"> Powered by Technology</span>
         </h1>
-        <p className="mt-4 text-center text-[15px] leading-[25px] tracking-[0.1px] lg:mt-[17px]">Our Artificial Intelligence powered tools use millions of project data points to ensure that your project is successful</p>
+        <p className="mt-4 text-center text-[15px] leading-[25px] tracking-[0.1px] lg:mt-[17px]">
+          Our Artificial Intelligence powered tools use millions of project data
+          points to ensure that your project is successful
+        </p>
       </div>
       <div className="mt-[75px] max-lg:flex max-lg:flex-col max-lg:gap-y-[24px] lg:mt-[33px] lg:grid lg:grid-cols-[repeat(3,minmax(0px,350px))] lg:grid-rows-[repeat(4,minmax(0px,125px))] lg:gap-[30px]">
         {Object.keys(cards).map((el, index) => {
           const variant = el as CardVariant;
           return (
-            <Card
-              key={index}
-              className={cards[variant].cardStyle}
-            >
+            <Card key={index} className={cards[variant].cardStyle}>
               <Card.Heading>{cards[variant].h2}</Card.Heading>
               <Card.Body>{cards[variant].p}</Card.Body>
               <Icon variant={variant} />
@@ -60,16 +84,30 @@ function Main() {
 }
 
 const Card: FC<CardProps> & CardSubComponents = ({ className, children }) => {
-  return <div className={`relative flex h-[222px] flex-col overflow-hidden rounded-lg bg-white px-[28px] pt-[31px] pb-[28px] shadow-xl shadow-[hsla(180,51%,29%,0.13)] before:absolute before:top-0 before:left-0 before:h-1 before:w-full lg:row-span-2 lg:h-[250px] lg:px-[32px] lg:pt-[36px] lg:pb-[32px] ${className}`}>{children}</div>;
+  return (
+    <div
+      className={`relative flex h-[222px] flex-col overflow-hidden rounded-lg bg-white px-[28px] pb-[28px] pt-[31px] shadow-xl shadow-[hsla(180,51%,29%,0.13)] before:absolute before:left-0 before:top-0 before:h-1 before:w-full lg:row-span-2 lg:h-[250px] lg:px-[32px] lg:pb-[32px] lg:pt-[36px] ${className}`}
+    >
+      {children}
+    </div>
+  );
 };
 
 const Heading: React.FC<{ children: ReactNode }> = ({ children }) => {
-  return <h2 className="text-four-card-neutral-300 text-[20px] font-semibold leading-none tracking-[-0.2px]">{children}</h2>;
+  return (
+    <h2 className="text-[20px] font-semibold leading-none tracking-[-0.2px] text-four-card-neutral-300">
+      {children}
+    </h2>
+  );
 };
 Card.Heading = Heading;
 
 const Body: React.FC<{ children: ReactNode }> = ({ children }) => {
-  return <p className="text-four-card-neutral-200 mt-2 px-[1px] text-[13px] leading-[23px] tracking-[0.1px] lg:mt-[13px] lg:px-0 lg:tracking-[0.05px]">{children}</p>;
+  return (
+    <p className="mt-2 px-[1px] text-[13px] leading-[23px] tracking-[0.1px] text-four-card-neutral-200 lg:mt-[13px] lg:px-0 lg:tracking-[0.05px]">
+      {children}
+    </p>
+  );
 };
 Card.Body = Body;
 
@@ -128,22 +166,10 @@ const icons = {
   ),
   red: (
     <g fill="none">
-      <path
-        fill="#EFEFF4"
-        d="M64 14.454v41.788H0V14.454l3.75-3.787h56.5z"
-      />
-      <path
-        fill="#DADAE5"
-        d="M64 14.454v41.788H32V10.667h28.25z"
-      />
-      <path
-        fill="#474F54"
-        d="M0 0h64v15.515H0z"
-      />
-      <path
-        fill="#32393F"
-        d="M32 0h32v15.515H32z"
-      />
+      <path fill="#EFEFF4" d="M64 14.454v41.788H0V14.454l3.75-3.787h56.5z" />
+      <path fill="#DADAE5" d="M64 14.454v41.788H32V10.667h28.25z" />
+      <path fill="#474F54" d="M0 0h64v15.515H0z" />
+      <path fill="#32393F" d="M32 0h32v15.515H32z" />
       <g fill="#FF637B">
         <path d="M7.758 5.818h3.685v3.879H7.758zM15.128 5.818h3.685v3.879h-3.685zM22.497 5.818h3.685v3.879h-3.685z" />
       </g>
@@ -151,26 +177,11 @@ const icons = {
         fill="#FF637B"
         d="M45.576 42.245V64H34.355v-3.71h-3.74V64H19.394V42.245l11.37-9.275h3.105z"
       />
-      <path
-        fill="#DADAE5"
-        d="M11.636 22.303h41.697v3.879H11.636z"
-      />
-      <path
-        fill="#C9C9D3"
-        d="M32 22.303h20.364v3.879H32z"
-      />
-      <path
-        fill="#E63950"
-        d="M45.576 42.245V64H33.939v-3.71H32V32.97h1.435z"
-      />
-      <path
-        fill="#EFEFF4"
-        d="M30.061 45.576h3.878v3.879h-3.878z"
-      />
-      <path
-        fill="#DADAE5"
-        d="M32 45.576h1.939v3.879H32z"
-      />
+      <path fill="#DADAE5" d="M11.636 22.303h41.697v3.879H11.636z" />
+      <path fill="#C9C9D3" d="M32 22.303h20.364v3.879H32z" />
+      <path fill="#E63950" d="M45.576 42.245V64H33.939v-3.71H32V32.97h1.435z" />
+      <path fill="#EFEFF4" d="M30.061 45.576h3.878v3.879h-3.878z" />
+      <path fill="#DADAE5" d="M32 45.576h1.939v3.879H32z" />
       <path
         fill="#676E74"
         d="M50.424 45.779l-2.452 2.706-15.487-13.526-15.488 13.526-2.452-2.706 17.94-15.718z"
@@ -183,22 +194,10 @@ const icons = {
   ),
   orange: (
     <g fill="none">
-      <path
-        fill="#676E74"
-        d="M26.375 52.625h11.25V64h-11.25z"
-      />
-      <path
-        fill="#333637"
-        d="M32 52.625h5.625V64H32z"
-      />
-      <path
-        fill="#4C545A"
-        d="M22.625 47h18.75v9.375h-18.75z"
-      />
-      <path
-        fill="#52585C"
-        d="M32 47h9.375v9.375H32z"
-      />
+      <path fill="#676E74" d="M26.375 52.625h11.25V64h-11.25z" />
+      <path fill="#333637" d="M32 52.625h5.625V64H32z" />
+      <path fill="#4C545A" d="M22.625 47h18.75v9.375h-18.75z" />
+      <path fill="#52585C" d="M32 47h9.375v9.375H32z" />
       <path
         fill="#FFDA2D"
         d="M45.012 36.725c-2.325 1.913-3.637 4.612-3.637 7.425V47h-18.75v-2.85c0-2.85-1.238-5.512-3.3-7.125-5.062-3.938-7.95-9.862-7.95-16.275a20.585 20.585 0 017.613-16.013C22.7 1.737 27.238 0 32 0c1.462 0 2.962.15 4.425.45 8.1 1.688 14.475 8.45 15.9 16.663 1.275 7.5-1.425 14.85-7.313 19.612z"
@@ -207,10 +206,7 @@ const icons = {
         fill="#FDBF00"
         d="M45.012 36.725c-2.325 1.913-3.637 4.612-3.637 7.425V47H32V0c1.462 0 2.962.15 4.425.45 8.1 1.688 14.475 8.45 15.9 16.663 1.275 7.5-1.425 14.85-7.313 19.612z"
       />
-      <path
-        fill="#676E74"
-        d="M18.875 45.125h26.25v3.75h-26.25z"
-      />
+      <path fill="#676E74" d="M18.875 45.125h26.25v3.75h-26.25z" />
       <path
         fill="#FF9100"
         d="M39.956 10.143l2.651 2.651-3.979 3.978-2.651-2.651z"
@@ -238,10 +234,7 @@ const icons = {
         fill="#FF9100"
         d="M32 7.625h1.875v5.625H32zM32 28.25h1.875v5.625H32z"
       />
-      <path
-        fill="#333637"
-        d="M32 45.125h13.125v3.75H32z"
-      />
+      <path fill="#333637" d="M32 45.125h13.125v3.75H32z" />
       <path
         fill="#FDBF00"
         d="M32 11.375c-5.175 0-9.375 4.2-9.375 9.375s4.2 9.375 9.375 9.375 9.375-4.2 9.375-9.375-4.2-9.375-9.375-9.375z"
@@ -250,50 +243,20 @@ const icons = {
         fill="#FF9100"
         d="M32 30.125v-18.75c5.175 0 9.375 4.2 9.375 9.375s-4.2 9.375-9.375 9.375z"
       />
-      <path
-        fill="#FFDA2D"
-        d="M30.125 18.875h3.75v3.75h-3.75z"
-      />
-      <path
-        fill="#FDBF00"
-        d="M32 18.875h1.875v3.75H32z"
-      />
+      <path fill="#FFDA2D" d="M30.125 18.875h3.75v3.75h-3.75z" />
+      <path fill="#FDBF00" d="M32 18.875h1.875v3.75H32z" />
     </g>
   ),
   blue: (
     <g fill="none">
-      <path
-        fill="#474F54"
-        d="M64 0v41.25l-3.75 3.875H3.75L0 41.25V0z"
-      />
-      <path
-        fill="#32393F"
-        d="M64 0v41.25l-3.75 3.875H32V0z"
-      />
-      <path
-        fill="#DADAE5"
-        d="M22.625 50.875h18.75v11.25h-18.75z"
-      />
-      <path
-        fill="#C9C9D3"
-        d="M32 50.875h9.375v11.25H32z"
-      />
-      <path
-        fill="#EFEFF4"
-        d="M0 41.25h64v11.5H0z"
-      />
-      <path
-        fill="#DADAE5"
-        d="M32 41.25h32v11.5H32z"
-      />
-      <path
-        fill="#EFEFF4"
-        d="M15.125 60.25h33.75V64h-33.75z"
-      />
-      <path
-        fill="#DADAE5"
-        d="M32 60.25h16.875V64H32z"
-      />
+      <path fill="#474F54" d="M64 0v41.25l-3.75 3.875H3.75L0 41.25V0z" />
+      <path fill="#32393F" d="M64 0v41.25l-3.75 3.875H32V0z" />
+      <path fill="#DADAE5" d="M22.625 50.875h18.75v11.25h-18.75z" />
+      <path fill="#C9C9D3" d="M32 50.875h9.375v11.25H32z" />
+      <path fill="#EFEFF4" d="M0 41.25h64v11.5H0z" />
+      <path fill="#DADAE5" d="M32 41.25h32v11.5H32z" />
+      <path fill="#EFEFF4" d="M15.125 60.25h33.75V64h-33.75z" />
+      <path fill="#DADAE5" d="M32 60.25h16.875V64H32z" />
       <path
         fill="#549EF2"
         d="M20.75 7.5c-7.236 0-13.125 5.889-13.125 13.125S13.514 33.75 20.75 33.75s13.125-5.889 13.125-13.125S27.986 7.5 20.75 7.5zm0 18.75a5.631 5.631 0 01-5.625-5.625A5.631 5.631 0 0120.75 15a5.631 5.631 0 015.625 5.625 5.631 5.631 0 01-5.625 5.625z"

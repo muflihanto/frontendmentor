@@ -1,13 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
 import { CSSProperties, useEffect, useState } from "react";
-import { faFacebookF, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebookF,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { openSans } from "../utils/fonts/openSans";
+
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const userInput = z.object({
   email: z.string().email({ message: "Please check your email" }),
@@ -19,9 +25,13 @@ export default function FyloLandingPageWithTwoColumnLayout() {
   return (
     <>
       <Head>
-        <title>Frontend Mentor | Fylo landing page with two column layout</title>
+        <title>
+          Frontend Mentor | Fylo landing page with two column layout
+        </title>
       </Head>
-      <div className="App font-open-sans relative min-h-[100svh]">
+      <div
+        className={`App relative min-h-[100svh] font-open-sans ${openSans.variable}`}
+      >
         <Header />
         <Main />
         <Footer />
@@ -34,7 +44,13 @@ export default function FyloLandingPageWithTwoColumnLayout() {
   );
 }
 
-function FyloLogo({ className, variant }: { className: string; variant: "header" | "footer" }) {
+function FyloLogo({
+  className,
+  variant,
+}: {
+  className: string;
+  variant: "header" | "footer";
+}) {
   return (
     <svg
       viewBox="0 0 166 49"
@@ -43,24 +59,15 @@ function FyloLogo({ className, variant }: { className: string; variant: "header"
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <defs>
-        <path
-          id="a"
-          d="M.014.03h93.96v48.29H.015z"
-        />
+        <path id="a" d="M.014.03h93.96v48.29H.015z" />
       </defs>
-      <g
-        fill="none"
-        fillRule="evenodd"
-      >
+      <g fill="none" fillRule="evenodd">
         <path
           d="M0 14.13v.123l27.95 13.13L56 14.209v-.033L27.95 1 0 14.13zm10.077.062L27.95 5.795l17.877 8.397-17.877 8.396-17.874-8.396zM27.95 32.483L0 19.55v4.784l27.95 12.964L56 24.289v-4.784L27.95 32.483zm0 9.703L0 29.25v4.783L27.95 47 56 33.99v-4.784l-28.05 12.98z"
           fill={variant === "header" ? "#BDBAFA" : "#fff"}
         />
         <g transform="translate(72)">
-          <mask
-            id="b"
-            fill="#fff"
-          >
+          <mask id="b" fill="#fff">
             <use xlinkHref="#a" />
           </mask>
           <path
@@ -77,12 +84,9 @@ function FyloLogo({ className, variant }: { className: string; variant: "header"
 function Header() {
   return (
     <header className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] lg:h-[179px]">
-      <FyloLogo
-        className="w-20 lg:w-[166px]"
-        variant="header"
-      />
+      <FyloLogo className="w-20 lg:w-[166px]" variant="header" />
       <nav>
-        <ul className="text-fylo-landing-primary-blue-200 font-raleway flex items-center gap-[25px] text-[12px] leading-none lg:gap-[58px] lg:text-[16px]">
+        <ul className="flex items-center gap-[25px] font-raleway text-[12px] leading-none text-fylo-landing-primary-blue-200 lg:gap-[58px] lg:text-[16px]">
           <li>
             <a href="">Features</a>
           </li>
@@ -125,12 +129,15 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
       button: "-translate-x-[2px] text-[14px]",
       placeholder: "Enter your email...",
       btnText: "Get Started",
-      error: "lg:absolute lg:top-[49px] lg:tracking-[-0.1px] text-[11px] lg:text-[13px] text-[hsl(343,40%,65%)] max-lg:-mt-1",
+      error:
+        "lg:absolute lg:top-[49px] lg:tracking-[-0.1px] text-[11px] lg:text-[13px] text-[hsl(343,40%,65%)] max-lg:-mt-1",
     },
     early: {
       form: "mt-[23px] grid-rows-[34px,32px] gap-y-[7px] w-[245px] pr-[3px] lg:gap-[15px] lg:pb-[10px] lg:w-full",
-      input: "text-[10px] px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px] text-fylo-landing-primary-blue-200 text-[12px]",
-      button: "text-[10px] w-[calc(100%-2px)] place-self-center h-full lg:w-[200px] lg:place-self-start lg:text-[14px]",
+      input:
+        "text-[10px] px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px] text-fylo-landing-primary-blue-200 text-[12px]",
+      button:
+        "text-[10px] w-[calc(100%-2px)] place-self-center h-full lg:w-[200px] lg:place-self-start lg:text-[14px]",
       placeholder: "email@example.com",
       btnText: "Get Started For Free",
       error: "lg:text-[13px] text-[11px] -mt-1 lg:-mt-[13px] lg:-mb-[2px]",
@@ -140,17 +147,41 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
   return (
     <form
       noValidate
-      className={`font-raleway grid grid-cols-1 ${!!errors.email && "relative"} ${formStyle[variant].form} ${variant === "early" ? (!!errors.email ? " grid-rows-[40px,12px,40px] lg:mt-[43px] lg:grid-rows-[47px,auto,48px]" : "lg:grid-rows-[50px,48px]") : !!errors.email ? "grid-rows-[40px,auto,40px] gap-y-2" : "grid-rows-[repeat(2,40px)] gap-y-4"}`}
+      className={`grid grid-cols-1 font-raleway ${
+        !!errors.email && "relative"
+      } ${formStyle[variant].form} ${
+        variant === "early"
+          ? !!errors.email
+            ? " grid-rows-[40px,12px,40px] lg:mt-[43px] lg:grid-rows-[47px,auto,48px]"
+            : "lg:grid-rows-[50px,48px]"
+          : !!errors.email
+          ? "grid-rows-[40px,auto,40px] gap-y-2"
+          : "grid-rows-[repeat(2,40px)] gap-y-4"
+      }`}
       onSubmit={onSubmit}
     >
       <input
         {...register("email")}
         type="email"
         placeholder={formStyle[variant].placeholder}
-        className={`w-full rounded-sm border placeholder:opacity-50 ${formStyle[variant].input} ${!!errors.email ? "border-[hsl(339,28%,73%)] focus-visible:outline focus-visible:outline-transparent" : "border-fylo-landing-primary-blue-100"}`}
+        className={`w-full rounded-sm border placeholder:opacity-50 ${
+          formStyle[variant].input
+        } ${
+          !!errors.email
+            ? "border-[hsl(339,28%,73%)] focus-visible:outline focus-visible:outline-transparent"
+            : "border-fylo-landing-primary-blue-100"
+        }`}
       />
-      {errors.email ? <p className={`${formStyle[variant].error} font-open-sans`}>{errors.email.message}</p> : null}
-      <button className={`bg-fylo-landing-accent-blue text-fylo-landing-neutral-100 shadow-fylo-landing-primary-blue-200/10 rounded-sm font-bold shadow-md hover:bg-[hsl(221,100%,71%)] ${formStyle[variant].button}`}>{formStyle[variant].btnText}</button>
+      {errors.email ? (
+        <p className={`${formStyle[variant].error} font-open-sans`}>
+          {errors.email.message}
+        </p>
+      ) : null}
+      <button
+        className={`rounded-sm bg-fylo-landing-accent-blue font-bold text-fylo-landing-neutral-100 shadow-md shadow-fylo-landing-primary-blue-200/10 hover:bg-[hsl(221,100%,71%)] ${formStyle[variant].button}`}
+      >
+        {formStyle[variant].btnText}
+      </button>
     </form>
   );
 }
@@ -167,8 +198,14 @@ function Hero() {
         />
       </div>
       <div className="lg:col-start-1 lg:row-start-1 lg:self-start lg:pt-[76px]">
-        <h1 className="font-open-sans lg:font-raleway text-fylo-landing-primary-blue-200 mt-[39px] text-center text-[24px] font-bold leading-[36px] lg:mt-0 lg:text-left lg:text-[40px] lg:leading-[60px]">All your files in one secure location, accessible anywhere.</h1>
-        <p className="text-fylo-landing-primary-blue-200 mt-[25px] pl-3 pr-5 text-center text-[14px] lg:mt-[16px] lg:px-0 lg:pr-10 lg:text-left lg:text-[18px] lg:leading-[24px]">Fylo stores your most important files in one secure location. Access them wherever you need, share and collaborate with friends, family, and co-workers.</p>
+        <h1 className="mt-[39px] text-center font-open-sans text-[24px] font-bold leading-[36px] text-fylo-landing-primary-blue-200 lg:mt-0 lg:text-left lg:font-raleway lg:text-[40px] lg:leading-[60px]">
+          All your files in one secure location, accessible anywhere.
+        </h1>
+        <p className="mt-[25px] pl-3 pr-5 text-center text-[14px] text-fylo-landing-primary-blue-200 lg:mt-[16px] lg:px-0 lg:pr-10 lg:text-left lg:text-[18px] lg:leading-[24px]">
+          Fylo stores your most important files in one secure location. Access
+          them wherever you need, share and collaborate with friends, family,
+          and co-workers.
+        </p>
         <GetStartedForm />
       </div>
     </div>
@@ -192,7 +229,7 @@ function ProductiveSection() {
           className="hidden object-contain lg:block"
         />
       </div>
-      <div className="bg-fylo-landing-neutral-100 flex flex-col items-center px-7 pb-[81.5px] lg:grid lg:grid-cols-[auto,540px] lg:grid-rows-1 lg:items-start lg:px-20 lg:pb-[106px] lg:pt-[57px]">
+      <div className="flex flex-col items-center bg-fylo-landing-neutral-100 px-7 pb-[81.5px] lg:grid lg:grid-cols-[auto,540px] lg:grid-rows-1 lg:items-start lg:px-20 lg:pb-[106px] lg:pt-[57px]">
         <div className="relative my-[41px] aspect-[1077.87/813.02] w-full max-lg:max-w-screen-sm lg:col-start-2 lg:my-8 lg:w-full lg:place-self-end lg:self-start">
           <Image
             src="/fylo-landing-page-with-two-column-layout/images/illustration-2.svg"
@@ -202,14 +239,24 @@ function ProductiveSection() {
           />
         </div>
         <div className="max-lg:flex max-lg:flex-col max-lg:items-center lg:col-start-1 lg:row-start-1">
-          <h2 className="font-raleway text-fylo-landing-primary-blue-200 mt-[47px] font-bold lg:mt-0 lg:text-[40px] lg:tracking-[.1px]">Stay productive, wherever you are</h2>
-          <p className="text-fylo-landing-primary-blue-200 -ml-2 mt-6 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:mt-[31px] lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
-          <p className="text-fylo-landing-primary-blue-200 -ml-2 mt-4 text-[14px] max-lg:max-w-screen-sm lg:ml-0 lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required!</p>
+          <h2 className="mt-[47px] font-raleway font-bold text-fylo-landing-primary-blue-200 lg:mt-0 lg:text-[40px] lg:tracking-[.1px]">
+            Stay productive, wherever you are
+          </h2>
+          <p className="-ml-2 mt-6 text-[14px] text-fylo-landing-primary-blue-200 max-lg:max-w-screen-sm lg:ml-0 lg:mt-[31px] lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">
+            Never let location be an issue when accessing your files. Fylo has
+            you covered for all of your file storage needs.
+          </p>
+          <p className="-ml-2 mt-4 text-[14px] text-fylo-landing-primary-blue-200 max-lg:max-w-screen-sm lg:ml-0 lg:max-w-[540px] lg:text-[16px] lg:leading-[24px]">
+            Securely share files and folders with friends, family and colleagues
+            for live collaboration. No email attachments required!
+          </p>
           <a
             href=""
-            className="text-fylo-landing-accent-cyan border-b-fylo-landing-accent-cyan group mt-[30px] flex h-[28px] w-fit translate-x-[1px] items-center gap-[7px] border-b hover:border-b-[hsl(168,56%,66%)] hover:text-[hsl(168,56%,66%)] lg:mt-[12px] lg:h-[31px] lg:w-fit lg:translate-x-0 lg:gap-[6px]"
+            className="group mt-[30px] flex h-[28px] w-fit translate-x-[1px] items-center gap-[7px] border-b border-b-fylo-landing-accent-cyan text-fylo-landing-accent-cyan hover:border-b-[hsl(168,56%,66%)] hover:text-[hsl(168,56%,66%)] lg:mt-[12px] lg:h-[31px] lg:w-fit lg:translate-x-0 lg:gap-[6px]"
           >
-            <span className="text-[13px] tracking-[-.5px] lg:text-[16px] lg:tracking-normal">See how Fylo works</span>
+            <span className="text-[13px] tracking-[-.5px] lg:text-[16px] lg:tracking-normal">
+              See how Fylo works
+            </span>
             <svg
               viewBox="0 0 16 16"
               className="w-4 text-[#3DA08F] group-hover:text-[hsl(168,56%,66%)] lg:mt-[4px]"
@@ -226,14 +273,15 @@ function ProductiveSection() {
 
 function Testimony() {
   return (
-    <div className="shadow-fylo-landing-primary-blue-100/10 mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pl-[26px] pr-3 pt-[21px] text-[10px] tracking-[.4px] shadow-md lg:mt-[45px] lg:h-[216px] lg:w-[356px] lg:px-[33px] lg:pt-[25px]">
-      <svg
-        className="w-[11px] lg:ml-[1px] lg:w-[14px]"
-        viewBox="0 0 13 12"
-      >
+    <div className="mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pl-[26px] pr-3 pt-[21px] text-[10px] tracking-[.4px] shadow-md shadow-fylo-landing-primary-blue-100/10 lg:mt-[45px] lg:h-[216px] lg:w-[356px] lg:px-[33px] lg:pt-[25px]">
+      <svg className="w-[11px] lg:ml-[1px] lg:w-[14px]" viewBox="0 0 13 12">
         <use href="/fylo-landing-page-with-two-column-layout/images/icon-quotes.svg#fylo-icon-quotes" />
       </svg>
-      <p className="mt-2 leading-[18px] lg:mt-[12px] lg:text-[13px] lg:leading-[23.15px] lg:tracking-[.5px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+      <p className="mt-2 leading-[18px] lg:mt-[12px] lg:text-[13px] lg:leading-[23.15px] lg:tracking-[.5px]">
+        Fylo has improved our team productivity by an order of magnitude. Since
+        making the switch our team has become a well-oiled collaboration
+        machine.
+      </p>
       <div className="mt-[13px] flex h-6 items-center gap-2 leading-none lg:mt-[19px]">
         <div className="relative aspect-square w-6 overflow-hidden rounded-full lg:w-8">
           <Image
@@ -244,7 +292,9 @@ function Testimony() {
         </div>
         <div className="pt-[2px] lg:pt-0">
           <p className="text-[9px] font-bold lg:text-[11px]">Kyle Burton</p>
-          <p className="mt-[5px] text-[6px] lg:text-[8px]">Founder & CEO, Huddle</p>
+          <p className="mt-[5px] text-[6px] lg:text-[8px]">
+            Founder & CEO, Huddle
+          </p>
         </div>
       </div>
     </div>
@@ -253,10 +303,16 @@ function Testimony() {
 
 function EarlyAccessSection() {
   return (
-    <div className="bg-fylo-landing-primary-blue-100 flex h-[345px] flex-col items-center px-[31px] pt-[52px] text-white lg:grid lg:h-[322px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-[240px] lg:px-20 lg:py-0">
+    <div className="flex h-[345px] flex-col items-center bg-fylo-landing-primary-blue-100 px-[31px] pt-[52px] text-white lg:grid lg:h-[322px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-[240px] lg:px-20 lg:py-0">
       <div className="lg:pt-3">
-        <h3 className="font-raleway pr-[6px] text-center text-[18px] font-bold lg:text-left lg:text-[32px]">Get early access today</h3>
-        <p className="text-fylo-landing-neutral-100/75 mt-[15px] pr-[23px] text-center text-[14px] max-lg:max-w-screen-sm lg:mt-[16px] lg:px-0 lg:text-left lg:text-[17px] lg:leading-[24px]">It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.</p>
+        <h3 className="pr-[6px] text-center font-raleway text-[18px] font-bold lg:text-left lg:text-[32px]">
+          Get early access today
+        </h3>
+        <p className="mt-[15px] pr-[23px] text-center text-[14px] text-fylo-landing-neutral-100/75 max-lg:max-w-screen-sm lg:mt-[16px] lg:px-0 lg:text-left lg:text-[17px] lg:leading-[24px]">
+          It only takes a minute to sign up and our free starter tier is
+          extremely generous. If you have any questions, our support team would
+          be happy to help you.
+        </p>
       </div>
       <GetStartedForm variant="early" />
     </div>
@@ -286,29 +342,29 @@ function SocialIcon() {
     >
       <a
         href=""
-        className="border-fylo-landing-neutral-200 hover:border-fylo-landing-accent-blue group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border p-[6px] lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-landing-accent-blue lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
       >
         <FontAwesomeIcon
           icon={faFacebookF}
-          className="group-hover:text-fylo-landing-accent-blue h-full w-full"
+          className="h-full w-full group-hover:text-fylo-landing-accent-blue"
         />
       </a>
       <a
         href=""
-        className="border-fylo-landing-neutral-200 hover:border-fylo-landing-accent-blue group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border p-[6px] lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-landing-accent-blue lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
       >
         <FontAwesomeIcon
           icon={faTwitter}
-          className="group-hover:text-fylo-landing-accent-blue h-full w-full"
+          className="h-full w-full group-hover:text-fylo-landing-accent-blue"
         />
       </a>
       <a
         href=""
-        className="border-fylo-landing-neutral-200 hover:border-fylo-landing-accent-blue group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border p-[6px] lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-landing-accent-blue lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
       >
         <FontAwesomeIcon
           icon={faInstagram}
-          className="group-hover:text-fylo-landing-accent-blue h-full w-full"
+          className="h-full w-full group-hover:text-fylo-landing-accent-blue"
         />
       </a>
     </div>
@@ -317,12 +373,12 @@ function SocialIcon() {
 
 function Footer() {
   return (
-    <footer className="bg-fylo-landing-primary-blue-200 relative flex h-[682.97px] flex-col pt-[65px] text-white max-lg:px-[max(calc(50vw-320px),39px)] lg:h-fit lg:px-20 lg:pb-[70.02px] lg:pt-[108px]">
+    <footer className="relative flex h-[682.97px] flex-col bg-fylo-landing-primary-blue-200 pt-[65px] text-white max-lg:px-[max(calc(50vw-320px),39px)] lg:h-fit lg:px-20 lg:pb-[70.02px] lg:pt-[108px]">
       <FyloLogo
         className="w-[176px] lg:aspect-[166/49] lg:h-auto lg:w-[176px]"
         variant="footer"
       />
-      <div className="text-fylo-landing-neutral-100 [&_li:hover]:text-fylo-landing-neutral-200/70 flex flex-col lg:mt-[23px] lg:flex-row lg:justify-start">
+      <div className="flex flex-col text-fylo-landing-neutral-100 lg:mt-[23px] lg:flex-row lg:justify-start [&_li:hover]:text-fylo-landing-neutral-200/70">
         <div className="mt-[39px] flex flex-col gap-4 px-[2px] lg:mt-0">
           <p className="flex gap-[18px]">
             <svg
@@ -338,7 +394,7 @@ function Footer() {
             </svg>
             <span>Phone: +1-543-123-4567</span>
           </p>
-          <p className="text-fylo-landing-neutral-200 flex gap-[18px]">
+          <p className="flex gap-[18px] text-fylo-landing-neutral-200">
             <svg
               viewBox="0 0 20 16"
               className="w-5"

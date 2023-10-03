@@ -1,9 +1,10 @@
-import { log } from "console";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-const DesignSlider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { inter } from "../utils/fonts/inter";
+
+// import dynamic from "next/dynamic";
+// const DesignSlider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const CodingBootcamp = () => {
   return (
@@ -11,7 +12,9 @@ const CodingBootcamp = () => {
       <Head>
         <title>Frontend Mentor | Coding Bootcamp Testimonials Slider</title>
       </Head>
-      <div className="App font-inter relative min-h-screen bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat lg:bg-[length:auto,660px] lg:bg-[right_73px_top_calc(50%-22px)]">
+      <div
+        className={`App relative min-h-screen bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat font-inter lg:bg-[length:auto,660px] lg:bg-[right_73px_top_calc(50%-22px)] ${inter.variable}`}
+      >
         <Main />
         <Footer />
         <svg
@@ -65,12 +68,7 @@ function Footer() {
 function Avatar({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative aspect-square w-[253px] overflow-hidden rounded-sm shadow-[0px_40px_50px_-30px_hsla(240,38%,20%,.4),0px_0px_15px_hsla(240,38%,20%,.05)] lg:w-[540px]">
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-contain"
-      />
+      <Image src={src} alt={alt} fill className="object-contain" />
     </div>
   );
 }
@@ -81,7 +79,8 @@ const data = [
       src: "/coding-bootcamp-testimonials-slider/images/image-tanya.jpg",
       alt: "Tanya's Avatar",
     },
-    testimony: "“ I’ve been interested in coding for a while but never taken the jump, until now. I couldn’t recommend this course enough. I’m now in the job of my dreams and so excited about the future. ”",
+    testimony:
+      "“ I’ve been interested in coding for a while but never taken the jump, until now. I couldn’t recommend this course enough. I’m now in the job of my dreams and so excited about the future. ”",
     name: "Tanya Sinclair",
     occupation: "UX Engineer",
   },
@@ -90,7 +89,8 @@ const data = [
       src: "/coding-bootcamp-testimonials-slider/images/image-john.jpg",
       alt: "John's Avatar",
     },
-    testimony: "“ If you want to lay the best foundation possible I’d recommend taking this course. The depth the instructors go into is incredible. I now feel so confident about starting up as a professional developer. ”",
+    testimony:
+      "“ If you want to lay the best foundation possible I’d recommend taking this course. The depth the instructors go into is incredible. I now feel so confident about starting up as a professional developer. ”",
     name: "John Tarkpor",
     occupation: "Junior Front-end Developer",
   },
@@ -98,11 +98,17 @@ const data = [
 
 function Testimony({ activeIndex }: { activeIndex: number }) {
   return (
-    <div className="text-coding-primary-200 mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] lg:z-10 lg:my-0 lg:ml-[0px] lg:mr-[-75px] lg:w-[632px] lg:bg-[length:120px,100px] lg:bg-[left_95px_top_0px] lg:px-0 lg:pt-[65px] lg:pb-[44px] [&_*]:text-center lg:[&_*]:text-left">
-      <p className="text-[18px] font-light leading-[24px] lg:text-[32px] lg:leading-[44px]">{data[activeIndex].testimony}</p>
+    <div className="mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] text-coding-primary-200 lg:z-10 lg:my-0 lg:ml-[0px] lg:mr-[-75px] lg:w-[632px] lg:bg-[length:120px,100px] lg:bg-[left_95px_top_0px] lg:px-0 lg:pb-[44px] lg:pt-[65px] [&_*]:text-center lg:[&_*]:text-left">
+      <p className="text-[18px] font-light leading-[24px] lg:text-[32px] lg:leading-[44px]">
+        {data[activeIndex].testimony}
+      </p>
       <div className="mt-[19px] lg:mt-[36px] lg:flex lg:items-center lg:gap-[8px]">
-        <p className="text-[15px] font-bold leading-[18px] lg:mt-0 lg:text-[20px] lg:leading-normal lg:tracking-[0.2px]">{data[activeIndex].name}</p>
-        <p className="text-coding-primary-100 text-[15px] font-medium lg:text-[20px]">{data[activeIndex].occupation}</p>
+        <p className="text-[15px] font-bold leading-[18px] lg:mt-0 lg:text-[20px] lg:leading-normal lg:tracking-[0.2px]">
+          {data[activeIndex].name}
+        </p>
+        <p className="text-[15px] font-medium text-coding-primary-100 lg:text-[20px]">
+          {data[activeIndex].occupation}
+        </p>
       </div>
     </div>
   );
@@ -143,10 +149,7 @@ function Main() {
             viewBox="0 0 12 18"
             className="h-[14px] stroke-[#8585AC] stroke-[3px] group-hover:stroke-[#4A3FDB] lg:stroke-[4px]"
           >
-            <path
-              fill="none"
-              d="M11 1L3 9l8 8"
-            />
+            <path fill="none" d="M11 1L3 9l8 8" />
           </svg>
         </button>
         <button
@@ -160,10 +163,7 @@ function Main() {
             viewBox="0 0 13 18"
             className="h-[14px] stroke-[#8585AC] stroke-[3px] group-hover:stroke-[#4A3FDB] lg:stroke-[4px]"
           >
-            <path
-              fill="none"
-              d="M2 1l8 8-8 8"
-            />
+            <path fill="none" d="M2 1l8 8-8 8" />
           </svg>
         </button>
       </div>

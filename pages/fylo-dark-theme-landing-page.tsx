@@ -1,21 +1,31 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { CSSProperties, useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import {
+  faFacebookF,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+import { openSans } from "../utils/fonts/openSans";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function FyloDarkThemeLandingPage() {
   return (
     <>
       <Head>
-        <title>Frontend Mentor | Fylo landing page with dark theme and features grid</title>
+        <title>
+          Frontend Mentor | Fylo landing page with dark theme and features grid
+        </title>
       </Head>
-      <div className="App font-open-sans relative min-h-[100svh]">
+      <div
+        className={`App relative min-h-[100svh] font-open-sans ${openSans.variable}`}
+      >
         <IntroSection />
         <Main />
         <Footer />
@@ -44,7 +54,7 @@ function FyloLogo({ className }: { className: string }) {
 function IntroSection() {
   return (
     <div
-      className="lg:bg-fylo-dark-primary-intro h-[700px] bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-mobile.svg'),linear-gradient(180deg,theme(colors.fylo-dark.primary.intro),theme(colors.fylo-dark.primary.intro)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main))] bg-[position:top_280px_center,center_center] bg-no-repeat lg:h-[1266px] lg:bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-desktop.svg')] lg:bg-[length:100%_auto] lg:bg-[bottom_-30px_center]"
+      className="h-[700px] bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-mobile.svg'),linear-gradient(180deg,theme(colors.fylo-dark.primary.intro),theme(colors.fylo-dark.primary.intro)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main))] bg-[position:top_280px_center,center_center] bg-no-repeat lg:h-[1266px] lg:bg-fylo-dark-primary-intro lg:bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-desktop.svg')] lg:bg-[length:100%_auto] lg:bg-[bottom_-30px_center]"
       style={
         {
           "--bg-color-stop": "420px",
@@ -72,11 +82,17 @@ function Hero() {
         />
       </div>
       <div className="lg:col-start-1 lg:row-start-1 lg:self-start lg:pt-[35px]">
-        <h1 className="font-raleway text-fylo-dark-neutral mt-[32px] text-center text-[24px] font-bold leading-[36px] lg:mt-0 lg:text-[40px] lg:leading-[60px]">All your files in one secure location, accessible anywhere.</h1>
-        <p className="text-fylo-dark-neutral/75 mt-[15.5px] pl-4 pr-4 text-center text-[14px] lg:mt-[33px] lg:px-14 lg:text-[20px] lg:leading-[30px]">Fylo stores all your most important files in one secure location. Access them wherever you need, share and collaborate with friends family, and co-workers.</p>
+        <h1 className="mt-[32px] text-center font-raleway text-[24px] font-bold leading-[36px] text-fylo-dark-neutral lg:mt-0 lg:text-[40px] lg:leading-[60px]">
+          All your files in one secure location, accessible anywhere.
+        </h1>
+        <p className="mt-[15.5px] pl-4 pr-4 text-center text-[14px] text-fylo-dark-neutral/75 lg:mt-[33px] lg:px-14 lg:text-[20px] lg:leading-[30px]">
+          Fylo stores all your most important files in one secure location.
+          Access them wherever you need, share and collaborate with friends
+          family, and co-workers.
+        </p>
         <a
           href=""
-          className="from-fylo-dark-accent-cyan to-fylo-dark-accent-blue text-fylo-dark-neutral font-raleway hover:to-fylo-dark-accent-cyan mx-auto mt-8 flex h-[48px] w-[240px] flex-col items-center justify-center rounded-full bg-gradient-to-br text-[14px] font-bold lg:h-[56px] lg:w-[280px] lg:text-[16px]"
+          className="mx-auto mt-8 flex h-[48px] w-[240px] flex-col items-center justify-center rounded-full bg-gradient-to-br from-fylo-dark-accent-cyan to-fylo-dark-accent-blue font-raleway text-[14px] font-bold text-fylo-dark-neutral hover:to-fylo-dark-accent-cyan lg:h-[56px] lg:w-[280px] lg:text-[16px]"
         >
           Get Started
         </a>
@@ -90,7 +106,7 @@ function Header() {
     <header className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] lg:h-[198px]">
       <FyloLogo className="-ml-1 w-20 lg:ml-0 lg:w-[176px]" />
       <nav>
-        <ul className="text-fylo-dark-neutral font-raleway flex items-center gap-[25px] text-[12px] leading-none lg:gap-[58px] lg:text-[16px]">
+        <ul className="flex items-center gap-[25px] font-raleway text-[12px] leading-none text-fylo-dark-neutral lg:gap-[58px] lg:text-[16px]">
           <li className="opacity-75 hover:underline hover:opacity-100">
             <a href="">Features</a>
           </li>
@@ -108,26 +124,47 @@ function Header() {
 
 function Features() {
   return (
-    <div className="text-fylo-dark-neutral grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px] lg:mx-auto lg:w-[940px] lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[114px] lg:gap-y-20 lg:pt-0">
+    <div className="grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px] text-fylo-dark-neutral lg:mx-auto lg:w-[940px] lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[114px] lg:gap-y-20 lg:pt-0">
       <div className="flex flex-col items-center justify-center px-7 pb-[1px] lg:justify-start lg:px-8">
         <IconAccessAnywhere className="h-[60px] lg:h-[84px] lg:pt-[6px]" />
-        <h2 className="font-raleway mt-8 text-center text-[17px] font-bold tracking-[.5px] lg:mt-[26px] lg:text-[19px]">Access your files, anywhere</h2>
-        <p className="mt-[8px] text-center text-[14px] opacity-90 lg:mt-[6px] lg:pr-[4px]">The ability to use a smartphone, tablet, or computer to access your account means your files follow you everywhere.</p>
+        <h2 className="mt-8 text-center font-raleway text-[17px] font-bold tracking-[.5px] lg:mt-[26px] lg:text-[19px]">
+          Access your files, anywhere
+        </h2>
+        <p className="mt-[8px] text-center text-[14px] opacity-90 lg:mt-[6px] lg:pr-[4px]">
+          The ability to use a smartphone, tablet, or computer to access your
+          account means your files follow you everywhere.
+        </p>
       </div>
       <div className="flex flex-col items-center justify-center px-7 pb-2 lg:justify-start lg:px-0 lg:pr-[30px]">
         <IconSecurity className="lg:h-[88px]" />
-        <h2 className="font-raleway mt-7 text-center text-[17px] font-bold tracking-[.5px] lg:mt-[21px] lg:text-[19px]">Security you can trust</h2>
-        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">2-factor authentication and user-controlled encryption are just a couple of the security features we allow to help secure your files.</p>
+        <h2 className="mt-7 text-center font-raleway text-[17px] font-bold tracking-[.5px] lg:mt-[21px] lg:text-[19px]">
+          Security you can trust
+        </h2>
+        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">
+          2-factor authentication and user-controlled encryption are just a
+          couple of the security features we allow to help secure your files.
+        </p>
       </div>
       <div className="flex flex-col items-center justify-center px-7 pb-[2px] lg:justify-start lg:px-4 lg:pl-[26px]">
         <IconCollaboration className="lg:mt-[7px] lg:h-[71px]" />
-        <h2 className="font-raleway mt-[35px] text-center text-[17px] font-bold tracking-[.5px] lg:mt-[30px] lg:text-[19px]">Real-time collaboration</h2>
-        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
+        <h2 className="mt-[35px] text-center font-raleway text-[17px] font-bold tracking-[.5px] lg:mt-[30px] lg:text-[19px]">
+          Real-time collaboration
+        </h2>
+        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">
+          Securely share files and folders with friends, family and colleagues
+          for live collaboration. No email attachments required.
+        </p>
       </div>
       <div className="flex flex-col items-center justify-center px-7 pb-[2px] lg:justify-start lg:px-5 lg:pr-[30px]">
         <IconAnyFile className="lg:mt-[10px] lg:h-[66px]" />
-        <h2 className="font-raleway mt-[38px] text-center text-[17px] font-bold tracking-[.5px] lg:mt-[32px] lg:text-[19px]">Store any type of file</h2>
-        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">Whether you&apos;re sharing holidays photos or work documents, Fylo has you covered allowing for all file types to be securely stored and shared.</p>
+        <h2 className="mt-[38px] text-center font-raleway text-[17px] font-bold tracking-[.5px] lg:mt-[32px] lg:text-[19px]">
+          Store any type of file
+        </h2>
+        <p className="mt-[7px] text-center text-[14px] opacity-90 lg:mt-[6px]">
+          Whether you&apos;re sharing holidays photos or work documents, Fylo
+          has you covered allowing for all file types to be securely stored and
+          shared.
+        </p>
       </div>
     </div>
   );
@@ -135,7 +172,7 @@ function Features() {
 
 function Productive() {
   return (
-    <div className="text-fylo-dark-neutral mt-[111px] px-7 lg:mt-[127px] lg:grid lg:grid-cols-[min(calc(50%),615px),auto] lg:grid-rows-1 lg:items-center lg:gap-[57px] lg:px-[105px]">
+    <div className="mt-[111px] px-7 text-fylo-dark-neutral lg:mt-[127px] lg:grid lg:grid-cols-[min(calc(50%),615px),auto] lg:grid-rows-1 lg:items-center lg:gap-[57px] lg:px-[105px]">
       <div className="relative mx-auto aspect-[615/465] w-[calc(100%-16px)] lg:w-full">
         {/* 
           // TODO: make responsive image
@@ -148,14 +185,24 @@ function Productive() {
         />
       </div>
       <div>
-        <h2 className="font-raleway mt-[46px] px-1 text-[18px] font-bold tracking-[.075px] lg:w-96 lg:px-0 lg:text-[40px] lg:leading-[50px]">Stay productive, wherever you are</h2>
-        <p className="mt-[15px] text-[14px] opacity-90 lg:mt-[19px] lg:text-[16px] lg:opacity-80">Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.</p>
-        <p className="mt-4 text-[14px] opacity-90 lg:text-[16px] lg:opacity-80">Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.</p>
+        <h2 className="mt-[46px] px-1 font-raleway text-[18px] font-bold tracking-[.075px] lg:w-96 lg:px-0 lg:text-[40px] lg:leading-[50px]">
+          Stay productive, wherever you are
+        </h2>
+        <p className="mt-[15px] text-[14px] opacity-90 lg:mt-[19px] lg:text-[16px] lg:opacity-80">
+          Never let location be an issue when accessing your files. Fylo has you
+          covered for all of your file storage needs.
+        </p>
+        <p className="mt-4 text-[14px] opacity-90 lg:text-[16px] lg:opacity-80">
+          Securely share files and folders with friends, family and colleagues
+          for live collaboration. No email attachments required.
+        </p>
         <a
           href=""
-          className="border-b-fylo-dark-accent-cyan text-fylo-dark-accent-cyan hover:border-b-fylo-dark-neutral group mt-3 flex w-fit gap-[6px] border-b py-[4px] lg:mt-[20px] lg:py-[3px]"
+          className="group mt-3 flex w-fit gap-[6px] border-b border-b-fylo-dark-accent-cyan py-[4px] text-fylo-dark-accent-cyan hover:border-b-fylo-dark-neutral lg:mt-[20px] lg:py-[3px]"
         >
-          <span className="group-hover:text-fylo-dark-neutral text-[12px] lg:text-[16px]">See how Fylo works</span>
+          <span className="text-[12px] group-hover:text-fylo-dark-neutral lg:text-[16px]">
+            See how Fylo works
+          </span>
           <svg
             className="w-4"
             viewBox="0 0 16 16"
@@ -163,12 +210,7 @@ function Productive() {
             xmlnsXlink="http://www.w3.org/1999/xlink"
           >
             <defs>
-              <circle
-                id="b"
-                cx="6"
-                cy="6"
-                r="6"
-              />
+              <circle id="b" cx="6" cy="6" r="6" />
               <filter
                 x="-25%"
                 y="-25%"
@@ -177,10 +219,7 @@ function Productive() {
                 filterUnits="objectBoundingBox"
                 id="a"
               >
-                <feOffset
-                  in="SourceAlpha"
-                  result="shadowOffsetOuter1"
-                />
+                <feOffset in="SourceAlpha" result="shadowOffsetOuter1" />
                 <feGaussianBlur
                   stdDeviation="1"
                   in="shadowOffsetOuter1"
@@ -192,16 +231,9 @@ function Productive() {
                 />
               </filter>
             </defs>
-            <g
-              fill="none"
-              fillRule="evenodd"
-            >
+            <g fill="none" fillRule="evenodd">
               <g transform="translate(2 2)">
-                <use
-                  fill="#000"
-                  filter="url(#a)"
-                  xlinkHref="#b"
-                />
+                <use fill="#000" filter="url(#a)" xlinkHref="#b" />
                 <use
                   className="fill-[#62E0D9] group-hover:fill-white"
                   xlinkHref="#b"
@@ -232,8 +264,12 @@ function Testimonials() {
         />
       </div>
       <div className="relative z-20 flex w-full flex-col gap-6 lg:grid lg:h-[440px] lg:grid-cols-[400px,400px] lg:grid-rows-2 lg:gap-10 min-[1280px]:h-[200px] min-[1280px]:grid-cols-3 min-[1280px]:grid-rows-1 min-[1280px]:gap-10">
-        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] lg:shadow-fylo-dark-primary-testimonial/30 h-40 w-full rounded px-5 pt-6 text-[10px] lg:h-full lg:px-[26px] lg:pt-[39px] lg:shadow-lg">
-          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+        <div className="h-40 w-full rounded bg-fylo-dark-primary-testimonial px-5 pt-6 text-[10px] text-fylo-dark-neutral/[.85] lg:h-full lg:px-[26px] lg:pt-[39px] lg:shadow-lg lg:shadow-fylo-dark-primary-testimonial/30">
+          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">
+            Fylo has improved our team productivity by an order of magnitude.
+            Since making the switch our team has become a well-oiled
+            collaboration machine.
+          </p>
           <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none lg:mt-6">
             <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
               <Image
@@ -244,13 +280,21 @@ function Testimonials() {
               />
             </div>
             <p className="flex flex-col gap-[7px] pt-[1px]">
-              <span className="text-[10px] font-bold tracking-[.5px]">Satish Patel</span>
-              <span className="text-[7px] tracking-[.5px]">Founder & CEO, Huddle</span>
+              <span className="text-[10px] font-bold tracking-[.5px]">
+                Satish Patel
+              </span>
+              <span className="text-[7px] tracking-[.5px]">
+                Founder & CEO, Huddle
+              </span>
             </p>
           </div>
         </div>
-        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] lg:shadow-fylo-dark-primary-testimonial/30 h-40 w-full rounded px-5 pt-6 text-[10px] lg:h-full lg:px-[26px] lg:pt-[39px] lg:shadow-lg">
-          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+        <div className="h-40 w-full rounded bg-fylo-dark-primary-testimonial px-5 pt-6 text-[10px] text-fylo-dark-neutral/[.85] lg:h-full lg:px-[26px] lg:pt-[39px] lg:shadow-lg lg:shadow-fylo-dark-primary-testimonial/30">
+          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">
+            Fylo has improved our team productivity by an order of magnitude.
+            Since making the switch our team has become a well-oiled
+            collaboration machine.
+          </p>
           <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none lg:mt-6">
             <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
               <Image
@@ -261,13 +305,21 @@ function Testimonials() {
               />
             </div>
             <p className="flex flex-col gap-[7px] pt-[1px]">
-              <span className="text-[10px] font-bold tracking-[.5px]">Bruce McKenzie</span>
-              <span className="text-[7px] tracking-[.5px]">Founder & CEO, Huddle</span>
+              <span className="text-[10px] font-bold tracking-[.5px]">
+                Bruce McKenzie
+              </span>
+              <span className="text-[7px] tracking-[.5px]">
+                Founder & CEO, Huddle
+              </span>
             </p>
           </div>
         </div>
-        <div className="bg-fylo-dark-primary-testimonial text-fylo-dark-neutral/[.85] lg:shadow-fylo-dark-primary-testimonial/30 h-40 w-full rounded px-5 pt-6 text-[10px] lg:col-span-2 lg:h-full lg:w-[400px] lg:place-self-center lg:px-[26px] lg:pt-[39px] lg:shadow-lg min-[1280px]:col-span-1">
-          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.</p>
+        <div className="h-40 w-full rounded bg-fylo-dark-primary-testimonial px-5 pt-6 text-[10px] text-fylo-dark-neutral/[.85] lg:col-span-2 lg:h-full lg:w-[400px] lg:place-self-center lg:px-[26px] lg:pt-[39px] lg:shadow-lg lg:shadow-fylo-dark-primary-testimonial/30 min-[1280px]:col-span-1">
+          <p className="leading-[18px] lg:text-[15px] lg:leading-[21px]">
+            Fylo has improved our team productivity by an order of magnitude.
+            Since making the switch our team has become a well-oiled
+            collaboration machine.
+          </p>
           <div className="mt-[17px] flex items-center gap-2 text-[10px] leading-none lg:mt-6">
             <div className="relative aspect-square h-6 w-6 overflow-hidden rounded-full">
               <Image
@@ -278,8 +330,12 @@ function Testimonials() {
               />
             </div>
             <p className="flex flex-col gap-[7px] pt-[1px]">
-              <span className="text-[10px] font-bold tracking-[.5px]">Iva Boyd</span>
-              <span className="text-[7px] tracking-[.5px]">Founder & CEO, Huddle</span>
+              <span className="text-[10px] font-bold tracking-[.5px]">
+                Iva Boyd
+              </span>
+              <span className="text-[7px] tracking-[.5px]">
+                Founder & CEO, Huddle
+              </span>
             </p>
           </div>
         </div>
@@ -315,22 +371,36 @@ function GetEarlyAccess() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <div className="shadow-fylo-dark-primary-footer text-fylo-dark-neutral relative z-10 mx-auto -mt-[16.1px] flex h-[353px] w-[335px] translate-y-[176.1px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] shadow-lg lg:h-[274px] lg:w-[862px] lg:translate-y-[202px] lg:pl-[77px] lg:pr-[76px] lg:pt-[40px]">
-      <h2 className="font-raleway text-center text-[18px] font-bold lg:text-[32px]">Get early access today</h2>
-      <p className="mt-[15px] text-center text-[14px] opacity-[.85] lg:mt-[17px] lg:px-6">It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.</p>
+    <div className="relative z-10 mx-auto -mt-[16.1px] flex h-[353px] w-[335px] translate-y-[176.1px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] text-fylo-dark-neutral shadow-lg shadow-fylo-dark-primary-footer lg:h-[274px] lg:w-[862px] lg:translate-y-[202px] lg:pl-[77px] lg:pr-[76px] lg:pt-[40px]">
+      <h2 className="text-center font-raleway text-[18px] font-bold lg:text-[32px]">
+        Get early access today
+      </h2>
+      <p className="mt-[15px] text-center text-[14px] opacity-[.85] lg:mt-[17px] lg:px-6">
+        It only takes a minute to sign up and our free starter tier is extremely
+        generous. If you have any questions, our support team would be happy to
+        help you.
+      </p>
       <form
         noValidate
-        className={`mt-8 grid w-full grid-cols-1 grid-rows-[repeat(2,48px)] lg:mt-[38px] lg:grid-cols-[480px,auto] lg:grid-rows-[48px] lg:gap-[29px] ${errors.email ? "relative gap-7" : "gap-6"}`}
+        className={`mt-8 grid w-full grid-cols-1 grid-rows-[repeat(2,48px)] lg:mt-[38px] lg:grid-cols-[480px,auto] lg:grid-rows-[48px] lg:gap-[29px] ${
+          errors.email ? "relative gap-7" : "gap-6"
+        }`}
         onSubmit={onSubmit}
       >
         <input
           {...register("email", { required: true })}
           type="email"
           placeholder="email@example.com"
-          className="bg-fylo-dark-neutral text-fylo-dark-primary-footer w-full rounded-full px-7 pt-1 text-[10px] placeholder:opacity-60 lg:px-[38px] lg:pt-[2px] lg:text-[12px]"
+          className="w-full rounded-full bg-fylo-dark-neutral px-7 pt-1 text-[10px] text-fylo-dark-primary-footer placeholder:opacity-60 lg:px-[38px] lg:pt-[2px] lg:text-[12px]"
         />
-        {!!errors.email && <p className="text-fylo-dark-accent-red absolute left-[38px] top-[52px] text-[10px] font-bold">{errors.email.message}</p>}
-        <button className="from-fylo-dark-accent-cyan to-fylo-dark-accent-blue text-fylo-dark-neutral font-raleway hover:to-fylo-dark-accent-cyan flex flex-col items-center justify-center rounded-full bg-gradient-to-br text-[14px] font-bold lg:pb-[2px]">Get Started For Free</button>
+        {!!errors.email && (
+          <p className="absolute left-[38px] top-[52px] text-[10px] font-bold text-fylo-dark-accent-red">
+            {errors.email.message}
+          </p>
+        )}
+        <button className="flex flex-col items-center justify-center rounded-full bg-gradient-to-br from-fylo-dark-accent-cyan to-fylo-dark-accent-blue font-raleway text-[14px] font-bold text-fylo-dark-neutral hover:to-fylo-dark-accent-cyan lg:pb-[2px]">
+          Get Started For Free
+        </button>
       </form>
     </div>
   );
@@ -338,7 +408,7 @@ function GetEarlyAccess() {
 
 function Main() {
   return (
-    <div className="bg-fylo-dark-primary-main [2790px] h-auto lg:pb-[86px]">
+    <div className="[2790px] h-auto bg-fylo-dark-primary-main lg:pb-[86px]">
       <Features />
       <Productive />
       <Testimonials />
@@ -350,7 +420,7 @@ function Main() {
 function SocialIcon() {
   return (
     <div
-      className="mt-[79px] flex gap-[11px] self-center lg:mt-0 lg:ml-auto lg:self-start"
+      className="mt-[79px] flex gap-[11px] self-center lg:ml-auto lg:mt-0 lg:self-start"
       style={
         {
           "--icon-diameter-mobile": "27px",
@@ -360,29 +430,29 @@ function SocialIcon() {
     >
       <a
         href=""
-        className="border-fylo-landing-neutral-200 hover:border-fylo-dark-accent-cyan group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border p-[6px] lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-dark-accent-cyan lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
       >
         <FontAwesomeIcon
           icon={faFacebookF}
-          className="group-hover:text-fylo-dark-accent-cyan h-full w-full"
+          className="h-full w-full group-hover:text-fylo-dark-accent-cyan"
         />
       </a>
       <a
         href=""
-        className="border-fylo-landing-neutral-200 hover:border-fylo-dark-accent-cyan group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border p-[6px] lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-dark-accent-cyan lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
       >
         <FontAwesomeIcon
           icon={faTwitter}
-          className="group-hover:text-fylo-dark-accent-cyan h-full w-full"
+          className="h-full w-full group-hover:text-fylo-dark-accent-cyan"
         />
       </a>
       <a
         href=""
-        className="border-fylo-landing-neutral-200 hover:border-fylo-dark-accent-cyan group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border p-[5.5px] lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[5.5px] hover:border-fylo-dark-accent-cyan lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
       >
         <FontAwesomeIcon
           icon={faInstagram}
-          className="group-hover:text-fylo-dark-accent-cyan h-full w-full"
+          className="h-full w-full group-hover:text-fylo-dark-accent-cyan"
         />
       </a>
     </div>
@@ -391,15 +461,18 @@ function SocialIcon() {
 
 function Footer() {
   return (
-    <footer className="bg-fylo-dark-primary-footer relative h-[1029px] px-[28px] pt-[249px] lg:h-[514px] lg:pl-[120px] lg:pr-[82px] lg:pt-[200px]">
+    <footer className="relative h-[1029px] bg-fylo-dark-primary-footer px-[28px] pt-[249px] lg:h-[514px] lg:pl-[120px] lg:pr-[82px] lg:pt-[200px]">
       <FyloLogo className="ml-[11px] h-[52px] lg:ml-0" />
       {/* Active states design
       <FyloLogo className="ml-[11px] h-[52px] lg:ml-0 lg:h-[32px]" /> */}
-      <div className="text-fylo-dark-neutral/80 mt-[40px] flex flex-col lg:mt-[32px] lg:flex-row">
+      <div className="mt-[40px] flex flex-col text-fylo-dark-neutral/80 lg:mt-[32px] lg:flex-row">
         <div className="flex w-full flex-col lg:h-[72px] lg:w-auto lg:flex-wrap">
           <p className="grid grid-cols-[20px,auto] grid-rows-1 gap-[20px] lg:mr-[min(calc(62/1440*100vw),62px)] lg:w-[min(calc(400/1440*100vw),400px)] lg:text-[16px]">
             <IconLocation />
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
+            <span>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua
+            </span>
           </p>
           <p className="mt-4 grid grid-cols-[20px,auto] grid-rows-1 items-center gap-[19px] lg:mt-0 lg:gap-[24px]">
             <IconPhone />
@@ -412,36 +485,36 @@ function Footer() {
         </div>
         <nav className="mt-[82px] lg:-mt-[1px] lg:ml-[min(calc(314/1440*100vw),314px)]">
           <ul className="flex flex-col gap-[14px]">
-            <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
+            <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">About Us</a>
             </li>
-            <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
+            <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">Jobs</a>
             </li>
-            <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
+            <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">Press</a>
             </li>
-            <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
+            <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">Blog</a>
             </li>
           </ul>
         </nav>
-        <nav className="mt-[46px] mr-8 lg:-mt-[1px] lg:ml-[min(calc(80/1440*100vw),80px)]">
+        <nav className="mr-8 mt-[46px] lg:-mt-[1px] lg:ml-[min(calc(80/1440*100vw),80px)]">
           <ul className="flex flex-col gap-[14px]">
-            <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
+            <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">Contact Us</a>
             </li>
-            <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
+            <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">Terms</a>
             </li>
-            <li className="hover:text-fylo-dark-neutral w-fit hover:font-bold hover:tracking-[-.6px]">
+            <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">Privacy</a>
             </li>
           </ul>
         </nav>
         <SocialIcon />
       </div>
-      <p className="text-fylo-dark-neutral absolute left-0 bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <p className="absolute bottom-3 left-0 w-full text-center text-[11px] text-fylo-dark-neutral [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
@@ -473,10 +546,7 @@ function IconAccessAnywhere({ className = "" }: { className?: string }) {
       className={"w-[83px]" + " " + className}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g
-        fill="none"
-        fillRule="evenodd"
-      >
+      <g fill="none" fillRule="evenodd">
         <path
           d="M2.476 53.466h71.117v-7.983H2.476v7.983zm49.237 11.977h3.943v3.529H20.413v-3.529h3.942c.656 0 1.185-.529 1.185-1.183v-8.427h24.988v8.427c0 .654.53 1.183 1.185 1.183zM2.476 43.116h71.117V2.95H2.476v40.165zM1.29.585C.635.585.105 1.114.105 1.768V54.65c0 .655.53 1.184 1.185 1.184h21.88v7.243h-3.943c-.655 0-1.185.532-1.185 1.184v5.895c0 .652.53 1.184 1.185 1.184h37.615c.654 0 1.185-.532 1.185-1.184V64.26c0-.652-.531-1.184-1.185-1.184h-3.944v-7.243h21.88c.655 0 1.186-.53 1.186-1.184V1.77c0-.655-.531-1.184-1.185-1.184H1.29z"
           fill="#62E0D9"
@@ -485,10 +555,7 @@ function IconAccessAnywhere({ className = "" }: { className?: string }) {
           d="M36.412 47.92c-.654 0-1.185.53-1.185 1.184a1.185 1.185 0 0 0 2.37 0c0-.653-.531-1.184-1.185-1.184"
           fill="#62E0D9"
         />
-        <g
-          transform="translate(55.377 23.07)"
-          stroke="#62E0D9"
-        >
+        <g transform="translate(55.377 23.07)" stroke="#62E0D9">
           <rect
             strokeWidth="1.641"
             fill="#181F2B"
@@ -533,12 +600,7 @@ function IconSecurity({ className }: { className?: string }) {
       className={"h-[68px]" + " " + className}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g
-        stroke="#62E0D9"
-        strokeWidth="3.064"
-        fill="none"
-        fillRule="evenodd"
-      >
+      <g stroke="#62E0D9" strokeWidth="3.064" fill="none" fillRule="evenodd">
         <path d="M43.703 35.501l-12.23 12.474-8.999-9.177-4.499 4.589 13.497 13.766L52.08 36.137l-4.5-4.589z" />
         <path d="M56.916 9.85c-5.342 0-10.653-1.136-15.482-3.484-2.313-1.113-4.679-2.533-6.724-4.302-2.045 1.769-4.411 3.189-6.725 4.302C23.157 8.714 17.847 9.85 12.504 9.85H1.914v40.59c0 7.11 2.817 13.945 7.827 18.893 7.356 7.25 24.97 16.674 24.97 16.674s17.612-9.424 24.968-16.674c5.01-4.948 7.827-11.784 7.827-18.893V9.85h-10.59z" />
         <path d="M58.94 24.532v26.249c0 4.742-1.903 9.34-5.219 12.615-4.612 4.547-15.127 10.77-19.01 13-3.886-2.233-14.41-8.463-19.017-13.004-3.314-3.272-5.214-7.869-5.214-12.611V18.927h2.024c6.707 0 13.334-1.499 19.167-4.333a44.31 44.31 0 0 0 3.04-1.61c.972.565 2 1.11 3.064 1.623 5.814 2.826 12.434 4.32 19.141 4.32h2.024v5.605z" />
@@ -592,10 +654,7 @@ function IconAnyFile({ className }: { className?: string }) {
       className={"h-[51px]" + " " + className}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g
-        fill="none"
-        fillRule="evenodd"
-      >
+      <g fill="none" fillRule="evenodd">
         <path
           d="M85.588 59C88.025 59 90 57.144 90 54.853V9.236c0-1.526-1.318-2.764-2.941-2.764L85.589 59zM15 12.048v40.047C15 55.908 18.098 59 21.92 59h63.668a4.147 4.147 0 0 1-4.152-4.143V3.762A2.766 2.766 0 0 0 78.668 1h-16.61l-5.536 8.286H17.768A2.766 2.766 0 0 0 15 12.048z"
           stroke="#62E0D9"
@@ -658,7 +717,7 @@ function IconPhone() {
   return (
     <svg
       viewBox="0 0 18 18"
-      className="ml-[3px] mb-[2px] w-[13px] lg:ml-0 lg:mt-[3px] lg:w-[18px]"
+      className="mb-[2px] ml-[3px] w-[13px] lg:ml-0 lg:mt-[3px] lg:w-[18px]"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -677,10 +736,7 @@ function IconEmail() {
       className="ml-[2px] mt-[3px] w-5 lg:ml-0"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g
-        fill="none"
-        fillRule="evenodd"
-      >
+      <g fill="none" fillRule="evenodd">
         <path d="M-2-4h24v24H-2z" />
         <path
           d="M18 0H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm0 14h-2V5.2L10 9 4 5.2V14H2V2h1.2L10 6.2 16.8 2H18v12z"

@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { createContext, useContext, useEffect, useState } from "react";
 import Image from "next/image";
+import { inter } from "../utils/fonts/inter";
 
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 type Theme = "dark" | "light";
 
@@ -83,7 +84,10 @@ const data: Record<TSocialMedia, SocialMediaData> = {
   },
 };
 
-const ThemeContext = createContext<ThemeContext>({ theme: "light", update: () => {} });
+const ThemeContext = createContext<ThemeContext>({
+  theme: "light",
+  update: () => {},
+});
 const ThemeProvider = ThemeContext.Provider;
 
 function useThemeContext() {
@@ -99,7 +103,11 @@ const SocialDashboard = () => {
   };
 
   useEffect(() => {
-    if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       if (theme === "light") setTheme("dark");
       document.documentElement.classList.add("dark");
     } else {
@@ -109,9 +117,13 @@ const SocialDashboard = () => {
 
   return (
     <ThemeProvider value={{ theme, update: toggle }}>
-      <div className="App font-inter bg-social-neutral-light-100 dark:bg-social-neutral-dark-500 relative">
+      <div
+        className={`App relative bg-social-neutral-light-100 font-inter dark:bg-social-neutral-dark-500 ${inter.variable}`}
+      >
         <Head>
-          <title>Frontend Mentor | Social media dashboard with theme switcher</title>
+          <title>
+            Frontend Mentor | Social media dashboard with theme switcher
+          </title>
         </Head>
         <Header />
         <Main />
@@ -136,26 +148,32 @@ function Header() {
     setTotalFollowers(
       Array.from(Object.values(data))
         .reduce((acc, curr) => acc + curr.followers, 0)
-        .toLocaleString()
+        .toLocaleString(),
     );
   }, []);
 
   return (
-    <div className="bg-social-neutral-light-200 dark:bg-social-neutral-dark-400 rounded-b-[20px] px-6 pb-[84px] pt-[33px] lg:flex lg:items-center lg:justify-between lg:pb-[152px] lg:pl-[162px] lg:pr-[165px] lg:pt-[34px]">
+    <div className="rounded-b-[20px] bg-social-neutral-light-200 px-6 pb-[84px] pt-[33px] dark:bg-social-neutral-dark-400 lg:flex lg:items-center lg:justify-between lg:pb-[152px] lg:pl-[162px] lg:pr-[165px] lg:pt-[34px]">
       <div>
-        <h1 className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-[34px] lg:text-[28px] lg:leading-[37px]">Social Media Dashboard</h1>
-        <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold tracking-[0.25px]">Total Followers: {totalFollowers}</p>
+        <h1 className="text-[24px] font-bold leading-[34px] text-social-neutral-light-500 dark:text-social-neutral-dark-100 lg:text-[28px] lg:leading-[37px]">
+          Social Media Dashboard
+        </h1>
+        <p className="text-[14px] font-bold tracking-[0.25px] text-social-neutral-light-400 dark:text-social-neutral-dark-200">
+          Total Followers: {totalFollowers}
+        </p>
       </div>
-      <hr className="border-t-social-neutral-light-400 dark:border-t-social-neutral-dark-200/30 mt-[22px] lg:hidden" />
+      <hr className="mt-[22px] border-t-social-neutral-light-400 dark:border-t-social-neutral-dark-200/30 lg:hidden" />
       <div className="mt-[16px] flex justify-between lg:mb-1 lg:mt-0 lg:gap-[14px]">
-        <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold lg:leading-[22px] lg:opacity-75">Dark Mode</p>
+        <p className="text-[14px] font-bold text-social-neutral-light-400 dark:text-social-neutral-dark-200 lg:leading-[22px] lg:opacity-75">
+          Dark Mode
+        </p>
         <button
-          className="bg-social-toggle-light dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green flex h-[24px] w-[48px] items-center justify-end rounded-full bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start lg:pr-[3px]"
+          className="flex h-[24px] w-[48px] items-center justify-end rounded-full bg-social-toggle-light bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green lg:pr-[3px]"
           onClick={() => {
             update();
           }}
         >
-          <span className="bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 aspect-square h-[18px] rounded-full" />
+          <span className="aspect-square h-[18px] rounded-full bg-social-neutral-light-300 dark:bg-social-neutral-dark-300" />
         </button>
       </div>
     </div>
@@ -167,7 +185,8 @@ function Card({ socialMedia }: { socialMedia: TSocialMedia }) {
     accentColor: {
       facebook: "bg-social-primary-facebook",
       twitter: "bg-social-primary-twitter",
-      instagram: "bg-gradient-to-r from-social-primary-instagram-yellow to-social-primary-instagram-pink",
+      instagram:
+        "bg-gradient-to-r from-social-primary-instagram-yellow to-social-primary-instagram-pink",
       youtube: "bg-social-primary-youtube",
     },
   };
@@ -175,8 +194,10 @@ function Card({ socialMedia }: { socialMedia: TSocialMedia }) {
   const [followers] = useState(data[socialMedia].statistics.followers);
 
   return (
-    <div className="bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 relative h-[216px] w-full overflow-hidden rounded-md">
-      <div className={`${styles.accentColor[socialMedia]} absolute top-0 h-1 w-full`} />
+    <div className="relative h-[216px] w-full overflow-hidden rounded-md bg-social-neutral-light-300 dark:bg-social-neutral-dark-300">
+      <div
+        className={`${styles.accentColor[socialMedia]} absolute top-0 h-1 w-full`}
+      />
       <div className="flex flex-col items-center pt-[32px]">
         <div className="flex items-center justify-center gap-2">
           <div className="relative aspect-square w-5">
@@ -187,24 +208,42 @@ function Card({ socialMedia }: { socialMedia: TSocialMedia }) {
               alt={`${socialMedia}'s icon`}
             />
           </div>
-          <p className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[12px] font-bold">{data[socialMedia].username}</p>
+          <p className="text-[12px] font-bold text-social-neutral-light-400 dark:text-social-neutral-dark-200">
+            {data[socialMedia].username}
+          </p>
         </div>
         <p className="mt-[24px] flex flex-col items-center">
-          <span className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[56px] font-bold leading-none tracking-[-2px]">{data[socialMedia].followers < 10000 ? data[socialMedia].followers : String(Math.floor(data[socialMedia].followers / 1000)) + "k"}</span>
-          <span className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 mt-[3px] text-[12px] uppercase tracking-[4.9px]">{socialMedia === "youtube" ? "Subscribers" : "Followers"}</span>
+          <span className="text-[56px] font-bold leading-none tracking-[-2px] text-social-neutral-light-500 dark:text-social-neutral-dark-100">
+            {data[socialMedia].followers < 10000
+              ? data[socialMedia].followers
+              : String(Math.floor(data[socialMedia].followers / 1000)) + "k"}
+          </span>
+          <span className="mt-[3px] text-[12px] uppercase tracking-[4.9px] text-social-neutral-light-400 dark:text-social-neutral-dark-200">
+            {socialMedia === "youtube" ? "Subscribers" : "Followers"}
+          </span>
         </p>
         <div className="mt-[25px] flex items-center justify-center gap-1">
           {followers !== 0 ? (
             <div className="relative aspect-[2/1] w-2">
               <Image
-                src={`/social-media-dashboard-with-theme-switcher/images/icon-${followers > 0 ? "up" : "down"}.svg`}
+                src={`/social-media-dashboard-with-theme-switcher/images/icon-${
+                  followers > 0 ? "up" : "down"
+                }.svg`}
                 alt={`${followers > 0 ? "Up" : "Down"} Icon`}
                 fill
                 className="object-contain"
               />
             </div>
           ) : null}
-          <p className={`${followers === 0 ? "text-social-neutral-light-400" : followers > 0 ? "text-social-primary-green" : "text-social-primary-red"} text-[12px] font-bold leading-none`}>{`${Math.abs(followers)} Today`}</p>
+          <p
+            className={`${
+              followers === 0
+                ? "text-social-neutral-light-400"
+                : followers > 0
+                ? "text-social-primary-green"
+                : "text-social-primary-red"
+            } text-[12px] font-bold leading-none`}
+          >{`${Math.abs(followers)} Today`}</p>
         </div>
       </div>
     </div>
@@ -220,13 +259,15 @@ function SummaryCard({
     {
       display: string;
       value: number;
-    }
+    },
   ];
   socialMedia: TSocialMedia;
 }) {
   return (
-    <div className="summary-card bg-social-neutral-light-300 dark:bg-social-neutral-dark-300 grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md pb-[25px] pl-6 pr-[31px] pt-[26px] lg:flex-1">
-      <div className="text-social-neutral-light-400 dark:text-social-neutral-dark-200 text-[14px] font-bold leading-[18px]">{summary[1].display}</div>
+    <div className="summary-card grid h-[125px] grid-cols-2 grid-rows-2 place-content-between content-between justify-between rounded-md bg-social-neutral-light-300 pb-[25px] pl-6 pr-[31px] pt-[26px] dark:bg-social-neutral-dark-300 lg:flex-1">
+      <div className="text-[14px] font-bold leading-[18px] text-social-neutral-light-400 dark:text-social-neutral-dark-200">
+        {summary[1].display}
+      </div>
       <div className="relative aspect-square w-5 justify-self-end">
         <Image
           fill
@@ -235,19 +276,35 @@ function SummaryCard({
           alt={`${socialMedia}'s icon`}
         />
       </div>
-      <div className="text-social-neutral-light-500 dark:text-social-neutral-dark-100 text-[32px] font-bold">{data[socialMedia][summary[0]] < 10000 ? data[socialMedia][summary[0]] : String(Math.floor(data[socialMedia][summary[0]] / 1000)) + "k"}</div>
+      <div className="text-[32px] font-bold text-social-neutral-light-500 dark:text-social-neutral-dark-100">
+        {data[socialMedia][summary[0]] < 10000
+          ? data[socialMedia][summary[0]]
+          : String(Math.floor(data[socialMedia][summary[0]] / 1000)) + "k"}
+      </div>
       <div className="flex gap-[3px] self-end justify-self-end">
         {summary[1].value !== 0 ? (
           <div className="relative aspect-[2/1] w-2">
             <Image
-              src={`/social-media-dashboard-with-theme-switcher/images/icon-${summary[1].value > 0 ? "up" : "down"}.svg`}
+              src={`/social-media-dashboard-with-theme-switcher/images/icon-${
+                summary[1].value > 0 ? "up" : "down"
+              }.svg`}
               alt={`${summary[1].value > 0 ? "Up" : "Down"} Icon`}
               fill
               className="object-contain"
             />
           </div>
         ) : null}
-        <div className={`text-[12px] font-bold leading-none ${summary[1].value === 0 ? "text-social-neutral-light-400" : summary[1].value > 0 ? "text-social-primary-green" : "text-social-primary-red"}`}>{Math.abs(summary[1].value)}%</div>
+        <div
+          className={`text-[12px] font-bold leading-none ${
+            summary[1].value === 0
+              ? "text-social-neutral-light-400"
+              : summary[1].value > 0
+              ? "text-social-primary-green"
+              : "text-social-primary-red"
+          }`}
+        >
+          {Math.abs(summary[1].value)}%
+        </div>
       </div>
     </div>
   );
@@ -257,12 +314,7 @@ function FollowersSection() {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:gap-[30px]">
       {Array.from(Object.keys(data)).map((el, index) => {
-        return (
-          <Card
-            socialMedia={el as TSocialMedia}
-            key={index}
-          />
-        );
+        return <Card socialMedia={el as TSocialMedia} key={index} />;
       })}
     </div>
   );
@@ -282,7 +334,9 @@ function SummarySection() {
 
   return (
     <div className="mt-[48px] lg:mt-[49px]">
-      <h2 className="text-social-neutral-light-400 dark:text-social-neutral-dark-100 text-[24px] font-bold leading-none">Overview - Today</h2>
+      <h2 className="text-[24px] font-bold leading-none text-social-neutral-light-400 dark:text-social-neutral-dark-100">
+        Overview - Today
+      </h2>
       <div className="mt-[30px] flex flex-col gap-4 lg:mt-[26px] lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[30px] lg:gap-y-6">
         {summaries &&
           summaries.map((sum) => {
@@ -290,17 +344,23 @@ function SummarySection() {
               return (
                 <div
                   key={idx}
-                  className={`flex ${["instagram", "youtube"].includes(el[0]) ? "flex-col-reverse lg:flex-row-reverse" : "flex-col lg:flex-row"}  gap-4 lg:gap-[30px]`}
+                  className={`flex ${
+                    ["instagram", "youtube"].includes(el[0])
+                      ? "flex-col-reverse lg:flex-row-reverse"
+                      : "flex-col lg:flex-row"
+                  }  gap-4 lg:gap-[30px]`}
                 >
-                  {(Object.entries(el[1]) as Entries<(typeof el)[1]>).map((el2, index) => {
-                    return (
-                      <SummaryCard
-                        key={index}
-                        summary={el2}
-                        socialMedia={el[0] as TSocialMedia}
-                      />
-                    );
-                  })}
+                  {(Object.entries(el[1]) as Entries<(typeof el)[1]>).map(
+                    (el2, index) => {
+                      return (
+                        <SummaryCard
+                          key={index}
+                          summary={el2}
+                          socialMedia={el[0] as TSocialMedia}
+                        />
+                      );
+                    },
+                  )}
                 </div>
               );
             });
@@ -321,7 +381,7 @@ function Main() {
 
 function Footer() {
   return (
-    <div className="text-social-neutral-light-500 dark:text-social-neutral-dark-200 [&_a]:decoration-social-primary-red absolute bottom-3 left-0 w-full text-center text-[11px] [&_a:hover]:text-white [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-wavy">
+    <div className="absolute bottom-3 left-0 w-full text-center text-[11px] text-social-neutral-light-500 dark:text-social-neutral-dark-200 [&_a:hover]:text-white [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-social-primary-red [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         rel="noreferrer"
@@ -331,11 +391,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .
