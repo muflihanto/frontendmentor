@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import { DM_Sans, Fraunces } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 
 /* -------------------------------------------------------------------------- */
 /*                                Google Fonts                                */
@@ -43,17 +43,17 @@ const _spaceMono = localFont({
 const _barlow = localFont({
   src: [
     {
-      path: "/sunnyside-agency-landing-page/fonts/Barlow-Regular.ttf",
+      path: "../public/sunnyside-agency-landing-page/fonts/Barlow-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/sunnyside-agency-landing-page/fonts/Barlow-Medium.ttf",
+      path: "../public/sunnyside-agency-landing-page/fonts/Barlow-Medium.ttf",
       style: "normal",
       weight: "500",
     },
     {
-      path: "/sunnyside-agency-landing-page/fonts/Barlow-SemiBold.ttf",
+      path: "../public/sunnyside-agency-landing-page/fonts/Barlow-SemiBold.ttf",
       style: "normal",
       weight: "600",
     },
@@ -62,31 +62,25 @@ const _barlow = localFont({
 });
 
 const _fraunces = localFont({
-  src: "/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf",
+  src: "../public/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf",
   style: "normal",
   variable: "--font-fraunces",
 });
 
-// const _fraunces = Fraunces({
-//   subsets: ["latin"],
-//   weight: ["700", "900"],
-//   variable: "--font-fraunces",
-// });
-
 const _ubuntu = localFont({
   src: [
     {
-      path: "/blogr-landing-page/fonts/Ubuntu-Regular.ttf",
+      path: "../public/blogr-landing-page/fonts/Ubuntu-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/blogr-landing-page/fonts/Ubuntu-Medium.ttf",
+      path: "../public/blogr-landing-page/fonts/Ubuntu-Medium.ttf",
       style: "normal",
       weight: "500",
     },
     {
-      path: "/blogr-landing-page/fonts/Ubuntu-Bold.ttf",
+      path: "../public/blogr-landing-page/fonts/Ubuntu-Bold.ttf",
       style: "normal",
       weight: "700",
     },
@@ -95,7 +89,7 @@ const _ubuntu = localFont({
 });
 
 const _overpass = localFont({
-  src: "/blogr-landing-page/fonts/Overpass-VariableFont_wght.ttf",
+  src: "../public/blogr-landing-page/fonts/Overpass-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-overpass",
 });
@@ -103,27 +97,27 @@ const _overpass = localFont({
 const _barlowSemiCondensed = localFont({
   src: [
     {
-      path: "/testimonials-grid-section/fonts/BarlowSemiCondensed-Regular.ttf",
+      path: "../public/testimonials-grid-section/fonts/BarlowSemiCondensed-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/testimonials-grid-section/fonts/BarlowSemiCondensed-Medium.ttf",
+      path: "../public/testimonials-grid-section/fonts/BarlowSemiCondensed-Medium.ttf",
       style: "normal",
       weight: "500",
     },
     {
-      path: "/testimonials-grid-section/fonts/BarlowSemiCondensed-SemiBold.ttf",
+      path: "../public/testimonials-grid-section/fonts/BarlowSemiCondensed-SemiBold.ttf",
       style: "normal",
       weight: "600",
     },
     {
-      path: "/testimonials-grid-section/fonts/BarlowSemiCondensed-MediumItalic.ttf",
+      path: "../public/testimonials-grid-section/fonts/BarlowSemiCondensed-MediumItalic.ttf",
       style: "italic",
       weight: "500",
     },
     {
-      path: "/testimonials-grid-section/fonts/BarlowSemiCondensed-SemiBoldItalic.ttf",
+      path: "../public/testimonials-grid-section/fonts/BarlowSemiCondensed-SemiBoldItalic.ttf",
       style: "italic",
       weight: "600",
     },
@@ -132,7 +126,7 @@ const _barlowSemiCondensed = localFont({
 });
 
 const _commissioner = localFont({
-  src: "/crowdfunding-product-page/fonts/Commissioner-VariableFont_wght.ttf",
+  src: "../public/crowdfunding-product-page/fonts/Commissioner-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-commissioner",
 });
@@ -140,22 +134,22 @@ const _commissioner = localFont({
 const _josefin = localFont({
   src: [
     {
-      path: "/loopstudios-landing-page/fonts/JosefinSans-Light.ttf",
+      path: "../public/loopstudios-landing-page/fonts/JosefinSans-Light.ttf",
       style: "normal",
       weight: "300",
     },
     {
-      path: "/base-apparel-coming-soon/fonts/JosefinSans-Regular.ttf",
+      path: "../public/base-apparel-coming-soon/fonts/JosefinSans-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/base-apparel-coming-soon/fonts/JosefinSans-SemiBold.ttf",
+      path: "../public/base-apparel-coming-soon/fonts/JosefinSans-SemiBold.ttf",
       style: "normal",
       weight: "600",
     },
     {
-      path: "/todo-app/fonts/JosefinSans-Bold.ttf",
+      path: "../public/todo-app/fonts/JosefinSans-Bold.ttf",
       style: "normal",
       weight: "700",
     },
@@ -164,14 +158,14 @@ const _josefin = localFont({
 });
 
 const _alata = localFont({
-  src: "/loopstudios-landing-page/fonts/Alata-Regular.ttf",
+  src: "../public/loopstudios-landing-page/fonts/Alata-Regular.ttf",
   style: "normal",
   weight: "400",
   variable: "--font-alata",
 });
 
 const _openSans = localFont({
-  src: "/huddle-landing-page-with-curved-sections/fonts/OpenSans-VariableFont_wdth,wght.ttf",
+  src: "../public/huddle-landing-page-with-curved-sections/fonts/OpenSans-VariableFont_wdth,wght.ttf",
   style: "normal",
   variable: "--font-open-sans",
 });
@@ -179,47 +173,47 @@ const _openSans = localFont({
 const _poppins = localFont({
   src: [
     {
-      path: "/huddle-landing-page-with-curved-sections/fonts/Poppins-ExtraLight.ttf",
+      path: "../public/huddle-landing-page-with-curved-sections/fonts/Poppins-ExtraLight.ttf",
       style: "normal",
       weight: "200",
     },
     {
-      path: "/huddle-landing-page-with-curved-sections/fonts/Poppins-Regular.ttf",
+      path: "../public/huddle-landing-page-with-curved-sections/fonts/Poppins-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/age-calculator-app/assets/fonts/Poppins-Italic.ttf",
+      path: "../public/age-calculator-app/assets/fonts/Poppins-Italic.ttf",
       style: "italic",
       weight: "400",
     },
     {
-      path: "/huddle-landing-page-with-curved-sections/fonts/Poppins-Medium.ttf",
+      path: "../public/huddle-landing-page-with-curved-sections/fonts/Poppins-Medium.ttf",
       style: "normal",
       weight: "500",
     },
     {
-      path: "/huddle-landing-page-with-curved-sections/fonts/Poppins-SemiBold.ttf",
+      path: "../public/huddle-landing-page-with-curved-sections/fonts/Poppins-SemiBold.ttf",
       style: "normal",
       weight: "600",
     },
     {
-      path: "/huddle-landing-page-with-curved-sections/fonts/Poppins-Bold.ttf",
+      path: "../public/huddle-landing-page-with-curved-sections/fonts/Poppins-Bold.ttf",
       style: "normal",
       weight: "700",
     },
     {
-      path: "/age-calculator-app/assets/fonts/Poppins-BoldItalic.ttf",
+      path: "../public/age-calculator-app/assets/fonts/Poppins-BoldItalic.ttf",
       style: "italic",
       weight: "700",
     },
     {
-      path: "/age-calculator-app/assets/fonts/Poppins-ExtraBold.ttf",
+      path: "../public/age-calculator-app/assets/fonts/Poppins-ExtraBold.ttf",
       style: "normal",
       weight: "800",
     },
     {
-      path: "/age-calculator-app/assets/fonts/Poppins-ExtraBoldItalic.ttf",
+      path: "../public/age-calculator-app/assets/fonts/Poppins-ExtraBoldItalic.ttf",
       style: "italic",
       weight: "800",
     },
@@ -228,26 +222,26 @@ const _poppins = localFont({
 });
 
 const _inter = localFont({
-  src: "/coding-bootcamp-testimonials-slider/fonts/Inter-VariableFont.ttf",
+  src: "../public/coding-bootcamp-testimonials-slider/fonts/Inter-VariableFont.ttf",
   style: "normal",
   variable: "--font-inter",
 });
 
 const _karla = localFont({
-  src: "/insure-landing-page/fonts/Karla-VariableFont_wght.ttf",
+  src: "../public/insure-landing-page/fonts/Karla-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-karla",
 });
 
 const _dmSerifDisplay = localFont({
-  src: "/insure-landing-page/fonts/DMSerifDisplay-Regular.ttf",
+  src: "../public/insure-landing-page/fonts/DMSerifDisplay-Regular.ttf",
   style: "normal",
   weight: "400",
   variable: "--font-dm-serif-display",
 });
 
 const _montserrat = localFont({
-  src: "/pricing-component-with-toggle/fonts/Montserrat-VariableFont_wght.ttf",
+  src: "../public/pricing-component-with-toggle/fonts/Montserrat-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-montserrat",
 });
@@ -255,12 +249,12 @@ const _montserrat = localFont({
 const _barlowCondensed = localFont({
   src: [
     {
-      path: "/project-tracking-intro-component/fonts/BarlowCondensed-Regular.ttf",
+      path: "../public/project-tracking-intro-component/fonts/BarlowCondensed-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/project-tracking-intro-component/fonts/BarlowCondensed-Bold.ttf",
+      path: "../public/project-tracking-intro-component/fonts/BarlowCondensed-Bold.ttf",
       style: "normal",
       weight: "700",
     },
@@ -269,57 +263,57 @@ const _barlowCondensed = localFont({
 });
 
 const _outfit = localFont({
-  src: "/qr-code-component/fonts/Outfit-VariableFont_wght.ttf",
+  src: "../public/qr-code-component/fonts/Outfit-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-outfit",
 });
 
 const _redHatDisplay = localFont({
-  src: "/order-summary-component/fonts/RedHatDisplay-VariableFont_wght.ttf",
+  src: "../public/order-summary-component/fonts/RedHatDisplay-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-red-hat-display",
 });
 
 const _lexendDeca = localFont({
-  src: "/stats-preview-card-component/fonts/LexendDeca-VariableFont_wght.ttf",
+  src: "../public/stats-preview-card-component/fonts/LexendDeca-VariableFont_wght.ttf",
   weight: "400",
   style: "normal",
   variable: "--font-lexend-deca",
 });
 
 const _bigShouldersDisplay = localFont({
-  src: "/3-column-preview-card-component/fonts/BigShouldersDisplay-VariableFont_wght.ttf",
+  src: "../public/3-column-preview-card-component/fonts/BigShouldersDisplay-VariableFont_wght.ttf",
   weight: "700",
   style: "normal",
   variable: "--font-big-shoulders-display",
 });
 
 const _kumbhSans = localFont({
-  src: "/profile-card-component/fonts/KumbhSans-VariableFont_YOPQ,wght.ttf",
+  src: "../public/profile-card-component/fonts/KumbhSans-VariableFont_YOPQ,wght.ttf",
   style: "normal",
   variable: "--font-kumbh-sans",
 });
 
 const _leagueSpartan = localFont({
-  src: "/social-proof-section/fonts/LeagueSpartan-VariableFont_wght.ttf",
+  src: "../public/social-proof-section/fonts/LeagueSpartan-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-league-spartan",
 });
 
 const _libreFranklin = localFont({
-  src: "/ping-coming-soon-page/fonts/LibreFranklin-VariableFont_wght.ttf",
+  src: "../public/ping-coming-soon-page/fonts/LibreFranklin-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-libre-franklin",
 });
 
 const _spaceGrotesk = localFont({
-  src: "/interactive-card-details-form/fonts/SpaceGrotesk-VariableFont_wght.ttf",
+  src: "../public/interactive-card-details-form/fonts/SpaceGrotesk-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-space-grotesk",
 });
 
 const _raleway = localFont({
-  src: "/fylo-data-storage-component/fonts/Raleway-VariableFont_wght.ttf",
+  src: "../public/fylo-data-storage-component/fonts/Raleway-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-raleway",
 });
@@ -327,12 +321,12 @@ const _raleway = localFont({
 const _baiJamjuree = localFont({
   src: [
     {
-      path: "/clipboard-landing-page/fonts/BaiJamjuree-Regular.ttf",
+      path: "../public/clipboard-landing-page/fonts/BaiJamjuree-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/clipboard-landing-page/fonts/BaiJamjuree-SemiBold.ttf",
+      path: "../public/clipboard-landing-page/fonts/BaiJamjuree-SemiBold.ttf",
       style: "normal",
       weight: "600",
     },
@@ -341,13 +335,13 @@ const _baiJamjuree = localFont({
 });
 
 const _hankenGrotesk = localFont({
-  src: "/results-summary-component/assets/fonts/HankenGrotesk-VariableFont_wght.ttf",
+  src: "../public/results-summary-component/assets/fonts/HankenGrotesk-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-hanken-grotesk",
 });
 
 const _redHatText = localFont({
-  src: "/launch-countdown-timer/fonts/RedHatText-VariableFont_wght.ttf",
+  src: "../public/launch-countdown-timer/fonts/RedHatText-VariableFont_wght.ttf",
   weight: "700",
   style: "normal",
   variable: "--font-red-hat-text",
@@ -356,12 +350,12 @@ const _redHatText = localFont({
 const _roboto = localFont({
   src: [
     {
-      path: "/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Regular.ttf",
+      path: "../public/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Bold.ttf",
+      path: "../public/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Bold.ttf",
       style: "normal",
       weight: "700",
     },
@@ -370,7 +364,7 @@ const _roboto = localFont({
 });
 
 const _publicSans = localFont({
-  src: "/easybank-landing-page/fonts/PublicSans-VariableFont_wght.ttf",
+  src: "../public/easybank-landing-page/fonts/PublicSans-VariableFont_wght.ttf",
   style: "normal",
   variable: "--font-public",
 });
@@ -378,22 +372,22 @@ const _publicSans = localFont({
 const _beVietnam = localFont({
   src: [
     {
-      path: "/manage-landing-page/fonts/BeVietnam-Light.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnam-Light.ttf",
       style: "normal",
       weight: "300",
     },
     {
-      path: "/manage-landing-page/fonts/BeVietnam-Regular.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnam-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/manage-landing-page/fonts/BeVietnam-Medium.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnam-Medium.ttf",
       style: "normal",
       weight: "500",
     },
     {
-      path: "/manage-landing-page/fonts/BeVietnam-Bold.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnam-Bold.ttf",
       style: "normal",
       weight: "700",
     },
@@ -404,22 +398,22 @@ const _beVietnam = localFont({
 const _beVietnamPro = localFont({
   src: [
     {
-      path: "/manage-landing-page/fonts/BeVietnamPro-Light.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnamPro-Light.ttf",
       style: "normal",
       weight: "300",
     },
     {
-      path: "/manage-landing-page/fonts/BeVietnamPro-Regular.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnamPro-Regular.ttf",
       style: "normal",
       weight: "400",
     },
     {
-      path: "/manage-landing-page/fonts/BeVietnamPro-Medium.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnamPro-Medium.ttf",
       style: "normal",
       weight: "500",
     },
     {
-      path: "/manage-landing-page/fonts/BeVietnamPro-Bold.ttf",
+      path: "../public/manage-landing-page/fonts/BeVietnamPro-Bold.ttf",
       style: "normal",
       weight: "700",
     },
@@ -428,14 +422,14 @@ const _beVietnamPro = localFont({
 });
 
 const _bellefair = localFont({
-  src: "/space-tourism-website/assets/fonts/Bellefair-Regular.ttf",
+  src: "../public/space-tourism-website/assets/fonts/Bellefair-Regular.ttf",
   weight: "400",
   style: "normal",
   variable: "--font-bellefair",
 });
 
 const _nunitoSans = localFont({
-  src: "/rest-countries-api-with-color-theme-switcher/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf",
+  src: "../public/rest-countries-api-with-color-theme-switcher/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf",
   style: "normal",
   variable: "--font-nunito-sans",
 });

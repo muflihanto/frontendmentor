@@ -1,14 +1,13 @@
-import { useMemo, useEffect, useState, createContext, useRef } from "react";
+import { useMemo, useEffect, useState } from "react";
 import Header from "./Header";
 import Notification from "./Notification";
-import { plusJakartaSansVar } from "../../utils/fontLoader";
-
-export const FontContext = createContext("");
 
 export default function Main() {
-  const [notificationData, setNotificationData] = useState<typeof notifications>([]);
+  const [notificationData, setNotificationData] = useState<
+    typeof notifications
+  >([]);
   const [count, setCount] = useState(0);
-  const font = useRef(`${plusJakartaSansVar} font-plus-jakarta`);
+
   useEffect(() => {
     setNotificationData(notifications);
   }, []);
@@ -18,33 +17,28 @@ export default function Main() {
     }
   }, [notificationData]);
   const markAsRead = () => {
-    const marked = notificationData.map((notif) => ({ ...notif, isNew: false }));
+    const marked = notificationData.map((notif) => ({
+      ...notif,
+      isNew: false,
+    }));
     setNotificationData(marked);
   };
 
   const notificationElement = useMemo(() => {
     if (notificationData) {
       return notificationData.map((notif, index) => {
-        return (
-          <Notification
-            key={index}
-            {...notif}
-          />
-        );
+        return <Notification key={index} {...notif} />;
       });
     }
   }, [notificationData]);
 
   return (
-    <FontContext.Provider value={font.current}>
-      <main className={`${font.current} md:bg-notif-neutral-100 px-4 font-medium md:mx-auto md:max-w-[730px] md:rounded-xl md:px-[30px] md:py-[9px] md:shadow-[0px_0px_30px_2px_rgba(0,0,0,.03)]`}>
-        <Header
-          notifCount={count}
-          markAsRead={markAsRead}
-        />
-        <div className="notifications md:mt-5">{notificationElement}</div>
-      </main>
-    </FontContext.Provider>
+    // <FontContext.Provider value={plusJakartaSans}>
+    <main className="px-4 font-medium md:mx-auto md:max-w-[730px] md:rounded-xl md:bg-notif-neutral-100 md:px-[30px] md:py-[9px] md:shadow-[0px_0px_30px_2px_rgba(0,0,0,.03)]">
+      <Header notifCount={count} markAsRead={markAsRead} />
+      <div className="notifications md:mt-5">{notificationElement}</div>
+    </main>
+    // </FontContext.Provider>
   );
 }
 
@@ -77,7 +71,8 @@ const notifications = [
   },
   {
     subject: "Jacob Thompson",
-    subjectAvatar: "/notifications-page/assets/images/avatar-jacob-thompson.webp",
+    subjectAvatar:
+      "/notifications-page/assets/images/avatar-jacob-thompson.webp",
     subjectUrl: "",
     actionType: "has joined your group",
     object: {
@@ -90,12 +85,14 @@ const notifications = [
   },
   {
     subject: "Rizky Hasanuddin",
-    subjectAvatar: "/notifications-page/assets/images/avatar-rizky-hasanuddin.webp",
+    subjectAvatar:
+      "/notifications-page/assets/images/avatar-rizky-hasanuddin.webp",
     subjectUrl: "",
     actionType: "sent you a private message",
     object: {
       type: "message",
-      content: "Hello, thanks for setting up the Chess Club. I've been a member for a few weeks now and I'm already having lots of fun and improving my game.",
+      content:
+        "Hello, thanks for setting up the Chess Club. I've been a member for a few weeks now and I'm already having lots of fun and improving my game.",
       url: "",
     },
     time: "5 days ago",
@@ -103,7 +100,8 @@ const notifications = [
   },
   {
     subject: "Kimberly Smith",
-    subjectAvatar: "/notifications-page/assets/images/avatar-kimberly-smith.webp",
+    subjectAvatar:
+      "/notifications-page/assets/images/avatar-kimberly-smith.webp",
     subjectUrl: "",
     actionType: "commented on your picture",
     object: {
@@ -116,7 +114,8 @@ const notifications = [
   },
   {
     subject: "Nathan Peterson",
-    subjectAvatar: "/notifications-page/assets/images/avatar-nathan-peterson.webp",
+    subjectAvatar:
+      "/notifications-page/assets/images/avatar-nathan-peterson.webp",
     subjectUrl: "",
     actionType: "reacted to your recent post",
     object: {

@@ -3,7 +3,10 @@ let plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -887,24 +890,71 @@ module.exports = {
           darkblue: {
             100: "hsl(209,23%,22%)",
             200: "hsl(207,26%,17%)",
-            300: "hsl(200,15%,8%)"
+            300: "hsl(200,15%,8%)",
           },
           gray: {
             300: "hsl(0,0%,52%)",
             200: "hsl(0,0%,98%)",
             100: "hsl(0,0%,100%)",
-          }
-        }
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": ["var(--font-plus-jakarta)", ...fontFamily.sans],
         "dm-sans": ["var(--font-dm-sans)", ...fontFamily.sans],
-        // epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
-        // manrope: ["var(--font-manrope)", ...fontFamily.sans],
-        epilogue: ["Epilogue", ...fontFamily.sans],
-        manrope: ["Manrope", ...fontFamily.sans],
+        epilogue: ["var(--font-epilogue)", ...fontFamily.sans],
+        manrope: ["var(--font-manrope)", ...fontFamily.sans],
         rubik: ["var(--font-rubik)", ...fontFamily.sans],
         "space-mono": ["var(--font-space-mono)", ...fontFamily.mono],
+        // barlow: ["var(--font-barlow)", ...fontFamily.sans],
+        // fraunces: ["var(--font-fraunces)", ...fontFamily.serif],
+        // ubuntu: ["var(--font-ubuntu)", ...fontFamily.sans],
+        // overpass: ["var(--font-overpass)", ...fontFamily.sans],
+        // "barlow-semi-condensed": [
+        //   "var(--font-barlow-semi-condensed)",
+        //   ...fontFamily.sans,
+        // ],
+        // commissioner: ["var(--font-commissioner)", ...fontFamily.sans],
+        // josefin: ["var(--font-josefin)", ...fontFamily.sans],
+        // alata: ["var(--font-alata)", ...fontFamily.sans],
+        // "open-sans": ["var(--font-open-sans)", ...fontFamily.sans],
+        // poppins: ["var(--font-poppins)", ...fontFamily.sans],
+        // inter: ["var(--font-inter)", ...fontFamily.sans],
+        // karla: ["var(--font-karla)", ...fontFamily.sans],
+        // "dm-serif-display": [
+        //   "var(--font-dm-serif-display)",
+        //   ...fontFamily.serif,
+        // ],
+        // montserrat: ["var(--font-montserrat)", ...fontFamily.sans],
+        // "barlow-condensed": [
+        //   "var(--font-barlow-condensed)",
+        //   ...fontFamily.sans,
+        // ],
+        // outfit: ["var(--font-outfit)", ...fontFamily.sans],
+        // "red-hat-display": ["var(--font-red-hat-display)", ...fontFamily.sans],
+        // "lexend-deca": ["var(--font-lexend-deca)", ...fontFamily.sans],
+        // "big-shoulders-display": [
+        //   "var(--font-big-shoulders-display)",
+        //   ...fontFamily.sans,
+        // ],
+        // "kumbh-sans": ["var(--font-kumbh-sans)", ...fontFamily.sans],
+        // "league-spartan": ["var(--font-league-spartan)", ...fontFamily.sans],
+        // "libre-franklin": ["var(--font-libre-franklin)", ...fontFamily.sans],
+        // "space-grotesk": ["var(--font-space-grotesk)", ...fontFamily.sans],
+        // raleway: ["var(--font-raleway)", ...fontFamily.sans],
+        // "bai-jamjuree": ["var(--font-bai-jamjuree)", ...fontFamily.sans],
+        // "hanken-grotesk": ["var(--font-hanken-grotesk)", ...fontFamily.sans],
+        // "red-hat-text": ["var(--font-red-hat-text)", ...fontFamily.sans],
+        // roboto: ["var(--font-roboto)", ...fontFamily.sans],
+        // public: ["var(--font-public)", ...fontFamily.sans],
+        // "be-vietnam": ["var(--font-be-vietnam)", ...fontFamily.sans],
+        // "be-vietnam-pro": ["var(--font-be-vietnam-pro)", ...fontFamily.sans],
+        // bellefair: ["var(--font-bellefair)", ...fontFamily.serif],
+        // "nunito-sans": ["var(--font-nunito-sans)", ...fontFamily.sans],
+        // epilogue: ["Epilogue", ...fontFamily.sans],
+        // manrope: ["Manrope", ...fontFamily.sans],
+        // rubik: ["var(--font-rubik)", ...fontFamily.sans],
+        // "space-mono": ["var(--font-space-mono)", ...fontFamily.mono],
         barlow: ["Barlow", ...fontFamily.sans],
         fraunces: ["Fraunces", ...fontFamily.serif],
         ubuntu: ["Ubuntu", ...fontFamily.sans],
@@ -944,8 +994,16 @@ module.exports = {
   },
   plugins: [
     plugin(function ({ addVariant, addUtilities }) {
-      addVariant("thumb", ["&[type='range']::-webkit-slider-thumb", "&[type='range']::-moz-range-thumb", "&[type='range']::-ms-thumb"]);
-      addVariant("track", ["&[type='range']::-webkit-slider-runnable-track", "&[type='range']::-moz-range-track", "&[type='range']::-ms-track"]);
+      addVariant("thumb", [
+        "&[type='range']::-webkit-slider-thumb",
+        "&[type='range']::-moz-range-thumb",
+        "&[type='range']::-ms-thumb",
+      ]);
+      addVariant("track", [
+        "&[type='range']::-webkit-slider-runnable-track",
+        "&[type='range']::-moz-range-track",
+        "&[type='range']::-ms-track",
+      ]);
       addUtilities({
         ".scrollbar-hidden": {
           "-ms-overflow-style": "none",

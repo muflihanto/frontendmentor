@@ -3,7 +3,12 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import { Provider } from "jotai";
 import "../styles/globals.css";
-import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "../styles/fontface.css";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { ReactElement, ReactNode, useState } from "react";
 import { AppProps } from "next/app";
 import { NextPage } from "next";

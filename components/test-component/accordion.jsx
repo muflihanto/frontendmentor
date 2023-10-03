@@ -25,10 +25,15 @@ export default function Accordion(props) {
   };
 
   const handleSummaryLeave = (e) => {
-    if (window.innerWidth < 1024 || (!isExpanding && !detailsRef.current.open)) return;
+    if (window.innerWidth < 1024 || (!isExpanding && !detailsRef.current.open))
+      return;
     detailsRef.current.style.overflow = "unset";
     const pointer = e.relatedTarget;
-    if (![pointer, pointer.parentNode, pointer.parentNode.parentNode].includes(contentRef.current)) {
+    if (
+      ![pointer, pointer.parentNode, pointer.parentNode.parentNode].includes(
+        contentRef.current,
+      )
+    ) {
       shrink();
     }
   };
@@ -49,7 +54,11 @@ export default function Accordion(props) {
       key = "height";
       element = detailsRef;
       start = `${detailsRef.current.offsetHeight}px`;
-      end = `${id === "shrink" ? summaryRef.current.offsetHeight : summaryRef.current.offsetHeight + contentRef.current.offsetHeight}px`;
+      end = `${
+        id === "shrink"
+          ? summaryRef.current.offsetHeight
+          : summaryRef.current.offsetHeight + contentRef.current.offsetHeight
+      }px`;
     } else {
       key = "clipPath";
       element = contentRef;
@@ -67,8 +76,8 @@ export default function Accordion(props) {
           duration: 250,
           easing: "ease-out",
           id,
-        }
-      )
+        },
+      ),
     );
   };
 
@@ -107,24 +116,17 @@ export default function Accordion(props) {
   }, [animation]);
 
   return (
-    <details
-      ref={detailsRef}
-      className="group lg:relative"
-    >
+    <details ref={detailsRef} className="group lg:relative">
       <summary
         ref={summaryRef}
         onClick={handleSummaryClick}
         onMouseEnter={handleSummaryHover}
         onMouseLeave={handleSummaryLeave}
-        className="relative flex items-center justify-start gap-2 list-none hover:cursor-pointer w-fit"
+        className="relative flex w-fit list-none items-center justify-start gap-2 hover:cursor-pointer"
       >
         <span>Features</span>
-        <span className="inline-block transition-transform duration-[250ms] group-open:rotate-180">
-          <svg
-            width="10"
-            height="6"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+        <span className="inline-block transition-transform duration-300 group-open:rotate-180">
+          <svg width="10" height="6" xmlns="http://www.w3.org/2000/svg">
             <path
               stroke="#686868"
               strokeWidth="1.5"
@@ -138,7 +140,7 @@ export default function Accordion(props) {
       <ul
         ref={contentRef}
         onMouseLeave={handleContentLeave}
-        className="pl-4 lg:absolute lg:-bottom-[180px] lg:right-0 lg:left-auto  lg:px-5 lg:py-6 lg:rounded-lg lg:text lg:shadow-[0px_0px_15px_10px_rgba(0,0,0,.05)] py-3 flex flex-col gap-1 lg:before:w-full lg:before:content-[''] lg:before:h-[30px] lg:before:top-[-30px] lg:before:bg-transparent lg:before:absolute lg:bg-white"
+        className="lg:text flex flex-col gap-1 py-3  pl-4 lg:absolute lg:-bottom-[180px] lg:left-auto lg:right-0 lg:rounded-lg lg:bg-white lg:px-5 lg:py-6 lg:shadow-[0px_0px_15px_10px_rgba(0,0,0,.05)] lg:before:absolute lg:before:top-[-30px] lg:before:h-[30px] lg:before:w-full lg:before:bg-transparent lg:before:content-['']"
       >
         <li>
           <a href="">Todo List</a>

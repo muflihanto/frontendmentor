@@ -105,6 +105,7 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
       window.removeEventListener("resize", handleWindowResize);
       window.removeEventListener("scroll", handleScroll);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clicked]);
 
   return (
@@ -119,6 +120,7 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
         style={imgCompContainer}
         ref={containerCallbackRef}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           style={imgCompImg}
           src={imagePath}

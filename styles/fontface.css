@@ -1,0 +1,405 @@
+@font-face {
+  font-family: "Epilogue";
+  src: local("Epilogue"),
+    url("/intro-section-with-dropdown-navigation/fonts/Epilogue-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: local("Barlow"),
+    url("/sunnyside-agency-landing-page/fonts/Barlow-SemiBold.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: local("Barlow"),
+    url("/sunnyside-agency-landing-page/fonts/Barlow-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Barlow";
+  src: local("Barlow"),
+    url("/sunnyside-agency-landing-page/fonts/Barlow-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: local("Barlow Semi Condensed"),
+    url("/testimonials-grid-section/fonts/BarlowSemiCondensed-Medium.ttf");
+  font-weight: 500;
+  font-stretch: semi-condensed;
+}
+
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: local("Barlow Semi Condensed"),
+    url("/testimonials-grid-section/fonts/BarlowSemiCondensed-SemiBold.ttf");
+  font-weight: 600;
+  font-stretch: semi-condensed;
+}
+
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: local("Barlow Semi Condensed"),
+    url("/rock-paper-scissors/fonts/BarlowSemiCondensed-Bold.ttf");
+  font-weight: 700;
+  font-stretch: semi-condensed;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: local("Fraunces"),
+    url("/sunnyside-agency-landing-page/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf");
+}
+
+@font-face {
+  font-family: "Overpass";
+  src: local("Overpass"),
+    url("/blogr-landing-page/fonts/Overpass-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  src: local("Ubuntu"), url("/blogr-landing-page/fonts/Ubuntu-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  src: local("Ubuntu"), url("/blogr-landing-page/fonts/Ubuntu-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  src: local("Ubuntu"), url("/blogr-landing-page/fonts/Ubuntu-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("/loopstudios-landing-page/fonts/JosefinSans-Light.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Alata";
+  src: local("Alata"), url("/loopstudios-landing-page/fonts/Alata-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Commissioner";
+  src: local("Commissioner"),
+    url("/crowdfunding-product-page/fonts/Commissioner-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: local("Manrope"),
+    url("/interactive-pricing-component/fonts/Manrope-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: local("Open Sans"),
+    url("/huddle-landing-page-with-curved-sections/fonts/OpenSans-VariableFont_wdth,wght.ttf");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/age-calculator-app/assets/fonts/Poppins-ExtraBoldItalic.ttf");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/age-calculator-app/assets/fonts/Poppins-ExtraBold.ttf");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/age-calculator-app/assets/fonts/Poppins-BoldItalic.ttf");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/huddle-landing-page-with-curved-sections/fonts/Poppins-Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/huddle-landing-page-with-curved-sections/fonts/Poppins-SemiBold.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/huddle-landing-page-with-curved-sections/fonts/Poppins-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/huddle-landing-page-with-curved-sections/fonts/Poppins-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/age-calculator-app/assets/fonts/Poppins-Italic.ttf");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/age-calculator-app/assets/fonts/Poppins-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("/huddle-landing-page-with-curved-sections/fonts/Poppins-ExtraLight.ttf");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("/coding-bootcamp-testimonials-slider/fonts/Inter-VariableFont.ttf");
+}
+
+@font-face {
+  font-family: "Karla";
+  src: local("Karla"),
+    url("/insure-landing-page/fonts/Karla-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "DM Serif Display";
+  src: local("DM Serif Display"),
+    url("/insure-landing-page/fonts/DMSerifDisplay-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat"),
+    url("/pricing-component-with-toggle/fonts/Montserrat-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  src: local("Barlow Condensed"),
+    url("/project-tracking-intro-component/fonts/BarlowCondensed-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  src: local("Barlow Condensed"),
+    url("/project-tracking-intro-component/fonts/BarlowCondensed-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: local("Outfit"),
+    url("/qr-code-component/fonts/Outfit-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Red Hat Display";
+  src: local("Red Hat Display"),
+    url("/order-summary-component/fonts/RedHatDisplay-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Lexend Deca";
+  src: local("Lexend Deca"),
+    url("/stats-preview-card-component/fonts/LexendDeca-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: local("Big Shoulders Display"),
+    url("/3-column-preview-card-component/fonts/BigShouldersDisplay-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Kumbh Sans";
+  src: local("Kumbh Sans"),
+    url("/profile-card-component/fonts/KumbhSans-VariableFont_YOPQ,wght.ttf");
+}
+
+@font-face {
+  font-family: "League Spartan";
+  src: local("League Spartan"),
+    url("/social-proof-section/fonts/LeagueSpartan-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("/base-apparel-coming-soon/fonts/JosefinSans-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("/base-apparel-coming-soon/fonts/JosefinSans-SemiBold.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("/todo-app/fonts/JosefinSans-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Libre Franklin";
+  src: local("Libre Franklin"),
+    url("/ping-coming-soon-page/fonts/LibreFranklin-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: local("Space Grotesk"),
+    url("/interactive-card-details-form/fonts/SpaceGrotesk-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/fylo-data-storage-component/fonts/Raleway-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/clipboard-landing-page/fonts/BaiJamjuree-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Bai Jamjuree";
+  src: url("/clipboard-landing-page/fonts/BaiJamjuree-SemiBold.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Rubiks";
+  src: url("/interactive-comments-section/fonts/Rubik-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("/results-summary-component/assets/fonts/HankenGrotesk-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("/easybank-landing-page/fonts/PublicSans-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Red Hat Text";
+  src: url("/launch-countdown-timer/fonts/RedHatText-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/newsletter-sign-up-with-success-message/assets/fonts/Roboto-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Light.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/manage-landing-page/fonts/BeVietnamPro-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Be Vietnam";
+  src: url("/manage-landing-page/fonts/BeVietnam-Light.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Be Vietnam";
+  src: url("/manage-landing-page/fonts/BeVietnam-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Be Vietnam";
+  src: url("/manage-landing-page/fonts/BeVietnam-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Be Vietnam";
+  src: url("/manage-landing-page/fonts/BeVietnam-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Bellefair";
+  src: url("/space-tourism-website/assets/fonts/Bellefair-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Nunito Sans";
+  src: url("/rest-countries-api-with-color-theme-switcher/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf");
+}
+
+@font-face {
+  font-family: "Josefin Sans";
+  src: local("Josefin Sans"),
+    url("/base-apparel-coming-soon/fonts/JosefinSans-VariableFont_wght.ttf");
+}

@@ -33,10 +33,18 @@ export default function Collapsible(props: CollapsibleProps) {
 
   const handleSummaryLeave: MouseEventHandler<HTMLElement> = (e) => {
     if (detailsRef.current) {
-      if (window.innerWidth < 1024 || (!isExpanding && !detailsRef.current.open)) return;
+      if (
+        window.innerWidth < 1024 ||
+        (!isExpanding && !detailsRef.current.open)
+      )
+        return;
       detailsRef.current.style.overflow = "unset";
       const pointer = e.relatedTarget as Node;
-      if (![pointer, pointer.parentNode, pointer.parentNode?.parentNode].includes(contentRef.current)) {
+      if (
+        ![pointer, pointer.parentNode, pointer.parentNode?.parentNode].includes(
+          contentRef.current,
+        )
+      ) {
         shrink();
       }
     }
@@ -59,7 +67,11 @@ export default function Collapsible(props: CollapsibleProps) {
         key = "height";
         element = detailsRef;
         start = `${detailsRef.current.offsetHeight}px`;
-        end = `${id === "shrink" ? summaryRef.current.offsetHeight : summaryRef.current.offsetHeight + contentRef.current.offsetHeight}px`;
+        end = `${
+          id === "shrink"
+            ? summaryRef.current.offsetHeight
+            : summaryRef.current.offsetHeight + contentRef.current.offsetHeight
+        }px`;
       } else {
         key = "clipPath";
         element = contentRef;
@@ -77,8 +89,8 @@ export default function Collapsible(props: CollapsibleProps) {
               duration: 250,
               easing: "ease-out",
               id,
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -123,10 +135,7 @@ export default function Collapsible(props: CollapsibleProps) {
   }, [animation]);
 
   return (
-    <details
-      ref={detailsRef}
-      className="group group lg:relative"
-    >
+    <details ref={detailsRef} className="group group lg:relative">
       <summary
         ref={summaryRef}
         onClick={handleSummaryClick}
@@ -134,13 +143,11 @@ export default function Collapsible(props: CollapsibleProps) {
         onMouseLeave={handleSummaryLeave}
         className="relative flex w-fit list-none items-center justify-start gap-[15px] hover:cursor-pointer lg:gap-[7px]"
       >
-        <span className="lg:group-open:text-introdrop-neutral-300 lg:group-open:drop-shadow-[0_0_0.25px_hsl(0,0%,41%)]">{props.label}</span>
-        <span className="inline-block transition-transform duration-[250ms] group-open:rotate-180">
-          <svg
-            width="10"
-            height="6"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+        <span className="lg:group-open:text-introdrop-neutral-300 lg:group-open:drop-shadow-[0_0_0.25px_hsl(0,0%,41%)]">
+          {props.label}
+        </span>
+        <span className="inline-block transition-transform duration-300 group-open:rotate-180">
+          <svg width="10" height="6" xmlns="http://www.w3.org/2000/svg">
             <path
               stroke="#686868"
               strokeWidth="1.5"

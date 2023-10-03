@@ -1,13 +1,23 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
-import Main from "../components/time-tracking-dashboard/Main.jsx";
-import Footer from "../components/time-tracking-dashboard/Footer.jsx";
-const Slider = dynamic(() => import("../components/Slider.jsx"), { ssr: false });
-import { rubikVar } from "../utils/fontLoader.js";
+import Main from "../components/time-tracking-dashboard/Main";
+import Footer from "../components/time-tracking-dashboard/Footer";
+import localFont from "next/font/local";
+
+const _rubik = localFont({
+  src: "../public/time-tracking-dashboard/fonts/Rubik-VariableFont_wght.ttf",
+  variable: "--font-rubik",
+});
+
+const rubik = `${_rubik.variable} font-rubik`;
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function TimeTracking() {
   return (
-    <div className={`App ${rubikVar} font-rubik min-h-screen relative bg-tracking-neutral-400 text-tracking-neutral-100 lg:flex lg:items-center`}>
+    <div
+      className={`${rubik} App relative min-h-screen bg-tracking-neutral-400 text-tracking-neutral-100 lg:flex lg:items-center`}
+    >
       <Head>
         <title>Frontend Mentor | Time tracking dashboard</title>
       </Head>
