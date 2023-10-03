@@ -4,16 +4,19 @@ import dynamic from "next/dynamic";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode, useEffect, useMemo } from "react";
+import { type ReactNode, useEffect, useMemo } from "react";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useHydrateAtoms } from "jotai/utils";
 import requestIp from "request-ip";
+import type { IpInfoResponse } from "./api/getIpInfo";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
-const Map = dynamic(() => import("../components/ip-address-tracker/Map"), { ssr: false });
+const Map = dynamic(() => import("../components/ip-address-tracker/Map"), {
+  ssr: false,
+});
 
 const locAtom = atom("");
-const detailAtom = atom<Detail | undefined>(undefined);
+const detailAtom = atom<IpInfoResponse | undefined>(undefined);
 export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
   const loc = get(locAtom);
   if (!!loc) {
@@ -27,21 +30,25 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 // TODO: change timezone information to utc
 
 export const getServerSideProps: GetServerSideProps<{
-  detail: Detail;
+  detail: IpInfoResponse;
 }> = async ({ req }) => {
-  const res = await fetch(`https://ipinfo.io/${requestIp.getClientIp(req)}/?token=${process.env.IPINFO_TOKEN}`);
-  const detail: Detail = await res.json();
+  const clientIp = requestIp.getClientIp(req)!;
+  const token = process.env.IPINFO_TOKEN!;
+  const res = await fetch(`https://ipinfo.io/${clientIp}/?token=${token}`);
+  const detail = (await res.json()) as IpInfoResponse;
   return { props: { detail } };
 };
 
-export default function IpAddressTracker({ detail }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function IpAddressTracker({
+  detail,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   useHydrateAtoms([[detailAtom, detail]]);
   return (
     <>
       <Head>
         <title>Frontend Mentor | IP Address Tracker</title>
       </Head>
-      <div className="App font-rubiks relative min-h-[100dvh] font-medium">
+      <div className="App relative min-h-[100dvh] font-rubiks font-medium">
         <Main />
         <Footer />
         {/* <Slider
@@ -67,33 +74,33 @@ const zInputSchema = z.object({
   ipAddress: z.string().min(1, "").ip(""),
 });
 type InputSchema = z.infer<typeof zInputSchema>;
-type Detail = {
-  ip: string;
-  hostname: string;
-  anycast: boolean;
-  city: string;
-  region: string;
-  country: string;
-  loc: string;
-  org: string;
-  postal: string;
-  timezone: string;
-};
+// type Detail = {
+//   ip: string;
+//   hostname: string;
+//   anycast: boolean;
+//   city: string;
+//   region: string;
+//   country: string;
+//   loc: string;
+//   org: string;
+//   postal: string;
+//   timezone: string;
+// };
 
 function Intro() {
   const {
     register,
     reset,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
   } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema) });
   const [detail, setDetail] = useAtom(detailAtom);
   const setLoc = useSetAtom(locAtom);
 
-  const onClick = handleSubmit((data) => {
-    fetch(`/api/getIpInfo?ip=${data.ipAddress}`)
+  const onClick = handleSubmit(async (data) => {
+    await fetch(`/api/getIpInfo?ip=${data.ipAddress}`)
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: { data: IpInfoResponse }) => {
         setDetail(data.data);
         // console.log(data);
       });
@@ -106,7 +113,7 @@ function Intro() {
   }, [isSubmitSuccessful, reset]);
 
   useEffect(() => {
-    if (detail?.loc) {
+    if (detail !== undefined && "loc" in detail) {
       setLoc(detail.loc);
     }
   }, [detail, setLoc]);
@@ -114,14 +121,16 @@ function Intro() {
   return (
     <div className="relative flex min-h-[300px] w-full flex-col items-center bg-[url('/ip-address-tracker/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat lg:min-h-[280px] lg:bg-[url('/ip-address-tracker/images/pattern-bg-desktop.png')]">
       <div className="absolute left-1/2 top-0 z-10 flex w-[calc(100vw-48px)] max-w-[calc(640px-48px)] -translate-x-1/2 flex-col items-center pt-[28px] lg:max-w-[calc(100vw-330px)] lg:pt-[32px]">
-        <h1 className="w-full text-center text-[26px] leading-none tracking-[-.25px] text-white lg:text-[32px] lg:tracking-[-.4px]">IP Address Tracker</h1>
+        <h1 className="w-full text-center text-[26px] leading-none tracking-[-.25px] text-white lg:text-[32px] lg:tracking-[-.4px]">
+          IP Address Tracker
+        </h1>
         <form
           noValidate
           className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white lg:mt-[30px] lg:w-[555px]"
         >
           <input
             type="text"
-            className="text-ip-address-200 w-full px-6 text-[18px] font-normal"
+            className="w-full px-6 text-[18px] font-normal text-ip-address-200"
             {...register("ipAddress", { required: true })}
             placeholder="Search for any IP address or domain"
           />
@@ -150,9 +159,9 @@ function Intro() {
   );
 }
 
-function DetailCard({ detail }: { detail?: Detail }) {
+function DetailCard({ detail }: { detail?: IpInfoResponse }) {
   const location = useMemo(() => {
-    if (!!detail) {
+    if (detail !== undefined && "country" in detail) {
       const { country, city, postal } = detail;
       if (!!country && !!city) {
         return `${country}, ${city}${!!postal ? ` ${postal}` : ""}`;
@@ -177,12 +186,20 @@ function DetailCard({ detail }: { detail?: Detail }) {
         <ListItem>
           <ListHeading>Timezone</ListHeading>
           {/* TODO: change timezone to utc */}
-          <ListDetail>{detail?.timezone ?? "-"}</ListDetail>
+          <ListDetail>
+            {detail !== undefined && "timezone" in detail
+              ? detail.timezone
+              : "-"}
+          </ListDetail>
           {/* <!-- add offset value dynamically using the API --> */}
         </ListItem>
         <ListItem>
           <ListHeading>ISP</ListHeading>
-          <ListDetail>{detail?.org ? detail.org.split(" ").slice(1).join(" ") : "-"}</ListDetail>
+          <ListDetail>
+            {detail !== undefined && "org" in detail
+              ? detail.org.split(" ").slice(1).join(" ")
+              : "-"}
+          </ListDetail>
         </ListItem>
       </ul>
     </div>
@@ -190,13 +207,25 @@ function DetailCard({ detail }: { detail?: Detail }) {
 }
 
 function ListItem({ children }: { children: ReactNode }) {
-  return <li className="flex flex-col items-center gap-[5px] lg:h-full lg:flex-1 lg:items-start lg:gap-[14px] lg:px-[calc(32/1440*100vw)]">{children}</li>;
+  return (
+    <li className="flex flex-col items-center gap-[5px] lg:h-full lg:flex-1 lg:items-start lg:gap-[14px] lg:px-[calc(32/1440*100vw)]">
+      {children}
+    </li>
+  );
 }
 function ListHeading({ children }: { children: ReactNode }) {
-  return <div className="text-ip-address-100 text-[10px] font-bold uppercase leading-none tracking-[1.5px] lg:text-[13px] lg:tracking-[1.2px]">{children}</div>;
+  return (
+    <div className="text-[10px] font-bold uppercase leading-none tracking-[1.5px] text-ip-address-100 lg:text-[13px] lg:tracking-[1.2px]">
+      {children}
+    </div>
+  );
 }
 function ListDetail({ children }: { children?: ReactNode }) {
-  return <div className="text-ip-address-200 text-[20px] tracking-[-.1px] lg:text-[26px] lg:leading-[30.5px] lg:tracking-[-.2px]">{children}</div>;
+  return (
+    <div className="text-[20px] tracking-[-.1px] text-ip-address-200 lg:text-[26px] lg:leading-[30.5px] lg:tracking-[-.2px]">
+      {children}
+    </div>
+  );
 }
 
 function Footer() {
@@ -211,11 +240,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

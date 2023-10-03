@@ -1,6 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ComponentProps, PropsWithChildren, useEffect, useState } from "react";
+import {
+  type ComponentProps,
+  type PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import { cn } from "../utils/cn";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -243,54 +248,54 @@ const ApiResponse = z.object({
 });
 type ApiResponse = z.infer<typeof ApiResponse>;
 
-function ClientOnly({
-  children,
-  ...delegated
-}: PropsWithChildren<ComponentProps<"div">>) {
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-  if (!hasMounted) {
-    return null;
-  }
-  return <div {...delegated}>{children}</div>;
-}
+// function ClientOnly({
+//   children,
+//   ...delegated
+// }: PropsWithChildren<ComponentProps<"div">>) {
+//   const [hasMounted, setHasMounted] = useState(false);
+//   useEffect(() => {
+//     setHasMounted(true);
+//   }, []);
+//   if (!hasMounted) {
+//     return null;
+//   }
+//   return <div {...delegated}>{children}</div>;
+// }
 
-const initialLinks = [
-  {
-    code: "aYuRB",
-    short_link: "shrtco.de/aYuRB",
-    full_short_link: "https://shrtco.de/aYuRB",
-    short_link2: "9qr.de/aYuRB",
-    full_short_link2: "https://9qr.de/aYuRB",
-    short_link3: "shiny.link/aYuRB",
-    full_short_link3: "https://shiny.link/aYuRB",
-    share_link: "shrtco.de/share/aYuRB",
-    full_share_link: "https://shrtco.de/share/aYuRB",
-    original_link: "https://www.frontendmentor.io",
-  },
-  {
-    code: "GKTMlb",
-    short_link: "shrtco.de/GKTMlb",
-    full_short_link: "https://shrtco.de/GKTMlb",
-    short_link2: "9qr.de/GKTMlb",
-    full_short_link2: "https://9qr.de/GKTMlb",
-    short_link3: "shiny.link/GKTMlb",
-    full_short_link3: "https://shiny.link/GKTMlb",
-    share_link: "shrtco.de/share/GKTMlb",
-    full_share_link: "https://shrtco.de/share/GKTMlb",
-    original_link: "https://twitter.com/frontendmentor",
-  },
-  {
-    code: "gob3X9",
-    short_link: "rel.ink/gob3X9",
-    full_short_link: "https://rel.ink/gob3X9",
-    share_link: "rel.ink/share/gob3X9",
-    full_share_link: "https://rel.ink/share/gob3X9",
-    original_link: "https://www.linkedin.com/company/frontend-mentor",
-  },
-];
+// const initialLinks = [
+//   {
+//     code: "aYuRB",
+//     short_link: "shrtco.de/aYuRB",
+//     full_short_link: "https://shrtco.de/aYuRB",
+//     short_link2: "9qr.de/aYuRB",
+//     full_short_link2: "https://9qr.de/aYuRB",
+//     short_link3: "shiny.link/aYuRB",
+//     full_short_link3: "https://shiny.link/aYuRB",
+//     share_link: "shrtco.de/share/aYuRB",
+//     full_share_link: "https://shrtco.de/share/aYuRB",
+//     original_link: "https://www.frontendmentor.io",
+//   },
+//   {
+//     code: "GKTMlb",
+//     short_link: "shrtco.de/GKTMlb",
+//     full_short_link: "https://shrtco.de/GKTMlb",
+//     short_link2: "9qr.de/GKTMlb",
+//     full_short_link2: "https://9qr.de/GKTMlb",
+//     short_link3: "shiny.link/GKTMlb",
+//     full_short_link3: "https://shiny.link/GKTMlb",
+//     share_link: "shrtco.de/share/GKTMlb",
+//     full_share_link: "https://shrtco.de/share/GKTMlb",
+//     original_link: "https://twitter.com/frontendmentor",
+//   },
+//   {
+//     code: "gob3X9",
+//     short_link: "rel.ink/gob3X9",
+//     full_short_link: "https://rel.ink/gob3X9",
+//     share_link: "rel.ink/share/gob3X9",
+//     full_share_link: "https://rel.ink/share/gob3X9",
+//     original_link: "https://www.linkedin.com/company/frontend-mentor",
+//   },
+// ];
 
 const linksAtom = atomWithStorage<ApiResponse["result"][]>("links", [
   // ...initialLinks
@@ -338,20 +343,22 @@ function Shorten() {
 
   const [links, setLinks] = useAtom(linksAtom);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     // console.log(data);
-    fetch("https://api.shrtco.de/v2/shorten?url=" + data.link).then((res) => {
-      // console.log(res);
-      res.json().then((dat) => {
-        const parse = ApiResponse.safeParse(dat);
-        if (parse.success) {
-          // console.log(parse.data);
-          setLinks((p) => [...p, parse.data.result]);
-        } else {
-          console.log(parse.error);
-        }
-      });
-    });
+    await fetch("https://api.shrtco.de/v2/shorten?url=" + data.link).then(
+      async (res) => {
+        // console.log(res);
+        await res.json().then((dat) => {
+          const parse = ApiResponse.safeParse(dat);
+          if (parse.success) {
+            // console.log(parse.data);
+            setLinks((p) => [...p, parse.data.result]);
+          } else {
+            console.log(parse.error);
+          }
+        });
+      },
+    );
   });
 
   useEffect(() => {

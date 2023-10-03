@@ -1,7 +1,7 @@
 import { Popover } from "@headlessui/react";
 import Head from "next/head";
 import Image from "next/image";
-import { ButtonHTMLAttributes, DetailedHTMLProps, HTMLProps } from "react";
+import type { ButtonHTMLAttributes, DetailedHTMLProps, HTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 import { useWindowSize } from "usehooks-ts";
 // import dynamic from "next/dynamic";
@@ -16,7 +16,7 @@ export default function EasybankLandingPage() {
       <Head>
         <title>Frontend Mentor | Easybank landing page</title>
       </Head>
-      <div className="App font-public relative min-h-[100svh] lg:max-w-[100vw] lg:overflow-hidden">
+      <div className="App relative min-h-[100svh] font-public lg:max-w-[100vw] lg:overflow-hidden">
         <Header />
         <Main />
         <Footer />
@@ -32,7 +32,7 @@ export default function EasybankLandingPage() {
 function Header() {
   const { width } = useWindowSize();
   return (
-    <div className="bg-easybank-neutral-100 relative z-10 flex h-16 w-full items-center justify-between px-6 lg:grid lg:h-20 lg:grid-cols-3 lg:grid-rows-1 lg:px-[165px]">
+    <div className="relative z-10 flex h-16 w-full items-center justify-between bg-easybank-neutral-100 px-6 lg:grid lg:h-20 lg:grid-cols-3 lg:grid-rows-1 lg:px-[165px]">
       <Logo className="lg:mt-[6px]" />
       {width < 1024 ? (
         <MobileMenuButton />
@@ -40,8 +40,8 @@ function Header() {
         <>
           <div
             className={twMerge(
-              "text-easybank-neutral-400 flex items-center gap-[29.5px] justify-self-center pb-[1px] text-[15px] [&>a]:leading-none [&>a]:tracking-[-.5px]",
-              "[&>a:hover]:before:from-easybank-primary-green [&>a:hover]:before:to-easybank-primary-cyan [&>a:hover]:text-easybank-primary-blue [&>a:hover]:relative [&>a:hover]:before:absolute [&>a:hover]:before:bottom-[-33px] [&>a:hover]:before:left-0 [&>a:hover]:before:h-[4px] [&>a:hover]:before:w-full [&>a:hover]:before:bg-gradient-to-r [&>a:hover]:before:content-['']"
+              "flex items-center gap-[29.5px] justify-self-center pb-[1px] text-[15px] text-easybank-neutral-400 [&>a]:leading-none [&>a]:tracking-[-.5px]",
+              "[&>a:hover]:relative [&>a:hover]:text-easybank-primary-blue [&>a:hover]:before:absolute [&>a:hover]:before:bottom-[-33px] [&>a:hover]:before:left-0 [&>a:hover]:before:h-[4px] [&>a:hover]:before:w-full [&>a:hover]:before:bg-gradient-to-r [&>a:hover]:before:from-easybank-primary-green [&>a:hover]:before:to-easybank-primary-cyan [&>a:hover]:before:content-['']",
             )}
           >
             <NavigationLinks />
@@ -71,9 +71,11 @@ function MobileMenuButton() {
       {({ open }) => {
         return (
           <>
-            <Popover.Button className="flex h-6 w-6 items-center justify-center">{open ? <Icon variant="close" /> : <Icon variant="hamburger" />}</Popover.Button>
-            <Popover.Panel className="from-easybank-primary-blue absolute left-0 top-16 h-[600px] w-full bg-gradient-to-b to-transparent p-[24px]">
-              <div className="text-easybank-primary-blue flex w-full flex-col items-center gap-[26px] rounded bg-white p-[32px] pb-[34px] text-[19px] [&>a]:leading-none [&>a]:tracking-[-.5px]">
+            <Popover.Button className="flex h-6 w-6 items-center justify-center">
+              {open ? <Icon variant="close" /> : <Icon variant="hamburger" />}
+            </Popover.Button>
+            <Popover.Panel className="absolute left-0 top-16 h-[600px] w-full bg-gradient-to-b from-easybank-primary-blue to-transparent p-[24px]">
+              <div className="flex w-full flex-col items-center gap-[26px] rounded bg-white p-[32px] pb-[34px] text-[19px] text-easybank-primary-blue [&>a]:leading-none [&>a]:tracking-[-.5px]">
                 <NavigationLinks />
               </div>
             </Popover.Panel>
@@ -84,14 +86,20 @@ function MobileMenuButton() {
   );
 }
 
-function RequestInvite({ className, ...props }: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+function RequestInvite({
+  className,
+  ...props
+}: DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>) {
   return (
     <button
       {...props}
       className={twMerge(
-        "from-easybank-primary-green to-easybank-primary-cyan text-easybank-neutral-100 mt-8 flex h-[44px] w-[162px] items-center justify-center rounded-full bg-gradient-to-r text-[14px] font-bold",
+        "mt-8 flex h-[44px] w-[162px] items-center justify-center rounded-full bg-gradient-to-r from-easybank-primary-green to-easybank-primary-cyan text-[14px] font-bold text-easybank-neutral-100",
         className,
-        "hover:relative hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:h-full hover:before:w-full hover:before:rounded-full hover:before:bg-white/40 hover:before:content-['']"
+        "hover:relative hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:h-full hover:before:w-full hover:before:rounded-full hover:before:bg-white/40 hover:before:content-['']",
       )}
     >
       Request Invite
@@ -113,8 +121,14 @@ function Intro() {
         </div>
       </div>
       <div className="mt-[-28px] flex w-full flex-col items-center pb-[88px] lg:ml-[165px] lg:mt-0 lg:w-[440px] lg:min-w-[440px] lg:items-start lg:self-center lg:py-0">
-        <h1 className="text-easybank-primary-blue text-center text-[39px] font-light leading-[47px] -tracking-[0.1px] lg:text-left lg:text-[56px] lg:leading-[64px] lg:tracking-[-.75px]">Next generation digital banking</h1>
-        <p className="text-easybank-neutral-400 mt-[16px] max-w-[320px] text-center text-[15px] leading-[25px] tracking-[-.2px] lg:mt-6 lg:max-w-none lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">Take your financial life online. Your Easybank account will be a one-stop-shop for spending, saving, budgeting, investing, and much more.</p>
+        <h1 className="text-center text-[39px] font-light leading-[47px] -tracking-[0.1px] text-easybank-primary-blue lg:text-left lg:text-[56px] lg:leading-[64px] lg:tracking-[-.75px]">
+          Next generation digital banking
+        </h1>
+        <p className="mt-[16px] max-w-[320px] text-center text-[15px] leading-[25px] tracking-[-.2px] text-easybank-neutral-400 lg:mt-6 lg:max-w-none lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">
+          Take your financial life online. Your Easybank account will be a
+          one-stop-shop for spending, saving, budgeting, investing, and much
+          more.
+        </p>
         <RequestInvite className="lg:mt-9" />
       </div>
     </div>
@@ -128,51 +142,68 @@ function Features() {
     {
       icon: "online",
       heading: "Online Banking",
-      description: "Our modern web and mobile applications allow you to keep track of your finances wherever you are in the world.",
+      description:
+        "Our modern web and mobile applications allow you to keep track of your finances wherever you are in the world.",
     },
     {
       icon: "budgeting",
       heading: "Simple Budgeting",
-      description: "See exactly where your money goes each month. Receive notifications when you’re close to hitting your limits.",
+      description:
+        "See exactly where your money goes each month. Receive notifications when you’re close to hitting your limits.",
     },
     {
       icon: "onboarding",
       heading: "Fast Onboarding",
-      description: "We don’t do branches. Open your account in minutes online and start taking control of your finances right away.",
+      description:
+        "We don’t do branches. Open your account in minutes online and start taking control of your finances right away.",
     },
     {
       icon: "api",
       heading: "Open API",
-      description: "Manage your savings, investments, pension, and much more from one account. Tracking your money has never been easier.",
+      description:
+        "Manage your savings, investments, pension, and much more from one account. Tracking your money has never been easier.",
     },
   ];
   return (
-    <div className="bg-easybank-neutral-300 flex flex-col items-center px-[24px] py-[64px] lg:w-full lg:items-start lg:px-[165px] lg:pb-[100px] lg:pt-[98px]">
-      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.5px] lg:w-1/2 lg:text-left lg:text-[40px] lg:leading-normal lg:tracking-[-.75px]">Why choose Easybank?</h2>
-      <p className="text-easybank-neutral-400 mt-[16px] text-center text-[15px] leading-[25px] tracking-[-.25px] lg:mt-[19px] lg:w-7/12 lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">We leverage Open Banking to turn your bank account into your financial hub. Control your finances like never before.</p>
+    <div className="flex flex-col items-center bg-easybank-neutral-300 px-[24px] py-[64px] lg:w-full lg:items-start lg:px-[165px] lg:pb-[100px] lg:pt-[98px]">
+      <h2 className="text-center text-[32px] font-light leading-[37px] tracking-[-.5px] text-easybank-primary-blue lg:w-1/2 lg:text-left lg:text-[40px] lg:leading-normal lg:tracking-[-.75px]">
+        Why choose Easybank?
+      </h2>
+      <p className="mt-[16px] text-center text-[15px] leading-[25px] tracking-[-.25px] text-easybank-neutral-400 lg:mt-[19px] lg:w-7/12 lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">
+        We leverage Open Banking to turn your bank account into your financial
+        hub. Control your finances like never before.
+      </p>
       <div className="mt-14 flex flex-col items-center gap-8 lg:mt-[71px] lg:grid lg:w-full lg:grid-cols-4 lg:grid-rows-1 lg:items-start lg:gap-[28.5px]">
         {features.map((feature, index) => {
-          return (
-            <Feature
-              key={index}
-              {...feature}
-            />
-          );
+          return <Feature key={index} {...feature} />;
         })}
       </div>
     </div>
   );
 }
 
-function Feature({ icon, heading, description, className, ...props }: HTMLProps<HTMLDivElement> & Feature) {
+function Feature({
+  icon,
+  heading,
+  description,
+  className,
+  ...props
+}: HTMLProps<HTMLDivElement> & Feature) {
   return (
     <div
       {...props}
-      className={twMerge("flex flex-col items-center lg:items-start", className)}
+      className={twMerge(
+        "flex flex-col items-center lg:items-start",
+        className,
+      )}
     >
       <Icon variant={icon} />
-      <h3 className="text-easybank-primary-blue mt-7 text-[20px] font-light leading-none tracking-[-0.4px] lg:mt-[43px] lg:text-left lg:text-[24px]">{heading}</h3>
-      <p className="text-easybank-neutral-400 mt-[20px] text-center text-[15px] leading-[25px] tracking-[-0.25px] lg:mt-7 lg:text-left lg:text-[16px] lg:leading-[26px]">{description}</p>
+      <h3 className="mt-7 text-[20px] font-light leading-none tracking-[-0.4px] text-easybank-primary-blue lg:mt-[43px] lg:text-left lg:text-[24px]">
+        {heading}
+      </h3>
+      <p className="mt-[20px] text-center text-[15px] leading-[25px] tracking-[-0.25px] text-easybank-neutral-400 lg:mt-7 lg:text-left lg:text-[16px] lg:leading-[26px]">
+        {description}
+      </p>
     </div>
   );
 }
@@ -189,49 +220,60 @@ function LatestArticles() {
     {
       author: "Claire Robinson",
       title: "Receive money in any currency with no fees",
-      summary: "The world is getting smaller and we’re becoming more mobile. So why should you be forced to only receive money in a single",
+      summary:
+        "The world is getting smaller and we’re becoming more mobile. So why should you be forced to only receive money in a single",
       cover: "/easybank-landing-page/images/image-currency.jpg",
     },
     {
       author: "Wilson Hutton",
       title: "Treat yourself without worrying about money",
-      summary: "Our simple budgeting feature allows you to separate out your spending and set realistic limits each month. That means you",
+      summary:
+        "Our simple budgeting feature allows you to separate out your spending and set realistic limits each month. That means you",
       cover: "/easybank-landing-page/images/image-restaurant.jpg",
     },
     {
       author: "Wilson Hutton",
       title: "Take your Easybank card wherever you go",
-      summary: "We want you to enjoy your travels. This is why we don’t charge any fees on purchases while you’re abroad. We’ll even show you",
+      summary:
+        "We want you to enjoy your travels. This is why we don’t charge any fees on purchases while you’re abroad. We’ll even show you",
       cover: "/easybank-landing-page/images/image-plane.jpg",
     },
     {
       author: "Claire Robinson",
       title: "Our invite-only Beta accounts are now live!",
-      summary: "After a lot of hard work by the whole team, we’re excited to launch our closed beta. It’s easy to request an invite through the site",
+      summary:
+        "After a lot of hard work by the whole team, we’re excited to launch our closed beta. It’s easy to request an invite through the site",
       cover: "/easybank-landing-page/images/image-confetti.jpg",
     },
   ];
   return (
     <div className="flex w-full flex-col items-center px-[24px] py-[88px] pb-[89px] lg:items-start lg:px-[165px] lg:pb-[81px] lg:pt-[94px]">
-      <h2 className="text-easybank-primary-blue text-center text-[32px] font-light leading-[37px] tracking-[-.3px] lg:w-fit lg:text-left lg:text-[40px] lg:tracking-[-.4px]">Latest Articles</h2>
+      <h2 className="text-center text-[32px] font-light leading-[37px] tracking-[-.3px] text-easybank-primary-blue lg:w-fit lg:text-left lg:text-[40px] lg:tracking-[-.4px]">
+        Latest Articles
+      </h2>
       <div className="mt-8 flex w-full flex-col items-center gap-[25px] lg:mt-[54px] lg:grid lg:grid-cols-4 lg:grid-rows-1 lg:gap-[30px]">
         {articles.map((article) => {
-          return (
-            <Article
-              key={article.title}
-              {...article}
-            />
-          );
+          return <Article key={article.title} {...article} />;
         })}
       </div>
     </div>
   );
 }
 
-function Article({ author, cover, summary, title, className, ...props }: HTMLProps<HTMLDivElement> & Article) {
+function Article({
+  author,
+  cover,
+  summary,
+  title,
+  className,
+  ...props
+}: HTMLProps<HTMLDivElement> & Article) {
   return (
     <div
-      className={twMerge("shadow-easybank-primary-blue/5 h-[394px] w-full overflow-hidden rounded-[5px] shadow max-lg:max-w-screen-sm", className)}
+      className={twMerge(
+        "h-[394px] w-full overflow-hidden rounded-[5px] shadow shadow-easybank-primary-blue/5 max-lg:max-w-screen-sm",
+        className,
+      )}
       {...props}
     >
       <div className="relative h-[200px] w-full">
@@ -242,12 +284,14 @@ function Article({ author, cover, summary, title, className, ...props }: HTMLPro
           fill
         />
       </div>
-      <div className="bg-easybank-neutral-100 text-easybank-neutral-400 h-full w-full px-[31px] py-[29px] lg:px-[24px] lg:pt-[29.5px]">
+      <div className="h-full w-full bg-easybank-neutral-100 px-[31px] py-[29px] text-easybank-neutral-400 lg:px-[24px] lg:pt-[29.5px]">
         <p className="text-[10px] leading-none tracking-[-.2px]">By {author}</p>
-        <h3 className="text-easybank-primary-blue hover:text-easybank-primary-green mt-[12px] leading-[20px] tracking-[-.35px]">
+        <h3 className="mt-[12px] leading-[20px] tracking-[-.35px] text-easybank-primary-blue hover:text-easybank-primary-green">
           <a href="">{title}</a>
         </h3>
-        <p className="mt-[8px] text-[13px] leading-[18px] tracking-[-.25px]">{summary} ...</p>
+        <p className="mt-[8px] text-[13px] leading-[18px] tracking-[-.25px]">
+          {summary} ...
+        </p>
       </div>
     </div>
   );
@@ -296,7 +340,7 @@ function SocialIcons() {
             className="flex h-6 items-center justify-center lg:h-5"
           >
             <Icon
-              className="hover:text-easybank-primary-green h-6 text-white lg:h-5"
+              className="h-6 text-white hover:text-easybank-primary-green lg:h-5"
               variant={icon}
             />
           </a>
@@ -308,12 +352,12 @@ function SocialIcons() {
 
 function Footer() {
   return (
-    <footer className="bg-easybank-primary-blue relative pb-[43.5px] pt-[40px] lg:pb-[48px] lg:pt-[48px]">
+    <footer className="relative bg-easybank-primary-blue pb-[43.5px] pt-[40px] lg:pb-[48px] lg:pt-[48px]">
       <div className="flex flex-col items-center lg:h-[95px] lg:flex-wrap lg:items-start lg:px-[165px]">
         <Logo variant="footer" />
         <SocialIcons />
         <nav className="mt-[37px] lg:-ml-[30px] lg:mt-0 lg:h-full lg:py-[6.5px]">
-          <ul className="text-easybank-neutral-300 [&_a:hover]:text-easybank-primary-green flex flex-col items-center gap-[19px] text-[15px] leading-none tracking-[-.25px] lg:grid lg:h-full lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-3 lg:gap-x-[calc(96/1440*100vw)]">
+          <ul className="flex flex-col items-center gap-[19px] text-[15px] leading-none tracking-[-.25px] text-easybank-neutral-300 lg:grid lg:h-full lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-3 lg:gap-x-[calc(96/1440*100vw)] [&_a:hover]:text-easybank-primary-green">
             <li>
               <a href="">About Us</a>
             </li>
@@ -335,9 +379,11 @@ function Footer() {
           </ul>
         </nav>
         <RequestInvite className="mt-[38px] lg:ml-auto lg:mt-[1px]" />
-        <p className="text-easybank-neutral-400 mt-[25px] text-[15px] tracking-[-.25px] lg:ml-auto lg:mt-[26px]">© Easybank. All Rights Reserved</p>
+        <p className="mt-[25px] text-[15px] tracking-[-.25px] text-easybank-neutral-400 lg:ml-auto lg:mt-[26px]">
+          © Easybank. All Rights Reserved
+        </p>
       </div>
-      <div className="text-easybank-neutral-100 [&_a:hover]:text-easybank-primary-green absolute bottom-3 w-full text-center text-[11px] lg:px-[165px] lg:text-right [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <div className="absolute bottom-3 w-full text-center text-[11px] text-easybank-neutral-100 lg:px-[165px] lg:text-right [&_a:hover]:text-easybank-primary-green [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
@@ -362,36 +408,19 @@ function Footer() {
 
 // SVG's
 
-function Logo({ variant, ...props }: HTMLProps<SVGSVGElement> & { variant?: "header" | "footer" }) {
+function Logo({
+  variant,
+  ...props
+}: HTMLProps<SVGSVGElement> & { variant?: "header" | "footer" }) {
   return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width={139}
-      height={20}
-    >
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width={139} height={20}>
       <defs>
-        <linearGradient
-          id="a"
-          x1="72.195%"
-          x2="17.503%"
-          y1="0%"
-          y2="100%"
-        >
-          <stop
-            offset="0%"
-            stopColor="#33D35E"
-          />
-          <stop
-            offset="100%"
-            stopColor="#2AB6D9"
-          />
+        <linearGradient id="a" x1="72.195%" x2="17.503%" y1="0%" y2="100%">
+          <stop offset="0%" stopColor="#33D35E" />
+          <stop offset="100%" stopColor="#2AB6D9" />
         </linearGradient>
       </defs>
-      <g
-        fill="none"
-        fillRule="evenodd"
-      >
+      <g fill="none" fillRule="evenodd">
         <path
           fill={!variant || variant === "header" ? "#2D314D" : "#FFFFFF"}
           fillRule="nonzero"
@@ -399,23 +428,31 @@ function Logo({ variant, ...props }: HTMLProps<SVGSVGElement> & { variant?: "hea
         />
         <g fill="url(#a)">
           <path d="M10.802 0L0 19.704h5.986L16.789 0z" />
-          <path
-            opacity=".5"
-            d="M18.171 0L7.368 19.704h5.986L24.157 0z"
-          />
-          <path
-            opacity=".15"
-            d="M25.539 0L14.737 19.704h5.986L31.525 0z"
-          />
+          <path opacity=".5" d="M18.171 0L7.368 19.704h5.986L24.157 0z" />
+          <path opacity=".15" d="M25.539 0L14.737 19.704h5.986L31.525 0z" />
         </g>
       </g>
     </svg>
   );
 }
 
-type IconVariant = "api" | "budgeting" | "close" | "facebook" | "hamburger" | "instagram" | "onboarding" | "online" | "pinterest" | "twitter" | "youtube";
+type IconVariant =
+  | "api"
+  | "budgeting"
+  | "close"
+  | "facebook"
+  | "hamburger"
+  | "instagram"
+  | "onboarding"
+  | "online"
+  | "pinterest"
+  | "twitter"
+  | "youtube";
 
-function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVGElement>) {
+function Icon({
+  variant,
+  ...props
+}: { variant: IconVariant } & HTMLProps<SVGSVGElement>) {
   switch (variant) {
     case "api":
       return (
@@ -426,33 +463,13 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
           height={72}
         >
           <defs>
-            <linearGradient
-              id="a"
-              x1="0%"
-              x2="99.58%"
-              y1="0%"
-              y2="99.58%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#33D35E"
-              />
-              <stop
-                offset="100%"
-                stopColor="#2AB6D9"
-              />
+            <linearGradient id="a" x1="0%" x2="99.58%" y1="0%" y2="99.58%">
+              <stop offset="0%" stopColor="#33D35E" />
+              <stop offset="100%" stopColor="#2AB6D9" />
             </linearGradient>
           </defs>
-          <g
-            fill="none"
-            fillRule="evenodd"
-          >
-            <circle
-              cx={36}
-              cy={36}
-              r={36}
-              fill="url(#a)"
-            />
+          <g fill="none" fillRule="evenodd">
+            <circle cx={36} cy={36} r={36} fill="url(#a)" />
             <path
               fill="#FFF"
               fillRule="nonzero"
@@ -470,33 +487,13 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
           height={72}
         >
           <defs>
-            <linearGradient
-              id="a"
-              x1="0%"
-              x2="99.58%"
-              y1="0%"
-              y2="99.58%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#33D35E"
-              />
-              <stop
-                offset="100%"
-                stopColor="#2AB6D9"
-              />
+            <linearGradient id="a" x1="0%" x2="99.58%" y1="0%" y2="99.58%">
+              <stop offset="0%" stopColor="#33D35E" />
+              <stop offset="100%" stopColor="#2AB6D9" />
             </linearGradient>
           </defs>
-          <g
-            fill="none"
-            fillRule="evenodd"
-          >
-            <circle
-              cx={36}
-              cy={36}
-              r={36}
-              fill="url(#a)"
-            />
+          <g fill="none" fillRule="evenodd">
+            <circle cx={36} cy={36} r={36} fill="url(#a)" />
             <path
               fill="#FFF"
               fillRule="nonzero"
@@ -513,10 +510,7 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
           width={18}
           height={19}
         >
-          <g
-            fill="#2D314D"
-            fillRule="evenodd"
-          >
+          <g fill="#2D314D" fillRule="evenodd">
             <path d="M.868.661l16.97 16.97-.706.708L.162 1.369z" />
             <path d="M.161 17.632L17.131.662l.708.706-16.97 16.97z" />
           </g>
@@ -544,10 +538,7 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
           width={24}
           height={11}
         >
-          <g
-            fill="#2D314D"
-            fillRule="evenodd"
-          >
+          <g fill="#2D314D" fillRule="evenodd">
             <path d="M0 0h24v1H0zM0 5h24v1H0zM0 10h24v1H0z" />
           </g>
         </svg>
@@ -575,33 +566,13 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
           height={72}
         >
           <defs>
-            <linearGradient
-              id="a"
-              x1="0%"
-              x2="99.58%"
-              y1="0%"
-              y2="99.58%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#33D35E"
-              />
-              <stop
-                offset="100%"
-                stopColor="#2AB6D9"
-              />
+            <linearGradient id="a" x1="0%" x2="99.58%" y1="0%" y2="99.58%">
+              <stop offset="0%" stopColor="#33D35E" />
+              <stop offset="100%" stopColor="#2AB6D9" />
             </linearGradient>
           </defs>
-          <g
-            fill="none"
-            fillRule="evenodd"
-          >
-            <circle
-              cx={36}
-              cy={36}
-              r={36}
-              fill="url(#a)"
-            />
+          <g fill="none" fillRule="evenodd">
+            <circle cx={36} cy={36} r={36} fill="url(#a)" />
             <path
               fill="#FFF"
               fillRule="nonzero"
@@ -619,33 +590,13 @@ function Icon({ variant, ...props }: { variant: IconVariant } & HTMLProps<SVGSVG
           height={72}
         >
           <defs>
-            <linearGradient
-              id="a"
-              x1="0%"
-              x2="99.58%"
-              y1="0%"
-              y2="99.58%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#33D35E"
-              />
-              <stop
-                offset="100%"
-                stopColor="#2AB6D9"
-              />
+            <linearGradient id="a" x1="0%" x2="99.58%" y1="0%" y2="99.58%">
+              <stop offset="0%" stopColor="#33D35E" />
+              <stop offset="100%" stopColor="#2AB6D9" />
             </linearGradient>
           </defs>
-          <g
-            fill="none"
-            fillRule="evenodd"
-          >
-            <circle
-              cx={36}
-              cy={36}
-              r={36}
-              fill="url(#a)"
-            />
+          <g fill="none" fillRule="evenodd">
+            <circle cx={36} cy={36} r={36} fill="url(#a)" />
             <path
               fill="#FFF"
               fillRule="nonzero"

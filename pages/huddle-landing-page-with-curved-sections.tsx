@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Footer from "../components/huddle-landing-page-with-curved-sections/Footer";
 import Image from "next/image";
-import { CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { openSans } from "../utils/fonts/openSans";
 import { poppins } from "../utils/fonts/poppins";
 

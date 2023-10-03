@@ -14,9 +14,9 @@ export default function Main() {
   const [data, setData] = useState<Advice | null>(null);
   const [isLoading, setLoading] = useState(true);
 
-  const fetchNewQuote = () => {
+  const fetchNewQuote = async () => {
     setLoading(true);
-    fetch("https://api.adviceslip.com/advice", { cache: "no-cache" })
+    await fetch("https://api.adviceslip.com/advice", { cache: "no-cache" })
       .then((res) => res.json())
       .then((data: Data) => {
         setData(data.slip);
@@ -25,7 +25,7 @@ export default function Main() {
   };
 
   useEffect(() => {
-    fetchNewQuote();
+    void fetchNewQuote();
     // setData({
     //   id: 117,
     //   advice: "It is easy to sit up and take notice, what's difficult is getting up and taking action.",
@@ -34,25 +34,30 @@ export default function Main() {
   }, []);
 
   return (
-    <div className="bg-advice-neutral-200 text-advice-primary-cyan relative flex w-[calc(100vw-32px)] max-w-[540px] -translate-y-[56px] flex-col items-center justify-center rounded-xl px-5 pb-16 pt-[39px] text-center shadow-[0px_40px_30px_-5px_rgba(0,0,0,0.05)] lg:-translate-y-[16px] lg:px-12 lg:pb-[72px] lg:pt-[48px] lg:shadow-[25px_50px_50px_-5px_rgba(0,0,0,0.075)]">
-      <p className="text-advice-primary-green text-[11px] font-bold uppercase tracking-[3.25px] lg:text-[13px] lg:tracking-[4px]">
+    <div className="relative flex w-[calc(100vw-32px)] max-w-[540px] -translate-y-[56px] flex-col items-center justify-center rounded-xl bg-advice-neutral-200 px-5 pb-16 pt-[39px] text-center text-advice-primary-cyan shadow-[0px_40px_30px_-5px_rgba(0,0,0,0.05)] lg:-translate-y-[16px] lg:px-12 lg:pb-[72px] lg:pt-[48px] lg:shadow-[25px_50px_50px_-5px_rgba(0,0,0,0.075)]">
+      <p className="text-[11px] font-bold uppercase tracking-[3.25px] text-advice-primary-green lg:text-[13px] lg:tracking-[4px]">
         Advice <span>{isLoading ? "#..." : data ? `#${data.id}` : "#"}</span>
       </p>
-      <div className="mt-[23px] text-[24px] font-bold leading-[33px] lg:mt-[22px] lg:text-[28px] lg:leading-[38px]">{isLoading ? <Spinner /> : data ? `"${data.advice}"` : "..."}</div>
+      <div className="mt-[23px] text-[24px] font-bold leading-[33px] lg:mt-[22px] lg:text-[28px] lg:leading-[38px]">
+        {isLoading ? <Spinner /> : data ? `"${data.advice}"` : "..."}
+      </div>
       <Divider />
-      <DiceButton
-        fetchNewQuote={fetchNewQuote}
-        isLoading={isLoading}
-      />
+      <DiceButton fetchNewQuote={fetchNewQuote} isLoading={isLoading} />
     </div>
   );
 }
 
-const DiceButton = ({ fetchNewQuote, isLoading }: { fetchNewQuote: () => void; isLoading: boolean }) => {
+const DiceButton = ({
+  fetchNewQuote,
+  isLoading,
+}: {
+  fetchNewQuote: () => void;
+  isLoading: boolean;
+}) => {
   return (
     <button
       className={cn([
-        "bg-advice-primary-green group absolute -bottom-8 flex aspect-square w-16 items-center justify-center rounded-full [&:hover>img]:rotate-12", //
+        "group absolute -bottom-8 flex aspect-square w-16 items-center justify-center rounded-full bg-advice-primary-green [&:hover>img]:rotate-12", //
         isLoading && "animate-spin",
       ])}
       onClick={fetchNewQuote}
@@ -93,7 +98,7 @@ const Spinner = () => {
     <div role="status">
       <svg
         aria-hidden="true"
-        className="dark:text-advice-neutral-100 fill-advice-primary-green h-8 w-8 animate-spin text-gray-200"
+        className="h-8 w-8 animate-spin fill-advice-primary-green text-gray-200 dark:text-advice-neutral-100"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

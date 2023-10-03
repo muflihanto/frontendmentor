@@ -1,5 +1,5 @@
 import { atom, useAtom, Provider, useAtomValue } from "jotai";
-import { ChangeEventHandler } from "react";
+import type { ChangeEventHandler } from "react";
 import Head from "next/head";
 
 // Create your atoms and derivatives
@@ -11,7 +11,8 @@ const uppercaseAtom = atom((get) => get(textAtom).toUpperCase());
 // Use them anywhere in your app
 const Input = () => {
   const [text, setText] = useAtom(textAtom);
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => setText(e.target.value);
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) =>
+    setText(e.target.value);
 
   return (
     <input

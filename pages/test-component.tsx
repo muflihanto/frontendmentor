@@ -5,15 +5,21 @@ import { type AriaButtonProps, useToggleButton } from "react-aria";
 import { useToggleState } from "react-stately";
 
 function ToggleButton(props: AriaButtonProps) {
-  let ref = useRef(null);
-  let state = useToggleState(props);
-  let { buttonProps, isPressed } = useToggleButton(props, state, ref);
+  const ref = useRef(null);
+  const state = useToggleState(props);
+  const { buttonProps, isPressed } = useToggleButton(props, state, ref);
 
   return (
     <button
       {...buttonProps}
       style={{
-        background: isPressed ? (state.isSelected ? "darkgreen" : "gray") : state.isSelected ? "green" : "lightgray",
+        background: isPressed
+          ? state.isSelected
+            ? "darkgreen"
+            : "gray"
+          : state.isSelected
+          ? "green"
+          : "lightgray",
         color: state.isSelected ? "white" : "black",
         padding: 10,
         fontSize: 16,

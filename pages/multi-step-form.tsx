@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FormEventHandler, useEffect, useState } from "react";
+import { type FormEventHandler } from "react";
 import Link from "next/link";
 import { cn } from "../utils/cn";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ import { ubuntu } from "../utils/fonts/ubuntu";
 /**
  * TODO:
  * - View the optimal layout for the interface depending on their device's screen size
+ * - Add some errors state styling
  */
 
 type Queries = {
@@ -133,7 +134,7 @@ function PersonalInfoForm() {
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setFormsInput((prev) => {
       const prevStep = prev.completedStep;
       return {
@@ -142,7 +143,7 @@ function PersonalInfoForm() {
         completedStep: !!prevStep && parseInt(prevStep) > 1 ? prevStep : "1",
       };
     });
-    router.push({
+    await router.push({
       pathname: "/multi-step-form",
       query: {
         step: (router.query as Queries).step
@@ -236,16 +237,12 @@ function PersonalInfoForm() {
 function PlanForm() {
   const [formsInput, setFormsInput] = useAtom(formsInputAtom);
   const router = useRouter();
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-  } = useForm<Plan>({
+  const { handleSubmit, register } = useForm<Plan>({
     resolver: zodResolver(Plan),
     defaultValues: { plan: formsInput.plan },
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setFormsInput((prev) => {
       const prevStep = prev.completedStep;
       return {
@@ -254,7 +251,7 @@ function PlanForm() {
         completedStep: !!prevStep && parseInt(prevStep) > 2 ? prevStep : "2",
       };
     });
-    router.push({
+    await router.push({
       pathname: "/multi-step-form",
       query: { step: 3 },
     });
@@ -444,11 +441,7 @@ function PlanForm() {
 function AddOnsForm() {
   const [formsInput, setFormsInput] = useAtom(formsInputAtom);
   const router = useRouter();
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-  } = useForm<AddOns>({
+  const { handleSubmit, register } = useForm<AddOns>({
     resolver: zodResolver(AddOns),
     defaultValues: {
       customizableProfile: formsInput.customizableProfile,
@@ -458,7 +451,7 @@ function AddOnsForm() {
   });
   const planType = useAtomValue(planTypeAtom);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setFormsInput((prev) => {
       const prevStep = prev.completedStep;
       return {
@@ -467,7 +460,7 @@ function AddOnsForm() {
         completedStep: !!prevStep && parseInt(prevStep) > 3 ? prevStep : "3",
       };
     });
-    router.push({
+    await router.push({
       pathname: "/multi-step-form",
       query: {
         step: (router.query as Queries).step
@@ -616,7 +609,7 @@ function FinishingUp() {
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     // console.log(formsInput);
-    router.push({
+    void router.push({
       pathname: "/multi-step-form",
       query: { step: 4, completed: 1 },
     });
@@ -769,14 +762,14 @@ function Main() {
   useEffectOnce(() => {
     const step = (router.query as Queries).step;
     if (!step) {
-      router.push({
+      void router.push({
         pathname: "/multi-step-form",
         query: { step: 1 },
       });
-    } else if (parseInt(step) > parseInt(formsInput.completedStep || "1")) {
-      router.push({
+    } else if (parseInt(step) > parseInt(formsInput.completedStep ?? "1")) {
+      void router.push({
         pathname: "/multi-step-form",
-        query: { step: parseInt(formsInput.completedStep || "1") },
+        query: { step: parseInt(formsInput.completedStep ?? "1") },
       });
     }
   });
@@ -793,7 +786,7 @@ function Main() {
                   (router.query as Queries).step === String(index + 1)
                     ? "border-transparent bg-multi-step-primary-blue-100 text-multi-step-primary-blue-400"
                     : "border-multi-step-neutral-100 text-multi-step-neutral-100",
-                  index > parseInt(formsInput.completedStep || "0") &&
+                  index > parseInt(formsInput.completedStep ?? "0") &&
                     "pointer-events-none",
                 ])}
                 href={{

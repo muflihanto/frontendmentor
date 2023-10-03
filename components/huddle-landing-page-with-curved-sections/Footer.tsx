@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Logo } from "../../pages/huddle-landing-page-with-curved-sections";
-import { ComponentProps, useEffect } from "react";
+import { type ComponentProps, useEffect } from "react";
 import { cn } from "../../utils/cn";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,36 +23,34 @@ const Footer = () => {
           fill
         />
       </div>
-      <div className="bg-huddle-curve-neutral-700 text-huddle-curve-neutral-100 relative grid grid-rows-2 gap-y-[92px] px-7 pb-[43.48px] pt-[56px] lg:grid-cols-2 lg:grid-rows-1 lg:px-[120px] lg:pb-[100.18px] lg:pt-[122px]">
+      <div className="relative grid grid-rows-2 gap-y-[92px] bg-huddle-curve-neutral-700 px-7 pb-[43.48px] pt-[56px] text-huddle-curve-neutral-100 lg:grid-cols-2 lg:grid-rows-1 lg:px-[120px] lg:pb-[100.18px] lg:pt-[122px]">
         <div className="max-md:row-start-2 lg:w-[310px]">
-          <Logo
-            className="h-[32px] lg:h-[39px]"
-            white
-          />
-          <p className="mt-[16px] pr-2 text-[14px] leading-[24px] tracking-[0.25px] lg:mt-[25px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nulla quam, hendrerit lacinia vestibulum a, ultrices quis sem.</p>
+          <Logo className="h-[32px] lg:h-[39px]" white />
+          <p className="mt-[16px] pr-2 text-[14px] leading-[24px] tracking-[0.25px] lg:mt-[25px]">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+            nulla quam, hendrerit lacinia vestibulum a, ultrices quis sem.
+          </p>
           <p className="ml-[3px] mt-[42px] flex items-center justify-start lg:mt-[26px]">
-            <svg
-              viewBox="0 0 18 18"
-              className="w-[18px]"
-            >
+            <svg viewBox="0 0 18 18" className="w-[18px]">
               <use href="/huddle-landing-page-with-curved-sections/images/icon-phone.svg#icon-phone" />
             </svg>
-            <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">Phone: +1-543-123-4567</span>
+            <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">
+              Phone: +1-543-123-4567
+            </span>
           </p>
           <p className="ml-[3px] mt-[19px] flex items-center justify-start lg:mt-[15px]">
-            <svg
-              className="w-5"
-              viewBox="0 0 20 16"
-            >
+            <svg className="w-5" viewBox="0 0 20 16">
               <use href="/huddle-landing-page-with-curved-sections/images/icon-email.svg#icon-email" />
             </svg>
-            <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">example@huddle.com</span>
+            <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">
+              example@huddle.com
+            </span>
           </p>
 
           <SocialIcons />
         </div>
         <SubscribeNewsletter className="max-md:row-start-1 lg:w-[520px] lg:justify-self-end" />
-        <p className="text-huddle-curve-neutral-100 [&_a]:text-huddle-curve-primary-pink-100 absolute bottom-2 left-0 w-full text-center text-[11px] lg:bottom-8 lg:px-[120px] lg:text-right lg:text-[13px] [&_a:hover]:opacity-75 [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy">
+        <p className="absolute bottom-2 left-0 w-full text-center text-[11px] text-huddle-curve-neutral-100 lg:bottom-8 lg:px-[120px] lg:text-right lg:text-[13px] [&_a:hover]:opacity-75 [&_a]:font-bold [&_a]:text-huddle-curve-primary-pink-100 [&_a]:underline [&_a]:decoration-wavy">
           Challenge by{" "}
           <a
             href="https://www.frontendmentor.io?ref=challenge"
@@ -101,7 +99,10 @@ function SocialIcons({}) {
 }
 
 const InputSchema = z.object({
-  email: z.string().min(1, "Email must not be empty").email("Check your email please"),
+  email: z
+    .string()
+    .min(1, "Email must not be empty")
+    .email("Check your email please"),
 });
 type InputSchema = z.infer<typeof InputSchema>;
 function SubscribeNewsletter({ className }: ComponentProps<"div">) {
@@ -126,8 +127,13 @@ function SubscribeNewsletter({ className }: ComponentProps<"div">) {
 
   return (
     <div className={cn([className])}>
-      <h2 className="text-[20px] font-bold uppercase lg:text-[24px]">Newsletter</h2>
-      <p className="mt-[15px] pr-2 text-[14px] leading-[24px] tracking-[0.25px] lg:mt-[16px] lg:w-[360px]">To recieve tips on how to grow your community, sign up to our weekly newsletter. We’ll never send you spam or pass on your email address</p>
+      <h2 className="text-[20px] font-bold uppercase lg:text-[24px]">
+        Newsletter
+      </h2>
+      <p className="mt-[15px] pr-2 text-[14px] leading-[24px] tracking-[0.25px] lg:mt-[16px] lg:w-[360px]">
+        To recieve tips on how to grow your community, sign up to our weekly
+        newsletter. We’ll never send you spam or pass on your email address
+      </p>
       <form
         className="mt-[32px] grid grid-cols-2 grid-rows-2 gap-x-0 gap-y-4 lg:mt-[40px] lg:grid-cols-[minmax(0px,auto),160px] lg:grid-rows-1 lg:gap-x-[40px]"
         onSubmit={onSubmit}
@@ -136,14 +142,20 @@ function SubscribeNewsletter({ className }: ComponentProps<"div">) {
           <input
             type="email"
             className={cn([
-              "text-huddle-curve-neutral-700 focus-visible:outline-huddle-curve-primary-pink-200 h-full w-full rounded-md px-4 text-left focus-visible:outline focus-visible:outline-2", //
+              "h-full w-full rounded-md px-4 text-left text-huddle-curve-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-huddle-curve-primary-pink-200", //
               !!errors.email && "text-red-500 focus-visible:outline-red-500",
             ])}
             {...register("email")}
           />
-          {errors.email ? <p className="mt-[5px] text-[12.5px] text-red-400">{errors.email.message}</p> : null}
+          {errors.email ? (
+            <p className="mt-[5px] text-[12.5px] text-red-400">
+              {errors.email.message}
+            </p>
+          ) : null}
         </div>
-        <button className="bg-huddle-curve-primary-pink-200 hover:bg-huddle-curve-primary-pink-100 text-huddle-curve-neutral-100/75 col-start-2 rounded-md font-bold lg:col-start-2">Subscribe</button>
+        <button className="col-start-2 rounded-md bg-huddle-curve-primary-pink-200 font-bold text-huddle-curve-neutral-100/75 hover:bg-huddle-curve-primary-pink-100 lg:col-start-2">
+          Subscribe
+        </button>
       </form>
     </div>
   );

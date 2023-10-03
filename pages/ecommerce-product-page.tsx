@@ -1,13 +1,22 @@
 import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, useState } from "react";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { cartAtom } from "../components/ecommerce-product-page/CartController";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
-const CartController = dynamic(import("../components/ecommerce-product-page/CartController"), { ssr: false });
-const MobileMenu = dynamic(import("../components/ecommerce-product-page/MobileMenu"), { ssr: false });
-const Lightbox = dynamic(import("../components/ecommerce-product-page/Lightbox"), { ssr: false });
+const CartController = dynamic(
+  import("../components/ecommerce-product-page/CartController"),
+  { ssr: false },
+);
+const MobileMenu = dynamic(
+  import("../components/ecommerce-product-page/MobileMenu"),
+  { ssr: false },
+);
+const Lightbox = dynamic(
+  import("../components/ecommerce-product-page/Lightbox"),
+  { ssr: false },
+);
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 /**
  * TODO:
@@ -32,13 +41,24 @@ export type CartItem = Pick<Product, "name" | "thumbnails" | "price"> & {
 export const productCountAtom = atom(0);
 export const productAtom = atom<Product>({
   discount: 50,
-  images: ["/ecommerce-product-page/images/image-product-1.jpg", "/ecommerce-product-page/images/image-product-2.jpg", "/ecommerce-product-page/images/image-product-3.jpg", "/ecommerce-product-page/images/image-product-4.jpg"],
+  images: [
+    "/ecommerce-product-page/images/image-product-1.jpg",
+    "/ecommerce-product-page/images/image-product-2.jpg",
+    "/ecommerce-product-page/images/image-product-3.jpg",
+    "/ecommerce-product-page/images/image-product-4.jpg",
+  ],
   name: "Fall Limited Edition Sneakers",
   brand: "Sneaker Company",
-  description: "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
+  description:
+    "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
   originalPrice: 250,
   price: 125,
-  thumbnails: ["/ecommerce-product-page/images/image-product-1-thumbnail.jpg", "/ecommerce-product-page/images/image-product-2-thumbnail.jpg", "/ecommerce-product-page/images/image-product-3-thumbnail.jpg", "/ecommerce-product-page/images/image-product-4-thumbnail.jpg"],
+  thumbnails: [
+    "/ecommerce-product-page/images/image-product-1-thumbnail.jpg",
+    "/ecommerce-product-page/images/image-product-2-thumbnail.jpg",
+    "/ecommerce-product-page/images/image-product-3-thumbnail.jpg",
+    "/ecommerce-product-page/images/image-product-4-thumbnail.jpg",
+  ],
 });
 export const cartOpenAtom = atom(false);
 export const menuOpenAtom = atom(false);
@@ -77,7 +97,7 @@ export default function EcommerceProductPage() {
       <Head>
         <title>Frontend Mentor | E-commerce product page</title>
       </Head>
-      <div className="App [&_*]:font-kumbh-sans relative min-h-[100svh]">
+      <div className="App relative min-h-[100svh] [&_*]:font-kumbh-sans">
         <Header />
         <Main />
         <Footer />
@@ -130,19 +150,16 @@ function Header() {
       </button>
       <MobileMenu navs={navs} />
       <Logo className="ml-2 lg:ml-0 lg:mt-[2px]" />
-      <nav className="text-ecommerce-neutral-400 ml-14 text-[15px] max-lg:hidden">
+      <nav className="ml-14 text-[15px] text-ecommerce-neutral-400 max-lg:hidden">
         <ul className="flex gap-[32.75px] tracking-[.1px]">
           {navs.map((nav, index) => {
             const { text, href } = nav;
             return (
               <li
                 key={index}
-                className="hover:before:bg-ecommerce-primary-200 hover:text-ecommerce-neutral-600 hover:relative hover:before:absolute hover:before:bottom-[-49px] hover:before:left-0 hover:before:z-20 hover:before:h-1 hover:before:w-full hover:before:content-['']"
+                className="hover:relative hover:text-ecommerce-neutral-600 hover:before:absolute hover:before:bottom-[-49px] hover:before:left-0 hover:before:z-20 hover:before:h-1 hover:before:w-full hover:before:bg-ecommerce-primary-200 hover:before:content-['']"
               >
-                <a
-                  href={href}
-                  className=""
-                >
+                <a href={href} className="">
                   {text}
                 </a>
               </li>
@@ -159,7 +176,11 @@ function Header() {
       >
         <svg
           viewBox="0 0 22 20"
-          className={`group-hover:fill-ecommerce-neutral-600 w-[22px] ${cartItem.length === 0 ? "fill-[#69707D]" : "fill-ecommerce-neutral-600"}`}
+          className={`w-[22px] group-hover:fill-ecommerce-neutral-600 ${
+            cartItem.length === 0
+              ? "fill-[#69707D]"
+              : "fill-ecommerce-neutral-600"
+          }`}
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -167,9 +188,13 @@ function Header() {
             fillRule="nonzero"
           />
         </svg>
-        {cartItem.length !== 0 && <span className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 absolute -right-[5px] -top-1 flex h-[13px] w-5 items-center justify-center rounded-full text-[10px] font-bold">{cartItem.length}</span>}
+        {cartItem.length !== 0 && (
+          <span className="absolute -right-[5px] -top-1 flex h-[13px] w-5 items-center justify-center rounded-full bg-ecommerce-primary-200 text-[10px] font-bold text-ecommerce-neutral-100">
+            {cartItem.length}
+          </span>
+        )}
       </button>
-      <button className="hover:ring-ecommerce-primary-200 relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2 hover:ring lg:ml-[45px] lg:h-[50px] lg:w-[50px]">
+      <button className="relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2 hover:ring hover:ring-ecommerce-primary-200 lg:ml-[45px] lg:h-[50px] lg:w-[50px]">
         <Image
           src={"/ecommerce-product-page/images/image-avatar.png"}
           className="object-contain"
@@ -188,9 +213,9 @@ function PhotoSlide({ product }: { product: Product }) {
 
   return (
     <div>
-      <div className="bg-ecommerce-primary-200 relative mx-auto h-[calc(100vw-375px+300px)] max-h-[445px] w-full max-w-[445px] overflow-hidden lg:rounded-2xl">
+      <div className="relative mx-auto h-[calc(100vw-375px+300px)] max-h-[445px] w-full max-w-[445px] overflow-hidden bg-ecommerce-primary-200 lg:rounded-2xl">
         <button
-          className="bg-ecommerce-primary-100 absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px] lg:hidden"
+          className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ecommerce-primary-100 p-[14px] lg:hidden"
           onClick={() => {
             setLeftPos((p) => {
               return p !== 0 ? p - 1 : 3;
@@ -215,16 +240,15 @@ function PhotoSlide({ product }: { product: Product }) {
           className="relative left-0 flex h-full w-[400%] translate-x-[var(--translate)] gap-0 transition-all duration-150"
           style={
             {
-              "--translate": `calc(${leftPos} * -${100 / product.images.length}%)`,
+              "--translate": `calc(${leftPos} * -${
+                100 / product.images.length
+              }%)`,
             } as CSSProperties
           }
         >
           {product.images.map((img, index) => {
             return (
-              <div
-                className="relative h-full w-[100%]"
-                key={index}
-              >
+              <div className="relative h-full w-[100%]" key={index}>
                 <button
                   className="relative z-10 flex h-full w-full items-center justify-center opacity-0 max-lg:hidden"
                   onClick={() => {
@@ -242,7 +266,7 @@ function PhotoSlide({ product }: { product: Product }) {
           })}
         </div>
         <button
-          className="bg-ecommerce-primary-100 absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full p-[14px] lg:hidden"
+          className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ecommerce-primary-100 p-[14px] lg:hidden"
           onClick={() => {
             setLeftPos((p) => {
               return p !== 3 ? p + 1 : 0;
@@ -270,7 +294,8 @@ function PhotoSlide({ product }: { product: Product }) {
             <button
               key={index}
               className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:z-10 hover:before:h-full hover:before:w-full hover:before:bg-white/50 hover:before:content-[''] ${
-                leftPos === index && "ring-ecommerce-primary-200 ring-2 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
+                leftPos === index &&
+                "ring-2 ring-ecommerce-primary-200 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
               }`}
               onClick={() => {
                 setLeftPos(index);
@@ -293,15 +318,27 @@ function PhotoSlide({ product }: { product: Product }) {
 function ProductDetail({ product }: { product: Product }) {
   return (
     <div className="mx-auto w-full max-w-[445px] px-6 pt-[21px] lg:px-0 lg:pt-[59px]">
-      <p className="text-ecommerce-primary-200/80 text-[12px] font-bold uppercase tracking-[1.7px] lg:text-[14px] lg:tracking-[1.2px]">{product.brand}</p>
-      <h1 className="text-ecommerce-neutral-500 mt-[13px] text-[28px] font-bold leading-[32px] lg:mt-[17px] lg:text-[44px] lg:leading-[48px]">{product.name}</h1>
-      <p className="text-ecommerce-neutral-400 mt-[16px] text-[15px] leading-[25px] tracking-[0.02px] lg:mt-[35px] lg:text-[16px] lg:leading-[26px] lg:tracking-[0.075px]">{product.description}</p>
+      <p className="text-[12px] font-bold uppercase tracking-[1.7px] text-ecommerce-primary-200/80 lg:text-[14px] lg:tracking-[1.2px]">
+        {product.brand}
+      </p>
+      <h1 className="mt-[13px] text-[28px] font-bold leading-[32px] text-ecommerce-neutral-500 lg:mt-[17px] lg:text-[44px] lg:leading-[48px]">
+        {product.name}
+      </h1>
+      <p className="mt-[16px] text-[15px] leading-[25px] tracking-[0.02px] text-ecommerce-neutral-400 lg:mt-[35px] lg:text-[16px] lg:leading-[26px] lg:tracking-[0.075px]">
+        {product.description}
+      </p>
       <div className="mt-[21px] flex items-center lg:flex-col lg:items-start lg:gap-1">
         <p className="flex items-center lg:px-[1px]">
-          <span className="text-ecommerce-neutral-500 text-[28px] font-bold tracking-[1px]">${product.price.toFixed(2)}</span>
-          <span className="text-ecommerce-primary-200 bg-ecommerce-primary-100 ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded pt-[1px] font-bold tracking-[0.5px]">{product.discount}%</span>
+          <span className="text-[28px] font-bold tracking-[1px] text-ecommerce-neutral-500">
+            ${product.price.toFixed(2)}
+          </span>
+          <span className="ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded bg-ecommerce-primary-100 pt-[1px] font-bold tracking-[0.5px] text-ecommerce-primary-200">
+            {product.discount}%
+          </span>
         </p>
-        <p className="text-ecommerce-neutral-300 ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] line-through lg:ml-0">${product.originalPrice.toFixed(2)}</p>
+        <p className="ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] text-ecommerce-neutral-300 line-through lg:ml-0">
+          ${product.originalPrice.toFixed(2)}
+        </p>
       </div>
       <CartController product={product} />
     </div>
@@ -320,11 +357,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .
@@ -332,7 +365,13 @@ function Footer() {
   );
 }
 
-function Logo({ size = 138, className }: { size?: number; className?: string }) {
+function Logo({
+  size = 138,
+  className,
+}: {
+  size?: number;
+  className?: string;
+}) {
   return (
     <svg
       style={

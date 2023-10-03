@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import {
-  ComponentProps,
-  PropsWithChildren,
+  type ComponentProps,
+  type PropsWithChildren,
   useCallback,
   useEffect,
   useState,

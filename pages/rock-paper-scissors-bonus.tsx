@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { ComponentProps, useEffect, useRef } from "react";
+import { type ComponentProps, useEffect, useRef } from "react";
 import { cn } from "../utils/cn";
 import { twJoin } from "tailwind-merge";
 import { useEffectOnce } from "usehooks-ts";
@@ -336,7 +336,7 @@ function WaitForHouse() {
                 !!win ? winStyle : "relative z-10",
               ])}
             >
-              <ChoiceButton variant={choice!} disabled />
+              <ChoiceButton variant={choice} disabled />
             </div>
           ) : (
             <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:mt-[98px] lg:w-[224px]" />

@@ -1,4 +1,4 @@
-import { type InferGetStaticPropsType, GetStaticPropsContext } from "next";
+import type { InferGetStaticPropsType, GetStaticPropsContext } from "next";
 import type { NextPage } from "next";
 
 import Creations from "../components/loopstudios-landing-page/Creations";
@@ -13,7 +13,7 @@ import { alata } from "../utils/fonts/alata";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-export const getStaticProps = async (ctx: GetStaticPropsContext) => {
+export const getStaticProps = (_ctx: GetStaticPropsContext) => {
   return {
     props: {
       creations: [

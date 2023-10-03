@@ -1,13 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import {
+  faFacebookF,
+  faTwitter,
+  faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const inputSchema = z.object({
   email: z.string().email({
@@ -23,7 +28,7 @@ export default function PingComingSoonPage() {
       <Head>
         <title>Frontend Mentor | Ping coming soon page</title>
       </Head>
-      <div className="App font-libre-franklin relative pt-[84.5px] pb-[16px] font-light max-lg:min-h-[812px] lg:min-h-[1024px] lg:pt-[86px]">
+      <div className="App relative pb-[16px] pt-[84.5px] font-libre-franklin font-light max-lg:min-h-[812px] lg:min-h-[1024px] lg:pt-[86px]">
         <Main />
         <Footer />
         {/* <Slider
@@ -65,10 +70,15 @@ function Main() {
           alt="Ping Logo"
         />
       </header>
-      <h1 className="text-ping-coming-soon-neutral-gray mt-9 text-center text-[22px] first-letter:mr-[3px] lg:mt-[41px] lg:text-[48px]">
-        We are launching <span className="text-ping-coming-soon-neutral-blue font-bold">soon!</span>
+      <h1 className="mt-9 text-center text-[22px] text-ping-coming-soon-neutral-gray first-letter:mr-[3px] lg:mt-[41px] lg:text-[48px]">
+        We are launching{" "}
+        <span className="font-bold text-ping-coming-soon-neutral-blue">
+          soon!
+        </span>
       </h1>
-      <p className="text-ping-coming-soon-neutral-blue mt-[13px] text-center text-[12px] lg:mt-[7px] lg:text-[20px]">Subscribe and get notified</p>
+      <p className="mt-[13px] text-center text-[12px] text-ping-coming-soon-neutral-blue lg:mt-[7px] lg:text-[20px]">
+        Subscribe and get notified
+      </p>
       <form
         className="lg:flow-row mt-[30.5px] flex max-lg:w-[min(calc(100vw-93px),282px)] max-lg:flex-col max-lg:gap-[10px] lg:relative lg:mt-[37px] lg:h-[56px] lg:gap-4"
         onSubmit={onSubmit}
@@ -78,12 +88,20 @@ function Main() {
           {...register("email")}
           type="email"
           placeholder="Your email address..."
-          className={`placeholder:text-ping-coming-soon-primary-blue/30 text-ping-coming-soon-neutral-blue h-10 w-full rounded-full border px-[33px] pb-[1px] text-[12px] font-normal leading-none focus-visible:outline focus-visible:outline-1 lg:h-full lg:w-[422px] lg:px-[30px] lg:pb-0 lg:text-[16px] ${
-            errors.email ? "border-[hsl(352,30%,60%)] focus-visible:outline-[hsl(352,30%,60%)]" : "border-ping-coming-soon-primary-blue/30 focus-visible:outline-ping-coming-soon-primary-blue"
+          className={`h-10 w-full rounded-full border px-[33px] pb-[1px] text-[12px] font-normal leading-none text-ping-coming-soon-neutral-blue placeholder:text-ping-coming-soon-primary-blue/30 focus-visible:outline focus-visible:outline-1 lg:h-full lg:w-[422px] lg:px-[30px] lg:pb-0 lg:text-[16px] ${
+            errors.email
+              ? "border-[hsl(352,30%,60%)] focus-visible:outline-[hsl(352,30%,60%)]"
+              : "border-ping-coming-soon-primary-blue/30 focus-visible:outline-ping-coming-soon-primary-blue"
           }`}
         />
-        {errors.email ? <p className="mb-3 -translate-y-[3px] skew-x-[-6deg] text-center text-[10px] font-normal leading-none tracking-[0.15px] text-[hsl(352,40%,60%)] lg:absolute lg:top-[68px] lg:left-0 lg:w-full lg:px-8 lg:text-left lg:text-[12px]">{errors.email.message}</p> : null}
-        <button className="bg-ping-coming-soon-primary-blue shadow-ping-coming-soon-primary-blue/30 h-10 w-full rounded-full pb-[2px] text-[12px] font-semibold text-white/75 shadow-md hover:opacity-80 lg:h-full lg:w-[200px] lg:pb-0 lg:text-[16px]">Notify Me</button>
+        {errors.email ? (
+          <p className="mb-3 -translate-y-[3px] skew-x-[-6deg] text-center text-[10px] font-normal leading-none tracking-[0.15px] text-[hsl(352,40%,60%)] lg:absolute lg:left-0 lg:top-[68px] lg:w-full lg:px-8 lg:text-left lg:text-[12px]">
+            {errors.email.message}
+          </p>
+        ) : null}
+        <button className="h-10 w-full rounded-full bg-ping-coming-soon-primary-blue pb-[2px] text-[12px] font-semibold text-white/75 shadow-md shadow-ping-coming-soon-primary-blue/30 hover:opacity-80 lg:h-full lg:w-[200px] lg:pb-0 lg:text-[16px]">
+          Notify Me
+        </button>
       </form>
       <IllustrationDashboard />
       <SocialIcons />
@@ -93,7 +111,7 @@ function Main() {
 
 function IllustrationDashboard() {
   return (
-    <div className="relative mt-[68px] ml-[1px] aspect-[1280/782] w-[calc(100%-54px)] max-lg:max-w-[480px] lg:mt-[86px] lg:ml-0 lg:max-w-[640px]">
+    <div className="relative ml-[1px] mt-[68px] aspect-[1280/782] w-[calc(100%-54px)] max-lg:max-w-[480px] lg:ml-0 lg:mt-[86px] lg:max-w-[640px]">
       <Image
         src="/ping-coming-soon-page/images/illustration-dashboard.png"
         fill
@@ -106,10 +124,10 @@ function IllustrationDashboard() {
 
 function SocialIcons() {
   return (
-    <div className="text-ping-coming-soon-primary-blue mt-[120px] flex items-center justify-center gap-[13px] lg:mt-[72px]">
+    <div className="mt-[120px] flex items-center justify-center gap-[13px] text-ping-coming-soon-primary-blue lg:mt-[72px]">
       <a
         href=""
-        className="hover:bg-ping-coming-soon-primary-blue border-ping-coming-soon-neutral-gray/10 group flex aspect-square w-[31px] items-center justify-center rounded-full border"
+        className="group flex aspect-square w-[31px] items-center justify-center rounded-full border border-ping-coming-soon-neutral-gray/10 hover:bg-ping-coming-soon-primary-blue"
       >
         <FontAwesomeIcon
           icon={faFacebookF}
@@ -118,7 +136,7 @@ function SocialIcons() {
       </a>
       <a
         href=""
-        className="hover:bg-ping-coming-soon-primary-blue border-ping-coming-soon-neutral-gray/10 group flex aspect-square w-[31px] items-center justify-center rounded-full border"
+        className="group flex aspect-square w-[31px] items-center justify-center rounded-full border border-ping-coming-soon-neutral-gray/10 hover:bg-ping-coming-soon-primary-blue"
       >
         <FontAwesomeIcon
           icon={faTwitter}
@@ -127,7 +145,7 @@ function SocialIcons() {
       </a>
       <a
         href=""
-        className="hover:bg-ping-coming-soon-primary-blue border-ping-coming-soon-neutral-gray/10 group flex aspect-square w-[31px] items-center justify-center rounded-full border"
+        className="group flex aspect-square w-[31px] items-center justify-center rounded-full border border-ping-coming-soon-neutral-gray/10 hover:bg-ping-coming-soon-primary-blue"
       >
         <FontAwesomeIcon
           icon={faInstagram}
@@ -140,8 +158,10 @@ function SocialIcons() {
 
 function Footer() {
   return (
-    <footer className="text-ping-coming-soon-neutral-blue mt-[25px] pb-[0.883px] text-center text-[10px] lg:mt-[23px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
-      <p className="text-ping-coming-soon-neutral-gray lg:text-[12px]">&copy; Copyright Ping. All rights reserved.</p>
+    <footer className="mt-[25px] pb-[0.883px] text-center text-[10px] text-ping-coming-soon-neutral-blue lg:mt-[23px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <p className="text-ping-coming-soon-neutral-gray lg:text-[12px]">
+        &copy; Copyright Ping. All rights reserved.
+      </p>
       <p className="mt-1">
         Challenge by{" "}
         <a

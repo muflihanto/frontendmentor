@@ -1,18 +1,27 @@
 import rawData from "../../public/interactive-comments-section/data.json";
 import { atomWithStorage } from "jotai/utils";
-import { type User, type Comment, type Reply, zNewComment, zNewReply, zEdit } from "../../pages/interactive-comments-section";
+import {
+  type User,
+  type Comment,
+  type Reply,
+  zNewComment,
+  zNewReply,
+  zEdit,
+} from "../../pages/interactive-comments-section";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import type { z } from "zod";
 import dayjs from "../../utils/dayjs";
 import { useOnClickOutside } from "usehooks-ts";
 
+const unit = ["month", "week", "day"] as const;
+
 const transformDate = (data: typeof rawData) => {
   const { comments } = data;
-  const dates: [number, any][] = [
+  const dates: [number, (typeof unit)[number]][] = [
     [1, "month"],
     [2, "week"],
     [1, "week"],
@@ -32,7 +41,7 @@ const transformDate = (data: typeof rawData) => {
   return { ...data, comments };
 };
 const getVotes = () => {
-  let obj: { [x: string]: "up" | "down" | null } = {};
+  const obj: Record<string, "up" | "down" | null> = {};
   function getId(input: Comment[] | Reply[]) {
     input.forEach((data) => {
       obj[`id${data.id}`] = null;
@@ -45,7 +54,7 @@ const getVotes = () => {
   return obj;
 };
 const getLatestId = () => {
-  let latestId: number = NaN;
+  let latestId = NaN;
   function getId(input: Comment[] | Reply[]) {
     input.forEach((data) => {
       if (!latestId || data.id > latestId) {
@@ -60,8 +69,14 @@ const getLatestId = () => {
   return latestId;
 };
 
-const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>("data", transformDate(rawData));
-const voteAtom = atomWithStorage<{ [x: string]: "up" | "down" | null }>("vote", getVotes());
+const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>(
+  "data",
+  transformDate(rawData),
+);
+const voteAtom = atomWithStorage<Record<string, "up" | "down" | null>>(
+  "vote",
+  getVotes(),
+);
 const latestIdAtom = atomWithStorage<number>("id", getLatestId());
 const idToDeleteAtom = atom<number | null>(null);
 
@@ -70,15 +85,22 @@ export default function Main() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const setIdToDelete = useSetAtom(idToDeleteAtom);
 
-  const update = useCallback((id: number, data: Comment[] | Reply[], type: "increment" | "decrement") => {
-    data.forEach((comment) => {
-      if (comment.id === id) {
-        comment.score = comment.score + (type === "increment" ? 1 : -1);
-      } else if (!!comment.replies) {
-        update(id, comment.replies, type);
-      }
-    });
-  }, []);
+  const update = useCallback(
+    (
+      id: number,
+      data: Comment[] | Reply[],
+      type: "increment" | "decrement",
+    ) => {
+      data.forEach((comment) => {
+        if (comment.id === id) {
+          comment.score = comment.score + (type === "increment" ? 1 : -1);
+        } else if (!!comment.replies) {
+          update(id, comment.replies, type);
+        }
+      });
+    },
+    [],
+  );
 
   const handleUpdate = useCallback(
     (id: number, type: "increment" | "decrement") => {
@@ -88,13 +110,17 @@ export default function Main() {
         return { currentUser, comments };
       });
     },
-    [setData, update]
+    [setData, update],
   );
 
-  const renderReplies = (replies: Reply[], parent: boolean = true) => {
+  const renderReplies = (replies: Reply[], parent = true) => {
     if (replies.length > 0)
       return (
-        <div className={`border-l-interactive-comment-neutral-300 flex flex-col gap-4 border-l-2 pl-4 lg:ml-[44px] lg:gap-6 lg:pl-[42px] ${parent && "mt-4 lg:mt-5"}`}>
+        <div
+          className={`flex flex-col gap-4 border-l-2 border-l-interactive-comment-neutral-300 pl-4 lg:ml-[44px] lg:gap-6 lg:pl-[42px] ${
+            parent && "mt-4 lg:mt-5"
+          }`}
+        >
           {replies.map((reply) => {
             return (
               <div key={reply.id}>
@@ -123,10 +149,7 @@ export default function Main() {
     <div className="flex max-w-md flex-col items-center gap-4 px-4 py-8 lg:max-w-[764px] lg:gap-[20px] lg:py-16">
       {data.comments.map((comment) => {
         return (
-          <div
-            key={comment.id}
-            className="w-full"
-          >
+          <div key={comment.id} className="w-full">
             <Card
               currentUser={data.currentUser}
               data={comment}
@@ -155,7 +178,19 @@ export default function Main() {
   );
 }
 
-function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { data: Comment | Reply; currentUser: User; variant: "comment" | "reply"; handleUpdate: (id: number, type: "increment" | "decrement") => void; openDeleteModal: () => void }) {
+function Card({
+  data,
+  currentUser,
+  variant,
+  handleUpdate,
+  openDeleteModal,
+}: {
+  data: Comment | Reply;
+  currentUser: User;
+  variant: "comment" | "reply";
+  handleUpdate: (id: number, type: "increment" | "decrement") => void;
+  openDeleteModal: () => void;
+}) {
   const [vote, setVote] = useAtom(voteAtom);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -163,20 +198,32 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
 
   return (
     <>
-      <div className={`bg-interactive-comment-neutral-100 min-h-[150px] rounded-lg p-4 pr-5 lg:relative lg:pl-[89px] lg:pt-6 lg:pb-2 ${variant === "reply" ? "break-words lg:pr-[16px]" : "lg:pr-[40px]"}`}>
+      <div
+        className={`min-h-[150px] rounded-lg bg-interactive-comment-neutral-100 p-4 pr-5 lg:relative lg:pb-2 lg:pl-[89px] lg:pt-6 ${
+          variant === "reply" ? "break-words lg:pr-[16px]" : "lg:pr-[40px]"
+        }`}
+      >
         <div className="flex items-center gap-4">
           <div className="relative h-8 w-8">
             <Image
               fill
-              src={"/interactive-comments-section" + data.user.image.webp.slice(1)}
+              src={
+                "/interactive-comments-section" + data.user.image.webp.slice(1)
+              }
               alt={data.user.username + "Avatar"}
             />
           </div>
-          <p className="text-interactive-comment-neutral-500 font-rubiks pb-[2px] font-medium tracking-[.1px]">
+          <p className="pb-[2px] font-rubiks font-medium tracking-[.1px] text-interactive-comment-neutral-500">
             {data.user.username}
-            {currentUser.username === data.user.username && <span className="text-interactive-comment-neutral-100 before:bg-interactive-comment-primary-blue-200 relative z-10 ml-2 px-[6px] text-[13px] before:absolute before:left-0 before:-top-[1px] before:z-[-1] before:h-[19px] before:w-full before:rounded-sm before:content-['']">you</span>}
+            {currentUser.username === data.user.username && (
+              <span className="relative z-10 ml-2 px-[6px] text-[13px] text-interactive-comment-neutral-100 before:absolute before:-top-[1px] before:left-0 before:z-[-1] before:h-[19px] before:w-full before:rounded-sm before:bg-interactive-comment-primary-blue-200 before:content-['']">
+                you
+              </span>
+            )}
           </p>
-          <p className="text-interactive-comment-neutral-400 pb-[2px]">{dayjs(data.createdAt).fromNow()}</p>
+          <p className="pb-[2px] text-interactive-comment-neutral-400">
+            {dayjs(data.createdAt).fromNow()}
+          </p>
         </div>
         {!!isEditOpen ? (
           <EditForm
@@ -188,15 +235,29 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
             }}
           />
         ) : (
-          <p className="text-interactive-comment-neutral-400 mt-[15px] lg:mt-[14px]">
-            {variant === "reply" && <span className="text-interactive-comment-primary-blue-200 font-medium">@{(data as Reply).replyingTo} </span>}
+          <p className="mt-[15px] text-interactive-comment-neutral-400 lg:mt-[14px]">
+            {variant === "reply" && (
+              <span className="font-medium text-interactive-comment-primary-blue-200">
+                @{(data as Reply).replyingTo}{" "}
+              </span>
+            )}
             {data.content}
           </p>
         )}
         <div className="mt-[17px] flex items-center justify-between">
-          <div className={`${!!vote[`id${data.id}`] ? "bg-interactive-comment-neutral-300" : "bg-interactive-comment-neutral-200"} grid h-10 w-[100px] grid-cols-3 grid-rows-1 items-center justify-center rounded-xl px-1 pb-[2px] lg:absolute lg:left-[24px] lg:top-[24px] lg:h-[100px] lg:w-10 lg:grid-cols-1 lg:grid-rows-3`}>
+          <div
+            className={`${
+              !!vote[`id${data.id}`]
+                ? "bg-interactive-comment-neutral-300"
+                : "bg-interactive-comment-neutral-200"
+            } grid h-10 w-[100px] grid-cols-3 grid-rows-1 items-center justify-center rounded-xl px-1 pb-[2px] lg:absolute lg:left-[24px] lg:top-[24px] lg:h-[100px] lg:w-10 lg:grid-cols-1 lg:grid-rows-3`}
+          >
             <button
-              className={`hover:text-interactive-comment-primary-blue-200 text-[20px] font-medium lg:text-center ${vote[`id${data.id}`] === "up" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"} `}
+              className={`text-[20px] font-medium hover:text-interactive-comment-primary-blue-200 lg:text-center ${
+                vote[`id${data.id}`] === "up"
+                  ? "text-interactive-comment-primary-blue-200"
+                  : "text-interactive-comment-primary-blue-100"
+              } `}
               onClick={() => {
                 if (vote[`id${data.id}`] === "up") {
                   setVote((prev) => {
@@ -207,16 +268,23 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                   setVote((prev) => {
                     return { ...prev, [`id${data.id}`]: "up" };
                   });
-                  vote[`id${data.id}`] === "down" && handleUpdate(data.id, "increment");
+                  vote[`id${data.id}`] === "down" &&
+                    handleUpdate(data.id, "increment");
                   handleUpdate(data.id, "increment");
                 }
               }}
             >
               +
             </button>
-            <div className="text-interactive-comment-primary-blue-200 text-center text-[17px] font-medium">{data.score}</div>
+            <div className="text-center text-[17px] font-medium text-interactive-comment-primary-blue-200">
+              {data.score}
+            </div>
             <button
-              className={`hover:text-interactive-comment-primary-blue-200 text-[16px] font-medium ${vote[`id${data.id}`] === "down" ? "text-interactive-comment-primary-blue-200" : "text-interactive-comment-primary-blue-100"}`}
+              className={`text-[16px] font-medium hover:text-interactive-comment-primary-blue-200 ${
+                vote[`id${data.id}`] === "down"
+                  ? "text-interactive-comment-primary-blue-200"
+                  : "text-interactive-comment-primary-blue-100"
+              }`}
               onClick={() => {
                 if (vote[`id${data.id}`] === "down") {
                   setVote((prev) => {
@@ -227,7 +295,8 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                   setVote((prev) => {
                     return { ...prev, [`id${data.id}`]: "down" };
                   });
-                  vote[`id${data.id}`] === "up" && handleUpdate(data.id, "decrement");
+                  vote[`id${data.id}`] === "up" &&
+                    handleUpdate(data.id, "decrement");
                   handleUpdate(data.id, "decrement");
                 }
               }}
@@ -255,7 +324,9 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                       fill="#ED6368"
                     />
                   </svg>
-                  <span className="text-interactive-comment-primary-red-200 pb-[2px] font-medium">Delete</span>
+                  <span className="pb-[2px] font-medium text-interactive-comment-primary-red-200">
+                    Delete
+                  </span>
                 </button>
                 <button
                   className="flex translate-x-[3.25px] items-center gap-2 hover:opacity-40 active:opacity-60"
@@ -273,7 +344,9 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                       fill="#5357B6"
                     />
                   </svg>
-                  <span className="text-interactive-comment-primary-blue-200 pb-[3px] font-medium">Edit</span>
+                  <span className="pb-[3px] font-medium text-interactive-comment-primary-blue-200">
+                    Edit
+                  </span>
                 </button>
               </>
             ) : (
@@ -295,7 +368,9 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
                     />
                   </svg>
                 </span>
-                <span className="text-interactive-comment-primary-blue-200 translate-x-[3px] font-medium">Reply</span>
+                <span className="translate-x-[3px] font-medium text-interactive-comment-primary-blue-200">
+                  Reply
+                </span>
               </button>
             )}
           </div>
@@ -315,7 +390,17 @@ function Card({ data, currentUser, variant, handleUpdate, openDeleteModal }: { d
   );
 }
 
-function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { variant?: "reply" | "comment"; replyingTo?: string; parentId?: number; toggle?: () => void }) {
+function NewEntryForm({
+  variant = "comment",
+  replyingTo,
+  parentId,
+  toggle,
+}: {
+  variant?: "reply" | "comment";
+  replyingTo?: string;
+  parentId?: number;
+  toggle?: () => void;
+}) {
   const [data, setData] = useAtom(dataAtom);
   const [latestId, setLatestId] = useAtom(latestIdAtom);
   const schemas = {
@@ -325,14 +410,23 @@ function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { v
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
     reset,
     handleSubmit,
     setFocus,
-  } = useForm<z.infer<(typeof schemas)[typeof variant]>>({ resolver: zodResolver(schemas[variant]) });
+  } = useForm<z.infer<(typeof schemas)[typeof variant]>>({
+    resolver: zodResolver(schemas[variant]),
+  });
 
   const handleAddComment = handleSubmit((c) => {
-    const newComment: Comment = { content: c.content, createdAt: dayjs().format(), id: latestId + 1, score: 0, user: data.currentUser, replies: [] };
+    const newComment: Comment = {
+      content: c.content,
+      createdAt: dayjs().format(),
+      id: latestId + 1,
+      score: 0,
+      user: data.currentUser,
+      replies: [],
+    };
     setData((prev) => {
       const { comments } = prev;
       return { ...prev, comments: [...comments, newComment] };
@@ -342,7 +436,15 @@ function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { v
   });
 
   const handleReply = handleSubmit((c) => {
-    const newReply: Reply = { content: c.content.split(" ").slice(1).join(" "), createdAt: dayjs().format(), id: latestId + 1, score: 0, user: data.currentUser, replyingTo: replyingTo!, replies: [] };
+    const newReply: Reply = {
+      content: c.content.split(" ").slice(1).join(" "),
+      createdAt: dayjs().format(),
+      id: latestId + 1,
+      score: 0,
+      user: data.currentUser,
+      replyingTo: replyingTo!,
+      replies: [],
+    };
     setData((prev) => {
       const { comments } = prev;
       const searchById = (data: Comment[] | Reply[], id: number) => {
@@ -384,12 +486,14 @@ function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { v
 
   return (
     <form
-      className={`bg-interactive-comment-neutral-100 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded p-4 pb-[14px] lg:flex lg:grid-cols-[auto,auto,auto] lg:grid-rows-1 lg:items-start lg:p-6 lg:pr-[25px] ${variant === "reply" && "mt-2"}`}
+      className={`grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 p-4 pb-[14px] lg:flex lg:grid-cols-[auto,auto,auto] lg:grid-rows-1 lg:items-start lg:p-6 lg:pr-[25px] ${
+        variant === "reply" && "mt-2"
+      }`}
       onSubmit={(e) => {
         if (variant === "comment") {
-          handleAddComment(e);
+          void handleAddComment(e);
         } else {
-          handleReply(e);
+          void handleReply(e);
         }
       }}
     >
@@ -397,12 +501,18 @@ function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { v
         <Image
           fill
           alt={data.currentUser.username + " Avatar"}
-          src={"/interactive-comments-section" + data.currentUser.image.webp.slice(1)}
+          src={
+            "/interactive-comments-section" +
+            data.currentUser.image.webp.slice(1)
+          }
         />
       </div>
       <textarea
-        {...register("content", { required: true, value: variant === "reply" ? `@${replyingTo} ` : "" })}
-        className="border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500 col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border px-[22px] py-[10px] placeholder:font-medium focus-visible:outline focus-visible:outline-transparent lg:flex-1"
+        {...register("content", {
+          required: true,
+          value: variant === "reply" ? `@${replyingTo} ` : "",
+        })}
+        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 px-[22px] py-[10px] placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:flex-1"
         placeholder="Add a comment..."
         required
       />
@@ -412,16 +522,28 @@ function NewEntryForm({ variant = "comment", replyingTo, parentId, toggle }: { v
           {...register("replyingTo", { value: replyingTo })}
         />
       )}
-      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">{variant === "comment" ? "Send" : "Reply"}</button>
+      <button className="col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg bg-interactive-comment-primary-blue-200 pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">
+        {variant === "comment" ? "Send" : "Reply"}
+      </button>
     </form>
   );
 }
 
-function EditForm({ id, toggle, data, variant }: { id: number; toggle: () => void; data: Comment | Reply; variant?: "reply" | "comment" }) {
+function EditForm({
+  id,
+  toggle,
+  data,
+  variant,
+}: {
+  id: number;
+  toggle: () => void;
+  data: Comment | Reply;
+  variant?: "reply" | "comment";
+}) {
   const setData = useSetAtom(dataAtom);
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
     reset,
     handleSubmit,
     setFocus,
@@ -429,7 +551,13 @@ function EditForm({ id, toggle, data, variant }: { id: number; toggle: () => voi
 
   // TODO: FIXME: handle user mention highlighting in reply
   const handleEdit = handleSubmit((c) => {
-    const editedEntry: Pick<Comment, "content" | "createdAt"> = { content: variant === "comment" ? c.content : c.content.split(" ").slice(1).join(" "), createdAt: dayjs().format() };
+    const editedEntry: Pick<Comment, "content" | "createdAt"> = {
+      content:
+        variant === "comment"
+          ? c.content
+          : c.content.split(" ").slice(1).join(" "),
+      createdAt: dayjs().format(),
+    };
     setData((prev) => {
       const { comments } = prev;
       const searchById = (data: Comment[] | Reply[], id: number) => {
@@ -463,16 +591,24 @@ function EditForm({ id, toggle, data, variant }: { id: number; toggle: () => voi
 
   return (
     <form
-      className={`bg-interactive-comment-neutral-100 mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded pb-[14px] pr-[10px]`}
+      className={`mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 pb-[14px] pr-[10px]`}
       onSubmit={handleEdit}
     >
       <textarea
-        {...register("content", { required: true, value: variant === "comment" ? data.content : `@${(data as Reply).replyingTo} ${data.content}` })}
-        className="border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500 col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border px-[22px] py-[10px] pr-[24px] placeholder:font-medium focus-visible:outline focus-visible:outline-transparent lg:h-[124px]"
+        {...register("content", {
+          required: true,
+          value:
+            variant === "comment"
+              ? data.content
+              : `@${(data as Reply).replyingTo} ${data.content}`,
+        })}
+        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 px-[22px] py-[10px] pr-[24px] placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[124px]"
         placeholder="Add a comment..."
         required
       />
-      <button className="bg-interactive-comment-primary-blue-200 col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">Update</button>
+      <button className="col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg bg-interactive-comment-primary-blue-200 pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">
+        Update
+      </button>
     </form>
   );
 }
@@ -505,7 +641,7 @@ function DeleteModal({ close }: { close: () => void }) {
       });
       setData((prev) => ({ ...prev, comments: filteredComments }));
     },
-    [data, setData]
+    [data, setData],
   );
 
   useEffect(() => {
@@ -520,16 +656,21 @@ function DeleteModal({ close }: { close: () => void }) {
   });
 
   return (
-    <div className="fixed top-0 left-0 z-40 flex h-[100svh] w-screen flex-col items-center justify-center bg-black/50 px-4 pt-[2px] lg:pt-0">
+    <div className="fixed left-0 top-0 z-40 flex h-[100svh] w-screen flex-col items-center justify-center bg-black/50 px-4 pt-[2px] lg:pt-0">
       <div
-        className="max-w-[400px] rounded-lg bg-white px-[27px] pt-[21px] pb-[24px] lg:px-[32px] lg:pb-[32px] lg:pt-[28px]"
+        className="max-w-[400px] rounded-lg bg-white px-[27px] pb-[24px] pt-[21px] lg:px-[32px] lg:pb-[32px] lg:pt-[28px]"
         ref={cardRef}
       >
-        <h2 className="text-interactive-comment-neutral-500 text-[20px] font-medium lg:text-[24px]">Delete comment</h2>
-        <p className="text-interactive-comment-neutral-400 mt-[12px] lg:mt-[15px]">Are you sure you want to delete this comment? This will remove the comment and can{"'"}t be undone.</p>
+        <h2 className="text-[20px] font-medium text-interactive-comment-neutral-500 lg:text-[24px]">
+          Delete comment
+        </h2>
+        <p className="mt-[12px] text-interactive-comment-neutral-400 lg:mt-[15px]">
+          Are you sure you want to delete this comment? This will remove the
+          comment and can{"'"}t be undone.
+        </p>
         <div className="mt-[17px] grid h-[48px] grid-cols-2 grid-rows-1 gap-3 lg:mt-[21px] lg:gap-[14px]">
           <button
-            className="text-interactive-comment-neutral-100 bg-interactive-comment-neutral-400 rounded-lg pb-[2px] font-medium uppercase"
+            className="rounded-lg bg-interactive-comment-neutral-400 pb-[2px] font-medium uppercase text-interactive-comment-neutral-100"
             onClick={() => {
               close();
             }}
@@ -537,7 +678,7 @@ function DeleteModal({ close }: { close: () => void }) {
             No, cancel
           </button>
           <button
-            className="text-interactive-comment-neutral-100 bg-interactive-comment-primary-red-200 rounded-lg pb-[2px] font-medium uppercase"
+            className="rounded-lg bg-interactive-comment-primary-red-200 pb-[2px] font-medium uppercase text-interactive-comment-neutral-100"
             onClick={() => {
               if (!!idToDelete) {
                 handleDelete(idToDelete);

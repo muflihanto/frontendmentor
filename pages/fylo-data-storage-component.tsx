@@ -1,8 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { CSSProperties, useState } from "react";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { type CSSProperties, useState } from "react";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function FyloDataStorageComponent() {
   return (
@@ -10,7 +11,7 @@ export default function FyloDataStorageComponent() {
       <Head>
         <title>Frontend Mentor | Fylo data storage component</title>
       </Head>
-      <div className="App font-raleway bg-fylo-storage-neutral-400 lg:[@media(max-aspect-ratio:9/5)]:bg-[center_bottom] relative flex min-h-[100svh] items-center justify-center bg-[url('/fylo-data-storage-component/images/bg-mobile.png')] bg-cover bg-no-repeat pt-11 pb-20 lg:bg-[url('/fylo-data-storage-component/images/bg-desktop.png')] lg:bg-contain lg:bg-[50%_47.5vh] lg:pt-[59px]">
+      <div className="App relative flex min-h-[100svh] items-center justify-center bg-fylo-storage-neutral-400 bg-[url('/fylo-data-storage-component/images/bg-mobile.png')] bg-cover bg-no-repeat pb-20 pt-11 font-raleway lg:bg-[url('/fylo-data-storage-component/images/bg-desktop.png')] lg:bg-contain lg:bg-[50%_47.5vh] lg:pt-[59px] lg:[@media(max-aspect-ratio:9/5)]:bg-[center_bottom]">
         <Main />
         <Footer />
         {/* <Slider basePath="/fylo-data-storage-component/design" /> */}
@@ -21,7 +22,7 @@ export default function FyloDataStorageComponent() {
 
 function Navigation() {
   return (
-    <header className="bg-fylo-storage-neutral-300 shadow-fylo-storage-neutral-400/70 flex h-[201px] w-full max-w-[480px] flex-col items-start justify-center gap-[33px] rounded-[10px] rounded-tr-[100px] px-[41px] shadow-2xl lg:max-w-none">
+    <header className="flex h-[201px] w-full max-w-[480px] flex-col items-start justify-center gap-[33px] rounded-[10px] rounded-tr-[100px] bg-fylo-storage-neutral-300 px-[41px] shadow-2xl shadow-fylo-storage-neutral-400/70 lg:max-w-none">
       <div className="relative aspect-[135/40] h-10">
         <Image
           src="/fylo-data-storage-component/images/logo.svg"
@@ -33,7 +34,7 @@ function Navigation() {
 
       <nav>
         <ul className="flex gap-4">
-          <li className="bg-fylo-storage-neutral-400 aspect-square h-12 w-12 rounded-[10px] hover:bg-opacity-75">
+          <li className="aspect-square h-12 w-12 rounded-[10px] bg-fylo-storage-neutral-400 hover:bg-opacity-75">
             <a
               href=""
               className="flex h-full w-full items-center justify-center"
@@ -50,7 +51,7 @@ function Navigation() {
               </svg>
             </a>
           </li>
-          <li className="bg-fylo-storage-neutral-400 aspect-square h-12 w-12 rounded-[10px] hover:bg-opacity-75">
+          <li className="aspect-square h-12 w-12 rounded-[10px] bg-fylo-storage-neutral-400 hover:bg-opacity-75">
             <a
               href=""
               className="flex h-full w-full items-center justify-center"
@@ -67,7 +68,7 @@ function Navigation() {
               </svg>
             </a>
           </li>
-          <li className="bg-fylo-storage-neutral-400 aspect-square h-12 w-12 rounded-[10px] hover:bg-opacity-75">
+          <li className="aspect-square h-12 w-12 rounded-[10px] bg-fylo-storage-neutral-400 hover:bg-opacity-75">
             <a
               href=""
               className="flex h-full w-full items-center justify-center"
@@ -97,18 +98,20 @@ function Status() {
   });
 
   return (
-    <div className="bg-fylo-storage-neutral-300 text-fylo-storage-neutral-100 shadow-fylo-storage-neutral-400/70 flex min-h-[160px] w-full max-w-[480px] flex-col items-start justify-start rounded-[10px] px-[32px] pt-[29px] shadow-2xl max-lg:relative lg:h-[154px] lg:min-h-0 lg:max-w-none lg:px-[39px] lg:pt-[37px]">
+    <div className="flex min-h-[160px] w-full max-w-[480px] flex-col items-start justify-start rounded-[10px] bg-fylo-storage-neutral-300 px-[32px] pt-[29px] text-fylo-storage-neutral-100 shadow-2xl shadow-fylo-storage-neutral-400/70 max-lg:relative lg:h-[154px] lg:min-h-0 lg:max-w-none lg:px-[39px] lg:pt-[37px]">
       <p className="w-full text-center text-[15px] tracking-[-.3px] lg:text-left lg:text-[14px] lg:tracking-[.1px]">
-        You&lsquo;ve used <span className="text-[14px] font-bold">{storage.remaining} GB</span> of your storage
+        You&lsquo;ve used{" "}
+        <span className="text-[14px] font-bold">{storage.remaining} GB</span> of
+        your storage
       </p>
-      <div className="bg-fylo-storage-neutral-400/50 justify-left mt-3 flex h-5 w-full items-center rounded-full px-[3px] pt-[3.5px] pb-[2.5px] lg:mr-[1px] lg:translate-y-[2px] lg:py-[2.75px]">
+      <div className="justify-left mt-3 flex h-5 w-full items-center rounded-full bg-fylo-storage-neutral-400/50 px-[3px] pb-[2.5px] pt-[3.5px] lg:mr-[1px] lg:translate-y-[2px] lg:py-[2.75px]">
         <div
           style={
             {
               "--bar-length": (storage.remaining / storage.maximum) * 100 + "%",
             } as CSSProperties
           }
-          className="from-fylo-storage-primary-gradient-100 to-fylo-storage-primary-gradient-200 flex h-full w-[--bar-length] items-center justify-end rounded-full bg-gradient-to-r p-[2px]"
+          className="flex h-full w-[--bar-length] items-center justify-end rounded-full bg-gradient-to-r from-fylo-storage-primary-gradient-100 to-fylo-storage-primary-gradient-200 p-[2px]"
         >
           <div className="aspect-square h-full rounded-full bg-white" />
         </div>
@@ -118,14 +121,19 @@ function Status() {
         <span>{storage.maximum} GB</span>
       </p>
       <div
-        className="lg:-top lg:before:-bottom-[--triangle-size] absolute bottom-0 left-1/2 flex h-[72px] w-[179px] -translate-x-1/2 translate-y-1/2 items-center justify-center gap-[9px] rounded-[10px] bg-white font-bold leading-none lg:bottom-auto lg:left-auto lg:right-[39px] lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:before:absolute lg:before:right-0 lg:before:h-0 lg:before:w-0 lg:before:border-t-[length:--triangle-size] lg:before:border-b-[length:--triangle-size] lg:before:border-r-[length:--triangle-size] lg:before:border-transparent lg:before:border-r-white lg:before:content-['']"
+        className="lg:-top absolute bottom-0 left-1/2 flex h-[72px] w-[179px] -translate-x-1/2 translate-y-1/2 items-center justify-center gap-[9px] rounded-[10px] bg-white font-bold leading-none lg:bottom-auto lg:left-auto lg:right-[39px] lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:before:absolute lg:before:-bottom-[--triangle-size] lg:before:right-0 lg:before:h-0 lg:before:w-0 lg:before:border-b-[length:--triangle-size] lg:before:border-r-[length:--triangle-size] lg:before:border-t-[length:--triangle-size] lg:before:border-transparent lg:before:border-r-white lg:before:content-['']"
         style={
           {
             "--triangle-size": "22px",
           } as CSSProperties
         }
       >
-        <span className="text-fylo-storage-neutral-400 pb-[2px] text-[40px]">{storage.maximum - storage.remaining}</span> <span className="text-fylo-storage-neutral-200 pt-[3px] text-[12px] uppercase tracking-[1px]">GB Left</span>
+        <span className="pb-[2px] text-[40px] text-fylo-storage-neutral-400">
+          {storage.maximum - storage.remaining}
+        </span>{" "}
+        <span className="pt-[3px] text-[12px] uppercase tracking-[1px] text-fylo-storage-neutral-200">
+          GB Left
+        </span>
       </div>
     </div>
   );
@@ -142,7 +150,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="text-fylo-storage-neutral-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-fylo-storage-neutral-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -152,11 +160,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

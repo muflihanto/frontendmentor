@@ -1,31 +1,37 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { atom, useAtomValue } from "jotai";
 
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
 const faqsAtom = atom([
   {
     button: "How many team members can I invite?",
-    panel: "You can invite up to 2 additional users on the Free plan. There is no limit on team members for the Premium plan.",
+    panel:
+      "You can invite up to 2 additional users on the Free plan. There is no limit on team members for the Premium plan.",
   },
   {
     button: "What is the maximum file upload size?",
-    panel: "No more than 2GB. All files in your account must fit your allotted storage space.",
+    panel:
+      "No more than 2GB. All files in your account must fit your allotted storage space.",
   },
   {
     button: "How do I reset my password?",
-    panel: "Click “Forgot password” from the login page or “Change password” from your profile page. A reset link will be emailed to you.",
+    panel:
+      "Click “Forgot password” from the login page or “Change password” from your profile page. A reset link will be emailed to you.",
   },
   {
     button: "Can I cancel my subscription?",
-    panel: "es! Send us a message and we’ll process your request no questions asked.",
+    panel:
+      "es! Send us a message and we’ll process your request no questions asked.",
   },
   {
     button: "Do you provide additional support?",
-    panel: "Chat and email support is available 24/7. Phone lines are open during normal business hours.",
+    panel:
+      "Chat and email support is available 24/7. Phone lines are open during normal business hours.",
   },
 ]);
 
@@ -35,7 +41,7 @@ export default function FaqAccordionCard() {
       <Head>
         <title>Frontend Mentor | FAQ Accordion Card</title>
       </Head>
-      <div className="font-kumbh-sans from-faq-accordion-primary-gradient-violet to-faq-accordion-primary-gradient-blue relative flex min-h-[100svh] flex-col items-center bg-gradient-to-b bg-[length:100%_1120px] bg-top pt-[148px] pb-10 max-lg:min-h-[768px] lg:justify-center lg:bg-cover lg:py-10">
+      <div className="relative flex min-h-[100svh] flex-col items-center bg-gradient-to-b from-faq-accordion-primary-gradient-violet to-faq-accordion-primary-gradient-blue bg-[length:100%_1120px] bg-top pb-10 pt-[148px] font-kumbh-sans max-lg:min-h-[768px] lg:justify-center lg:bg-cover lg:py-10">
         <Main />
         <Footer />
         {/* <Slider
@@ -50,8 +56,8 @@ export default function FaqAccordionCard() {
 function Main() {
   const faqs = useAtomValue(faqsAtom);
   return (
-    <div className="shadow-faq-accordion-primary-text-blue/60 relative flex w-[920px] flex-col items-center rounded-[22px] bg-white pt-[134px] pb-[48px] shadow-2xl max-lg:w-[calc(min(100vw,375px)-48px)] lg:relative lg:ml-10 lg:mb-[2px] lg:grid lg:h-[510px] lg:grid-cols-[476px,auto] lg:grid-rows-1 lg:rounded-l-[24px] lg:py-0">
-      <div className="absolute top-0 left-1/2 h-[215px] w-[240px] -translate-y-1/2 -translate-x-1/2 lg:relative lg:left-0 lg:grid lg:h-full lg:w-full lg:translate-y-0 lg:-translate-x-[85px]">
+    <div className="relative flex w-[920px] flex-col items-center rounded-[22px] bg-white pb-[48px] pt-[134px] shadow-2xl shadow-faq-accordion-primary-text-blue/60 max-lg:w-[calc(min(100vw,375px)-48px)] lg:relative lg:mb-[2px] lg:ml-10 lg:grid lg:h-[510px] lg:grid-cols-[476px,auto] lg:grid-rows-1 lg:rounded-l-[24px] lg:py-0">
+      <div className="absolute left-1/2 top-0 h-[215px] w-[240px] -translate-x-1/2 -translate-y-1/2 lg:relative lg:left-0 lg:grid lg:h-full lg:w-full lg:-translate-x-[85px] lg:translate-y-0">
         <div className="h-full w-full lg:relative lg:w-[391px] lg:place-self-end lg:overflow-hidden">
           <Image
             src={"/faq-accordion-card/images/"}
@@ -80,18 +86,14 @@ function Main() {
         </div>
       </div>
       <main className="px-6 lg:w-[366px] lg:self-start lg:px-0 lg:pt-[68px]">
-        <h1 className="text-faq-accordion-primary-text-blue text-[32px] font-bold leading-none max-lg:text-center">FAQ</h1>
-        <div className="text-faq-accordion-neutral-text-200 divide-faq-accordion-neutral-text-100/20 divide border-b-faq-accordion-neutral-text-100/20 mt-[19px] flex w-full flex-col divide-y border-b text-[13px] leading-none lg:mt-[25px] lg:max-h-[350px] lg:overflow-y-scroll lg:pr-4">
+        <h1 className="text-[32px] font-bold leading-none text-faq-accordion-primary-text-blue max-lg:text-center">
+          FAQ
+        </h1>
+        <div className="divide mt-[19px] flex w-full flex-col divide-y divide-faq-accordion-neutral-text-100/20 border-b border-b-faq-accordion-neutral-text-100/20 text-[13px] leading-none text-faq-accordion-neutral-text-200 lg:mt-[25px] lg:max-h-[350px] lg:overflow-y-scroll lg:pr-4">
           {faqs.map((faq, index) => {
-            return (
-              <FaqWrapper
-                key={index}
-                {...faq}
-                isOpen={index === 1}
-              />
-            );
+            return <FaqWrapper key={index} {...faq} isOpen={index === 1} />;
           })}
-          <div className="absolute hidden aspect-[191/184] w-[191px] lg:top-[calc(40%+1px)] lg:-left-[92px] lg:z-20 lg:block lg:transition-all lg:peer-hover:-translate-x-[20%] lg:peer-active:scale-90 lg:peer-active:duration-75">
+          <div className="absolute hidden aspect-[191/184] w-[191px] lg:-left-[92px] lg:top-[calc(40%+1px)] lg:z-20 lg:block lg:transition-all lg:peer-hover:-translate-x-[20%] lg:peer-active:scale-90 lg:peer-active:duration-75">
             <Image
               src="/faq-accordion-card/images/illustration-box-desktop.svg"
               className="object-contain"
@@ -105,20 +107,36 @@ function Main() {
   );
 }
 
-function FaqWrapper({ button, panel, isOpen = false }: { button: string; panel: string; isOpen?: boolean }) {
+function FaqWrapper({
+  button,
+  panel,
+  isOpen = false,
+}: {
+  button: string;
+  panel: string;
+  isOpen?: boolean;
+}) {
   return (
-    <Disclosure
-      as="div"
-      defaultOpen={isOpen}
-      className="group peer"
-    >
+    <Disclosure as="div" defaultOpen={isOpen} className="group peer">
       {({ open }) => (
         <>
-          <Disclosure.Button className="focus-visible:ring-faq-accordion-primary-gradient-violet group-hover:text-faq-accordion-primary-text-red flex h-[50px] w-full items-center justify-between py-2 px-[1px] text-left focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 focus-visible:ring-offset-2">
-            <span className={`${open ? "text-faq-accordion-primary-text-blue font-bold" : ""} tracking-[.1px] lg:text-[14px]`}>{button}</span>
-            <ChevronUpIcon className={`${!open ? "rotate-180 transform" : ""} text-faq-accordion-primary-text-red -mr-1 h-4 transition-all duration-150 lg:mr-3`} />
+          <Disclosure.Button className="flex h-[50px] w-full items-center justify-between px-[1px] py-2 text-left focus:outline-none focus-visible:ring focus-visible:ring-faq-accordion-primary-gradient-violet focus-visible:ring-opacity-75 focus-visible:ring-offset-2 group-hover:text-faq-accordion-primary-text-red">
+            <span
+              className={`${
+                open ? "font-bold text-faq-accordion-primary-text-blue" : ""
+              } tracking-[.1px] lg:text-[14px]`}
+            >
+              {button}
+            </span>
+            <ChevronUpIcon
+              className={`${
+                !open ? "rotate-180 transform" : ""
+              } -mr-1 h-4 text-faq-accordion-primary-text-red transition-all duration-150 lg:mr-3`}
+            />
           </Disclosure.Button>
-          <Disclosure.Panel className="text-faq-accordion-neutral-text-100 -mt-[7px] pr-4 pb-[18px] text-[12px] leading-[18px] tracking-[0.05px]">{panel}</Disclosure.Panel>
+          <Disclosure.Panel className="-mt-[7px] pb-[18px] pr-4 text-[12px] leading-[18px] tracking-[0.05px] text-faq-accordion-neutral-text-100">
+            {panel}
+          </Disclosure.Panel>
         </>
       )}
     </Disclosure>
@@ -127,7 +145,7 @@ function FaqWrapper({ button, panel, isOpen = false }: { button: string; panel: 
 
 function Footer() {
   return (
-    <footer className="[&_a]:text-faq-accordion-neutral-dividers [&_a]:decoration-faq-accordion-primary-text-red absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-faq-accordion-neutral-dividers [&_a]:underline [&_a]:decoration-faq-accordion-primary-text-red [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -137,11 +155,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

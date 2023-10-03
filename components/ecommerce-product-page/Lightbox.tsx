@@ -1,5 +1,8 @@
-import { CSSProperties, useState } from "react";
-import { type Product, lightboxOpenAtom } from "../../pages/ecommerce-product-page";
+import { type CSSProperties, useState } from "react";
+import {
+  type Product,
+  lightboxOpenAtom,
+} from "../../pages/ecommerce-product-page";
 import Image from "next/image";
 import { Transition } from "@headlessui/react";
 import { createPortal } from "react-dom";
@@ -20,16 +23,19 @@ export default function Lightbox({ product }: { product: Product }) {
       leaveTo="opacity-0"
       className="fixed left-0 top-0 z-50 flex h-[100svh] w-screen flex-col items-center justify-center bg-black/75"
     >
-      <MainContent
-        product={product}
-        position={open.position}
-      />
+      <MainContent product={product} position={open.position} />
     </Transition>,
-    document.body
+    document.body,
   );
 }
 
-function MainContent({ product, position = 0 }: { product: Product; position?: number }) {
+function MainContent({
+  product,
+  position = 0,
+}: {
+  product: Product;
+  position?: number;
+}) {
   const [leftPos, setLeftPos] = useState(position);
   const setOpen = useSetAtom(lightboxOpenAtom);
 
@@ -51,7 +57,7 @@ function MainContent({ product, position = 0 }: { product: Product; position?: n
       >
         <svg
           viewBox="0 0 14 15"
-          className="group-hover:fill-ecommerce-primary-200 w-[24px] fill-[#69707D]"
+          className="w-[24px] fill-[#69707D] group-hover:fill-ecommerce-primary-200"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -62,7 +68,7 @@ function MainContent({ product, position = 0 }: { product: Product; position?: n
       </button>
       <div className="relative mx-auto mt-6 h-[calc(550/900*100vh)] max-h-[550px] w-[calc(550/900*100vh)] max-w-[550px]">
         <button
-          className="bg-ecommerce-primary-100 absolute left-0 top-1/2 z-10 flex h-[56px] w-[56px] -translate-x-1/2 -translate-y-[calc(50%+10px)] flex-col items-center justify-center rounded-full p-[14px]"
+          className="absolute left-0 top-1/2 z-10 flex h-[56px] w-[56px] -translate-x-1/2 -translate-y-[calc(50%+10px)] flex-col items-center justify-center rounded-full bg-ecommerce-primary-100 p-[14px]"
           onClick={() => {
             setLeftPos((p) => {
               return p !== 0 ? p - 1 : 3;
@@ -83,21 +89,20 @@ function MainContent({ product, position = 0 }: { product: Product; position?: n
             />
           </svg>
         </button>
-        <div className="bg-ecommerce-primary-200 relative h-full w-full overflow-hidden lg:rounded-2xl">
+        <div className="relative h-full w-full overflow-hidden bg-ecommerce-primary-200 lg:rounded-2xl">
           <div
             className="relative left-0 flex h-full w-[400%] translate-x-[var(--translate)] gap-0 transition-all duration-150"
             style={
               {
-                "--translate": `calc(${leftPos} * -${100 / product.images.length}%)`,
+                "--translate": `calc(${leftPos} * -${
+                  100 / product.images.length
+                }%)`,
               } as CSSProperties
             }
           >
             {product.images.map((img, index) => {
               return (
-                <div
-                  className="relative h-full w-[100%]"
-                  key={index}
-                >
+                <div className="relative h-full w-[100%]" key={index}>
                   <Image
                     src={img}
                     alt={`Product ${index + 1}`}
@@ -110,7 +115,7 @@ function MainContent({ product, position = 0 }: { product: Product; position?: n
           </div>
         </div>
         <button
-          className="bg-ecommerce-primary-100 absolute right-0 top-1/2 z-10 flex h-[56px] w-[56px] -translate-y-[calc(50%+10px)] translate-x-1/2 flex-col items-center justify-center rounded-full p-[14px]"
+          className="absolute right-0 top-1/2 z-10 flex h-[56px] w-[56px] -translate-y-[calc(50%+10px)] translate-x-1/2 flex-col items-center justify-center rounded-full bg-ecommerce-primary-100 p-[14px]"
           onClick={() => {
             setLeftPos((p) => {
               return p !== 3 ? p + 1 : 0;
@@ -138,7 +143,8 @@ function MainContent({ product, position = 0 }: { product: Product; position?: n
             <button
               key={index}
               className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:z-10 hover:before:h-full hover:before:w-full hover:before:bg-white/50 hover:before:content-[''] ${
-                leftPos === index && "ring-ecommerce-primary-200 ring-2 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
+                leftPos === index &&
+                "ring-2 ring-ecommerce-primary-200 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
               }`}
               onClick={() => {
                 setLeftPos(index);

@@ -123,8 +123,7 @@ function Main() {
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<DateInput>({ resolver: zodResolver(dateInputsSchema) });
   const [diff, setDiff] = useState({ year: "", month: "", day: "" });
 

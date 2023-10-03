@@ -1,6 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
-import { CSSProperties, ComponentProps, PropsWithChildren, useEffect, useState } from "react";
+import {
+  type CSSProperties,
+  type ComponentProps,
+  type PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEventListener, useWindowSize } from "usehooks-ts";
 import { cn } from "../utils/cn";
@@ -24,7 +30,8 @@ type Product = {
 const products: Product[] = [
   {
     title: "Discover innovative ways to decorate",
-    description: "We provide unmatched quality, comfort, and style for property owners across the country. Our experts combine form and function in bringing your vision to life. Create a room in your own style with our collection and make your property a reflection of you and what you love.",
+    description:
+      "We provide unmatched quality, comfort, and style for property owners across the country. Our experts combine form and function in bringing your vision to life. Create a room in your own style with our collection and make your property a reflection of you and what you love.",
     link: "",
     image: {
       mobile: "mobile-image-hero-1.jpg",
@@ -33,7 +40,8 @@ const products: Product[] = [
   },
   {
     title: "We are available all across the globe",
-    description: "With stores all over the world, it's easy for you to find furniture for your home or place of business. Locally, we’re in most major cities throughout the country. Find the branch nearest you using our store locator. Any questions? Don't hesitate to contact us today.",
+    description:
+      "With stores all over the world, it's easy for you to find furniture for your home or place of business. Locally, we’re in most major cities throughout the country. Find the branch nearest you using our store locator. Any questions? Don't hesitate to contact us today.",
     link: "",
     image: {
       mobile: "mobile-image-hero-2.jpg",
@@ -42,7 +50,8 @@ const products: Product[] = [
   },
   {
     title: "Manufactured with the best materials",
-    description: "Our modern furniture store provide a high level of quality. Our company has invested in advanced technology to ensure that every product is made as perfect and as consistent as possible. With three decades of experience in this industry, we understand what customers want for their home and office.",
+    description:
+      "Our modern furniture store provide a high level of quality. Our company has invested in advanced technology to ensure that every product is made as perfect and as consistent as possible. With three decades of experience in this industry, we understand what customers want for their home and office.",
     link: "",
     image: {
       mobile: "mobile-image-hero-3.jpg",
@@ -75,7 +84,7 @@ export default function RoomHomepage() {
       <Head>
         <title>Frontend Mentor | Room homepage</title>
       </Head>
-      <div className="App font-league-spartan relative min-h-[100svh] font-medium">
+      <div className="App relative min-h-[100svh] font-league-spartan font-medium">
         <Header />
         <Main />
         <Footer />
@@ -88,12 +97,15 @@ export default function RoomHomepage() {
   );
 }
 
-function NavigationLink({ children, href }: PropsWithChildren<ComponentProps<"a">>) {
+function NavigationLink({
+  children,
+  href,
+}: PropsWithChildren<ComponentProps<"a">>) {
   return (
     <li>
       <a
         className={cn([
-          "text-room-primary-300 lg:text-room-primary-100 text-[17px] font-bold lowercase leading-none tracking-[-1.25px] lg:font-medium", //
+          "text-[17px] font-bold lowercase leading-none tracking-[-1.25px] text-room-primary-300 lg:font-medium lg:text-room-primary-100", //
           "lg:hover:relative lg:hover:before:absolute lg:hover:before:bottom-[-10px] lg:hover:before:left-1/2 lg:hover:before:h-[2px] lg:hover:before:w-4 lg:hover:before:-translate-x-1/2 lg:hover:before:bg-white",
         ])}
         href={href ?? ""}
@@ -120,7 +132,9 @@ function Header() {
     <>
       <motion.header
         className={`absolute left-0 top-0 z-20 flex h-[110px] w-full items-center px-6 lg:h-[142px] lg:w-auto lg:px-16`}
-        animate={{ backgroundColor: menuOpen ? "rgb(255,255,255)" : "rgba(0,0,0,0)" }}
+        animate={{
+          backgroundColor: menuOpen ? "rgb(255,255,255)" : "rgba(0,0,0,0)",
+        }}
         transition={{ duration: 0.1 }}
       >
         <button
@@ -130,17 +144,11 @@ function Header() {
           className="lg:hidden"
         >
           {menuOpen ? (
-            <svg
-              viewBox="0 0 16 16"
-              className="ml-[2px] w-4"
-            >
+            <svg viewBox="0 0 16 16" className="ml-[2px] w-4">
               <use href="/room-homepage/images/icon-close.svg#icon-close" />
             </svg>
           ) : (
-            <svg
-              viewBox="0 0 20 14"
-              className="w-5"
-            >
+            <svg viewBox="0 0 20 14" className="w-5">
               <use href="/room-homepage/images/icon-hamburger.svg#icon-hamburger" />
             </svg>
           )}
@@ -157,10 +165,7 @@ function Header() {
               <ul className="flex gap-8 lg:gap-[33px]">
                 {links.map((link) => {
                   return (
-                    <NavigationLink
-                      key={link.display}
-                      href={link.href}
-                    >
+                    <NavigationLink key={link.display} href={link.href}>
                       {link.display}
                     </NavigationLink>
                   );
@@ -177,7 +182,7 @@ function Header() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2 }}
             exit={{ opacity: 0.5 }}
-            className="bg-room-primary-400/50 absolute left-0 top-0 z-10 h-screen w-screen"
+            className="absolute left-0 top-0 z-10 h-screen w-screen bg-room-primary-400/50"
           />
         )}
       </AnimatePresence>
@@ -214,7 +219,12 @@ function Slide() {
         <Image
           src={"/room-homepage/images/"}
           loader={({ src, width }) => {
-            return src + (width > 1023 ? product[activeProduct].image.desktop : product[activeProduct].image.mobile);
+            return (
+              src +
+              (width > 1023
+                ? product[activeProduct].image.desktop
+                : product[activeProduct].image.mobile)
+            );
           }}
           className="object-cover"
           fill
@@ -222,15 +232,19 @@ function Slide() {
         />
       </div>
       <div className="h-[410px] w-full px-8 py-[61px] lg:flex lg:h-full lg:w-auto lg:flex-col lg:justify-center lg:px-[clamp(80px,calc(100/1440*100vw),100px)] lg:py-0 lg:pb-[34px]">
-        <h1 className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]">{product[activeProduct].title}</h1>
-        <p className="text-room-primary-200 mt-[15px] font-medium leading-[22px] tracking-[-.35px] lg:mt-[22px] lg:text-[clamp(15px,calc(16/800*100dvh),16px)]">{product[activeProduct].description}</p>
+        <h1 className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]">
+          {product[activeProduct].title}
+        </h1>
+        <p className="mt-[15px] font-medium leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[22px] lg:text-[clamp(15px,calc(16/800*100dvh),16px)]">
+          {product[activeProduct].description}
+        </p>
         <a
           href={product[activeProduct].link}
-          className="text-room-primary-400 hover:text-room-primary-200 group mt-10 flex items-center gap-[18px] text-[15px] uppercase leading-none tracking-[12.5px] lg:mt-[23px] lg:text-[clamp(14px,calc(15/800*100dvh),15px)]"
+          className="group mt-10 flex items-center gap-[18px] text-[15px] uppercase leading-none tracking-[12.5px] text-room-primary-400 hover:text-room-primary-200 lg:mt-[23px] lg:text-[clamp(14px,calc(15/800*100dvh),15px)]"
         >
           Shop Now
           <svg
-            className="text-room-primary-400 group-hover:text-room-primary-200 w-10"
+            className="w-10 text-room-primary-400 group-hover:text-room-primary-200"
             viewBox="0 0 40 12"
           >
             <use href="/room-homepage/images/icon-arrow.svg#icon-arrow" />
@@ -244,12 +258,9 @@ function Slide() {
               return prev === 0 ? 2 : prev - 1;
             });
           }}
-          className="bg-room-primary-400 hover:bg-room-primary-300 flex h-full w-full items-center justify-center"
+          className="flex h-full w-full items-center justify-center bg-room-primary-400 hover:bg-room-primary-300"
         >
-          <svg
-            viewBox="0 0 14 24"
-            className="h-4 stroke-2 lg:h-6 lg:stroke-1"
-          >
+          <svg viewBox="0 0 14 24" className="h-4 stroke-2 lg:h-6 lg:stroke-1">
             <use href="/room-homepage/images/icon-angle-left.svg#icon-angle-left" />
           </svg>
         </button>
@@ -259,12 +270,9 @@ function Slide() {
               return prev === 2 ? 0 : prev + 1;
             });
           }}
-          className="bg-room-primary-400 hover:bg-room-primary-300 flex h-full w-full items-center justify-center"
+          className="flex h-full w-full items-center justify-center bg-room-primary-400 hover:bg-room-primary-300"
         >
-          <svg
-            viewBox="0 0 14 24"
-            className="h-4 stroke-2 lg:h-6 lg:stroke-1"
-          >
+          <svg viewBox="0 0 14 24" className="h-4 stroke-2 lg:h-6 lg:stroke-1">
             <use href="/room-homepage/images/icon-angle-right.svg#icon-angle-right" />
           </svg>
         </button>
@@ -285,9 +293,16 @@ function About() {
         />
       </div>
       <div className="flex h-[303.8px] flex-col justify-center p-8 pt-10 lg:h-full lg:p-12 lg:pt-[54px]">
-        <h2 className="text-[15px] font-bold uppercase tracking-[5.2px] lg:text-[clamp(15px,calc(16/800*100vh),16px)] lg:tracking-[6.7px]">About our furniture</h2>
-        <p className="text-room-primary-200 mt-4 leading-[22px] tracking-[-.35px] lg:mt-[11px] lg:text-[clamp(15px,calc(16/800*100vh),16px)] ">
-          Our multifunctional collection blends design and function to suit your individual taste. Make each room unique, or pick a cohesive theme that best express your interests and what inspires you. Find the furniture pieces you need, from traditional to contemporary styles or anything in between. Product specialists are available to help you create your dream space.
+        <h2 className="text-[15px] font-bold uppercase tracking-[5.2px] lg:text-[clamp(15px,calc(16/800*100vh),16px)] lg:tracking-[6.7px]">
+          About our furniture
+        </h2>
+        <p className="mt-4 leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[11px] lg:text-[clamp(15px,calc(16/800*100vh),16px)] ">
+          Our multifunctional collection blends design and function to suit your
+          individual taste. Make each room unique, or pick a cohesive theme that
+          best express your interests and what inspires you. Find the furniture
+          pieces you need, from traditional to contemporary styles or anything
+          in between. Product specialists are available to help you create your
+          dream space.
         </p>
       </div>
       <div className="relative aspect-[220/133] w-full lg:h-full lg:w-auto">
@@ -313,7 +328,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="text-room-primary-300 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-room-primary-300 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -323,11 +338,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

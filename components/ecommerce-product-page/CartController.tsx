@@ -1,5 +1,10 @@
 import { createPortal } from "react-dom";
-import { cartOpenAtom, productCountAtom, type Product, type CartItem } from "../../pages/ecommerce-product-page";
+import {
+  cartOpenAtom,
+  productCountAtom,
+  type Product,
+  type CartItem,
+} from "../../pages/ecommerce-product-page";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useRef } from "react";
 import { useEffectOnce, useOnClickOutside } from "usehooks-ts";
@@ -16,9 +21,9 @@ export default function CartController({ product }: { product: Product }) {
 
   return (
     <div className="mt-[21px] lg:mt-[33px] lg:grid lg:grid-cols-[auto,272px] lg:grid-rows-1 lg:gap-x-4">
-      <div className="bg-ecommerce-neutral-200 flex h-[56px] items-center justify-between rounded-[10px] px-[10px] lg:px-[2px]">
+      <div className="flex h-[56px] items-center justify-between rounded-[10px] bg-ecommerce-neutral-200 px-[10px] lg:px-[2px]">
         <button
-          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none hover:opacity-50 disabled:cursor-default disabled:hover:opacity-100"
+          className="flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none text-ecommerce-primary-200 hover:opacity-50 disabled:cursor-default disabled:hover:opacity-100"
           disabled={productCount === 0}
           onClick={() => {
             productCount !== 0 && setProductCount((p) => p - 1);
@@ -26,9 +31,11 @@ export default function CartController({ product }: { product: Product }) {
         >
           -
         </button>
-        <div className="text-ecommerce-neutral-600 font-bold">{productCount}</div>
+        <div className="font-bold text-ecommerce-neutral-600">
+          {productCount}
+        </div>
         <button
-          className="text-ecommerce-primary-200 flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none hover:opacity-50 disabled:cursor-default disabled:hover:opacity-100"
+          className="flex h-10 w-10 items-center justify-center rounded pb-2 text-[28px] font-bold leading-none text-ecommerce-primary-200 hover:opacity-50 disabled:cursor-default disabled:hover:opacity-100"
           onClick={() => {
             setProductCount((p) => p + 1);
           }}
@@ -37,7 +44,7 @@ export default function CartController({ product }: { product: Product }) {
         </button>
       </div>
       <button
-        className="bg-ecommerce-primary-200 hover:bg-ecommerce-primary-200/70 mt-4 flex h-[56px] w-full items-center justify-center gap-4 rounded-[10px] shadow-[0px_10px_50px_theme(colors.ecommerce.primary.200/30%)] lg:mt-0"
+        className="mt-4 flex h-[56px] w-full items-center justify-center gap-4 rounded-[10px] bg-ecommerce-primary-200 shadow-[0px_10px_50px_theme(colors.ecommerce.primary.200/30%)] hover:bg-ecommerce-primary-200/70 lg:mt-0"
         onClick={() => {
           const count = productCount;
           if (count > 0) {
@@ -49,7 +56,7 @@ export default function CartController({ product }: { product: Product }) {
       >
         <svg
           viewBox="0 0 22 20"
-          className="fill-ecommerce-primary-100 w-[18px]"
+          className="w-[18px] fill-ecommerce-primary-100"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -57,13 +64,13 @@ export default function CartController({ product }: { product: Product }) {
             fillRule="nonzero"
           />
         </svg>
-        <div className="text-ecommerce-primary-100 font-bold">Add to cart</div>
+        <div className="font-bold text-ecommerce-primary-100">Add to cart</div>
       </button>
       {createPortal(
         <Transition show={cartOpen}>
           <CartPopup />
         </Transition>,
-        document.body
+        document.body,
       )}
     </div>
   );
@@ -81,9 +88,18 @@ function CartPopup() {
   });
 
   useOnClickOutside(ref, (e) => {
-    const { target }: any = e;
-    if (![target.id, target.parentElement.id, target.parentElement.parentElement.id].includes("cart-toggle")) {
-      setCartOpen(false);
+    const { target } = e;
+    const targetAsEl = target as HTMLElement | null;
+    if (targetAsEl !== null) {
+      if (
+        ![
+          targetAsEl.id,
+          targetAsEl.parentElement!.id,
+          targetAsEl.parentElement!.parentElement!.id,
+        ].includes("cart-toggle")
+      ) {
+        setCartOpen(false);
+      }
     }
   });
 
@@ -95,21 +111,30 @@ function CartPopup() {
       leave="transition-all duration-150"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
-      className={`bg-ecommerce-neutral-100 [&_*]:font-kumbh-sans absolute left-1/2 top-[76px] z-50 w-[calc(100vw-15px)] max-w-[360px] -translate-x-1/2 rounded-[10px] shadow-2xl sm:left-auto sm:right-[8px] sm:translate-x-0 lg:right-[88px] lg:top-[94px] ${cartItem.length === 0 ? "h-[256px]" : "min-h-[256px]"}`}
+      className={`absolute left-1/2 top-[76px] z-50 w-[calc(100vw-15px)] max-w-[360px] -translate-x-1/2 rounded-[10px] bg-ecommerce-neutral-100 shadow-2xl sm:left-auto sm:right-[8px] sm:translate-x-0 lg:right-[88px] lg:top-[94px] [&_*]:font-kumbh-sans ${
+        cartItem.length === 0 ? "h-[256px]" : "min-h-[256px]"
+      }`}
       ref={ref}
       tabIndex={1}
     >
-      <h2 className={`text-ecommerce-neutral-500 flex h-[68px] w-full items-center border-b px-6 font-bold lg:pb-2 ${cartItem.length === 0 ? "pb-[2px]" : "pb-2"}`}>Cart</h2>
-      <div className={`flex h-[calc(100%-68px)] w-full flex-col items-center pb-3 ${cartItem.length === 0 ? "justify-center" : "pb-8 pt-6"}`}>
+      <h2
+        className={`flex h-[68px] w-full items-center border-b px-6 font-bold text-ecommerce-neutral-500 lg:pb-2 ${
+          cartItem.length === 0 ? "pb-[2px]" : "pb-2"
+        }`}
+      >
+        Cart
+      </h2>
+      <div
+        className={`flex h-[calc(100%-68px)] w-full flex-col items-center pb-3 ${
+          cartItem.length === 0 ? "justify-center" : "pb-8 pt-6"
+        }`}
+      >
         {cartItem.length > 0 ? (
           <div className="w-full px-6">
             <div className="flex flex-col gap-6">
               {cartItem.map((c, index) => {
                 return (
-                  <div
-                    key={index}
-                    className="flex w-full items-center"
-                  >
+                  <div key={index} className="flex w-full items-center">
                     <div className="relative h-[50px] w-[50px] overflow-hidden rounded">
                       <Image
                         src={c.thumbnails[0]}
@@ -118,10 +143,13 @@ function CartPopup() {
                         fill
                       />
                     </div>
-                    <div className="text-ecommerce-neutral-400 ml-4 flex flex-col gap-[10px] pb-[2px]">
+                    <div className="ml-4 flex flex-col gap-[10px] pb-[2px] text-ecommerce-neutral-400">
                       <p className="leading-none">{c.name}</p>
                       <p className="leading-none tracking-[0.4px]">
-                        ${c.price.toFixed(2)} x {c.count} <span className="text-ecommerce-neutral-600 pl-[2px] font-bold tracking-[0.6px]">${(c.price * c.count).toFixed(2)}</span>
+                        ${c.price.toFixed(2)} x {c.count}{" "}
+                        <span className="pl-[2px] font-bold tracking-[0.6px] text-ecommerce-neutral-600">
+                          ${(c.price * c.count).toFixed(2)}
+                        </span>
                       </p>
                     </div>
                     <button
@@ -136,7 +164,7 @@ function CartPopup() {
                       tabIndex={1}
                     >
                       <svg
-                        className="group-hover:fill-ecommerce-neutral-600 mt-[1px] w-[14px] fill-[#C3CAD9]"
+                        className="mt-[1px] w-[14px] fill-[#C3CAD9] group-hover:fill-ecommerce-neutral-600"
                         viewBox="0 0 14 16"
                         xmlns="http://www.w3.org/2000/svg"
                         xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -147,10 +175,7 @@ function CartPopup() {
                             id="a"
                           />
                         </defs>
-                        <use
-                          fillRule="nonzero"
-                          xlinkHref="#a"
-                        />
+                        <use fillRule="nonzero" xlinkHref="#a" />
                       </svg>
                     </button>
                   </div>
@@ -158,14 +183,16 @@ function CartPopup() {
               })}
             </div>
             <button
-              className="bg-ecommerce-primary-200 text-ecommerce-neutral-100 hover:bg-ecommerce-primary-200/70 mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] font-bold"
+              className="mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] bg-ecommerce-primary-200 font-bold text-ecommerce-neutral-100 hover:bg-ecommerce-primary-200/70"
               tabIndex={1}
             >
               Checkout
             </button>
           </div>
         ) : (
-          <p className="text-ecommerce-neutral-500/80 font-medium">Your cart is empty.</p>
+          <p className="font-medium text-ecommerce-neutral-500/80">
+            Your cart is empty.
+          </p>
         )}
       </div>
     </Transition.Child>

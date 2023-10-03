@@ -6,13 +6,15 @@ import { type ChangeEvent, useMemo, useState, useEffect } from "react";
 import { useDarkMode } from "usehooks-ts";
 import type { InferGetServerSidePropsType } from "next";
 
-export async function getServerSideProps() {
+export function getServerSideProps() {
   return {
     props: { ...getPages() },
   };
 }
 
-export default function Home({ pages }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home({
+  pages,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [input, setInput] = useState("");
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -46,7 +48,9 @@ export default function Home({ pages }: InferGetServerSidePropsType<typeof getSe
         />
       </Head>
       <main className="flex min-h-screen flex-1 flex-col items-center justify-start bg-white px-16 py-8 duration-300 dark:bg-sky-950 [&_a]:transition-all">
-        <h1 className="text-center text-[36px] font-bold text-slate-950 dark:text-slate-50 lg:text-[3rem]">Muf&apos;s Frontendmentor Challenge Solution</h1>
+        <h1 className="text-center text-[36px] font-bold text-slate-950 dark:text-slate-50 lg:text-[3rem]">
+          Muf&apos;s Frontendmentor Challenge Solution
+        </h1>
         <input
           type="text"
           value={input}
@@ -75,7 +79,9 @@ export default function Home({ pages }: InferGetServerSidePropsType<typeof getSe
           }}
         >
           <Image
-            src={`/rest-countries-api-with-color-theme-switcher/images/${isDarkMode ? "moon.svg" : "moon-outline.svg"}`}
+            src={`/rest-countries-api-with-color-theme-switcher/images/${
+              isDarkMode ? "moon.svg" : "moon-outline.svg"
+            }`}
             alt="Moon"
             width={20}
             height={20}

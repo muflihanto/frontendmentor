@@ -10,7 +10,7 @@ type Theme = "dark" | "light";
 
 type ThemeContext = {
   theme: Theme;
-  update: () => void;
+  update?: () => void;
 };
 
 type TSocialMedia = "facebook" | "instagram" | "youtube" | "twitter";
@@ -86,7 +86,6 @@ const data: Record<TSocialMedia, SocialMediaData> = {
 
 const ThemeContext = createContext<ThemeContext>({
   theme: "light",
-  update: () => {},
 });
 const ThemeProvider = ThemeContext.Provider;
 
@@ -170,7 +169,7 @@ function Header() {
         <button
           className="flex h-[24px] w-[48px] items-center justify-end rounded-full bg-social-toggle-light bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green lg:pr-[3px]"
           onClick={() => {
-            update();
+            update !== undefined && update();
           }}
         >
           <span className="aspect-square h-[18px] rounded-full bg-social-neutral-light-300 dark:bg-social-neutral-dark-300" />
@@ -338,33 +337,32 @@ function SummarySection() {
         Overview - Today
       </h2>
       <div className="mt-[30px] flex flex-col gap-4 lg:mt-[26px] lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[30px] lg:gap-y-6">
-        {summaries &&
-          summaries.map((sum) => {
-            return Object.entries(sum).map((el, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className={`flex ${
-                    ["instagram", "youtube"].includes(el[0])
-                      ? "flex-col-reverse lg:flex-row-reverse"
-                      : "flex-col lg:flex-row"
-                  }  gap-4 lg:gap-[30px]`}
-                >
-                  {(Object.entries(el[1]) as Entries<(typeof el)[1]>).map(
-                    (el2, index) => {
-                      return (
-                        <SummaryCard
-                          key={index}
-                          summary={el2}
-                          socialMedia={el[0] as TSocialMedia}
-                        />
-                      );
-                    },
-                  )}
-                </div>
-              );
-            });
-          })}
+        {summaries?.map((sum) => {
+          return Object.entries(sum).map((el, idx) => {
+            return (
+              <div
+                key={idx}
+                className={`flex ${
+                  ["instagram", "youtube"].includes(el[0])
+                    ? "flex-col-reverse lg:flex-row-reverse"
+                    : "flex-col lg:flex-row"
+                }  gap-4 lg:gap-[30px]`}
+              >
+                {(Object.entries(el[1]) as Entries<(typeof el)[1]>).map(
+                  (el2, index) => {
+                    return (
+                      <SummaryCard
+                        key={index}
+                        summary={el2}
+                        socialMedia={el[0] as TSocialMedia}
+                      />
+                    );
+                  },
+                )}
+              </div>
+            );
+          });
+        })}
       </div>
     </div>
   );

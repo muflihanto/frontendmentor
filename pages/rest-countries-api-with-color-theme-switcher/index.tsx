@@ -4,13 +4,16 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
-import { faMagnifyingGlass, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
 import { Listbox } from "@headlessui/react";
 import data from "../../public/rest-countries-api-with-color-theme-switcher/all.json";
 import { type Country } from "../../utils/types";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -42,9 +45,11 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
   return (
     <>
       <Head>
-        <title>Frontend Mentor | Rest Countries Api With Color Theme Switcher</title>
+        <title>
+          Frontend Mentor | Rest Countries Api With Color Theme Switcher
+        </title>
       </Head>
-      <div className="App font-nunito-sans dark:bg-rest-countries-darkblue-200 relative min-h-[100svh] font-light">
+      <div className="App relative min-h-[100svh] font-nunito-sans font-light dark:bg-rest-countries-darkblue-200">
         <Header />
         <Main />
         <Footer />
@@ -73,15 +78,21 @@ export function Header() {
   }, [dark]);
 
   return (
-    <header className="shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/5 relative z-10 flex h-20 items-center justify-between px-4 shadow-md lg:px-20">
-      <h1 className="text-rest-countries-darkblue-200 dark:text-rest-countries-gray-100 text-[14px] font-extrabold tracking-[-.1px] lg:text-[24px]">Where in the world?</h1>
+    <header className="relative z-10 flex h-20 items-center justify-between px-4 shadow-md shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/5 lg:px-20">
+      <h1 className="text-[14px] font-extrabold tracking-[-.1px] text-rest-countries-darkblue-200 dark:text-rest-countries-gray-100 lg:text-[24px]">
+        Where in the world?
+      </h1>
       <button
-        className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 flex items-center px-px pt-px text-[12px] font-normal lg:text-[16px]"
+        className="flex items-center px-px pt-px text-[12px] font-normal text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:text-[16px]"
         onClick={() => toggle()}
       >
         <span className="relative mr-[10px] aspect-square h-[14px] lg:h-[16px]">
           <Image
-            src={dark ? "/rest-countries-api-with-color-theme-switcher/images/moon.svg" : "/rest-countries-api-with-color-theme-switcher/images/moon-outline.svg"}
+            src={
+              dark
+                ? "/rest-countries-api-with-color-theme-switcher/images/moon.svg"
+                : "/rest-countries-api-with-color-theme-switcher/images/moon-outline.svg"
+            }
             fill
             alt="Moon Icon"
           />
@@ -106,7 +117,7 @@ function InputField() {
     <form className="relative h-12 w-full md:h-[56px] md:w-[50vw] md:min-w-[360px] md:max-w-[480px]">
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
-        className="text-rest-countries-gray-300/60 dark:text-rest-countries-gray-100 lg:text-rest-countries-darkblue-100/80 absolute left-8 top-1/2 w-[15px] -translate-y-1/2 lg:w-4"
+        className="absolute left-8 top-1/2 w-[15px] -translate-y-1/2 text-rest-countries-gray-300/60 dark:text-rest-countries-gray-100 lg:w-4 lg:text-rest-countries-darkblue-100/80"
       />
       <input
         type="text"
@@ -114,7 +125,7 @@ function InputField() {
         onChange={(e) => {
           setInput(e.target.value);
         }}
-        className="shadow-rest-countries-gray-300/10 text-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 dark:text-rest-countries-gray-100 dark:placeholder:text-rest-countries-gray-100 lg:placeholder:text-rest-countries-darkblue-100 h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] shadow-md placeholder:opacity-50 dark:placeholder:opacity-80 lg:text-[14px] lg:placeholder:opacity-80"
+        className="h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] text-rest-countries-gray-300 shadow-md shadow-rest-countries-gray-300/10 placeholder:opacity-50 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/10 dark:placeholder:text-rest-countries-gray-100 dark:placeholder:opacity-80 lg:text-[14px] lg:placeholder:text-rest-countries-darkblue-100 lg:placeholder:opacity-80"
         placeholder="Search for a country..."
       />
     </form>
@@ -126,18 +137,15 @@ function RegionFilter() {
 
   return (
     <div className="relative z-10 mt-10 max-lg:self-start md:mt-0">
-      <Listbox
-        value={selectedFilter}
-        onChange={setSelectedFilter}
-      >
-        <Listbox.Button className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm md:h-[56px] md:text-[14px]">
+      <Listbox value={selectedFilter} onChange={setSelectedFilter}>
+        <Listbox.Button className="group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] text-rest-countries-darkblue-100 shadow-sm dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 md:h-[56px] md:text-[14px]">
           <span>{selectedFilter?.name ?? "Filter by Region"}</span>
           <FontAwesomeIcon
             className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180 lg:w-[10px]"
             icon={faChevronDown}
           />
         </Listbox.Button>
-        <Listbox.Options className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 dark:bg-rest-countries-darkblue-100 absolute left-0 top-[52px] flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] shadow lg:top-[60px] lg:gap-[7px] lg:py-[16px] lg:text-[14px]">
+        <Listbox.Options className="absolute left-0 top-[52px] flex w-[200px] flex-col gap-[6px] rounded bg-white px-6 py-[15px] text-[12px] font-semibold tracking-[-.125px] text-rest-countries-darkblue-100 shadow dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 lg:top-[60px] lg:gap-[7px] lg:py-[16px] lg:text-[14px]">
           {regions.map((region) => (
             <Listbox.Option
               key={region.id}
@@ -157,8 +165,11 @@ function RegionFilter() {
 function CountryCard({ country }: { country: Country }) {
   return (
     <Link
-      className="shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10 flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md"
-      href={`/rest-countries-api-with-color-theme-switcher/${country.name.common.toLowerCase().split(" ").join("_")}`}
+      className="flex h-[336px] w-[265px] flex-col items-center overflow-hidden rounded bg-white shadow-md shadow-rest-countries-gray-300/10 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/10"
+      href={`/rest-countries-api-with-color-theme-switcher/${country.name.common
+        .toLowerCase()
+        .split(" ")
+        .join("_")}`}
     >
       <div className="relative h-[160px] w-full">
         <Image
@@ -169,17 +180,25 @@ function CountryCard({ country }: { country: Country }) {
         />
       </div>
       <div className="flex w-full flex-col items-start px-[25px] pt-[24px] text-[14px]/[24px]">
-        <h2 className="dark:text-rest-countries-gray-100 mb-[12px] text-left text-[18px]/[1.5] font-extrabold">{country.name.common}</h2>
-        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 text-left">
-          <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Population: </span>
+        <h2 className="mb-[12px] text-left text-[18px]/[1.5] font-extrabold dark:text-rest-countries-gray-100">
+          {country.name.common}
+        </h2>
+        <p className="text-left text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+          <span className="font-semibold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100">
+            Population:{" "}
+          </span>
           {country.population.toLocaleString("en-GB")}
         </p>
-        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 text-left">
-          <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Region: </span>
+        <p className="text-left text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+          <span className="font-semibold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100">
+            Region:{" "}
+          </span>
           {country.region}
         </p>
-        <p className="text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 text-left">
-          <span className="text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 font-semibold">Capital: </span>
+        <p className="text-left text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
+          <span className="font-semibold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100">
+            Capital:{" "}
+          </span>
           {country.capital?.join(", ")}
         </p>
       </div>
@@ -192,7 +211,7 @@ function Main() {
   const keywordFilter = useAtomValue(keywordFilterAtom);
 
   return (
-    <div className="bg-rest-countries-gray-200 dark:bg-rest-countries-darkblue-200 min-h-52 flex flex-col items-center px-4 py-6 md:px-20 md:py-12">
+    <div className="min-h-52 flex flex-col items-center bg-rest-countries-gray-200 px-4 py-6 dark:bg-rest-countries-darkblue-200 md:px-20 md:py-12">
       <div className="flex w-full flex-col items-center md:flex-row md:justify-between">
         <InputField />
         <RegionFilter />
@@ -202,28 +221,26 @@ function Main() {
           ? data
               .filter((ctr) => {
                 if (keywordFilter === "") return true;
-                return ctr.name.common.toLowerCase().includes(keywordFilter.toLowerCase());
+                return ctr.name.common
+                  .toLowerCase()
+                  .includes(keywordFilter.toLowerCase());
               })
               .map((ctr, index) => {
-                return (
-                  <CountryCard
-                    key={index}
-                    country={ctr as Country}
-                  />
-                );
+                return <CountryCard key={index} country={ctr as Country} />;
               })
           : data
               .filter((ctr) => {
-                if (keywordFilter === "") return ctr.region === selectedFilter.name;
-                return ctr.name.common.toLowerCase().includes(keywordFilter.toLowerCase()) && ctr.region === selectedFilter.name;
+                if (keywordFilter === "")
+                  return ctr.region === selectedFilter.name;
+                return (
+                  ctr.name.common
+                    .toLowerCase()
+                    .includes(keywordFilter.toLowerCase()) &&
+                  ctr.region === selectedFilter.name
+                );
               })
               .map((ctr, index) => {
-                return (
-                  <CountryCard
-                    key={index}
-                    country={ctr as Country}
-                  />
-                );
+                return <CountryCard key={index} country={ctr as Country} />;
               })}
       </div>
     </div>
@@ -232,7 +249,7 @@ function Main() {
 
 export function Footer() {
   return (
-    <footer className="dark:text-rest-countries-gray-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] dark:text-rest-countries-gray-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -242,11 +259,7 @@ export function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

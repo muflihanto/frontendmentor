@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import {
   faFacebookF,
   faInstagram,

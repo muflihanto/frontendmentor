@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement } from "react";
+import type { PropsWithChildren, ReactElement } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { barlow } from "../../utils/fonts/barlow";

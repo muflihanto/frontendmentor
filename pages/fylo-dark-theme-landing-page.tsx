@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { CSSProperties, useEffect } from "react";
+import { type CSSProperties, useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -360,7 +360,7 @@ function GetEarlyAccess() {
     resolver: zodResolver(inputSchema),
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((_data) => {
     // console.log(data);
   });
 

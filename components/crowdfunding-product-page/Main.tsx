@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect, useState } from "react";
+import { type MouseEvent, useCallback, useEffect, useState } from "react";
 import About from "./ProjectAbout";
 import Overview from "./ProjectOverview";
 import Statistic from "./ProjectStatistic";

@@ -12,7 +12,11 @@ type SliderProps =
     }
   | { basePath?: never; active?: boolean; absolutePath: string };
 
-export default function Slider({ basePath, active = false, absolutePath = "" }: SliderProps) {
+export default function Slider({
+  basePath,
+  active = false,
+  absolutePath = "",
+}: SliderProps) {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const [clicked, setClicked] = useState(false);
   const getWidthStatus = () => {
@@ -35,7 +39,7 @@ export default function Slider({ basePath, active = false, absolutePath = "" }: 
         sliderRef.current!.style.left = `calc(${width} - 20px)`;
       }
     },
-    [offset]
+    [offset],
   );
 
   const getSliderImg = () => {
@@ -43,7 +47,9 @@ export default function Slider({ basePath, active = false, absolutePath = "" }: 
       return absolutePath;
     }
     if (!active) {
-      return `${basePath}/${window.innerWidth >= 1440 ? "desktop" : "mobile"}-design.jpg`;
+      return `${basePath}/${
+        window.innerWidth >= 1440 ? "desktop" : "mobile"
+      }-design.jpg`;
     }
     return `${basePath}/active-states.jpg`;
   };
@@ -55,8 +61,12 @@ export default function Slider({ basePath, active = false, absolutePath = "" }: 
   };
 
   const getCursorPos = (e: Events) => {
-    let a = containerRef.current!.getBoundingClientRect();
-    let pageX = ((e as TouchEvent).changedTouches ? (e as TouchEvent).changedTouches[0] : (e as MouseEvent)).pageX;
+    const a = containerRef.current!.getBoundingClientRect();
+    const pageX = (
+      (e as TouchEvent).changedTouches
+        ? (e as TouchEvent).changedTouches[0]
+        : (e as MouseEvent)
+    ).pageX;
     let x = pageX - a.left;
     x = x - window.pageXOffset;
     return x;
@@ -64,7 +74,9 @@ export default function Slider({ basePath, active = false, absolutePath = "" }: 
 
   const slide = (pos: number) => {
     containerRef.current!.style.width = `${pos}px`;
-    sliderRef.current!.style.left = `${containerRef.current!.offsetWidth - sliderRef.current!.offsetWidth / 2}px`;
+    sliderRef.current!.style.left = `${
+      containerRef.current!.offsetWidth - sliderRef.current!.offsetWidth / 2
+    }px`;
   };
 
   const slideFinish = () => {
@@ -83,14 +95,18 @@ export default function Slider({ basePath, active = false, absolutePath = "" }: 
   };
 
   const handleScroll = () => {
-    sliderRef.current!.style.top = `${window.innerHeight / 2 + window.pageYOffset}px`;
+    sliderRef.current!.style.top = `${
+      window.innerHeight / 2 + window.pageYOffset
+    }px`;
   };
 
   const handleWindowResize = () => {
     setImagePath(getSliderImg());
     const newOffset = getWidthStatus();
     setOffset({ w: newOffset });
-    sliderRef.current!.style.left = `${containerRef.current!.offsetWidth - sliderRef.current!.offsetWidth / 2}px`;
+    sliderRef.current!.style.left = `${
+      containerRef.current!.offsetWidth - sliderRef.current!.offsetWidth / 2
+    }px`;
   };
 
   useEffect(() => {

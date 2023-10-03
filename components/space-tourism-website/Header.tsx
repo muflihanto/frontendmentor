@@ -1,14 +1,32 @@
 import Link from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
-import { AriaModalOverlayProps, Overlay, useModalOverlay, useOverlayTrigger, useButton, AriaButtonProps } from "react-aria";
-import { OverlayTriggerProps, OverlayTriggerState, useOverlayTriggerState } from "react-stately";
+import {
+  type AriaModalOverlayProps,
+  Overlay,
+  useModalOverlay,
+  useOverlayTrigger,
+  useButton,
+  type AriaButtonProps,
+} from "react-aria";
+import {
+  type OverlayTriggerProps,
+  type OverlayTriggerState,
+  useOverlayTriggerState,
+} from "react-stately";
 import { type Page, pages } from "./Layout";
-import { HTMLProps, PropsWithChildren, cloneElement, useRef } from "react";
+import {
+  type HTMLProps,
+  type PropsWithChildren,
+  cloneElement,
+  useRef,
+} from "react";
 import { cn } from "../../utils/cn";
 import { useOnClickOutside } from "usehooks-ts";
 
-function Button(props: PropsWithChildren<AriaButtonProps & HTMLProps<HTMLButtonElement>>) {
+function Button(
+  props: PropsWithChildren<AriaButtonProps & HTMLProps<HTMLButtonElement>>,
+) {
   const ref = useRef(null);
   const { buttonProps } = useButton(props, ref);
   const { children } = props;
@@ -24,10 +42,15 @@ function Button(props: PropsWithChildren<AriaButtonProps & HTMLProps<HTMLButtonE
   );
 }
 
-function Modal({ state, children, ...props }: PropsWithChildren<{ state: OverlayTriggerState } & AriaModalOverlayProps>) {
+function Modal({
+  state,
+  children,
+  ...props
+}: PropsWithChildren<{ state: OverlayTriggerState } & AriaModalOverlayProps>) {
   const ref = useRef(null);
   const { modalProps, underlayProps } = useModalOverlay(props, state, ref);
 
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   useOnClickOutside(ref, state.close);
 
   return (
@@ -48,14 +71,26 @@ function Modal({ state, children, ...props }: PropsWithChildren<{ state: Overlay
   );
 }
 
-function MobileNav({ label, children, ...props }: { label: string; children: (close: OverlayTriggerState["close"]) => JSX.Element } & OverlayTriggerProps) {
+function MobileNav({
+  children,
+  ...props
+}: {
+  label: string;
+  children: (close: OverlayTriggerState["close"]) => JSX.Element;
+} & OverlayTriggerProps) {
   const state = useOverlayTriggerState(props);
-  const { triggerProps, overlayProps } = useOverlayTrigger({ type: "menu" }, state);
+  const { triggerProps, overlayProps } = useOverlayTrigger(
+    { type: "menu" },
+    state,
+  );
 
   return (
     <>
       <Button
-        className={cn(["flex items-center justify-center md:hidden", state.isOpen && "hidden"])}
+        className={cn([
+          "flex items-center justify-center md:hidden",
+          state.isOpen && "hidden",
+        ])}
         {...triggerProps}
       >
         <Image
@@ -67,10 +102,8 @@ function MobileNav({ label, children, ...props }: { label: string; children: (cl
       </Button>
 
       {state.isOpen && (
-        <Modal
-          {...props}
-          state={state}
-        >
+        <Modal {...props} state={state}>
+          {/* eslint-disable-next-line @typescript-eslint/unbound-method */}
           {cloneElement(children(state.close), overlayProps)}
         </Modal>
       )}
@@ -89,9 +122,13 @@ export default function Header({ currentPage }: { currentPage: Page }) {
         />
       </div>
 
-      <hr className="border-t-space-tourism-lightblue/25 relative z-10 w-[calc(100vw-260px-541.35px-min(12vw,165px))] border-t max-lg:hidden lg:ml-auto lg:translate-x-[30px]" />
+      <hr className="relative z-10 w-[calc(100vw-260px-541.35px-min(12vw,165px))] border-t border-t-space-tourism-lightblue/25 max-lg:hidden lg:ml-auto lg:translate-x-[30px]" />
 
-      <nav className={clsx(["md:bg-space-tourism-white/[4%] max-md:hidden md:h-full md:w-[450px] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)] lg:w-auto lg:text-base lg:leading-[19px] lg:tracking-[2.7px]"])}>
+      <nav
+        className={clsx([
+          "max-md:hidden md:h-full md:w-[450px] md:bg-space-tourism-white/[4%] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)] lg:w-auto lg:text-base lg:leading-[19px] lg:tracking-[2.7px]",
+        ])}
+      >
         <ul className="flex items-center gap-4 md:h-full md:w-full md:justify-center md:gap-[37px] lg:justify-end lg:gap-12 lg:pl-[123px] lg:pr-[min(12vw,165px)]">
           {pages.map((link, index) => {
             return (
@@ -99,17 +136,28 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                 key={link}
                 className={cn([
                   "md:relative max-lg:[&:nth-child(2)]:mr-[3px]", //
-                  currentPage === link ? "text-space-tourism-white" : "text-space-tourism-lightblue",
+                  currentPage === link
+                    ? "text-space-tourism-white"
+                    : "text-space-tourism-lightblue",
                 ])}
               >
                 <Link
                   href={`/space-tourism-website/${link === "home" ? "" : link}`}
                   className="peer"
                 >
-                  <span className="font-bold tabular-nums md:hidden lg:mr-[8px] lg:inline">0{`${index}`}</span>
+                  <span className="font-bold tabular-nums md:hidden lg:mr-[8px] lg:inline">
+                    0{`${index}`}
+                  </span>
                   {`${link}`}
                 </Link>
-                <div className={cn(["absolute -bottom-[calc(48px-17px/2)] left-1/2 h-[3px] w-full -translate-x-1/2 bg-white", currentPage !== link ? "scale-0 opacity-0 transition-all duration-200 peer-hover:block peer-hover:scale-100 peer-hover:opacity-50 peer-active:block" : "peer-hover:opacity-100"])} />
+                <div
+                  className={cn([
+                    "absolute -bottom-[calc(48px-17px/2)] left-1/2 h-[3px] w-full -translate-x-1/2 bg-white",
+                    currentPage !== link
+                      ? "scale-0 opacity-0 transition-all duration-200 peer-hover:block peer-hover:scale-100 peer-hover:opacity-50 peer-active:block"
+                      : "peer-hover:opacity-100",
+                  ])}
+                />
               </li>
             );
           })}
@@ -120,10 +168,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
         {(close) => {
           return (
             <>
-              <Button
-                onPress={close}
-                className="self-end"
-              >
+              <Button onPress={close} className="self-end">
                 <Image
                   src="/space-tourism-website/assets/shared/icon-close.svg"
                   width={20}
@@ -133,21 +178,29 @@ export default function Header({ currentPage }: { currentPage: Page }) {
               </Button>
 
               <nav className="mt-16">
-                <ul className="font-barlow-condensed text-space-tourism-white flex flex-col gap-8 uppercase leading-[19px] tracking-[2.7px]">
+                <ul className="flex flex-col gap-8 font-barlow-condensed uppercase leading-[19px] tracking-[2.7px] text-space-tourism-white">
                   {pages.map((link, index) => {
                     return (
-                      <li
-                        key={link}
-                        className="relative"
-                      >
+                      <li key={link} className="relative">
                         <Link
-                          href={`/space-tourism-website/${link === "home" ? "" : link}`}
+                          href={`/space-tourism-website/${
+                            link === "home" ? "" : link
+                          }`}
                           className="peer"
                         >
-                          <span className="mr-[9px] font-bold tabular-nums tracking-[2.4px]">0{`${index}`}</span>
+                          <span className="mr-[9px] font-bold tabular-nums tracking-[2.4px]">
+                            0{`${index}`}
+                          </span>
                           {`${link}`}
                         </Link>
-                        <div className={cn(["absolute -right-[26.45px] top-1/2 h-[31px] w-1 -translate-y-1/2 bg-white transition-all duration-200", currentPage !== link ? "origin-center scale-0 opacity-0 peer-hover:scale-100 peer-hover:opacity-50" : "peer-hover:opacity-100"])} />
+                        <div
+                          className={cn([
+                            "absolute -right-[26.45px] top-1/2 h-[31px] w-1 -translate-y-1/2 bg-white transition-all duration-200",
+                            currentPage !== link
+                              ? "origin-center scale-0 opacity-0 peer-hover:scale-100 peer-hover:opacity-50"
+                              : "peer-hover:opacity-100",
+                          ])}
+                        />
                       </li>
                     );
                   })}

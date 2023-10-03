@@ -1,11 +1,16 @@
 import Head from "next/head";
 import Image from "next/image";
-// import dynamic from "next/dynamic";
-import { CSSProperties, PropsWithChildren, useEffect } from "react";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
-import { BsChevronCompactLeft, BsThreeDotsVertical, BsChevronRight } from "react-icons/bs";
+import { type CSSProperties, type PropsWithChildren, useEffect } from "react";
+import {
+  BsChevronCompactLeft,
+  BsThreeDotsVertical,
+  BsChevronRight,
+} from "react-icons/bs";
 import { twMerge } from "tailwind-merge";
 import { stagger, animate } from "framer-motion";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 // TODO: View the optimal layout for the component depending on their device's screen size
 // TODO: **Bonus**: See the chat interface animate on the initial load
@@ -16,9 +21,9 @@ export default function ChatAppCssIllustration() {
       <Head>
         <title>Frontend Mentor | Chat app CSS illustration</title>
       </Head>
-      <div className="App font-rubiks bg-chat-app-secondary-200/50 relative min-h-[100dvh] max-lg:h-[936px]">
+      <div className="App relative min-h-[100dvh] bg-chat-app-secondary-200/50 font-rubiks max-lg:h-[936px]">
         <Main />
-        {/* <Footer /> */}
+        <Footer />
         {/* <Slider basePath="/chat-app-css-illustration/design" /> */}
       </div>
     </>
@@ -27,7 +32,7 @@ export default function ChatAppCssIllustration() {
 
 function Main() {
   useEffect(() => {
-    animate([
+    void animate([
       ["div.chat", { scale: [0, 1] }, { delay: stagger(2), duration: 0.3 }],
       ["div.radio", { scale: [0, 1] }, { delay: 2 }],
     ]);
@@ -35,7 +40,7 @@ function Main() {
   return (
     <div className="relative z-10 flex w-full flex-col items-center lg:h-[100dvh] lg:min-h-[540px] lg:flex-row lg:justify-center lg:gap-[124px] lg:pl-[100px]">
       <div
-        className="from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet absolute -left-[calc(var(--width)-50vw)] top-0 -z-10 h-[510px] w-[var(--width)] rounded-br-full bg-gradient-to-bl from-[-50%] lg:left-[-90px] lg:h-[calc(700/800*100vh)] lg:w-[510px] lg:rounded-b-[255px] lg:bg-[linear-gradient(200deg,var(--tw-gradient-stops))] lg:from-[-40%]"
+        className="absolute -left-[calc(var(--width)-50vw)] top-0 -z-10 h-[510px] w-[var(--width)] rounded-br-full bg-gradient-to-bl from-chat-app-primary-gradients-magenta from-[-50%] to-chat-app-primary-gradients-violet lg:left-[-90px] lg:h-[calc(700/800*100vh)] lg:w-[510px] lg:rounded-b-[255px] lg:bg-[linear-gradient(200deg,var(--tw-gradient-stops))] lg:from-[-40%]"
         style={
           {
             "--width": "260px",
@@ -43,48 +48,61 @@ function Main() {
         }
       />
       <div className="my-[64px] flex h-[505px] items-center justify-center lg:my-0">
-        <div className="bg-chat-app-secondary-100 h-full w-[247px] overflow-hidden rounded-[30px] p-[10px] pt-[11px] shadow-2xl">
-          <div className="bg-chat-app-secondary-200 grid h-full w-full grid-rows-[66px_auto] overflow-hidden rounded-[20px]">
-            <div className="from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet before:bg-chat-app-secondary-100 relative flex h-full w-full items-center rounded-b-md bg-gradient-to-l px-3 py-[8px] pt-[25px] shadow-lg before:absolute before:left-1/2 before:top-0 before:z-10 before:h-[18px] before:w-[130px] before:-translate-x-1/2 before:rounded-b-[14px]">
-              <BsChevronCompactLeft className="text-chat-app-secondary-100 stroke-2 text-[11px]" />
-              <div className="border-chat-app-secondary-100 relative ml-1 aspect-square w-6 overflow-hidden rounded-full border">
+        <div className="h-full w-[247px] overflow-hidden rounded-[30px] bg-chat-app-secondary-100 p-[10px] pt-[11px] shadow-2xl">
+          <div className="grid h-full w-full grid-rows-[66px_auto] overflow-hidden rounded-[20px] bg-chat-app-secondary-200">
+            <div className="relative flex h-full w-full items-center rounded-b-md bg-gradient-to-l from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet px-3 py-[8px] pt-[25px] shadow-lg before:absolute before:left-1/2 before:top-0 before:z-10 before:h-[18px] before:w-[130px] before:-translate-x-1/2 before:rounded-b-[14px] before:bg-chat-app-secondary-100">
+              <BsChevronCompactLeft className="stroke-2 text-[11px] text-chat-app-secondary-100" />
+              <div className="relative ml-1 aspect-square w-6 overflow-hidden rounded-full border border-chat-app-secondary-100">
                 <Image
                   src="/chat-app-css-illustration/images/avatar.jpg"
                   alt="Samuel Green Avatar"
                   fill
                 />
               </div>
-              <div className="text-chat-app-secondary-100 ml-2 mt-[1px] flex flex-col gap-[3.5px]">
-                <h2 className="text-[11px] font-medium leading-none">Samuel Green</h2>
-                <p className="text-chat-app-primary-text-subhead text-[8px] leading-none">Available to Walk</p>
+              <div className="ml-2 mt-[1px] flex flex-col gap-[3.5px] text-chat-app-secondary-100">
+                <h2 className="text-[11px] font-medium leading-none">
+                  Samuel Green
+                </h2>
+                <p className="text-[8px] leading-none text-chat-app-primary-text-subhead">
+                  Available to Walk
+                </p>
               </div>
-              <BsThreeDotsVertical className="text-chat-app-secondary-100 ml-auto stroke-1 text-[11px]" />
+              <BsThreeDotsVertical className="ml-auto stroke-1 text-[11px] text-chat-app-secondary-100" />
             </div>
             <div className="flex h-full flex-col justify-end px-[7px] py-[11px]">
               <ChatGroup>
                 <ChatLeft>That sounds great. I’d be happy with that.</ChatLeft>
-                <ChatLeft>Could you send over some pictures of your dog, please?</ChatLeft>
+                <ChatLeft>
+                  Could you send over some pictures of your dog, please?
+                </ChatLeft>
               </ChatGroup>
               <ChatGroup variant="right">
-                <ChatImages images={["/chat-app-css-illustration/images/dog-image-1.jpg", "/chat-app-css-illustration/images/dog-image-2.jpg", "/chat-app-css-illustration/images/dog-image-3.jpg"]} />
-                <ChatRight>Here are a few pictures. She’s a happy girl!</ChatRight>
+                <ChatImages
+                  images={[
+                    "/chat-app-css-illustration/images/dog-image-1.jpg",
+                    "/chat-app-css-illustration/images/dog-image-2.jpg",
+                    "/chat-app-css-illustration/images/dog-image-3.jpg",
+                  ]}
+                />
+                <ChatRight>
+                  Here are a few pictures. She’s a happy girl!
+                </ChatRight>
                 <ChatRight>Can you make it?</ChatRight>
               </ChatGroup>
               <ChatGroup>
-                <ChatLeft>She looks so happy! The time we discussed works. How long shall I take her out for?</ChatLeft>
-                <RadioChat
-                  description="30 minute walk"
-                  price={29}
-                />
-                <RadioChat
-                  description="1 hour walk"
-                  price={49}
-                />
+                <ChatLeft>
+                  She looks so happy! The time we discussed works. How long
+                  shall I take her out for?
+                </ChatLeft>
+                <RadioChat description="30 minute walk" price={29} />
+                <RadioChat description="1 hour walk" price={49} />
               </ChatGroup>
-              <div className="bg-chat-app-secondary-100 flex h-[34px] w-full items-center justify-between rounded-full pl-[17px] pr-1">
-                <p className="text-chat-app-primary-text-placeholder mt-1 text-[9px] leading-none">Type a message…</p>
-                <div className="bg-chat-app-primary-text-mainhead flex aspect-square w-6 items-center justify-center overflow-hidden rounded-full">
-                  <BsChevronRight className="text-chat-app-secondary-100 stroke-2 text-[11px]" />
+              <div className="flex h-[34px] w-full items-center justify-between rounded-full bg-chat-app-secondary-100 pl-[17px] pr-1">
+                <p className="mt-1 text-[9px] leading-none text-chat-app-primary-text-placeholder">
+                  Type a message…
+                </p>
+                <div className="flex aspect-square w-6 items-center justify-center overflow-hidden rounded-full bg-chat-app-primary-text-mainhead">
+                  <BsChevronRight className="stroke-2 text-[11px] text-chat-app-secondary-100" />
                 </div>
               </div>
             </div>
@@ -92,8 +110,15 @@ function Main() {
         </div>
       </div>
       <div className="flex flex-col items-center px-9 lg:w-[442px] lg:items-start lg:px-0">
-        <h1 className="text-chat-app-primary-text-mainhead text-center text-[40px] font-medium leading-[46px] lg:text-left">Simple booking</h1>
-        <p className="text-chat-app-primary-text-paragraph mt-6 text-center leading-[28px] lg:text-left">Stay in touch with our dog walkers through the chat interface. This makes it easy to discuss arrangements and make bookings. Once the walk has been completed you can rate your walker and book again all through the chat.</p>
+        <h1 className="text-center text-[40px] font-medium leading-[46px] text-chat-app-primary-text-mainhead lg:text-left">
+          Simple booking
+        </h1>
+        <p className="mt-6 text-center leading-[28px] text-chat-app-primary-text-paragraph lg:text-left">
+          Stay in touch with our dog walkers through the chat interface. This
+          makes it easy to discuss arrangements and make bookings. Once the walk
+          has been completed you can rate your walker and book again all through
+          the chat.
+        </p>
       </div>
     </div>
   );
@@ -121,26 +146,78 @@ function ChatImages({ images }: { images: string[] }) {
   );
 }
 
-function ChatGroup({ variant, children }: PropsWithChildren<{ variant?: "left" | "right" }>) {
-  return <div className={`mb-2 flex flex-col ${variant === "right" ? "items-end self-end [&>div]:origin-top-right" : "items-start self-start [&>div]:origin-top-left"}`}>{children}</div>;
-}
-
-function RadioChat({ className, price, description }: { className?: string; price: number; description: string }) {
+function ChatGroup({
+  variant,
+  children,
+}: PropsWithChildren<{ variant?: "left" | "right" }>) {
   return (
-    <div className={twMerge("text-chat-app-primary-text-chatleft from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet radio mb-[8px] flex h-[32px] w-[160px] items-center self-start rounded-[10px] rounded-bl-[4px] bg-gradient-to-r px-[8px] py-[6px] pr-4 text-[8px] leading-[11px]", className)}>
-      <div className="border-chat-app-secondary-200/20 aspect-square w-3 rounded-full border" />
-      <p className="text-chat-app-secondary-100/75 ml-2">{description}</p>
-      <p className="text-chat-app-secondary-100 ml-auto pt-[1px] text-[12px] font-bold">${price}</p>
+    <div
+      className={`mb-2 flex flex-col ${
+        variant === "right"
+          ? "items-end self-end [&>div]:origin-top-right"
+          : "items-start self-start [&>div]:origin-top-left"
+      }`}
+    >
+      {children}
     </div>
   );
 }
 
-function ChatLeft({ children, className }: PropsWithChildren<{ className?: string }>) {
-  return <div className={twMerge("bg-chat-app-primary-text-chatright/[8%] text-chat-app-primary-text-chatleft chat mb-[8px] h-auto w-fit max-w-[128px] self-start rounded-[10px] rounded-bl-[4px] px-[8px] py-[6px] text-[8px] leading-[11px]", className)}>{children}</div>;
+function RadioChat({
+  className,
+  price,
+  description,
+}: {
+  className?: string;
+  price: number;
+  description: string;
+}) {
+  return (
+    <div
+      className={twMerge(
+        "radio mb-[8px] flex h-[32px] w-[160px] items-center self-start rounded-[10px] rounded-bl-[4px] bg-gradient-to-r from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet px-[8px] py-[6px] pr-4 text-[8px] leading-[11px] text-chat-app-primary-text-chatleft",
+        className,
+      )}
+    >
+      <div className="aspect-square w-3 rounded-full border border-chat-app-secondary-200/20" />
+      <p className="ml-2 text-chat-app-secondary-100/75">{description}</p>
+      <p className="ml-auto pt-[1px] text-[12px] font-bold text-chat-app-secondary-100">
+        ${price}
+      </p>
+    </div>
+  );
 }
 
-function ChatRight({ children, className }: PropsWithChildren<{ className?: string }>) {
-  return <div className={twMerge("bg-chat-app-secondary-100 text-chat-app-primary-text-chatright chat mb-[8px] h-auto w-auto max-w-[128px] self-end rounded-[10px] rounded-br-[4px] px-[8px] py-[6px] text-[8px] leading-[11px] shadow-sm", className)}>{children}</div>;
+function ChatLeft({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) {
+  return (
+    <div
+      className={twMerge(
+        "chat mb-[8px] h-auto w-fit max-w-[128px] self-start rounded-[10px] rounded-bl-[4px] bg-chat-app-primary-text-chatright/[8%] px-[8px] py-[6px] text-[8px] leading-[11px] text-chat-app-primary-text-chatleft",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+function ChatRight({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) {
+  return (
+    <div
+      className={twMerge(
+        "chat mb-[8px] h-auto w-auto max-w-[128px] self-end rounded-[10px] rounded-br-[4px] bg-chat-app-secondary-100 px-[8px] py-[6px] text-[8px] leading-[11px] text-chat-app-primary-text-chatright shadow-sm",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
 function Footer() {
@@ -155,11 +232,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

@@ -1,11 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
-// import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 import _data from "../public/static-job-listings/data.json";
-import { Fragment, HTMLProps, PropsWithChildren, useEffect, useMemo } from "react";
+import {
+  Fragment,
+  type HTMLProps,
+  type PropsWithChildren,
+  useMemo,
+} from "react";
 import { atom, useAtom, useSetAtom } from "jotai";
 import { match } from "ts-pattern";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 // TODO: View the optimal layout for the site depending on their device's screen size
 
@@ -38,7 +44,7 @@ type Entries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
 type FilterEntries = Entries<Filter>;
-type ExtractSet<Type> = Type extends Set<infer X> ? X : never;
+// type ExtractSet<Type> = Type extends Set<infer X> ? X : never;
 
 const initFilter: Filter = {
   languages: new Set(),
@@ -55,7 +61,7 @@ export default function StaticJobListings() {
       <Head>
         <title>Frontend Mentor | Job Listings</title>
       </Head>
-      <div className="App font-league-spartan bg-job-listings-neutral-100 relative min-h-[100svh] font-medium">
+      <div className="App relative min-h-[100svh] bg-job-listings-neutral-100 font-league-spartan font-medium">
         <Header />
         <Main />
         <Footer />
@@ -70,17 +76,35 @@ export default function StaticJobListings() {
 }
 
 function Header() {
-  return <header className="bg-job-listings-primary aspect-[375/156] max-h-[250px] w-full bg-[url('/static-job-listings/images/bg-header-mobile.svg')] bg-cover lg:aspect-auto lg:h-[156px] lg:bg-[url('/static-job-listings/images/bg-header-desktop.svg')]" />;
+  return (
+    <header className="aspect-[375/156] max-h-[250px] w-full bg-job-listings-primary bg-[url('/static-job-listings/images/bg-header-mobile.svg')] bg-cover lg:aspect-auto lg:h-[156px] lg:bg-[url('/static-job-listings/images/bg-header-desktop.svg')]" />
+  );
 }
 
-function Badge({ children, variant }: PropsWithChildren<{ variant: "new" | "featured" }>) {
-  return <div className={`flex h-6 items-center justify-center rounded-full text-[14px] font-bold uppercase leading-none tracking-tight text-white ${variant === "new" ? "bg-job-listings-primary pl-2 pr-[9px] pt-[3px]" : "bg-job-listings-neutral-400 pl-[10px] pr-[9px] pt-[1px]"}`}>{children}</div>;
+function Badge({
+  children,
+  variant,
+}: PropsWithChildren<{ variant: "new" | "featured" }>) {
+  return (
+    <div
+      className={`flex h-6 items-center justify-center rounded-full text-[14px] font-bold uppercase leading-none tracking-tight text-white ${
+        variant === "new"
+          ? "bg-job-listings-primary pl-2 pr-[9px] pt-[3px]"
+          : "bg-job-listings-neutral-400 pl-[10px] pr-[9px] pt-[1px]"
+      }`}
+    >
+      {children}
+    </div>
+  );
 }
 
-function Category({ children, onClick }: PropsWithChildren<HTMLProps<HTMLButtonElement>>) {
+function Category({
+  children,
+  onClick,
+}: PropsWithChildren<HTMLProps<HTMLButtonElement>>) {
   return (
     <button
-      className="bg-job-listings-neutral-200 text-job-listings-primary hover:bg-job-listings-primary hover:text-job-listings-neutral-100 flex h-[32px] items-center justify-center rounded pl-2 pr-[12px] pt-[2px] font-bold tracking-[-0.2px] lg:px-[9px]"
+      className="flex h-[32px] items-center justify-center rounded bg-job-listings-neutral-200 pl-2 pr-[12px] pt-[2px] font-bold tracking-[-0.2px] text-job-listings-primary hover:bg-job-listings-primary hover:text-job-listings-neutral-100 lg:px-[9px]"
       onClick={onClick}
     >
       {children}
@@ -88,19 +112,18 @@ function Category({ children, onClick }: PropsWithChildren<HTMLProps<HTMLButtonE
   );
 }
 
-function FilterButton({ children, onClick }: PropsWithChildren<HTMLProps<HTMLButtonElement>>) {
+function FilterButton({
+  children,
+  onClick,
+}: PropsWithChildren<HTMLProps<HTMLButtonElement>>) {
   return (
-    <div className="bg-job-listings-neutral-100 text-job-listings-primary flex h-[32px] items-center rounded font-bold">
+    <div className="flex h-[32px] items-center rounded bg-job-listings-neutral-100 font-bold text-job-listings-primary">
       <div className="px-2 lg:pr-[10px] lg:pt-[2px]">{children}</div>
       <button
         onClick={onClick}
-        className="bg-job-listings-primary hover:bg-job-listings-neutral-400 ml-auto flex h-8 w-8 items-center justify-center rounded-r"
+        className="ml-auto flex h-8 w-8 items-center justify-center rounded-r bg-job-listings-primary hover:bg-job-listings-neutral-400"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={14}
-          height={14}
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14}>
           <path
             fill="#FFF"
             fillRule="evenodd"
@@ -116,8 +139,18 @@ function Card({ job }: { job: Job }) {
   const setFilters = useSetAtom(filterAtom);
 
   return (
-    <div className={`shadow-job-listings-primary/20 relative rounded-[5px] bg-white pb-6 pr-[23px] shadow-lg lg:flex lg:h-[152px] lg:items-center lg:px-10 lg:py-8 ${job.featured ? "border-l-job-listings-primary border-l-[5px] pl-[19px] pt-8 lg:pl-[35px]" : "pl-[24px] pt-[32px]"}`}>
-      <div className={`absolute top-0 aspect-square w-12 -translate-y-1/2 lg:relative lg:left-auto lg:w-[88px] lg:transform-none ${job.featured ? "left-[19px]" : "left-[24px]"}`}>
+    <div
+      className={`relative rounded-[5px] bg-white pb-6 pr-[23px] shadow-lg shadow-job-listings-primary/20 lg:flex lg:h-[152px] lg:items-center lg:px-10 lg:py-8 ${
+        job.featured
+          ? "border-l-[5px] border-l-job-listings-primary pl-[19px] pt-8 lg:pl-[35px]"
+          : "pl-[24px] pt-[32px]"
+      }`}
+    >
+      <div
+        className={`absolute top-0 aspect-square w-12 -translate-y-1/2 lg:relative lg:left-auto lg:w-[88px] lg:transform-none ${
+          job.featured ? "left-[19px]" : "left-[24px]"
+        }`}
+      >
         <Image
           fill
           alt={`${job.company} ${job.position}`}
@@ -126,12 +159,16 @@ function Card({ job }: { job: Job }) {
       </div>
       <div className="lg:ml-6">
         <div className="flex h-[24px] items-center gap-2 lg:mt-[1px]">
-          <div className="text-job-listings-primary mr-4 pt-[1px] text-[15px] font-bold leading-none lg:mr-2 lg:pb-[2px] lg:text-[18px]">{job.company}</div>
+          <div className="mr-4 pt-[1px] text-[15px] font-bold leading-none text-job-listings-primary lg:mr-2 lg:pb-[2px] lg:text-[18px]">
+            {job.company}
+          </div>
           {job.new && <Badge variant="new">new!</Badge>}
           {job.featured && <Badge variant="featured">featured</Badge>}
         </div>
-        <a className="text-job-listings-neutral-400 hover:text-job-listings-primary mt-[13px] block cursor-pointer text-[15px] font-bold leading-none lg:mt-[11px] lg:text-[22px]">{job.position}</a>
-        <div className="text-job-listings-neutral-300 mt-[13px] flex gap-[9px] lg:mt-[6px] lg:gap-[15px] lg:text-[18px]">
+        <a className="mt-[13px] block cursor-pointer text-[15px] font-bold leading-none text-job-listings-neutral-400 hover:text-job-listings-primary lg:mt-[11px] lg:text-[22px]">
+          {job.position}
+        </a>
+        <div className="mt-[13px] flex gap-[9px] text-job-listings-neutral-300 lg:mt-[6px] lg:gap-[15px] lg:text-[18px]">
           <div>{job.postedAt}</div>
           <div>&middot;</div>
           <div>{job.contract}</div>
@@ -139,7 +176,7 @@ function Card({ job }: { job: Job }) {
           <div>{job.location}</div>
         </div>
       </div>
-      <hr className="border-t-job-listings-neutral-300/75 mb-4 mt-[15px] lg:hidden" />
+      <hr className="mb-4 mt-[15px] border-t-job-listings-neutral-300/75 lg:hidden" />
       <div className="flex flex-wrap gap-4 lg:ml-auto lg:gap-[17px]">
         <Category
           onClick={() => {
@@ -196,7 +233,9 @@ function Card({ job }: { job: Job }) {
 
 function Main() {
   const [filters, setFilters] = useAtom(filterAtom);
-  const filteredJob: Job[] = Object.values(filters).every((key) => key.size === 0)
+  const filteredJob: Job[] = Object.values(filters).every(
+    (key) => key.size === 0,
+  )
     ? data
     : data.filter((dat) => {
         return (Object.entries(filters) as FilterEntries).every((filter) => {
@@ -237,12 +276,12 @@ function Main() {
     });
   };
 
-  const handleDelete = <T,>(set: Set<T>, e: T) => {};
+  // const handleDelete = <T,>(set: Set<T>, e: T) => {};
 
   return (
     <div className="flex w-full flex-col items-center">
       {!isFilterEmpty && (
-        <div className="shadow-job-listings-primary/20 flex min-h-[72px] w-[calc(100%-48px)] -translate-y-[36px] items-center justify-between rounded bg-white p-5 shadow-lg lg:w-[calc(100%-330px)] lg:px-10">
+        <div className="flex min-h-[72px] w-[calc(100%-48px)] -translate-y-[36px] items-center justify-between rounded bg-white p-5 shadow-lg shadow-job-listings-primary/20 lg:w-[calc(100%-330px)] lg:px-10">
           <div className="flex flex-wrap gap-4 lg:gap-[15px]">
             {(Object.entries(filters) as FilterEntries).map((entry, index) => {
               if (entry[1].size === 0) {
@@ -272,10 +311,7 @@ function Main() {
                         });
                       };
                       return (
-                        <FilterButton
-                          key={eindex}
-                          onClick={onClick}
-                        >
+                        <FilterButton key={eindex} onClick={onClick}>
                           {e}
                         </FilterButton>
                       );
@@ -286,21 +322,20 @@ function Main() {
             })}
           </div>
           <button
-            className="text-job-listings-neutral-300 h-[24px] px-[6px] pt-[2px] font-bold leading-none"
+            className="h-[24px] px-[6px] pt-[2px] font-bold leading-none text-job-listings-neutral-300"
             onClick={handleClear}
           >
             Clear
           </button>
         </div>
       )}
-      <div className={`flex w-full flex-col gap-10 px-6 pb-[34px] lg:gap-6 lg:px-[165px] lg:pb-[120px] ${isFilterEmpty ? "pt-14 lg:pt-[75px]" : "pt-5 lg:pt-[3px]"}`}>
+      <div
+        className={`flex w-full flex-col gap-10 px-6 pb-[34px] lg:gap-6 lg:px-[165px] lg:pb-[120px] ${
+          isFilterEmpty ? "pt-14 lg:pt-[75px]" : "pt-5 lg:pt-[3px]"
+        }`}
+      >
         {filteredJob.map((job, index) => {
-          return (
-            <Card
-              key={index}
-              job={job}
-            />
-          );
+          return <Card key={index} job={job} />;
         })}
       </div>
     </div>
@@ -319,11 +354,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

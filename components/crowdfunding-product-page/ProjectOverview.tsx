@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MouseEvent, useState } from "react";
+import { type MouseEvent, useState } from "react";
 import Card from "./Card";
 
 type OverviewProps = {
@@ -18,13 +18,17 @@ export default function Overview(props: OverviewProps) {
         />
       </div>
       <div className="px-6 text-center lg:px-12">
-        <h1 className="px-1 text-[20px] font-bold leading-[24px] lg:text-[28px]">Mastercraft Bamboo Monitor Riser</h1>
-        <p className="text-crowdfunding-neutral-100 mt-[16px] text-[14px] leading-[24px] lg:mt-[18px] lg:text-[16px]">
-          A beautiful<span className="inline lg:hidden">ly</span> <span className="hidden lg:inline">& </span>handcrafted monitor stand to reduce neck and eye strain.
+        <h1 className="px-1 text-[20px] font-bold leading-[24px] lg:text-[28px]">
+          Mastercraft Bamboo Monitor Riser
+        </h1>
+        <p className="mt-[16px] text-[14px] leading-[24px] text-crowdfunding-neutral-100 lg:mt-[18px] lg:text-[16px]">
+          A beautiful<span className="inline lg:hidden">ly</span>{" "}
+          <span className="hidden lg:inline">& </span>handcrafted monitor stand
+          to reduce neck and eye strain.
         </p>
         <div className="mt-6 flex h-[56px] justify-between lg:mt-[38px]">
           <button
-            className="bg-crowdfunding-primary-100 hover:bg-crowdfunding-primary-200 w-[calc(100%-56px-9px)] rounded-full pb-[2px] font-bold text-white/80 lg:w-[204px]"
+            className="w-[calc(100%-56px-9px)] rounded-full bg-crowdfunding-primary-100 pb-[2px] font-bold text-white/80 hover:bg-crowdfunding-primary-200 lg:w-[204px]"
             onClick={props.openSelectionModal}
             value={undefined}
           >
@@ -34,19 +38,20 @@ export default function Overview(props: OverviewProps) {
             onClick={() => {
               setIsBookmarked((prev) => !prev);
             }}
-            className={`bg-crowdfunding-neutral-200/[82%] group h-[56px] w-[56px] rounded-full transition-all lg:flex lg:items-center lg:justify-start ${isBookmarked ? "lg:bg-crowdfunding-primary-100/[7%] lg:w-[190px]" : "lg:bg-crowdfunding-neutral-100/10 lg:w-[174px]"}`}
+            className={`group h-[56px] w-[56px] rounded-full bg-crowdfunding-neutral-200/[82%] transition-all lg:flex lg:items-center lg:justify-start ${
+              isBookmarked
+                ? "lg:w-[190px] lg:bg-crowdfunding-primary-100/[7%]"
+                : "lg:w-[174px] lg:bg-crowdfunding-neutral-100/10"
+            }`}
           >
-            <svg
-              width="56"
-              height="56"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g
-                fill="none"
-                fillRule="evenodd"
-              >
+            <svg width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+              <g fill="none" fillRule="evenodd">
                 <circle
-                  className={`${isBookmarked ? "fill-crowdfunding-primary-200 group-hover:fill-crowdfunding-primary-100" : "group-hover:fill-crowdfunding-neutral-100"}`}
+                  className={`${
+                    isBookmarked
+                      ? "fill-crowdfunding-primary-200 group-hover:fill-crowdfunding-primary-100"
+                      : "group-hover:fill-crowdfunding-neutral-100"
+                  }`}
                   fill="#2F2F2F"
                   cx="28"
                   cy="28"
@@ -59,7 +64,15 @@ export default function Overview(props: OverviewProps) {
                 />
               </g>
             </svg>
-            <span className={`hidden lg:ml-4 lg:inline lg:font-bold ${isBookmarked ? "lg:text-crowdfunding-primary-200 group-hover:text-crowdfunding-primary-100" : "lg:text-crowdfunding-neutral-100 "}`}>{isBookmarked ? "Bookmarked" : "Bookmark"}</span>
+            <span
+              className={`hidden lg:ml-4 lg:inline lg:font-bold ${
+                isBookmarked
+                  ? "group-hover:text-crowdfunding-primary-100 lg:text-crowdfunding-primary-200"
+                  : "lg:text-crowdfunding-neutral-100 "
+              }`}
+            >
+              {isBookmarked ? "Bookmarked" : "Bookmark"}
+            </span>
           </button>
         </div>
       </div>
