@@ -11,9 +11,16 @@
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked"
   ],
-  "ignorePatterns": [
-    "/pages/**/*.js",
-    "/components/**/*.jsx"
+  "overrides": [
+    {
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/disable-type-checked"
+      ]
+    }
   ],
   "rules": {
     "@typescript-eslint/array-type": "off",

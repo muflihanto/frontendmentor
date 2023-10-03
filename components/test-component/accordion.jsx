@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Accordion(props) {
+export default function Accordion() {
   const detailsRef = useRef(null);
   const summaryRef = useRef(null);
   const contentRef = useRef(null);
