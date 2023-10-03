@@ -1,12 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
+import { barlowSemiCondensed } from "../utils/fonts/barlowSemiCondensed";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function Testimonials() {
   return (
-    <div className="App relative flex w-screen items-center justify-center bg-testimonials-neutral-grayblue px-6 py-[71px] font-barlow-semi-condensed lg:px-[165px] lg:py-[calc(164/900*100vh)]">
+    <div
+      className={`App relative flex w-screen items-center justify-center bg-testimonials-neutral-grayblue px-6 py-[71px] font-barlow-semi-condensed lg:px-[165px] lg:py-[calc(164/900*100vh)] ${barlowSemiCondensed.variable}`}
+    >
       <Head>
         <title>Frontend Mentor | [Challenge Name Here]</title>
       </Head>

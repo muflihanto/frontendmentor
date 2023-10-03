@@ -1,7 +1,9 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { fraunces } from "../utils/fonts/fraunces";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 const ProductPreview = () => {
   return (
@@ -9,7 +11,9 @@ const ProductPreview = () => {
       <Head>
         <title>Frontend Mentor | Product preview card component</title>
       </Head>
-      <div className="App bg-product-review-primary-cream flex h-screen items-center justify-center px-4 py-4 max-[750px]:min-h-[667px] ">
+      <div
+        className={`App flex h-screen items-center justify-center bg-product-review-primary-cream px-4 py-4 max-[750px]:min-h-[667px] ${fraunces.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider
@@ -17,10 +21,7 @@ const ProductPreview = () => {
           // absolutePath="/product-preview-card-component/design/active-states.jpg"
         /> */}
       </div>
-      <style
-        global
-        jsx
-      >{`
+      <style global jsx>{`
         :root {
           font-size: 14px;
         }
@@ -32,7 +33,7 @@ const ProductPreview = () => {
 function Main() {
   return (
     <>
-      <div className="shadow-product-review-neutral-300 bg-product-review-neutral-100 grid aspect-[4/3] h-[56.25vh] min-h-[450px] min-w-[570px] grid-cols-2 grid-rows-1 rounded-[1rem] shadow-[0_4px_4px_-12px] max-[750px]:aspect-[343/611] max-[750px]:h-auto max-[750px]:w-[343px] max-[750px]:min-w-0 max-[750px]:grid-cols-1 max-[750px]:grid-rows-[min(240px,_calc(240/343*(100vw-30px))),auto]">
+      <div className="grid aspect-[4/3] h-[56.25vh] min-h-[450px] min-w-[570px] grid-cols-2 grid-rows-1 rounded-[1rem] bg-product-review-neutral-100 shadow-[0_4px_4px_-12px] shadow-product-review-neutral-300 max-[750px]:aspect-[343/611] max-[750px]:h-auto max-[750px]:w-[343px] max-[750px]:min-w-0 max-[750px]:grid-cols-1 max-[750px]:grid-rows-[min(240px,_calc(240/343*(100vw-30px))),auto]">
         <ProductImage />
         <ProductDescription />
       </div>
@@ -61,15 +62,26 @@ function ProductImage() {
 
 function ProductDescription() {
   return (
-    <main className="flex flex-col justify-around overflow-scroll px-[2.3rem] py-[1.2rem] max-[750px]:py-4 max-[750px]:px-[1.8rem]">
-      <h3 className="font-montserrat text-[0.8rem] font-light uppercase tracking-[.4rem]">perfume</h3>
-      <h1 className="font-fraunces text-product-review-neutral-300 -mt-3 text-[2.3rem] font-bold leading-none max-[750px]:-mt-2">Gabrielle Essence Eau De Parfum</h1>
-      <p className="font-montserrat text-product-review-neutral-200 -mt-[6px] font-medium leading-[1.65] max-[750px]:-mt-1 max-[750px]:mb-2">A floral, solar and voluptuous interpretation composed by Olivier Polge, Perfumer-Creator for the House of CHANEL.</p>
-      <p className="font-montserrat text-product-review-neutral-300 flex items-center gap-[1.4rem] font-light">
-        <span className="font-fraunces text-product-review-primary-cyan text-[2.2rem] font-bold leading-none tracking-[.75px]">$149.99</span>
-        <span className="font-montserrat text-product-review-neutral-200 text-[13px] font-medium line-through">$169.99</span>
+    <main className="flex flex-col justify-around overflow-scroll px-[2.3rem] py-[1.2rem] max-[750px]:px-[1.8rem] max-[750px]:py-4">
+      <h3 className="font-montserrat text-[0.8rem] font-light uppercase tracking-[.4rem]">
+        perfume
+      </h3>
+      <h1 className="-mt-3 font-fraunces text-[2.3rem] font-bold leading-none text-product-review-neutral-300 max-[750px]:-mt-2">
+        Gabrielle Essence Eau De Parfum
+      </h1>
+      <p className="-mt-[6px] font-montserrat font-medium leading-[1.65] text-product-review-neutral-200 max-[750px]:-mt-1 max-[750px]:mb-2">
+        A floral, solar and voluptuous interpretation composed by Olivier Polge,
+        Perfumer-Creator for the House of CHANEL.
       </p>
-      <button className="font-montserrat bg-product-review-primary-cyan text-product-review-neutral-100 relative flex h-[48px] items-center justify-center gap-3 rounded-[.6rem] font-bold hover:bg-[hsl(156,42%,18%)]">
+      <p className="flex items-center gap-[1.4rem] font-montserrat font-light text-product-review-neutral-300">
+        <span className="font-fraunces text-[2.2rem] font-bold leading-none tracking-[.75px] text-product-review-primary-cyan">
+          $149.99
+        </span>
+        <span className="font-montserrat text-[13px] font-medium text-product-review-neutral-200 line-through">
+          $169.99
+        </span>
+      </p>
+      <button className="relative flex h-[48px] items-center justify-center gap-3 rounded-[.6rem] bg-product-review-primary-cyan font-montserrat font-bold text-product-review-neutral-100 hover:bg-[hsl(156,42%,18%)]">
         <svg
           viewBox="0 0 15 16"
           className="h-[17px] object-contain pt-[.5px]"
@@ -88,7 +100,7 @@ function ProductDescription() {
 
 function Footer() {
   return (
-    <footer className="font-montserrat [&_a]:decoration-product-review-neutral-200 [&_a]:text-product-review-primary-cyan absolute bottom-3 w-full text-center text-[11px] max-[750px]:bottom-1 [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center font-montserrat text-[11px] max-[750px]:bottom-1 [&_a]:font-bold [&_a]:text-product-review-primary-cyan [&_a]:underline [&_a]:decoration-product-review-neutral-200 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -98,11 +110,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

@@ -1,11 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { josefin } from "../utils/fonts/josefin";
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const inputSchema = z.object({
   email: z.string().email({ message: "Please provide a valid email" }),
@@ -19,7 +21,9 @@ export default function BaseApparelComingSoon() {
       <Head>
         <title>Frontend Mentor | Base Apparel coming soon page</title>
       </Head>
-      <div className="App font-josefin bg-base-apparel-gradient-white-200 relative min-h-[800px] lg:min-h-[100svh] lg:bg-[url('/base-apparel-coming-soon/images/bg-pattern-desktop.svg')] lg:bg-[length:auto_100%] lg:bg-left lg:bg-no-repeat">
+      <div
+        className={`App relative min-h-[800px] bg-base-apparel-gradient-white-200 font-josefin lg:min-h-[100svh] lg:bg-[url('/base-apparel-coming-soon/images/bg-pattern-desktop.svg')] lg:bg-[length:auto_100%] lg:bg-left lg:bg-no-repeat ${josefin.variable}`}
+      >
         <Header />
         <Main />
         <Footer />
@@ -78,11 +82,21 @@ function Main() {
         />
       </div>
       <h1 className="mt-[64px] flex w-[250px] flex-col text-center text-[40px] uppercase leading-[42px] tracking-[11px] lg:mt-[calc(7/80*100svh)] lg:text-left lg:text-[min(64px,8vh)] lg:tracking-[17px]">
-        <span className="text-base-apparel-primary-100 font-thin lg:leading-[calc(min(64px,8vh)-1px)]">We&apos;re</span>
-        <span className="text-base-apparel-neutral pr-[2px] font-semibold lg:leading-[calc(min(64px,8vh)+7px)]">coming</span>
-        <span className="text-base-apparel-neutral font-semibold lg:leading-[calc(min(64px,8vh)+7px)]">soon</span>
+        <span className="font-thin text-base-apparel-primary-100 lg:leading-[calc(min(64px,8vh)-1px)]">
+          We&apos;re
+        </span>
+        <span className="pr-[2px] font-semibold text-base-apparel-neutral lg:leading-[calc(min(64px,8vh)+7px)]">
+          coming
+        </span>
+        <span className="font-semibold text-base-apparel-neutral lg:leading-[calc(min(64px,8vh)+7px)]">
+          soon
+        </span>
       </h1>
-      <p className="text-base-apparel-primary-100 mt-[15px] px-9 text-center text-[14px] leading-[22px] lg:mt-[19px] lg:pl-[1px] lg:pr-[50px] lg:text-left lg:text-[16px] lg:leading-[28px] lg:tracking-[.05px]">Hello fellow shoppers! We&apos;re currently building our new fashion store. Add your email below to stay up-to-date with announcements and our launch deals.</p>
+      <p className="mt-[15px] px-9 text-center text-[14px] leading-[22px] text-base-apparel-primary-100 lg:mt-[19px] lg:pl-[1px] lg:pr-[50px] lg:text-left lg:text-[16px] lg:leading-[28px] lg:tracking-[.05px]">
+        Hello fellow shoppers! We&apos;re currently building our new fashion
+        store. Add your email below to stay up-to-date with announcements and
+        our launch deals.
+      </p>
       <form
         className="relative mt-[33px] h-12 w-[calc(100vw-64px)] lg:mt-[40px] lg:h-14 lg:w-[445px]"
         onSubmit={onSubmit}
@@ -92,10 +106,12 @@ function Main() {
           type="text"
           placeholder="Email Address"
           className={`${
-            errors.email ? "border-base-apparel-primary-200 border-2 bg-[url('/base-apparel-coming-soon/images/icon-error.svg')] bg-[position:center_right_70px] bg-no-repeat lg:bg-[position:top_53%_right_114px]" : "border-base-apparel-primary-100/50"
-          } placeholder:text-base-apparel-primary-100/50 text-base-apparel-neutral h-full w-full rounded-full border bg-transparent px-6 placeholder:text-[14px] focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-transparent lg:px-8 lg:pt-[1px] lg:placeholder:text-[16px]`}
+            errors.email
+              ? "border-2 border-base-apparel-primary-200 bg-[url('/base-apparel-coming-soon/images/icon-error.svg')] bg-[position:center_right_70px] bg-no-repeat lg:bg-[position:top_53%_right_114px]"
+              : "border-base-apparel-primary-100/50"
+          } h-full w-full rounded-full border bg-transparent px-6 text-base-apparel-neutral placeholder:text-[14px] placeholder:text-base-apparel-primary-100/50 focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-transparent lg:px-8 lg:pt-[1px] lg:placeholder:text-[16px]`}
         />
-        <button className="from-base-apparel-gradient-red-100 to-base-apparel-gradient-red-200 shadow-base-apparel-neutral/10 absolute top-0 right-0 flex h-full w-[64px] items-center justify-center rounded-full bg-[linear-gradient(135deg,_var(--tw-gradient-stops))] shadow-xl before:absolute before:top-0 before:left-0 before:h-full before:w-full before:rounded-full before:transition-colors before:duration-75 before:content-[''] hover:shadow-[hsl(358,47%,83%)]/90 hover:before:bg-white/50 focus-visible:outline focus-visible:outline-transparent lg:w-[100px]">
+        <button className="absolute right-0 top-0 flex h-full w-[64px] items-center justify-center rounded-full bg-[linear-gradient(135deg,_var(--tw-gradient-stops))] from-base-apparel-gradient-red-100 to-base-apparel-gradient-red-200 shadow-xl shadow-base-apparel-neutral/10 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-full before:transition-colors before:content-[''] before:duration-75 hover:shadow-[hsl(358,47%,83%)]/90 hover:before:bg-white/50 focus-visible:outline focus-visible:outline-transparent lg:w-[100px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 12 20"
@@ -109,7 +125,11 @@ function Main() {
             />
           </svg>
         </button>
-        {errors.email ? <p className="text-base-apparel-gradient-red-200 mt-2 w-full px-8 text-left text-[12px] lg:text-[13px]">{errors.email.message}</p> : null}
+        {errors.email ? (
+          <p className="mt-2 w-full px-8 text-left text-[12px] text-base-apparel-gradient-red-200 lg:text-[13px]">
+            {errors.email.message}
+          </p>
+        ) : null}
       </form>
     </main>
   );
@@ -127,11 +147,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

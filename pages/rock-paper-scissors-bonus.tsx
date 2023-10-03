@@ -7,6 +7,8 @@ import { twJoin } from "tailwind-merge";
 import { useEffectOnce } from "usehooks-ts";
 import ClientOnly from "../components/ClientOnly";
 import { atomWithStorage } from "jotai/utils";
+import { barlowSemiCondensed } from "../utils/fonts/barlowSemiCondensed";
+
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -33,7 +35,9 @@ export default function RockPaperScissors() {
       <Head>
         <title>Frontend Mentor | Rock, Paper, Scissors</title>
       </Head>
-      <div className="App font-barlow-semi-condensed from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 relative min-h-[750px] bg-gradient-to-b to-[130%] font-semibold lg:min-h-[100svh] lg:bg-[radial-gradient(circle_at_top,var(--tw-gradient-from),var(--tw-gradient-to))] lg:to-[100%]">
+      <div
+        className={`App relative min-h-[750px] bg-gradient-to-b from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 to-[130%] font-barlow-semi-condensed font-semibold lg:min-h-[100svh] lg:bg-[radial-gradient(circle_at_top,var(--tw-gradient-from),var(--tw-gradient-to))] lg:to-[100%] ${barlowSemiCondensed.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider
@@ -71,7 +75,9 @@ function RulesModal() {
       {open ? (
         <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-transparent md:bg-black/50">
           <div className="absolute flex h-full w-full flex-col items-center bg-white pb-[64px] pt-[88px] md:left-1/2 md:top-1/2 md:h-[461px] md:w-[400px] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-lg md:p-8 md:pt-[33px] md:shadow-md">
-            <h1 className="text-rock-paper-scissor-neutral-dark text-[31px] font-bold uppercase tracking-[.5px] md:self-start md:leading-none">rules</h1>
+            <h1 className="text-[31px] font-bold uppercase tracking-[.5px] text-rock-paper-scissor-neutral-dark md:self-start md:leading-none">
+              rules
+            </h1>
             <svg
               className="mt-[88.5px] w-[313px] max-md:ml-1 md:ml-1 md:mt-5 md:w-[340px]"
               viewBox="0 0 340 330"
@@ -101,7 +107,7 @@ function Header() {
   const score = useAtomValue(scoreAtom);
 
   return (
-    <div className="border-rock-paper-scissor-neutral-header flex h-[99px] w-full max-w-[702px] items-center justify-between rounded border-[3px] pl-[21px] pr-[10px] lg:h-[152px] lg:rounded-[16px] lg:pl-[28px] lg:pr-[22px]">
+    <div className="flex h-[99px] w-full max-w-[702px] items-center justify-between rounded border-[3px] border-rock-paper-scissor-neutral-header pl-[21px] pr-[10px] lg:h-[152px] lg:rounded-[16px] lg:pl-[28px] lg:pr-[22px]">
       <div className="relative mt-[3px] aspect-[115/114] h-[51px] lg:mt-[7.5px] lg:h-[114px]">
         <Image
           src="/rock-paper-scissors/images/logo-bonus.svg"
@@ -110,8 +116,12 @@ function Header() {
         />
       </div>
       <div className="flex h-[72px] w-[80px] flex-col items-center rounded bg-white pt-[11px] shadow lg:h-[114px] lg:w-[150px] lg:justify-center lg:rounded-lg lg:pt-[2px]">
-        <h4 className="text-rock-paper-scissor-neutral-score text-[10px] uppercase leading-none tracking-[1.5px] lg:text-[16px] lg:tracking-[2.5px]">score</h4>
-        <h2 className="mt-px w-min text-center text-[40px] font-bold uppercase leading-none text-[hsl(246,11%,37%)] lg:mt-[2px] lg:text-[64px]">{score}</h2>
+        <h4 className="text-[10px] uppercase leading-none tracking-[1.5px] text-rock-paper-scissor-neutral-score lg:text-[16px] lg:tracking-[2.5px]">
+          score
+        </h4>
+        <h2 className="mt-px w-min text-center text-[40px] font-bold uppercase leading-none text-[hsl(246,11%,37%)] lg:mt-[2px] lg:text-[64px]">
+          {score}
+        </h2>
       </div>
     </div>
   );
@@ -119,40 +129,58 @@ function Header() {
 
 const options = ["Rock", "Paper", "Scissors", "Lizard", "Spock"] as const;
 type ChoiceVariant = (typeof options)[number];
-const weapons: Record<ChoiceVariant, { weakTo: ChoiceVariant[]; strongTo: ChoiceVariant[] }> = {
+const weapons: Record<
+  ChoiceVariant,
+  { weakTo: ChoiceVariant[]; strongTo: ChoiceVariant[] }
+> = {
   Rock: { weakTo: ["Paper", "Spock"], strongTo: ["Scissors", "Lizard"] },
   Paper: { weakTo: ["Scissors", "Lizard"], strongTo: ["Rock", "Spock"] },
   Scissors: { weakTo: ["Rock", "Spock"], strongTo: ["Paper", "Lizard"] },
   Lizard: { weakTo: ["Rock", "Scissors"], strongTo: ["Paper", "Spock"] },
   Spock: { weakTo: ["Paper", "Lizard"], strongTo: ["Scissors", "Rock"] },
 };
-type VariantStyles = Record<ChoiceVariant, { button: string; image: string; imageDisabled: string }>;
+type VariantStyles = Record<
+  ChoiceVariant,
+  { button: string; image: string; imageDisabled: string }
+>;
 type ChoiceButtonProps = ComponentProps<"button"> & { variant: ChoiceVariant };
-function ChoiceButton({ variant, disabled = false, className, ...props }: ChoiceButtonProps) {
+function ChoiceButton({
+  variant,
+  disabled = false,
+  className,
+  ...props
+}: ChoiceButtonProps) {
   const variantStyles: VariantStyles = {
     Paper: {
-      button: "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
+      button:
+        "from-rock-paper-scissor-primary-paper-100 to-rock-paper-scissor-primary-paper-200 border-b-[hsl(229,66%,46%)]",
       image: "mr-px aspect-[49/59] w-[32px] lg:w-[49px]",
       imageDisabled: "lg:w-[98px] lg:mr-1 w-[44px] mr-0.5",
     },
     Scissors: {
-      button: "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
-      image: "mr-[3px] aspect-[51/58] w-[33px] lg:mr-[5px] lg:mb-px lg:w-[51px]",
+      button:
+        "from-rock-paper-scissor-primary-scissor-100 to-rock-paper-scissor-primary-scissor-200 border-b-[hsl(28,78%,44%)]",
+      image:
+        "mr-[3px] aspect-[51/58] w-[33px] lg:mr-[5px] lg:mb-px lg:w-[51px]",
       imageDisabled: "lg:w-[103px] lg:mr-[10px] lg:mb-0.5 mr-[5px] w-[46px]",
     },
     Rock: {
-      button: "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
+      button:
+        "from-rock-paper-scissor-primary-rock-100 to-rock-paper-scissor-primary-rock-200 border-b-[hsl(347,74%,35%)]",
       image: "mr-0 aspect-square w-[31.5px] lg:mt-[0px] lg:w-[48px]",
       imageDisabled: "lg:w-[97px] lg:-mr-[3px] mr-0 w-[43px]",
     },
     Lizard: {
-      button: "from-rock-paper-scissor-primary-lizard-100 to-rock-paper-scissor-primary-lizard-200 border-b-[hsl(261,52%,44%)]",
+      button:
+        "from-rock-paper-scissor-primary-lizard-100 to-rock-paper-scissor-primary-lizard-200 border-b-[hsl(261,52%,44%)]",
       image: "mr-0 aspect-square mb-px w-[41px] lg:mt-[0px] lg:w-[63px]",
       imageDisabled: "lg:w-[97px] lg:-mr-[3px] w-[56px]",
     },
     Spock: {
-      button: "from-rock-paper-scissor-primary-cyan-100 to-rock-paper-scissor-primary-cyan-200 border-b-[hsl(194,60%,42%)]",
-      image: "ml-1 mb-0.5 aspect-square w-[39px] lg:ml-[5px] lg:mt-[-2px] lg:w-[58px]",
+      button:
+        "from-rock-paper-scissor-primary-cyan-100 to-rock-paper-scissor-primary-cyan-200 border-b-[hsl(194,60%,42%)]",
+      image:
+        "ml-1 mb-0.5 aspect-square w-[39px] lg:ml-[5px] lg:mt-[-2px] lg:w-[58px]",
       imageDisabled: "lg:w-[120px] lg:-mr-[8px] lg:mb-[6px] -mr-0.5 w-[53px]",
     },
   };
@@ -163,25 +191,35 @@ function ChoiceButton({ variant, disabled = false, className, ...props }: Choice
         cn([
           "group relative flex h-[97px] w-[96px] origin-center items-center justify-center rounded-full bg-gradient-to-t pt-[2px] shadow-lg transition-transform duration-75", // base
           "lg:h-[148px] lg:w-[145px]", //large
-          disabled ? "h-[133px] w-[129px] cursor-default pt-[3px] lg:h-[300px] lg:w-[294px] lg:pt-[6px] lg:shadow-md lg:shadow-black/50" : "active:scale-[97%] lg:pt-1", // disabled
+          disabled
+            ? "h-[133px] w-[129px] cursor-default pt-[3px] lg:h-[300px] lg:w-[294px] lg:pt-[6px] lg:shadow-md lg:shadow-black/50"
+            : "active:scale-[97%] lg:pt-1", // disabled
           variantStyles[variant].button, // variant,
           className,
         ]),
-        disabled ? "border-b-[6px] lg:border-b-[13px]" : "border-b-[4px] lg:border-b-[7px]"
+        disabled
+          ? "border-b-[6px] lg:border-b-[13px]"
+          : "border-b-[4px] lg:border-b-[7px]",
       )}
       {...props}
     >
       <div
         className={cn(
-          ["flex aspect-square w-[73px] flex-col items-center justify-center rounded-full border-t-[4px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]"], //
-          disabled ? "w-[100px] border-t-[5px] lg:w-[225px] lg:border-t-[12px]" : "lg:w-[111px] lg:border-t-[6px]"
+          [
+            "flex aspect-square w-[73px] flex-col items-center justify-center rounded-full border-t-[4px] border-t-[#BBBDDD] bg-[hsl(0,0%,91%)]",
+          ], //
+          disabled
+            ? "w-[100px] border-t-[5px] lg:w-[225px] lg:border-t-[12px]"
+            : "lg:w-[111px] lg:border-t-[6px]",
         )}
       >
         <div
           className={cn([
             "relative", // base
             variantStyles[variant].image, // variant
-            disabled ? variantStyles[variant].imageDisabled : "group-hover:opacity-75", // disabled
+            disabled
+              ? variantStyles[variant].imageDisabled
+              : "group-hover:opacity-75", // disabled
           ])}
         >
           <Image
@@ -215,10 +253,7 @@ function Choices() {
           }}
         />
         <div className="-mt-[43px] flex w-full items-center justify-between">
-          <ChoiceButton
-            variant="Spock"
-            onClick={() => handleClick("Spock")}
-          />
+          <ChoiceButton variant="Spock" onClick={() => handleClick("Spock")} />
           <ChoiceButton
             variant="Paper"
             onClick={() => {
@@ -287,8 +322,10 @@ function WaitForHouse() {
     <>
       <div
         className={cn(
-          ["relative mt-[97.5px] flex w-[316px] items-center justify-between text-white lg:mt-[69px] lg:items-start"], //
-          win === undefined ? "lg:w-[675px]" : "lg:-ml-[28px] lg:w-[932px]"
+          [
+            "relative mt-[97.5px] flex w-[316px] items-center justify-between text-white lg:mt-[69px] lg:items-start",
+          ], //
+          win === undefined ? "lg:w-[675px]" : "lg:-ml-[28px] lg:w-[932px]",
         )}
       >
         <div className="flex flex-col items-center lg:flex-col-reverse">
@@ -299,21 +336,22 @@ function WaitForHouse() {
                 !!win ? winStyle : "relative z-10",
               ])}
             >
-              <ChoiceButton
-                variant={choice!}
-                disabled
-              />
+              <ChoiceButton variant={choice!} disabled />
             </div>
           ) : (
             <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:mt-[98px] lg:w-[224px]" />
           )}
-          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">you picked</p>
+          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">
+            you picked
+          </p>
         </div>
         {win !== undefined ? (
           <div className="absolute -bottom-[72px] left-1/2 flex -translate-x-1/2 translate-y-full flex-col items-center lg:static lg:w-[220px] lg:translate-x-[14px] lg:translate-y-0 lg:self-center lg:pt-[63px]">
-            <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white drop-shadow-md">you {win ? "win" : "lose"}</h1>
+            <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white drop-shadow-md">
+              you {win ? "win" : "lose"}
+            </h1>
             <button
-              className="text-rock-paper-scissor-neutral-dark hover:text-rock-paper-scissor-primary-rock-100 mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] shadow"
+              className="mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] text-rock-paper-scissor-neutral-dark shadow hover:text-rock-paper-scissor-primary-rock-100"
               onClick={() => {
                 optRef.current = undefined; // debug only
                 setChoice(null);
@@ -340,16 +378,15 @@ function WaitForHouse() {
                   win === false ? winStyle : "relative z-10",
                 ])}
               >
-                <ChoiceButton
-                  variant={house}
-                  disabled
-                />
+                <ChoiceButton variant={house} disabled />
               </div>
             ) : (
               <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:-mt-1 lg:w-[224px]" />
             )}
           </div>
-          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">the house picked</p>
+          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">
+            the house picked
+          </p>
         </div>
       </div>
     </>
@@ -382,11 +419,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

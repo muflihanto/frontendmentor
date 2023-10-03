@@ -3,6 +3,7 @@ import Footer from "../components/sunnyside-agency-landing-page/Footer";
 import Header from "../components/sunnyside-agency-landing-page/Header";
 import Main from "../components/sunnyside-agency-landing-page/Main";
 import { barlow } from "../utils/fonts/barlow";
+import { fraunces } from "../utils/fonts/fraunces";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -10,7 +11,7 @@ import { barlow } from "../utils/fonts/barlow";
 export default function Sunnyside() {
   return (
     <div
-      className={`App relative h-fit font-barlow text-sunny-neutral-400 ${barlow.variable}`}
+      className={`App relative h-fit font-barlow text-sunny-neutral-400 ${barlow.variable} ${fraunces.variable}`}
     >
       <Head>
         <title>Frontend Mentor | Sunnyside agency landing page</title>
