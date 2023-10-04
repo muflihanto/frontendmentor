@@ -71,17 +71,13 @@ function StarIcon() {
 }
 
 function RatingCard({ rating, rater }: { rating: number; rater: string }) {
-  const stars = () => {
-    const arr = [];
-    for (let i = 0; i < rating; i++) {
-      arr.push(<StarIcon />);
-    }
-    return arr;
-  };
-
   return (
     <div className="flex h-[78px] w-full flex-col items-center justify-center gap-[15px] rounded bg-social-proof-neutral-200 pt-[1px] lg:h-[56px] lg:w-[444px] lg:flex-row lg:justify-start lg:gap-[32px] lg:px-8 lg:pb-[1px] lg:pt-0">
-      <div className="flex gap-[8px]">{stars()}</div>
+      <div className="flex gap-[8px]">
+        {Array.from({ length: rating }, (_, index) => {
+          return <StarIcon key={index} />;
+        })}
+      </div>
       <span className="text-[17px] font-bold leading-none text-social-proof-primary-magenta">
         Rated {rating} Stars in {rater}
       </span>
