@@ -10,6 +10,7 @@ import {
   faTwitter,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
+import { libreFranklin } from "../utils/fonts/libreFranklin";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -28,7 +29,9 @@ export default function PingComingSoonPage() {
       <Head>
         <title>Frontend Mentor | Ping coming soon page</title>
       </Head>
-      <div className="App relative pb-[16px] pt-[84.5px] font-libre-franklin font-light max-lg:min-h-[812px] lg:min-h-[1024px] lg:pt-[86px]">
+      <div
+        className={`App relative pb-[16px] pt-[84.5px] font-libre-franklin font-light max-lg:min-h-[812px] lg:min-h-[1024px] lg:pt-[86px] ${libreFranklin.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider

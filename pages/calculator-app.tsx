@@ -1,6 +1,8 @@
 import Head from "next/head";
 // import Image from "next/image";
 import dynamic from "next/dynamic";
+import { leagueSpartan } from "../utils/fonts/leagueSpartan";
+
 const MainContent = dynamic(
   import("../components/calculator-app/MainContent"),
   { ssr: false },
@@ -14,7 +16,7 @@ export default function CalculatorApp() {
       <Head>
         <title>Frontend Mentor | Calculator app</title>
       </Head>
-      <div className="App relative min-h-[100svh]">
+      <div className={`App relative min-h-[100svh] ${leagueSpartan.variable}`}>
         <MainContent />
         {/* <Slider
           basePath="/calculator-app/design"

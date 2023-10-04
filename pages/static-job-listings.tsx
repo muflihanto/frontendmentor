@@ -9,6 +9,7 @@ import {
 } from "react";
 import { atom, useAtom, useSetAtom } from "jotai";
 import { match } from "ts-pattern";
+import { leagueSpartan } from "../utils/fonts/leagueSpartan";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -61,7 +62,9 @@ export default function StaticJobListings() {
       <Head>
         <title>Frontend Mentor | Job Listings</title>
       </Head>
-      <div className="App relative min-h-[100svh] bg-job-listings-neutral-100 font-league-spartan font-medium">
+      <div
+        className={`App relative min-h-[100svh] bg-job-listings-neutral-100 font-league-spartan font-medium ${leagueSpartan.variable}`}
+      >
         <Header />
         <Main />
         <Footer />

@@ -10,6 +10,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useEventListener, useWindowSize } from "usehooks-ts";
 import { cn } from "../utils/cn";
+import { leagueSpartan } from "../utils/fonts/leagueSpartan";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -84,7 +85,9 @@ export default function RoomHomepage() {
       <Head>
         <title>Frontend Mentor | Room homepage</title>
       </Head>
-      <div className="App relative min-h-[100svh] font-league-spartan font-medium">
+      <div
+        className={`App relative min-h-[100svh] font-league-spartan font-medium ${leagueSpartan.variable}`}
+      >
         <Header />
         <Main />
         <Footer />

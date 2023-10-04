@@ -6,7 +6,8 @@ import { type ChangeEvent, useMemo, useState, useEffect } from "react";
 import { useDarkMode } from "usehooks-ts";
 import type { InferGetServerSidePropsType } from "next";
 
-export function getServerSideProps() {
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function getServerSideProps() {
   return {
     props: { ...getPages() },
   };

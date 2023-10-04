@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { type CSSProperties, useState } from "react";
+import { raleway } from "../utils/fonts/raleway";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -11,7 +12,9 @@ export default function FyloDataStorageComponent() {
       <Head>
         <title>Frontend Mentor | Fylo data storage component</title>
       </Head>
-      <div className="App relative flex min-h-[100svh] items-center justify-center bg-fylo-storage-neutral-400 bg-[url('/fylo-data-storage-component/images/bg-mobile.png')] bg-cover bg-no-repeat pb-20 pt-11 font-raleway lg:bg-[url('/fylo-data-storage-component/images/bg-desktop.png')] lg:bg-contain lg:bg-[50%_47.5vh] lg:pt-[59px] lg:[@media(max-aspect-ratio:9/5)]:bg-[center_bottom]">
+      <div
+        className={`App relative flex min-h-[100svh] items-center justify-center bg-fylo-storage-neutral-400 bg-[url('/fylo-data-storage-component/images/bg-mobile.png')] bg-cover bg-no-repeat pb-20 pt-11 font-raleway lg:bg-[url('/fylo-data-storage-component/images/bg-desktop.png')] lg:bg-contain lg:bg-[50%_47.5vh] lg:pt-[59px] lg:[@media(max-aspect-ratio:9/5)]:bg-[center_bottom] ${raleway.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider basePath="/fylo-data-storage-component/design" /> */}

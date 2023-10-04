@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { leagueSpartan } from "../utils/fonts/leagueSpartan";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -46,7 +47,9 @@ export default function SocialProofSection() {
       <Head>
         <title>Frontend Mentor | Social proof section</title>
       </Head>
-      <div className="App relative flex min-h-[100svh] flex-col items-center bg-social-proof-neutral-100 bg-[url('/social-proof-section/images/bg-pattern-top-mobile.svg'),url('/social-proof-section/images/bg-pattern-bottom-mobile.svg')] bg-[length:100%_auto,_100%_auto] bg-[position:top,_bottom] bg-no-repeat pb-[99px] pt-[82px] font-league-spartan md:bg-[url('/social-proof-section/images/bg-pattern-top-desktop.svg'),url('/social-proof-section/images/bg-pattern-bottom-desktop.svg')] md:bg-[length:584px_362px,_1085px_673px] md:bg-[position:top_left,bottom_right] lg:px-8 lg:pt-[107px]">
+      <div
+        className={`App relative flex min-h-[100svh] flex-col items-center bg-social-proof-neutral-100 bg-[url('/social-proof-section/images/bg-pattern-top-mobile.svg'),url('/social-proof-section/images/bg-pattern-bottom-mobile.svg')] bg-[length:100%_auto,_100%_auto] bg-[position:top,_bottom] bg-no-repeat pb-[99px] pt-[82px] font-league-spartan md:bg-[url('/social-proof-section/images/bg-pattern-top-desktop.svg'),url('/social-proof-section/images/bg-pattern-bottom-desktop.svg')] md:bg-[length:584px_362px,_1085px_673px] md:bg-[position:top_left,bottom_right] lg:px-8 lg:pt-[107px] ${leagueSpartan.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider basePath="/social-proof-section/design/" /> */}

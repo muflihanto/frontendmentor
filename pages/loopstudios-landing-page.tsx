@@ -13,7 +13,8 @@ import { alata } from "../utils/fonts/alata";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-export const getStaticProps = (_ctx: GetStaticPropsContext) => {
+// eslint-disable-next-line @typescript-eslint/require-await
+export const getStaticProps = async (_ctx: GetStaticPropsContext) => {
   return {
     props: {
       creations: [

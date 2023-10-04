@@ -11,6 +11,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { openSans } from "../utils/fonts/openSans";
+import { raleway } from "../utils/fonts/raleway";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -24,7 +25,7 @@ export default function FyloDarkThemeLandingPage() {
         </title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-open-sans ${openSans.variable}`}
+        className={`App relative min-h-[100svh] font-open-sans ${openSans.variable} ${raleway.variable}`}
       >
         <IntroSection />
         <Main />
