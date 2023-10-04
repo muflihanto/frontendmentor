@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { kumbhSans } from "../utils/fonts/kumbhSans";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -10,7 +11,9 @@ export default function ProfileCardComponent() {
       <Head>
         <title>Frontend Mentor | Profile card component</title>
       </Head>
-      <div className="App relative flex min-h-[100svh] flex-col items-center justify-center bg-profile-card-primary-cyan font-kumbh-sans before:absolute before:left-0 before:top-0 before:z-10 before:h-screen before:w-screen before:bg-[url('/profile-card-component/images/bg-pattern-top.svg'),url('/profile-card-component/images/bg-pattern-bottom.svg')] before:bg-[length:978px_978px,978px_978px] before:bg-[position:calc(45%-492px)_calc(12%-482px),calc(44%+489px)_calc(45%+492px)] before:bg-no-repeat before:opacity-50 before:content-[''] max-lg:before:bg-[length:978px_860px,978px_700px] max-lg:before:bg-[position:calc(44%-495px)_calc(40%-425px),_calc(56%+504px)_calc(64%+330px)] lg:before:opacity-90">
+      <div
+        className={`App relative flex min-h-[100svh] flex-col items-center justify-center bg-profile-card-primary-cyan font-kumbh-sans before:absolute before:left-0 before:top-0 before:z-10 before:h-screen before:w-screen before:bg-[url('/profile-card-component/images/bg-pattern-top.svg'),url('/profile-card-component/images/bg-pattern-bottom.svg')] before:bg-[length:978px_978px,978px_978px] before:bg-[position:calc(45%-492px)_calc(12%-482px),calc(44%+489px)_calc(45%+492px)] before:bg-no-repeat before:opacity-50 before:content-[''] max-lg:before:bg-[length:978px_860px,978px_700px] max-lg:before:bg-[position:calc(44%-495px)_calc(40%-425px),_calc(56%+504px)_calc(64%+330px)] lg:before:opacity-90 ${kumbhSans.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider basePath="/profile-card-component/design/" /> */}

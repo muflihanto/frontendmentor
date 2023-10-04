@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { redHatDisplay } from "../utils/fonts/redHatDisplay";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -10,7 +11,9 @@ const OrderSummary = () => {
       <Head>
         <title>Frontend Mentor | Order summary card</title>
       </Head>
-      <div className="App relative flex min-h-[100svh] w-screen items-center justify-center bg-order-summary-primary-100 bg-[url('/order-summary-component/images/pattern-background-mobile.svg')] bg-[length:100%_auto] bg-no-repeat font-red-hat-display font-medium max-lg:py-[50px] lg:bg-[url('/order-summary-component/images/pattern-background-desktop.svg')] lg:py-[calc(102/900*100vh)]">
+      <div
+        className={`App relative flex min-h-[100svh] w-screen items-center justify-center bg-order-summary-primary-100 bg-[url('/order-summary-component/images/pattern-background-mobile.svg')] bg-[length:100%_auto] bg-no-repeat font-red-hat-display font-medium max-lg:py-[50px] lg:bg-[url('/order-summary-component/images/pattern-background-desktop.svg')] lg:py-[calc(102/900*100vh)] ${redHatDisplay.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider

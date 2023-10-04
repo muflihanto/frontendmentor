@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { type CSSProperties, useState } from "react";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { cartAtom } from "../components/ecommerce-product-page/CartController";
+import { kumbhSans } from "../utils/fonts/kumbhSans";
+
 const CartController = dynamic(
   import("../components/ecommerce-product-page/CartController"),
   { ssr: false },
@@ -97,7 +99,9 @@ export default function EcommerceProductPage() {
       <Head>
         <title>Frontend Mentor | E-commerce product page</title>
       </Head>
-      <div className="App relative min-h-[100svh] [&_*]:font-kumbh-sans">
+      <div
+        className={`App relative min-h-[100svh] font-kumbh-sans ${kumbhSans.variable}`}
+      >
         <Header />
         <Main />
         <Footer />

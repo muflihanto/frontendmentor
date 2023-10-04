@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { inter } from "../utils/fonts/inter";
+import { lexendDeca } from "../utils/fonts/lexendDeca";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -12,7 +13,7 @@ const StatsPreview = () => {
         <title>Frontend Mentor | Stats preview card component</title>
       </Head>
       <div
-        className={`App relative flex min-h-[100svh] w-screen items-center justify-center bg-stats-preview-primary-blue-200 pb-[88.5px] pt-[88px] font-inter lg:px-10 ${inter.variable}`}
+        className={`App relative flex min-h-[100svh] w-screen items-center justify-center bg-stats-preview-primary-blue-200 pb-[88.5px] pt-[88px] font-inter lg:px-10 ${inter.variable} ${lexendDeca.variable}`}
       >
         <Card />
         <Footer />

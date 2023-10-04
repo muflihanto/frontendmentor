@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { atom, useAtomValue } from "jotai";
+import { kumbhSans } from "../utils/fonts/kumbhSans";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -41,7 +42,9 @@ export default function FaqAccordionCard() {
       <Head>
         <title>Frontend Mentor | FAQ Accordion Card</title>
       </Head>
-      <div className="relative flex min-h-[100svh] flex-col items-center bg-gradient-to-b from-faq-accordion-primary-gradient-violet to-faq-accordion-primary-gradient-blue bg-[length:100%_1120px] bg-top pb-10 pt-[148px] font-kumbh-sans max-lg:min-h-[768px] lg:justify-center lg:bg-cover lg:py-10">
+      <div
+        className={`relative flex min-h-[100svh] flex-col items-center bg-gradient-to-b from-faq-accordion-primary-gradient-violet to-faq-accordion-primary-gradient-blue bg-[length:100%_1120px] bg-top pb-10 pt-[148px] font-kumbh-sans max-lg:min-h-[768px] lg:justify-center lg:bg-cover lg:py-10 ${kumbhSans.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider
