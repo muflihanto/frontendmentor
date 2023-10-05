@@ -34,6 +34,8 @@ export default function getPath() {
     };
   });
 
+  console.log({ pagesDir, pageNames, excluded, filteredPages, pages });
+
   return {
     pages,
   };
