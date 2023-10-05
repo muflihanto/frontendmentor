@@ -213,7 +213,7 @@ function Card({
               alt={data.user.username + "Avatar"}
             />
           </div>
-          <p className="pb-[2px] font-rubiks font-medium tracking-[.1px] text-interactive-comment-neutral-500">
+          <p className="pb-[2px] font-medium tracking-[.1px] text-interactive-comment-neutral-500">
             {data.user.username}
             {currentUser.username === data.user.username && (
               <span className="relative z-10 ml-2 px-[6px] text-[13px] text-interactive-comment-neutral-100 before:absolute before:-top-[1px] before:left-0 before:z-[-1] before:h-[19px] before:w-full before:rounded-sm before:bg-interactive-comment-primary-blue-200 before:content-['']">

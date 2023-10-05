@@ -23,7 +23,7 @@ export default function ChatAppCssIllustration() {
         <title>Frontend Mentor | Chat app CSS illustration</title>
       </Head>
       <div
-        className={`App relative min-h-[100dvh] bg-chat-app-secondary-200/50 font-rubiks max-lg:h-[936px] ${rubik.variable}`}
+        className={`App relative min-h-[100dvh] bg-chat-app-secondary-200/50 font-rubik max-lg:h-[936px] ${rubik.variable}`}
       >
         <Main />
         <Footer />

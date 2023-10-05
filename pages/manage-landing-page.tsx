@@ -17,8 +17,10 @@ import { useWindowSize } from "usehooks-ts";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { beVietnam } from "../utils/fonts/beVietnam";
+
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
 
@@ -28,7 +30,9 @@ export default function ManageLandingPage() {
       <Head>
         <title>Frontend Mentor | Manage landing page</title>
       </Head>
-      <div className={"App relative min-h-[100svh] font-be-vietnam"}>
+      <div
+        className={`App relative min-h-[100svh] font-be-vietnam ${beVietnam.variable}`}
+      >
         <Header />
         <Main />
         <Footer />

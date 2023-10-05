@@ -13,6 +13,7 @@ import { useDebounce } from "usehooks-ts";
 import { Listbox } from "@headlessui/react";
 import data from "../../public/rest-countries-api-with-color-theme-switcher/all.json";
 import { type Country } from "../../utils/types";
+import { nunitoSans } from "../../utils/fonts/nunitoSans";
 // import { useRouter } from "next/router";
 
 // import dynamic from "next/dynamic";
@@ -49,7 +50,9 @@ export default function RestCountriesApiWithColorThemeSwitcher() {
           Frontend Mentor | Rest Countries Api With Color Theme Switcher
         </title>
       </Head>
-      <div className="App relative min-h-[100svh] font-nunito-sans font-light dark:bg-rest-countries-darkblue-200">
+      <div
+        className={`App relative min-h-[100svh] font-nunito-sans font-light dark:bg-rest-countries-darkblue-200 ${nunitoSans.variable}`}
+      >
         <Header />
         <Main />
         <Footer />

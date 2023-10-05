@@ -48,7 +48,7 @@ export default function InteractiveCommentsSection() {
         <title>Frontend Mentor | Interactive comments section</title>
       </Head>
       <div
-        className={`App relative flex min-h-[100svh] flex-col items-center bg-interactive-comment-neutral-200 font-rubiks ${rubik.variable}`}
+        className={`App relative flex min-h-[100svh] flex-col items-center bg-interactive-comment-neutral-200 font-rubik ${rubik.variable}`}
       >
         <Main />
         <Footer />

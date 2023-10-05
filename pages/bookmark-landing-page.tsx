@@ -39,14 +39,14 @@ export default function BookmarkLandingPage() {
         <title>Frontend Mentor | Bookmark landing page</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-rubiks ${rubik.variable}`}
+        className={`App relative min-h-[100svh] font-rubik ${rubik.variable}`}
       >
         <Main />
         <Footer />
         {/* <Slider
           basePath="/bookmark-landing-page/design"
           // absolutePath="/bookmark-landing-page/design/mobile-active-states.jpg"
-          absolutePath="/bookmark-landing-page/design/desktop-active-states.jpg"
+          // absolutePath="/bookmark-landing-page/design/desktop-active-states.jpg"
         /> */}
       </div>
     </>
@@ -95,7 +95,7 @@ function Modal({
   return (
     <Overlay>
       <div
-        className="fixed right-0 top-0 z-50 flex h-screen w-screen bg-bookmark-neutral-200/95 font-rubiks"
+        className={`fixed right-0 top-0 z-50 flex h-screen w-screen bg-bookmark-neutral-200/95 font-rubik ${rubik.variable}`}
         {...underlayProps}
       >
         <div
@@ -160,7 +160,7 @@ function Header() {
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
-      <div className="flex h-10 items-center uppercase text-bookmark-neutral-200">
+      <div className="flex h-10 items-center uppercase text-bookmark-neutral-200 max-lg:hidden">
         <nav className="mr-[49px] flex items-center gap-[45px] text-[13px] tracking-[1.5px] [&>a:hover]:text-bookmark-primary-red">
           <a className="" href="">
             Features
@@ -387,7 +387,7 @@ function Feature() {
       </div>
 
       <div className="lg:mt-[72px] lg:grid lg:h-[435px] lg:grid-cols-2 lg:grid-rows-1">
-        <div className="mt-[35px] w-full py-[37px] lg:relative lg:mt-0 lg:py-0 lg:pr-[14px]">
+        <div className="relative mt-[35px] w-full py-[37px] lg:mt-0 lg:py-0 lg:pr-[14px]">
           <div className="relative z-10 w-full px-8 lg:flex lg:items-center lg:justify-end lg:px-0">
             <FeatureIllustration variant={tab} />
           </div>

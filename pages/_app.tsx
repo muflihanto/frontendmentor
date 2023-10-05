@@ -3,7 +3,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import { Provider } from "jotai";
 import "../styles/globals.css";
-import "../styles/fontface.css";
+// import "../styles/fontface.css";
 import {
   Hydrate,
   QueryClient,

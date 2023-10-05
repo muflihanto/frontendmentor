@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useCountry, useBorders } from "../../utils/useCountries";
 import { type PropsWithChildren, type ReactElement } from "react";
 import { Footer, Header } from "./index";
+import { nunitoSans } from "../../utils/fonts/nunitoSans";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
@@ -141,7 +142,9 @@ function Layout({ children }: PropsWithChildren) {
   const router = useRouter();
 
   return (
-    <div className="App relative min-h-[100svh] font-nunito-sans font-light dark:bg-rest-countries-darkblue-200">
+    <div
+      className={`App relative min-h-[100svh] ${nunitoSans.variable} font-nunito-sans font-light dark:bg-rest-countries-darkblue-200`}
+    >
       <Head>
         <title>
           Frontend Mentor | Rest Countries Api With Color Theme Switcher

@@ -4,8 +4,10 @@ import Image from "next/image";
 import type { ButtonHTMLAttributes, DetailedHTMLProps, HTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 import { useWindowSize } from "usehooks-ts";
+import { publicSans } from "../utils/fonts/publicSans";
+
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
 // TODO: - See hover states for all interactive elements on the page
@@ -16,7 +18,9 @@ export default function EasybankLandingPage() {
       <Head>
         <title>Frontend Mentor | Easybank landing page</title>
       </Head>
-      <div className="App relative min-h-[100svh] font-public lg:max-w-[100vw] lg:overflow-hidden">
+      <div
+        className={`App relative min-h-[100svh] font-public lg:max-w-[100vw] lg:overflow-hidden ${publicSans.variable}`}
+      >
         <Header />
         <Main />
         <Footer />

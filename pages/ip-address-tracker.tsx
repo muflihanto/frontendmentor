@@ -1,4 +1,3 @@
-import Head from "next/head";
 // import Image from "next/image";
 import dynamic from "next/dynamic";
 import { z } from "zod";
@@ -14,6 +13,10 @@ import type { IpInfoResponse } from "./api/getIpInfo";
 const Map = dynamic(() => import("../components/ip-address-tracker/Map"), {
   ssr: false,
 });
+const Layout = dynamic(
+  () => import("../components/ip-address-tracker/Layout"),
+  { ssr: false },
+);
 
 const locAtom = atom("");
 const detailAtom = atom<IpInfoResponse | undefined>(undefined);
@@ -44,19 +47,14 @@ export default function IpAddressTracker({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   useHydrateAtoms([[detailAtom, detail]]);
   return (
-    <>
-      <Head>
-        <title>Frontend Mentor | IP Address Tracker</title>
-      </Head>
-      <div className="App relative min-h-[100dvh] font-rubiks font-medium">
-        <Main />
-        <Footer />
-        {/* <Slider
+    <Layout>
+      <Main />
+      <Footer />
+      {/* <Slider
           basePath="/ip-address-tracker/design"
           absolutePath="/ip-address-tracker/design/active-states.jpg"
         /> */}
-      </div>
-    </>
+    </Layout>
   );
 }
 
