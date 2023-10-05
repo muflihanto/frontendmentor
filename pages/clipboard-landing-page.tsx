@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { baiJamjuree } from "../utils/fonts/baiJamjuree";
+
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 /**
  * TODO : Add mobile to desktop responsivity
@@ -16,7 +18,9 @@ export default function ClipboardLandingPage() {
       <Head>
         <title>Frontend Mentor | Clipboard landing page</title>
       </Head>
-      <div className="App relative flex min-h-[100svh] flex-col items-center font-bai-jamjuree">
+      <div
+        className={`App relative flex min-h-[100svh] flex-col items-center font-bai-jamjuree ${baiJamjuree.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider

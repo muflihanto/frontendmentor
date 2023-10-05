@@ -6,10 +6,11 @@ import { twMerge } from "tailwind-merge";
 import { useEffect } from "react";
 import { useWindowSize } from "usehooks-ts";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { roboto } from "../utils/fonts/roboto";
 
 // import Image from "next/image";
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 // TODO: - View the optimal layout for the interface depending on their device's screen size
 
@@ -35,13 +36,17 @@ export default function NewsletterSignUpWithSuccessMessage() {
   return (
     <>
       <Head>
-        <title>Frontend Mentor | Newsletter sign-up form with success message</title>
+        <title>
+          Frontend Mentor | Newsletter sign-up form with success message
+        </title>
       </Head>
-      <div className="App font-roboto lg:bg-newsletter-neutral-300 relative min-h-[100dvh] lg:flex lg:items-center lg:justify-center lg:py-10">
+      <div
+        className={`App relative min-h-[100dvh] font-roboto lg:flex lg:items-center lg:justify-center lg:bg-newsletter-neutral-300 lg:py-10 ${roboto.variable}`}
+      >
         {isSuccessOpen ? (
           <SuccessScreen />
         ) : (
-          <div className="bg-newsletter-neutral-100 flex flex-col lg:-mt-[1px] lg:h-[641px] lg:w-[926px] lg:flex-row-reverse lg:justify-between lg:rounded-[36px] lg:p-6 lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_30px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
+          <div className="flex flex-col bg-newsletter-neutral-100 lg:-mt-[1px] lg:h-[641px] lg:w-[926px] lg:flex-row-reverse lg:justify-between lg:rounded-[36px] lg:p-6 lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_30px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
             <IllustrationSignUp />
             <Main />
           </div>
@@ -84,40 +89,56 @@ function Main() {
   return (
     <div className="w-full lg:flex lg:flex-1 lg:items-center lg:justify-center">
       <div className="px-6 pb-10 pt-[30px] lg:pl-[39px] lg:pt-[24px]">
-        <h1 className="text-newsletter-neutral-400 text-[40px] font-bold lg:text-[56px]">Stay updated!</h1>
-        <p className="text-newsletter-neutral-300 mt-[13px] lg:mt-[10px]">Join 60,000+ product managers receiving monthly updates on:</p>
-        <ul className="text-newsletter-neutral-300 mt-[26px] flex flex-col gap-3">
+        <h1 className="text-[40px] font-bold text-newsletter-neutral-400 lg:text-[56px]">
+          Stay updated!
+        </h1>
+        <p className="mt-[13px] text-newsletter-neutral-300 lg:mt-[10px]">
+          Join 60,000+ product managers receiving monthly updates on:
+        </p>
+        <ul className="mt-[26px] flex flex-col gap-3 text-newsletter-neutral-300">
           <li className="flex items-start gap-4">
             <IconList className="w-[23px] lg:w-[21px]" />
-            <p className="-mt-[2px]">Product discovery and building what matters</p>
+            <p className="-mt-[2px]">
+              Product discovery and building what matters
+            </p>
           </li>
           <li className="flex items-start gap-4">
             <IconList className="w-[22px] lg:w-[21px]" />
-            <p className="-mt-[2px]">Measuring to ensure updates are a success</p>
+            <p className="-mt-[2px]">
+              Measuring to ensure updates are a success
+            </p>
           </li>
           <li className="mt-[1px] flex items-start gap-4">
             <IconList />
             <p className="-mt-[2px]">And much more!</p>
           </li>
         </ul>
-        <form
-          className="mt-10 w-full"
-          onSubmit={onSubmit}
-          noValidate
-        >
+        <form className="mt-10 w-full" onSubmit={onSubmit} noValidate>
           <label htmlFor="email">
             <div className="flex">
-              <p className="text-newsletter-neutral-400 text-[12px] font-bold">Email address</p>
-              {errors.email ? <p className="text-newsletter-primary ml-auto text-[12px] font-bold">{errors.email.message}</p> : null}
+              <p className="text-[12px] font-bold text-newsletter-neutral-400">
+                Email address
+              </p>
+              {errors.email ? (
+                <p className="ml-auto text-[12px] font-bold text-newsletter-primary">
+                  {errors.email.message}
+                </p>
+              ) : null}
             </div>
             <input
               type="email"
               id="email"
               placeholder="email@company.com"
-              className={`mt-2 h-[56px] w-full rounded-[8px] border px-[23px] focus-visible:outline focus-visible:outline-transparent ${errors.email ? "border-newsletter-primary bg-newsletter-primary/[15%] text-newsletter-primary placeholder:text-newsletter-primary/50" : "border-newsletter-neutral-200/75 focus:border-newsletter-neutral-300 text-newsletter-neutral-300 "}`}
+              className={`mt-2 h-[56px] w-full rounded-[8px] border px-[23px] focus-visible:outline focus-visible:outline-transparent ${
+                errors.email
+                  ? "border-newsletter-primary bg-newsletter-primary/[15%] text-newsletter-primary placeholder:text-newsletter-primary/50"
+                  : "border-newsletter-neutral-200/75 text-newsletter-neutral-300 focus:border-newsletter-neutral-300 "
+              }`}
               {...register("email", { required: true })}
             />
-            <button className="bg-newsletter-neutral-400 text-newsletter-neutral-100 mt-6 flex h-[56px] w-full items-center justify-center rounded-lg pt-[2px] font-bold hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]">Subscribe to monthly newsletter</button>
+            <button className="mt-6 flex h-[56px] w-full items-center justify-center rounded-lg bg-newsletter-neutral-400 pt-[2px] font-bold text-newsletter-neutral-100 hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]">
+              Subscribe to monthly newsletter
+            </button>
           </label>
         </form>
       </div>
@@ -133,17 +154,8 @@ function IconList({ className }: { className?: string }) {
       viewBox="0 0 21 21"
     >
       <g fill="none">
-        <circle
-          cx="10.5"
-          cy="10.5"
-          r="10.5"
-          fill="#FF6155"
-        />
-        <path
-          stroke="#FFF"
-          strokeWidth={2}
-          d="M6 11.381 8.735 14 15 8"
-        />
+        <circle cx="10.5" cy="10.5" r="10.5" fill="#FF6155" />
+        <path stroke="#FFF" strokeWidth={2} d="M6 11.381 8.735 14 15 8" />
       </g>
     </svg>
   );
@@ -162,21 +174,9 @@ function IllustrationSignUp() {
           viewBox="0 0 400 593"
         >
           <defs>
-            <linearGradient
-              id="b"
-              x1="72.75%"
-              x2="27.25%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#FF6A3A"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF527B"
-              />
+            <linearGradient id="b" x1="72.75%" x2="27.25%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#FF6A3A" />
+              <stop offset="100%" stopColor="#FF527B" />
             </linearGradient>
             <linearGradient
               id="h"
@@ -185,67 +185,21 @@ function IllustrationSignUp() {
               y1="28.497%"
               y2="70.858%"
             >
-              <stop
-                offset="0%"
-                stopColor="#FF3E83"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF9F2E"
-              />
+              <stop offset="0%" stopColor="#FF3E83" />
+              <stop offset="100%" stopColor="#FF9F2E" />
             </linearGradient>
-            <linearGradient
-              id="k"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#FFB443"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF5B64"
-                stopOpacity={0}
-              />
+            <linearGradient id="k" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFB443" />
+              <stop offset="100%" stopColor="#FF5B64" stopOpacity={0} />
             </linearGradient>
-            <linearGradient
-              id="o"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#F8F8F8"
-              />
-              <stop
-                offset="100%"
-                stopColor="#EEE"
-              />
+            <linearGradient id="o" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#F8F8F8" />
+              <stop offset="100%" stopColor="#EEE" />
             </linearGradient>
-            <linearGradient
-              id="p"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#CACBE8"
-              />
-              <stop
-                offset="100%"
-                stopColor="#EEE"
-              />
-              <stop
-                offset="100%"
-                stopColor="#CACBE8"
-              />
+            <linearGradient id="p" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#CACBE8" />
+              <stop offset="100%" stopColor="#EEE" />
+              <stop offset="100%" stopColor="#CACBE8" />
             </linearGradient>
             <linearGradient
               id="r"
@@ -254,30 +208,12 @@ function IllustrationSignUp() {
               y1="26.944%"
               y2="71.879%"
             >
-              <stop
-                offset="0%"
-                stopColor="#FF9049"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF5E5E"
-              />
+              <stop offset="0%" stopColor="#FF9049" />
+              <stop offset="100%" stopColor="#FF5E5E" />
             </linearGradient>
-            <linearGradient
-              id="t"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#FF6A3D"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF5B66"
-              />
+            <linearGradient id="t" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#FF6A3D" />
+              <stop offset="100%" stopColor="#FF5B66" />
             </linearGradient>
             <path
               id="e"
@@ -307,11 +243,7 @@ function IllustrationSignUp() {
               y="-12.5%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -330,11 +262,7 @@ function IllustrationSignUp() {
               y="-13.9%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -353,11 +281,7 @@ function IllustrationSignUp() {
               y="-13.9%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -376,11 +300,7 @@ function IllustrationSignUp() {
               y="-14.3%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -391,30 +311,13 @@ function IllustrationSignUp() {
                 values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.100000001 0"
               />
             </filter>
-            <rect
-              id="a"
-              width={400}
-              height={593}
-              x={0}
-              y={0}
-              rx={16}
-            />
+            <rect id="a" width={400} height={593} x={0} y={0} rx={16} />
           </defs>
-          <g
-            fill="none"
-            fillRule="evenodd"
-          >
-            <mask
-              id="c"
-              fill="#fff"
-            >
+          <g fill="none" fillRule="evenodd">
+            <mask id="c" fill="#fff">
               <use xlinkHref="#a" />
             </mask>
-            <rect
-              width={400}
-              height={593}
-              rx={16}
-            />
+            <rect width={400} height={593} rx={16} />
             <path
               fill="url(#b)"
               fillRule="nonzero"
@@ -422,48 +325,21 @@ function IllustrationSignUp() {
               mask="url(#c)"
             />
             <g mask="url(#c)">
-              <g
-                fillRule="nonzero"
-                transform="translate(-192 211)"
-              >
-                <use
-                  xlinkHref="#e"
-                  fill="#000"
-                  filter="url(#d)"
-                />
-                <use
-                  xlinkHref="#e"
-                  fill="#242742"
-                />
+              <g fillRule="nonzero" transform="translate(-192 211)">
+                <use xlinkHref="#e" fill="#000" filter="url(#d)" />
+                <use xlinkHref="#e" fill="#242742" />
               </g>
               <g transform="translate(-176 226)">
                 <g fillRule="nonzero">
-                  <use
-                    xlinkHref="#g"
-                    fill="#000"
-                    filter="url(#f)"
-                  />
-                  <use
-                    xlinkHref="#g"
-                    fill="url(#h)"
-                  />
+                  <use xlinkHref="#g" fill="#000" filter="url(#f)" />
+                  <use xlinkHref="#g" fill="url(#h)" />
                 </g>
-                <mask
-                  id="l"
-                  fill="#fff"
-                >
+                <mask id="l" fill="#fff">
                   <use xlinkHref="#i" />
                 </mask>
                 <g fillRule="nonzero">
-                  <use
-                    xlinkHref="#i"
-                    fill="#000"
-                    filter="url(#j)"
-                  />
-                  <use
-                    xlinkHref="#i"
-                    fill="url(#h)"
-                  />
+                  <use xlinkHref="#i" fill="#000" filter="url(#j)" />
+                  <use xlinkHref="#i" fill="url(#h)" />
                 </g>
                 <circle
                   cx={390}
@@ -483,19 +359,9 @@ function IllustrationSignUp() {
                   transform="rotate(-135 136.446 -34.554)"
                 />
               </g>
-              <g
-                fillRule="nonzero"
-                transform="translate(129 115)"
-              >
-                <use
-                  xlinkHref="#n"
-                  fill="#000"
-                  filter="url(#m)"
-                />
-                <use
-                  xlinkHref="#n"
-                  fill="url(#o)"
-                />
+              <g fillRule="nonzero" transform="translate(129 115)">
+                <use xlinkHref="#n" fill="#000" filter="url(#m)" />
+                <use xlinkHref="#n" fill="url(#o)" />
                 <path
                   fill="url(#p)"
                   d="M0 11C0 4.925 4.925 0 11 0h85v251H11c-6.075 0-11-4.925-11-11V11Z"
@@ -509,24 +375,9 @@ function IllustrationSignUp() {
                   d="M0 11C0 4.925 4.925 0 11 0h411c6.075 0 11 4.925 11 11v20H0V11Z"
                 />
                 <g transform="translate(16 9)">
-                  <circle
-                    cx="6.5"
-                    cy="6.5"
-                    r="6.5"
-                    fill="#FF6464"
-                  />
-                  <circle
-                    cx="28.5"
-                    cy="6.5"
-                    r="6.5"
-                    fill="#FF9255"
-                  />
-                  <circle
-                    cx="50.5"
-                    cy="6.5"
-                    r="6.5"
-                    fill="#6BD4A8"
-                  />
+                  <circle cx="6.5" cy="6.5" r="6.5" fill="#FF6464" />
+                  <circle cx="28.5" cy="6.5" r="6.5" fill="#FF9255" />
+                  <circle cx="50.5" cy="6.5" r="6.5" fill="#6BD4A8" />
                 </g>
               </g>
               <g transform="translate(246 93)">
@@ -535,17 +386,10 @@ function IllustrationSignUp() {
                   fillRule="nonzero"
                   d="M0 4a4 4 0 0 1 4-4h90a4 4 0 0 1 4 4v122a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4Z"
                 />
-                <mask
-                  id="s"
-                  fill="#fff"
-                >
+                <mask id="s" fill="#fff">
                   <use xlinkHref="#q" />
                 </mask>
-                <use
-                  xlinkHref="#q"
-                  fill="#FFF"
-                  fillRule="nonzero"
-                />
+                <use xlinkHref="#q" fill="#FFF" fillRule="nonzero" />
                 <path
                   fill="url(#r)"
                   fillRule="nonzero"
@@ -579,21 +423,9 @@ function IllustrationSignUp() {
           viewBox="0 0 375 284"
         >
           <defs>
-            <linearGradient
-              id="b"
-              x1="100%"
-              x2="0%"
-              y1="21.322%"
-              y2="78.678%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#FF6A3A"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF527B"
-              />
+            <linearGradient id="b" x1="100%" x2="0%" y1="21.322%" y2="78.678%">
+              <stop offset="0%" stopColor="#FF6A3A" />
+              <stop offset="100%" stopColor="#FF527B" />
             </linearGradient>
             <linearGradient
               id="h"
@@ -602,67 +434,21 @@ function IllustrationSignUp() {
               y1="28.497%"
               y2="70.858%"
             >
-              <stop
-                offset="0%"
-                stopColor="#FF3E83"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF9F2E"
-              />
+              <stop offset="0%" stopColor="#FF3E83" />
+              <stop offset="100%" stopColor="#FF9F2E" />
             </linearGradient>
-            <linearGradient
-              id="k"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#FFB443"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF5B64"
-                stopOpacity={0}
-              />
+            <linearGradient id="k" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFB443" />
+              <stop offset="100%" stopColor="#FF5B64" stopOpacity={0} />
             </linearGradient>
-            <linearGradient
-              id="o"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#F8F8F8"
-              />
-              <stop
-                offset="100%"
-                stopColor="#EEE"
-              />
+            <linearGradient id="o" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#F8F8F8" />
+              <stop offset="100%" stopColor="#EEE" />
             </linearGradient>
-            <linearGradient
-              id="p"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#CACBE8"
-              />
-              <stop
-                offset="100%"
-                stopColor="#EEE"
-              />
-              <stop
-                offset="100%"
-                stopColor="#CACBE8"
-              />
+            <linearGradient id="p" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#CACBE8" />
+              <stop offset="100%" stopColor="#EEE" />
+              <stop offset="100%" stopColor="#CACBE8" />
             </linearGradient>
             <linearGradient
               id="r"
@@ -671,30 +457,12 @@ function IllustrationSignUp() {
               y1="26.944%"
               y2="71.879%"
             >
-              <stop
-                offset="0%"
-                stopColor="#FF9049"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF5E5E"
-              />
+              <stop offset="0%" stopColor="#FF9049" />
+              <stop offset="100%" stopColor="#FF5E5E" />
             </linearGradient>
-            <linearGradient
-              id="t"
-              x1="50%"
-              x2="50%"
-              y1="0%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                stopColor="#FF6A3D"
-              />
-              <stop
-                offset="100%"
-                stopColor="#FF5B66"
-              />
+            <linearGradient id="t" x1="50%" x2="50%" y1="0%" y2="100%">
+              <stop offset="0%" stopColor="#FF6A3D" />
+              <stop offset="100%" stopColor="#FF5B66" />
             </linearGradient>
             <path
               id="a"
@@ -728,11 +496,7 @@ function IllustrationSignUp() {
               y="-23%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -751,11 +515,7 @@ function IllustrationSignUp() {
               y="-25.7%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -774,11 +534,7 @@ function IllustrationSignUp() {
               y="-25.7%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -797,11 +553,7 @@ function IllustrationSignUp() {
               y="-26.5%"
               filterUnits="objectBoundingBox"
             >
-              <feOffset
-                dy={24}
-                in="SourceAlpha"
-                result="shadowOffsetOuter1"
-              />
+              <feOffset dy={24} in="SourceAlpha" result="shadowOffsetOuter1" />
               <feGaussianBlur
                 in="shadowOffsetOuter1"
                 result="shadowBlurOuter1"
@@ -813,14 +565,8 @@ function IllustrationSignUp() {
               />
             </filter>
           </defs>
-          <g
-            fill="none"
-            fillRule="evenodd"
-          >
-            <mask
-              id="c"
-              fill="#fff"
-            >
+          <g fill="none" fillRule="evenodd">
+            <mask id="c" fill="#fff">
               <use xlinkHref="#a" />
             </mask>
             <path d="M0 0v268c0 8.837 7.163 16 16 16h343c8.837 0 16-7.163 16-16V0H0Z" />
@@ -831,48 +577,21 @@ function IllustrationSignUp() {
               mask="url(#c)"
             />
             <g mask="url(#c)">
-              <g
-                fillRule="nonzero"
-                transform="translate(-16 87.784)"
-              >
-                <use
-                  xlinkHref="#e"
-                  fill="#000"
-                  filter="url(#d)"
-                />
-                <use
-                  xlinkHref="#e"
-                  fill="#242742"
-                />
+              <g fillRule="nonzero" transform="translate(-16 87.784)">
+                <use xlinkHref="#e" fill="#000" filter="url(#d)" />
+                <use xlinkHref="#e" fill="#242742" />
               </g>
               <g transform="translate(-7.351 95.892)">
                 <g fillRule="nonzero">
-                  <use
-                    xlinkHref="#g"
-                    fill="#000"
-                    filter="url(#f)"
-                  />
-                  <use
-                    xlinkHref="#g"
-                    fill="url(#h)"
-                  />
+                  <use xlinkHref="#g" fill="#000" filter="url(#f)" />
+                  <use xlinkHref="#g" fill="url(#h)" />
                 </g>
-                <mask
-                  id="l"
-                  fill="#fff"
-                >
+                <mask id="l" fill="#fff">
                   <use xlinkHref="#i" />
                 </mask>
                 <g fillRule="nonzero">
-                  <use
-                    xlinkHref="#i"
-                    fill="#000"
-                    filter="url(#j)"
-                  />
-                  <use
-                    xlinkHref="#i"
-                    fill="url(#h)"
-                  />
+                  <use xlinkHref="#i" fill="#000" filter="url(#j)" />
+                  <use xlinkHref="#i" fill="url(#h)" />
                 </g>
                 <circle
                   cx="210.81"
@@ -892,19 +611,9 @@ function IllustrationSignUp() {
                   transform="rotate(-135 73.754 -18.678)"
                 />
               </g>
-              <g
-                fillRule="nonzero"
-                transform="translate(157.513 35.892)"
-              >
-                <use
-                  xlinkHref="#n"
-                  fill="#000"
-                  filter="url(#m)"
-                />
-                <use
-                  xlinkHref="#n"
-                  fill="url(#o)"
-                />
+              <g fillRule="nonzero" transform="translate(157.513 35.892)">
+                <use xlinkHref="#n" fill="#000" filter="url(#m)" />
+                <use xlinkHref="#n" fill="url(#o)" />
                 <path
                   fill="url(#p)"
                   d="M0 5.946A5.946 5.946 0 0 1 5.946 0h45.946v135.676H5.946A5.946 5.946 0 0 1 0 129.73V5.946Z"
@@ -918,24 +627,9 @@ function IllustrationSignUp() {
                   d="M0 5.946A5.946 5.946 0 0 1 5.946 0h222.162a5.946 5.946 0 0 1 5.946 5.946v10.81H0V5.947Z"
                 />
                 <g transform="translate(8.649 4.865)">
-                  <circle
-                    cx="3.514"
-                    cy="3.514"
-                    r="3.514"
-                    fill="#FF6464"
-                  />
-                  <circle
-                    cx="15.406"
-                    cy="3.514"
-                    r="3.514"
-                    fill="#FF9255"
-                  />
-                  <circle
-                    cx="27.297"
-                    cy="3.514"
-                    r="3.514"
-                    fill="#6BD4A8"
-                  />
+                  <circle cx="3.514" cy="3.514" r="3.514" fill="#FF6464" />
+                  <circle cx="15.406" cy="3.514" r="3.514" fill="#FF9255" />
+                  <circle cx="27.297" cy="3.514" r="3.514" fill="#6BD4A8" />
                 </g>
               </g>
               <g transform="translate(220.757 24)">
@@ -944,17 +638,10 @@ function IllustrationSignUp() {
                   fillRule="nonzero"
                   d="M0 2.162C0 .968.968 0 2.162 0h48.649c1.194 0 2.162.968 2.162 2.162v65.946a2.162 2.162 0 0 1-2.162 2.162H2.162A2.162 2.162 0 0 1 0 68.108V2.162Z"
                 />
-                <mask
-                  id="s"
-                  fill="#fff"
-                >
+                <mask id="s" fill="#fff">
                   <use xlinkHref="#q" />
                 </mask>
-                <use
-                  xlinkHref="#q"
-                  fill="#FFF"
-                  fillRule="nonzero"
-                />
+                <use xlinkHref="#q" fill="#FFF" fillRule="nonzero" />
                 <path
                   fill="url(#r)"
                   fillRule="nonzero"
@@ -995,7 +682,7 @@ function SuccessScreen() {
   };
 
   return (
-    <div className="bg-news-homepage-neutral-100 fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll px-6 py-10 lg:static lg:h-[520px] lg:w-[505px] lg:gap-0 lg:rounded-[36px] lg:p-16 lg:pt-[48px] lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
+    <div className="fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll bg-news-homepage-neutral-100 px-6 py-10 lg:static lg:h-[520px] lg:w-[505px] lg:gap-0 lg:rounded-[36px] lg:p-16 lg:pt-[48px] lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
       <div className="flex flex-col place-self-center lg:place-self-start">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1003,26 +690,22 @@ function SuccessScreen() {
           viewBox="0 0 21 21"
         >
           <g fill="none">
-            <circle
-              cx="10.5"
-              cy="10.5"
-              r="10.5"
-              fill="#FF6155"
-            />
-            <path
-              stroke="#FFF"
-              strokeWidth={1.5}
-              d="M6 11.381 8.735 14 15 8"
-            />
+            <circle cx="10.5" cy="10.5" r="10.5" fill="#FF6155" />
+            <path stroke="#FFF" strokeWidth={1.5} d="M6 11.381 8.735 14 15 8" />
           </g>
         </svg>
-        <h1 className="text-newsletter-neutral-400 mt-10 text-[40px] font-bold leading-none lg:-translate-y-[1px] lg:text-[56px]">Thanks for subscribing!</h1>
-        <p className="text-newsletter-neutral-300 mt-[23px]">
-          A confirmation email has been sent to <span className="text-newsletter-neutral-400 font-bold">{email}</span>. Please open it and click the button inside to confirm your subscription.
+        <h1 className="mt-10 text-[40px] font-bold leading-none text-newsletter-neutral-400 lg:-translate-y-[1px] lg:text-[56px]">
+          Thanks for subscribing!
+        </h1>
+        <p className="mt-[23px] text-newsletter-neutral-300">
+          A confirmation email has been sent to{" "}
+          <span className="font-bold text-newsletter-neutral-400">{email}</span>
+          . Please open it and click the button inside to confirm your
+          subscription.
         </p>
       </div>
       <button
-        className="text-news-homepage-neutral-100 bg-newsletter-neutral-400 h-[56px] w-full rounded-lg pl-[2px] pt-[2px] font-bold hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]"
+        className="h-[56px] w-full rounded-lg bg-newsletter-neutral-400 pl-[2px] pt-[2px] font-bold text-news-homepage-neutral-100 hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]"
         onClick={closeMenu}
       >
         Dismiss message
@@ -1033,7 +716,7 @@ function SuccessScreen() {
 
 function Footer() {
   return (
-    <footer className="lg:text-newsletter-neutral-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] lg:text-newsletter-neutral-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -1043,11 +726,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

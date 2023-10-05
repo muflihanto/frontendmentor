@@ -3,6 +3,8 @@ import Head from "next/head";
 import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import { useAnimate } from "framer-motion";
 import { useEffectOnce, useInterval, useWindowSize } from "usehooks-ts";
+import { redHatText } from "../utils/fonts/redHatText";
+
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
@@ -12,7 +14,9 @@ export default function LaunchCountdownTimer() {
       <Head>
         <title>Frontend Mentor | Launch countdown timer</title>
       </Head>
-      <div className="App relative flex min-h-[100dvh] flex-col items-center justify-center bg-countdown-neutral-300 bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-130px),#2F2439_calc(100vh-130px),#2F2439_100%)] bg-[length:920px_auto,auto_auto,100%_100%] bg-[position:bottom_43px_right_-67.5px,top_center,center] bg-no-repeat md:bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-90px),#2F2439_calc(100vh-90px),#2F2439_100%)] md:bg-[length:100vw_auto,auto_auto,100%_100%] md:bg-[position:bottom_center,top_3px_center,center] [&_*]:font-red-hat-text">
+      <div
+        className={`App relative flex min-h-[100dvh] flex-col items-center justify-center bg-countdown-neutral-300 bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-130px),#2F2439_calc(100vh-130px),#2F2439_100%)] bg-[length:920px_auto,auto_auto,100%_100%] bg-[position:bottom_43px_right_-67.5px,top_center,center] bg-no-repeat font-red-hat-text md:bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-90px),#2F2439_calc(100vh-90px),#2F2439_100%)] md:bg-[length:100vw_auto,auto_auto,100%_100%] md:bg-[position:bottom_center,top_3px_center,center] ${redHatText.variable}`}
+      >
         <Main />
         <SocialIcons />
         <Footer />

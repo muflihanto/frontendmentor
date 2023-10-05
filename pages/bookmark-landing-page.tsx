@@ -27,6 +27,7 @@ import {
   type OverlayTriggerState,
   useOverlayTriggerState,
 } from "react-stately";
+import { rubik } from "../utils/fonts/rubik";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -37,7 +38,9 @@ export default function BookmarkLandingPage() {
       <Head>
         <title>Frontend Mentor | Bookmark landing page</title>
       </Head>
-      <div className="App relative min-h-[100svh] font-rubiks">
+      <div
+        className={`App relative min-h-[100svh] font-rubiks ${rubik.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider

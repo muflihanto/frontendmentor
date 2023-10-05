@@ -1,9 +1,13 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { z } from "zod";
+import { rubik } from "../utils/fonts/rubik";
 
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
-const Main = dynamic(import("../components/interactive-comments-section/ClientWrapper"), { ssr: false });
+const Main = dynamic(
+  import("../components/interactive-comments-section/ClientWrapper"),
+  { ssr: false },
+);
 
 export const zUser = z.object({
   image: z.object({
@@ -23,7 +27,10 @@ export const zReply = zBaseComment.extend({
   replyingTo: z.string(),
 });
 export const zNewComment = z.object({ content: z.string() });
-export const zNewReply = z.object({ content: z.string(), replyingTo: z.string() });
+export const zNewReply = z.object({
+  content: z.string(),
+  replyingTo: z.string(),
+});
 export const zEdit = z.object({ content: z.string() });
 
 export type User = z.infer<typeof zUser>;
@@ -40,7 +47,9 @@ export default function InteractiveCommentsSection() {
       <Head>
         <title>Frontend Mentor | Interactive comments section</title>
       </Head>
-      <div className="App font-rubiks bg-interactive-comment-neutral-200 relative flex min-h-[100svh] flex-col items-center">
+      <div
+        className={`App relative flex min-h-[100svh] flex-col items-center bg-interactive-comment-neutral-200 font-rubiks ${rubik.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider
@@ -65,11 +74,7 @@ function Footer() {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

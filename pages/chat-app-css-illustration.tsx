@@ -8,6 +8,7 @@ import {
 } from "react-icons/bs";
 import { twMerge } from "tailwind-merge";
 import { stagger, animate } from "framer-motion";
+import { rubik } from "../utils/fonts/rubik";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -21,7 +22,9 @@ export default function ChatAppCssIllustration() {
       <Head>
         <title>Frontend Mentor | Chat app CSS illustration</title>
       </Head>
-      <div className="App relative min-h-[100dvh] bg-chat-app-secondary-200/50 font-rubiks max-lg:h-[936px]">
+      <div
+        className={`App relative min-h-[100dvh] bg-chat-app-secondary-200/50 font-rubiks max-lg:h-[936px] ${rubik.variable}`}
+      >
         <Main />
         <Footer />
         {/* <Slider basePath="/chat-app-css-illustration/design" /> */}
