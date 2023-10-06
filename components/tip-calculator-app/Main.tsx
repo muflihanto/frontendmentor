@@ -1,33 +1,44 @@
-import { useMemo, useState } from "react";
+import { type Dispatch, type SetStateAction, useMemo, useState } from "react";
+
+type Error = {
+  people: {
+    message: string,
+  },
+}
+type Result = {
+  tipPP: string;
+  billPP: string;
+}
+
+const percentValue = [5, 10, 15, 25, 50] as const;
+type PercentValue = (typeof percentValue)[number];
 
 export default function Main() {
-  const [bill, setBill] = useState("");
-  const [tip, setTip] = useState("");
-  const [people, setPeople] = useState("");
+  const [bill, setBill] = useState<number>();
+  const [tip, setTip] = useState<number>();
+  const [people, setPeople] = useState<number>();
   const [isCustom, setIsCustom] = useState(false);
-  const [error, setError] = useState({});
+  const [error, setError] = useState<Error>();
 
-  const result = useMemo(() => {
-    let res = {};
-    if (bill && tip && people && people !== "0") {
+  const result = useMemo<Result | undefined>(() => {
+    if (bill && tip && people && people !== 0) {
       const totalTip = (bill * tip) / 100;
       const totalBill = totalTip + bill;
-      res = {
+      return {
         tipPP: (totalTip / people).toFixed(2),
         billPP: (totalBill / people).toFixed(2),
       };
+    } else {
+      return undefined
     }
-    return {
-      ...res,
-    };
   }, [tip, bill, people]);
 
   const reset = () => {
-    setBill("");
-    setTip("");
-    setPeople("");
+    setBill(undefined);
+    setTip(undefined);
+    setPeople(undefined);
     setIsCustom(false);
-    setError({});
+    setError(undefined);
   };
 
   return (
@@ -61,10 +72,10 @@ export default function Main() {
                 if (val >= 0) {
                   setBill(val);
                 } else if (e.target.value === "") {
-                  setBill("");
+                  setBill(undefined);
                 }
               }}
-              onWheel={(e) => e.target.blur()}
+              onWheel={(e) => e.currentTarget.blur()}
               className="text-right rounded-md px-[17px] w-full pt-[7px] pb-[5px] appearance-none bg-tip-neutral-200 text-tip-neutral-600 text-[24px] focus-visible:outline-none focus:ring-inset focus:ring-tip-primary focus:ring-2"
             />
           </div>
@@ -72,7 +83,7 @@ export default function Main() {
         <fieldset className="mt-[3px]">
           <legend className="text-[15px] leading-[15px] tracking-[.5px] font-medium">Select Tip %</legend>
           <div className="mt-[21px] grid grid-cols-2 lg:grid-cols-3 lg:gap-x-[13.5px] gap-y-4 gap-x-4">
-            {[5, 10, 15, 25, 50].map((el, index) => {
+            {percentValue.map((el, index) => {
               return (
                 <TipButton
                   key={index}
@@ -87,12 +98,12 @@ export default function Main() {
             <label htmlFor="custom-tip">
               <input
                 type="number"
-                value={isCustom && tip}
+                value={isCustom ? tip : ""}
                 onChange={(e) => {
                   setIsCustom(true);
                   setTip(parseFloat(e.target.value));
                 }}
-                onWheel={(e) => e.target.blur()}
+                onWheel={(e) => e.currentTarget.blur()}
                 id="custom-tip"
                 name="tip"
                 placeholder="Custom"
@@ -107,7 +118,7 @@ export default function Main() {
         >
           <div className="flex justify-between items-end">
             <span className="text-[15px] leading-[15px] tracking-[.5px] font-medium">Number of People</span>
-            {error.people && <span className="text-[15px] leading-[15px] tracking-[.5px] font-medium text-red-700/70">{error.people.message}</span>}
+            {error?.people && <span className="text-[15px] leading-[15px] tracking-[.5px] font-medium text-red-700/70">{error.people.message}</span>}
           </div>
           <div className="relative">
             <span className="absolute -translate-y-1/2 pointer-events-none h-fit top-[24px] left-[17px]">
@@ -132,9 +143,9 @@ export default function Main() {
                 if (value >= 0) {
                   setPeople(value);
                 } else if (e.target.value === "") {
-                  setPeople("");
+                  setPeople(undefined);
                 }
-                if (value === 0 && value !== "") {
+                if (value === 0) {
                   setError((prev) => {
                     return {
                       ...prev,
@@ -144,11 +155,11 @@ export default function Main() {
                     };
                   });
                 } else {
-                  setError({});
+                  setError(undefined);
                 }
               }}
-              onWheel={(e) => e.target.blur()}
-              className={`text-right rounded-md px-[17px] w-full pt-[7px] pb-[5px] appearance-none bg-tip-neutral-200 text-tip-neutral-600 text-[24px] focus-visible:outline-none focus:ring-inset ${error.people ? "focus:ring-red-700/75" : "focus:ring-tip-primary"}  focus:ring-2`}
+              onWheel={(e) => e.currentTarget.blur()}
+              className={`text-right rounded-md px-[17px] w-full pt-[7px] pb-[5px] appearance-none bg-tip-neutral-200 text-tip-neutral-600 text-[24px] focus-visible:outline-none focus:ring-inset ${error?.people ? "focus:ring-red-700/75" : "focus:ring-tip-primary"}  focus:ring-2`}
             />
           </div>
         </label>
@@ -161,7 +172,8 @@ export default function Main() {
   );
 }
 
-const ResultCard = ({ result, reset }) => {
+type ResultCardProps = { result?: Result; reset: () => void };
+const ResultCard = ({ result, reset }: ResultCardProps) => {
   return (
     <div className="bg-tip-neutral-600 rounded-[14px] pt-[43px] pb-[24px] text-[15px] leading-[15px] tracking-[.5px] flex flex-col gap-[30px] pl-6 pr-[22px] lg:w-[calc(411/1440*100vw)] lg:px-[38px] lg:pt-[60px] lg:gap-[60px] lg:pb-[40px]">
       <div className="flex justify-between items-center">
@@ -169,18 +181,18 @@ const ResultCard = ({ result, reset }) => {
           <span className="text-tip-neutral-200">Tip Amount</span>
           <span className="text-tip-neutral-400 text-[13px] -tracking-[.05px]">/ person</span>
         </div>
-        <div className="text-tip-primary text-[32px] -tracking-[.6px] lg:text-[48px] lg:leading-[30px] lg:self-start">{result.tipPP ? `$${result.tipPP}` : "$0.00"}</div>
+        <div className="text-tip-primary text-[32px] -tracking-[.6px] lg:text-[48px] lg:leading-[30px] lg:self-start">{result?.tipPP ? `$${result.tipPP}` : "$0.00"}</div>
       </div>
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-[7px]">
           <span className="text-tip-neutral-200">Total</span>
           <span className="text-tip-neutral-400 text-[13px] -tracking-[.05px]">/ person</span>
         </div>
-        <div className="text-tip-primary text-[32px] -tracking-[.6px] lg:text-[48px] lg:leading-[30px] lg:self-start">{result.billPP ? `$${result.billPP}` : "$0.00"}</div>
+        <div className="text-tip-primary text-[32px] -tracking-[.6px] lg:text-[48px] lg:leading-[30px] lg:self-start">{result?.billPP ? `$${result.billPP}` : "$0.00"}</div>
       </div>
       <button
         className={`w-full pt-[2px] font-medium text-tip-neutral-600 uppercase h-[48px] text-[20px] rounded-md block mx-auto text-center bg-tip-primary mt-2 lg:mt-auto disabled:bg-tip-primary/25`}
-        disabled={!result.billPP && !result.tipPP}
+        disabled={!result?.billPP && !result?.tipPP}
         onClick={reset}
       >
         Reset
@@ -189,7 +201,14 @@ const ResultCard = ({ result, reset }) => {
   );
 };
 
-const TipButton = ({ tip, percent, isCustom, setTip, setIsCustom }) => {
+type TipButtonProps = {
+  percent: PercentValue;
+  isCustom: boolean;
+  setIsCustom: Dispatch<SetStateAction<boolean>>;
+  tip?: number;
+  setTip: Dispatch<SetStateAction<number | undefined>>;
+};
+const TipButton = ({ tip, percent, isCustom, setTip, setIsCustom }:TipButtonProps) => {
   const peers = {
     5: ["peer/5", "peer-checked/5:text-tip-neutral-600", "peer-checked/5:bg-tip-primary"],
     10: ["peer/10", "peer-checked/10:text-tip-neutral-600", "peer-checked/10:bg-tip-primary"],
