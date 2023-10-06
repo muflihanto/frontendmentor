@@ -1,6 +1,9 @@
 import Image from "next/image";
+import type { TimeUnit } from "./Main";
+import type { Dispatch, SetStateAction } from "react";
 
-export default function User({ activeTab, setActiveTab }) {
+type UserProps = { activeTab: TimeUnit; setActiveTab: Dispatch<SetStateAction<TimeUnit>>; };
+export default function User({ activeTab, setActiveTab }: UserProps) {
   const buttons = ["Daily", "Weekly", "Monthly"];
 
   return (
@@ -26,7 +29,7 @@ export default function User({ activeTab, setActiveTab }) {
               <button
                 className={`${button.toLowerCase() === activeTab ? "text-white hover:cursor-default" : "text-tracking-neutral-200 hover:text-white"} text-[18px] text-center w-full lg:text-left`}
                 onClick={() => {
-                  setActiveTab(button.toLowerCase());
+                  setActiveTab(button.toLowerCase() as TimeUnit);
                 }}
               >
                 {button}

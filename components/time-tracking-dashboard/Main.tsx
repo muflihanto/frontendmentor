@@ -3,14 +3,26 @@ import data from "./data.json";
 import User from "./User";
 import ActivityCard from "./ActivityCard";
 
+const activities = [
+  "Work",
+  "Play",
+  "Study",
+  "Exercise",
+  "Social",
+  "Self Care",
+] as const;
+export type ActivityData = (typeof data)[number];
+export type ActivityType = (typeof activities)[number];
+export type TimeUnit = keyof (typeof data)[number]["timeframes"];
+
 export default function Main() {
-  const [activeTab, setActiveTab] = useState("weekly");
+  const [activeTab, setActiveTab] = useState<TimeUnit>("weekly");
   const timeUnit = useRef({
     weekly: "Last Week",
     daily: "Yesterday",
     monthly: "Last Month",
   });
-  const activityBgColor = useRef({
+  const activityStyle = useRef<Record<ActivityType, string>>({
     Work: "bg-tracking-primary-work",
     Play: "bg-tracking-primary-play",
     Study: "bg-tracking-primary-study",
@@ -19,19 +31,16 @@ export default function Main() {
     "Self Care": "bg-tracking-primary-selfcare",
   });
   return (
-    <div className="w-full px-6 pt-[81.2px] pb-[80.8px] mx-auto max-w-lg grid grid-rows-[7] gap-y-6 lg:grid-cols-4 lg:grid-rows-2 lg:max-w-[calc(1110/1440*100vw)] lg:gap-[30px] lg:h-[calc(518px)] lg:p-0">
-      <User
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
+    <div className="mx-auto grid w-full max-w-lg grid-rows-[7] gap-y-6 px-6 pb-[80.8px] pt-[81.2px] lg:h-[calc(518px)] lg:max-w-[calc(1110/1440*100vw)] lg:grid-cols-4 lg:grid-rows-2 lg:gap-[30px] lg:p-0">
+      <User activeTab={activeTab} setActiveTab={setActiveTab} />
       {data.map((el, index) => {
         return (
           <ActivityCard
             key={index}
-            title={el.title}
+            title={el.title as ActivityType}
             timeframes={el.timeframes[activeTab]}
             timeUnit={timeUnit.current[activeTab]}
-            bgColor={activityBgColor.current[el.title]}
+            bgColor={activityStyle.current[el.title as ActivityType]}
           />
         );
       })}
