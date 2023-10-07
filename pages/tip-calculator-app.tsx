@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Footer from "../components/tip-calculator-app/Footer";
 import Header from "../components/tip-calculator-app/Header";
-import Main from "../components/tip-calculator-app/Main";
 import localFont from "next/font/local";
+import dynamic from "next/dynamic";
 
 const _spaceMono = localFont({
   src: "../public/tip-calculator-app/fonts/SpaceMono-Bold.ttf",
@@ -11,8 +11,16 @@ const _spaceMono = localFont({
 
 const spaceMono = `${_spaceMono.variable} font-space-mono`;
 
-// import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
+const Main = dynamic(() => import("../components/tip-calculator-app/Main"), {
+  ssr: false,
+  loading: () => {
+    return (
+      <div className="mt-[40px] h-full animate-pulse rounded-t-[25px] bg-tip-neutral-100 lg:mx-auto lg:mt-[calc(87/1024*100vh)] lg:h-[480px] lg:max-w-screen-md lg:rounded-[25px] xl:max-w-[calc(23/36*100vw)]" />
+    );
+  },
+});
 
 export default function TipCalculator() {
   return (
