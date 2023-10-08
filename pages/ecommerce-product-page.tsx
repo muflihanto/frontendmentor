@@ -21,8 +21,7 @@ const Lightbox = dynamic(
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 /**
- * TODO:
- * - View the optimal layout for the site depending on their device's screen size
+ * TODO: View the optimal layout for the site depending on their device's screen size
  */
 
 export interface Product {

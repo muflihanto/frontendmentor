@@ -112,17 +112,8 @@ function Main() {
           } h-full w-full rounded-full border bg-transparent px-6 text-base-apparel-neutral placeholder:text-[14px] placeholder:text-base-apparel-primary-100/50 focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-transparent lg:px-8 lg:pt-[1px] lg:placeholder:text-[16px]`}
         />
         <button className="absolute right-0 top-0 flex h-full w-[64px] items-center justify-center rounded-full bg-[linear-gradient(135deg,_var(--tw-gradient-stops))] from-base-apparel-gradient-red-100 to-base-apparel-gradient-red-200 shadow-xl shadow-base-apparel-neutral/10 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-full before:transition-colors before:content-[''] before:duration-75 hover:shadow-[hsl(358,47%,83%)]/90 hover:before:bg-white/50 focus-visible:outline focus-visible:outline-transparent lg:w-[100px]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 12 20"
-            className="h-5"
-          >
-            <path
-              fill="none"
-              stroke="#FFF"
-              strokeWidth="2"
-              d="M1 1l8.836 8.836L1 18.671"
-            />
+          <svg viewBox="0 0 12 20" className="h-5">
+            <use href="/base-apparel-coming-soon/images/icon-arrow.svg#icon-arrow" />
           </svg>
         </button>
         {errors.email ? (

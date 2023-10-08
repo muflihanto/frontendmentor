@@ -10,7 +10,6 @@ import { publicSans } from "../utils/fonts/publicSans";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 // TODO: - View the optimal layout for the site depending on their device's screen size
-// TODO: - See hover states for all interactive elements on the page
 
 export default function EasybankLandingPage() {
   return (

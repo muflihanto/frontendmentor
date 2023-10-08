@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { inter } from "../utils/fonts/inter";
 
 // import dynamic from "next/dynamic";
-// const DesignSlider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+// const DesignSlider = dynamic(() => import("../components/SliderTs"), {
+//   ssr: false,
+// });
 
 const CodingBootcamp = () => {
   return (
@@ -18,19 +20,15 @@ const CodingBootcamp = () => {
         <Main />
         <Footer />
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 610 154"
           className="absolute bottom-0 w-[75%] lg:w-[610px]"
         >
-          <path
-            fill="#F4F4FC"
-            fillRule="evenodd"
-            d="M610 154C469.493 123.42 358.432 86.087 276.818 42S102.93-11.42 0 14v140h610z"
-          />
+          <use href="/coding-bootcamp-testimonials-slider/images/pattern-curve.svg#pattern-curve" />
         </svg>
         {/* <DesignSlider
           basePath="/coding-bootcamp-testimonials-slider/design/"
-          absolutePath="/coding-bootcamp-testimonials-slider/design/desktop-design-slide-1.jpg"
+          absolutePath="/coding-bootcamp-testimonials-slider/design/mobile-design-slide-1.jpg"
+          // absolutePath="/coding-bootcamp-testimonials-slider/design/desktop-design-slide-1.jpg"
         /> */}
       </div>
     </>
@@ -142,28 +140,26 @@ function Main() {
           onClick={() => {
             slide();
           }}
-          className="group"
+          className="group flex h-full w-1/2 items-center justify-center"
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 12 18"
-            className="h-[14px] stroke-[#8585AC] stroke-[3px] group-hover:stroke-[#4A3FDB] lg:stroke-[4px]"
+            className="h-[13px] stroke-[4px] text-[#8585AC] group-hover:text-[#4A3FDB] lg:h-[18px] lg:stroke-[3px]"
           >
-            <path fill="none" d="M11 1L3 9l8 8" />
+            <use href="/coding-bootcamp-testimonials-slider/images/icon-prev.svg#icon-prev" />
           </svg>
         </button>
         <button
           onClick={() => {
             slide();
           }}
-          className="group"
+          className="group flex h-full w-1/2 items-center justify-center"
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 13 18"
-            className="h-[14px] stroke-[#8585AC] stroke-[3px] group-hover:stroke-[#4A3FDB] lg:stroke-[4px]"
+            className="h-[13px] stroke-[4px] text-[#8585AC] group-hover:text-[#4A3FDB] lg:h-[18px] lg:stroke-[3px]"
           >
-            <path fill="none" d="M2 1l8 8-8 8" />
+            <use href="/coding-bootcamp-testimonials-slider/images/icon-next.svg#icon-next" />
           </svg>
         </button>
       </div>

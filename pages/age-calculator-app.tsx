@@ -256,20 +256,8 @@ function Main() {
           </label>
         </div>
         <button className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={46}
-            height={44}
-            viewBox="0 0 46 44"
-            className="stroke-[3px] lg:stroke-2"
-          >
-            <g
-              fill="none"
-              stroke="#FFF"
-              // strokeWidth={3}
-            >
-              <path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44" />
-            </g>
+          <svg viewBox="0 0 46 44" className="h-11 stroke-[3px] lg:stroke-2">
+            <use href="/age-calculator-app/assets/images/icon-arrow.svg#icon-arrow" />
           </svg>
         </button>
         <hr className="w-full border-t-2 border-age-calculator-neutral-200 lg:mt-[47px]" />
