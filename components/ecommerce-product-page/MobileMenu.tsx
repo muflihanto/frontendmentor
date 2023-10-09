@@ -22,7 +22,7 @@ export default function MobileMenu({ navs }: { navs: Nav[] }) {
     >
       <MenuContent navs={navs} />
     </Transition>,
-    document.body
+    document.body,
   );
 }
 
@@ -75,16 +75,8 @@ function MenuContent({ navs }: { navs: Nav[] }) {
         }}
         tabIndex={2}
       >
-        <svg
-          viewBox="0 0 14 15"
-          className="w-[14px]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z"
-            fill="#69707D"
-            fillRule="evenodd"
-          />
+        <svg viewBox="0 0 14 15" className="w-[14px] fill-[#69707D]">
+          <use href="/ecommerce-product-page/images/icon-close.svg#icon-close" />
         </svg>
       </button>
       <nav className="mt-[42px]">
@@ -94,7 +86,7 @@ function MenuContent({ navs }: { navs: Nav[] }) {
             return (
               <li key={index}>
                 <a
-                  className="text-ecommerce-neutral-500 font-kumbh-sans w-full rounded px-[9px] py-2 text-[18px] font-bold"
+                  className="w-full rounded px-[9px] py-2 font-kumbh-sans text-[18px] font-bold text-ecommerce-neutral-500"
                   href={href}
                   tabIndex={1}
                 >
