@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { type CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, type ComponentProps, useEffect } from "react";
 import {
   faFacebookF,
   faInstagram,
@@ -12,6 +12,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { openSans } from "../utils/fonts/openSans";
 import { raleway } from "../utils/fonts/raleway";
+import { manrope } from "../utils/fonts/manrope";
+import { cn } from "../utils/cn";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -31,14 +33,14 @@ export default function FyloLandingPageWithTwoColumnLayout() {
         </title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-open-sans ${openSans.variable} ${raleway.variable}`}
+        className={`App relative min-h-[100svh] font-open-sans ${openSans.variable} ${raleway.variable} ${manrope}`}
       >
         <Header />
         <Main />
         <Footer />
         {/* <Slider
           basePath="/fylo-landing-page-with-two-column-layout/design"
-          absolutePath="/fylo-landing-page-with-two-column-layout/design/active-states.jpg"
+          // absolutePath="/fylo-landing-page-with-two-column-layout/design/active-states.jpg"
         /> */}
       </div>
     </>
@@ -48,36 +50,20 @@ export default function FyloLandingPageWithTwoColumnLayout() {
 function FyloLogo({
   className,
   variant,
-}: {
-  className: string;
+}: ComponentProps<"svg"> & {
   variant: "header" | "footer";
 }) {
   return (
     <svg
       viewBox="0 0 166 49"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      className={cn([
+        className,
+        variant === "header"
+          ? "fill-[#BDBAFA] text-black"
+          : "fill-white text-white",
+      ])}
     >
-      <defs>
-        <path id="a" d="M.014.03h93.96v48.29H.015z" />
-      </defs>
-      <g fill="none" fillRule="evenodd">
-        <path
-          d="M0 14.13v.123l27.95 13.13L56 14.209v-.033L27.95 1 0 14.13zm10.077.062L27.95 5.795l17.877 8.397-17.877 8.396-17.874-8.396zM27.95 32.483L0 19.55v4.784l27.95 12.964L56 24.289v-4.784L27.95 32.483zm0 9.703L0 29.25v4.783L27.95 47 56 33.99v-4.784l-28.05 12.98z"
-          fill={variant === "header" ? "#BDBAFA" : "#fff"}
-        />
-        <g transform="translate(72)">
-          <mask id="b" fill="#fff">
-            <use xlinkHref="#a" />
-          </mask>
-          <path
-            d="M87.56 24.152a8.1 8.1 0 0 0-2.161-5.573 7.259 7.259 0 0 0-2.34-1.673 6.864 6.864 0 0 0-2.85-.601c-1.01 0-1.961.2-2.852.601a7.257 7.257 0 0 0-2.34 1.673 8.102 8.102 0 0 0-2.16 5.574 8.102 8.102 0 0 0 2.16 5.573 7.257 7.257 0 0 0 2.34 1.672 6.864 6.864 0 0 0 2.851.602c1.01 0 1.96-.2 2.852-.602a7.259 7.259 0 0 0 2.339-1.672 8.1 8.1 0 0 0 2.16-5.574zm6.415 0c0 1.932-.357 3.723-1.07 5.373a13.098 13.098 0 0 1-2.94 4.28c-1.247 1.205-2.71 2.156-4.388 2.854-1.678.699-3.468 1.048-5.369 1.048-1.9 0-3.683-.349-5.346-1.048a13.863 13.863 0 0 1-4.366-2.876 13.351 13.351 0 0 1-2.94-4.302c-.713-1.65-1.07-3.426-1.07-5.329 0-1.873.364-3.634 1.092-5.284a13.92 13.92 0 0 1 2.962-4.325 13.671 13.671 0 0 1 4.367-2.898 13.552 13.552 0 0 1 5.301-1.048c1.901 0 3.69.35 5.369 1.048 1.678.698 3.14 1.65 4.388 2.854 1.248 1.204 2.228 2.638 2.94 4.302.713 1.665 1.07 3.449 1.07 5.351zM64.258 36.905a8.6 8.6 0 0 1-1.715.58c-.638.148-1.3.222-1.982.222a9.84 9.84 0 0 1-2.74-.379 6.003 6.003 0 0 1-2.295-1.226c-.653-.565-1.173-1.3-1.56-2.207-.385-.907-.578-2-.578-3.277V.029h6.549v29.474c0 1.07.215 1.806.646 2.207.43.401.943.602 1.537.602.742 0 1.455-.223 2.138-.669v5.262zM50.492 11.22L38.908 41.854c-.861 2.289-1.99 3.939-3.386 4.95-1.396 1.01-3.06 1.515-4.99 1.515-.297 0-.623-.022-.98-.066a7.352 7.352 0 0 1-1.025-.201l-2.138-5.975a8.486 8.486 0 0 0 1.56.557c.534.134 1.039.201 1.514.201 1.01 0 1.93-.23 2.762-.691.832-.46 1.47-1.315 1.916-2.564l.891-2.586-9.935-25.773h6.995l5.925 16.588 5.57-16.588h6.905zM23.538 7.342H6.786v8.294h16.529v5.618H6.785v15.784H.015V1.412h23.524v5.93z"
-            fill={variant === "header" ? "#000" : "#fff"}
-            mask="url(#b)"
-          />
-        </g>
-      </g>
+      <use href="/fylo-landing-page-with-two-column-layout/images/logo.svg#logo" />
     </svg>
   );
 }
@@ -104,8 +90,6 @@ function Header() {
 }
 
 function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
-  // const formStyle = useRef({
-  // });
   const {
     register,
     handleSubmit,
@@ -113,8 +97,8 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
     formState: { errors, isSubmitSuccessful },
   } = useForm<UserInput>({ resolver: zodResolver(userInput) });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit((_data) => {
+    // console.log(data);
   });
 
   useEffect(() => {
@@ -123,7 +107,7 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const [formStyle] = useState({
+  const formStyle = {
     hero: {
       form: "mt-[31.75px] lg:mt-[25px] lg:grid-rows-[45px] pl-[14px] pr-[9px] w-full lg:px-0 lg:grid-cols-[320px,200px] lg:gap-x-[18px]",
       input: "text-[12px] px-5 py-[1px] lg:text-[15px] lg:pt-[6px]",
@@ -136,42 +120,44 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
     early: {
       form: "mt-[23px] grid-rows-[34px,32px] gap-y-[7px] w-[245px] pr-[3px] lg:gap-[15px] lg:pb-[10px] lg:w-full",
       input:
-        "text-[10px] px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px] text-fylo-landing-primary-blue-200 text-[12px]",
+        "px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px] text-fylo-landing-primary-blue-200 text-[12px]",
       button:
         "text-[10px] w-[calc(100%-2px)] place-self-center h-full lg:w-[200px] lg:place-self-start lg:text-[14px]",
       placeholder: "email@example.com",
       btnText: "Get Started For Free",
       error: "lg:text-[13px] text-[11px] -mt-1 lg:-mt-[13px] lg:-mb-[2px]",
     },
-  });
+  };
 
   return (
     <form
       noValidate
-      className={`grid grid-cols-1 font-raleway ${
-        !!errors.email && "relative"
-      } ${formStyle[variant].form} ${
-        variant === "early"
-          ? !!errors.email
-            ? " grid-rows-[40px,12px,40px] lg:mt-[43px] lg:grid-rows-[47px,auto,48px]"
-            : "lg:grid-rows-[50px,48px]"
-          : !!errors.email
-          ? "grid-rows-[40px,auto,40px] gap-y-2"
-          : "grid-rows-[repeat(2,40px)] gap-y-4"
-      }`}
+      className={cn([
+        "grid grid-cols-1 font-raleway",
+        !!errors.email && "relative",
+        formStyle[variant].form,
+        variant === "early" &&
+          (!!errors.email
+            ? "grid-rows-[40px,12px,40px] lg:mt-[43px] lg:grid-rows-[47px,auto,48px]"
+            : "lg:grid-rows-[50px,48px]"),
+        variant === "hero" &&
+          (!!errors.email
+            ? "grid-rows-[40px,auto,40px] gap-y-2"
+            : "grid-rows-[repeat(2,40px)] gap-y-4"),
+      ])}
       onSubmit={onSubmit}
     >
       <input
         {...register("email")}
         type="email"
         placeholder={formStyle[variant].placeholder}
-        className={`w-full rounded-sm border placeholder:opacity-50 ${
-          formStyle[variant].input
-        } ${
+        className={cn([
+          "w-full rounded-sm border placeholder:opacity-50",
+          formStyle[variant].input,
           !!errors.email
             ? "border-[hsl(339,28%,73%)] focus-visible:outline focus-visible:outline-transparent"
-            : "border-fylo-landing-primary-blue-100"
-        }`}
+            : "border-fylo-landing-primary-blue-100",
+        ])}
       />
       {errors.email ? (
         <p className={`${formStyle[variant].error} font-open-sans`}>
@@ -179,7 +165,10 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
         </p>
       ) : null}
       <button
-        className={`rounded-sm bg-fylo-landing-accent-blue font-bold text-fylo-landing-neutral-100 shadow-md shadow-fylo-landing-primary-blue-200/10 hover:bg-[hsl(221,100%,71%)] ${formStyle[variant].button}`}
+        className={cn([
+          "rounded-sm bg-fylo-landing-accent-blue font-bold text-fylo-landing-neutral-100 shadow-md shadow-fylo-landing-primary-blue-200/10 hover:bg-[hsl(221,100%,71%)]",
+          formStyle[variant].button,
+        ])}
       >
         {formStyle[variant].btnText}
       </button>
@@ -275,10 +264,13 @@ function ProductiveSection() {
 function Testimony() {
   return (
     <div className="mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pl-[26px] pr-3 pt-[21px] text-[10px] tracking-[.4px] shadow-md shadow-fylo-landing-primary-blue-100/10 lg:mt-[45px] lg:h-[216px] lg:w-[356px] lg:px-[33px] lg:pt-[25px]">
-      <svg className="w-[11px] lg:ml-[1px] lg:w-[14px]" viewBox="0 0 13 12">
+      <svg
+        className="-ml-[1px] w-[16px] font-manrope lg:w-[20px]"
+        viewBox="0 0 16 12"
+      >
         <use href="/fylo-landing-page-with-two-column-layout/images/icon-quotes.svg#fylo-icon-quotes" />
       </svg>
-      <p className="mt-2 leading-[18px] lg:mt-[12px] lg:text-[13px] lg:leading-[23.15px] lg:tracking-[.5px]">
+      <p className="mt-[6px] leading-[18px] lg:mt-[9px] lg:text-[13px] lg:leading-[23.15px] lg:tracking-[.5px]">
         Fylo has improved our team productivity by an order of magnitude. Since
         making the switch our team has become a well-oiled collaboration
         machine.
@@ -382,30 +374,14 @@ function Footer() {
       <div className="flex flex-col text-fylo-landing-neutral-100 lg:mt-[23px] lg:flex-row lg:justify-start [&_li:hover]:text-fylo-landing-neutral-200/70">
         <div className="mt-[39px] flex flex-col gap-4 px-[2px] lg:mt-0">
           <p className="flex gap-[18px]">
-            <svg
-              className="mx-[1px] w-[18px]"
-              viewBox="0 0 18 18"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17 12.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H1C.4 0 0 .4 0 1c0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM16 9h2c0-5-4-9-9-9v2c3.9 0 7 3.1 7 7zm-4 0h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"
-                fill="#FFF"
-                fillRule="evenodd"
-              />
+            <svg className="mx-[1px] w-[18px]" viewBox="0 0 18 18">
+              <use href="/fylo-landing-page-with-two-column-layout/images/icon-phone.svg#icon-phone" />
             </svg>
             <span>Phone: +1-543-123-4567</span>
           </p>
           <p className="flex gap-[18px] text-fylo-landing-neutral-200">
-            <svg
-              viewBox="0 0 20 16"
-              className="w-5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 0H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm0 14h-2V5.2L10 9 4 5.2V14H2V2h1.2L10 6.2 16.8 2H18v12z"
-                fill="#FFF"
-                fillRule="evenodd"
-              />
+            <svg viewBox="0 0 20 16" className="w-5">
+              <use href="/fylo-landing-page-with-two-column-layout/images/icon-email.svg#icon-email" />
             </svg>
             <span>example@fylo.com</span>
           </p>
