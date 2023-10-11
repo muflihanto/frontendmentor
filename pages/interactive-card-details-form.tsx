@@ -5,6 +5,7 @@ import { type UseFormReset, useForm } from "react-hook-form";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { spaceGrotesk } from "../utils/fonts/spaceGrotesk";
+import Image from "next/image";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -127,28 +128,12 @@ function CompleteModal({ reset }: { reset: UseFormReset<InputSchema> }) {
 
   return (
     <div className="flex flex-col items-center pt-[.5px] lg:mb-[72px]">
-      <svg
-        className="w-20"
-        viewBox="0 0 80 80"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="40" cy="40" r="40" fill="url(#a)" />
-        <path d="M28 39.92 36.08 48l16-16" stroke="#fff" strokeWidth="3" />
-        <defs>
-          <linearGradient
-            id="a"
-            x1="-23.014"
-            y1="11.507"
-            x2="0"
-            y2="91.507"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#6348FE" />
-            <stop offset="1" stopColor="#610595" />
-          </linearGradient>
-        </defs>
-      </svg>
+      <Image
+        src="/interactive-card-details-form/images/icon-complete.svg"
+        alt="White Check Mark"
+        width={80}
+        height={80}
+      />
       <h1 className="mt-[32px] text-[28px] uppercase tracking-[3.5px] text-interactive-card-neutral-400">
         Thank you!
       </h1>
