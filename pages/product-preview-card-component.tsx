@@ -47,12 +47,9 @@ function ProductImage() {
     <header className="relative aspect-[2/3] flex-[50%] overflow-hidden rounded-l-[1rem] max-[750px]:aspect-[343/240] max-[750px]:h-full max-[750px]:rounded-none max-[750px]:rounded-t-[1rem]">
       <Image
         src="/product-preview-card-component/images/"
-        loader={({ width, src }) => {
-          if (width <= 750) {
-            return src + "image-product-mobile.jpg";
-          }
-          return src + "image-product-desktop.jpg";
-        }}
+        loader={({ width, src }) =>
+          src + `image-product-${width > 750 ? "desktop" : "mobile"}.jpg`
+        }
         alt="Image Product"
         className="object-cover brightness-[.89] contrast-[1.1]"
         fill
@@ -83,15 +80,8 @@ function ProductDescription() {
         </span>
       </p>
       <button className="relative flex h-[48px] items-center justify-center gap-3 rounded-[.6rem] bg-product-review-primary-cyan font-montserrat font-bold text-product-review-neutral-100 hover:bg-[hsl(156,42%,18%)]">
-        <svg
-          viewBox="0 0 15 16"
-          className="h-[17px] object-contain pt-[.5px]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14.383 10.388a2.397 2.397 0 0 0-1.518-2.222l1.494-5.593a.8.8 0 0 0-.144-.695.8.8 0 0 0-.631-.28H2.637L2.373.591A.8.8 0 0 0 1.598 0H0v1.598h.983l1.982 7.4a.8.8 0 0 0 .799.59h8.222a.8.8 0 0 1 0 1.599H1.598a.8.8 0 1 0 0 1.598h.943a2.397 2.397 0 1 0 4.507 0h1.885a2.397 2.397 0 1 0 4.331-.376 2.397 2.397 0 0 0 1.12-2.021ZM11.26 7.99H4.395L3.068 3.196h9.477L11.26 7.991Zm-6.465 6.392a.8.8 0 1 1 0-1.598.8.8 0 0 1 0 1.598Zm6.393 0a.8.8 0 1 1 0-1.598.8.8 0 0 1 0 1.598Z"
-            fill="#FFF"
-          />
+        <svg viewBox="0 0 15 16" className="h-[17px] object-contain pt-[.5px]">
+          <use href="/product-preview-card-component/images/icon-cart.svg#icon-cart" />
         </svg>
         <span>Add to Cart</span>
       </button>
