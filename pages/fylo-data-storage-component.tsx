@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { type CSSProperties, useState } from "react";
+import { type CSSProperties, type ComponentProps, useState } from "react";
 import { raleway } from "../utils/fonts/raleway";
 
 // import dynamic from "next/dynamic";
@@ -23,6 +23,35 @@ export default function FyloDataStorageComponent() {
   );
 }
 
+const iconVariant = ["document", "folder", "upload"] as const;
+type IconVariant = (typeof iconVariant)[number];
+const variantProps: Record<IconVariant, ComponentProps<"svg">["viewBox"]> = {
+  document: "0 0 20 24",
+  folder: "0 0 24 20",
+  upload: "0 0 24 16",
+};
+type NavLinkProps = {
+  variant: IconVariant;
+  href?: string;
+};
+function NavLink(props: NavLinkProps) {
+  return (
+    <a
+      href={props.href ?? ""}
+      className="flex h-full w-full items-center justify-center"
+    >
+      <svg
+        className={props.variant === "document" ? "w-5" : "w-6"}
+        viewBox={variantProps[props.variant]}
+      >
+        <use
+          href={`/fylo-data-storage-component/images/icon-${props.variant}.svg#icon-${props.variant}`}
+        />
+      </svg>
+    </a>
+  );
+}
+
 function Navigation() {
   return (
     <header className="flex h-[201px] w-full max-w-[480px] flex-col items-start justify-center gap-[33px] rounded-[10px] rounded-tr-[100px] bg-fylo-storage-neutral-300 px-[41px] shadow-2xl shadow-fylo-storage-neutral-400/70 lg:max-w-none">
@@ -37,57 +66,16 @@ function Navigation() {
 
       <nav>
         <ul className="flex gap-4">
-          <li className="aspect-square h-12 w-12 rounded-[10px] bg-fylo-storage-neutral-400 hover:bg-opacity-75">
-            <a
-              href=""
-              className="flex h-full w-full items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5"
-                viewBox="0 0 20 24"
+          {iconVariant.map((el) => {
+            return (
+              <li
+                key={el}
+                className="aspect-square h-12 w-12 rounded-[10px] bg-fylo-storage-neutral-400 hover:bg-opacity-75"
               >
-                <path
-                  fill="#697ED4"
-                  d="M12.028 0H2.436A2.387 2.387 0 00.049 2.398L.037 21.583a2.387 2.387 0 002.387 2.398h14.4a2.397 2.397 0 002.398-2.398V7.194L12.028 0zM10.83 8.393V1.8l6.595 6.594h-6.595z"
-                />
-              </svg>
-            </a>
-          </li>
-          <li className="aspect-square h-12 w-12 rounded-[10px] bg-fylo-storage-neutral-400 hover:bg-opacity-75">
-            <a
-              href=""
-              className="flex h-full w-full items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 20"
-                className="h-5"
-              >
-                <path
-                  fill="#697ED4"
-                  d="M21.6 2.4H12L9.6 0H2.4A2.39 2.39 0 00.012 2.4L0 16.8a2.4 2.4 0 002.4 2.4h19.2a2.4 2.4 0 002.4-2.4v-12a2.4 2.4 0 00-2.4-2.4z"
-                />
-              </svg>
-            </a>
-          </li>
-          <li className="aspect-square h-12 w-12 rounded-[10px] bg-fylo-storage-neutral-400 hover:bg-opacity-75">
-            <a
-              href=""
-              className="flex h-full w-full items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6"
-                viewBox="0 0 24 16"
-              >
-                <path
-                  fill="#697ED4"
-                  d="M19.4 6c-.7-3.4-3.7-6-7.4-6-2.9 0-5.4 1.6-6.6 4C2.3 4.4 0 6.9 0 10c0 3.3 2.7 6 6 6h13c2.8 0 5-2.2 5-5 0-2.6-2.1-4.8-4.6-5zM14 9v4h-4V9H7l5-5 5 5h-3z"
-                />
-              </svg>
-            </a>
-          </li>
+                <NavLink variant={el} />
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </header>

@@ -138,15 +138,8 @@ function Header() {
         onClick={() => setMenuOpen(true)}
         className={`hidden max-lg:block`}
       >
-        <svg
-          viewBox="0 0 40 17"
-          className="w-10"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g fill="#00001A" fillRule="evenodd">
-            <path d="M0 0h40v3H0zM0 7h40v3H0zM0 14h40v3H0z" />
-            <path d="M0 0h40v3H0z" />
-          </g>
+        <svg viewBox="0 0 40 17" className="w-10">
+          <use href="/news-homepage/assets/images/icon-menu.svg#icon-menu" />
         </svg>
       </button>
       <DesktopNav />
@@ -214,15 +207,8 @@ function MobileMenu() {
               onClick={() => setMenuOpen(false)}
               className={`absolute right-[20px] top-[27px]`}
             >
-              <svg
-                className="w-8"
-                viewBox="0 0 32 31"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g fill="#00001A" fillRule="evenodd">
-                  <path d="m2.919.297 28.284 28.284-2.122 2.122L.797 2.419z" />
-                  <path d="M.797 28.581 29.081.297l2.122 2.122L2.919 30.703z" />
-                </g>
+              <svg className="w-8" viewBox="0 0 32 31">
+                <use href="/news-homepage/assets/images/icon-menu-close.svg#icon-menu-close" />
               </svg>
             </button>
             <nav className="absolute top-[142px] w-full px-5">
