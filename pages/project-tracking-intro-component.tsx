@@ -12,7 +12,7 @@ import { barlow } from "../utils/fonts/barlow";
 import { barlowCondensed } from "../utils/fonts/barlowCondensed";
 
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const ProjectTracking = () => {
   return (
@@ -33,7 +33,7 @@ const ProjectTracking = () => {
         {/* <Slider
           basePath="/project-tracking-intro-component/design/"
           // absolutePath="/project-tracking-intro-component/design/mobile-navigation.jpg"
-          absolutePath="/project-tracking-intro-component/design/active-states.jpg"
+          // absolutePath="/project-tracking-intro-component/design/active-states.jpg"
         /> */}
       </div>
     </>
@@ -49,37 +49,17 @@ function Header({
 }) {
   return (
     <header className="flex h-[100px] items-center justify-between px-8 lg:h-[160px] lg:px-[165px]">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-6 lg:w-8"
-        viewBox="0 0 32 32"
-      >
-        <g fill="#323334" fillRule="evenodd">
-          <path d="M0 32V.241h23.041zM31.15 32V.241h-4.411L17.48 13.158zM3.645 32l11.854-15.879L27.353 32z" />
-        </g>
+      <svg className="w-6 lg:w-8" viewBox="0 0 32 32">
+        <use href="/project-tracking-intro-component/images/logo.svg#logo" />
       </svg>
       <button onClick={toggle} className="hidden max-md:block">
         {isMenuOpen ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill="#242942"
-              fillRule="evenodd"
-              d="M17.778.808l1.414 1.414L11.414 10l7.778 7.778-1.414 1.414L10 11.414l-7.778 7.778-1.414-1.414L8.586 10 .808 2.222 2.222.808 10 8.586 17.778.808z"
-            />
+          <svg className="w-6" viewBox="0 0 20 20">
+            <use href="/project-tracking-intro-component/images/icon-close.svg#icon-close" />
           </svg>
         ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6"
-            viewBox="0 0 24 16"
-          >
-            <g fill="#242942" fillRule="evenodd">
-              <path d="M0 0h24v2H0zM0 7h24v2H0zM0 14h24v2H0z" />
-            </g>
+          <svg className="w-6" viewBox="0 0 24 16">
+            <use href="/project-tracking-intro-component/images/icon-hamburger.svg#icon-hamburger" />
           </svg>
         )}
       </button>

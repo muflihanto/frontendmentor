@@ -136,17 +136,8 @@ function Intro() {
             onClick={onClick}
             className="flex w-[58px] items-center justify-center bg-black hover:bg-opacity-[75%]"
           >
-            <svg
-              className="w-[11px]"
-              viewBox="0 0 11 14"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="none"
-                stroke="#FFF"
-                strokeWidth={3}
-                d="M2 1l6 6-6 6"
-              />
+            <svg className="w-[11px]" viewBox="0 0 11 14">
+              <use href="/ip-address-tracker/images/icon-arrow.svg#icon-arrow" />
             </svg>
           </button>
         </form>
