@@ -37,25 +37,16 @@ const MenuButton = ({
       {...props}
     >
       <svg
-        width="14"
-        height="15"
-        xmlns="http://www.w3.org/2000/svg"
-        className="invisible absolute left-0 top-0 group-aria-expanded:visible"
+        viewBox="0 0 14 15"
+        className="invisible absolute left-0 top-0 w-[14px] group-aria-expanded:visible"
       >
-        <g fill="#FFF" fillRule="evenodd">
-          <path d="M2.404.782l11.314 11.314-2.122 2.122L.282 2.904z" />
-          <path d="M.282 12.096L11.596.782l2.122 2.122L2.404 14.218z" />
-        </g>
+        <use href="/crowdfunding-product-page/images/icon-close-menu.svg#icon-close-menu" />
       </svg>
       <svg
-        width="16"
-        height="15"
-        xmlns="http://www.w3.org/2000/svg"
-        className="visible absolute left-0 top-0 group-aria-expanded:invisible"
+        viewBox="0 0 16 15"
+        className="visible absolute left-0 top-0 w-4 group-aria-expanded:invisible"
       >
-        <g fill="#FFF" fillRule="evenodd">
-          <path d="M0 0h16v3H0zM0 6h16v3H0zM0 12h16v3H0z" />
-        </g>
+        <use href="/crowdfunding-product-page/images/icon-hamburger.svg#icon-hamburger" />
       </svg>
     </button>
   );

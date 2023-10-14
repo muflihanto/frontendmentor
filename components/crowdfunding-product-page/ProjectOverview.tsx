@@ -44,25 +44,15 @@ export default function Overview(props: OverviewProps) {
                 : "lg:w-[174px] lg:bg-crowdfunding-neutral-100/10"
             }`}
           >
-            <svg width="56" height="56" xmlns="http://www.w3.org/2000/svg">
-              <g fill="none" fillRule="evenodd">
-                <circle
-                  className={`${
-                    isBookmarked
-                      ? "fill-crowdfunding-primary-200 group-hover:fill-crowdfunding-primary-100"
-                      : "group-hover:fill-crowdfunding-neutral-100"
-                  }`}
-                  fill="#2F2F2F"
-                  cx="28"
-                  cy="28"
-                  r="28"
-                />
-                <path
-                  className={`${isBookmarked && "fill-white"}`}
-                  fill="#B1B1B1"
-                  d="M23 19v18l5-5.058L33 37V19z"
-                />
-              </g>
+            <svg
+              className={[
+                "aspect-square w-[56px]",
+                isBookmarked
+                  ? "fill-crowdfunding-primary-200 text-white group-hover:fill-crowdfunding-primary-100"
+                  : "fill-[#2F2F2F] text-[#B1B1B1] group-hover:fill-crowdfunding-neutral-100",
+              ].join(" ")}
+            >
+              <use href="/crowdfunding-product-page/images/icon-bookmark.svg#icon-bookmark" />
             </svg>
             <span
               className={`hidden lg:ml-4 lg:inline lg:font-bold ${
