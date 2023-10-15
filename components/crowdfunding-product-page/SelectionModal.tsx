@@ -8,6 +8,7 @@ import {
 import Card from "./Card";
 import supportType from "./supportType.json";
 import { useCallbackRef } from "use-callback-ref";
+import { commissioner } from "../../utils/fonts/commissioner";
 
 type SupportType = typeof supportType;
 
@@ -32,7 +33,7 @@ export default function SelectionModal(props: SelectionModalProps) {
 
   return (
     <div
-      className="fixed left-0 top-0 flex h-full w-screen justify-center overflow-scroll bg-black/50 pb-[120px] pt-[121px] font-commissioner lg:py-[min(184px,calc(184/800*100vh))]"
+      className={`fixed left-0 top-0 flex h-full w-screen justify-center overflow-scroll bg-black/50 pb-[120px] pt-[121px] font-commissioner lg:py-[min(184px,calc(184/800*100vh))] ${commissioner.variable}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           props.close();
@@ -109,13 +110,8 @@ const CardHeader = ({ handleClose }: CardHeaderProps) => {
           className="pt-[1px] lg:-translate-y-[25px] lg:translate-x-[17px]"
           onClick={handleClose}
         >
-          <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M11.314 0l2.828 2.828L9.9 7.071l4.243 4.243-2.828 2.828L7.07 9.9l-4.243 4.243L0 11.314 4.242 7.07 0 2.828 2.828 0l4.243 4.242L11.314 0z"
-              fill="#000"
-              fillRule="evenodd"
-              opacity=".4"
-            />
+          <svg viewBox="0 0 15 15" className="w-[15px]">
+            <use href="/crowdfunding-product-page/images/icon-close-modal.svg#icon-close-modal" />
           </svg>
         </button>
       </div>
