@@ -147,13 +147,8 @@ export default function Collapsible(props: CollapsibleProps) {
           {props.label}
         </span>
         <span className="inline-block transition-transform duration-300 group-open:rotate-180">
-          <svg width="10" height="6" xmlns="http://www.w3.org/2000/svg">
-            <path
-              stroke="#686868"
-              strokeWidth="1.5"
-              fill="none"
-              d="m1 1 4 4 4-4"
-            />
+          <svg viewBox="0 0 10 6" className="h-1.5">
+            <use href="/intro-section-with-dropdown-navigation/images/icon-arrow-down.svg#icon-arrow-down" />
           </svg>
         </span>
       </summary>
