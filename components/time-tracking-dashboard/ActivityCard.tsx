@@ -18,15 +18,10 @@ export default function ActivityCard(props: ActivityCardProps) {
           <div className="text-[18px] font-medium">{props.title}</div>
           <button className="group">
             <svg
-              width="21"
-              height="5"
-              xmlns="http://www.w3.org/2000/svg"
-              className="fill-[#BBC0FF] group-hover:fill-white"
+              viewBox="0 0 21 5"
+              className="h-[5px] fill-[#BBC0FF] group-hover:fill-white"
             >
-              <path
-                d="M2.5 0a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm8 0a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm8 0a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Z"
-                fillRule="evenodd"
-              />
+              <use href="/time-tracking-dashboard/images/icon-ellipsis.svg#icon-ellipsis" />
             </svg>
           </button>
         </div>
