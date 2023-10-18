@@ -1,10 +1,11 @@
-export type IndexResult = {
-  [x: string]: number[];
-};
+export type IndexResult = Record<string, number[]>;
 
-export default function indexesOf(string: string, reg: string | RegExp): IndexResult {
-  let match,
-    indexes: IndexResult = {};
+export default function indexesOf(
+  string: string,
+  reg: string | RegExp,
+): IndexResult {
+  let match;
+  const indexes: IndexResult = {};
 
   const regex = new RegExp(reg);
 
