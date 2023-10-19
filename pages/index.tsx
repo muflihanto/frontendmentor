@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { type ChangeEvent, useMemo, useState, useEffect } from "react";
-import { useDarkMode } from "usehooks-ts";
+import { useDarkMode, useIsClient } from "usehooks-ts";
 // import getPages from "../utils/getPages";
 // import type { InferGetServerSidePropsType } from "next";
 
@@ -13,7 +13,7 @@ import { useDarkMode } from "usehooks-ts";
 //   };
 // }
 
-const pages = [
+export const pages = [
   {
     title: "3 Column Preview Card Component",
     path: "3-column-preview-card-component",
@@ -200,6 +200,7 @@ export default function Home() {
   }, [input]);
   // }, [input, pages]);
   const { isDarkMode, toggle } = useDarkMode();
+  const isClient = useIsClient();
 
   useEffect(() => {
     if (isDarkMode) {
@@ -208,6 +209,13 @@ export default function Home() {
       document.documentElement.classList.remove("dark");
     }
   }, [isDarkMode]);
+
+  const iconProps = useMemo(() => {
+    const alt = `Moon${!isDarkMode || !isClient ? " Outline" : ""}`;
+    const name = alt.toLowerCase().split(" ").join("-");
+    const src = `/rest-countries-api-with-color-theme-switcher/images/${name}.svg`;
+    return { src, alt };
+  }, [isDarkMode, isClient]);
 
   return (
     <div>
@@ -250,10 +258,8 @@ export default function Home() {
           }}
         >
           <Image
-            src={`/rest-countries-api-with-color-theme-switcher/images/${
-              isDarkMode ? "moon.svg" : "moon-outline.svg"
-            }`}
-            alt="Moon"
+            src={iconProps.src}
+            alt={iconProps.alt}
             width={20}
             height={20}
           />
