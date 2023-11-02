@@ -42,7 +42,7 @@ export default function Main() {
   );
 }
 
-const notifications = [
+export const notifications = [
   {
     subject: "Mark Webber",
     subjectAvatar: "/notifications-page/assets/images/avatar-mark-webber.webp",
