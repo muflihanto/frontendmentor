@@ -68,4 +68,24 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
     await button.click();
     await expect(indicator).toHaveText("0");
   });
+
+  /** Test if the page has correct footer */
+  test.describe("has correct footer", () => {
+    test("footer is visible", async ({ page }) => {
+      await expect(page.getByRole("contentinfo")).toBeVisible();
+    });
+    test("footer has 2 links", async ({ page }) => {
+      const footer = page.getByRole("contentinfo");
+      const links = footer.getByRole("link");
+
+      await expect(links).toHaveCount(2);
+
+      for (const [text, href] of [
+        ["Frontend Mentor", "https://www.frontendmentor.io?ref=challenge"],
+        ["Muflihanto", "https://github.com/muflihanto"],
+      ]) {
+        await expect(links.getByText(text)).toHaveAttribute("href", href);
+      }
+    });
+  });
 });
