@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-// import { notifications } from "../components/notifications-page/Main"
+import { notifications } from "../components/notifications-page/Main";
 
 test.describe("FrontendMentor Challenge - Notifications Page", () => {
-  /** Go to index page before each test */
+  /** Go to notifications page before each test */
   test.beforeEach("Open", async ({ page }) => {
     await page.goto("/notifications-page");
   });
@@ -38,5 +38,34 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
     await expect(
       page.getByRole("button", { name: "Mark all as read" }),
     ).toBeVisible();
+  });
+
+  /** Test if the page has all initial notifications */
+  test.describe("has initial notifications", () => {
+    test("has correct total notifications", async ({ page }) => {
+      const notificationContainer = page.locator("div.notifications");
+      await expect(notificationContainer).toBeVisible();
+      const allnotifications = page.locator("div.notifications>div");
+      await expect(allnotifications).toHaveCount(notifications.length);
+    });
+
+    test("has new notification indicator", async ({ page }) => {
+      const allnotifications = page.locator("div.notifications>div");
+      const newnotifications = allnotifications.filter({
+        has: page.locator("span.bg-notif-primary-red"),
+      });
+      await expect(newnotifications).toHaveCount(
+        notifications.filter((el) => el.isNew).length,
+      );
+    });
+  });
+
+  /** Test if "mark all as read" button works */
+  test('"mark all as read" button works', async ({ page }) => {
+    const button = page.getByRole("button", { name: "Mark all as read" });
+    const indicator = page.locator("header div");
+    await expect(indicator).toHaveText("3");
+    await button.click();
+    await expect(indicator).toHaveText("0");
   });
 });
