@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
-  /** Go to Newsletter sign-up form with success message page before each test */
+  /** Go to Age calculator app page before each test */
   test.beforeEach("Open", async ({ page }) => {
     await page.goto("/age-calculator-app");
   });
