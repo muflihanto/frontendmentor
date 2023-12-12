@@ -11,7 +11,7 @@ export default function Testimonials() {
       className={`App relative flex w-screen items-center justify-center bg-testimonials-neutral-grayblue px-6 py-[71px] font-barlow-semi-condensed lg:px-[165px] lg:py-[calc(164/900*100vh)] ${barlowSemiCondensed.variable}`}
     >
       <Head>
-        <title>Frontend Mentor | [Challenge Name Here]</title>
+        <title>Frontend Mentor | Testimonials Grid Section</title>
       </Head>
       <Main />
       <Footer />
