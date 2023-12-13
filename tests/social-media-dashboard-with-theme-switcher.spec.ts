@@ -13,8 +13,8 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     );
   });
 
-  /** Test if the page has a header image */
-  test("has a header image", async ({ page }) => {
+  /** Test if the page has a heading */
+  test("has a heading", async ({ page }) => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Social Media Dashboard" }),
     ).toBeVisible();
