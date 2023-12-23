@@ -31,9 +31,8 @@ export default function FaqAccordion() {
 function Main() {
   return (
     <>
+      <h1>FAQs</h1>
       {`
-         FAQs
-
          What is Frontend Mentor, and how will it help me?
        
          Frontend Mentor offers realistic coding challenges to help developers improve their 
