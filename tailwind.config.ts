@@ -898,6 +898,12 @@ export default {
             100: "hsl(0,0%,100%)",
           },
         },
+        faq: {
+          100: "hsl(0,0%,100%)",
+          200: "hsl(275,100%,97%)",
+          300: "hsl(292,16%,49%)",
+          400: "hsl(292,42%,14%)",
+        },
       },
       fontFamily: {
         "plus-jakarta": [
@@ -1019,6 +1025,7 @@ export default {
           "Nunito Sans",
           ...fontFamily.sans,
         ],
+        "work-sans": ["var(--font-work-sans)", "Work Sans", ...fontFamily.sans],
       },
     },
   },
