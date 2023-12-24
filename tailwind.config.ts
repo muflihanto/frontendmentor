@@ -904,6 +904,14 @@ export default {
           300: "hsl(292,16%,49%)",
           400: "hsl(292,42%,14%)",
         },
+        blog: {
+          primary: "hsl(47,88%,63%)",
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(0,0%,50%)",
+            300: "hsl(0,0%,7%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": [
@@ -1026,6 +1034,7 @@ export default {
           ...fontFamily.sans,
         ],
         "work-sans": ["var(--font-work-sans)", "Work Sans", ...fontFamily.sans],
+        figtree: ["var(--font-figtree)", "Figtree", ...fontFamily.sans],
       },
     },
   },
