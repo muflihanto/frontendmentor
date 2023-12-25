@@ -1,8 +1,10 @@
+import { ThemeProvider, useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { type ChangeEvent, useMemo, useState, useEffect } from "react";
-import { useDarkMode, useIsClient } from "usehooks-ts";
+import { useMemo, useState, type ChangeEvent } from "react";
+import { useIsClient } from "usehooks-ts";
+
 // import getPages from "../utils/getPages";
 // import type { InferGetServerSidePropsType } from "next";
 
@@ -186,7 +188,7 @@ export const pages = [
 // export default function Home({
 //   pages,
 // }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-export default function Home() {
+export function Home() {
   const [input, setInput] = useState("");
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -201,23 +203,17 @@ export default function Home() {
     }
   }, [input]);
   // }, [input, pages]);
-  const { isDarkMode, toggle } = useDarkMode();
+  const { setTheme, resolvedTheme } = useTheme();
   const isClient = useIsClient();
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDarkMode]);
-
   const iconProps = useMemo(() => {
-    const alt = `Moon${!isDarkMode || !isClient ? " Outline" : ""}`;
+    const alt = `Moon${
+      resolvedTheme !== "dark" || !isClient ? " Outline" : ""
+    }`;
     const name = alt.toLowerCase().split(" ").join("-");
     const src = `/rest-countries-api-with-color-theme-switcher/images/${name}.svg`;
     return { src, alt };
-  }, [isDarkMode, isClient]);
+  }, [resolvedTheme, isClient]);
 
   return (
     <div>
@@ -256,7 +252,7 @@ export default function Home() {
         <button
           className="fixed bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-md bg-sky-500 shadow transition-transform hover:bg-opacity-75 active:scale-95 lg:bottom-6 lg:right-8 dark:bg-sky-700 dark:hover:bg-opacity-75"
           onClick={() => {
-            toggle();
+            setTheme(resolvedTheme === "dark" ? "light" : "dark");
           }}
         >
           <Image
@@ -268,5 +264,13 @@ export default function Home() {
         </button>
       </main>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <ThemeProvider disableTransitionOnChange attribute="class" enableSystem>
+      <Home />
+    </ThemeProvider>
   );
 }
