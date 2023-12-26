@@ -1,8 +1,9 @@
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { workSans } from "../utils/fonts/workSans";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 /**
  * TODO: Hide/Show the answer to a question when the question is clicked
@@ -54,11 +55,11 @@ const faqs = [
 function Main() {
   return (
     <>
-      <header className="h-[232px] w-full bg-[url('/faq-accordion/assets/images/background-pattern-mobile.svg')] bg-cover bg-no-repeat" />
-      <div className="relative flex w-full -translate-y-[90px] flex-col items-center px-6">
-        <section className="w-full rounded-lg bg-faq-100 px-6 py-[28px] shadow-xl shadow-faq-300/10">
-          <h1 className="flex items-center gap-[23px] text-[32px] font-bold leading-none text-faq-400">
-            <span className="relative inline-block aspect-[40/41] h-[25px]">
+      <header className="h-[232px] w-full bg-[url('/faq-accordion/assets/images/background-pattern-mobile.svg')] bg-cover bg-no-repeat lg:h-[320px] lg:bg-[url('/faq-accordion/assets/images/background-pattern-desktop.svg')]" />
+      <div className="relative flex w-full -translate-y-[90px] flex-col items-center px-6 lg:-translate-y-[152px]">
+        <section className="w-full max-w-[600px] rounded-lg bg-faq-100 px-6 py-[28px] shadow-xl shadow-faq-300/10 lg:rounded-2xl lg:px-10 lg:py-[44px] lg:shadow-2xl lg:shadow-faq-300/[25%]">
+          <h1 className="flex items-center gap-[23px] text-[32px] font-bold leading-none text-faq-400 lg:text-[56px]">
+            <span className="relative inline-block aspect-[40/41] w-[25px] lg:w-10">
               <Image
                 src={"/faq-accordion/assets/images/icon-star.svg"}
                 fill
@@ -67,9 +68,9 @@ function Main() {
             </span>
             FAQs
           </h1>
-          <div className="mt-[27px] flex flex-col divide-y text-[14px]">
-            {faqs.map((faq) => {
-              return <Accordion {...faq} key={faq.question} />;
+          <div className="mt-[27px] flex flex-col divide-y text-[14px] lg:mt-[37px]">
+            {faqs.map((faq, index) => {
+              return <Accordion {...faq} key={index} open={index === 0} />;
             })}
           </div>
         </section>
@@ -78,14 +79,25 @@ function Main() {
   );
 }
 
-function Accordion({ question, answer }: { question: string; answer: string }) {
+function Accordion({
+  question,
+  answer,
+  open,
+}: {
+  question: string;
+  answer: string;
+  open?: boolean;
+}) {
   return (
     <div className="group/faqs">
-      <details className="group/detail peer overflow-hidden [&::-webkit-details-marker]:hidden">
+      <details
+        className="group/detail peer overflow-hidden [&::-webkit-details-marker]:hidden"
+        open={open}
+      >
         <summary className="block cursor-pointer list-none">
           <h2
             role="term"
-            className="relative mb-5 mt-5 flex items-center justify-between gap-6 text-base/[19px] font-semibold text-faq-400 [transition:_margin_100ms_200ms_ease-out] group-first/faqs:mt-0 group-last/faqs:mb-0 group-open/detail:transition-none group-last/faqs:group-open/detail:mb-[22px]"
+            className="relative mb-6 mt-5 flex items-center justify-between gap-6 text-base/[19px] font-semibold text-faq-400 [transition:_margin_100ms_200ms_ease-out] group-first/faqs:mt-0 group-last/faqs:mb-0 group-open/detail:transition-none group-last/faqs:group-open/detail:mb-[22px] lg:mt-6 lg:text-lg/[24px] lg:group-last/faqs:group-open/detail:mb-6"
           >
             {question}
             <span className="relative aspect-[30/31] w-[30px] shrink-0">
@@ -107,7 +119,7 @@ function Accordion({ question, answer }: { question: string; answer: string }) {
       </details>
       <div
         role="definition"
-        className="mt-0 max-h-0 overflow-hidden text-faq-300 [transition:_max-height_200ms_ease-out,_margin_200ms_200ms_ease-out] peer-open:mb-[21px] peer-open:mt-0.5 peer-open:max-h-80 peer-open:[transition:_max-height_500ms_ease-out] group-last/faqs:peer-open:mb-0"
+        className="mt-0 max-h-0 overflow-hidden text-faq-300 [transition:_max-height_200ms_ease-out,_margin_200ms_200ms_ease-out] peer-open:mb-[21px] peer-open:mt-0.5 peer-open:max-h-80 peer-open:[transition:_max-height_500ms_ease-out] group-last/faqs:peer-open:mb-0 lg:text-base/[24px] lg:peer-open:mb-[23px] lg:peer-open:mt-[-1px]"
       >
         {answer}
       </div>
