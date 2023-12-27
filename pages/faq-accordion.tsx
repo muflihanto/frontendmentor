@@ -6,10 +6,8 @@ import { workSans } from "../utils/fonts/workSans";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 /**
- * TODO: Hide/Show the answer to a question when the question is clicked
  * TODO: Navigate the questions and hide/show answers using keyboard navigation alone
- * TODO: View the optimal layout for the interface depending on their device's screen size
- * TODO: See hover and focus states for all interactive elements on the page
+ * TODO: See focus states for all interactive elements on the page
  */
 
 export default function FaqAccordion() {
