@@ -1,8 +1,9 @@
 import Head from "next/head";
-// import Image from "next/image";
-import dynamic from "next/dynamic";
+import Image from "next/image";
 import { figtree } from "../utils/fonts/figtree";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 /**
  * TODO: Your users should be able to:
@@ -16,11 +17,11 @@ export default function BlogPreviewCard() {
         <title>Frontend Mentor | Blog preview card</title>
       </Head>
       <div
-        className={`App font-figtree relative min-h-[100svh] ${figtree.variable}`}
+        className={`App relative min-h-[100svh] font-figtree ${figtree.variable} flex flex-col items-center justify-center bg-blog-primary p-6`}
       >
         <Main />
         <Footer />
-        <Slider basePath="/blog-preview-card/design" />
+        {/* <Slider basePath="/blog-preview-card/design" /> */}
       </div>
     </>
   );
@@ -28,7 +29,16 @@ export default function BlogPreviewCard() {
 
 function Main() {
   return (
-    <>
+    <div className="bg relative z-0 flex min-h-full w-full max-w-[384px] flex-col justify-start gap-4 rounded-3xl border border-blog-neutral-300 bg-blog-neutral-100 p-6 drop-shadow-[8px_8px_0px_rgb(0,0,0)]">
+      <header>
+        <figure className="relative aspect-[336/201] w-full overflow-hidden rounded-lg">
+          <Image
+            fill
+            src="/blog-preview-card/assets/images/illustration-article.svg"
+            alt="Illustration Article"
+          />
+        </figure>
+      </header>
       {`
         Learning
 
@@ -40,7 +50,7 @@ function Main() {
       
         Greg Hooper
       `}
-    </>
+    </div>
   );
 }
 
