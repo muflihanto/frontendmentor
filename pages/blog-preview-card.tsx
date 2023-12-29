@@ -21,10 +21,7 @@ export default function BlogPreviewCard() {
       >
         <Main />
         <Footer />
-        {/* <Slider
-          basePath="/blog-preview-card/design"
-          absolutePath="/blog-preview-card/design/active-states.jpg"
-        /> */}
+        {/* <Slider basePath="/blog-preview-card/design" /> */}
       </div>
     </>
   );
@@ -32,7 +29,7 @@ export default function BlogPreviewCard() {
 
 function Main() {
   return (
-    <main className="relative z-0 m-6 mt-[23px] flex min-h-[500px] w-full max-w-[384px] flex-col justify-start rounded-[20px] border-[1.5px] border-blog-neutral-300 bg-blog-neutral-100 p-[23px] font-medium text-blog-neutral-300 drop-shadow-[8.5px_8.5px_0px_rgb(0,0,0)]">
+    <main className="relative z-0 m-6 mt-[23px] flex min-h-[500px] w-full max-w-[384px] flex-col justify-start rounded-[20px] border-[1.5px] border-blog-neutral-300 bg-blog-neutral-100 p-[23px] font-medium text-blog-neutral-300 drop-shadow-[8.5px_8.5px_0px_rgb(0,0,0)] sm:mt-[22px] sm:min-h-[522px]">
       <header>
         <figure className="relative aspect-[278/200] w-full overflow-hidden rounded-xl sm:aspect-[336/201]">
           <Image
@@ -43,11 +40,11 @@ function Main() {
           />
         </figure>
       </header>
-      <p className="mt-[23px] inline-block w-fit grow-0 rounded bg-blog-primary px-[12px] py-1 text-[12px] font-bold">
+      <p className="mt-[23px] inline-block w-fit grow-0 rounded bg-blog-primary px-[12px] py-1 text-[12px] font-bold sm:px-[13px] sm:text-[14px]">
         Learning
       </p>
-      <p className="mt-3 text-[12px]">Published 21 Dec 2023</p>
-      <h1 className="mt-[13px] text-xl font-extrabold">
+      <p className="mt-3 text-[12px] sm:text-[14px]">Published 21 Dec 2023</p>
+      <h1 className="mt-[13px] text-xl font-extrabold sm:text-[24px]/[1.4]">
         <a
           href=""
           className="hover:text-blog-primary focus-visible:rounded focus-visible:text-blog-neutral-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-700"
@@ -55,7 +52,7 @@ function Main() {
           HTML & CSS foundations
         </a>
       </h1>
-      <p className="mb-6 mt-[13px] text-[14px] text-blog-neutral-200">
+      <p className="mb-6 mt-[13px] text-[14px] text-blog-neutral-200 sm:mt-[14px] sm:text-base">
         These languages are the backbone of every website, defining structure,
         content, and presentation.
       </p>
