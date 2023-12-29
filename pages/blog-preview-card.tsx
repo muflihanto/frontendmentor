@@ -21,7 +21,10 @@ export default function BlogPreviewCard() {
       >
         <Main />
         <Footer />
-        {/* <Slider basePath="/blog-preview-card/design" /> */}
+        {/* <Slider
+          basePath="/blog-preview-card/design"
+          absolutePath="/blog-preview-card/design/active-states.jpg"
+        /> */}
       </div>
     </>
   );
@@ -45,7 +48,12 @@ function Main() {
       </p>
       <p className="mt-3 text-[12px]">Published 21 Dec 2023</p>
       <h1 className="mt-[13px] text-xl font-extrabold">
-        HTML & CSS foundations
+        <a
+          href=""
+          className="hover:text-blog-primary focus-visible:rounded focus-visible:text-blog-neutral-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-700"
+        >
+          HTML & CSS foundations
+        </a>
       </h1>
       <p className="mb-6 mt-[13px] text-[14px] text-blog-neutral-200">
         These languages are the backbone of every website, defining structure,
