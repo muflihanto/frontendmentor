@@ -89,13 +89,13 @@ function Accordion({
   return (
     <div className="group/faqs">
       <details
-        className="group/detail peer overflow-hidden [&::-webkit-details-marker]:hidden"
+        className="group/detail peer [&::-webkit-details-marker]:hidden"
         open={open}
       >
-        <summary className="block cursor-pointer list-none">
+        <summary className="group/summary block cursor-pointer list-none focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-[#AD28EB]">
           <h2
             role="term"
-            className="relative mb-6 mt-5 flex items-center justify-between gap-6 text-base/[19px] font-semibold text-faq-400 [transition:_margin_100ms_200ms_ease-out] hover:text-[#AD28EB] group-first/faqs:mt-0 group-last/faqs:mb-0 group-open/detail:transition-none group-last/faqs:group-open/detail:mb-[22px] lg:mt-6 lg:text-lg/[24px] lg:group-last/faqs:group-open/detail:mb-6"
+            className="relative mb-6 mt-5 flex items-center justify-between gap-6 text-base/[19px] font-semibold text-faq-400 [transition:_margin_100ms_200ms_ease-out] hover:text-[#AD28EB] group-first/faqs:mt-0 group-last/faqs:mb-0 group-open/detail:transition-none group-last/faqs:group-open/detail:mb-[22px] group-focus-visible/summary:text-[#AD28EB] lg:mt-6 lg:text-lg/[24px] lg:group-last/faqs:group-open/detail:mb-6"
           >
             {question}
             <span className="relative aspect-[30/31] w-[30px] shrink-0">
