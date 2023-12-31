@@ -63,4 +63,11 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
       page.getByRole("heading", { level: 1, name: "FAQs" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
