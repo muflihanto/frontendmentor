@@ -11,6 +11,21 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
     await expect(page).toHaveTitle("Frontend Mentor | Blog preview card");
   });
 
+  /** Test if the page has a correct illustration */
+  test("has a correct illustration", async ({ page }) => {
+    const image = page.getByRole("img", { name: "Illustration Article" });
+    await expect(image).toBeVisible();
+  });
+
+  /** Test if the page has correct author info */
+  test("has correct author info", async ({ page }) => {
+    const author = page.locator("div").filter({ hasText: /^Greg Hooper$/ });
+    const avatar = author.getByRole("img", { name: "Greg Hooper Avatar" });
+    const name = author.getByText("Greg Hooper");
+    await expect(avatar).toBeVisible();
+    await expect(name).toBeVisible();
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     await expect(
