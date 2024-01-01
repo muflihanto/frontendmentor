@@ -35,4 +35,18 @@ test.describe("FrontendMentor Challenge - Product preview card component page", 
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has correct image product */
+  test("has image product", async ({ page }) => {
+    await expect(
+      page.getByRole("img", { name: "Image Product" }),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has correct cta button */
+  test("has cta button", async ({ page }) => {
+    await expect(
+      page.getByRole("button", { name: "Add to Cart" }),
+    ).toBeVisible();
+  });
 });
