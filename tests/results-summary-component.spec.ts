@@ -22,4 +22,23 @@ test.describe("FrontendMentor Challenge - Results summary component Page", () =>
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a cta button  */
+  test("has a cta button", async ({ page }) => {
+    const cta = page.getByRole("button", { name: "Continue" });
+    await expect(cta).toBeVisible();
+    await expect(cta).toHaveCSS("background-color", "rgb(48, 59, 90)");
+    await cta.hover();
+    await expect(cta).toHaveCSS(
+      "background-image",
+      "linear-gradient(rgb(120, 87, 255) -40%, rgb(46, 43, 233))",
+    );
+  });
+
+  /** Test if the page has a footer  */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
