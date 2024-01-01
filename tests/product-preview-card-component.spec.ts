@@ -45,8 +45,36 @@ test.describe("FrontendMentor Challenge - Product preview card component page", 
 
   /** Test if the page has correct cta button */
   test("has cta button", async ({ page }) => {
+    const cta = page.getByRole("button", { name: "Add to Cart" });
+    await expect(cta).toBeVisible();
+    await expect(cta).toHaveCSS("background-color", "rgb(60, 128, 103)");
+    await cta.hover();
+    await expect(cta).toHaveCSS("background-color", "rgb(27, 65, 50)");
+  });
+
+  /** Test if the page has correct product description */
+  test("has product description", async ({ page }) => {
     await expect(
-      page.getByRole("button", { name: "Add to Cart" }),
+      page.getByText(
+        "A floral, solar and voluptuous interpretation composed by Olivier Polge, Perfume",
+      ),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has correct pricing */
+  test.describe("has pricing", () => {
+    test("has current price", async ({ page }) => {
+      await expect(page.getByText("$149.99")).toBeVisible();
+    });
+    test("has real price", async ({ page }) => {
+      await expect(page.getByText("$169.99")).toBeVisible();
+    });
+  });
+
+  /** Test if the page has correct footer */
+  test("has footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
 });
