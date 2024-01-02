@@ -20,4 +20,27 @@ test.describe("FrontendMentor Challenge - QR code component Page", () => {
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has correct QR code image */
+  test("has a QR code image", async ({ page }) => {
+    await expect(
+      page.getByRole("img", { name: "QR code Image" }),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has body text */
+  test("has body text", async ({ page }) => {
+    await expect(
+      page.getByText(
+        "Scan the QR code to visit Frontend Mentor and take your coding skills to the nex",
+      ),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has correct footer */
+  test("has correct footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
