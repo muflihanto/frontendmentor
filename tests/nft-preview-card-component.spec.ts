@@ -37,14 +37,29 @@ test.describe("FrontendMentor Challenge - NFT preview card component Page", () =
     ).toBeVisible();
   });
 
+  /** Test if the page has correct nft product summary */
+  test("has summary", async ({ page }) => {
+    const summary = page.getByText("0.041 ETH3 days left");
+    await expect(summary).toBeVisible();
+  });
+
   /** Test if the page has correct creator info */
-  test("has creator info", async ({ page }) => {
-    const creator = page
-      .locator("p")
-      .filter({ hasText: "Creation ofJules Wyvern" });
-    await expect(creator).toBeVisible();
-    const name = creator.locator("span").filter({ hasText: "Jules Wyvern" });
-    await name.hover();
-    await expect(name).toHaveCSS("color", "rgb(0, 255, 247)");
+  test.describe("has creator info", () => {
+    test("has creator avatar", async ({ page }) => {
+      await expect(
+        page.getByRole("img", { name: "Jules Wyvern Avatar" }),
+      ).toBeVisible();
+    });
+
+    test("has creator name", async ({ page }) => {
+      const creator = page
+        .locator("p")
+        .filter({ hasText: "Creation ofJules Wyvern" });
+      await expect(creator).toBeVisible();
+      const name = creator.locator("span").filter({ hasText: "Jules Wyvern" });
+      await name.hover();
+      // Test hover state
+      await expect(name).toHaveCSS("color", "rgb(0, 255, 247)");
+    });
   });
 });
