@@ -22,4 +22,25 @@ test.describe("FrontendMentor Challenge - Interactive rating component Page", ()
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a cta button */
+  test("has a cta button", async ({ page }) => {
+    await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+  });
+
+  /** Test if the page has input elements */
+  test("has input elements", async ({ page }) => {
+    const inputs = await page.locator("fieldset input").all();
+    expect(inputs).toHaveLength(5);
+    for (const input of inputs) {
+      await expect(input).toBeVisible();
+    }
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
