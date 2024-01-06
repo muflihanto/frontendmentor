@@ -20,4 +20,20 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a correct illustration */
+  test("has an illustration", async ({ page }) => {
+    await expect(
+      page.getByRole("img", { name: "Illustration Woman Online" }),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has all faqs */
+  test("has faqs", async ({ page }) => {
+    const faqs = await page.locator("main>div>div:not(:last-child)").all();
+    expect(faqs).toHaveLength(5);
+    for (const faq of faqs) {
+      await expect(faq).toBeAttached();
+    }
+  });
 });
