@@ -36,4 +36,20 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
       await expect(faq).toBeAttached();
     }
   });
+
+  /** Test if the accordion works */
+  test("accordion should works", async ({ page }) => {
+    const faqs = await page.locator("main>div>div:not(:last-child)").all();
+    for (const faq of faqs) {
+      const toggle_button = faq.getByRole("button");
+      const current_state = await faq.getAttribute("data-headlessui-state");
+      await toggle_button.click();
+      const next_state = await faq.getAttribute("data-headlessui-state");
+      if (current_state === "") {
+        expect(next_state).toStrictEqual("open");
+      } else {
+        expect(next_state).toStrictEqual("");
+      }
+    }
+  });
 });
