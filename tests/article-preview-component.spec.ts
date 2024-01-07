@@ -46,4 +46,21 @@ test.describe("FrontendMentor Challenge - Article preview component Page", () =>
     await expect(main.getByText("Michelle Appleton")).toBeVisible();
     await expect(main.getByText("28 Jun 2020")).toBeVisible();
   });
+
+  /** Test if the page has a correct share button */
+  test("has a share button", async ({ page }) => {
+    const button = page.getByRole("button");
+    const share = page.locator("div").filter({ hasText: /^share$/ });
+    await expect(share).not.toBeVisible();
+    await expect(button).toBeVisible();
+    await button.click();
+    const sns_list = await share.locator("ul>li").all();
+    await expect(share).toBeVisible();
+    expect(sns_list).toHaveLength(3);
+    for (const sns of sns_list) {
+      await expect(sns.getByRole("button")).toBeVisible();
+    }
+    await button.first().click();
+    await expect(share).not.toBeVisible();
+  });
 });
