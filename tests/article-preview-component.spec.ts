@@ -22,4 +22,28 @@ test.describe("FrontendMentor Challenge - Article preview component Page", () =>
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a correct article preview text */
+  test("has article preview text", async ({ page }) => {
+    await expect(
+      page.getByText(
+        "Ever been in a room and felt like something was missing? Perhaps it felt slightl",
+      ),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has a correct article preview image */
+  test("has article preview image", async ({ page }) => {
+    await expect(page.getByAltText("Drawer")).toBeVisible();
+  });
+
+  /** Test if the page has a correct article preview author & published date */
+  test("has article preview author & published date", async ({ page }) => {
+    const main = page.locator("main>div");
+    await expect(
+      main.getByRole("img", { name: "Michelle Appleton's Avatar" }),
+    ).toBeVisible();
+    await expect(main.getByText("Michelle Appleton")).toBeVisible();
+    await expect(main.getByText("28 Jun 2020")).toBeVisible();
+  });
 });
