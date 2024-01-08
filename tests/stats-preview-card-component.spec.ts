@@ -22,4 +22,32 @@ test.describe("FrontendMentor Challenge - Stats preview card component Page", ()
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a correct body text */
+  test("has a body text", async ({ page }) => {
+    await expect(
+      page.getByText(
+        "Discover the benefits of data analytics and make better decisions regarding revenue, customer experience, and overall efficiency.",
+      ),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has correct stats */
+  test("has stats", async ({ page }) => {
+    await expect(page.getByText("10k+companies")).toBeVisible();
+    await expect(page.getByText("314templates")).toBeVisible();
+    await expect(page.getByText("12m+queries")).toBeVisible();
+  });
+
+  /** Test if the page has a correct hero image */
+  test("has a hero image", async ({ page }) => {
+    await expect(page.getByAltText("Business Illustration")).toBeVisible();
+  });
+
+  /** Test if the page has a correct footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
