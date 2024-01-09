@@ -55,4 +55,42 @@ test.describe("FrontendMentor Challenge - Base Apparel coming soon Page", () => 
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
+
+  test.describe("form should works", () => {
+    test("empty input should trigger a warning", async ({ page }) => {
+      const submit = page.getByRole("button");
+      await expect(submit).toBeVisible();
+      await submit.click();
+      const errorWarning = page.getByText("Please provide a valid email");
+      await expect(errorWarning).toBeVisible();
+    });
+
+    test("invalid input should trigger a warning", async ({ page }) => {
+      const input = page.getByPlaceholder("Email Address");
+      const submit = page.getByRole("button");
+      await expect(input).toBeEditable();
+      await input.fill("janeappleseed#email.com");
+      await expect(submit).toBeVisible();
+      await submit.click();
+      const errorWarning = page.getByText("Please provide a valid email");
+      await expect(errorWarning).toBeVisible();
+    });
+
+    test("valid input should not trigger a warning", async ({ page }) => {
+      const input = page.getByPlaceholder("Email Address");
+      const submit = page.getByRole("button");
+      await expect(input).toBeEditable();
+      await input.fill("janeappleseed@email.com");
+      await expect(submit).toBeVisible();
+      await submit.click();
+      const errorWarning = page.getByText("Please provide a valid email");
+      await expect(errorWarning).not.toBeVisible();
+    });
+  });
+
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
