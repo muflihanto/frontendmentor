@@ -22,4 +22,32 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a correct body text */
+  test("has a body text", async ({ page }) => {
+    await expect(
+      page.getByText(
+        "See how experienced developers solve problems in real-time. Watching scripted tutorials is great, but understanding how developers think is invaluable.",
+      ),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has a correct call to action */
+  test("has a call to action", async ({ page }) => {
+    await expect(
+      page.getByText("Try it free 7 days then $20/mo. thereafter"),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has a correct form */
+  test("has a form", async ({ page }) => {
+    await expect(page.locator("form")).toBeVisible();
+  });
+
+  /** Test if the page has a correct footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
