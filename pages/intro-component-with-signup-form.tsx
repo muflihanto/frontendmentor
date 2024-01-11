@@ -75,6 +75,7 @@ function Main() {
           </p>
         </div>
         <form
+          noValidate
           onSubmit={handleSubmit(onSubmit)}
           className="mt-6 w-full rounded-[10px] bg-white p-6 shadow-[0px_8px_rgba(0,0,0,.15)] lg:p-10"
         >

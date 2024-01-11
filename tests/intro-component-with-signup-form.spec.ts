@@ -80,6 +80,19 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       }
     });
 
+    test("invalid email input should trigger error warning", async ({
+      page,
+    }) => {
+      const invalidEmail = "email@example/com";
+      const emailInput = page.getByPlaceholder("Email Address");
+      const submit = page.locator("form button");
+      await emailInput.fill(invalidEmail);
+      await submit.click();
+      await expect(
+        emailInput.locator("+p").getByText("Looks like this is not an email"),
+      ).toBeVisible();
+    });
+
     test("has a terms and services agreement", async ({ page }) => {
       await expect(
         page
