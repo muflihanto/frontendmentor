@@ -45,9 +45,10 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
   });
 
   test.describe("form should works", () => {
+    const names = ["firstName", "lastName", "email", "password"];
+
     test("has all fields", async ({ page }) => {
       const inputs = await page.locator("form input").all();
-      const names = ["firstName", "lastName", "email", "password"];
       expect(inputs).toHaveLength(4);
       const inputNames = [];
       for (const input of inputs) {
@@ -61,8 +62,22 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       await expect(submit).toBeVisible();
     });
 
-    test("invalid input should trigger error warning", ({ page: _page }) => {
-      test.fixme();
+    test("empty input should trigger error warning", async ({ page }) => {
+      const emptyFieldErrors = [
+        "First Name cannot be empty",
+        "Last Name cannot be empty",
+        "Looks like this is not an email",
+        "Password cannot be empty",
+      ];
+      const inputs = await page.locator("form input").all();
+      const submit = page.locator("form button");
+      await submit.click();
+      for (const [index, input] of Object.entries(inputs)) {
+        const error = input
+          .locator("+p")
+          .getByText(emptyFieldErrors[Number(index)]);
+        await expect(error).toBeVisible();
+      }
     });
 
     test("has a terms and services agreement", async ({ page }) => {
