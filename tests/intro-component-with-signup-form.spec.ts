@@ -93,6 +93,26 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       ).toBeVisible();
     });
 
+    test("invalid password input should trigger error warning", async ({
+      page,
+    }) => {
+      /**
+       * Password: string, min 6 chars
+       */
+      const invalidPasswords = ["p", "pass", "12345"];
+      const passInput = page.getByPlaceholder("Password");
+      const submit = page.locator("form button");
+      for (const pass of invalidPasswords) {
+        await passInput.fill(pass);
+        await submit.click();
+        await expect(
+          passInput
+            .locator("+p")
+            .getByText("Password must be atleast 6 characters"),
+        ).toBeVisible();
+      }
+    });
+
     test("has a terms and services agreement", async ({ page }) => {
       await expect(
         page
