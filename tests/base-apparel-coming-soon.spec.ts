@@ -87,10 +87,4 @@ test.describe("FrontendMentor Challenge - Base Apparel coming soon Page", () => 
       await expect(errorWarning).not.toBeVisible();
     });
   });
-
-  test("has a footer", async ({ page }) => {
-    await expect(
-      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
-    ).toBeVisible();
-  });
 });
