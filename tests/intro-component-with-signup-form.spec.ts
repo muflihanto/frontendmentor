@@ -113,6 +113,19 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       }
     });
 
+    test("should be able to submit valid input", async ({ page }) => {
+      const inputValues = ["John", "Doe", "johndoe@example.com", "password"];
+      const inputs = await page.locator("form input").all();
+      const submit = page.locator("form button");
+      for (const [index, input] of Object.entries(inputs)) {
+        await input.fill(inputValues[Number(index)]);
+      }
+      await submit.click();
+      for (const input of inputs) {
+        await expect(input).toBeEmpty();
+      }
+    });
+
     test("has a terms and services agreement", async ({ page }) => {
       await expect(
         page
