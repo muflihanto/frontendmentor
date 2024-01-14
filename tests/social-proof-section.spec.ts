@@ -21,6 +21,15 @@ test.describe("FrontendMentor Challenge - Social proof section Page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the page has a correct main text */
+  test("has a main text", async ({ page }) => {
+    await expect(
+      page.getByText(
+        "We only provide great products combined with excellent customer service. See what our satisfied customers are saying about our services.",
+      ),
+    ).toBeVisible();
+  });
+
   /** Test if the page has all 5 star rating visible */
   test("all 5 star rating should be visible", async ({ page }) => {
     const h1 = page.getByRole("heading", {
@@ -34,6 +43,21 @@ test.describe("FrontendMentor Challenge - Social proof section Page", () => {
       expect(await rating.getByRole("img").all()).toHaveLength(5);
     }
   });
+
+  /** Test if the page has all testimonies */
+  test("has all testimonies", async ({ page }) => {
+    const testimonies = [
+      "Colton SmithVerified Buyer“ We needed the same printed design as the one we had",
+      "Irene Roberts Verified Buyer“ Customer service is always excellent and very quick",
+      "Anne WallaceVerified Buyer“ Put an order with this company and can only praise them",
+    ];
+    for (const testimony of testimonies) {
+      const container = page.getByText(testimony);
+      await expect(container).toBeVisible();
+      await expect(container.getByRole("img")).toBeVisible();
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
