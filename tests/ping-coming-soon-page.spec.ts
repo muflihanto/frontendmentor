@@ -48,4 +48,23 @@ test.describe("FrontendMentor Challenge - Ping coming soon Page", () => {
       page.getByRole("img", { name: "Illustration Dashboard" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has social links */
+  test("has social links", async ({ page }) => {
+    const container = page.locator("div:has(a)").nth(2);
+    const links = await container.locator("a").all();
+    for (const link of links) {
+      await expect(link).toBeVisible();
+    }
+  });
+
+  /** Test if the page has footers */
+  test("has footers", async ({ page }) => {
+    await expect(
+      page.getByText("© Copyright Ping. All rights reserved."),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
