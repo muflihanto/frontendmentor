@@ -22,4 +22,23 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a correct hero image */
+  test("has a hero image", async ({ page }) => {
+    await expect(page.getByRole("img").first()).toBeVisible();
+  });
+
+  /** Test if the page has a form */
+  test("has a form", async ({ page }) => {
+    const form = page.locator("form");
+    await expect(form).toBeVisible();
+    // Label visible
+    await expect(form.getByText("Email address")).toBeVisible();
+    // Input visible
+    await expect(form.getByPlaceholder("email@company.com")).toBeVisible();
+    // Subscribe button visible
+    await expect(
+      form.getByRole("button", { name: "Subscribe to monthly newsletter" }),
+    ).toBeVisible();
+  });
 });
