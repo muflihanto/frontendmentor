@@ -22,4 +22,20 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
       page.getByRole("img", { name: "Jeremy Profile Picture" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has time range switcher buttons */
+  test("has time range switcher buttons", async ({ page }) => {
+    const units = ["Daily", "Weekly", "Monthly"];
+    const switcher = page.getByText("DailyWeeklyMonthly");
+    for (const name of units) {
+      await expect(switcher.getByRole("button", { name })).toBeVisible();
+    }
+  });
 });
