@@ -1,4 +1,13 @@
 import { test, expect } from "@playwright/test";
+import data from "../components/time-tracking-dashboard/data.json";
+// const activities = [
+//   "Work",
+//   "Play",
+//   "Study",
+//   "Exercise",
+//   "Social",
+//   "Self Care",
+// ] as const;
 
 test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
   /** Go to Time tracking dashboard page before each test */
@@ -30,12 +39,38 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
     ).toBeVisible();
   });
 
-  /** Test if the page has time range switcher buttons */
-  test("has time range switcher buttons", async ({ page }) => {
+  /** Test if the page has timeframe switcher buttons */
+  test("has timeframe switcher buttons", async ({ page }) => {
     const units = ["Daily", "Weekly", "Monthly"];
-    const switcher = page.getByText("DailyWeeklyMonthly");
+    const switcher = page.getByText(units.join(""));
+    await expect(switcher.getByRole("button", { name: "Weekly" })).toHaveCSS(
+      "color",
+      "rgb(255, 255, 255)",
+    );
+    type Timeframe = keyof (typeof data)[number]["timeframes"];
     for (const name of units) {
-      await expect(switcher.getByRole("button", { name })).toBeVisible();
+      const button = switcher.getByRole("button", { name });
+      await expect(button).toBeVisible();
+      await button.click();
+      await expect(switcher.getByRole("button", { name })).toHaveCSS(
+        "color",
+        "rgb(255, 255, 255)",
+      );
+      for (const activity of data) {
+        const title = page
+          .locator("div")
+          .filter({ hasText: activity.title })
+          .nth(0);
+        const container = page.locator("div").filter({ has: title }).nth(3);
+        await expect(
+          container.getByText(
+            `${
+              activity.timeframes[name.toLowerCase() as Timeframe].current
+            }hrs`,
+            { exact: true },
+          ),
+        ).toBeVisible();
+      }
     }
   });
 });
