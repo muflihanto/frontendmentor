@@ -18,13 +18,23 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
 
   /** Test if the page has a select tip field */
   test("has a select tip field", async ({ page }) => {
-    await expect(
-      page.getByRole("group", { name: "Select Tip %" }),
-    ).toBeVisible();
+    const group = page.getByRole("group", { name: "Select Tip %" });
+    await expect(group).toBeVisible();
+    const inputs = await group.locator("input").all();
+    expect(inputs).toHaveLength(6);
   });
 
   /** Test if the page has a 'number of people' field */
   test("has a 'number of people' field", async ({ page }) => {
     await expect(page.getByLabel("Number of People")).toBeVisible();
+  });
+
+  /** Test if the page has correct initial tip values */
+  test("has correct initial tip values", async ({ page }) => {
+    const container = page
+      .locator("div", { has: page.getByRole("button", { name: "Reset" }) })
+      .nth(3);
+    await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
+    await expect(container.getByText("Total/ person$0.00")).toBeVisible();
   });
 });
