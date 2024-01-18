@@ -42,6 +42,11 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
   /** Test if the page has timeframe switcher buttons */
   test("has timeframe switcher buttons", async ({ page }) => {
     const units = ["Daily", "Weekly", "Monthly"];
+    const lastTime = {
+      weekly: "Last Week",
+      daily: "Yesterday",
+      monthly: "Last Month",
+    };
     const switcher = page.getByText(units.join(""));
     await expect(switcher.getByRole("button", { name: "Weekly" })).toHaveCSS(
       "color",
@@ -62,10 +67,19 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
           .filter({ hasText: activity.title })
           .nth(0);
         const container = page.locator("div").filter({ has: title }).nth(3);
+        await expect(container.getByText(activity.title)).toBeVisible();
         await expect(
           container.getByText(
             `${
               activity.timeframes[name.toLowerCase() as Timeframe].current
+            }hrs`,
+            { exact: true },
+          ),
+        ).toBeVisible();
+        await expect(
+          container.getByText(
+            `${lastTime[name.toLowerCase() as Timeframe]} - ${
+              activity.timeframes[name.toLowerCase() as Timeframe].previous
             }hrs`,
             { exact: true },
           ),
