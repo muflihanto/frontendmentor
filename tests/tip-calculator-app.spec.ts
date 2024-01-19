@@ -40,9 +40,8 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
 
   /** Test if valid input produce correct output */
   test("valid input should produce correct output", async ({ page }) => {
-    const container = page
-      .locator("div", { has: page.getByRole("button", { name: "Reset" }) })
-      .nth(3);
+    const resetButton = page.getByRole("button", { name: "Reset" });
+    const container = page.locator("div", { has: resetButton }).nth(3);
     await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
     await expect(container.getByText("Total/ person$0.00")).toBeVisible();
     const bill = page.getByLabel("Bill");
@@ -54,5 +53,13 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await people.blur();
     await expect(container.getByText("Tip Amount/ person$0.50")).toBeVisible();
     await expect(container.getByText("Total/ person$5.50")).toBeVisible();
+    // Test if reset button works
+    await expect(resetButton).toBeEnabled();
+    await resetButton.click();
+    await expect(resetButton).toBeDisabled();
+    await expect(bill).toHaveValue("");
+    await expect(people).toHaveValue("");
+    await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
+    await expect(container.getByText("Total/ person$0.00")).toBeVisible();
   });
 });
