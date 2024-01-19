@@ -37,4 +37,22 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
     await expect(container.getByText("Total/ person$0.00")).toBeVisible();
   });
+
+  /** Test if valid input produce correct output */
+  test("valid input should produce correct output", async ({ page }) => {
+    const container = page
+      .locator("div", { has: page.getByRole("button", { name: "Reset" }) })
+      .nth(3);
+    await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
+    await expect(container.getByText("Total/ person$0.00")).toBeVisible();
+    const bill = page.getByLabel("Bill");
+    const percent = page.getByText("10%");
+    const people = page.getByLabel("Number of People");
+    await bill.fill("10");
+    await percent.click();
+    await people.fill("2");
+    await people.blur();
+    await expect(container.getByText("Tip Amount/ person$0.50")).toBeVisible();
+    await expect(container.getByText("Total/ person$5.50")).toBeVisible();
+  });
 });
