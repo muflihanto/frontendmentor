@@ -45,4 +45,26 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
   test("has a bouncing arrow", async ({ page }) => {
     await expect(page.getByRole("img", { name: "Arrow Down" })).toBeVisible();
   });
+
+  /** Test if the page has 'Transform your brand' section */
+  test.describe("has 'Transform your brand' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").first()).toBeVisible();
+    });
+    test("has all section elements", async ({ page }) => {
+      const section = page.locator("section").first();
+      await expect(section.locator("header")).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: "Transform your brand" }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "We are a full-service creative agency specializing in helping brands grow fast. Engage your clients through compelling visuals that do most of the marketing for you.",
+        ),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("link", { name: "Learn more" }),
+      ).toBeVisible();
+    });
+  });
 });
