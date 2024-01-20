@@ -22,4 +22,27 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has top navigation links */
+  test.describe("has top navbar", () => {
+    test("has sunnyside logo", async ({ page }) => {
+      const nav = page.getByRole("navigation");
+      await expect(nav).toBeVisible();
+      await expect(nav).toBeInViewport();
+      await expect(nav.getByRole("img")).toBeVisible();
+    });
+
+    test("has navigation links", async ({ page }) => {
+      const nav = page.getByRole("navigation");
+      const links = await nav.getByRole("link").all();
+      for (const link of links) {
+        await expect(link).toBeVisible();
+      }
+    });
+  });
+
+  /** Test if the page has a bouncing arrow */
+  test("has a bouncing arrow", async ({ page }) => {
+    await expect(page.getByRole("img", { name: "Arrow Down" })).toBeVisible();
+  });
 });
