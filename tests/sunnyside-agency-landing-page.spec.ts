@@ -93,4 +93,46 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has 'Graphic Design' section */
+  test.describe("has 'Graphic Design' section", () => {
+    test("has all section elements", async ({ page }) => {
+      const heading = page.getByRole("heading", { name: "Graphic Design" });
+      const section = page.locator("div", { has: heading }).nth(3);
+      await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
+      await expect(
+        section.getByRole("heading", {
+          name: "Graphic Design",
+          level: 3,
+        }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "Great design makes you memorable. We deliver artwork that underscores your brand message and captures potential clients’ attention.",
+        ),
+      ).toBeVisible();
+    });
+  });
+
+  /** Test if the page has 'Photography' section */
+  test.describe("has 'Photography' section", () => {
+    test("has all section elements", async ({ page }) => {
+      const heading = page.getByRole("heading", { name: "Photography" });
+      const section = page.locator("div", { has: heading }).nth(3);
+      await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
+      await expect(
+        section.getByRole("heading", {
+          name: "Photography",
+          level: 3,
+        }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "Increase your credibility by getting the most stunning, high-quality photos that improve your business image.",
+        ),
+      ).toBeVisible();
+    });
+  });
 });
