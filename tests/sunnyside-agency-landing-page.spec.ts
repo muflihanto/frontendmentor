@@ -53,6 +53,7 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
     });
     test("has all section elements", async ({ page }) => {
       const section = page.locator("section").first();
+      await section.scrollIntoViewIfNeeded();
       await expect(section.locator("header")).toBeVisible();
       await expect(
         section.getByRole("heading", { name: "Transform your brand" }),
@@ -60,6 +61,31 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       await expect(
         section.getByText(
           "We are a full-service creative agency specializing in helping brands grow fast. Engage your clients through compelling visuals that do most of the marketing for you.",
+        ),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("link", { name: "Learn more" }),
+      ).toBeVisible();
+    });
+  });
+
+  /** Test if the page has 'Stand out to the right audience' section */
+  test.describe("has 'Stand out to the right audience' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").nth(1)).toBeVisible();
+    });
+    test("has all section elements", async ({ page }) => {
+      const section = page.locator("section").nth(1);
+      await section.scrollIntoViewIfNeeded();
+      await expect(section.locator("header")).toBeVisible();
+      await expect(
+        section.getByRole("heading", {
+          name: "Stand out to the right audience",
+        }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "Using a collaborative formula of designers, researchers, photographers, videographers, and copywriters, we’ll build and extend your brand in digital places.",
         ),
       ).toBeVisible();
       await expect(
