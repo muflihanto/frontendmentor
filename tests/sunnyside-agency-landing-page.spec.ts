@@ -195,4 +195,33 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       }
     });
   });
+
+  /** Test if the page has 'Gallery' section */
+  test.describe("has 'Gallery' section", () => {
+    test("has all images", async ({ page }) => {
+      const images = [
+        {
+          src: "milkbottles.jpg",
+          alt: "Milk Bottles",
+        },
+        {
+          src: "orange.jpg",
+          alt: "Orange",
+        },
+        {
+          src: "cone.jpg",
+          alt: "Cone",
+        },
+        {
+          src: "sugar-cubes.jpg",
+          alt: "Sugar Cubes",
+        },
+      ];
+      for (const image of images) {
+        const img = page.getByAltText(image.alt);
+        await img.scrollIntoViewIfNeeded();
+        await expect(img).toBeVisible();
+      }
+    });
+  });
 });
