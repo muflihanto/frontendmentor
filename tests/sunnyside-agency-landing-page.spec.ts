@@ -135,4 +135,64 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has 'Client testimonials' section */
+  test.describe("has 'Client testimonials' section", () => {
+    const testimonyData = [
+      {
+        avatar: "/sunnyside-agency-landing-page/images/image-emily.jpg",
+        name: "Emily R.",
+        title: "Marketing Director",
+        testimony:
+          "We put our trust in Sunnyside and they delivered, making sure our needs were met and deadlines were always hit.",
+      },
+      {
+        avatar: "/sunnyside-agency-landing-page/images/image-thomas.jpg",
+        name: "Thomas S.",
+        title: "Chief Operating Officer",
+        testimony:
+          "Sunnyside’s enthusiasm coupled with their keen interest in our brand’s success made it a satisfying and enjoyable experience.",
+      },
+      {
+        avatar: "/sunnyside-agency-landing-page/images/image-jennie.jpg",
+        name: "Jennie F.",
+        title: "Business Owner",
+        testimony:
+          "Incredible end result! Our sales increased over 400% when we worked with Sunnyside. Highly recommended!",
+      },
+    ];
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").nth(2)).toBeVisible();
+    });
+    test("has all section elements", async ({ page }) => {
+      const section = page.locator("section").nth(2);
+      await section.scrollIntoViewIfNeeded();
+      await expect(
+        section.getByRole("heading", {
+          name: "Client testimonials",
+          level: 3,
+        }),
+      ).toBeVisible();
+      const testimonies = await section.locator("div>div").all();
+      for (const [index, testimony] of Object.entries(testimonies)) {
+        await expect(testimony).toBeVisible();
+        await expect(
+          testimony.getByAltText(
+            `${testimonyData[Number(index)].name}'s Avatar`,
+          ),
+        ).toBeVisible();
+        await expect(
+          testimony.getByText(testimonyData[Number(index)].testimony),
+        ).toBeVisible();
+        await expect(
+          testimony.getByRole("heading", {
+            name: testimonyData[Number(index)].name,
+          }),
+        ).toBeVisible();
+        await expect(
+          testimony.getByText(testimonyData[Number(index)].title),
+        ).toBeVisible();
+      }
+    });
+  });
 });
