@@ -224,4 +224,28 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       }
     });
   });
+
+  /** Test if the page has footer */
+  test("has footer", async ({ page }) => {
+    const links = ["About", "Services", "Projects"];
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    // has sunnyside logo
+    await expect(footer.locator(">svg")).toBeVisible();
+    // has bottom navigation links
+    const navlinks = await footer.locator("ul").getByRole("link").all();
+    for (const [index, link] of Object.entries(navlinks)) {
+      await expect(link.getByText(links[Number(index)])).toBeVisible();
+    }
+    // has social media links
+    const snss = await footer.locator("a>svg").all();
+    expect(snss).toHaveLength(4);
+    for (const sns of snss) {
+      await expect(sns).toBeVisible();
+    }
+    // has attribution
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
