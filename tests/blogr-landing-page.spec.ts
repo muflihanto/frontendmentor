@@ -20,4 +20,44 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has top navigation bar */
+  test("has top navigation bar", async ({ page }) => {
+    const navItems = [
+      {
+        parent: "Product",
+        children: [
+          "Overview",
+          "Pricing",
+          "Marketplace",
+          "Features",
+          "Integrations",
+        ],
+      },
+      {
+        parent: "Company",
+        children: ["About", "Team", "Blog", "Careers"],
+      },
+      {
+        parent: "Connect",
+        children: ["Contact", "Newsletter", "LinkedIn"],
+      },
+    ];
+    const nav = page.getByRole("banner").locator("nav");
+    await expect(nav).toBeInViewport();
+    // has blogr logo
+    await expect(nav.getByRole("img", { name: "Blogr Logo" })).toBeVisible();
+    // has navigation links
+    const navlinks = await nav.locator("ul summary").all();
+    expect(navlinks).toHaveLength(3);
+    for (const [index, link] of Object.entries(navlinks)) {
+      await expect(
+        link.getByText(navItems[Number(index)].parent),
+      ).toBeVisible();
+    }
+    // has login link
+    await expect(nav.getByRole("link", { name: "Login" })).toBeVisible();
+    // has sign up link
+    await expect(nav.getByRole("link", { name: "Sign Up" })).toBeVisible();
+  });
 });
