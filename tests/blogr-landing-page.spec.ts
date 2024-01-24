@@ -11,13 +11,23 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
     await expect(page).toHaveTitle("Frontend Mentor | [Blogr]");
   });
 
-  /** Test if the page has a correct heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has a correct banner */
+  test("has a banner", async ({ page }) => {
+    const banner = page.getByRole("banner");
     await expect(
-      page.getByRole("heading", {
+      banner.getByRole("heading", {
         level: 1,
         name: "A modern publishing platform",
       }),
+    ).toBeVisible();
+    await expect(
+      banner.getByText("Grow your audience and build your online brand"),
+    ).toBeVisible();
+    await expect(
+      banner.getByRole("link", { name: "Start for Free" }),
+    ).toBeVisible();
+    await expect(
+      banner.getByRole("link", { name: "Learn More" }),
     ).toBeVisible();
   });
 
