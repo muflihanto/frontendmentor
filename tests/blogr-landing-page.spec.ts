@@ -50,10 +50,22 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
     // has navigation links
     const navlinks = await nav.locator("ul summary").all();
     expect(navlinks).toHaveLength(3);
-    for (const [index, link] of Object.entries(navlinks)) {
-      await expect(
-        link.getByText(navItems[Number(index)].parent),
-      ).toBeVisible();
+    for (const [index] of Object.entries(navlinks)) {
+      const menu = page.locator("summary", {
+        hasText: navItems[Number(index)].parent,
+      });
+      const details = page.locator("details", { has: menu });
+      await expect(menu).toBeVisible();
+      await expect(details).toBeVisible();
+      await menu.click();
+      await page.waitForTimeout(500);
+      // collapsible menu works
+      const menuitems = nav.getByText(
+        navItems[Number(index)].children.join(""),
+      );
+      await expect(details).toHaveAttribute("open");
+      await expect(menuitems).toBeVisible();
+      await menu.click();
     }
     // has login link
     await expect(nav.getByRole("link", { name: "Login" })).toBeVisible();
