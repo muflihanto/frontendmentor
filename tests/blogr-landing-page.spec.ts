@@ -117,4 +117,30 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       }
     });
   });
+
+  /** Test if the page has 'State of the Art Infrastructure' section */
+  test.describe("has 'State of the Art Infrastructure' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").nth(1)).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("section").nth(1);
+      await section.scrollIntoViewIfNeeded();
+      await expect(
+        section.getByRole("heading", {
+          name: "State of the Art Infrastructure",
+        }),
+      ).toBeVisible();
+      // Has illustration
+      await expect(
+        section.getByRole("img", { name: "Illustration Phone" }),
+      ).toBeVisible();
+      // has article;
+      await expect(
+        section.getByText(
+          "With reliability and speed in mind, worldwide data centers provide the backbone for ultra-fast connectivity. This ensures your site will load instantly, no matter where your readers are, keeping your site competitive.",
+        ),
+      ).toBeVisible();
+    });
+  });
 });
