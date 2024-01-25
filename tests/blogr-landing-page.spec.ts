@@ -82,4 +82,39 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
     // has sign up link
     await expect(nav.getByRole("link", { name: "Sign Up" })).toBeVisible();
   });
+
+  /** Test if the page has 'Designed for the future' section */
+  test.describe("has 'Designed for the future' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").first()).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("section").first();
+      await section.scrollIntoViewIfNeeded();
+      await expect(
+        section.getByRole("heading", { name: "Designed for the future" }),
+      ).toBeVisible();
+      // Has illustration
+      await expect(
+        section.getByRole("img", { name: "Illustration Editor" }),
+      ).toBeVisible();
+      // has articles
+      const articles = [
+        {
+          h3: "Introducing an extensible editor",
+          p: "Blogr features an exceedingly intuitive interface which lets you focus on one thing: creating content. The editor supports management of multiple blogs and allows easy manipulation of embeds such as images, videos, and Markdown. Extensibility with plugins and themes provide easy ways to add functionality or change the looks of a blog.",
+        },
+        {
+          h3: "Robust content management",
+          p: "Flexible content management enables users to easily move through posts. Increase the usability of your blog by adding customized categories, sections, format, or flow. With this functionality, you’re in full control.",
+        },
+      ];
+      for (const article of articles) {
+        await expect(
+          section.getByRole("heading", { name: article.h3, level: 3 }),
+        ).toBeVisible();
+        await expect(section.getByText(article.p)).toBeVisible();
+      }
+    });
+  });
 });
