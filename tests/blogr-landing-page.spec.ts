@@ -143,4 +143,36 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has 'Other features' section */
+  test.describe("has 'Other features' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").nth(2)).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("section").nth(2);
+      await section.scrollIntoViewIfNeeded();
+      // Has illustration
+      await expect(
+        section.getByRole("img", { name: "Illustration Laptop" }),
+      ).toBeVisible();
+      // has articles
+      const articles = [
+        {
+          h3: "Free, open, simple",
+          p: "Blogr is a free and open source application backed by a large community of helpful developers. It supports features such as code syntax highlighting, RSS feeds, social media integration, third-party commenting tools, and works seamlessly with Google Analytics. The architecture is clean and is relatively easy to learn.",
+        },
+        {
+          h3: "Powerful tooling",
+          p: "Batteries included. We built a simple and straightforward CLI tool that makes customization and deployment a breeze, but capable of producing even the most complicated sites.",
+        },
+      ];
+      for (const article of articles) {
+        await expect(
+          section.getByRole("heading", { name: article.h3, level: 3 }),
+        ).toBeVisible();
+        await expect(section.getByText(article.p)).toBeVisible();
+      }
+    });
+  });
 });
