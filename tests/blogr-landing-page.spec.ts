@@ -1,6 +1,27 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
+  const navItems = [
+    {
+      parent: "Product",
+      children: [
+        "Overview",
+        "Pricing",
+        "Marketplace",
+        "Features",
+        "Integrations",
+      ],
+    },
+    {
+      parent: "Company",
+      children: ["About", "Team", "Blog", "Careers"],
+    },
+    {
+      parent: "Connect",
+      children: ["Contact", "Newsletter", "LinkedIn"],
+    },
+  ];
+
   /** Go to [Blogr] page before each test */
   test.beforeEach("Open", async ({ page }) => {
     await page.goto("/blogr-landing-page");
@@ -33,26 +54,6 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
 
   /** Test if the page has top navigation bar */
   test("has top navigation bar", async ({ page }) => {
-    const navItems = [
-      {
-        parent: "Product",
-        children: [
-          "Overview",
-          "Pricing",
-          "Marketplace",
-          "Features",
-          "Integrations",
-        ],
-      },
-      {
-        parent: "Company",
-        children: ["About", "Team", "Blog", "Careers"],
-      },
-      {
-        parent: "Connect",
-        children: ["Contact", "Newsletter", "LinkedIn"],
-      },
-    ];
     const nav = page.getByRole("banner").locator("nav");
     await expect(nav).toBeInViewport();
     // has blogr logo
@@ -174,5 +175,29 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
         await expect(section.getByText(article.p)).toBeVisible();
       }
     });
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer).toBeVisible();
+    // has a blogr logo
+    await expect(footer.getByRole("img", { name: "Blogr Logo" })).toBeVisible();
+    // has navigation links
+    const navs = await footer.getByRole("navigation").all();
+    for (const [index, nav] of Object.entries(navs)) {
+      await expect(nav).toBeVisible();
+      await expect(
+        nav.getByRole("heading", { name: navItems[Number(index)].parent }),
+      ).toBeVisible();
+      for (const name of navItems[Number(index)].children) {
+        await expect(nav.getByRole("link", { name })).toBeVisible();
+      }
+    }
+    // has attribution
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
   });
 });
