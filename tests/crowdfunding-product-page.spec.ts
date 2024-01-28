@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+// import supportType from "../components/crowdfunding-product-page/supportType.json";
 
 test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   /** Go to Crowdfunding product page before each test */
@@ -97,5 +98,31 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         await expect(card.getByText(stat.p)).toBeVisible();
       }
     });
+  });
+
+  /** Test if the page has an 'About' card */
+  test.describe("has an 'About' card", () => {
+    test("card is visible", async ({ page }) => {
+      const card = page.locator("div").nth(20);
+      await expect(card).toBeVisible();
+    });
+    test("card has all elements", async ({ page }) => {
+      const card = page.locator("div").nth(20);
+      await card.scrollIntoViewIfNeeded();
+      await expect(
+        card.getByRole("heading", { name: "About this project" }),
+      ).toBeVisible();
+      await expect(
+        card.getByText(
+          "The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve your posture and make you more comfortable while at work, helping you stay focused on the task at hand.",
+        ),
+      ).toBeVisible();
+      await expect(
+        card.getByText(
+          "Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer to allow notepads, pens, and USB sticks to be stored under the stand.",
+        ),
+      ).toBeVisible();
+    });
+    // TODO: add suppport selection test
   });
 });
