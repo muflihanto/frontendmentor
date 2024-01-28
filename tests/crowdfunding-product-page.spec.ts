@@ -68,4 +68,34 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has a 'Statistic' card */
+  test.describe("has a 'Statistic' card", () => {
+    test("card is visible", async ({ page }) => {
+      const card = page.locator("div").nth(10);
+      await expect(card).toBeVisible();
+    });
+    test("card has all elements", async ({ page }) => {
+      const statisticData = [
+        {
+          h: "$89,914",
+          p: "of $100,000 backed",
+        },
+        {
+          h: "5,007",
+          p: "total backers",
+        },
+        {
+          h: "56",
+          p: "days left",
+        },
+      ];
+      const card = page.locator("div").nth(10);
+      await card.scrollIntoViewIfNeeded();
+      for (const stat of statisticData) {
+        await expect(card.getByRole("heading", { name: stat.h })).toBeVisible();
+        await expect(card.getByText(stat.p)).toBeVisible();
+      }
+    });
+  });
 });
