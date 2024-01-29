@@ -1,5 +1,28 @@
 import { test, expect } from "@playwright/test";
 
+const priceList: { views: string; price: number }[] = [
+  {
+    views: "10K",
+    price: 8,
+  },
+  {
+    views: "50K",
+    price: 12,
+  },
+  {
+    views: "100K",
+    price: 16,
+  },
+  {
+    views: "500K",
+    price: 24,
+  },
+  {
+    views: "1M",
+    price: 36,
+  },
+];
+
 test.describe("FrontendMentor Challenge - Interactive pricing component Page", () => {
   /** Go to Interactive pricing component page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -56,6 +79,17 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
       await expect(
         card.getByRole("button", { name: "Start my trial" }),
       ).toBeVisible();
+    });
+    test("slider works", async ({ page }) => {
+      const card = page.locator("div").nth(3);
+      const slider = card.getByRole("slider");
+      for (const [index, price] of Object.entries(priceList)) {
+        await slider.fill(`${Number(index) + 1}`);
+        await expect(
+          card.getByRole("heading", { name: `${price.views} Pageviews` }),
+        ).toBeVisible();
+        await expect(card.getByText(`$${price.price}.00/ month`)).toBeVisible();
+      }
     });
   });
 
