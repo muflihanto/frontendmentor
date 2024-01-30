@@ -68,6 +68,21 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         card.getByRole("button", { name: "Bookmark" }),
       ).toBeVisible();
     });
+    test("'Back this project' button works", async ({ page }) => {
+      const button = page.getByRole("button", { name: "Back this project" });
+      await expect(button).toBeVisible();
+      await button.click();
+      await page.waitForTimeout(1000);
+      const modal = page
+        .locator("div")
+        .filter({
+          hasText:
+            "Back this projectWant to support us in bringing Mastercraft Bamboo Monitor Riser",
+        })
+        .nth(1);
+      await expect(modal).toBeVisible();
+      await expect(modal).toBeInViewport();
+    });
   });
 
   /** Test if the page has a 'Statistic' card */
