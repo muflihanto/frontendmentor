@@ -80,7 +80,7 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         card.getByRole("button", { name: "Start my trial" }),
       ).toBeVisible();
     });
-    test("slider works", async ({ page }) => {
+    test("monthly slider works", async ({ page }) => {
       const card = page.locator("div").nth(3);
       const slider = card.getByRole("slider");
       for (const [index, price] of Object.entries(priceList)) {
@@ -89,6 +89,24 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
           card.getByRole("heading", { name: `${price.views} Pageviews` }),
         ).toBeVisible();
         await expect(card.getByText(`$${price.price}.00/ month`)).toBeVisible();
+      }
+    });
+    test("yearly slider works", async ({ page }) => {
+      const card = page.locator("div").nth(3);
+      const slider = card.getByRole("slider");
+      const toggle = card
+        .locator("div")
+        .filter({ hasText: /^Monthly BillingYearly Billing-25% discount$/ })
+        .getByRole("button");
+      await toggle.click();
+      for (const [index, price] of Object.entries(priceList)) {
+        await slider.fill(`${Number(index) + 1}`);
+        await expect(
+          card.getByRole("heading", { name: `${price.views} Pageviews` }),
+        ).toBeVisible();
+        await expect(
+          card.getByText(`$${0.75 * price.price}.00/ month`),
+        ).toBeVisible();
       }
     });
   });
