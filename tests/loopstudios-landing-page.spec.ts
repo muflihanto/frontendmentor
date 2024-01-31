@@ -48,4 +48,28 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
       ).toBeVisible();
     });
   });
+
+  test.describe("has a 'Interactive' section", () => {
+    /** Test if the page has a correct heading */
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("div").nth(5)).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("div").nth(5);
+      // has an illustration
+      await expect(
+        section.getByRole("img", { name: "A Man Playing Game With VR" }),
+      ).toBeVisible();
+      // has a heading
+      await expect(
+        section.getByRole("heading", { name: "The leader in interactive VR" }),
+      ).toBeVisible();
+      // has a text
+      await expect(
+        section.getByText(
+          "Founded in 2011, Loopstudios has been producing world-class virtual reality projects for some of the best companies around the globe. Our award-winning creations have transformed businesses through digital experiences that bind to their brand.",
+        ),
+      ).toBeVisible();
+    });
+  });
 });
