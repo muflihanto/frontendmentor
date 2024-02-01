@@ -49,13 +49,14 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
     });
   });
 
-  test.describe("has a 'Interactive' section", () => {
-    /** Test if the page has a correct heading */
+  /** Test if the page has an 'Interactive' section */
+  test.describe("has an 'Interactive' section", () => {
     test("section is visible", async ({ page }) => {
       await expect(page.locator("div").nth(5)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
       const section = page.locator("div").nth(5);
+      await section.scrollIntoViewIfNeeded();
       // has an illustration
       await expect(
         section.getByRole("img", { name: "A Man Playing Game With VR" }),
@@ -70,6 +71,42 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
           "Founded in 2011, Loopstudios has been producing world-class virtual reality projects for some of the best companies around the globe. Our award-winning creations have transformed businesses through digital experiences that bind to their brand.",
         ),
       ).toBeVisible();
+    });
+  });
+
+  /** Test if the page has an 'Our creations' section */
+  test.describe("has an 'Our creations' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("div").nth(8)).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("div").nth(8);
+      await section.scrollIntoViewIfNeeded();
+      const creations = [
+        "Deep earth",
+        "Night arcade",
+        "Soccer team VR",
+        "The grid",
+        "From up above VR",
+        "Pocket borealis",
+        "The curiosity",
+        "Make it fisheye",
+      ];
+      // has a correct heading
+      await expect(
+        section.getByRole("heading", { name: "Our creations" }),
+      ).toBeVisible();
+      // has a 'See All' link
+      await expect(
+        section.getByRole("link", { name: "See All" }),
+      ).toBeVisible();
+      expect(await section.getByRole("link").all()).toHaveLength(
+        creations.length + 1,
+      );
+      // has all creation images
+      for (const name of creations) {
+        await expect(section.getByRole("link", { name })).toBeVisible();
+      }
     });
   });
 });
