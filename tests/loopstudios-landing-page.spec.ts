@@ -109,4 +109,44 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
       }
     });
   });
+
+  /** Test if the page has a footer */
+  test.describe("has a footer", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("footer")).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const footer = page.getByRole("contentinfo");
+      await footer.scrollIntoViewIfNeeded();
+      // has loopstudios logo
+      await expect(
+        footer.getByRole("img", { name: "Loopstudios logo", exact: true }),
+      ).toBeVisible();
+      // has navigation links
+      const navLinks = ["About", "Careers", "Events", "Products", "Support"];
+      const nav = footer.locator("ul").nth(0);
+      for (const name of navLinks) {
+        await expect(nav.getByRole("link", { name })).toBeVisible();
+      }
+      // has sns links
+      const socials = [
+        "facebook",
+        "twitter",
+        "pinterest",
+        "instagram",
+      ] as const;
+      const snss = await footer.locator("ul").nth(1).locator("a svg").all();
+      expect(snss).toHaveLength(socials.length);
+      for (const sns of snss) {
+        await expect(sns).toBeVisible();
+      }
+      // has attribution
+      await expect(
+        footer.getByText("© 2021 Loopstudios. All rights reserved."),
+      ).toBeVisible();
+      await expect(
+        footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+      ).toBeVisible();
+    });
+  });
 });
