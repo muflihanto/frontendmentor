@@ -44,6 +44,28 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
     await expect(page.getByRole("img", { name: img.alt })).toBeVisible();
   });
 
+  /** Test if the testimonial slider works */
+  test("testimonial slider works", async ({ page }) => {
+    const buttons = await page.getByRole("button").all();
+    const testData = async ({
+      name,
+      occupation,
+      testimony,
+      img,
+    }: (typeof data)[0]) => {
+      await expect(page.getByText(`${name}${occupation}`)).toBeVisible();
+      await expect(page.getByText(testimony)).toBeVisible();
+      await expect(page.getByRole("img", { name: img.alt })).toBeVisible();
+    };
+    await testData(data[0]);
+    await buttons[1].click();
+    await page.waitForTimeout(100);
+    await testData(data[1]);
+    await buttons[0].click();
+    await page.waitForTimeout(100);
+    await testData(data[0]);
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
