@@ -82,6 +82,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         .nth(1);
       await expect(modal).toBeVisible();
       await expect(modal).toBeInViewport();
+      // TODO: Modal has all elements
     });
   });
 
