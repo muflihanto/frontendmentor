@@ -82,4 +82,31 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
       .getByRole("button");
     await expect(button).toBeVisible();
   });
+
+  /** Test if the page has a 'Followers' section */
+  test("has a 'Followers' section", async ({ page }) => {
+    const container = page.locator("div").nth(6);
+    await expect(container).toBeVisible();
+    const cards = await container.locator(">div").all();
+    const dataArr = Object.entries(data);
+    for (const [index, card] of Object.entries(cards)) {
+      const followers =
+        dataArr[Number(index)][1].followers < 10000
+          ? dataArr[Number(index)][1].followers
+          : String(Math.floor(dataArr[Number(index)][1].followers / 1000)) +
+            "k";
+      const folOrSubs =
+        dataArr[Number(index)][0] === "youtube" ? "Subscribers" : "Followers";
+      await expect(
+        card.getByText(`${dataArr[Number(index)][1].username}`),
+      ).toBeVisible();
+      await expect(card.getByText(`${followers}`)).toBeVisible();
+      await expect(card.getByText(folOrSubs)).toBeVisible();
+      await expect(
+        card.getByText(
+          `${Math.abs(dataArr[Number(index)][1].statistics.followers)} Today`,
+        ),
+      ).toBeVisible();
+    }
+  });
 });
