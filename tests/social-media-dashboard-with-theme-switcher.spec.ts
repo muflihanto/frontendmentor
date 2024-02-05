@@ -64,16 +64,6 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     );
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { level: 1, name: "Social Media Dashboard" }),
-    ).toBeVisible();
-    await expect(
-      page.getByText(`Total Followers: ${totalFollowers}`),
-    ).toBeVisible();
-  });
-
   /** Test if the page has a theme switcher button */
   test("has a theme switcher button", async ({ page }) => {
     const button = page
@@ -81,6 +71,27 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
       .filter({ hasText: /^Dark Mode$/ })
       .getByRole("button");
     await expect(button).toBeVisible();
+  });
+
+  /** Test if the page has a heading */
+  test("has a heading", async ({ page }) => {
+    const heading = page.getByRole("heading", {
+      level: 1,
+      name: "Social Media Dashboard",
+    });
+    const followers = page.getByText(`Total Followers: ${totalFollowers}`);
+    const button = page
+      .locator("div")
+      .filter({ hasText: /^Dark Mode$/ })
+      .getByRole("button");
+    await expect(heading).toBeVisible();
+    await expect(followers).toBeVisible();
+    await expect(heading).toHaveCSS("color", "rgb(30, 32, 42)");
+    await expect(followers).toHaveCSS("color", "rgb(99, 104, 126)");
+    // switch theme
+    await button.click();
+    await expect(heading).toHaveCSS("color", "rgb(255, 255, 255)");
+    await expect(followers).toHaveCSS("color", "rgb(139, 151, 198)");
   });
 
   /** Test if the page has a 'Followers' section */
