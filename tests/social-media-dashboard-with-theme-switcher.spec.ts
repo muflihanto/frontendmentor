@@ -109,4 +109,44 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
       ).toBeVisible();
     }
   });
+
+  /** Test if the page has a 'Overview' section */
+  test("has a 'Overview' section", async ({ page }) => {
+    const container = page.locator("div").nth(36);
+    await expect(container).toBeVisible();
+    const cards = await container.locator(">div").all();
+    const dataArr = Object.entries(data);
+    for (const [index, card] of Object.entries(cards)) {
+      const views =
+        dataArr[Number(index)][1].views < 10000
+          ? dataArr[Number(index)][1].views
+          : String(Math.floor(dataArr[Number(index)][1].views / 1000)) + "k";
+      const likes = dataArr[Number(index)][1].likes;
+      await expect(card.getByText(`${views}`)).toBeVisible();
+      await expect(
+        card.getByText(`${dataArr[Number(index)][1].statistics.views.display}`),
+      ).toBeVisible();
+      await expect(
+        card.getByText(
+          `${Math.abs(dataArr[Number(index)][1].statistics.views.value)}%`,
+        ),
+      ).toBeVisible();
+      await expect(card.getByText(`${likes}`)).toBeVisible();
+      await expect(
+        card.getByText(`${dataArr[Number(index)][1].statistics.likes.display}`),
+      ).toBeVisible();
+      await expect(
+        card.getByText(
+          `${Math.abs(dataArr[Number(index)][1].statistics.likes.value)}%`,
+        ),
+      ).toBeVisible();
+    }
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
