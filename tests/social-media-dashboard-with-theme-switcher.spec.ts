@@ -115,6 +115,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
               "k";
         const folOrSubs =
           dataArr[Number(index)][0] === "youtube" ? "Subscribers" : "Followers";
+        const value = dataArr[Number(index)][1].statistics.followers;
         if (theme === "light") {
           await expect(
             card.getByText(`${dataArr[Number(index)][1].username}`),
@@ -122,11 +123,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
           await expect(card.getByText(`${followers}`)).toBeVisible();
           await expect(card.getByText(folOrSubs)).toBeVisible();
           await expect(
-            card.getByText(
-              `${Math.abs(
-                dataArr[Number(index)][1].statistics.followers,
-              )} Today`,
-            ),
+            card.getByText(`${Math.abs(value)} Today`),
           ).toBeVisible();
           await expect(card).toHaveCSS(
             "background-color",
@@ -135,6 +132,10 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
         } else {
           await expect(card).toHaveCSS("background-color", "rgb(37, 42, 65)");
         }
+        await expect(card.getByText(`${Math.abs(value)} Today`)).toHaveCSS(
+          "color",
+          value > 0 ? "rgb(29, 180, 137)" : "rgb(220, 65, 76)",
+        );
       }
     }
   });
@@ -152,13 +153,20 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
       .filter({ hasText: /^Dark Mode$/ })
       .getByRole("button");
     for (const theme of themes) {
-      if (theme === "dark") await button.click();
+      if (theme === "dark") {
+        await button.click();
+        await expect(heading).toHaveCSS("color", "rgb(255, 255, 255)");
+      } else {
+        await expect(heading).toHaveCSS("color", "rgb(99, 104, 126)");
+      }
       for (const [index, card] of Object.entries(cards)) {
         const views =
           dataArr[Number(index)][1].views < 10000
             ? dataArr[Number(index)][1].views
             : String(Math.floor(dataArr[Number(index)][1].views / 1000)) + "k";
         const likes = dataArr[Number(index)][1].likes;
+        const viewstat = dataArr[Number(index)][1].statistics.views.value;
+        const likestat = dataArr[Number(index)][1].statistics.likes.value;
         if (theme === "light") {
           await expect(card.getByText(`${views}`)).toBeVisible();
           await expect(
@@ -166,32 +174,30 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
               `${dataArr[Number(index)][1].statistics.views.display}`,
             ),
           ).toBeVisible();
-          await expect(
-            card.getByText(
-              `${Math.abs(dataArr[Number(index)][1].statistics.views.value)}%`,
-            ),
-          ).toBeVisible();
+          await expect(card.getByText(`${Math.abs(viewstat)}%`)).toBeVisible();
           await expect(card.getByText(`${likes}`)).toBeVisible();
           await expect(
             card.getByText(
               `${dataArr[Number(index)][1].statistics.likes.display}`,
             ),
           ).toBeVisible();
-          await expect(
-            card.getByText(
-              `${Math.abs(dataArr[Number(index)][1].statistics.likes.value)}%`,
-            ),
-          ).toBeVisible();
+          await expect(card.getByText(`${Math.abs(likestat)}%`)).toBeVisible();
           for (const c of await card.locator(">div").all()) {
             await expect(c).toHaveCSS("background-color", "rgb(240, 242, 250)");
           }
-          await expect(heading).toHaveCSS("color", "rgb(99, 104, 126)");
         } else {
           for (const c of await card.locator(">div").all()) {
             await expect(c).toHaveCSS("background-color", "rgb(37, 42, 65)");
           }
-          await expect(heading).toHaveCSS("color", "rgb(255, 255, 255)");
         }
+        await expect(card.getByText(`${Math.abs(viewstat)}%`)).toHaveCSS(
+          "color",
+          viewstat > 0 ? "rgb(29, 180, 137)" : "rgb(220, 65, 76)",
+        );
+        await expect(card.getByText(`${Math.abs(likestat)}%`)).toHaveCSS(
+          "color",
+          likestat > 0 ? "rgb(29, 180, 137)" : "rgb(220, 65, 76)",
+        );
       }
     }
   });
