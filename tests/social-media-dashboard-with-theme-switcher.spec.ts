@@ -46,6 +46,7 @@ const data = {
     },
   },
 };
+const themes = ["light", "dark"] as const;
 
 const totalFollowers = Array.from(Object.values(data))
   .reduce((acc, curr) => acc + curr.followers, 0)
@@ -100,57 +101,98 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(container).toBeVisible();
     const cards = await container.locator(">div").all();
     const dataArr = Object.entries(data);
-    for (const [index, card] of Object.entries(cards)) {
-      const followers =
-        dataArr[Number(index)][1].followers < 10000
-          ? dataArr[Number(index)][1].followers
-          : String(Math.floor(dataArr[Number(index)][1].followers / 1000)) +
-            "k";
-      const folOrSubs =
-        dataArr[Number(index)][0] === "youtube" ? "Subscribers" : "Followers";
-      await expect(
-        card.getByText(`${dataArr[Number(index)][1].username}`),
-      ).toBeVisible();
-      await expect(card.getByText(`${followers}`)).toBeVisible();
-      await expect(card.getByText(folOrSubs)).toBeVisible();
-      await expect(
-        card.getByText(
-          `${Math.abs(dataArr[Number(index)][1].statistics.followers)} Today`,
-        ),
-      ).toBeVisible();
+    const button = page
+      .locator("div")
+      .filter({ hasText: /^Dark Mode$/ })
+      .getByRole("button");
+    for (const theme of themes) {
+      if (theme === "dark") await button.click();
+      for (const [index, card] of Object.entries(cards)) {
+        const followers =
+          dataArr[Number(index)][1].followers < 10000
+            ? dataArr[Number(index)][1].followers
+            : String(Math.floor(dataArr[Number(index)][1].followers / 1000)) +
+              "k";
+        const folOrSubs =
+          dataArr[Number(index)][0] === "youtube" ? "Subscribers" : "Followers";
+        if (theme === "light") {
+          await expect(
+            card.getByText(`${dataArr[Number(index)][1].username}`),
+          ).toBeVisible();
+          await expect(card.getByText(`${followers}`)).toBeVisible();
+          await expect(card.getByText(folOrSubs)).toBeVisible();
+          await expect(
+            card.getByText(
+              `${Math.abs(
+                dataArr[Number(index)][1].statistics.followers,
+              )} Today`,
+            ),
+          ).toBeVisible();
+          await expect(card).toHaveCSS(
+            "background-color",
+            "rgb(240, 242, 250)",
+          );
+        } else {
+          await expect(card).toHaveCSS("background-color", "rgb(37, 42, 65)");
+        }
+      }
     }
   });
 
   /** Test if the page has a 'Overview' section */
   test("has a 'Overview' section", async ({ page }) => {
+    const heading = page.getByRole("heading", { name: "Overview - Today" });
     const container = page.locator("div").nth(36);
+    await expect(heading).toBeVisible();
     await expect(container).toBeVisible();
     const cards = await container.locator(">div").all();
     const dataArr = Object.entries(data);
-    for (const [index, card] of Object.entries(cards)) {
-      const views =
-        dataArr[Number(index)][1].views < 10000
-          ? dataArr[Number(index)][1].views
-          : String(Math.floor(dataArr[Number(index)][1].views / 1000)) + "k";
-      const likes = dataArr[Number(index)][1].likes;
-      await expect(card.getByText(`${views}`)).toBeVisible();
-      await expect(
-        card.getByText(`${dataArr[Number(index)][1].statistics.views.display}`),
-      ).toBeVisible();
-      await expect(
-        card.getByText(
-          `${Math.abs(dataArr[Number(index)][1].statistics.views.value)}%`,
-        ),
-      ).toBeVisible();
-      await expect(card.getByText(`${likes}`)).toBeVisible();
-      await expect(
-        card.getByText(`${dataArr[Number(index)][1].statistics.likes.display}`),
-      ).toBeVisible();
-      await expect(
-        card.getByText(
-          `${Math.abs(dataArr[Number(index)][1].statistics.likes.value)}%`,
-        ),
-      ).toBeVisible();
+    const button = page
+      .locator("div")
+      .filter({ hasText: /^Dark Mode$/ })
+      .getByRole("button");
+    for (const theme of themes) {
+      if (theme === "dark") await button.click();
+      for (const [index, card] of Object.entries(cards)) {
+        const views =
+          dataArr[Number(index)][1].views < 10000
+            ? dataArr[Number(index)][1].views
+            : String(Math.floor(dataArr[Number(index)][1].views / 1000)) + "k";
+        const likes = dataArr[Number(index)][1].likes;
+        if (theme === "light") {
+          await expect(card.getByText(`${views}`)).toBeVisible();
+          await expect(
+            card.getByText(
+              `${dataArr[Number(index)][1].statistics.views.display}`,
+            ),
+          ).toBeVisible();
+          await expect(
+            card.getByText(
+              `${Math.abs(dataArr[Number(index)][1].statistics.views.value)}%`,
+            ),
+          ).toBeVisible();
+          await expect(card.getByText(`${likes}`)).toBeVisible();
+          await expect(
+            card.getByText(
+              `${dataArr[Number(index)][1].statistics.likes.display}`,
+            ),
+          ).toBeVisible();
+          await expect(
+            card.getByText(
+              `${Math.abs(dataArr[Number(index)][1].statistics.likes.value)}%`,
+            ),
+          ).toBeVisible();
+          for (const c of await card.locator(">div").all()) {
+            await expect(c).toHaveCSS("background-color", "rgb(240, 242, 250)");
+          }
+          await expect(heading).toHaveCSS("color", "rgb(99, 104, 126)");
+        } else {
+          for (const c of await card.locator(">div").all()) {
+            await expect(c).toHaveCSS("background-color", "rgb(37, 42, 65)");
+          }
+          await expect(heading).toHaveCSS("color", "rgb(255, 255, 255)");
+        }
+      }
     }
   });
 
