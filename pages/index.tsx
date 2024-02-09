@@ -159,6 +159,10 @@ export const pages = [
     path: "single-price-grid-component",
   },
   {
+    title: "Social Links Profile",
+    path: "social-links-profile",
+  },
+  {
     title: "Social Media Dashboard With Theme Switcher",
     path: "social-media-dashboard-with-theme-switcher",
   },
@@ -225,14 +229,14 @@ export function Home() {
         />
       </Head>
       <main className="flex min-h-screen flex-1 flex-col items-center justify-start bg-white px-16 py-8 duration-300 dark:bg-sky-950 [&_a]:transition-all">
-        <h1 className="text-center text-[36px] font-bold text-slate-950 lg:text-[3rem] dark:text-slate-50">
+        <h1 className="text-center text-[36px] font-bold text-slate-950 dark:text-slate-50 lg:text-[3rem]">
           Muf&apos;s Frontendmentor Challenge Solution
         </h1>
         <input
           type="text"
           value={input}
           onChange={onChange}
-          className="mt-4 w-full rounded-md border px-3 py-2 focus-visible:outline focus-visible:outline-sky-600 lg:max-w-screen-sm dark:border-sky-800 dark:bg-sky-900 dark:text-sky-100 dark:focus-visible:outline dark:focus-visible:outline-sky-700"
+          className="mt-4 w-full rounded-md border px-3 py-2 focus-visible:outline focus-visible:outline-sky-600 dark:border-sky-800 dark:bg-sky-900 dark:text-sky-100 dark:focus-visible:outline dark:focus-visible:outline-sky-700 lg:max-w-screen-sm"
           placeholder="Type here..."
         />
         <ul className="mx-auto mt-8 grid max-w-screen-md grid-cols-1 items-center gap-4 self-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -250,7 +254,7 @@ export function Home() {
           })}
         </ul>
         <button
-          className="fixed bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-md bg-sky-500 shadow transition-transform hover:bg-opacity-75 active:scale-95 lg:bottom-6 lg:right-8 dark:bg-sky-700 dark:hover:bg-opacity-75"
+          className="fixed bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-md bg-sky-500 shadow transition-transform hover:bg-opacity-75 active:scale-95 dark:bg-sky-700 dark:hover:bg-opacity-75 lg:bottom-6 lg:right-8"
           onClick={() => {
             setTheme(resolvedTheme === "dark" ? "light" : "dark");
           }}
