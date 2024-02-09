@@ -140,6 +140,7 @@ export const pages = [
     path: "project-tracking-intro-component",
   },
   { title: "Qr Code Component", path: "qr-code-component" },
+  { title: "Recipe Page", path: "recipe-page" },
   {
     title: "Rest Countries Api With Color Theme Switcher",
     path: "rest-countries-api-with-color-theme-switcher",
