@@ -32,13 +32,38 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
     });
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "Humanizing your insurance.",
-      }),
-    ).toBeVisible();
+  /** Test if the page has a hero section*/
+  test.describe("has a hero section", () => {
+    test("hero section is visible", async ({ page }) => {
+      const section = page.locator("div").nth(3);
+      await expect(section).toBeVisible();
+      await expect(section).toBeInViewport();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("div").nth(3);
+      // has a level 1 heading
+      await expect(
+        section.getByRole("heading", {
+          level: 1,
+          name: "Humanizing your insurance.",
+        }),
+      ).toBeVisible();
+      // has a body text
+      await expect(
+        section.getByText(
+          "Get your life insurance coverage easier and faster. We blend our expertise and technology to help you find the plan that’s right for you. Ensure you and your loved ones are protected.",
+        ),
+      ).toBeVisible();
+      // has a "View Plans" link
+      await expect(
+        section.getByRole("link", { name: "View plans" }),
+      ).toBeVisible();
+      // has a hero image
+      await expect(
+        section.getByRole("img", {
+          name: "Happy Family of 4 Holding Each Other's Hands",
+        }),
+      ).toBeVisible();
+    });
   });
 });
