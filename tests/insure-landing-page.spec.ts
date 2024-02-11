@@ -116,7 +116,7 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
     test("has all elements", async ({ page }) => {
       const section = page.locator("div").nth(12);
       await section.scrollIntoViewIfNeeded();
-      // has a level 1 heading
+      // has a heading
       await expect(
         section.getByRole("heading", {
           name: "Find out more about how we work",
@@ -125,6 +125,56 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       // has a link
       await expect(
         section.getByRole("link", { name: "How we work" }),
+      ).toBeVisible();
+    });
+  });
+
+  /** Test if the page has a footer*/
+  test.describe("has a footer", () => {
+    test("footer is visible", async ({ page }) => {
+      await expect(page.getByRole("contentinfo")).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const footer = page.getByRole("contentinfo");
+      await footer.scrollIntoViewIfNeeded();
+      // has a logo
+      await expect(
+        footer.getByRole("img", { name: "insure logo" }),
+      ).toBeVisible();
+      // has navigation links
+      const navigations = await footer
+        .getByRole("navigation")
+        .locator(">div")
+        .all();
+      const links = [
+        {
+          parent: "Our company",
+          links: ["How we work", "Why Insure?", "Check Price", "Reviews"],
+        },
+        {
+          parent: "Help me",
+          links: ["FAQ", "Terms of use", "Privacy policy", "Cookies"],
+        },
+        {
+          parent: "Contact",
+          links: ["Sales", "Support", "Live chat"],
+        },
+        {
+          parent: "Others",
+          links: ["Careers", "Press", "Licenses"],
+        },
+      ];
+      for (const [index, nav] of Object.entries(navigations)) {
+        await expect(
+          nav.getByRole("heading", { name: links[Number(index)].parent }),
+        ).toBeVisible();
+        for (const link of links[Number(index)].links) {
+          await expect(nav.getByRole("link", { name: link })).toBeVisible();
+        }
+      }
+      // has attribution
+      await expect(
+        footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
       ).toBeVisible();
     });
   });
