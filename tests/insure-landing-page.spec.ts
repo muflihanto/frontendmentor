@@ -89,7 +89,7 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
           p: "Our plans aren’t full of conditions and clauses to prevent payouts. We make sure you’re covered when you need it.",
         },
       ];
-      // has a level 1 heading
+      // has a heading
       await expect(
         section.getByRole("heading", {
           name: "We’re different",
@@ -105,6 +105,27 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
           container.getByText(elements[Number(index)].p),
         ).toBeVisible();
       }
+    });
+  });
+
+  /** Test if the page has a 'how we work' section*/
+  test.describe("has a 'how we work' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("div").nth(12)).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("div").nth(12);
+      await section.scrollIntoViewIfNeeded();
+      // has a level 1 heading
+      await expect(
+        section.getByRole("heading", {
+          name: "Find out more about how we work",
+        }),
+      ).toBeVisible();
+      // has a link
+      await expect(
+        section.getByRole("link", { name: "How we work" }),
+      ).toBeVisible();
     });
   });
 });
