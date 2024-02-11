@@ -66,4 +66,45 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has a 'We’re different' section*/
+  test.describe("has a 'We’re different' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").first()).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("section").first();
+      await section.scrollIntoViewIfNeeded();
+      const elements = [
+        {
+          h2: "Snappy Process",
+          p: "Our application process can be completed in minutes, not hours. Don’t get stuck filling in tedious forms.",
+        },
+        {
+          h2: "Affordable Prices",
+          p: "We don’t want you worrying about high monthly costs. Our prices may be low, but we still offer the best coverage possible.",
+        },
+        {
+          h2: "People First",
+          p: "Our plans aren’t full of conditions and clauses to prevent payouts. We make sure you’re covered when you need it.",
+        },
+      ];
+      // has a level 1 heading
+      await expect(
+        section.getByRole("heading", {
+          name: "We’re different",
+        }),
+      ).toBeVisible();
+      // has all features
+      const containers = await section.locator(">div>div").all();
+      for (const [index, container] of Object.entries(containers)) {
+        await expect(
+          container.getByRole("heading", { name: elements[Number(index)].h2 }),
+        ).toBeVisible();
+        await expect(
+          container.getByText(elements[Number(index)].p),
+        ).toBeVisible();
+      }
+    });
+  });
 });
