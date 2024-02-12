@@ -178,4 +178,33 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has a mobile menu*/
+  test.describe("has a mobile menu", () => {
+    test.use({ viewport: { width: 375, height: 667 } });
+
+    test("button is visible", async ({ page }) => {
+      const button = page.getByRole("banner").getByRole("button");
+      await expect(button).toBeVisible();
+      await expect(button).toBeInViewport();
+    });
+    test("menu button works", async ({ page }) => {
+      const header = page.getByRole("banner");
+      const button = header.getByRole("button");
+      await button.click();
+      await page.waitForTimeout(500);
+      const nav = header.getByRole("navigation").nth(1);
+      const links = ["How we work", "Blog", "Account", "View plans"];
+      await expect(nav).toBeVisible();
+      await expect(nav).toBeInViewport();
+      for (const link of links) {
+        await expect(nav.getByRole("link", { name: link })).toBeVisible();
+        await expect(nav.getByRole("link", { name: link })).toBeInViewport();
+      }
+      await button.click();
+      await page.waitForTimeout(500);
+      await expect(nav).not.toBeVisible();
+      await expect(nav).not.toBeInViewport();
+    });
+  });
 });
