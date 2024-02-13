@@ -20,4 +20,24 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a correct header */
+  test.describe("has a header", () => {
+    test("header is visible", async ({ page }) => {
+      await expect(page.getByRole("banner").first()).toBeVisible();
+      await expect(page.getByRole("banner").first()).toBeInViewport();
+    });
+    test("has all elements", async ({ page }) => {
+      const header = page.getByRole("banner").first();
+      // has a company logo
+      await expect(
+        header.getByRole("img", { name: "Company Logo" }),
+      ).toBeVisible();
+      // has all navlinks
+      const links = ["Home", "New", "Popular", "Trending", "Categories"];
+      for (const link of links) {
+        await expect(header.getByRole("link", { name: link })).toBeVisible();
+      }
+    });
+  });
 });
