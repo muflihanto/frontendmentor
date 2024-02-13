@@ -61,4 +61,40 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       ).toBeVisible();
     });
   });
+
+  /** Test if the page has a 'New' section */
+  test.describe("has a 'New' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").first()).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("section").first();
+      const posts = [
+        {
+          title: "Hydrogen VS Electric Cars",
+          body: "Will hydrogen-fueled cars ever catch up to EVs?",
+          href: "",
+        },
+        {
+          title: "The Downsides of AI Artistry",
+          body: "What are the possible adverse effects of on-demand AI image generation?",
+          href: "",
+        },
+        {
+          title: "Is VC Funding Drying Up?",
+          body: "Private funding by VC firms is down 50% YOY. We take a look at what that means.",
+          href: "",
+        },
+      ];
+      // has a heading
+      await expect(section.getByRole("heading", { name: "New" })).toBeVisible();
+      // has all posts
+      for (const post of posts) {
+        await expect(
+          section.getByRole("link", { name: post.title }),
+        ).toBeVisible();
+        await expect(section.getByText(post.body)).toBeVisible();
+      }
+    });
+  });
 });
