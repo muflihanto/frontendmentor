@@ -11,16 +11,6 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
     await expect(page).toHaveTitle("Frontend Mentor | News homepage");
   });
 
-  /** Test if the page has a correct heading */
-  test("has a heading", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "The Bright Future of Web 3.0?",
-      }),
-    ).toBeVisible();
-  });
-
   /** Test if the page has a correct header */
   test.describe("has a header", () => {
     test("header is visible", async ({ page }) => {
@@ -38,6 +28,37 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       for (const link of links) {
         await expect(header.getByRole("link", { name: link })).toBeVisible();
       }
+    });
+  });
+
+  /** Test if the page has a main news */
+  test.describe("has a main news", () => {
+    test("news is visible", async ({ page }) => {
+      await expect(page.locator("div").nth(4)).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const container = page.locator("div").nth(4);
+      // has an illustration
+      await expect(
+        container.getByRole("img", { name: "Web 3.0 Illustration" }),
+      ).toBeVisible();
+      // has a heading
+      await expect(
+        container.getByRole("heading", {
+          level: 1,
+          name: "The Bright Future of Web 3.0?",
+        }),
+      ).toBeVisible();
+      // has a summary
+      await expect(
+        container.getByText(
+          "We dive into the next evolution of the web that claims to put the power of the platforms back into the hands of the people. But is it really fulfilling its promise?",
+        ),
+      ).toBeVisible();
+      // has a read more link
+      await expect(
+        container.getByRole("link", { name: "Read more" }),
+      ).toBeVisible();
     });
   });
 });
