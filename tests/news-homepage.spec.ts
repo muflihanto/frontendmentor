@@ -97,4 +97,74 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       }
     });
   });
+
+  /** Test if the page has a 'Popular' section */
+  test.describe("has a 'Popular' section", () => {
+    test("section is visible", async ({ page }) => {
+      await expect(page.locator("section").nth(1)).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("section").nth(1);
+      await section.scrollIntoViewIfNeeded();
+      const posts = [
+        {
+          title: "Reviving Retro PCs",
+          body: "What happens when old PCs are given modern upgrades?",
+          href: "",
+          image: {
+            src: "image-retro-pcs.jpg",
+            alt: "Retro PC Illustration",
+          },
+        },
+        {
+          title: "Top 10 Laptops of 2022",
+          body: "Our best picks for various needs and budgets.",
+          href: "",
+          image: {
+            src: "image-top-laptops.jpg",
+            alt: "Top Laptops Illustration",
+          },
+        },
+        {
+          title: "The Growth of Gaming",
+          body: "How the pandemic has sparked fresh opportunities.",
+          href: "",
+          image: {
+            src: "image-gaming-growth.jpg",
+            alt: "Gaming Controller",
+          },
+        },
+      ];
+      // has an sr-only heading
+      await expect(
+        section.getByRole("heading", { name: "Popular" }),
+      ).toBeAttached();
+      // has all posts
+      for (const [index, post] of Object.entries(posts)) {
+        const idx = Number(index);
+        const postElem = section.locator("li").nth(idx);
+        // has an image
+        await expect(
+          postElem.getByRole("img", { name: post.image.alt }),
+        ).toBeVisible();
+        // has a heading
+        await expect(
+          postElem.getByRole("heading", { name: `0${idx + 1}`, exact: true }),
+        ).toBeVisible();
+        // has a link
+        await expect(
+          postElem.getByRole("link", { name: post.title }),
+        ).toBeVisible();
+        // has a summary
+        await expect(postElem.getByText(post.body)).toBeVisible();
+      }
+    });
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
