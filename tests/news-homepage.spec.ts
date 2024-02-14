@@ -167,4 +167,34 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
+
+  /** Test if the page has a mobile menu*/
+  test.describe("has a mobile menu", () => {
+    test.use({ viewport: { width: 375, height: 667 } });
+
+    test("button is visible", async ({ page }) => {
+      const button = page.getByRole("banner").getByRole("button");
+      await expect(button).toBeVisible();
+      await expect(button).toBeInViewport();
+    });
+    test("menu button works", async ({ page }) => {
+      const header = page.getByRole("banner").first();
+      const button = header.getByRole("button");
+      await button.click();
+      await page.waitForTimeout(500);
+      const nav = page.getByRole("navigation");
+      const links = ["Home", "New", "Popular", "Trending", "Categories"];
+      await expect(nav).toBeVisible();
+      await expect(nav).toBeInViewport();
+      for (const link of links) {
+        await expect(nav.getByRole("link", { name: link })).toBeVisible();
+        await expect(nav.getByRole("link", { name: link })).toBeInViewport();
+      }
+      const closeButton = page.getByRole("button").nth(1);
+      await closeButton.click();
+      await page.waitForTimeout(500);
+      await expect(nav).not.toBeVisible();
+      await expect(nav).not.toBeInViewport();
+    });
+  });
 });
