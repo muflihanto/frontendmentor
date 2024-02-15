@@ -41,6 +41,32 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
     });
   });
 
+  /** Test if the page has a form */
+  test.describe("has a form", () => {
+    test("form is visible", async ({ page }) => {
+      await expect(page.locator("form")).toBeVisible();
+    });
+    test("has all elements", async ({ page }) => {
+      const card = page.locator("form");
+      // has all fields
+      await expect(card.getByText("Cardholder Name")).toBeVisible();
+      await expect(card.getByPlaceholder("e.g. Jane Appleseed")).toBeVisible();
+      await expect(card.getByText("Card Number")).toBeVisible();
+      await expect(
+        card.getByPlaceholder("e.g. 1234 5678 9123 0000"),
+      ).toBeVisible();
+      await expect(card.getByText("Exp. Date (MM/YY)")).toBeVisible();
+      await expect(card.getByPlaceholder("MM")).toBeVisible();
+      await expect(card.getByPlaceholder("YY")).toBeVisible();
+      await expect(card.getByText("CVC")).toBeVisible();
+      await expect(
+        card.getByPlaceholder("e.g. 123", { exact: true }),
+      ).toBeVisible();
+      // has a submit button
+      await expect(card.getByRole("button", { name: "Confirm" })).toBeVisible();
+    });
+  });
+
   /** Test if the page has a correct footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByRole("contentinfo")).toBeVisible();
