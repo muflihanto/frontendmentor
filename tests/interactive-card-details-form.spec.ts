@@ -47,23 +47,60 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
       await expect(page.locator("form")).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const card = page.locator("form");
+      const form = page.locator("form");
       // has all fields
-      await expect(card.getByText("Cardholder Name")).toBeVisible();
-      await expect(card.getByPlaceholder("e.g. Jane Appleseed")).toBeVisible();
-      await expect(card.getByText("Card Number")).toBeVisible();
+      await expect(form.getByText("Cardholder Name")).toBeVisible();
+      await expect(form.getByPlaceholder("e.g. Jane Appleseed")).toBeVisible();
+      await expect(form.getByText("Card Number")).toBeVisible();
       await expect(
-        card.getByPlaceholder("e.g. 1234 5678 9123 0000"),
+        form.getByPlaceholder("e.g. 1234 5678 9123 0000"),
       ).toBeVisible();
-      await expect(card.getByText("Exp. Date (MM/YY)")).toBeVisible();
-      await expect(card.getByPlaceholder("MM")).toBeVisible();
-      await expect(card.getByPlaceholder("YY")).toBeVisible();
-      await expect(card.getByText("CVC")).toBeVisible();
+      await expect(form.getByText("Exp. Date (MM/YY)")).toBeVisible();
+      await expect(form.getByPlaceholder("MM")).toBeVisible();
+      await expect(form.getByPlaceholder("YY")).toBeVisible();
+      await expect(form.getByText("CVC")).toBeVisible();
       await expect(
-        card.getByPlaceholder("e.g. 123", { exact: true }),
+        form.getByPlaceholder("e.g. 123", { exact: true }),
       ).toBeVisible();
       // has a submit button
-      await expect(card.getByRole("button", { name: "Confirm" })).toBeVisible();
+      await expect(form.getByRole("button", { name: "Confirm" })).toBeVisible();
+    });
+    test.describe("form is working", () => {
+      test("valid input works", async ({ page }) => {
+        const form = page.locator("form");
+        const fields = [
+          "e.g. Jane Appleseed",
+          "e.g. 1234 5678 9123 0000",
+          "MM",
+          "YY",
+          "e.g. 123",
+        ];
+        const inputs = [
+          "Jane Appleseed",
+          "1234 5678 9123 0000",
+          "12",
+          "24",
+          "123",
+        ];
+        for (const [index, input] of Object.entries(inputs)) {
+          await form
+            .getByPlaceholder(fields[Number(index)], { exact: true })
+            .fill(input);
+        }
+        const confirm = form.getByRole("button", { name: "Confirm" });
+        await confirm.click();
+        await page.waitForTimeout(500);
+        await expect(
+          page.getByText("Thank you!We've added your card detailsContinue"),
+        ).toBeVisible();
+        const continueButton = page.getByRole("button", { name: "Continue" });
+        await expect(continueButton).toBeVisible();
+        await continueButton.click();
+        await page.waitForTimeout(500);
+        await expect(
+          page.getByText("Thank you!We've added your card detailsContinue"),
+        ).not.toBeVisible();
+      });
     });
   });
 
