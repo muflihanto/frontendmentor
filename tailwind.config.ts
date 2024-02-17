@@ -912,6 +912,15 @@ export default {
             300: "hsl(0,0%,7%)",
           },
         },
+        "social-links": {
+          primary: "hsl(75,94%,57%)",
+          netural: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(0,0%,20%)",
+            300: "hsl(0,0%,12%)",
+            400: "hsl(0,0%,8%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": [
