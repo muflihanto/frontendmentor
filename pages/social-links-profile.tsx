@@ -15,9 +15,7 @@ export default function SocialLinksProfile() {
       >
         <Main />
         <Footer />
-        {/* <Slider
-          basePath="/social-links-profile/design"
-        /> */}
+        {/* <Slider basePath="/social-links-profile/design" /> */}
       </div>
     </>
   );
@@ -47,7 +45,7 @@ function Main() {
     },
   ];
   return (
-    <main className="bg-social-links-netural-300 -mt-px flex h-[579px] w-[calc(100vw-48px)] max-w-[384px] flex-col items-center rounded-xl p-6">
+    <main className="bg-social-links-netural-300 -mt-px flex h-[579px] w-[calc(100vw-48px)] max-w-[384px] flex-col items-center rounded-xl p-6 lg:h-[611px] lg:p-10">
       <div className="relative aspect-square w-[88px] overflow-hidden rounded-full">
         <Image
           src="/social-links-profile/assets/images/avatar-jessica.jpeg"
