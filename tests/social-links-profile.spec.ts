@@ -50,7 +50,18 @@ test.describe("FrontendMentor Challenge - Social links profile Page", () => {
     ];
     const linkContainer = card.locator("ul");
     for (const { name } of links) {
-      await expect(linkContainer.getByRole("link", { name })).toBeVisible();
+      const link = linkContainer.getByRole("link", { name });
+      await expect(link).toBeVisible();
+      await expect(link).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(link).toHaveCSS("background-color", "rgb(51, 51, 51)");
+      await link.hover();
+      await expect(link).toHaveCSS("color", "rgb(51, 51, 51)");
+      await expect(link).toHaveCSS("background-color", "rgb(197, 248, 42)");
+      await link.focus();
+      await expect(link).toHaveCSS("outline-color", "rgb(255, 255, 255)");
+      await expect(link).toHaveCSS("outline-offset", "2px");
+      await expect(link).toHaveCSS("outline-style", "solid");
+      await expect(link).toHaveCSS("outline-width", "2px");
     }
   });
 
