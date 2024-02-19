@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import { inter } from "../utils/fonts/inter";
-// import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function SocialLinksProfile() {
   return (
@@ -15,7 +13,6 @@ export default function SocialLinksProfile() {
       >
         <Main />
         <Footer />
-        {/* <Slider basePath="/social-links-profile/design" /> */}
       </div>
     </>
   );
@@ -66,11 +63,13 @@ function Main() {
       <ul className="mt-[25px] flex w-full flex-col gap-4">
         {links.map((el) => {
           return (
-            <li
-              key={el.name}
-              className="bg-social-links-netural-200 text-social-links-netural-100 flex h-[45px] w-full items-center justify-center rounded-lg text-sm font-bold"
-            >
-              <a href={el.href}>{el.name}</a>
+            <li key={el.name}>
+              <a
+                className="bg-social-links-netural-200 text-social-links-netural-100 hover:bg-social-links-primary hover:text-social-links-netural-200 focus-visible:text-social-links-netural-200 focus-visible:bg-social-links-primary focus-visible:outline-social-links-netural-100 flex h-[45px] w-full items-center justify-center rounded-lg text-sm font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                href={el.href}
+              >
+                {el.name}
+              </a>
             </li>
           );
         })}
@@ -81,7 +80,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="text-social-links-netural-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="text-social-links-netural-100 [&_a:hover]:text-social-links-primary [&_a:hover]:decoration-social-links-netural-100 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
