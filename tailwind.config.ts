@@ -921,6 +921,20 @@ export default {
             400: "hsl(0,0%,8%)",
           },
         },
+        recipe: {
+          primary: {
+            nutmeg: "hsl(14,45%,36%)",
+            "dark-raspberry": "hsl(332,51%,32%)",
+          },
+          neutral: {
+            100: "hsl(0,0%,100%)",
+            200: "hsl(330,100%,98%)",
+            300: "hsl(30,54%,90%)",
+            400: "hsl(30,18%,87%)",
+            500: "hsl(30,10%,34%)",
+            600: "hsl(24,5%,18%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": [
@@ -1044,6 +1058,11 @@ export default {
         ],
         "work-sans": ["var(--font-work-sans)", "Work Sans", ...fontFamily.sans],
         figtree: ["var(--font-figtree)", "Figtree", ...fontFamily.sans],
+        "young-serif": [
+          "var(--font-young-serif)",
+          "Young Serif",
+          ...fontFamily.serif,
+        ],
       },
     },
   },

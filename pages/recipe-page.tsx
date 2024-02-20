@@ -1,7 +1,9 @@
 import Head from "next/head";
-// import Image from "next/image";
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import Image from "next/image";
+import { youngSerif } from "../utils/fonts/youngSerif";
+import { outfit } from "../utils/fonts/outfit";
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 export default function RecipePage() {
   return (
@@ -9,24 +11,48 @@ export default function RecipePage() {
       <Head>
         <title>Frontend Mentor | Recipe Page</title>
       </Head>
-      <div className="App relative min-h-[100svh]">
+      <div
+        className={`App relative min-h-[100svh] ${outfit.className} font-outfit`}
+      >
         <Main />
         <Footer />
-        <Slider basePath="/recipe-page/design" />
+        {/* <Slider basePath="/recipe-page/design" /> */}
       </div>
     </>
+  );
+}
+function Header() {
+  return (
+    <header>
+      <div className="relative aspect-[328/150] w-full">
+        <Image
+          src="/recipe-page/assets/images/image-omelette.jpeg"
+          className="object-contain"
+          fill
+          alt="Omelette on a plate"
+        />
+      </div>
+    </header>
   );
 }
 
 function Main() {
   return (
-    <>
-      {`
-         Simple Omelette Recipe
-
-         An easy and quick dish, perfect for any meal. This classic omelette combines beaten eggs cooked 
-         to perfection, optionally filled with your choice of cheese, vegetables, or meats.
-       
+    <div>
+      <Header />
+      <main className="p-8 py-[39px]">
+        <h1
+          className={`text-recipe-neutral-600 text-4xl leading-none ${youngSerif.className} font-young-serif`}
+        >
+          Simple Omelette Recipe
+        </h1>
+        <p className="text-recipe-neutral-500 mt-6 tracking-[-.025px]">
+          An easy and quick dish, perfect for any meal. This classic omelette
+          combines beaten eggs cooked to perfection, optionally filled with your
+          choice of cheese, vegetables, or meats.
+        </p>
+      </main>
+      {/* {`
          Preparation time
        
          Total: Approximately 10 minutes
@@ -74,14 +100,14 @@ function Main() {
        
          Fat
          22g
-      `}
-    </>
+      `} */}
+    </div>
   );
 }
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="text-recipe-neutral-600 absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
