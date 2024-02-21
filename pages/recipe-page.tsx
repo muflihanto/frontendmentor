@@ -36,6 +36,29 @@ function Header() {
   );
 }
 
+function Preparation() {
+  return (
+    <section className="bg-recipe-neutral-200 mt-[33px] rounded-lg px-6 py-5">
+      <h3 className="text-recipe-primary-dark-raspberry text-xl font-semibold">
+        Preparation time
+      </h3>
+
+      {/* FIXME: align the markers */}
+      <ul className="text-recipe-neutral-500 marker:text-recipe-primary-dark-raspberry mt-3 list-disc space-y-2 *:ml-[18px] *:pl-[22px] marker:inline-block marker:text-[12px]">
+        <li>
+          <strong>Total</strong>: Approximately 10 minutes
+        </li>
+        <li>
+          <strong>Preparation</strong>: 5 minutes
+        </li>
+        <li>
+          <strong>Cooking</strong>: 5 minutes
+        </li>
+      </ul>
+    </section>
+  );
+}
+
 function Main() {
   return (
     <div>
@@ -51,14 +74,9 @@ function Main() {
           combines beaten eggs cooked to perfection, optionally filled with your
           choice of cheese, vegetables, or meats.
         </p>
+        <Preparation />
       </main>
       {/* {`
-         Preparation time
-       
-         Total: Approximately 10 minutes
-         Preparation: 5 minutes
-         Cooking: 5 minutes
-       
          Ingredients
        
          2-3 large eggs
