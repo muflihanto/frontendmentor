@@ -38,7 +38,7 @@ function Header() {
 
 function Preparation() {
   return (
-    <section className="bg-recipe-neutral-200 mt-[33px] rounded-lg px-6 py-5">
+    <section className="bg-recipe-neutral-200 mt-[33px] rounded-lg px-6 pb-[22px] pt-5">
       <h3 className="text-recipe-primary-dark-raspberry text-xl font-semibold">
         Preparation time
       </h3>
@@ -53,6 +53,28 @@ function Preparation() {
         </li>
         <li>
           <strong>Cooking</strong>: 5 minutes
+        </li>
+      </ul>
+    </section>
+  );
+}
+
+function Ingredients() {
+  return (
+    <section className="my-[27px]">
+      <h2
+        className={`text-recipe-primary-nutmeg font-young-serif text-[28px] ${youngSerif.className}`}
+      >
+        Ingredients
+      </h2>
+
+      <ul className="marker:text-recipe-primary-nutmeg text-recipe-neutral-500 relative mt-4 list-disc space-y-2 *:ml-[18px] *:pl-[22px] marker:text-xs">
+        <li>2-3 large eggs</li>
+        <li>Salt, to taste</li>
+        <li>Pepper, to taste</li>
+        <li>1 tablespoon of butter or oil</li>
+        <li>
+          Optional fillings: cheese, diced vegetables, cooked meats, herbs
         </li>
       </ul>
     </section>
@@ -75,16 +97,9 @@ function Main() {
           choice of cheese, vegetables, or meats.
         </p>
         <Preparation />
+        <Ingredients />
       </main>
       {/* {`
-         Ingredients
-       
-         2-3 large eggs
-         Salt, to taste
-         Pepper, to taste
-         1 tablespoon of butter or oil
-         Optional fillings: cheese, diced vegetables, cooked meats, herbs
-       
          Instructions
        
          Beat the eggs: In a bowl, beat the eggs with a pinch of salt and pepper until they are well mixed. 
