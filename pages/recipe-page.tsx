@@ -129,11 +129,59 @@ function Instructions() {
   );
 }
 
+function Nutrition() {
+  const nutrients = [
+    {
+      name: "Calories",
+      value: "277kcal",
+    },
+    {
+      name: "Carbs",
+      value: "0g",
+    },
+    {
+      name: "Protein",
+      value: "20g",
+    },
+    {
+      name: "Fat",
+      value: "22g",
+    },
+  ];
+  return (
+    <section className="my-[25px]">
+      <h2
+        className={`text-recipe-primary-nutmeg font-young-serif text-[28px] ${youngSerif.className}`}
+      >
+        Nutrition
+      </h2>
+
+      <p className="text-recipe-neutral-500 mt-4">
+        The table below shows nutritional values per serving without the
+        additional fillings.
+      </p>
+
+      <ul className="mt-[12px] divide-y *:flex *:h-12 *:flex-row *:items-center">
+        {nutrients.map(({ name, value }, index) => {
+          return (
+            <li key={index} className="w-full pl-8 pr-4 *:flex-1">
+              <div className="text-recipe-neutral-500">{name}</div>
+              <div className="text-recipe-primary-dark-raspberry font-bold">
+                {value}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 function Main() {
   return (
     <div>
       <Header />
-      <main className="p-8 py-[39px]">
+      <main className="p-8 pb-[28.5px] pt-[39px]">
         <h1
           className={`text-recipe-neutral-600 text-4xl leading-none ${youngSerif.className} font-young-serif`}
         >
@@ -149,24 +197,8 @@ function Main() {
         <hr className="mt-8" />
         <Instructions />
         <hr className="mt-8" />
+        <Nutrition />
       </main>
-      {/* {`
-         Nutrition
-       
-         The table below shows nutritional values per serving without the additional fillings.
-       
-         Calories
-         277kcal
-       
-         Carbs
-         0g
-       
-         Protein
-         20g
-       
-         Fat
-         22g
-      `} */}
     </div>
   );
 }
