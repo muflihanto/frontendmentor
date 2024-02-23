@@ -12,7 +12,7 @@ export default function RecipePage() {
         <title>Frontend Mentor | Recipe Page</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] ${outfit.className} font-outfit`}
+        className={`App relative min-h-[100svh] ${outfit.className} md:bg-recipe-neutral-300 font-outfit md:flex md:flex-col md:items-center md:justify-center md:py-[123px]`}
       >
         <Main />
         <Footer />
@@ -21,10 +21,11 @@ export default function RecipePage() {
     </>
   );
 }
+
 function Header() {
   return (
     <header>
-      <div className="relative aspect-[328/150] w-full">
+      <div className="relative aspect-[328/150] w-full md:overflow-hidden md:rounded-xl">
         <Image
           src="/recipe-page/assets/images/image-omelette.jpeg"
           className="object-contain"
@@ -38,7 +39,7 @@ function Header() {
 
 function Preparation() {
   return (
-    <section className="bg-recipe-neutral-200 mt-[33px] rounded-lg px-6 pb-[22px] pt-5">
+    <section className="bg-recipe-neutral-200 mt-[33px] rounded-lg px-6 pb-[22px] pt-5 md:px-7 md:pb-[26px] md:pt-6">
       <h3 className="text-recipe-primary-dark-raspberry text-xl font-semibold">
         Preparation time
       </h3>
@@ -179,11 +180,11 @@ function Nutrition() {
 
 function Main() {
   return (
-    <div>
+    <div className="md:bg-recipe-neutral-100 md:w-[736px] md:overflow-hidden md:rounded-3xl md:p-10 md:pb-1">
       <Header />
-      <main className="p-8 pb-[28.5px] pt-[39px]">
+      <main className="p-8 pb-[28.5px] pt-[39px] md:p-0 md:pt-[40px]">
         <h1
-          className={`text-recipe-neutral-600 text-4xl leading-none ${youngSerif.className} font-young-serif`}
+          className={`text-recipe-neutral-600 text-4xl leading-none ${youngSerif.className} font-young-serif md:text-[40px]/10`}
         >
           Simple Omelette Recipe
         </h1>
