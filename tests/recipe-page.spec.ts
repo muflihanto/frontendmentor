@@ -43,6 +43,41 @@ test.describe("FrontendMentor Challenge - Recipe Page", () => {
       const listItem = await section.getByRole("listitem").all();
       expect(listItem).toHaveLength(3);
     });
+
+    test("has 'Ingredients' section", async ({ page }) => {
+      const section = page.locator("section").nth(1);
+      await section.scrollIntoViewIfNeeded();
+      await expect(
+        section.getByRole("heading", { name: "Ingredients" }),
+      ).toBeVisible();
+      const listItem = await section.getByRole("listitem").all();
+      expect(listItem).toHaveLength(5);
+    });
+
+    test("has 'Instructions' section", async ({ page }) => {
+      const section = page.locator("section").nth(2);
+      await section.scrollIntoViewIfNeeded();
+      await expect(
+        section.getByRole("heading", { name: "Instructions" }),
+      ).toBeVisible();
+      const listItem = await section.getByRole("listitem").all();
+      expect(listItem).toHaveLength(6);
+    });
+
+    test("has 'Nutrition' section", async ({ page }) => {
+      const section = page.locator("section").nth(3);
+      await section.scrollIntoViewIfNeeded();
+      await expect(
+        section.getByRole("heading", { name: "Nutrition" }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "The table below shows nutritional values per serving without the additional fillings.",
+        ),
+      ).toBeVisible();
+      const listItem = await section.getByRole("listitem").all();
+      expect(listItem).toHaveLength(4);
+    });
   });
 
   /** Test if the page has a footer */
