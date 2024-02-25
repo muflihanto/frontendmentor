@@ -44,13 +44,34 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
     }
   });
 
-  /** Test if the page has a correct heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has a main content */
+  test("has a main content", async ({ page }) => {
+    const container = page.getByRole("main");
     await expect(
-      page.getByRole("heading", {
+      container.getByRole("heading", {
         level: 1,
         name: "Make remote work",
       }),
     ).toBeVisible();
+    await expect(
+      container.getByText(
+        "Get your team in sync, no matter your location. Streamline processes, create tea",
+      ),
+    ).toBeVisible();
+    await expect(
+      container.getByRole("button", { name: "Learn more" }),
+    ).toBeVisible();
+    const clientContainer = container.locator(">*").last();
+    const clients = ["Databiz", "Audiophile", "Meet", "Maker"];
+    for (const client of clients) {
+      await expect(
+        clientContainer.getByRole("img", { name: client }),
+      ).toBeVisible();
+    }
+  });
+
+  /** Test if the page has a hero image */
+  test("has a hero image", async ({ page }) => {
+    await expect(page.getByRole("img", { name: "Hero Image" })).toBeVisible();
   });
 });
