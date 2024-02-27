@@ -58,27 +58,38 @@ test.describe("FrontendMentor Challenge - Pricing component with toggle Page", (
     await expect(container.getByText("Monthly")).toBeVisible();
   });
 
-  /** Test if the page has a footer */
+  /** Test if the page has all cards */
   test.describe("has all cards", () => {
     const cardIndexes = [5, 12, 19];
-    for (const [index, [plan, detail]] of Object.entries(
-      Object.entries(prices),
-    )) {
-      test(`has a ${plan} card`, async ({ page }) => {
-        const card = page.locator("div").nth(cardIndexes[Number(index)]);
-        await expect(card).toBeVisible();
-        await expect(card.getByText(plan, { exact: true })).toBeVisible();
-        await expect(card.getByText(`$${detail.price.annually}`)).toBeVisible();
-        await expect(card.getByText(`${detail.storage} Storage`)).toBeVisible();
-        await expect(
-          card.getByText(`${detail.users} Users Allowed`),
-        ).toBeVisible();
-        await expect(
-          card.getByText(`Send up to ${detail.bandwith}`),
-        ).toBeVisible();
-        await expect(card.getByRole("link")).toBeVisible();
-        await expect(card.getByRole("link")).toHaveText("Learn More");
-      });
+    const payments = ["annually", "monthly"] as const;
+    for (const payment of payments) {
+      for (const [index, [plan, detail]] of Object.entries(
+        Object.entries(prices),
+      )) {
+        test(`has a ${payment} ${plan} card`, async ({ page }) => {
+          const toggle = page.getByText("AnnuallyMonthly").getByRole("button");
+          if (payment === "monthly") {
+            await toggle.click();
+          }
+          const card = page.locator("div").nth(cardIndexes[Number(index)]);
+          await expect(card).toBeVisible();
+          await expect(card.getByText(plan, { exact: true })).toBeVisible();
+          await expect(
+            card.getByText(`$${detail.price[payment]}`),
+          ).toBeVisible();
+          await expect(
+            card.getByText(`${detail.storage} Storage`),
+          ).toBeVisible();
+          await expect(
+            card.getByText(`${detail.users} Users Allowed`),
+          ).toBeVisible();
+          await expect(
+            card.getByText(`Send up to ${detail.bandwith}`),
+          ).toBeVisible();
+          await expect(card.getByRole("link")).toBeVisible();
+          await expect(card.getByRole("link")).toHaveText("Learn More");
+        });
+      }
     }
   });
 
