@@ -21,8 +21,17 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
       const button = page.getByRole("button", { name: "Icon Dice" });
       await expect(button).toBeVisible();
       await page.waitForTimeout(1000);
+      const advice = page.locator("div").nth(3);
+      const adviceText = await advice.innerText();
       await expect(page.getByRole("status")).not.toBeVisible();
-      await expect(page.locator("div").nth(3)).toHaveText(/^\".*\"$/);
+      await expect(advice).toHaveText(/^\".*\"$/);
+      await button.click();
+      await expect(page.getByText("Advice #...")).toBeVisible();
+      await expect(page.getByRole("status")).toBeVisible();
+      await page.waitForTimeout(1000);
+      await expect(page.getByRole("status")).not.toBeVisible();
+      await expect(advice).toHaveText(/^\".*\"$/);
+      await expect(advice).not.toHaveText(adviceText);
     });
   });
 
