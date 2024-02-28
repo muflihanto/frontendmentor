@@ -13,13 +13,35 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
     );
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has a header */
+  test("has a header", async ({ page }) => {
+    const header = page.getByRole("banner");
+    // has a logo
+    await expect(header.getByRole("img")).toBeVisible();
+    // has a navigation
+    const nav = header.getByRole("navigation");
+    const navLinks = ["Product", "Features", "Pricing", "Login"];
+    for (const link of navLinks) {
+      await expect(nav.getByRole("link", { name: link })).toBeVisible();
+    }
+  });
+
+  /** Test if the page has a main section */
+  test("has a main section", async ({ page }) => {
+    const section = page.locator("div").nth(5);
+    await expect(section.getByText("NewMonograph Dashboard")).toBeVisible();
     await expect(
-      page.getByRole("heading", {
+      section.getByRole("heading", {
         level: 1,
         name: "Powerful insights into your team",
       }),
     ).toBeVisible();
+    await expect(
+      section.getByText("Project planning and time tracking for agile teams"),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Schedule a demo" }),
+    ).toBeVisible();
+    await expect(section.getByText("to see a preview")).toBeVisible();
   });
 });
