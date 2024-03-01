@@ -93,4 +93,40 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       section.getByRole("img", { name: "Devices Illustration" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has an 'Supercharge' section */
+  test("has an 'Supercharge' section", async ({ page }) => {
+    const section = page.locator("section").nth(2);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Supercharge your workflow" }),
+    ).toBeVisible();
+    await expect(
+      section.getByText("We’ve got the tools to boost your productivity."),
+    ).toBeVisible();
+    const features = [
+      {
+        icon: "Icon Blacklist",
+        heading: "Create blacklists",
+        text: "Ensure sensitive information never makes its way to your clipboard by excluding certain sources.",
+      },
+      {
+        icon: "Icon Text",
+        heading: "Plain text snippets",
+        text: "Remove unwanted formatting from copied text for a consistent look.",
+      },
+      {
+        icon: "Icon Preview",
+        heading: "Sneak preview",
+        text: "Quick preview of all snippets on your Clipboard for easy access.",
+      },
+    ];
+    for (const { icon, heading, text } of features) {
+      await expect(section.getByRole("img", { name: icon })).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: heading }),
+      ).toBeVisible();
+      await expect(section.getByText(text)).toBeVisible();
+    }
+  });
 });
