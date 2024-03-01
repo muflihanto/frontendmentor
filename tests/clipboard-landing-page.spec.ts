@@ -76,4 +76,21 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       ),
     ).toBeVisible();
   });
+
+  /** Test if the page has an 'Access Anywhere' section */
+  test("has an 'Access Anywhere' section", async ({ page }) => {
+    const section = page.locator("section").nth(1);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Access Clipboard Anywhere" }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Whether you’re on the go, or at your computer, you can access all your Clipboard snippets in a few simple clicks.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("img", { name: "Devices Illustration" }),
+    ).toBeVisible();
+  });
 });
