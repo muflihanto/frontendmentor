@@ -142,4 +142,24 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       ).toBeVisible();
     }
   });
+
+  /** Test if the page has an 'Available on' section */
+  test("has an 'Available on' section", async ({ page }) => {
+    const section = page.locator("section").nth(3);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Clipboard for iOS and Mac OS" }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        " Available for free on the App Store. Download for Mac or iOS, sync with iCloud and you’re ready to start adding to your clipboard.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Download for iOS" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Download for Mac" }),
+    ).toBeVisible();
+  });
 });
