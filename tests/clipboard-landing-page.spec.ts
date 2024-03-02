@@ -94,8 +94,8 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
     ).toBeVisible();
   });
 
-  /** Test if the page has an 'Supercharge' section */
-  test("has an 'Supercharge' section", async ({ page }) => {
+  /** Test if the page has a 'Supercharge' section */
+  test("has a 'Supercharge' section", async ({ page }) => {
     const section = page.locator("section").nth(2);
     await section.scrollIntoViewIfNeeded();
     await expect(
@@ -127,6 +127,19 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
         section.getByRole("heading", { name: heading }),
       ).toBeVisible();
       await expect(section.getByText(text)).toBeVisible();
+    }
+  });
+
+  /** Test if the page has a 'Clients' section */
+  test("has a 'Clients' section", async ({ page }) => {
+    const section = page.locator("div").nth(12);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    const clients = ["Google", "IBM", "Microsoft", "HP", "Vector Graphics"];
+    for (const client of clients) {
+      await expect(
+        section.getByRole("img", { name: `${client} Logo` }),
+      ).toBeVisible();
     }
   });
 });
