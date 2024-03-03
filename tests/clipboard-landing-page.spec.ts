@@ -162,4 +162,28 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       section.getByRole("link", { name: "Download for Mac" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(
+      footer.getByRole("img", { name: "Clipboard Company Logo" }),
+    ).toBeVisible();
+    const navLinks = [
+      "FAQs",
+      "Contact Us",
+      "Privacy Policy",
+      "Press Kit",
+      "Install Guide",
+    ];
+    for (const link of navLinks) {
+      await expect(footer.getByRole("link", { name: link })).toBeVisible();
+    }
+    const socials = await footer.locator("div").nth(1).getByRole("img").all();
+    expect(socials).toHaveLength(3);
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
