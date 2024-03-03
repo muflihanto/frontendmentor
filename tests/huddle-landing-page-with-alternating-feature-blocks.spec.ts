@@ -13,13 +13,31 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
     );
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has a header */
+  test("has a header", async ({ page }) => {
+    const header = page.getByRole("banner");
+    await expect(header.getByRole("img")).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        level: 1,
+      header.getByRole("link", { name: "Try it Free" }),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has a hero section */
+  test("has a hero section", async ({ page }) => {
+    const section = page.locator("div").nth(2);
+    await expect(section.getByRole("img")).toBeVisible();
+    await expect(
+      section.getByRole("heading", {
         name: "Build The Community Your Fans Will Love",
       }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Huddle re-imagines the way we build communities. You have a voice, but so does your audience. Create connections with your users as you engage in genuine discussion.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Get Started For Free" }),
     ).toBeVisible();
   });
 });
