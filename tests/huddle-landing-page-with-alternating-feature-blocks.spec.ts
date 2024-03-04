@@ -41,33 +41,36 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
     ).toBeVisible();
   });
 
-  /** Test if the page has a 'Grow Together' card */
-  test("has a 'Grow Together' card", async ({ page }) => {
-    const card = page.locator("div").nth(6);
-    await card.scrollIntoViewIfNeeded();
-    await expect(card.getByRole("img")).toBeVisible();
-    await expect(
-      card.getByRole("heading", { name: "Grow Together" }),
-    ).toBeVisible();
-    await expect(
-      card.getByText(
-        "Generate meaningful discussions with your audience and build a strong, loyal community. Think of the insightful conversations you miss out on with a feedback form.",
-      ),
-    ).toBeVisible();
-  });
-
-  /** Test if the page has a 'Flowing Conversations' card */
-  test("has a 'Flowing Conversations' card", async ({ page }) => {
-    const card = page.locator("div").nth(8);
-    await card.scrollIntoViewIfNeeded();
-    await expect(card.getByRole("img")).toBeVisible();
-    await expect(
-      card.getByRole("heading", { name: "Flowing Conversations" }),
-    ).toBeVisible();
-    await expect(
-      card.getByText(
-        "You wouldn‘t paginate a conversation in real life, so why do it online? Our threads have just-in-time loading for a more natural flow.",
-      ),
-    ).toBeVisible();
+  /** Test if the page has all cards */
+  test.describe("has all key feature cards", () => {
+    const features = [
+      {
+        name: "Grow Together",
+        description:
+          "Generate meaningful discussions with your audience and build a strong, loyal community. Think of the insightful conversations you miss out on with a feedback form.",
+        location: 6,
+      },
+      {
+        name: "Flowing Conversations",
+        description:
+          "You wouldn‘t paginate a conversation in real life, so why do it online? Our threads have just-in-time loading for a more natural flow.",
+        location: 8,
+      },
+      {
+        name: "Your Users",
+        description:
+          "It takes no time at all to integrate Huddle with your app‘s authentication solution. This means, once signed in to your app, your users can start chatting immediately.",
+        location: 10,
+      },
+    ];
+    for (const { description, location, name } of features) {
+      test(`has a '${name}' card`, async ({ page }) => {
+        const card = page.locator("div").nth(location);
+        await card.scrollIntoViewIfNeeded();
+        await expect(card.getByRole("img")).toBeVisible();
+        await expect(card.getByRole("heading", { name })).toBeVisible();
+        await expect(card.getByText(description)).toBeVisible();
+      });
+    }
   });
 });
