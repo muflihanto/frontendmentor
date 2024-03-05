@@ -85,4 +85,43 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
       section.getByRole("link", { name: "Get Started For Free" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer.getByRole("img").first()).toBeVisible();
+    // subgrid 1
+    const subgrid1 = footer.locator("div").nth(1);
+    await expect(
+      subgrid1.getByText(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      ),
+    ).toBeVisible();
+    await expect(subgrid1.getByText("+1-543-123-4567")).toBeVisible();
+    await expect(subgrid1.getByText("example@huddle.com")).toBeVisible();
+    // subgrid 2
+    const subgrid2 = footer.locator("ul");
+    const links = [
+      "About Us",
+      "What We Do",
+      "FAQ",
+      "Career",
+      "Blog",
+      "Contact Us",
+    ];
+    for (const link of links) {
+      await expect(subgrid2.getByRole("link", { name: link })).toBeVisible();
+    }
+    // subgrid 3
+    const subgrid3 = footer.locator("div").nth(2);
+    const socials = await subgrid3.getByRole("link").all();
+    expect(socials).toHaveLength(3);
+    await expect(
+      subgrid3.getByText("© Copyright 2018 Huddle. All rights reserved."),
+    ).toBeVisible();
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
