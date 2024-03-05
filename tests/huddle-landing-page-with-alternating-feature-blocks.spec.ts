@@ -73,4 +73,16 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
       });
     }
   });
+
+  /** Test if the page has a 'Ready To Build Your Community?' section */
+  test("has a 'Ready To Build Your Community?' section", async ({ page }) => {
+    const section = page.locator("div").nth(12);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Ready To Build Your Community?" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Get Started For Free" }),
+    ).toBeVisible();
+  });
 });
