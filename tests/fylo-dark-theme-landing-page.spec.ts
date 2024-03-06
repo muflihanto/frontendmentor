@@ -26,13 +26,27 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
     }
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has an intro section */
+  test("has an intro section", async ({ page }) => {
+    const section = page.locator("div").nth(2);
+    await expect(section).toBeVisible();
+    await expect(section).toBeInViewport();
     await expect(
-      page.getByRole("heading", {
+      section.getByRole("img", { name: "Hero Image Illustration" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("heading", {
         level: 1,
         name: "All your files in one secure location, accessible anywhere.",
       }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Fylo stores all your most important files in one secure location. Access them wherever you need, share and collaborate with friends family, and co-workers.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Get Started" }),
     ).toBeVisible();
   });
 });
