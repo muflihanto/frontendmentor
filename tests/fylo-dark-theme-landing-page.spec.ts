@@ -84,4 +84,32 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
       await expect(grid.getByText(features[indexNum].body)).toBeVisible();
     }
   });
+
+  /** Test if the page has a 'Productive' section */
+  test("has a 'Productive' section", async ({ page }) => {
+    const section = page.locator("div").nth(13);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("img", { name: "Productive Illustration" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("heading", {
+        name: "Stay productive, wherever you are",
+      }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Never let location be an issue when accessing your files. Fylo has you covered for all of your file storage needs.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Securely share files and folders with friends, family and colleagues for live collaboration. No email attachments required.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "See how Fylo works" }),
+    ).toBeVisible();
+  });
 });
