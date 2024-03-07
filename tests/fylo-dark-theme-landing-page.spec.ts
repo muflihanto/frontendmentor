@@ -112,4 +112,56 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
       section.getByRole("link", { name: "See how Fylo works" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a 'Testimonials' section */
+  test("has a 'Testimonials' section", async ({ page }) => {
+    const section = page.locator("div").nth(16);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("img", { name: "Quote Background" }),
+    ).toBeVisible();
+    const testimonialContainers = await page
+      .locator("div")
+      .nth(16)
+      .locator(">div>div")
+      .all();
+    const testimonials = [
+      {
+        body: "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+        author: "Satish Patel",
+        title: "Founder & CEO, Huddle",
+      },
+      {
+        body: "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+        author: "Bruce McKenzie",
+        title: "Founder & CEO, Huddle",
+      },
+      {
+        body: "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
+        author: "Iva Boyd",
+        title: "Founder & CEO, Huddle",
+      },
+    ];
+    for (const [index, { body, author, title }] of Object.entries(
+      testimonials,
+    )) {
+      const indexNum = Number(index);
+      await expect(testimonialContainers[indexNum]).toBeVisible();
+      await expect(
+        testimonialContainers[indexNum].getByText(body),
+      ).toBeVisible();
+      await expect(
+        testimonialContainers[indexNum].getByRole("img", {
+          name: `${author} Avatar`,
+        }),
+      ).toBeVisible();
+      await expect(
+        testimonialContainers[indexNum].getByText(author),
+      ).toBeVisible();
+      await expect(
+        testimonialContainers[indexNum].getByText(title),
+      ).toBeVisible();
+    }
+  });
 });
