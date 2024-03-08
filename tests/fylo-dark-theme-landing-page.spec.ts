@@ -164,4 +164,23 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
       ).toBeVisible();
     }
   });
+
+  /** Test if the page has a 'Get Early Access' section */
+  test("has a 'Get Early Access' section", async ({ page }) => {
+    const section = page.locator("div").nth(28);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("heading", { name: "Get early access today" }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.",
+      ),
+    ).toBeVisible();
+    await expect(section.getByPlaceholder("email@example.com")).toBeVisible();
+    await expect(
+      section.getByRole("button", { name: "Get Started For Free" }),
+    ).toBeVisible();
+  });
 });
