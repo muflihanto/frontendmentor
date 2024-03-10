@@ -89,4 +89,25 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
     await expect(card.getByText("Kyle Burton")).toBeVisible();
     await expect(card.getByText("Founder & CEO, Huddle")).toBeVisible();
   });
+
+  /** Test if the page has a 'Get Early Access' section */
+  test.describe("has a 'Get Early Access' section", () => {
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("div").nth(14);
+      await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: "Get early access today" }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "It only takes a minute to sign up and our free starter tier is extremely generous. If you have any questions, our support team would be happy to help you.",
+        ),
+      ).toBeVisible();
+      await expect(section.getByPlaceholder("email@example.com")).toBeVisible();
+      await expect(
+        section.getByRole("button", { name: "Get Started For Free" }),
+      ).toBeVisible();
+    });
+  });
 });
