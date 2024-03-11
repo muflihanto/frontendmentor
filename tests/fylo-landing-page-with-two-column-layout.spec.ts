@@ -132,4 +132,30 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
       await expect(input).toHaveValue("invalidemail");
     });
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer).toBeVisible();
+    await expect(footer.getByRole("img").first()).toBeVisible();
+    await expect(footer.getByText("Phone: +1-543-123-4567")).toBeVisible();
+    await expect(footer.getByText("example@fylo.com")).toBeVisible();
+    const navlinks = [
+      ["About Us", "Jobs", "Press", "Blog"],
+      ["Contact Us", "Terms", "Privacy"],
+    ];
+    const navs = await footer.getByRole("navigation").all();
+    for (const [index, nav] of Object.entries(navs)) {
+      const indexNum = Number(index);
+      for (const link of navlinks[indexNum]) {
+        await expect(nav.getByRole("link", { name: link })).toBeVisible();
+      }
+    }
+    const socials = await footer.locator("div").nth(2).getByRole("link").all();
+    expect(socials).toHaveLength(3);
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
