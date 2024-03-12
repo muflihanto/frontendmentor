@@ -13,6 +13,17 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
     );
   });
 
+  /** Test if the page has a header */
+  test("has a header", async ({ page }) => {
+    const header = page.getByRole('banner');
+    await expect(
+      header.getByRole('img')
+    ).toBeVisible();
+    await expect(
+      header.getByRole('button', { name: 'Try it Free' })
+    ).toBeVisible();
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     await expect(
