@@ -40,4 +40,42 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       section.getByRole("link", { name: "Get Started For Free" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a Hero image */
+  test("has a Hero image", async ({ page }) => {
+    const container = page.locator("div").nth(3);
+    await container.scrollIntoViewIfNeeded();
+    await expect(container).toBeVisible();
+    await expect(container.getByRole("img")).toBeVisible();
+  });
+
+  /** Test if the page has a 'Stats' section */
+  test("has a 'Stats' section", async ({ page }) => {
+    const section = page.locator("div").nth(4);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section
+        .locator(">div")
+        .first()
+        .getByRole("img", { name: "Icon Communities" }),
+    ).toBeVisible();
+    await expect(
+      section.locator(">div").first().getByText("1.4k+"),
+    ).toBeVisible();
+    await expect(
+      section.locator(">div").first().getByText("Communities Formed"),
+    ).toBeVisible();
+    await expect(
+      section
+        .locator(">div")
+        .nth(1)
+        .getByRole("img", { name: "Icon Messages" }),
+    ).toBeVisible();
+    await expect(
+      section.locator(">div").nth(1).getByText("2.7m+"),
+    ).toBeVisible();
+    await expect(
+      section.locator(">div").nth(1).getByText("Messages Sent"),
+    ).toBeVisible();
+  });
 });
