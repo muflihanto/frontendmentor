@@ -78,4 +78,24 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       section.locator(">div").nth(1).getByText("Messages Sent"),
     ).toBeVisible();
   });
+
+  /** Test if the page has a 'Grow Together' section */
+  test("has a 'Grow Together' section", async ({ page }) => {
+    const section = page.locator("section").first();
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Grow Together" }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Generate meaningful discussions with your audience and build a strong, loyal community. Think of the insightful conversations you miss out on with a feedback form.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Generate meaningful discussions with your audience and build a strong, loyal community. Think of the insightful conversations you miss out on with a feedback form.",
+      ),
+    ).toBeVisible();
+    await expect(section.getByRole("img")).toBeVisible();
+  });
 });
