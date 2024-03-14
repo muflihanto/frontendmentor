@@ -91,9 +91,19 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
         "Generate meaningful discussions with your audience and build a strong, loyal community. Think of the insightful conversations you miss out on with a feedback form.",
       ),
     ).toBeVisible();
+    await expect(section.getByRole("img")).toBeVisible();
+  });
+
+  /** Test if the page has a 'Flowing Conversations' section */
+  test("has a 'Flowing Conversations' section", async ({ page }) => {
+    const section = page.locator("section").nth(1);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Flowing Conversations" }),
+    ).toBeVisible();
     await expect(
       section.getByText(
-        "Generate meaningful discussions with your audience and build a strong, loyal community. Think of the insightful conversations you miss out on with a feedback form.",
+        "You wouldn‘t paginate a conversation in real life, so why do it online? Our threads have just-in-time loading for a more natural flow.",
       ),
     ).toBeVisible();
     await expect(section.getByRole("img")).toBeVisible();
