@@ -108,4 +108,19 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
     ).toBeVisible();
     await expect(section.getByRole("img")).toBeVisible();
   });
+
+  /** Test if the page has a 'Your Users' section */
+  test("has a 'Your Users' section", async ({ page }) => {
+    const section = page.locator("section").nth(2);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Your Users" }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "It takes no time at all to integrate Huddle with your app‘s authentication solution. This means, once signed in to your app, your users can start chatting immediately.",
+      ),
+    ).toBeVisible();
+    await expect(section.getByRole("img")).toBeVisible();
+  });
 });
