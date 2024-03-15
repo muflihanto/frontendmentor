@@ -135,4 +135,42 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       section.getByRole("link", { name: "Get Started For Free" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a footer */
+  test.describe("has a footer", () => {
+    test("has all elements", async ({ page }) => {
+      const footer = page.getByRole("contentinfo");
+      await footer.scrollIntoViewIfNeeded();
+      const subgrid1 = footer.locator("div").nth(2);
+      const subgrid1images = await subgrid1.getByRole("img").all();
+      expect(subgrid1images).toHaveLength(6);
+      for (const img of subgrid1images) {
+        await expect(img).toBeVisible();
+      }
+      await expect(
+        subgrid1.getByText(
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nulla quam, hendrerit lacinia vestibulum a, ultrices quis sem.",
+        ),
+      ).toBeVisible();
+      await expect(subgrid1.getByText("Phone: +1-543-123-4567")).toBeVisible();
+      await expect(subgrid1.getByText("example@huddle.com")).toBeVisible();
+      const subgrid2 = footer.locator("div").nth(4);
+      await expect(
+        subgrid2.getByRole("heading", { name: "Newsletter" }),
+      ).toBeVisible();
+      await expect(
+        subgrid2.getByText(
+          "To recieve tips on how to grow your community, sign up to our weekly newsletter. We’ll never send you spam or pass on your email address",
+        ),
+      ).toBeVisible();
+      const form = subgrid2.locator("form");
+      await expect(form.getByRole("textbox")).toBeVisible();
+      await expect(
+        form.getByRole("button", { name: "Subscribe" }),
+      ).toBeVisible();
+      await expect(
+        footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+      ).toBeVisible();
+    });
+  });
 });
