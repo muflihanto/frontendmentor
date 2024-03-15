@@ -123,4 +123,16 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
     ).toBeVisible();
     await expect(section.getByRole("img")).toBeVisible();
   });
+
+  /** Test if the page has a 'Ready to build' section */
+  test("has a 'Ready to build' section", async ({ page }) => {
+    const section = page.locator("section").nth(3);
+    await section.scrollIntoViewIfNeeded();
+    await expect(
+      section.getByRole("heading", { name: "Ready To Build Your Community?" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Get Started For Free" }),
+    ).toBeVisible();
+  });
 });
