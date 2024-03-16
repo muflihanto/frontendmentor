@@ -13,6 +13,18 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     );
   });
 
+  /** Test if the page has an 'Add a comment' form */
+  test.describe("has an 'Add a comment' form", () => {
+    test("has all elements", async ({ page }) => {
+      const form = page.locator("form");
+      await expect(
+        form.getByRole("img", { name: "juliusomo Avatar" }),
+      ).toBeVisible();
+      await expect(form.getByPlaceholder("Add a comment...")).toBeVisible();
+      await expect(form.getByRole("button", { name: "Send" })).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
