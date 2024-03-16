@@ -172,5 +172,28 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
         footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
       ).toBeVisible();
     });
+    test("form works", async ({ page }) => {
+      const footer = page.getByRole("contentinfo");
+      await footer.scrollIntoViewIfNeeded();
+      const form = footer.locator("form");
+      const textbox = form.getByRole("textbox");
+      const button = form.getByRole("button", { name: "Subscribe" });
+      const emptyMessage = form.getByText("Email must not be empty");
+      const invalidMessage = form.getByText("Check your email please");
+      await button.click();
+      await expect(emptyMessage).toBeVisible();
+      await expect(invalidMessage).not.toBeVisible();
+      // TODO: add novalidate
+      await textbox.fill("invalidemail");
+      await button.click();
+      await expect(emptyMessage).not.toBeVisible();
+      await expect(invalidMessage).toBeVisible();
+      await expect(textbox).toHaveValue("invalidemail");
+      await textbox.fill("email@example.com");
+      await button.click();
+      await expect(emptyMessage).not.toBeVisible();
+      await expect(invalidMessage).not.toBeVisible();
+      await expect(textbox).toHaveValue("");
+    });
   });
 });
