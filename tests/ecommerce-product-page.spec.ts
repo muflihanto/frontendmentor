@@ -1,5 +1,27 @@
 import { test, expect } from "@playwright/test";
 
+const product = {
+  discount: 50,
+  images: [
+    "/ecommerce-product-page/images/image-product-1.jpg",
+    "/ecommerce-product-page/images/image-product-2.jpg",
+    "/ecommerce-product-page/images/image-product-3.jpg",
+    "/ecommerce-product-page/images/image-product-4.jpg",
+  ],
+  name: "Fall Limited Edition Sneakers",
+  brand: "Sneaker Company",
+  description:
+    "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
+  originalPrice: 250,
+  price: 125,
+  thumbnails: [
+    "/ecommerce-product-page/images/image-product-1-thumbnail.jpg",
+    "/ecommerce-product-page/images/image-product-2-thumbnail.jpg",
+    "/ecommerce-product-page/images/image-product-3-thumbnail.jpg",
+    "/ecommerce-product-page/images/image-product-4-thumbnail.jpg",
+  ],
+};
+
 test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   /** Go to E-commerce product page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -30,13 +52,24 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     ).toBeVisible();
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has 'Product Details' section */
+  test("has 'Product Details' section", async ({ page }) => {
+    const section = page.locator("div").nth(11);
+    await expect(section.getByText(product.brand)).toBeVisible();
     await expect(
-      page.getByRole("heading", {
+      section.getByRole("heading", {
         level: 1,
-        name: "Fall Limited Edition Sneakers",
+        name: product.name,
       }),
+    ).toBeVisible();
+    await expect(section.getByText(product.description)).toBeVisible();
+    await expect(section.getByText(`$${product.price}.00`)).toBeVisible();
+    await expect(section.getByText("50%")).toBeVisible();
+    await expect(
+      section.getByText(`$${product.originalPrice}.00`),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("button", { name: "Add to cart" }),
     ).toBeVisible();
   });
 
