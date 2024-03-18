@@ -83,6 +83,31 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the page has 'Photo slide' section */
+  test("has 'Photo slide' section", async ({ page }) => {
+    const section = page.locator("div").nth(3);
+    const display = section.locator(">div").first();
+    const selector = section.locator(">div").nth(1);
+    await expect(section).toBeVisible();
+    await expect(display).toBeVisible();
+    const displayImages = await display.getByRole("img").all();
+    await expect(selector).toBeVisible();
+    const selectorButtons = await selector.getByRole("button").all();
+    expect(selectorButtons).toHaveLength(4);
+    for (const [btnIndex, button] of Object.entries(selectorButtons)) {
+      await expect(button).toBeVisible();
+      await expect(displayImages[Number(btnIndex)]).toBeVisible();
+      await button.click();
+      for (const [imgIndex, image] of Object.entries(displayImages)) {
+        if (imgIndex === btnIndex) {
+          await expect(image).toBeInViewport();
+        } else {
+          await expect(image).not.toBeInViewport();
+        }
+      }
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
