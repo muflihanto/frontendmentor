@@ -46,7 +46,17 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
         nav.getByRole("link", { name: link, exact: true }),
       ).toBeVisible();
     }
-    await expect(page.locator("#cart-toggle")).toBeVisible();
+    const cartToggle = page.locator("#cart-toggle");
+    const cartPopup = page
+      .locator("div")
+      .filter({ has: page.getByRole("heading", { name: "Cart" }) })
+      .nth(1);
+    await expect(cartToggle).toBeVisible();
+    await expect(cartPopup).not.toBeVisible();
+    await cartToggle.click();
+    await expect(cartPopup).toBeVisible();
+    await cartToggle.click();
+    await expect(cartPopup).not.toBeVisible();
     await expect(
       page.getByRole("button", { name: "User's avatar" }),
     ).toBeVisible();
