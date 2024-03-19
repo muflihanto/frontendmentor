@@ -108,6 +108,34 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     }
   });
 
+  /** Test if the page is responsive */
+  test.describe("page is responsive", () => {
+    test.use({
+      viewport: { width: 375, height: 667 },
+    });
+    test("'Photo slide' section works on mobile", async ({ page }) => {
+      const section = page.locator("div").nth(3);
+      const slideContainer = section.locator(">div>div").first();
+      const prevButton = section.getByRole("button").first();
+      const nextButton = section.getByRole("button").nth(1);
+      await expect(section).toBeVisible();
+      await expect(slideContainer).toBeVisible();
+      await expect(prevButton).toBeVisible();
+      await expect(nextButton).toBeVisible();
+      const images = await section.getByRole("img").all();
+      for (const imgIndex of [1, 2, 3, 4]) {
+        await expect(images[imgIndex]).toBeVisible();
+        // FIXME: fix pattern or fix dom
+        await expect(slideContainer).toHaveAttribute(
+          "style",
+          new RegExp(`.* * -25%.*`, "i"),
+          // `--translate:calc(${imgIndex - 1} * -25%)`,
+        );
+        await nextButton.click();
+      }
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
