@@ -108,6 +108,30 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     }
   });
 
+  /** Test if the page has 'Lightbox' section */
+  test("has 'Lightbox' section", async ({ page }) => {
+    const toggle = page.locator("div").nth(3).locator("button").nth(1);
+    await toggle.click();
+    await page.waitForTimeout(1000);
+    const overlay = page.locator(".fixed");
+    const closeButton = overlay.locator("button").first();
+    const prevButton = overlay.locator("button").nth(1);
+    const nextButton = overlay.locator("button").nth(2);
+    const selectorButtons = await overlay
+      .locator("div")
+      .nth(8)
+      .getByRole("button")
+      .all();
+    await expect(overlay).toBeVisible();
+    await expect(overlay.getByRole("img", { name: "Product 1" })).toBeVisible();
+    await expect(closeButton).toBeVisible();
+    await expect(prevButton).toBeVisible();
+    await expect(nextButton).toBeVisible();
+    expect(selectorButtons).toHaveLength(4);
+    await closeButton.click();
+    await expect(overlay).not.toBeVisible();
+  });
+
   /** Test if the page is responsive */
   test.describe("page is responsive", () => {
     test.use({
