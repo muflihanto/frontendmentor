@@ -81,6 +81,45 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Destination Page
       section.getByRole("heading", { name: firstDestination.travel }),
     ).toBeVisible();
   });
+
+  /** Test if the destination selector button works */
+  test("destination selector button works", async ({ page }) => {
+    await expect(
+      page.getByRole("heading", { name: "01Pick your destination" }),
+    ).toBeVisible();
+    const section = page.locator("div").nth(8);
+    const buttons = await section.getByRole("button").all();
+    for (const [index, button] of Object.entries(buttons)) {
+      const indexNum = Number(index);
+      await button.click();
+      await expect(
+        section.getByRole("img", {
+          name: `Image ${destinations[indexNum].name}`,
+        }),
+      ).toBeVisible();
+      for (const { name } of destinations) {
+        await expect(section.getByRole("button", { name })).toBeVisible();
+      }
+      await expect(
+        section.getByRole("heading", { name: destinations[indexNum].name }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(destinations[indexNum].description),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: "Avg. distance" }),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: destinations[indexNum].distance }),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: "Est. travel time" }),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: destinations[indexNum].travel }),
+      ).toBeVisible();
+    }
+  });
 });
 
 /** Test if the page has a header */
