@@ -159,6 +159,26 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () =
     ).toBeVisible();
     await expect(section.getByText(firstCrew.bio)).toBeVisible();
   });
+
+  /** Test if the crew selector button works */
+  test("crew selector button works", async ({ page }) => {
+    const section = page.locator("div").nth(7);
+    const buttons = await section
+      .locator(">div")
+      .nth(1)
+      .getByRole("button")
+      .all();
+    for (const [index, button] of Object.entries(buttons)) {
+      const indexNum = Number(index);
+      const { bio, name, role } = crews[indexNum];
+      await button.click();
+      await page.waitForTimeout(500);
+      await expect(section.getByRole("img", { name })).toBeVisible();
+      await expect(section.getByRole("heading", { name: role })).toBeVisible();
+      await expect(section.getByRole("heading", { name })).toBeVisible();
+      await expect(section.getByText(bio)).toBeVisible();
+    }
+  });
 });
 
 /** Test if the page has a header */
