@@ -122,6 +122,45 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Destination Page
   });
 });
 
+test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () => {
+  const crews = _data.crew;
+
+  /** Go to Space Tourism Website page before each test */
+  test.beforeEach("Open", async ({ page }) => {
+    await page.goto("/space-tourism-website/crew");
+  });
+
+  /** Test if the page has a correct title */
+  test("has title", async ({ page }) => {
+    await expect(page).toHaveTitle("Space Tourism Website | Crew");
+  });
+
+  testHeader();
+
+  /** Test if the page has a main section */
+  test("has a main section", async ({ page }) => {
+    await expect(
+      page.getByRole("heading", { name: "02Meet your crew" }),
+    ).toBeVisible();
+    const section = page.locator("div").nth(7);
+    const selector = section.locator(">div").nth(1);
+    expect(await selector.getByRole("button").all()).toHaveLength(4);
+    const firstCrew = crews[0];
+    await expect(section).toBeVisible();
+    await expect(section).toBeInViewport();
+    await expect(
+      section.getByRole("img", { name: firstCrew.name }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("heading", { name: firstCrew.role }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("heading", { name: firstCrew.name }),
+    ).toBeVisible();
+    await expect(section.getByText(firstCrew.bio)).toBeVisible();
+  });
+});
+
 /** Test if the page has a header */
 function testHeader() {
   test("has a header", async ({ page }) => {
