@@ -181,6 +181,45 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () =
   });
 });
 
+test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page", () => {
+  const techs = _data.technology;
+
+  /** Go to Space Tourism Website page before each test */
+  test.beforeEach("Open", async ({ page }) => {
+    await page.goto("/space-tourism-website/technology");
+  });
+
+  /** Test if the page has a correct title */
+  test("has title", async ({ page }) => {
+    await expect(page).toHaveTitle("Space Tourism Website | Technology");
+  });
+
+  testHeader();
+
+  /** Test if the page has a main section */
+  test("has a main section", async ({ page }) => {
+    await expect(
+      page.getByRole("heading", { name: "03Space launch 101" }),
+    ).toBeVisible();
+    const section = page.locator("div").nth(7);
+    const selector = section.locator(">div").nth(1);
+    expect(await selector.getByRole("button").all()).toHaveLength(3);
+    const firstTech = techs[0];
+    await expect(section).toBeVisible();
+    await expect(section).toBeInViewport();
+    await expect(
+      section.getByRole("heading", { name: "THE TERMINOLOGY…" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("img", { name: firstTech.name }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("heading", { name: firstTech.name }),
+    ).toBeVisible();
+    await expect(section.getByText(firstTech.description)).toBeVisible();
+  });
+});
+
 /** Test if the page has a header */
 function testHeader() {
   test("has a header", async ({ page }) => {
