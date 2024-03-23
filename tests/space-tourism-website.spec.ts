@@ -218,6 +218,25 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
     ).toBeVisible();
     await expect(section.getByText(firstTech.description)).toBeVisible();
   });
+
+  /** Test if the tech selector button works */
+  test("tech selector button works", async ({ page }) => {
+    const section = page.locator("div").nth(7);
+    const buttons = await section
+      .locator(">div")
+      .nth(1)
+      .getByRole("button")
+      .all();
+    for (const [index, button] of Object.entries(buttons)) {
+      const indexNum = Number(index);
+      const { description, name } = techs[indexNum];
+      await button.click();
+      await page.waitForTimeout(500);
+      await expect(section.getByRole("img", { name })).toBeVisible();
+      await expect(section.getByRole("heading", { name })).toBeVisible();
+      await expect(section.getByText(description)).toBeVisible();
+    }
+  });
 });
 
 /** Test if the page has a header */
