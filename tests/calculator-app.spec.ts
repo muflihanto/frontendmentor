@@ -35,11 +35,33 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
   /** Test if the page has a header */
   test("has a header", async ({ page }) => {
     const header = page.locator("div").nth(4);
+    await expect(header).toBeVisible();
+    await expect(header).toBeInViewport();
     await expect(header.getByText("calc")).toBeVisible();
     const switcher = header.locator(">div");
     await expect(switcher.getByText("theme")).toBeVisible();
     await expect(switcher.getByText("123", { exact: true })).toBeVisible();
     await expect(switcher.getByRole("button")).toBeVisible();
+  });
+
+  /** Test if the page has a calculator screen */
+  test("has a calculator screen", async ({ page }) => {
+    const screen = page.locator("div").nth(8);
+    await expect(screen).toBeVisible();
+    await expect(screen).toBeInViewport();
+  });
+
+  /** Test if the page has all calculator keys */
+  test("has all calculator keys", async ({ page }) => {
+    const calckeys = page.locator("div").nth(9);
+    await expect(calckeys).toBeVisible();
+    await expect(calckeys).toBeInViewport();
+    expect(await calckeys.getByRole("button").all()).toHaveLength(18);
+    for (const key of keys) {
+      await expect(
+        calckeys.getByRole("button", { name: key.key === "*" ? "x" : key.key }),
+      ).toBeVisible();
+    }
   });
 
   /** Test if the page has a footer */
