@@ -17,4 +17,20 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
       page.getByRole("heading", { name: "We‘re launching soon" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has social media links */
+  test("has social media links", async ({ page }) => {
+    const links = await page.getByRole("navigation").getByRole("link").all();
+    expect(links).toHaveLength(3);
+    for (const link of links) {
+      await expect(link).toBeVisible();
+    }
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
