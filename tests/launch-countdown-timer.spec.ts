@@ -18,6 +18,17 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the page has all flip cards */
+  test("has all flip cards", async ({ page }) => {
+    const container = page.locator("div").nth(3);
+    const children = await container.locator(">div").all();
+    expect(children).toHaveLength(8);
+    const units = ["Days", "Hours", "Minutes", "Seconds"];
+    for (const unit of units) {
+      await expect(container.getByText(unit)).toBeVisible();
+    }
+  });
+
   /** Test if the page has social media links */
   test("has social media links", async ({ page }) => {
     const links = await page.getByRole("navigation").getByRole("link").all();
