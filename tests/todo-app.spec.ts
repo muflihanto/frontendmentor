@@ -11,8 +11,25 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     await expect(page).toHaveTitle("Frontend Mentor | Todo app");
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
-    await expect(page.getByRole("heading", { name: "TODO" })).toBeVisible();
+  /** Test if the page has a header */
+  test("has a header", async ({ page }) => {
+    const header = page.getByRole("banner");
+    await expect(header).toBeVisible();
+    await expect(header).toBeInViewport();
+    await expect(header.getByRole("heading", { name: "TODO" })).toBeVisible();
+    await expect(header.getByRole("button")).toBeVisible();
+  });
+
+  /** Test if the page has a new todo input */
+  test("has a new todo input", async ({ page }) => {
+    await expect(page.getByPlaceholder("Create a new todo...")).toBeVisible();
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(page.getByText("Drag and drop to reorder list")).toBeVisible();
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
   });
 });
