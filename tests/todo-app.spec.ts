@@ -84,6 +84,23 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     }
   });
 
+  /** Test if the todo functionalities work */
+  test.describe("todo works", () => {
+    test("can add todo", async ({ page }) => {
+      const form = page.locator("form");
+      const input = form.getByPlaceholder("Create a new todo...");
+      await input.fill("new todo");
+      await input.focus();
+      await page.keyboard.press("Enter");
+      const listitem = form.locator("li").filter({ hasText: "new todo" });
+      await expect(listitem).toBeVisible();
+      await expect(listitem.locator("p")).not.toHaveCSS(
+        "text-decoration-line",
+        "line-through",
+      );
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByText("Drag and drop to reorder list")).toBeVisible();
