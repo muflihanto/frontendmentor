@@ -99,6 +99,28 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
         "line-through",
       );
     });
+    test("can mark todo as completed", async ({ page }) => {
+      const form = page.locator("form");
+      const listitem = form
+        .locator("li")
+        .filter({ hasText: "Read for 1 hour" });
+      await expect(listitem).toBeVisible();
+      await expect(listitem.locator("p")).not.toHaveCSS(
+        "text-decoration-line",
+        "line-through",
+      );
+      const button = listitem.getByRole("button").first();
+      await button.click();
+      await expect(listitem.locator("p")).toHaveCSS(
+        "text-decoration-line",
+        "line-through",
+      );
+      await button.click();
+      await expect(listitem.locator("p")).not.toHaveCSS(
+        "text-decoration-line",
+        "line-through",
+      );
+    });
   });
 
   /** Test if the page has a footer */
