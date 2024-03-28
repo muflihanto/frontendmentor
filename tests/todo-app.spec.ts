@@ -51,13 +51,12 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
   test("has a form", async ({ page }) => {
     const form = page.locator("form");
     await expect(form.getByPlaceholder("Create a new todo...")).toBeVisible();
-    await page.waitForTimeout(2000);
     for (const item of data) {
       const listitem = form.locator("li").filter({ hasText: item.activity });
       await expect(listitem).toBeVisible();
-      for (const button of await listitem.getByRole("button").all()) {
-        await expect(button).toBeVisible();
-      }
+      await listitem.hover();
+      await expect(listitem.getByRole("button").nth(1)).toBeVisible();
+      await expect(listitem.getByRole("button").first()).toBeVisible();
       if (item.completed) {
         await expect(listitem.locator("p")).toHaveCSS(
           "text-decoration-line",
@@ -120,6 +119,23 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
         "text-decoration-line",
         "line-through",
       );
+    });
+    test("can delete a todo", async ({ page }) => {
+      const form = page.locator("form");
+      const listitem = form
+        .locator("li")
+        .filter({ hasText: "Read for 1 hour" });
+      await expect(listitem).toBeVisible();
+      await expect(listitem.locator("p")).not.toHaveCSS(
+        "text-decoration-line",
+        "line-through",
+      );
+      await listitem.hover();
+      const button = listitem.getByRole("button").nth(1);
+      await button.click();
+      await page.waitForTimeout(500);
+      await expect(listitem).not.toBeVisible();
+      await expect(listitem).not.toBeInViewport();
     });
   });
 
