@@ -27,6 +27,13 @@ const data = [
   },
 ];
 
+const formFooterButtonLabels = [
+  "All",
+  "Active",
+  "Completed",
+  "Clear Completed",
+] as const;
+
 test.describe("FrontendMentor Challenge - Todo app Page", () => {
   /** Go to Todo app page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -70,12 +77,6 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
       }
     }
     await expect(form.getByText("5 items left")).toBeVisible();
-    const formFooterButtonLabels = [
-      "All",
-      "Active",
-      "Completed",
-      "Clear Completed",
-    ];
     for (const button of formFooterButtonLabels) {
       await expect(
         form.getByRole("button", { name: button, exact: true }),
@@ -136,6 +137,50 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
       await page.waitForTimeout(500);
       await expect(listitem).not.toBeVisible();
       await expect(listitem).not.toBeInViewport();
+    });
+    test("form footer buttons work", async ({ page }) => {
+      const form = page.locator("form");
+      for (const label of formFooterButtonLabels) {
+        const button = form.getByRole("button", { name: label, exact: true });
+        await button.click();
+        switch (label) {
+          case "All":
+            for (const item of data) {
+              const listitem = form
+                .locator("li")
+                .filter({ hasText: item.activity });
+              await expect(listitem).toBeVisible();
+            }
+            break;
+          case "Completed":
+            for (const item of data.filter((item) => item.completed)) {
+              const listitem = form
+                .locator("li")
+                .filter({ hasText: item.activity });
+              await expect(listitem).toBeVisible();
+            }
+            break;
+          case "Active":
+            for (const item of data.filter((item) => !item.completed)) {
+              const listitem = form
+                .locator("li")
+                .filter({ hasText: item.activity });
+              await expect(listitem).toBeVisible();
+            }
+            break;
+          default:
+            await form
+              .getByRole("button", { name: "All", exact: true })
+              .click();
+            for (const item of data.filter((item) => !item.completed)) {
+              const listitem = form
+                .locator("li")
+                .filter({ hasText: item.activity });
+              await expect(listitem).toBeVisible();
+            }
+            break;
+        }
+      }
     });
   });
 
