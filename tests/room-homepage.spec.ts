@@ -19,6 +19,39 @@ const links = [
   },
 ];
 
+const products = [
+  {
+    title: "Discover innovative ways to decorate",
+    description:
+      "We provide unmatched quality, comfort, and style for property owners across the country. Our experts combine form and function in bringing your vision to life. Create a room in your own style with our collection and make your property a reflection of you and what you love.",
+    link: "",
+    image: {
+      mobile: "mobile-image-hero-1.jpg",
+      desktop: "desktop-image-hero-1.jpg",
+    },
+  },
+  {
+    title: "We are available all across the globe",
+    description:
+      "With stores all over the world, it's easy for you to find furniture for your home or place of business. Locally, we’re in most major cities throughout the country. Find the branch nearest you using our store locator. Any questions? Don't hesitate to contact us today.",
+    link: "",
+    image: {
+      mobile: "mobile-image-hero-2.jpg",
+      desktop: "desktop-image-hero-2.jpg",
+    },
+  },
+  {
+    title: "Manufactured with the best materials",
+    description:
+      "Our modern furniture store provide a high level of quality. Our company has invested in advanced technology to ensure that every product is made as perfect and as consistent as possible. With three decades of experience in this industry, we understand what customers want for their home and office.",
+    link: "",
+    image: {
+      mobile: "mobile-image-hero-3.jpg",
+      desktop: "desktop-image-hero-3.jpg",
+    },
+  },
+] as const;
+
 test.describe("FrontendMentor Challenge - Room homepage Page", () => {
   /** Go to Room homepage page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -43,14 +76,19 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
     }
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has a hero section */
+  test("has a hero section", async ({ page }) => {
+    const section = page.locator("div").nth(3);
+    await expect(section.getByRole("button").first()).toBeVisible();
+    await expect(section.getByRole("button").nth(1)).toBeVisible();
+    const grid1 = section.locator(">div").first();
+    const grid2 = section.locator(">div").nth(1);
+    await expect(grid1.getByRole("img", { name: "Product 1" })).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "Discover innovative ways to decorate",
-      }),
+      grid2.getByRole("heading", { name: products[0].title }),
     ).toBeVisible();
+    await expect(grid2.getByText(products[0].description)).toBeVisible();
+    await expect(grid2.getByRole("link", { name: "Shop Now" })).toBeVisible();
   });
 
   /** Test if the page has a footer */
