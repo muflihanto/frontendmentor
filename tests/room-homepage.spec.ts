@@ -91,6 +91,43 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
     await expect(grid2.getByRole("link", { name: "Shop Now" })).toBeVisible();
   });
 
+  /** Test if the hero slider works */
+  test("hero slider works", async ({ page }) => {
+    const section = page.locator("div").nth(3);
+    const prevImage = section.getByRole("button").first();
+    const nextImage = section.getByRole("button").nth(1);
+    const heroImage = section.locator(">div").first();
+    const textgrid = section.locator(">div").nth(1);
+    for (const [index, product] of Object.entries(products)) {
+      await expect(
+        heroImage.getByRole("img", { name: `Product ${Number(index) + 1}` }),
+      ).toBeVisible();
+      await expect(
+        textgrid.getByRole("heading", { name: product.title }),
+      ).toBeVisible();
+      await expect(textgrid.getByText(product.description)).toBeVisible();
+      await expect(
+        textgrid.getByRole("link", { name: "Shop Now" }),
+      ).toBeVisible();
+      await nextImage.click();
+    }
+    for (const [index, product] of Object.entries([...products].reverse())) {
+      await prevImage.click();
+      await expect(
+        heroImage.getByRole("img", {
+          name: `Product ${products.length - Number(index)}`,
+        }),
+      ).toBeVisible();
+      await expect(
+        textgrid.getByRole("heading", { name: product.title }),
+      ).toBeVisible();
+      await expect(textgrid.getByText(product.description)).toBeVisible();
+      await expect(
+        textgrid.getByRole("link", { name: "Shop Now" }),
+      ).toBeVisible();
+    }
+  });
+
   /** Test if the page has an about section */
   test("has an about section", async ({ page }) => {
     const section = page.locator("div").nth(7);
