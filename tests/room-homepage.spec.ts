@@ -91,6 +91,26 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
     await expect(grid2.getByRole("link", { name: "Shop Now" })).toBeVisible();
   });
 
+  /** Test if the page has an about section */
+  test("has an about section", async ({ page }) => {
+    const section = page.locator("div").nth(7);
+    await expect(
+      section.getByRole("img", { name: "About Dark Image" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("img", { name: "About Light Image" }),
+    ).toBeVisible();
+    const textgrid = section.locator(">div").nth(1);
+    await expect(
+      textgrid.getByRole("heading", { name: "About our furniture" }),
+    ).toBeVisible();
+    await expect(
+      textgrid.getByText(
+        "Our multifunctional collection blends design and function to suit your individual taste. Make each room unique, or pick a cohesive theme that best express your interests and what inspires you. Find the furniture pieces you need, from traditional to contemporary styles or anything in between. Product specialists are available to help you create your dream space.",
+      ),
+    ).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
