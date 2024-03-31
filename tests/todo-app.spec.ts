@@ -184,6 +184,23 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     });
   });
 
+  /** Test if the theme switcher works */
+  test("theme switcher works", async ({ page }) => {
+    const button = page.getByRole("banner").getByRole("button");
+    const container = page.locator("div").nth(1);
+    await expect(container).toHaveCSS(
+      "background-image",
+      'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
+    );
+    await expect(container).toHaveCSS("background-color", "rgb(250, 250, 250)");
+    await button.click();
+    await expect(container).toHaveCSS(
+      "background-image",
+      'url("http://localhost:3000/todo-app/images/bg-desktop-dark.jpg")',
+    );
+    await expect(container).toHaveCSS("background-color", "rgb(22, 23, 34)");
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByText("Drag and drop to reorder list")).toBeVisible();
