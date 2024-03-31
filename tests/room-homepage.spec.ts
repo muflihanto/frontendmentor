@@ -154,4 +154,35 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
+
+  /** Test if the page is responsive */
+  test.describe("page is responsive", () => {
+    test.use({
+      viewport: { height: 667, width: 375 },
+    });
+    test("has a mobile navigation menu", async ({ page }) => {
+      const header = page.getByRole("banner");
+      await expect(header).toBeVisible();
+      await expect(header).toBeInViewport();
+      const menuButton = header.getByRole("button");
+      await expect(menuButton).toBeVisible();
+      for (const { display } of links) {
+        await expect(
+          header.getByRole("link", { name: display }),
+        ).not.toBeVisible();
+      }
+      await menuButton.click();
+      await page.waitForTimeout(250);
+      for (const { display } of links) {
+        await expect(header.getByRole("link", { name: display })).toBeVisible();
+      }
+      await menuButton.click();
+      await page.waitForTimeout(250);
+      for (const { display } of links) {
+        await expect(
+          header.getByRole("link", { name: display }),
+        ).not.toBeVisible();
+      }
+    });
+  });
 });
