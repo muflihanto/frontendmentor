@@ -53,6 +53,33 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the form works */
+  test("form works", async ({ page }) => {
+    await page.waitForTimeout(2000);
+    const form = page.locator("form");
+    const input = form.getByPlaceholder("Search for any IP address or domain");
+    const map = page
+      .locator("div")
+      .filter({ hasText: "Leaflet | © OpenStreetMap contributors" })
+      .nth(2);
+    const initialMapPosition = await map
+      .locator(".leaflet-proxy")
+      .getAttribute("style");
+    expect(initialMapPosition).toContain(
+      "translate3d(545886px, 382367px, 0px)",
+    );
+    await expect(map).toBeVisible();
+    await input.fill("8.8.8.8");
+    await form.getByRole("button").click();
+    await page.waitForTimeout(1000);
+    expect(
+      await map.locator(".leaflet-map-pane").getAttribute("style"),
+    ).not.toContain("translate3d(545886px, 382367px, 0px)");
+    const card = page.locator("div").nth(4);
+    await expect(card.getByText("IP Address8.8.8.8")).toBeVisible();
+    await expect(card.getByText("ISPGoogle LLC")).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
