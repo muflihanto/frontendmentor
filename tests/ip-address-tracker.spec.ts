@@ -38,4 +38,25 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(card.getByText("Timezone-")).toBeVisible();
     await expect(card.getByText("ISP-")).toBeVisible();
   });
+
+  /** Test if the page has a leaflet map */
+  test("has a leaflet map", async ({ page }) => {
+    await page.waitForTimeout(2000);
+    const map = page
+      .locator("div")
+      .filter({ hasText: "Leaflet | © OpenStreetMap contributors" })
+      .nth(2);
+    await expect(map).toBeVisible();
+    // Attribution
+    await expect(
+      map.getByText("Leaflet | © OpenStreetMap contributors"),
+    ).toBeVisible();
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
