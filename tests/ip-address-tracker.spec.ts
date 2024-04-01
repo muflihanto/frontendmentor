@@ -20,4 +20,22 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
       }),
     ).toBeVisible();
   });
+
+  /** Test if the page has an input group */
+  test("has an input group", async ({ page }) => {
+    const form = page.locator("form");
+    await expect(
+      form.getByPlaceholder("Search for any IP address or domain"),
+    ).toBeVisible();
+    await expect(form.getByRole("button")).toBeVisible();
+  });
+
+  /** Test if the page has an ip info card */
+  test("has an ip info card", async ({ page }) => {
+    const card = page.locator("div").nth(4);
+    await expect(card.getByText("IP Address::ffff:127.0.0.1")).toBeVisible();
+    await expect(card.getByText("Location-")).toBeVisible();
+    await expect(card.getByText("Timezone-")).toBeVisible();
+    await expect(card.getByText("ISP-")).toBeVisible();
+  });
 });
