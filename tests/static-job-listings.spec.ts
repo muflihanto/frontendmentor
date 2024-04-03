@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+import jobs from "../public/static-job-listings/data.json";
+
 test.describe("FrontendMentor Challenge - Job Listings Page", () => {
   /** Go to Job Listings page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -27,6 +29,33 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
     const container = page.locator("div").nth(3);
     await expect(container).toBeVisible();
     expect(await container.locator(">div").all()).toHaveLength(10);
+    for (const job of jobs) {
+      const jobCard = container.locator(">div").nth(job.id - 1);
+      await expect(
+        jobCard.getByRole("img", { name: `${job.company} ${job.position}` }),
+      ).toBeVisible();
+      await expect(jobCard.getByText(job.company)).toBeVisible();
+      if (job.new) await expect(jobCard.getByText("new!")).toBeVisible();
+      if (job.featured)
+        await expect(jobCard.getByText("featured").first()).toBeVisible();
+      await expect(
+        jobCard.getByText(job.position, { exact: true }),
+      ).toBeVisible();
+      await expect(jobCard.getByText(job.postedAt)).toBeVisible();
+      await expect(jobCard.getByText(job.contract)).toBeVisible();
+      await expect(jobCard.getByText(job.location)).toBeVisible();
+      await expect(
+        jobCard.getByRole("button", { name: job.role }),
+      ).toBeVisible();
+      await expect(
+        jobCard.getByRole("button", { name: job.level }),
+      ).toBeVisible();
+      for (const filter of [...job.languages, ...job.tools]) {
+        await expect(
+          jobCard.getByRole("button", { name: filter }),
+        ).toBeVisible();
+      }
+    }
   });
 
   /** Test if the page has a footer */
