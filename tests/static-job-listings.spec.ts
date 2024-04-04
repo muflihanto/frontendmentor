@@ -77,6 +77,21 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
         jobs.filter((job) => job.role === "Frontend").length,
       );
     });
+    test("can clean filter", async ({ page }) => {
+      await page.getByRole("button", { name: "Frontend" }).first().click();
+      const clearFilterButton = page
+        .locator("div")
+        .nth(3)
+        .getByRole("button", { name: "Clear" });
+      const jobListContainer = page.locator("div").nth(7);
+      expect(await jobListContainer.locator(">div").all()).toHaveLength(
+        jobs.filter((job) => job.role === "Frontend").length,
+      );
+      await clearFilterButton.click();
+      const allJobsContainer = page.locator("div").nth(3);
+      await expect(allJobsContainer).toBeVisible();
+      expect(await allJobsContainer.locator(">div").all()).toHaveLength(10);
+    });
   });
 
   /** Test if the page has a footer */
