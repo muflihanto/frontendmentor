@@ -25,13 +25,23 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
     ).toBeVisible();
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has an intro section */
+  test("has an intro section", async ({ page }) => {
+    const section = page.locator("div").nth(5);
     await expect(
-      page.getByRole("heading", {
+      section.getByRole("heading", {
         level: 1,
         name: "Next generation digital banking",
       }),
     ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Take your financial life online. Your Easybank account will be a one-stop-shop for spending, saving, budgeting, investing, and much more.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("button", { name: "Request Invite" }),
+    ).toBeVisible();
+    await expect(section.getByRole("img", { name: "Mockup" })).toBeVisible();
   });
 });
