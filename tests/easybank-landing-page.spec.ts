@@ -97,4 +97,58 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
       await expect(locator.getByText(feature.description)).toBeVisible();
     }
   });
+
+  /** Test if the page has a 'Latest Articles' section */
+  test("has a 'Latest Articles' section", async ({ page }) => {
+    const articles = [
+      {
+        author: "Claire Robinson",
+        title: "Receive money in any currency with no fees",
+        summary:
+          "The world is getting smaller and we’re becoming more mobile. So why should you be forced to only receive money in a single",
+        cover: "/easybank-landing-page/images/image-currency.jpg",
+      },
+      {
+        author: "Wilson Hutton",
+        title: "Treat yourself without worrying about money",
+        summary:
+          "Our simple budgeting feature allows you to separate out your spending and set realistic limits each month. That means you",
+        cover: "/easybank-landing-page/images/image-restaurant.jpg",
+      },
+      {
+        author: "Wilson Hutton",
+        title: "Take your Easybank card wherever you go",
+        summary:
+          "We want you to enjoy your travels. This is why we don’t charge any fees on purchases while you’re abroad. We’ll even show you",
+        cover: "/easybank-landing-page/images/image-plane.jpg",
+      },
+      {
+        author: "Claire Robinson",
+        title: "Our invite-only Beta accounts are now live!",
+        summary:
+          "After a lot of hard work by the whole team, we’re excited to launch our closed beta. It’s easy to request an invite through the site",
+        cover: "/easybank-landing-page/images/image-confetti.jpg",
+      },
+    ] as const;
+    const section = page.locator("div").nth(15);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("heading", { name: "Latest Articles" }),
+    ).toBeVisible();
+    const articleLocators = await section.locator(">div>div").all();
+    expect(articleLocators).toHaveLength(4);
+    for (const [index, article] of Object.entries(articles)) {
+      const indexNum = Number(index);
+      const locator = articleLocators[indexNum];
+      await expect(
+        locator.getByRole("img", { name: article.title }),
+      ).toBeVisible();
+      await expect(locator.getByText(`By ${article.author}`)).toBeVisible();
+      await expect(
+        locator.getByRole("heading", { name: article.title }),
+      ).toBeVisible();
+      await expect(locator.getByText(article.summary)).toBeVisible();
+    }
+  });
 });
