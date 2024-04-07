@@ -151,4 +151,35 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
       await expect(locator.getByText(article.summary)).toBeVisible();
     }
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const footerNav = [
+      "About Us",
+      "Contact",
+      "Blog",
+      "Careers",
+      "Support",
+      "Privacy Policy",
+    ] as const;
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer).toBeVisible();
+    await expect(footer.locator("div>svg")).toBeVisible();
+    const snsContainer = footer.locator("div").nth(1);
+    expect(await snsContainer.getByRole("link").all()).toHaveLength(5);
+    const navElement = footer.locator("nav");
+    for (const nav of footerNav) {
+      await expect(navElement.getByRole("link", { name: nav })).toBeVisible();
+    }
+    await expect(
+      footer.getByRole("button", { name: "Request Invite" }),
+    ).toBeVisible();
+    await expect(
+      footer.getByText("© Easybank. All Rights Reserved"),
+    ).toBeVisible();
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
