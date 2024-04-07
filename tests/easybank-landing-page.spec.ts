@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const navs = ["Home", "About", "Contact", "Blog", "Careers"];
+const navs = ["Home", "About", "Contact", "Blog", "Careers"] as const;
 
 test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
   /** Go to Easybank landing page before each test */
@@ -181,5 +181,31 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  /** Test if the page displayed correctly on mobile */
+  test.describe("displayed correctly on mobile", () => {
+    test.use({ viewport: { height: 667, width: 375 } });
+
+    test("has mobile navigation menu", async ({ page }) => {
+      const header = page.locator("div").nth(2);
+      const menuButton = header.getByRole("button");
+      await expect(menuButton).toBeVisible();
+      await menuButton.click();
+      const navContainer = header.locator("div").nth(2);
+      await expect(navContainer).toBeVisible();
+      for (const nav of navs) {
+        await expect(
+          navContainer.getByRole("link", { name: nav }),
+        ).toBeVisible();
+      }
+      await menuButton.click();
+      await expect(navContainer).not.toBeVisible();
+      for (const nav of navs) {
+        await expect(
+          navContainer.getByRole("link", { name: nav }),
+        ).not.toBeVisible();
+      }
+    });
   });
 });
