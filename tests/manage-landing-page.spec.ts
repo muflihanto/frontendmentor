@@ -25,13 +25,26 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     ).toBeVisible();
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has an intro section */
+  test("has an intro section", async ({ page }) => {
+    const section = page.locator("div").nth(7);
+    const grid1 = section.locator(">div").first();
+    const grid2 = section.locator(">div").nth(1);
     await expect(
-      page.getByRole("heading", {
-        level: 1,
+      grid1.getByRole("img", { name: "Intro Illustration" }),
+    ).toBeVisible();
+    await expect(
+      grid2.getByRole("heading", {
         name: "Bring everyone together to build better products.",
       }),
+    ).toBeVisible();
+    await expect(
+      grid2.getByText(
+        "Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.",
+      ),
+    ).toBeVisible();
+    await expect(
+      grid2.getByRole("button", { name: "Get Started" }),
     ).toBeVisible();
   });
 });
