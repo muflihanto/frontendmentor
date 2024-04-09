@@ -89,4 +89,36 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
       await expect(grid2.getByText(point.desc)).toBeVisible();
     }
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const navLinks = [
+      "Home",
+      "Pricing",
+      "Products",
+      "About Us",
+      "Careers",
+      "Community",
+      "Privacy Policy",
+    ];
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer).toBeVisible();
+    await expect(footer.locator(">div>svg")).toBeVisible();
+    const snsContainer = footer.locator(">div").first();
+    expect(await snsContainer.getByRole("link").all()).toHaveLength(5);
+    const nav = footer.getByRole("navigation");
+    for (const link of navLinks) {
+      await expect(nav.getByRole("link", { name: link })).toBeVisible();
+    }
+    const form = footer.locator("form");
+    await expect(form.getByPlaceholder("Updates in your inbox…")).toBeVisible();
+    await expect(form.getByRole("button", { name: "Go" })).toBeVisible();
+    await expect(
+      footer.getByText("Copyright 2020. All Rights Reserved"),
+    ).toBeVisible();
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
