@@ -90,6 +90,23 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     }
   });
 
+  /** Test if the page has a 'What they’ve said' section */
+  test("has a 'What they’ve said' section", async ({ page }) => {
+    const section = page.locator("div").nth(16);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("heading", { name: "What they’ve said" }),
+    ).toBeVisible();
+    const testimonialsContainer = section.locator(">div");
+    expect(await testimonialsContainer.locator(">div>div").all()).toHaveLength(
+      4,
+    );
+    await expect(
+      section.getByRole("button", { name: "Get Started" }),
+    ).toBeVisible();
+  });
+
   /** Test if the page has a 'Simplify' section */
   test("has a 'Simplify' section", async ({ page }) => {
     const section = page.locator("div").nth(28);
