@@ -90,6 +90,21 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     }
   });
 
+  /** Test if the page has a 'Simplify' section */
+  test("has a 'Simplify' section", async ({ page }) => {
+    const section = page.locator("div").nth(28);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("heading", {
+        name: "Simplify how your team works today.",
+      }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("button", { name: "Get Started" }),
+    ).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     const navLinks = [
