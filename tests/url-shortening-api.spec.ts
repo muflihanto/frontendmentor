@@ -13,6 +13,18 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     );
   });
 
+  /** Test if the page has a header */
+  test("has a header", async ({ page }) => {
+    const header = page.getByRole("banner");
+    await expect(header.getByRole("img")).toBeVisible();
+    const navs = ["Features", "Pricing", "Resources"];
+    for (const nav of navs) {
+      await expect(header.getByRole("link", { name: nav })).toBeVisible();
+    }
+    await expect(header.getByRole("link", { name: "Login" })).toBeVisible();
+    await expect(header.getByRole("link", { name: "Sign Up" })).toBeVisible();
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     await expect(
