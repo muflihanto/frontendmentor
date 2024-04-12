@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge Page", () => {
   /** Go to Shortly URL shortening API Challenge page before each test */
@@ -42,6 +42,23 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     await expect(
       section.getByRole("img", { name: "Illustration Working" }),
     ).toBeVisible();
+  });
+
+  /** Test if the page has a main form */
+  test.describe("has a main form", () => {
+    test.describe.configure({ mode: "serial" });
+    let form: Locator;
+    test("main form is visible", async ({ page }) => {
+      form = page.locator("form");
+      await form.scrollIntoViewIfNeeded();
+      await expect(form).toBeVisible();
+      await expect(
+        form.getByPlaceholder("Shorten a link here..."),
+      ).toBeVisible();
+      await expect(
+        form.getByRole("button", { name: "Shorten It!" }),
+      ).toBeVisible();
+    });
   });
 
   /** Test if the page has a heading */
