@@ -61,13 +61,50 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     });
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has an 'Advanced Statistics' section */
+  test("has an 'Advanced Statistics' section", async ({ page }) => {
+    const section = page.locator("div").nth(15);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "More than just shorter links",
-      }),
+      section.getByRole("heading", { name: "Advanced Statistics" }),
     ).toBeVisible();
+    await expect(
+      section.getByText(
+        "Track how your links are performing across the web with our advanced statistics dashboard.",
+      ),
+    ).toBeVisible();
+    const statisticFeatures = [
+      {
+        icon: "/url-shortening-api/images/icon-brand-recognition.svg",
+        name: "Brand Recognition",
+        description:
+          "Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content.",
+      },
+      {
+        icon: "/url-shortening-api/images/icon-detailed-records.svg",
+        name: "Detailed Records",
+        description:
+          "Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions.",
+      },
+      {
+        icon: "/url-shortening-api/images/icon-fully-customizable.svg",
+        name: "Fully Customizable",
+        description:
+          "Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.",
+      },
+    ];
+    const featuresContaier = section.locator(">div").nth(1);
+    for (const feature of statisticFeatures) {
+      await expect(
+        featuresContaier.getByRole("img", { name: `${feature.name} icon` }),
+      ).toBeVisible();
+      await expect(
+        featuresContaier.getByRole("heading", { name: feature.name }),
+      ).toBeVisible();
+      await expect(
+        featuresContaier.getByText(feature.description),
+      ).toBeVisible();
+    }
   });
 });
