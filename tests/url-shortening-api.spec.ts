@@ -107,4 +107,17 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
       ).toBeVisible();
     }
   });
+
+  /** Test if the page has a 'Boost' section */
+  test("has a 'Boost' section", async ({ page }) => {
+    const section = page.locator("div").nth(28);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("heading", { name: "Boost your links today" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("button", { name: "Get Started" }),
+    ).toBeVisible();
+  });
 });
