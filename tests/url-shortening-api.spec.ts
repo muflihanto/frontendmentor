@@ -120,4 +120,42 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
       section.getByRole("button", { name: "Get Started" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer).toBeVisible();
+    await expect(footer.locator(">svg")).toBeVisible();
+    const footerNavs = [
+      {
+        name: "Features",
+        links: ["Link Shortening", "Branded Links", "Analytics"],
+      },
+      {
+        name: "Resources",
+        links: ["Blog", "Developers", "Support"],
+      },
+      {
+        name: "Company",
+        links: ["About", "Our Team", "Careers", "Contact"],
+      },
+    ];
+    for (const group of footerNavs) {
+      await expect(
+        footer.getByRole("heading", { name: group.name }),
+      ).toBeVisible();
+      for (const link of group.links) {
+        await expect(footer.getByRole("link", { name: link })).toBeVisible();
+      }
+    }
+    const snsLinks = await footer.locator(">nav>a").all();
+    expect(snsLinks).toHaveLength(4);
+    for (const sns of snsLinks) {
+      await expect(sns).toBeVisible();
+    }
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
