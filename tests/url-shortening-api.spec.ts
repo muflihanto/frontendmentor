@@ -1,5 +1,7 @@
 import { test, expect, type Locator } from "@playwright/test";
 
+const headerNavs = ["Features", "Pricing", "Resources"];
+
 test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge Page", () => {
   /** Go to Shortly URL shortening API Challenge page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -17,8 +19,7 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
   test("has a header", async ({ page }) => {
     const header = page.getByRole("banner");
     await expect(header.getByRole("img")).toBeVisible();
-    const navs = ["Features", "Pricing", "Resources"];
-    for (const nav of navs) {
+    for (const nav of headerNavs) {
       await expect(header.getByRole("link", { name: nav })).toBeVisible();
     }
     await expect(header.getByRole("link", { name: "Login" })).toBeVisible();
@@ -157,5 +158,21 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  /** Test if the page displayed correctly on mobile */
+  test.describe("displayed correctly on mobile", () => {
+    test.use({ viewport: { height: 667, width: 375 } });
+    test.describe.configure({ mode: "serial" });
+
+    let header: Locator;
+    let menuButton: Locator;
+
+    test("mobile navigation menu is visible", async ({ page }) => {
+      header = page.getByRole("banner");
+      await expect(header).toBeVisible();
+      menuButton = header.getByRole("button");
+      await expect(menuButton).toBeVisible();
+    });
   });
 });
