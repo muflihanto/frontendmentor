@@ -1,6 +1,7 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
 
 const pageUrl = "/manage-landing-page";
+const headerNavs = ["Pricing", "Product", "About Us", "Careers", "Community"];
 
 test.describe("FrontendMentor Challenge - Manage landing Page", () => {
   /** Go to Manage landing page before each test */
@@ -17,9 +18,8 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
   test("has a header", async ({ page }) => {
     const header = page.getByRole("banner");
     await expect(header.getByRole("img")).toBeVisible();
-    const navs = ["Pricing", "Product", "About Us", "Careers", "Community"];
     const navEl = header.locator("div").first();
-    for (const nav of navs) {
+    for (const nav of headerNavs) {
       await expect(navEl.getByRole("link", { name: nav })).toBeVisible();
     }
     await expect(
@@ -163,10 +163,15 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     let page: Page;
     let header: Locator;
     let menuButton: Locator;
+    let navContainer: Locator;
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage({ viewport: { height: 667, width: 375 } });
       await page.goto(pageUrl);
+    });
+
+    test.afterAll(async () => {
+      await page.close();
     });
 
     test("mobile navigation menu is visible", async () => {
@@ -174,6 +179,25 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
       await expect(header).toBeVisible();
       menuButton = header.getByRole("button");
       await expect(menuButton).toBeVisible();
+    });
+
+    test("mobile navigation menu works", async () => {
+      await menuButton.click();
+      await page.waitForTimeout(1000);
+      navContainer = header.locator("div").nth(2);
+      await expect(navContainer).toBeVisible();
+      for (const nav of headerNavs) {
+        await expect(
+          navContainer.getByRole("link", { name: nav }),
+        ).toBeVisible();
+      }
+      await menuButton.click();
+      await expect(navContainer).not.toBeVisible();
+      for (const nav of headerNavs) {
+        await expect(
+          navContainer.getByRole("link", { name: nav }),
+        ).not.toBeVisible();
+      }
     });
   });
 });
