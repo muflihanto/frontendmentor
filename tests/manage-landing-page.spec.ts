@@ -1,9 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
+
+const pageUrl = "/manage-landing-page";
 
 test.describe("FrontendMentor Challenge - Manage landing Page", () => {
   /** Go to Manage landing page before each test */
   test.beforeEach("Open", async ({ page }) => {
-    await page.goto("/manage-landing-page");
+    await page.goto(pageUrl);
   });
 
   /** Test if the page has a correct title */
@@ -152,5 +154,26 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  /** Test if the page displayed correctly on mobile */
+  test.describe("displayed correctly on mobile", () => {
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+    let header: Locator;
+    let menuButton: Locator;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage({ viewport: { height: 667, width: 375 } });
+      await page.goto(pageUrl);
+    });
+
+    test("mobile navigation menu is visible", async () => {
+      header = page.getByRole("banner");
+      await expect(header).toBeVisible();
+      menuButton = header.getByRole("button");
+      await expect(menuButton).toBeVisible();
+    });
   });
 });
