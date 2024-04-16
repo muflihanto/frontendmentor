@@ -156,6 +156,35 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the page footer form works */
+  test.describe("footer form works", () => {
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+    let footer: Locator;
+    let form: Locator;
+    let input: Locator;
+    let button: Locator;
+    let emptyError: Locator;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto(pageUrl);
+      footer = page.getByRole("contentinfo");
+      await footer.scrollIntoViewIfNeeded();
+      form = footer.locator("form");
+      input = form.getByPlaceholder("Updates in your inbox…");
+      button = form.getByRole("button", { name: "Go" });
+      emptyError = footer.getByText("Email should not be empty");
+    });
+
+    test("can handle empty input", async () => {
+      await expect(emptyError).not.toBeVisible();
+      await button.click();
+      await expect(emptyError).toBeVisible();
+    });
+  });
+
   /** Test if the page displayed correctly on mobile */
   test.describe("displayed correctly on mobile", () => {
     test.describe.configure({ mode: "serial" });
