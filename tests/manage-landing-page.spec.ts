@@ -166,6 +166,7 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     let input: Locator;
     let button: Locator;
     let emptyError: Locator;
+    let invalidError: Locator;
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
@@ -176,12 +177,21 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
       input = form.getByPlaceholder("Updates in your inbox…");
       button = form.getByRole("button", { name: "Go" });
       emptyError = footer.getByText("Email should not be empty");
+      invalidError = footer.getByText("Please insert a valid email");
     });
 
     test("can handle empty input", async () => {
       await expect(emptyError).not.toBeVisible();
       await button.click();
       await expect(emptyError).toBeVisible();
+    });
+
+    test("can handle invalid input", async () => {
+      await page.reload();
+      await expect(invalidError).not.toBeVisible();
+      await input.fill("invalid input");
+      await button.click();
+      await expect(invalidError).toBeVisible();
     });
   });
 
