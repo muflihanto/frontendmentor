@@ -188,10 +188,23 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
 
     test("can handle invalid input", async () => {
       await page.reload();
+      await footer.scrollIntoViewIfNeeded();
       await expect(invalidError).not.toBeVisible();
       await input.fill("invalid input");
       await button.click();
       await expect(invalidError).toBeVisible();
+    });
+
+    test("can handle valid input", async () => {
+      await page.reload();
+      await footer.scrollIntoViewIfNeeded();
+      await expect(emptyError).not.toBeVisible();
+      await expect(invalidError).not.toBeVisible();
+      await input.fill("email@example.com");
+      await button.click();
+      await expect(emptyError).not.toBeVisible();
+      await expect(invalidError).not.toBeVisible();
+      expect(await input.inputValue()).toStrictEqual("");
     });
   });
 
