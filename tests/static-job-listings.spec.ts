@@ -65,7 +65,7 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
     test.describe.configure({ mode: "serial" });
 
     let page: Page;
-    let sampleFilterButton: Locator;
+    let sampleFilterButtons: Locator[] = [];
     let filtersContainer: Locator;
     let jobListContainer: Locator;
     let clearFilterButton: Locator;
@@ -80,15 +80,35 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
     });
 
     test("can add filter", async () => {
-      sampleFilterButton = page
-        .getByRole("button", { name: "Frontend" })
-        .first();
-      await sampleFilterButton.click();
+      sampleFilterButtons = [
+        page.getByRole("button", { name: "Frontend" }).first(),
+        page.getByRole("button", { name: "HTML" }).first(),
+      ];
+      for (const button of sampleFilterButtons) {
+        await expect(button).toBeVisible();
+        await button.click();
+      }
       filtersContainer = page.locator("div").nth(3);
       await expect(filtersContainer).toBeVisible();
-      expect(await filtersContainer.locator(">div").all()).toHaveLength(1);
-      jobListContainer = page.locator("div").nth(7);
+      expect(await filtersContainer.locator(">div>div").all()).toHaveLength(2);
+      jobListContainer = page.locator("div:nth-child(2)").nth(2);
       await expect(jobListContainer).toBeVisible();
+      expect(await jobListContainer.locator(">div").all()).toHaveLength(
+        jobs.filter(
+          (job) => job.role === "Frontend" && job.languages.includes("HTML"),
+        ).length,
+      );
+    });
+
+    test("can remove filter", async () => {
+      const removeHtmlFilterButton = filtersContainer
+        .locator(">div>div")
+        .nth(0)
+        .getByRole("button");
+      await expect(removeHtmlFilterButton).toBeVisible();
+      await removeHtmlFilterButton.click();
+      expect(await filtersContainer.locator(">div>div").all()).toHaveLength(1);
+      jobListContainer = page.locator("div:nth-child(2)").nth(1);
       expect(await jobListContainer.locator(">div").all()).toHaveLength(
         jobs.filter((job) => job.role === "Frontend").length,
       );
