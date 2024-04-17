@@ -1,11 +1,13 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
 
 import jobs from "../public/static-job-listings/data.json";
+
+const pageUrl = "/static-job-listings";
 
 test.describe("FrontendMentor Challenge - Job Listings Page", () => {
   /** Go to Job Listings page before each test */
   test.beforeEach("Open", async ({ page }) => {
-    await page.goto("/static-job-listings");
+    await page.goto(pageUrl);
   });
 
   /** Test if the page has a correct title */
@@ -60,37 +62,47 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
 
   /** Test if the job listings filtering works */
   test.describe("job listings filtering works", () => {
-    test("can add filter", async ({ page }) => {
-      const sampleFilterButton = page
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+    let sampleFilterButton: Locator;
+    let filtersContainer: Locator;
+    let jobListContainer: Locator;
+    let clearFilterButton: Locator;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto(pageUrl);
+    });
+
+    test.afterAll(async () => {
+      await page.close();
+    });
+
+    test("can add filter", async () => {
+      sampleFilterButton = page
         .getByRole("button", { name: "Frontend" })
         .first();
       await sampleFilterButton.click();
-      const filterContainer = page.locator("div").nth(3);
-      await expect(filterContainer).toBeVisible();
-      await expect(
-        filterContainer.getByRole("button", { name: "Clear" }),
-      ).toBeVisible();
-      expect(await filterContainer.locator(">div").all()).toHaveLength(1);
-      const jobListContainer = page.locator("div").nth(7);
+      filtersContainer = page.locator("div").nth(3);
+      await expect(filtersContainer).toBeVisible();
+      expect(await filtersContainer.locator(">div").all()).toHaveLength(1);
+      jobListContainer = page.locator("div").nth(7);
       await expect(jobListContainer).toBeVisible();
       expect(await jobListContainer.locator(">div").all()).toHaveLength(
         jobs.filter((job) => job.role === "Frontend").length,
       );
     });
-    test("can clean filter", async ({ page }) => {
-      await page.getByRole("button", { name: "Frontend" }).first().click();
-      const clearFilterButton = page
-        .locator("div")
-        .nth(3)
-        .getByRole("button", { name: "Clear" });
-      const jobListContainer = page.locator("div").nth(7);
-      expect(await jobListContainer.locator(">div").all()).toHaveLength(
-        jobs.filter((job) => job.role === "Frontend").length,
-      );
+
+    test("can clear filter", async () => {
+      clearFilterButton = filtersContainer.getByRole("button", {
+        name: "Clear",
+      });
+      await expect(clearFilterButton).toBeVisible();
       await clearFilterButton.click();
-      const allJobsContainer = page.locator("div").nth(3);
-      await expect(allJobsContainer).toBeVisible();
-      expect(await allJobsContainer.locator(">div").all()).toHaveLength(10);
+      jobListContainer = page.locator("div").nth(3);
+      await expect(jobListContainer).toBeVisible();
+      expect(await jobListContainer.locator(">div").all()).toHaveLength(10);
     });
   });
 
