@@ -11,6 +11,18 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     await expect(page).toHaveTitle("Frontend Mentor | Bookmark landing page");
   });
 
+  /** Test if the page has a header */
+  test("has a header", async ({ page }) => {
+    const header = page.getByRole("banner");
+    await expect(header).toBeVisible();
+    await expect(header).toBeInViewport();
+    await expect(header.getByRole("img")).toBeVisible();
+    const navLinks = ["Features", "Pricing", "Contact", "Login"] as const;
+    for (const link of navLinks) {
+      await expect(header.getByRole("link", { name: link })).toBeVisible();
+    }
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     await expect(
