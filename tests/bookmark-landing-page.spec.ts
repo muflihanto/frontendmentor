@@ -23,13 +23,30 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     }
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has an Intro section */
+  test("has an Intro section", async ({ page }) => {
+    const section = page.locator("div").nth(4);
+    await expect(section).toBeVisible();
+    await expect(section).toBeInViewport();
     await expect(
-      page.getByRole("heading", {
+      section.getByRole("img", { name: "Bookmark Illustration" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("heading", {
         level: 1,
         name: "A Simple Bookmark Manager",
       }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.",
+      ),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("button", { name: "Get it on Chrome" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("button", { name: "Get it on Firefox" }),
     ).toBeVisible();
   });
 });
