@@ -74,4 +74,22 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       form.getByRole("button", { name: "Contact Us" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    const footer = page.getByRole("contentinfo");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer).toBeVisible();
+    await expect(footer).toBeInViewport();
+    await expect(footer.locator(">svg")).toBeVisible();
+    const navLinks = ["Features", "Pricing", "Contact"] as const;
+    for (const link of navLinks) {
+      await expect(footer.getByRole("link", { name: link })).toBeVisible();
+    }
+    const sns = await footer.locator("div").getByRole("link").all();
+    expect(sns).toHaveLength(2);
+    await expect(
+      footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
