@@ -49,4 +49,29 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       section.getByRole("button", { name: "Get it on Firefox" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a 'Stay up-to-date' section */
+  test("has a 'Stay up-to-date' section", async ({ page }) => {
+    const section = page.getByText(
+      "35,000+ already joinedStay up-to-date with what we’re doingContact Us",
+    );
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(section).toBeInViewport();
+    await expect(
+      section.getByRole("heading", { name: "35,000+ already joined" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("heading", {
+        name: "Stay up-to-date with what we’re doing",
+      }),
+    ).toBeVisible();
+    const form = section.locator("form");
+    await expect(
+      form.getByPlaceholder("Enter your email address"),
+    ).toBeVisible();
+    await expect(
+      form.getByRole("button", { name: "Contact Us" }),
+    ).toBeVisible();
+  });
 });
