@@ -50,6 +50,61 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the page has a Features section */
+  test.describe("has a Features section", () => {
+    test("has all initial elements", async ({ page }) => {
+      const section = page.locator("div").nth(10);
+      await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
+      await expect(section).toBeInViewport();
+      await expect(
+        section.getByRole("heading", { name: "Features" }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "Our aim is to make it quick and easy for you to access your favourite websites. Your bookmarks sync between your devices so you can access them on the go.",
+        ),
+      ).toBeVisible();
+      const features = [
+        {
+          name: "Simple Bookmarking",
+          title: "Bookmark in one click",
+          description:
+            "Organize your bookmarks however you like. Our simple drag-and-drop interface gives you complete control over how you manage your favourite sites.",
+        },
+        {
+          name: "Speedy Searching",
+          title: "Intelligent search",
+          description:
+            "Our powerful search feature will help you find saved sites in no time at all. No need to trawl through all of your bookmarks.",
+        },
+        {
+          name: "Easy Sharing",
+          title: "Share your bookmarks",
+          description:
+            "Easily share your bookmarks and collections with others. Create a shareable link that you can send at the click of a button.",
+        },
+      ];
+      const initialFeature = features[0];
+      const tabs = section.locator("div").nth(1);
+      for (const feature of features) {
+        await expect(
+          tabs.getByRole("button", { name: feature.name }),
+        ).toBeVisible();
+      }
+      await expect(
+        section.getByRole("img", { name: "Illustration Features Tab 1" }),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("heading", { name: initialFeature.title }),
+      ).toBeVisible();
+      await expect(section.getByText(initialFeature.description)).toBeVisible();
+      await expect(
+        section.getByRole("button", { name: "More Info" }),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a 'Stay up-to-date' section */
   test("has a 'Stay up-to-date' section", async ({ page }) => {
     const section = page.getByText(
