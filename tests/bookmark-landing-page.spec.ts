@@ -133,6 +133,65 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     });
   });
 
+  /** Test if the page has a 'Download the extension' section */
+  test("has a 'Download the extension' section", async ({ page }) => {
+    const section = page.locator("div").nth(19);
+    await section.scrollIntoViewIfNeeded();
+    await expect(section).toBeVisible();
+    await expect(section).toBeInViewport();
+    await expect(
+      section.getByRole("heading", { name: "Download the extension" }),
+    ).toBeVisible();
+    await expect(
+      section.getByText(
+        "We’ve got more browsers in the pipeline. Please do let us know if you’ve got a favourite you’d like us to prioritize.",
+      ),
+    ).toBeVisible();
+    const browsers = [
+      {
+        name: "Chrome",
+        image: {
+          size: "aspect-[102/100]",
+          src: "/bookmark-landing-page/images/logo-chrome.svg",
+        },
+        minimum: "62",
+      },
+      {
+        name: "Firefox",
+        image: {
+          size: "aspect-[105/100]",
+          src: "/bookmark-landing-page/images/logo-firefox.svg",
+        },
+        minimum: "55",
+      },
+      {
+        name: "Opera",
+        image: {
+          size: "aspect-[96/100]",
+          src: "/bookmark-landing-page/images/logo-opera.svg",
+        },
+        minimum: "46",
+      },
+    ];
+    const linksContainer = section.locator(">div");
+    const links = await linksContainer.locator(">div").all();
+    expect(links).toHaveLength(3);
+    for (const [idx, browser] of Object.entries(browsers)) {
+      const index = Number(idx);
+      const link = links[index];
+      await expect(link.getByRole("img", { name: browser.name })).toBeVisible();
+      await expect(
+        link.getByRole("heading", { name: `Add to ${browser.name}` }),
+      ).toBeVisible();
+      await expect(
+        link.getByText(`Minimum version ${browser.minimum}`),
+      ).toBeVisible();
+      await expect(
+        link.getByRole("button", { name: "Add & Install Extension" }),
+      ).toBeVisible();
+    }
+  });
+
   /** Test if the page has a FAQs section */
   test.describe("has a FAQs section", () => {
     const faqs = [
