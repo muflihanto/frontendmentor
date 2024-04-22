@@ -240,6 +240,20 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         section.getByRole("button", { name: "More Info" }),
       ).toBeVisible();
     });
+    test("can expand and collapse all faqs", async ({ page }) => {
+      const section = page.locator("div").nth(27);
+      await section.scrollIntoViewIfNeeded();
+      const accordion = section.locator("div").nth(0);
+      for (const faq of faqs) {
+        const faqToggle = accordion.getByRole("button", { name: faq.question });
+        await expect(faqToggle).toBeVisible();
+        await expect(accordion.getByText(faq.answer)).not.toBeVisible();
+        await faqToggle.click();
+        await expect(accordion.getByText(faq.answer)).toBeVisible();
+        await faqToggle.click();
+        await expect(accordion.getByText(faq.answer)).not.toBeVisible();
+      }
+    });
   });
 
   /** Test if the page has a 'Stay up-to-date' section */
