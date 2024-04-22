@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+const navLinks = ["Features", "Pricing", "Contact", "Login"] as const;
+
 test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
   /** Go to Bookmark landing page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -17,7 +19,6 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     await expect(header).toBeVisible();
     await expect(header).toBeInViewport();
     await expect(header.getByRole("img")).toBeVisible();
-    const navLinks = ["Features", "Pricing", "Contact", "Login"] as const;
     for (const link of navLinks) {
       await expect(header.getByRole("link", { name: link })).toBeVisible();
     }
@@ -297,5 +298,34 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  /** Test if the page displayed correctly on mobile */
+  test.describe("displayed correctly on mobile", () => {
+    test.use({ viewport: { height: 667, width: 375 } });
+
+    test("has mobile navigation menu", async ({ page }) => {
+      const header = page.getByRole("banner");
+      const menuButton = header.getByRole("button");
+      await expect(menuButton).toBeVisible();
+      await menuButton.click();
+      const navContainer = page.locator("body>div").last();
+      const closeButton = navContainer.getByRole("button");
+      await expect(navContainer).toBeVisible();
+      await expect(navContainer.getByRole("img").first()).toBeVisible();
+      for (const nav of navLinks) {
+        await expect(
+          navContainer.getByRole("link", { name: nav }),
+        ).toBeVisible();
+      }
+      await closeButton.click();
+      await expect(navContainer).not.toBeVisible();
+      await expect(navContainer.getByRole("img").first()).not.toBeVisible();
+      for (const nav of navLinks) {
+        await expect(
+          navContainer.getByRole("link", { name: nav }),
+        ).not.toBeVisible();
+      }
+    });
   });
 });
