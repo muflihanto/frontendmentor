@@ -1,11 +1,12 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator, type Page } from "@playwright/test";
 
 const navLinks = ["Features", "Pricing", "Contact", "Login"] as const;
+const pageUrl = "/bookmark-landing-page";
 
 test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
   /** Go to Bookmark landing page before each test */
   test.beforeEach("Open", async ({ page }) => {
-    await page.goto("/bookmark-landing-page");
+    await page.goto(pageUrl);
   });
 
   /** Test if the page has a correct title */
@@ -273,13 +274,35 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         name: "Stay up-to-date with what we’re doing",
       }),
     ).toBeVisible();
-    const form = section.locator("form");
-    await expect(
-      form.getByPlaceholder("Enter your email address"),
-    ).toBeVisible();
-    await expect(
-      form.getByRole("button", { name: "Contact Us" }),
-    ).toBeVisible();
+  });
+
+  /** Test if the has a 'Contact Us' form */
+  test.describe("has a 'Contact Us' form", () => {
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+    let section: Locator;
+    let form: Locator;
+    let input: Locator;
+    let submit: Locator;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto(pageUrl);
+    });
+
+    test("has initial elements", async () => {
+      section = page.getByText(
+        "35,000+ already joinedStay up-to-date with what we’re doingContact Us",
+      );
+      await section.scrollIntoViewIfNeeded();
+      form = section.locator("form");
+      input = form.getByPlaceholder("Enter your email address");
+      submit = form.getByRole("button", { name: "Contact Us" });
+      await expect(form).toBeVisible();
+      await expect(input).toBeVisible();
+      await expect(submit).toBeVisible();
+    });
   });
 
   /** Test if the page has a footer */
