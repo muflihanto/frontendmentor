@@ -285,6 +285,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     let form: Locator;
     let input: Locator;
     let submit: Locator;
+    let errorMessage: Locator;
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
@@ -292,9 +293,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     });
 
     test("has initial elements", async () => {
-      section = page.getByText(
-        "35,000+ already joinedStay up-to-date with what we’re doingContact Us",
-      );
+      section = page.locator("div").nth(37);
       await section.scrollIntoViewIfNeeded();
       form = section.locator("form");
       input = form.getByPlaceholder("Enter your email address");
@@ -302,6 +301,18 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       await expect(form).toBeVisible();
       await expect(input).toBeVisible();
       await expect(submit).toBeVisible();
+    });
+
+    test("can handle empty input", async () => {
+      errorMessage = section.getByText("Whoops, make sure it's an email");
+      await expect(submit).toBeVisible();
+      await expect(input).toHaveCSS(
+        "border-bottom-color",
+        "rgb(229, 231, 235)",
+      );
+      await submit.click();
+      await expect(errorMessage).toBeVisible();
+      await expect(input).toHaveCSS("border-bottom-color", "rgb(250, 87, 87)");
     });
   });
 
