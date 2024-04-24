@@ -328,6 +328,24 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       await expect(errorMessage).toBeVisible();
       await expect(input).toHaveCSS("border-bottom-color", "rgb(250, 87, 87)");
     });
+
+    test("can handle valid input", async () => {
+      await page.reload();
+      await section.scrollIntoViewIfNeeded();
+      await input.fill("email@example.com");
+      await expect(submit).toBeVisible();
+      await expect(input).toHaveCSS(
+        "border-bottom-color",
+        "rgb(229, 231, 235)",
+      );
+      await submit.click();
+      await expect(input).toHaveValue("");
+      await expect(errorMessage).not.toBeVisible();
+      await expect(input).not.toHaveCSS(
+        "border-bottom-color",
+        "rgb(250, 87, 87)",
+      );
+    });
   });
 
   /** Test if the page has a footer */
