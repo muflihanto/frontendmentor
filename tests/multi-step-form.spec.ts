@@ -91,11 +91,21 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
     });
 
     test.describe("step 1 form is working", () => {
-      test("can handle empty form", async () => {
+      test("can handle empty inputs", async () => {
         await step1Form.nextStep.click();
         expect(
           await form.getByText("This field is required").all(),
         ).toHaveLength(3);
+      });
+      test("can handle invalid inputs", async () => {
+        await page.reload();
+        // TODO: add more name validation
+        await step1Form.name.fill("Name");
+        await step1Form.email.fill("invalid email");
+        await step1Form.phone.fill("invalid phone");
+        await step1Form.nextStep.click();
+        await expect(form.getByText("Email invalid")).toBeVisible();
+        await expect(form.getByText("Invalid Number!")).toBeVisible();
       });
     });
   });
