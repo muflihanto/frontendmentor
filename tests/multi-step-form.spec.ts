@@ -20,6 +20,12 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
     let page: Page;
     let card: Locator;
     let form: Locator;
+    let step1Form: {
+      name: Locator;
+      email: Locator;
+      phone: Locator;
+      nextStep: Locator;
+    };
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
@@ -39,7 +45,21 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       const steps = ["Your Info", "Select Plan", "Add-ons", "Summary"];
       for (const [idx, nav] of Object.entries(navs)) {
         const index = Number(idx) + 1;
-        await expect(nav.getByRole("link", { name: `${index}` })).toBeVisible();
+        const stepButton = nav.getByRole("link", { name: `${index}` });
+        await expect(stepButton).toBeVisible();
+        if (index <= 1) {
+          await expect(stepButton).toHaveCSS(
+            "background-color",
+            "rgb(191, 226, 253)",
+          );
+          await expect(stepButton).not.toHaveCSS("pointer-events", "none");
+        } else {
+          await expect(stepButton).not.toHaveCSS(
+            "background-color",
+            "rgb(191, 226, 253)",
+          );
+          await expect(stepButton).toHaveCSS("pointer-events", "none");
+        }
         await expect(nav.getByText(`Step ${index}`)).toBeVisible();
         await expect(nav.getByText(steps[index - 1])).toBeVisible();
       }
@@ -53,20 +73,30 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         ),
       ).toBeVisible();
       await expect(form.getByText("Name", { exact: true })).toBeVisible();
-      await expect(form.getByPlaceholder("e.g. Stephen King")).toBeVisible();
+      const name = form.getByPlaceholder("e.g. Stephen King");
+      const email = form.getByPlaceholder("e.g. stephenking@lorem.com");
+      const phone = form.getByPlaceholder("e.g. +1 234 567 890");
+      const nextStep = form.getByRole("button", { name: "Next Step" });
+      await expect(name).toBeVisible();
       await expect(
         form.getByText("Email Address", { exact: true }),
       ).toBeVisible();
-      await expect(
-        form.getByPlaceholder("e.g. stephenking@lorem.com"),
-      ).toBeVisible();
+      await expect(email).toBeVisible();
       await expect(
         form.getByText("Phone Number", { exact: true }),
       ).toBeVisible();
-      await expect(form.getByPlaceholder("e.g. +1 234 567 890")).toBeVisible();
-      await expect(
-        form.getByRole("button", { name: "Next Step" }),
-      ).toBeVisible();
+      await expect(phone).toBeVisible();
+      await expect(nextStep).toBeVisible();
+      step1Form = { name, email, phone, nextStep };
+    });
+
+    test.describe("step 1 form is working", () => {
+      test("can handle empty form", async () => {
+        await step1Form.nextStep.click();
+        expect(
+          await form.getByText("This field is required").all(),
+        ).toHaveLength(3);
+      });
     });
   });
 });
