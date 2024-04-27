@@ -26,6 +26,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       phone: Locator;
       nextStep: Locator;
     };
+    const plans = ["Arcade", "Advanced", "Pro"] as const;
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
@@ -118,6 +119,30 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         ).not.toBeVisible();
         await expect(
           form.getByRole("heading", { name: "Select your plan" }),
+        ).toBeVisible();
+      });
+    });
+
+    test.describe("step 2 form is working", () => {
+      test("has all elements", async () => {
+        await expect(
+          form.getByRole("heading", { name: "Select your plan" }),
+        ).toBeVisible();
+        await expect(
+          form.getByText("You have the option of monthly or yearly billing."),
+        ).toBeVisible();
+        for (const plan of plans) {
+          await expect(
+            form.locator("label", {
+              has: page.getByRole("heading", { name: plan }),
+            }),
+          ).toBeVisible();
+        }
+        const toggle = form.getByText("MonthlyYearly");
+        await expect(toggle.getByRole("button")).toBeVisible();
+        await expect(form.getByRole("link", { name: "Go Back" })).toBeVisible();
+        await expect(
+          form.getByRole("button", { name: "Next Step" }),
         ).toBeVisible();
       });
     });
