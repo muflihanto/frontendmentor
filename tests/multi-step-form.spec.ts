@@ -107,6 +107,19 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(form.getByText("Email invalid")).toBeVisible();
         await expect(form.getByText("Invalid Number!")).toBeVisible();
       });
+      test("can handle valid inputs", async () => {
+        await page.reload();
+        await step1Form.name.fill("Valid Name");
+        await step1Form.email.fill("email@example.com");
+        await step1Form.phone.fill("+12345678");
+        await step1Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Personal info" }),
+        ).not.toBeVisible();
+        await expect(
+          form.getByRole("heading", { name: "Select your plan" }),
+        ).toBeVisible();
+      });
     });
   });
 });
