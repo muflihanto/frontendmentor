@@ -27,6 +27,13 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       nextStep: Locator;
     };
     const plans = ["Arcade", "Advanced", "Pro"] as const;
+    // const planPayments = ["monthly" , "yearly"] as const;
+    let step2Form: {
+      labels: Locator[];
+      toggle: Locator;
+      goBack: Locator;
+      nextStep: Locator;
+    };
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
@@ -131,19 +138,49 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(
           form.getByText("You have the option of monthly or yearly billing."),
         ).toBeVisible();
+        const labels: Locator[] = [];
         for (const plan of plans) {
-          await expect(
-            form.locator("label", {
-              has: page.getByRole("heading", { name: plan }),
-            }),
-          ).toBeVisible();
+          const label = form.locator("label", {
+            has: page.getByRole("heading", { name: plan }),
+          });
+          labels.push(label);
+          await expect(label).toBeVisible();
         }
         const toggle = form.getByText("MonthlyYearly");
+        const nextStep = form.getByRole("button", { name: "Next Step" });
+        const goBack = form.getByRole("link", { name: "Go Back" });
         await expect(toggle.getByRole("button")).toBeVisible();
-        await expect(form.getByRole("link", { name: "Go Back" })).toBeVisible();
+        await expect(goBack).toBeVisible();
+        await expect(nextStep).toBeVisible();
+        step2Form = { toggle, goBack, nextStep, labels };
+      });
+      test("can change default selected option", async () => {
+        for (const [index, label] of Object.entries(step2Form.labels)) {
+          const div = label.locator(">div");
+          if (index !== "0")
+            await expect(div).toHaveCSS(
+              "border-bottom-color",
+              "rgb(229, 231, 235)",
+            );
+          await label.click();
+          await expect(div).toHaveCSS(
+            "border-bottom-color",
+            "rgb(71, 61, 255)",
+          );
+        }
         await expect(
-          form.getByRole("button", { name: "Next Step" }),
-        ).toBeVisible();
+          step2Form.toggle.getByText("Monthly", { exact: true }),
+        ).toHaveCSS("color", "rgb(2, 41, 90)");
+        await expect(
+          step2Form.toggle.getByText("Yearly", { exact: true }),
+        ).toHaveCSS("color", "rgb(150, 153, 171)");
+        await step2Form.toggle.getByRole("button").click();
+        await expect(
+          step2Form.toggle.getByText("Yearly", { exact: true }),
+        ).toHaveCSS("color", "rgb(2, 41, 90)");
+        await expect(
+          step2Form.toggle.getByText("Monthly", { exact: true }),
+        ).toHaveCSS("color", "rgb(150, 153, 171)");
       });
     });
   });
