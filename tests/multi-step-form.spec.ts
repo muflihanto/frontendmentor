@@ -182,6 +182,19 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           step2Form.toggle.getByText("Monthly", { exact: true }),
         ).toHaveCSS("color", "rgb(150, 153, 171)");
       });
+      test("can go back to previous step", async () => {
+        await step2Form.goBack.click();
+        for (const loc of Object.values(step1Form)) {
+          await expect(loc).toBeVisible();
+        }
+        await expect(step1Form.name).toHaveValue("Valid Name");
+        await expect(step1Form.email).toHaveValue("email@example.com");
+        await expect(step1Form.phone).toHaveValue("+12345678");
+        await step1Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Select your plan" }),
+        ).toBeVisible();
+      });
     });
   });
 });
