@@ -195,6 +195,17 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           form.getByRole("heading", { name: "Select your plan" }),
         ).toBeVisible();
       });
+      test("can go to step 3", async () => {
+        await step2Form.labels[2].click();
+        await step2Form.toggle.getByRole("button").click();
+        await expect(
+          step2Form.toggle.getByText("Monthly", { exact: true }),
+        ).toHaveCSS("color", "rgb(2, 41, 90)");
+        await step2Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Pick add-ons" }),
+        ).toBeVisible();
+      });
     });
   });
 });
