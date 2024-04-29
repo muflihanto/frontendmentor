@@ -34,6 +34,37 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       goBack: Locator;
       nextStep: Locator;
     };
+    const addOns = [
+      {
+        name: "Online service",
+        description: "Access to multiplayer games",
+        price: {
+          monthly: 1,
+          yearly: 10,
+        },
+      },
+      {
+        name: "Larger storage",
+        description: "Extra 1TB of cloud save",
+        price: {
+          monthly: 2,
+          yearly: 20,
+        },
+      },
+      {
+        name: "Customizable profile",
+        description: "Custom theme on your profile",
+        price: {
+          monthly: 2,
+          yearly: 20,
+        },
+      },
+    ] as const;
+    let step3Form: {
+      labels: Locator[];
+      goBack: Locator;
+      nextStep: Locator;
+    };
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
@@ -205,6 +236,39 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
+      });
+    });
+
+    test.describe("step 3 form is working", () => {
+      test("has all elements", async () => {
+        await expect(
+          form.getByRole("heading", { name: "Pick add-ons" }),
+        ).toBeVisible();
+        await expect(
+          form.getByText("Add-ons help enhance your gaming experience."),
+        ).toBeVisible();
+        const labels: Locator[] = [];
+        for (const addOn of addOns) {
+          const heading = page.getByRole("heading", {
+            name: addOn.name,
+            level: 3,
+          });
+          await expect(heading).toBeVisible();
+          const label = form.locator("label", { has: heading });
+          labels.push(label);
+          await expect(label).toBeVisible();
+          await expect(label.locator("input")).toBeAttached();
+          await expect(label.locator("input")).toBeHidden();
+          await expect(label.getByText(addOn.description)).toBeVisible();
+          await expect(
+            label.getByText(`$${addOn.price.monthly}/mo`),
+          ).toBeVisible();
+        }
+        const nextStep = form.getByRole("button", { name: "Next Step" });
+        const goBack = form.getByRole("link", { name: "Go Back" });
+        await expect(goBack).toBeVisible();
+        await expect(nextStep).toBeVisible();
+        step3Form = { goBack, nextStep, labels };
       });
     });
   });
