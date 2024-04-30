@@ -280,6 +280,30 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           await expect(input).not.toBeChecked();
         }
       });
+      test("can go back to previous step", async () => {
+        await step3Form.goBack.click();
+        await expect(
+          form.getByRole("heading", { name: "Select your plan" }),
+        ).toBeVisible();
+        for (const loc of Object.values(step2Form)) {
+          if (Array.isArray(loc)) {
+            for (const lc of loc) await expect(lc).toBeVisible();
+          } else {
+            await expect(loc).toBeVisible();
+          }
+        }
+        await expect(
+          step2Form.toggle.getByText("Monthly", { exact: true }),
+        ).toHaveCSS("color", "rgb(2, 41, 90)");
+        await expect(step2Form.labels[2].locator(">div")).toHaveCSS(
+          "border-bottom-color",
+          "rgb(71, 61, 255)",
+        );
+        await step1Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Pick add-ons" }),
+        ).toBeVisible();
+      });
     });
   });
 });
