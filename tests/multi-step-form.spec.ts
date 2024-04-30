@@ -270,6 +270,16 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(nextStep).toBeVisible();
         step3Form = { goBack, nextStep, labels };
       });
+      test("can toggle all checkboxes", async () => {
+        for (const label of step3Form.labels) {
+          const input = label.locator(">input");
+          await expect(input).not.toBeChecked();
+          await label.click();
+          await expect(input).toBeChecked();
+          await label.click();
+          await expect(input).not.toBeChecked();
+        }
+      });
     });
   });
 });
