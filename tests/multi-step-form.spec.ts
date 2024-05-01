@@ -313,5 +313,28 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         ).toBeVisible();
       });
     });
+
+    test.describe("step 4 form is working", () => {
+      test("has all elements", async () => {
+        await expect(
+          form.getByRole("heading", { name: "Finishing up" }),
+        ).toBeVisible();
+        await expect(
+          form.getByText("Double-check everything looks OK before confirming."),
+        ).toBeVisible();
+        await expect(form.getByText("Pro (Monthly)")).toBeVisible();
+        await expect(form.getByText("$15/mo")).toBeVisible();
+        await expect(form.getByText("Online service")).toBeVisible();
+        await expect(form.getByText("+$1/mo")).toBeVisible();
+        await expect(form.getByText("Larger storage")).toBeVisible();
+        await expect(form.getByText("+$2/mo")).toBeVisible();
+        await expect(form.getByText("Total (per month)")).toBeVisible();
+        await expect(form.getByText("+$18/mo")).toBeVisible();
+        const confirm = form.getByRole("button", { name: "Confirm" });
+        const goBack = form.getByRole("link", { name: "Go Back" });
+        await expect(goBack).toBeVisible();
+        await expect(confirm).toBeVisible();
+      });
+    });
   });
 });
