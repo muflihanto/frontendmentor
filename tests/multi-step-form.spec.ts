@@ -304,6 +304,14 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
       });
+      test("can go to step 4", async () => {
+        await step3Form.labels[0].click();
+        await step3Form.labels[1].click();
+        await step2Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Finishing up" }),
+        ).toBeVisible();
+      });
     });
   });
 });
