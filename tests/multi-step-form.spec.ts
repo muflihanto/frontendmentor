@@ -361,6 +361,19 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           form.getByRole("heading", { name: "Finishing up" }),
         ).toBeVisible();
       });
+      test("can go back to previous step", async () => {
+        await form.getByRole("link", { name: "Go Back" }).click();
+        await expect(
+          form.getByRole("heading", { name: "Pick add-ons" }),
+        ).toBeVisible();
+        await expect(step3Form.labels[0].locator(">input")).toBeChecked();
+        await expect(step3Form.labels[1].locator(">input")).toBeChecked();
+        await expect(step3Form.labels[2].locator(">input")).not.toBeChecked();
+        await step3Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Finishing up" }),
+        ).toBeVisible();
+      });
     });
   });
 });
