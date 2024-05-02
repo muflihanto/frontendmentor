@@ -299,7 +299,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           "border-bottom-color",
           "rgb(71, 61, 255)",
         );
-        await step1Form.nextStep.click();
+        await step2Form.nextStep.click();
         await expect(
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
@@ -323,6 +323,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           form.getByText("Double-check everything looks OK before confirming."),
         ).toBeVisible();
         await expect(form.getByText("Pro (Monthly)")).toBeVisible();
+        await expect(form.getByRole("link", { name: "Change" })).toBeVisible();
         await expect(form.getByText("$15/mo")).toBeVisible();
         await expect(form.getByText("Online service")).toBeVisible();
         await expect(form.getByText("+$1/mo")).toBeVisible();
@@ -334,6 +335,31 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         const goBack = form.getByRole("link", { name: "Go Back" });
         await expect(goBack).toBeVisible();
         await expect(confirm).toBeVisible();
+      });
+      test("change button/link works", async () => {
+        const link = page.getByRole("link", { name: "Change" });
+        await link.click();
+        await expect(
+          form.getByRole("heading", { name: "Select your plan" }),
+        ).toBeVisible();
+        for (const loc of Object.values(step2Form)) {
+          if (Array.isArray(loc)) {
+            for (const lc of loc) await expect(lc).toBeVisible();
+          } else {
+            await expect(loc).toBeVisible();
+          }
+        }
+        await expect(
+          step2Form.toggle.getByText("Monthly", { exact: true }),
+        ).toHaveCSS("color", "rgb(2, 41, 90)");
+        await expect(step2Form.labels[2].locator(">div")).toHaveCSS(
+          "border-bottom-color",
+          "rgb(71, 61, 255)",
+        );
+        await page.getByRole("link", { name: "4" }).click();
+        await expect(
+          form.getByRole("heading", { name: "Finishing up" }),
+        ).toBeVisible();
       });
     });
   });
