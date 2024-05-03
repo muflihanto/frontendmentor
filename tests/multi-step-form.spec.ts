@@ -407,6 +407,23 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           await expect(label.getByText("2 months free")).toBeVisible();
         }
       });
+      test("payment type affect add-on price", async () => {
+        await step2Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Pick add-ons" }),
+        ).toBeVisible();
+        for (const addOn of addOns) {
+          const heading = page.getByRole("heading", {
+            name: addOn.name,
+            level: 3,
+          });
+          await expect(heading).toBeVisible();
+          const label = form.locator("label", { has: heading });
+          await expect(
+            label.getByText(`+$${addOn.price.yearly}/yr`),
+          ).toBeVisible();
+        }
+      });
     });
   });
 });
