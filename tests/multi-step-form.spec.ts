@@ -27,6 +27,11 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       nextStep: Locator;
     };
     const plans = ["Arcade", "Advanced", "Pro"] as const;
+    const planPrice: Record<(typeof plans)[number], number> = {
+      Arcade: 9,
+      Advanced: 12,
+      Pro: 15,
+    };
     // const planPayments = ["monthly" , "yearly"] as const;
     let step2Form: {
       labels: Locator[];
@@ -373,6 +378,34 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(
           form.getByRole("heading", { name: "Finishing up" }),
         ).toBeVisible();
+      });
+    });
+
+    test.describe("payment type affect prices", () => {
+      test("payment type affect plan price", async () => {
+        const link = form.getByRole("link", { name: "Change" });
+        await link.click();
+        await expect(
+          form.getByRole("heading", { name: "Select your plan" }),
+        ).toBeVisible();
+        const planPriceEntries = Object.entries(planPrice) as [
+          (typeof plans)[number],
+          number,
+        ][];
+        for (const [plan, price] of planPriceEntries) {
+          const label = form.locator("label", {
+            has: page.getByRole("heading", { name: plan }),
+          });
+          await expect(label.getByText(`$${price}/mo`)).toBeVisible();
+        }
+        await step2Form.toggle.getByRole("button").click();
+        for (const [plan, price] of planPriceEntries) {
+          const label = form.locator("label", {
+            has: page.getByRole("heading", { name: plan }),
+          });
+          await expect(label.getByText(`$${price}0/yr`)).toBeVisible();
+          await expect(label.getByText("2 months free")).toBeVisible();
+        }
       });
     });
   });
