@@ -440,5 +440,22 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(form.getByText("+$180/yr")).toBeVisible();
       });
     });
+
+    test.describe("can submit data", () => {
+      test("thank you card is visible", async () => {
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(
+          page.getByRole("img", { name: "Thank You Illustration" }),
+        ).toBeVisible();
+        await expect(
+          page.getByRole("heading", { name: "Thank you!" }),
+        ).toBeVisible();
+        await expect(
+          page.getByText(
+            "Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com.",
+          ),
+        ).toBeVisible();
+      });
+    });
   });
 });
