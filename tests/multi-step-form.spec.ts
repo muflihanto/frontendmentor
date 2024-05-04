@@ -424,6 +424,21 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           ).toBeVisible();
         }
       });
+      test("summary updated", async () => {
+        await step3Form.nextStep.click();
+        await expect(
+          form.getByRole("heading", { name: "Finishing up" }),
+        ).toBeVisible();
+        await expect(form.getByText("Pro (Yearly)")).toBeVisible();
+        await expect(form.getByRole("link", { name: "Change" })).toBeVisible();
+        await expect(form.getByText("$150/yr")).toBeVisible();
+        await expect(form.getByText("Online service")).toBeVisible();
+        await expect(form.getByText("+$10/yr")).toBeVisible();
+        await expect(form.getByText("Larger storage")).toBeVisible();
+        await expect(form.getByText("+$20/yr")).toBeVisible();
+        await expect(form.getByText("Total (per year)")).toBeVisible();
+        await expect(form.getByText("+$180/yr")).toBeVisible();
+      });
     });
   });
 });
