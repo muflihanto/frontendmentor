@@ -83,6 +83,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
     });
 
     test("has initial elements", async () => {
+      expect(page.url()).toContain("?step=1");
       const stepNav = card.locator("div").first();
       const navs = await stepNav.locator(">div").all();
       expect(navs).toHaveLength(4);
@@ -157,6 +158,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await step1Form.email.fill("email@example.com");
         await step1Form.phone.fill("+12345678");
         await step1Form.nextStep.click();
+        expect(page.url()).toContain("?step=2");
         await expect(
           form.getByRole("heading", { name: "Personal info" }),
         ).not.toBeVisible();
@@ -168,6 +170,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
 
     test.describe("step 2 form is working", () => {
       test("has all elements", async () => {
+        expect(page.url()).toContain("?step=2");
         await expect(
           form.getByRole("heading", { name: "Select your plan" }),
         ).toBeVisible();
@@ -220,6 +223,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       });
       test("can go back to previous step", async () => {
         await step2Form.goBack.click();
+        expect(page.url()).toContain("?step=1");
         for (const loc of Object.values(step1Form)) {
           await expect(loc).toBeVisible();
         }
@@ -238,6 +242,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           step2Form.toggle.getByText("Monthly", { exact: true }),
         ).toHaveCSS("color", "rgb(2, 41, 90)");
         await step2Form.nextStep.click();
+        expect(page.url()).toContain("?step=3");
         await expect(
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
