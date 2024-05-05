@@ -251,6 +251,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
 
     test.describe("step 3 form is working", () => {
       test("has all elements", async () => {
+        expect(page.url()).toContain("?step=3");
         await expect(
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
@@ -292,6 +293,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       });
       test("can go back to previous step", async () => {
         await step3Form.goBack.click();
+        expect(page.url()).toContain("?step=2");
         await expect(
           form.getByRole("heading", { name: "Select your plan" }),
         ).toBeVisible();
@@ -310,6 +312,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           "rgb(71, 61, 255)",
         );
         await step2Form.nextStep.click();
+        expect(page.url()).toContain("?step=3");
         await expect(
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
@@ -318,6 +321,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await step3Form.labels[0].click();
         await step3Form.labels[1].click();
         await step2Form.nextStep.click();
+        expect(page.url()).toContain("?step=4");
         await expect(
           form.getByRole("heading", { name: "Finishing up" }),
         ).toBeVisible();
@@ -326,6 +330,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
 
     test.describe("step 4 form is working", () => {
       test("has all elements", async () => {
+        expect(page.url()).toContain("?step=4");
         await expect(
           form.getByRole("heading", { name: "Finishing up" }),
         ).toBeVisible();
@@ -349,6 +354,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("change button/link works", async () => {
         const link = page.getByRole("link", { name: "Change" });
         await link.click();
+        expect(page.url()).toContain("?step=2");
         await expect(
           form.getByRole("heading", { name: "Select your plan" }),
         ).toBeVisible();
@@ -367,12 +373,14 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           "rgb(71, 61, 255)",
         );
         await page.getByRole("link", { name: "4" }).click();
+        expect(page.url()).toContain("?step=4");
         await expect(
           form.getByRole("heading", { name: "Finishing up" }),
         ).toBeVisible();
       });
       test("can go back to previous step", async () => {
         await form.getByRole("link", { name: "Go Back" }).click();
+        expect(page.url()).toContain("?step=3");
         await expect(
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
@@ -380,6 +388,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(step3Form.labels[1].locator(">input")).toBeChecked();
         await expect(step3Form.labels[2].locator(">input")).not.toBeChecked();
         await step3Form.nextStep.click();
+        expect(page.url()).toContain("?step=4");
         await expect(
           form.getByRole("heading", { name: "Finishing up" }),
         ).toBeVisible();
@@ -390,6 +399,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("payment type affect plan price", async () => {
         const link = form.getByRole("link", { name: "Change" });
         await link.click();
+        expect(page.url()).toContain("?step=2");
         await expect(
           form.getByRole("heading", { name: "Select your plan" }),
         ).toBeVisible();
@@ -414,6 +424,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       });
       test("payment type affect add-on price", async () => {
         await step2Form.nextStep.click();
+        expect(page.url()).toContain("?step=3");
         await expect(
           form.getByRole("heading", { name: "Pick add-ons" }),
         ).toBeVisible();
@@ -431,6 +442,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       });
       test("summary updated", async () => {
         await step3Form.nextStep.click();
+        expect(page.url()).toContain("?step=4");
         await expect(
           form.getByRole("heading", { name: "Finishing up" }),
         ).toBeVisible();
@@ -449,6 +461,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
     test.describe("can submit data", () => {
       test("thank you card is visible", async () => {
         await form.getByRole("button", { name: "Confirm" }).click();
+        expect(page.url()).toContain("?step=4&completed=1");
         await expect(
           page.getByRole("img", { name: "Thank You Illustration" }),
         ).toBeVisible();
