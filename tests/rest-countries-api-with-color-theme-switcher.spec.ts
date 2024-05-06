@@ -26,4 +26,17 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       header.getByRole("button", { name: "Moon Icon Dark Mode" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has countries filters */
+  test.describe("has countries filters", () => {
+    test("elements visible", async ({ page }) => {
+      const container = page.locator("div").nth(3);
+      await expect(
+        container.getByPlaceholder("Search for a country..."),
+      ).toBeVisible();
+      await expect(
+        container.getByRole("button", { name: "Filter by Region" }),
+      ).toBeVisible();
+    });
+  });
 });
