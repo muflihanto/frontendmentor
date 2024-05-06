@@ -13,13 +13,17 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     );
   });
 
-  /** Test if the page has a heading */
-  test("has a heading", async ({ page }) => {
+  /** Test if the page has a header */
+  test("has a header", async ({ page }) => {
+    const header = page.getByRole("banner");
     await expect(
-      page.getByRole("heading", {
+      header.getByRole("heading", {
         level: 1,
         name: "Where in the world?",
       }),
+    ).toBeVisible();
+    await expect(
+      header.getByRole("button", { name: "Moon Icon Dark Mode" }),
     ).toBeVisible();
   });
 });
