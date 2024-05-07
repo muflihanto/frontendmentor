@@ -39,4 +39,13 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       ).toBeVisible();
     });
   });
+
+  /** Test if the theme switcher works */
+  test("theme switcher works", async ({ page }) => {
+    const header = page.getByRole("banner");
+    await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await header.getByRole("button", { name: "Moon Icon Dark Mode" }).click();
+    await expect(header).toHaveCSS("background-color", "rgb(43, 57, 69)");
+    // TODO: add more theme related assertions
+  });
 });
