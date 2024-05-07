@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
 
 test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Switcher Page", () => {
   /** Go to Rest Countries Api With Color Theme Switcher page before each test */
@@ -37,6 +38,15 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       await expect(
         container.getByRole("button", { name: "Filter by Region" }),
       ).toBeVisible();
+    });
+  });
+
+  /** Test if the page has countries links */
+  test.describe("has countries links", () => {
+    test("elements visible", async ({ page }) => {
+      const container = page.locator("div").nth(5);
+      const countries = await container.getByRole("link").all();
+      expect(countries).toHaveLength(data.length);
     });
   });
 
