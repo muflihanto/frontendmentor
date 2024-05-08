@@ -75,6 +75,18 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
         currentRegion = region;
       }
     });
+    test("keyword filter works", async ({ page }) => {
+      const input = page.getByPlaceholder("Search for a country...");
+      const linksContainer = page.locator("div").nth(5);
+      await expect(input).toBeVisible();
+      await expect(linksContainer).toBeVisible();
+      const getCountries = async () =>
+        await linksContainer.getByRole("link").all();
+      expect(await getCountries()).toHaveLength(data.length);
+      await input.fill("indonesia");
+      await page.waitForTimeout(1000);
+      expect(await getCountries()).toHaveLength(1);
+    });
   });
 
   /** Test if the page has countries links */
