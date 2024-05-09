@@ -98,6 +98,55 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     });
   });
 
+  /** Test if country detail page works */
+  test.describe("country detail page works", () => {
+    test("elements visible", async ({ page }) => {
+      const indonesia = page.getByRole("link", {
+        name: "The flag of Indonesia is composed of two equal horizontal bands of red and white. Indonesia Population: 273,523,621 Region: Asia Capital: Jakarta",
+      });
+      await indonesia.click();
+      await page.waitForURL("**/indonesia");
+      await page.waitForTimeout(2000);
+      await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
+      await expect(
+        page.getByRole("img", {
+          name: "The flag of Indonesia is composed of two equal horizontal bands of red and white.",
+        }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole("heading", { name: "Indonesia" }),
+      ).toBeVisible();
+      await expect(page.getByText("Native Name: Indonesia")).toBeVisible();
+      await expect(page.getByText("Population: 273,523,621")).toBeVisible();
+      await expect(page.getByText("Region: Asia")).toBeVisible();
+      await expect(
+        page.getByText("Sub Region: South-Eastern Asia"),
+      ).toBeVisible();
+      await expect(page.getByText("Capital: Jakarta")).toBeVisible();
+
+      await expect(page.getByText("Top Level Domain: .id")).toBeVisible();
+      await expect(
+        page.getByText("Currencies: Indonesian rupiah"),
+      ).toBeVisible();
+      await expect(page.getByText("Languages: Indonesian")).toBeVisible();
+
+      await expect(
+        page.getByRole("heading", { name: "Border Countries:" }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole("link", { name: "Papua New Guinea" }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole("link", { name: "Timor-Leste" }),
+      ).toBeVisible();
+      await expect(page.getByRole("link", { name: "Malaysia" })).toBeVisible();
+
+      await expect(
+        page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the theme switcher works */
   test("theme switcher works", async ({ page }) => {
     const header = page.getByRole("banner");
