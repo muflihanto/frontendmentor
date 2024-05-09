@@ -1,13 +1,14 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
 
 const RegionName = ["Africa", "Americas", "Asia", "Europe", "Oceania"] as const;
 type RegionName = (typeof RegionName)[number];
+const pageUrl = "/rest-countries-api-with-color-theme-switcher";
 
 test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Switcher Page", () => {
   /** Go to Rest Countries Api With Color Theme Switcher page before each test */
   test.beforeEach("Open", async ({ page }) => {
-    await page.goto("/rest-countries-api-with-color-theme-switcher");
+    await page.goto(pageUrl);
   });
 
   /** Test if the page has a correct title */
@@ -100,7 +101,16 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
 
   /** Test if country detail page works */
   test.describe("country detail page works", () => {
-    test("elements visible", async ({ page }) => {
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto(pageUrl);
+    });
+
+    test("elements visible", async () => {
       const indonesia = page.getByRole("link", {
         name: "The flag of Indonesia is composed of two equal horizontal bands of red and white. Indonesia Population: 273,523,621 Region: Asia Capital: Jakarta",
       });
@@ -144,6 +154,17 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       await expect(
         page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
       ).toBeVisible();
+    });
+
+    test("back button works", async () => {
+      const back = page.getByRole("button", { name: "Back" });
+      await expect(back).toBeVisible();
+      await back.click();
+      await page.waitForURL(`**${pageUrl}`);
+      await page.waitForTimeout(2000);
+      const container = page.locator("div").nth(5);
+      const countries = await container.getByRole("link").all();
+      expect(countries).toHaveLength(data.length);
     });
   });
 
