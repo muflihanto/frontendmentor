@@ -166,6 +166,23 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       const countries = await container.getByRole("link").all();
       expect(countries).toHaveLength(data.length);
     });
+
+    test("can navigate to other countries using 'Border Countries' links", async () => {
+      const indonesia = page.getByRole("link", {
+        name: "The flag of Indonesia is composed of two equal horizontal bands of red and white. Indonesia Population: 273,523,621 Region: Asia Capital: Jakarta",
+      });
+      await indonesia.click();
+      await page.waitForURL("**/indonesia");
+      await page.waitForTimeout(2000);
+      const malaysia = page.getByRole("link", { name: "Malaysia" });
+      await expect(malaysia).toBeVisible();
+      await malaysia.click();
+      await page.waitForURL("**/malaysia");
+      await page.waitForTimeout(2000);
+      await expect(
+        page.getByRole("heading", { name: "Malaysia" }),
+      ).toBeVisible();
+    });
   });
 
   /** Test if the theme switcher works */
