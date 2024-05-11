@@ -375,7 +375,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       const menuButton = header.getByRole("button");
       await expect(menuButton).toBeVisible();
       await menuButton.click();
-      const navContainer = page.locator("body>div").last();
+      const navContainer = page.getByText("FeaturesPricingContactLogin").nth(1);
       const closeButton = navContainer.getByRole("button");
       await expect(navContainer).toBeVisible();
       await expect(navContainer.getByRole("img").first()).toBeVisible();
