@@ -56,10 +56,10 @@ test.describe("FrontendMentor index page", () => {
       await expect(links).toHaveCount(2);
     });
 
-    test("has 19 links that contain 'test'", async ({ page }) => {
+    test("has 20 links that contain 'page'", async ({ page }) => {
       await page.getByRole("textbox").fill("page");
       const links = page.getByRole("link");
-      await expect(links).toHaveCount(19);
+      await expect(links).toHaveCount(20);
     });
 
     test("has 0 links that contain 'arbitrarystring'", async ({ page }) => {
