@@ -200,4 +200,33 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
+
+  /** Test if the page displayed correctly on mobile */
+  test.describe("displayed correctly on mobile", () => {
+    test.use({ viewport: { height: 667, width: 375 } });
+
+    test("has mobile navigation menu", async ({ page }) => {
+      const header = page.getByRole("banner");
+      const menuButton = header.getByRole("button", { name: "Menu" });
+      await expect(menuButton).toBeVisible();
+      await menuButton.focus();
+      const navContainer = header.locator("div").filter({
+        hasText:
+          "ProductOverviewPricingMarketplaceFeaturesIntegrationsCompanyAboutTeamBlogCareers",
+      });
+      await expect(navContainer).toBeVisible();
+      for (const nav of navItems) {
+        await expect(
+          navContainer.locator("summary", { hasText: nav.parent }),
+        ).toBeVisible();
+      }
+      await menuButton.blur();
+      await expect(navContainer).not.toBeVisible();
+      for (const nav of navItems) {
+        await expect(
+          navContainer.locator("summary", { hasText: nav.parent }),
+        ).not.toBeVisible();
+      }
+    });
+  });
 });
