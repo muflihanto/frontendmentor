@@ -28,8 +28,19 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
 
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { level: 1, name: "HTML & CSS foundations" }),
-    ).toBeVisible();
+    const heading = page.getByRole("heading", {
+      level: 1,
+      name: "HTML & CSS foundations",
+    });
+    await expect(heading).toBeVisible();
+    const headingLink = heading.getByRole("link");
+    await expect(headingLink).toHaveCSS("color", "rgb(18, 18, 18)");
+    await heading.hover();
+    await expect(headingLink).toHaveCSS("color", "rgb(244, 208, 78)");
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(page.getByText("Challenge by Frontend Mentor")).toBeVisible();
   });
 });
