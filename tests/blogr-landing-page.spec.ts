@@ -214,12 +214,16 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
         hasText:
           "ProductOverviewPricingMarketplaceFeaturesIntegrationsCompanyAboutTeamBlogCareers",
       });
+      const login = navContainer.getByRole("link", { name: "Login" });
+      const signUp = navContainer.getByRole("link", { name: "Sign Up" });
       await expect(navContainer).toBeVisible();
       for (const nav of navItems) {
         await expect(
           navContainer.locator("summary", { hasText: nav.parent }),
         ).toBeVisible();
       }
+      await expect(login).toBeVisible();
+      await expect(signUp).toBeVisible();
       await menuButton.blur();
       await expect(navContainer).not.toBeVisible();
       for (const nav of navItems) {
@@ -227,6 +231,8 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
           navContainer.locator("summary", { hasText: nav.parent }),
         ).not.toBeVisible();
       }
+      await expect(login).not.toBeVisible();
+      await expect(signUp).not.toBeVisible();
     });
   });
 });
