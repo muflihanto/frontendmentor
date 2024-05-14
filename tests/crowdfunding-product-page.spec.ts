@@ -84,6 +84,39 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(modal).toBeInViewport();
       // TODO: Modal has all elements
     });
+    test("'Bookmark' button works", async ({ page }) => {
+      const card = page.locator("div").nth(6);
+      let button = card.getByRole("button", { name: "Bookmark" });
+      await page.waitForLoadState("load");
+      const text = button.locator("span");
+      const icon = button.locator("svg");
+      await expect(button).toBeVisible();
+      await expect(button).toHaveCSS(
+        "background-color",
+        "rgba(122, 122, 122, 0.1)",
+      );
+      await expect(text).toHaveCSS("color", "rgb(122, 122, 122)");
+      await expect(icon).toHaveCSS("color", "rgb(177, 177, 177)");
+      await expect(icon).toHaveCSS("fill", "rgb(47, 47, 47)");
+      await button.click();
+      button = card.getByRole("button", { name: "Bookmarked" });
+      await expect(button).toHaveCSS(
+        "background-color",
+        "rgba(60, 180, 172, 0.07)",
+      );
+      await expect(text).toHaveCSS("color", "rgb(60, 180, 172)");
+      await expect(icon).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(icon).toHaveCSS("fill", "rgb(60, 180, 172)");
+      await button.click();
+      button = card.getByRole("button", { name: "Bookmark" });
+      await expect(button).toHaveCSS(
+        "background-color",
+        "rgba(122, 122, 122, 0.1)",
+      );
+      await expect(text).toHaveCSS("color", "rgb(122, 122, 122)");
+      await expect(icon).toHaveCSS("color", "rgb(177, 177, 177)");
+      await expect(icon).toHaveCSS("fill", "rgb(122, 122, 122)");
+    });
   });
 
   /** Test if the page has a 'Statistic' card */
