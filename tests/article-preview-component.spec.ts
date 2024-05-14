@@ -63,4 +63,11 @@ test.describe("FrontendMentor Challenge - Article preview component Page", () =>
     await button.first().click();
     await expect(share).not.toBeVisible();
   });
+
+  /** Test if the page has a correct footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
