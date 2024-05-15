@@ -41,4 +41,11 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
       form.getByRole("button", { name: "Subscribe to monthly newsletter" }),
     ).toBeVisible();
   });
+
+  /** Test if the page has a correct footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
