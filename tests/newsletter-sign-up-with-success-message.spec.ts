@@ -53,6 +53,7 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
     let input: Locator;
     let errorMessage: Locator;
     let button: Locator;
+    const validEmail = "validemail@example.com";
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
@@ -101,6 +102,14 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
       await expect(input).toHaveCSS("border-bottom-color", "rgb(255, 98, 87)");
       await expect(input).toHaveValue("invalid email");
       await page.reload();
+    });
+
+    test("can handle valid input", async () => {
+      await input.fill(validEmail);
+      await button.click();
+      await expect(
+        page.getByRole("heading", { name: "Thanks for subscribing!" }),
+      ).toBeVisible();
     });
   });
 
