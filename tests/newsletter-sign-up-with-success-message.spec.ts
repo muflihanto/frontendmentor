@@ -111,6 +111,21 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
         page.getByRole("heading", { name: "Thanks for subscribing!" }),
       ).toBeVisible();
     });
+
+    test("has 'success message' card", async () => {
+      const dismiss = page.getByRole("button", { name: "Dismiss message" });
+      await expect(
+        page.getByRole("heading", { name: "Thanks for subscribing!" }),
+      ).toBeVisible();
+      await expect(
+        page.getByText(`A confirmation email has been sent to ${validEmail}`),
+      ).toBeVisible();
+      await expect(dismiss).toBeVisible();
+      await dismiss.click();
+      await expect(
+        page.getByRole("heading", { name: "Stay updated!" }),
+      ).toBeVisible();
+    });
   });
 
   /** Test if the page has a correct footer */
