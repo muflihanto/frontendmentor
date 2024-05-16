@@ -59,7 +59,7 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
       await page.goto(pageUrl);
     });
 
-    test("can handle empty input", async ({ page }) => {
+    test("can handle empty input", async () => {
       form = page.locator("form");
       await expect(form).toBeVisible();
       input = form.getByPlaceholder("email@company.com");
@@ -80,6 +80,26 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
         "rgba(255, 98, 87, 0.15)",
       );
       await expect(input).toHaveCSS("border-bottom-color", "rgb(255, 98, 87)");
+      await page.reload();
+    });
+
+    test("can handle invalid input", async () => {
+      errorMessage = form.getByText("Valid email required");
+      await expect(errorMessage).not.toBeVisible();
+      await expect(input).toHaveCSS("background-color", "rgb(255, 255, 255)");
+      await expect(input).toHaveCSS(
+        "border-bottom-color",
+        "rgba(146, 148, 160, 0.75)",
+      );
+      await input.fill("invalid email");
+      await button.click();
+      await expect(errorMessage).toBeVisible();
+      await expect(input).toHaveCSS(
+        "background-color",
+        "rgba(255, 98, 87, 0.15)",
+      );
+      await expect(input).toHaveCSS("border-bottom-color", "rgb(255, 98, 87)");
+      await expect(input).toHaveValue("invalid email");
       await page.reload();
     });
   });
