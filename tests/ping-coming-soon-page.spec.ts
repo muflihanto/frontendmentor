@@ -78,6 +78,23 @@ test.describe("FrontendMentor Challenge - Ping coming soon Page", () => {
       );
       await page.reload();
     });
+
+    test("can handle invalid input", async () => {
+      const invalidInput = "invalid email";
+      await expect(input).toHaveCSS(
+        "border-bottom-color",
+        "rgba(79, 125, 243, 0.3)",
+      );
+      await input.fill(invalidInput);
+      await button.click();
+      await expect(errorMessage).toBeVisible();
+      await expect(input).toHaveCSS(
+        "border-bottom-color",
+        "rgb(184, 122, 131)",
+      );
+      await expect(input).toHaveValue(invalidInput);
+      await page.reload();
+    });
   });
 
   /** Test if the page has an illustration */
