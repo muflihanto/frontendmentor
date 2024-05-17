@@ -1,9 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
+
+const pageUrl = "/ping-coming-soon-page";
 
 test.describe("FrontendMentor Challenge - Ping coming soon Page", () => {
   /** Go to Ping coming soon page before each test */
   test.beforeEach("Open", async ({ page }) => {
-    await page.goto("/ping-coming-soon-page");
+    await page.goto(pageUrl);
   });
 
   /** Test if the page has a correct title */
@@ -40,6 +42,42 @@ test.describe("FrontendMentor Challenge - Ping coming soon Page", () => {
     await expect(input).toBeVisible();
     await expect(input).toBeEmpty();
     await expect(submit).toBeVisible();
+  });
+
+  /** Test if the form works */
+  test.describe("form works", () => {
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+    let form: Locator;
+    let input: Locator;
+    let errorMessage: Locator;
+    let button: Locator;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto(pageUrl);
+    });
+
+    test("can handle empty input", async () => {
+      form = page.locator("form");
+      await expect(form).toBeVisible();
+      input = form.getByPlaceholder("Your email address...");
+      button = form.getByRole("button", { name: "Notify Me" });
+      errorMessage = form.getByText("Please provide a valid email address");
+      await expect(errorMessage).not.toBeVisible();
+      await expect(input).toHaveCSS(
+        "border-bottom-color",
+        "rgba(79, 125, 243, 0.3)",
+      );
+      await button.click();
+      await expect(errorMessage).toBeVisible();
+      await expect(input).toHaveCSS(
+        "border-bottom-color",
+        "rgb(184, 122, 131)",
+      );
+      await page.reload();
+    });
   });
 
   /** Test if the page has an illustration */
