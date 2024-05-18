@@ -1,9 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
+
+const pageUrl = "/interactive-rating-component";
 
 test.describe("FrontendMentor Challenge - Interactive rating component Page", () => {
   /** Go to Interactive rating component page before each test */
   test.beforeEach("Open", async ({ page }) => {
-    await page.goto("/interactive-rating-component");
+    await page.goto(pageUrl);
   });
 
   /** Test if the page has a correct title */
@@ -46,21 +48,54 @@ test.describe("FrontendMentor Challenge - Interactive rating component Page", ()
     ).toBeVisible();
   });
 
-  /** Test if the form input can be submitted */
-  test("can submit form", async ({ page }) => {
-    const inputs = await page.locator("fieldset input").all();
-    for (const [index, input] of Object.entries(inputs)) {
-      const submit = page.getByRole("button", { name: "Submit" });
-      await input.check();
+  /** Test if the form works */
+  test.describe("form works", () => {
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+    let card: Locator;
+    let submit: Locator;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto(pageUrl);
+    });
+
+    test.afterAll(async () => {
+      await page.close();
+    });
+
+    test("can handle empty input", async () => {
+      card = page.getByRole("main");
+      submit = card.getByRole("button", { name: "Submit" });
       await submit.click();
-      await expect(
-        page.getByRole("heading", { name: "Thank you!" }),
-      ).toBeVisible();
-      await expect(
-        page.getByText(`You selected ${Number(index) + 1} out of 5`),
-      ).toBeVisible();
-      await page.reload();
-    }
+      await expect(card.getByText("Select a number!")).toBeVisible();
+    });
+
+    /** Test if the form input can be submitted */
+    test("can submit form", async () => {
+      const inputs = await card.locator("fieldset input").all();
+      for (const [index, input] of Object.entries(inputs)) {
+        await input.check();
+        await submit.click();
+        await page.waitForTimeout(100);
+        await expect(
+          card.getByRole("img", { name: "Thank you illustration" }),
+        ).toBeVisible();
+        await expect(
+          card.getByText(`You selected ${Number(index) + 1} out of 5`),
+        ).toBeVisible();
+        await expect(
+          card.getByRole("heading", { name: "Thank you!" }),
+        ).toBeVisible();
+        await expect(
+          card.getByText(
+            "We appreciate you taking the time to give a rating. If you ever need more support, don’t hesitate to get in touch!",
+          ),
+        ).toBeVisible();
+        await page.reload();
+      }
+    });
   });
 
   /** Test if the page has a footer */
