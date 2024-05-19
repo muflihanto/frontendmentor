@@ -193,5 +193,29 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         }
       }
     });
+    test("'Select Reward' buttons work", async ({ page }) => {
+      const card = page.locator("div").nth(20);
+      await card.scrollIntoViewIfNeeded();
+      const buttons = card.getByRole("button", { name: "Select Reward" });
+      const closeModalButton = page
+        .locator("div")
+        .filter({ hasText: /^Back this project$/ })
+        .getByRole("button");
+      const modalHeading = page.getByRole("heading", {
+        name: "Back this project",
+      });
+      // button 1
+      await buttons.nth(0).click();
+      await expect(modalHeading).toBeVisible();
+      await expect(page.locator("#reward1")).toBeChecked();
+      await expect(closeModalButton).toBeVisible();
+      await closeModalButton.click();
+      await expect(modalHeading).not.toBeVisible();
+      // button 2
+      await buttons.nth(1).click();
+      await expect(modalHeading).toBeVisible();
+      await expect(page.locator("#reward2")).toBeChecked();
+      await closeModalButton.click();
+    });
   });
 });
