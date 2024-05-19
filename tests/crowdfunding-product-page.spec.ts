@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-// import supportType from "../components/crowdfunding-product-page/supportType.json";
+import supportType from "../components/crowdfunding-product-page/supportType.json";
 
 test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   /** Go to Crowdfunding product page before each test */
@@ -171,7 +171,27 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           "Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer to allow notepads, pens, and USB sticks to be stored under the stand.",
         ),
       ).toBeVisible();
+      for (const support of supportType) {
+        if (!Object.hasOwn(support, "stock") || support.stock === undefined)
+          continue;
+        const { details, name, startsFrom, stock } = support;
+        const container = card.getByText(
+          `${name}Pledge $${startsFrom} or more${details}`,
+        );
+        await expect(container).toBeVisible();
+        await expect(container.getByText(`${stock}left`)).toBeVisible();
+        if (stock !== 0) {
+          await expect(
+            container.getByRole("button", { name: "Select Reward" }),
+          ).toBeVisible();
+        } else {
+          const button = container.getByRole("button", {
+            name: "Out of Stock",
+          });
+          await expect(button).toBeVisible();
+          await expect(button).toBeDisabled();
+        }
+      }
     });
-    // TODO: add suppport selection test
   });
 });
