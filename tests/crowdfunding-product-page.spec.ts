@@ -82,7 +82,34 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         .nth(1);
       await expect(modal).toBeVisible();
       await expect(modal).toBeInViewport();
-      // TODO: Modal has all elements
+    });
+    test("'Back this project' modal has all elements", async ({ page }) => {
+      await page.getByRole("button", { name: "Back this project" }).click();
+      const modal = page
+        .locator("div")
+        .filter({
+          hasText:
+            "Back this projectWant to support us in bringing Mastercraft Bamboo Monitor Riser",
+        })
+        .nth(1);
+      await expect(modal).toBeVisible();
+      await expect(modal).toBeInViewport();
+      await expect(
+        modal.getByRole("heading", { name: "Back this project" }),
+      ).toBeVisible();
+      await expect(
+        modal
+          .locator("div")
+          .filter({ hasText: /^Back this project$/ })
+          .getByRole("button"),
+      ).toBeVisible();
+      await expect(
+        modal.getByText(
+          "Want to support us in bringing Mastercraft Bamboo Monitor Riser out in the world?",
+        ),
+      ).toBeVisible();
+      const form = modal.locator("form");
+      expect(await form.locator(">div").all()).toHaveLength(supportType.length);
     });
     test("'Bookmark' button works", async ({ page }) => {
       const card = page.locator("div").nth(6);
