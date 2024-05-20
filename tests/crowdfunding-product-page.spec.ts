@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 import supportType from "../components/crowdfunding-product-page/supportType.json";
 
 test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
@@ -110,6 +110,47 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       ).toBeVisible();
       const form = modal.locator("form");
       expect(await form.locator(">div").all()).toHaveLength(supportType.length);
+    });
+    test("Modal form works", async ({ page }) => {
+      await page.getByRole("button", { name: "Back this project" }).click();
+      const modal = page
+        .locator("div")
+        .filter({
+          hasText:
+            "Back this projectWant to support us in bringing Mastercraft Bamboo Monitor Riser",
+        })
+        .nth(1);
+      const form = modal.locator("form");
+      const optionElements = await form.locator(">div").all();
+      for (const [idx, option] of Object.entries(supportType)) {
+        const index = Number(idx);
+        const elem = optionElements[index];
+        await elem.scrollIntoViewIfNeeded();
+        let heading: Locator;
+        if (!Object.hasOwn(option, "stock") || option.stock === undefined) {
+          heading = elem.getByRole("heading", {
+            name: "Pledge with no reward",
+          });
+          await expect(heading).toBeVisible();
+        } else {
+          heading = elem.getByRole("heading", { name: option.name });
+          await expect(heading).toBeVisible();
+          await expect(elem.getByText(`${option.stock}left`)).toBeVisible();
+        }
+        if (!option.stock || option.stock > 0) {
+          const input = elem.locator(`input#reward${index}`);
+          await expect(input).not.toBeChecked();
+          await heading.click();
+          await expect(input).toBeChecked();
+          // TODO: test pledge value input
+        }
+        await expect(elem.getByText(option.details)).toBeVisible();
+        if (option.startsFrom > 0) {
+          await expect(
+            elem.getByText(`Pledge $${option.startsFrom} or more`),
+          ).toBeVisible();
+        }
+      }
     });
     test("'Bookmark' button works", async ({ page }) => {
       const card = page.locator("div").nth(6);

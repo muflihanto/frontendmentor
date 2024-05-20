@@ -135,6 +135,7 @@ const Stock = ({ value }: StockProps) => {
   );
 };
 
+// FIXME incorrect checked logic
 type RadioInputProps = {
   el: SupportType[number];
   index: number;
