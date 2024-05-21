@@ -1,14 +1,10 @@
 {
   "path-autocomplete.pathMappings": {
-    "/": "${workspace}/public", // the absolute root folder is now /src,
+    "/": "${workspace}/public" // the absolute root folder is now /src,
   },
   "todo-tree.tree.scanMode": "workspace",
   "tailwindCSS.experimental.classRegex": [
-    [
-      "clsx\\(([^)]*)\\)",
-      "cn\\(([^)]*)\\)",
-      "(?:'|\"|`)([^']*)(?:'|\"|`)"
-    ]
+    ["clsx\\(([^)]*)\\)", "cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "tailwindCSS.classAttributes": [
@@ -17,6 +13,7 @@
     "ngClass",
     ".*Styles*" // Add ".*Styles*" (or whatever matches your naming scheme)
   ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
@@ -34,5 +31,5 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
-  },
+  }
 }

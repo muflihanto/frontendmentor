@@ -9,18 +9,19 @@ import Card from "./Card";
 import supportType from "./supportType.json";
 import { useCallbackRef } from "use-callback-ref";
 import { commissioner } from "../../utils/fonts/commissioner";
+import type { SuppportContext } from "./Main";
 
 type SupportType = typeof supportType;
 
 type SelectionModalProps = {
   close: () => void;
   submit: FormEventHandler<HTMLFormElement>;
-  initialSelection: number | undefined;
-};
+} & SuppportContext;
+
 export default function SelectionModal(props: SelectionModalProps) {
-  const [selected, setSelected] = useState(props.initialSelection);
+  const { selectedOption, setSelectedOption } = props;
   const [pledge, setPledge] = useState(
-    props.initialSelection ? supportType[props.initialSelection].startsFrom : 0,
+    selectedOption ? supportType[selectedOption].startsFrom : 0,
   );
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const optionRef = useCallbackRef<HTMLDivElement | null>(null, () => {});
@@ -32,6 +33,7 @@ export default function SelectionModal(props: SelectionModalProps) {
   }, [optionRef]);
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       className={`fixed left-0 top-0 flex h-full w-screen justify-center overflow-scroll bg-black/50 pb-[120px] pt-[121px] font-commissioner lg:py-[min(184px,calc(184/800*100vh))] ${commissioner.variable}`}
       onClick={(e) => {
@@ -49,21 +51,21 @@ export default function SelectionModal(props: SelectionModalProps) {
           {supportType.map((el, index) => {
             return (
               <div
-                key={index}
+                key={el.name}
                 className={`group rounded-lg px-[24px] pt-[21px] -outline-offset-1 ring-1 first:pb-[31px] first:pt-8 lg:px-[28px] lg:pb-[31.5px] lg:pt-[30px] lg:first:pt-[30px] ${
-                  el.stock !== 0 && index === selected
+                  el.stock !== 0 && index === selectedOption
                     ? "pb-[23px] outline outline-2 outline-crowdfunding-primary-100 ring-inset ring-crowdfunding-primary-100 lg:pb-[23px]"
                     : "pb-[29px] ring-crowdfunding-neutral-100/30"
                 } ${el.stock === 0 && "opacity-50"}`}
-                ref={props.initialSelection === index ? optionRef : null}
+                ref={selectedOption === index ? optionRef : null}
               >
                 <div className="flex flex-col items-start justify-between lg:grid lg:grid-flow-row lg:auto-rows-auto lg:grid-cols-[repeat(2,minmax(0,1fr))_auto]">
                   <RadioInput
                     el={el}
                     index={index}
-                    selected={selected}
+                    checked={index === selectedOption}
                     onChange={() => {
-                      setSelected(index);
+                      setSelectedOption(index);
                       setPledge(el.startsFrom);
                     }}
                   />
@@ -72,12 +74,12 @@ export default function SelectionModal(props: SelectionModalProps) {
                     <Stock value={el.stock} />
                   )}
                 </div>
-                {el.stock !== 0 && index === selected && (
+                {el.stock !== 0 && index === selectedOption && (
                   <Continue
                     el={el}
                     pledge={pledge}
                     onChange={(e) => {
-                      setPledge(parseInt(e.target.value));
+                      setPledge(Number(e.target.value));
                     }}
                   />
                 )}
@@ -109,8 +111,11 @@ const CardHeader = ({ handleClose }: CardHeaderProps) => {
         <button
           className="pt-[1px] lg:-translate-y-[25px] lg:translate-x-[17px]"
           onClick={handleClose}
+          type="button"
+          aria-label="Close 'Back this project' modal"
         >
           <svg viewBox="0 0 15 15" className="w-[15px]">
+            <title>Close</title>
             <use href="/crowdfunding-product-page/images/icon-close-modal.svg#icon-close-modal" />
           </svg>
         </button>
@@ -135,14 +140,13 @@ const Stock = ({ value }: StockProps) => {
   );
 };
 
-// FIXME incorrect checked logic
 type RadioInputProps = {
   el: SupportType[number];
   index: number;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  selected: number | undefined;
+  checked: boolean;
 };
-const RadioInput = ({ el, index, selected, onChange }: RadioInputProps) => {
+const RadioInput = ({ el, index, checked, onChange }: RadioInputProps) => {
   return (
     <label
       htmlFor={`reward${index}`}
@@ -155,7 +159,7 @@ const RadioInput = ({ el, index, selected, onChange }: RadioInputProps) => {
         value={index}
         name="reward"
         id={`reward${index}`}
-        checked={el.stock !== undefined && el.stock > 0 && index === selected}
+        checked={checked}
         className="peer/reward hidden"
         onChange={onChange}
         disabled={el.stock === 0}
@@ -219,7 +223,10 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
               className="h-[24px] w-[50%] rounded-full bg-none text-[14px] font-bold focus-within:outline-none"
             />
           </label>
-          <button className="h-full w-[115px] rounded-full bg-crowdfunding-primary-100 pb-[2px] text-[14px] font-bold text-white/75 hover:bg-crowdfunding-primary-200 lg:w-[107px]">
+          <button
+            className="h-full w-[115px] rounded-full bg-crowdfunding-primary-100 pb-[2px] text-[14px] font-bold text-white/75 hover:bg-crowdfunding-primary-200 lg:w-[107px]"
+            type="submit"
+          >
             Continue
           </button>
         </div>

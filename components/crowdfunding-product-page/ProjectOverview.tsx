@@ -31,6 +31,7 @@ export default function Overview(props: OverviewProps) {
             className="w-[calc(100%-56px-9px)] rounded-full bg-crowdfunding-primary-100 pb-[2px] font-bold text-white/80 hover:bg-crowdfunding-primary-200 lg:w-[204px]"
             onClick={props.openSelectionModal}
             value={undefined}
+            type="button"
           >
             Back this project
           </button>
@@ -43,6 +44,10 @@ export default function Overview(props: OverviewProps) {
                 ? "lg:w-[190px] lg:bg-crowdfunding-primary-100/[7%]"
                 : "lg:w-[174px] lg:bg-crowdfunding-neutral-100/10"
             }`}
+            type="button"
+            aria-label="Toggle Bookmark"
+            role="switch"
+            aria-checked={isBookmarked}
           >
             <svg
               className={[
@@ -52,6 +57,7 @@ export default function Overview(props: OverviewProps) {
                   : "fill-[#2F2F2F] text-[#B1B1B1] group-hover:fill-crowdfunding-neutral-100",
               ].join(" ")}
             >
+              <title>Bookmark</title>
               <use href="/crowdfunding-product-page/images/icon-bookmark.svg#icon-bookmark" />
             </svg>
             <span

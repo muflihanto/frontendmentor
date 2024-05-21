@@ -11,6 +11,6 @@ export default function Portal(props: PropsWithChildren) {
   }, []);
 
   return mounted && ref.current
-    ? createPortal(<>{props.children}</>, ref.current)
+    ? createPortal(props.children, ref.current)
     : null;
 }
