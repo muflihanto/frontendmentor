@@ -46,8 +46,7 @@ export default function Overview(props: OverviewProps) {
             }`}
             type="button"
             aria-label="Toggle Bookmark"
-            role="switch"
-            aria-checked={isBookmarked}
+            aria-pressed={isBookmarked}
           >
             <svg
               className={[

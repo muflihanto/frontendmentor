@@ -64,9 +64,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(
         card.getByRole("button", { name: "Back this project" }),
       ).toBeVisible();
-      await expect(
-        card.getByRole("button", { name: "Bookmark" }),
-      ).toBeVisible();
+      await expect(card.getByLabel("Toggle Bookmark")).toBeVisible();
     });
     test("'Back this project' button works", async ({ page }) => {
       const button = page.getByRole("button", { name: "Back this project" });
@@ -76,8 +74,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const modal = page
         .locator("div")
         .filter({
-          hasText:
-            "Back this projectWant to support us in bringing Mastercraft Bamboo Monitor Riser",
+          hasText: "Back this projectCloseWant to",
         })
         .nth(1);
       await expect(modal).toBeVisible();
@@ -88,8 +85,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const modal = page
         .locator("div")
         .filter({
-          hasText:
-            "Back this projectWant to support us in bringing Mastercraft Bamboo Monitor Riser",
+          hasText: "Back this projectCloseWant to",
         })
         .nth(1);
       await expect(modal).toBeVisible();
@@ -97,12 +93,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(
         modal.getByRole("heading", { name: "Back this project" }),
       ).toBeVisible();
-      await expect(
-        modal
-          .locator("div")
-          .filter({ hasText: /^Back this project$/ })
-          .getByRole("button"),
-      ).toBeVisible();
+      await expect(modal.getByLabel("Close 'Back this project'")).toBeVisible();
       await expect(
         modal.getByText(
           "Want to support us in bringing Mastercraft Bamboo Monitor Riser out in the world?",
@@ -116,8 +107,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const modal = page
         .locator("div")
         .filter({
-          hasText:
-            "Back this projectWant to support us in bringing Mastercraft Bamboo Monitor Riser",
+          hasText: "Back this projectCloseWant to",
         })
         .nth(1);
       const form = modal.locator("form");
@@ -137,7 +127,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           await expect(heading).toBeVisible();
           await expect(elem.getByText(`${option.stock}left`)).toBeVisible();
         }
-        if (!option.stock || option.stock > 0) {
+        if (option.stock === undefined || option.stock > 0) {
           const input = elem.locator(`input#reward${index}`);
           await expect(input).not.toBeChecked();
           await heading.click();
@@ -154,10 +144,11 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
     });
     test("'Bookmark' button works", async ({ page }) => {
       const card = page.locator("div").nth(6);
-      let button = card.getByRole("button", { name: "Bookmark" });
+      const button = card.getByLabel("Toggle Bookmark");
       await page.waitForLoadState("load");
       const text = button.locator("span");
       const icon = button.locator("svg");
+      // not pressed
       await expect(button).toBeVisible();
       await expect(button).toHaveCSS(
         "background-color",
@@ -167,7 +158,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(icon).toHaveCSS("color", "rgb(177, 177, 177)");
       await expect(icon).toHaveCSS("fill", "rgb(47, 47, 47)");
       await button.click();
-      button = card.getByRole("button", { name: "Bookmarked" });
+      // pressed
       await expect(button).toHaveCSS(
         "background-color",
         "rgba(60, 180, 172, 0.07)",
@@ -176,7 +167,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(icon).toHaveCSS("color", "rgb(255, 255, 255)");
       await expect(icon).toHaveCSS("fill", "rgb(60, 180, 172)");
       await button.click();
-      button = card.getByRole("button", { name: "Bookmark" });
+      // not pressed
       await expect(button).toHaveCSS(
         "background-color",
         "rgba(122, 122, 122, 0.1)",
@@ -265,10 +256,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const card = page.locator("div").nth(20);
       await card.scrollIntoViewIfNeeded();
       const buttons = card.getByRole("button", { name: "Select Reward" });
-      const closeModalButton = page
-        .locator("div")
-        .filter({ hasText: /^Back this project$/ })
-        .getByRole("button");
+      const closeModalButton = page.getByLabel("Close 'Back this project'");
       const modalHeading = page.getByRole("heading", {
         name: "Back this project",
       });
