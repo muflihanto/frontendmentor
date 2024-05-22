@@ -11,6 +11,7 @@ export default function SuccessModal(props: SuccessModalProps) {
     >
       <Card className="flex h-[382px] flex-col items-center justify-start overflow-scroll px-6 pt-[32px] lg:h-[449px] lg:w-[540px] lg:px-10 lg:pt-[48px]">
         <svg className="w-16 lg:w-[90px]" viewBox="0 0 64 64">
+          <title>Check</title>
           <use href="/crowdfunding-product-page/images/icon-check.svg#icon-check" />
         </svg>
         <h2 className="mt-[20.5px] text-[19px] font-bold -tracking-[0.4px] lg:mt-[44px] lg:text-[24px] lg:tracking-normal">
@@ -24,6 +25,7 @@ export default function SuccessModal(props: SuccessModalProps) {
         <button
           className="mt-[31px] flex h-[48px] w-[106px] -translate-x-[2px] items-center justify-center rounded-full bg-crowdfunding-primary-100 text-[14px] font-bold text-white/75 hover:bg-crowdfunding-primary-200 lg:mt-8"
           onClick={props.close}
+          type="button"
         >
           Got it!
         </button>

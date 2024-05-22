@@ -162,6 +162,9 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const gotItButton = thankYouCard.getByRole("button", { name: "Got it!" });
       await expect(thankYouCard).toBeVisible();
       await expect(
+        thankYouCard.getByRole("img", { name: "Check" }),
+      ).toBeVisible();
+      await expect(
         thankYouCard.getByRole("heading", { name: "Thanks for your support!" }),
       ).toBeVisible();
       await expect(

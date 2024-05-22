@@ -28,7 +28,7 @@ export default function About(props: AboutProps) {
           if (index > 0) {
             return (
               <Reward
-                key={index}
+                key={el.name}
                 data={el}
                 value={index}
                 openSelectionModal={props.openSelectionModal}
@@ -79,6 +79,7 @@ function Reward({ data, value, openSelectionModal }: RewardProps) {
           value={value}
           onClick={openSelectionModal}
           disabled={stock === 0}
+          type="button"
         >
           {stock === 0 ? "Out of Stock" : "Select Reward"}
         </button>

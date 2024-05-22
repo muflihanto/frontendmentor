@@ -21,15 +21,12 @@ export default function Statistic() {
         {statisticData.map((el, index) => (
           <Data
             value={el}
-            key={index}
+            key={`${el.h} ${el.p}`}
             hr={index < statisticData.length - 1}
           />
         ))}
       </div>
-      <Progress
-        value="89914"
-        target="100000"
-      />
+      <Progress value="89914" target="100000" />
     </Card>
   );
 }
@@ -47,9 +44,13 @@ const Data = (props: DataProps) => {
     <div className="text-center lg:flex lg:flex-1 lg:justify-between lg:text-left">
       <div>
         <h1 className="text-[32px] font-bold">{h}</h1>
-        <p className="text-crowdfunding-neutral-100/70 mt-[3px] text-[14px] font-medium lg:mt-[2px] lg:text-[15px]">{p}</p>
+        <p className="text-crowdfunding-neutral-100/70 mt-[3px] text-[14px] font-medium lg:mt-[2px] lg:text-[15px]">
+          {p}
+        </p>
       </div>
-      {props.hr && <hr className="mx-auto mb-[19px] mt-[22px] w-[80px] border-t-2 lg:m-0 lg:mt-1 lg:h-[64px] lg:w-[2px] lg:border-l-2 lg:border-t-0" />}
+      {props.hr && (
+        <hr className="mx-auto mb-[19px] mt-[22px] w-[80px] border-t-2 lg:m-0 lg:mt-1 lg:h-[64px] lg:w-[2px] lg:border-l-2 lg:border-t-0" />
+      )}
     </div>
   );
 };
@@ -61,9 +62,9 @@ const Progress = (props: ProgressProps) => {
       <div
         className="bg-crowdfunding-primary-100 absolute top-0 h-full w-[200px] rounded-full"
         style={{
-          width: `${(parseInt(props.value) / parseInt(props.target)) * 100}%`,
+          width: `${(Number(props.value) / Number(props.target)) * 100}%`,
         }}
-      ></div>
+      />
     </div>
   );
 };
