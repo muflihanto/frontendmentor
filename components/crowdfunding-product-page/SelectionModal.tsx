@@ -213,6 +213,7 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
             <span className="pl-6 text-[14px] font-bold text-crowdfunding-neutral-100/75">
               $
             </span>
+            {/* FIXME fix logic, shouldn't accept 0 in "Pledge with no reward" */}
             <input
               id="pledge"
               name="pledge"

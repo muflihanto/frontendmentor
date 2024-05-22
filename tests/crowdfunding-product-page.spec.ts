@@ -142,6 +142,35 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         }
       }
     });
+    test("Show 'Success Card' after submit", async ({ page }) => {
+      await page.getByRole("button", { name: "Back this project" }).click();
+      const modal = page
+        .locator("div")
+        .filter({
+          hasText: "Back this projectCloseWant to",
+        })
+        .nth(1);
+      const form = modal.locator("form");
+      const secondOption = form.locator(">div").nth(1);
+      await secondOption.scrollIntoViewIfNeeded();
+      await secondOption.getByRole("heading").click();
+      const continueButton = secondOption.getByRole("button", {
+        name: "Continue",
+      });
+      await continueButton.click();
+      const thankYouCard = page.getByText("Thanks for your support!Your");
+      const gotItButton = thankYouCard.getByRole("button", { name: "Got it!" });
+      await expect(thankYouCard).toBeVisible();
+      await expect(
+        thankYouCard.getByRole("heading", { name: "Thanks for your support!" }),
+      ).toBeVisible();
+      await expect(
+        thankYouCard.getByText("Your pledge brings us one"),
+      ).toBeVisible();
+      await expect(gotItButton).toBeVisible();
+      await gotItButton.click();
+      await expect(thankYouCard).not.toBeVisible();
+    });
     test("'Bookmark' button works", async ({ page }) => {
       const card = page.locator("div").nth(6);
       const button = card.getByLabel("Toggle Bookmark");
