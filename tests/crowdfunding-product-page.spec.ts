@@ -132,7 +132,19 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           await expect(input).not.toBeChecked();
           await heading.click();
           await expect(input).toBeChecked();
-          // TODO: test pledge value input
+          // pledge assertions
+          const pledge = elem.getByLabel("$", { exact: true });
+          const newVal = option.startsFrom + 5;
+          await expect(elem.getByText("Enter your pledge")).toBeVisible();
+          await expect(pledge).toBeVisible();
+          await expect(pledge).toHaveValue(
+            `${option.startsFrom > 0 ? option.startsFrom : 1}`,
+          );
+          await pledge.fill(`${newVal}`);
+          await expect(pledge).toHaveValue(`${newVal}`);
+          await expect(
+            elem.getByRole("button", { name: "Continue" }),
+          ).toBeVisible();
         }
         await expect(elem.getByText(option.details)).toBeVisible();
         if (option.startsFrom > 0) {
