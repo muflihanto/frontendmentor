@@ -21,7 +21,7 @@ type SelectionModalProps = {
 export default function SelectionModal(props: SelectionModalProps) {
   const { selectedOption, setSelectedOption } = props;
   const [pledge, setPledge] = useState(
-    selectedOption ? supportType[selectedOption].startsFrom : 0,
+    selectedOption ? supportType[selectedOption].startsFrom : 1,
   );
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const optionRef = useCallbackRef<HTMLDivElement | null>(null, () => {});
@@ -66,7 +66,7 @@ export default function SelectionModal(props: SelectionModalProps) {
                     checked={index === selectedOption}
                     onChange={() => {
                       setSelectedOption(index);
-                      setPledge(el.startsFrom);
+                      setPledge(el.startsFrom > 0 ? el.startsFrom : 1);
                     }}
                   />
                   <Details>{el.details}</Details>
@@ -79,7 +79,8 @@ export default function SelectionModal(props: SelectionModalProps) {
                     el={el}
                     pledge={pledge}
                     onChange={(e) => {
-                      setPledge(Number(e.target.value));
+                      const val = e.target.value;
+                      if (val !== "") setPledge(Number(val));
                     }}
                   />
                 )}
@@ -218,7 +219,7 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
               id="pledge"
               name="pledge"
               type="number"
-              min={el.startsFrom}
+              min={el.startsFrom > 0 ? el.startsFrom : 1}
               value={pledge}
               onChange={onChange}
               className="h-[24px] w-[50%] rounded-full bg-none text-[14px] font-bold focus-within:outline-none"
