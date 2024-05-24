@@ -48,26 +48,20 @@ export default function Main() {
         <Statistic />
         <About openSelectionModal={openSelectionModal} />
         <Modals>
-          {isSelectionModalOpen && (
-            <SelectionModal
-              close={() => {
-                setIsSelectionModalOpen(false);
-              }}
-              submit={(e) => {
-                e.preventDefault();
-                setIsSelectionModalOpen(false);
-                setIsSuccessModalOpen(true);
-              }}
-              {...{ selectedOption, setSelectedOption }}
-            />
-          )}
-          {isSuccessModalOpen && (
-            <SuccessModal
-              close={() => {
-                setIsSuccessModalOpen(false);
-              }}
-            />
-          )}
+          <SelectionModal
+            submit={(e) => {
+              e.preventDefault();
+              setIsSelectionModalOpen(false);
+              setIsSuccessModalOpen(true);
+            }}
+            isOpen={isSelectionModalOpen}
+            setIsOpen={setIsSelectionModalOpen}
+            {...{ selectedOption, setSelectedOption }}
+          />
+          <SuccessModal
+            isOpen={isSuccessModalOpen}
+            setIsOpen={setIsSuccessModalOpen}
+          />
         </Modals>
       </div>
     </SuppporContext.Provider>

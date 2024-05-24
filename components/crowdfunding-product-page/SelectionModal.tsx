@@ -2,48 +2,53 @@ import {
   type ChangeEvent,
   type ComponentProps,
   type FormEventHandler,
-  useEffect,
   useState,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 import Card from "./Card";
 import supportType from "./supportType.json";
 import { useCallbackRef } from "use-callback-ref";
 import { commissioner } from "../../utils/fonts/commissioner";
 import type { SuppportContext } from "./Main";
+import useFocusTrap from "../../utils/useFocusTrap";
 
 type SupportType = typeof supportType;
 
 type SelectionModalProps = {
-  close: () => void;
   submit: FormEventHandler<HTMLFormElement>;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 } & SuppportContext;
 
 export default function SelectionModal(props: SelectionModalProps) {
-  const { selectedOption, setSelectedOption } = props;
+  const { selectedOption, setSelectedOption, isOpen, setIsOpen } = props;
   const [pledge, setPledge] = useState(
     selectedOption ? supportType[selectedOption].startsFrom : 1,
   );
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const optionRef = useCallbackRef<HTMLDivElement | null>(null, () => {});
+  const optionRef = useCallbackRef<HTMLDivElement>(null, (curr) => {
+    if (curr !== null)
+      curr.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+  const modalRef = useFocusTrap(isOpen, setIsOpen);
 
-  useEffect(() => {
-    if (optionRef.current !== null) {
-      optionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }, [optionRef]);
-
-  return (
+  return isOpen ? (
     // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       className={`fixed left-0 top-0 flex h-full w-screen justify-center overflow-scroll bg-black/50 pb-[120px] pt-[121px] font-commissioner lg:py-[min(184px,calc(184/800*100vh))] ${commissioner.variable}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
-          props.close();
+          setIsOpen(false);
         }
       }}
+      ref={modalRef}
     >
       <Card className="h-fit overflow-visible px-6 pb-[32px] pt-[29px] lg:px-12 lg:pb-[49px] lg:pt-[45.5px]">
-        <CardHeader handleClose={props.close} />
+        <CardHeader
+          handleClose={() => {
+            setIsOpen(false);
+          }}
+        />
         <form
           className="group mt-[25px] flex flex-col gap-[26px] lg:mt-[36px]"
           onSubmit={props.submit}
@@ -90,7 +95,7 @@ export default function SelectionModal(props: SelectionModalProps) {
         </form>
       </Card>
     </div>
-  );
+  ) : null;
 }
 
 const Details = ({ children }: ComponentProps<"p">) => {
