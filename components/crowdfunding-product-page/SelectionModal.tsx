@@ -161,12 +161,14 @@ const RadioInput = ({ el, index, checked, onChange }: RadioInputProps) => {
         name="reward"
         id={`reward${index}`}
         checked={checked}
-        className="peer/reward hidden"
+        // biome-ignore lint/a11y/noAutofocus: <explanation>
+        autoFocus={checked}
+        className="peer/reward sr-only"
         onChange={onChange}
         disabled={el.stock === 0}
       />
       <div
-        className={`flex aspect-square w-6 items-center justify-center rounded-full border bg-white peer-checked/reward:before:h-3 peer-checked/reward:before:w-3 peer-checked/reward:before:rounded-full peer-checked/reward:before:bg-crowdfunding-primary-100 lg:mt-[4px] ${
+        className={`flex aspect-square w-6 items-center justify-center rounded-full border bg-white peer-checked/reward:before:h-3 peer-checked/reward:before:w-3 peer-checked/reward:before:rounded-full peer-checked/reward:before:bg-crowdfunding-primary-100 lg:mt-[4px] peer-focus/reward:ring-2 peer-focus/reward:ring-crowdfunding-primary-100 ${
           el.stock !== 0 && "group-hover/label:text-crowdfunding-primary-100"
         }`}
       />
