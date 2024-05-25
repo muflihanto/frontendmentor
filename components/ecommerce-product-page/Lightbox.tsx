@@ -54,11 +54,13 @@ function MainContent({
         onClick={() => {
           setOpen({ open: false, position: 0 });
         }}
+        type="button"
       >
         <svg
           viewBox="0 0 14 15"
           className="w-[24px] fill-[#69707D] group-hover:fill-ecommerce-primary-200"
         >
+          <title>close</title>
           <use href="/ecommerce-product-page/images/icon-close.svg#icon-close" />
         </svg>
       </button>
@@ -70,8 +72,10 @@ function MainContent({
               return p !== 0 ? p - 1 : 3;
             });
           }}
+          type="button"
         >
           <svg viewBox="0 0 12 18" className="w-[12px] stroke-[3px]">
+            <title>Prev</title>
             <use href="/ecommerce-product-page/images/icon-previous.svg#icon-previous" />
           </svg>
         </button>
@@ -88,7 +92,10 @@ function MainContent({
           >
             {product.images.map((img, index) => {
               return (
-                <div className="relative h-full w-[100%]" key={index}>
+                <div
+                  className="relative h-full w-[100%]"
+                  key={`${index}-${img}`}
+                >
                   <Image
                     src={img}
                     alt={`Product ${index + 1}`}
@@ -107,8 +114,10 @@ function MainContent({
               return p !== 3 ? p + 1 : 0;
             });
           }}
+          type="button"
         >
           <svg viewBox="0 0 13 18" className="w-[13px] stroke-[3px]">
+            <title>Next</title>
             <use href="/ecommerce-product-page/images/icon-next.svg#icon-next" />
           </svg>
         </button>
@@ -117,7 +126,7 @@ function MainContent({
         {product.thumbnails.map((thumb, index) => {
           return (
             <button
-              key={index}
+              key={`${index}-${thumb}`}
               className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:z-10 hover:before:h-full hover:before:w-full hover:before:bg-white/50 hover:before:content-[''] ${
                 leftPos === index &&
                 "ring-2 ring-ecommerce-primary-200 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
@@ -125,6 +134,7 @@ function MainContent({
               onClick={() => {
                 setLeftPos(index);
               }}
+              type="button"
             >
               <Image
                 src={thumb}

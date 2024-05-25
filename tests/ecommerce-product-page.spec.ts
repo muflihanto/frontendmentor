@@ -115,8 +115,8 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     await page.waitForTimeout(1000);
     const overlay = page.locator(".fixed");
     const closeButton = overlay.locator("button").first();
-    const prevButton = overlay.locator("button").nth(1);
-    const nextButton = overlay.locator("button").nth(2);
+    const prevButton = overlay.getByRole("button", { name: "Prev" });
+    const nextButton = overlay.getByRole("button", { name: "Next" });
     const selectorButtons = await overlay
       .locator("div")
       .nth(8)
@@ -148,6 +148,28 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       const index = Number(idx);
       currentImage = overlay.getByRole("img", { name: `Product ${index + 1}` });
       await button.click();
+      await expect(currentImage).toBeVisible();
+    }
+  });
+
+  /** Test if the page can navigate 'Lightbox' using prev & next button */
+  test("can navigate 'Lightbox' using prev & next button", async ({ page }) => {
+    const toggle = page.locator("div").nth(3).locator("button").nth(1);
+    await toggle.click();
+    await page.waitForTimeout(1000);
+    const overlay = page.locator(".fixed");
+    let currentImage: Locator;
+    const prevButton = overlay.getByRole("button", { name: "Prev" });
+    const nextButton = overlay.getByRole("button", { name: "Next" });
+    const indexes = [1, 2, 3, 4];
+    for (const index of indexes) {
+      currentImage = overlay.getByRole("img", { name: `Product ${index}` });
+      await expect(currentImage).toBeVisible();
+      await nextButton.click();
+    }
+    for (const index of indexes.reverse()) {
+      await prevButton.click();
+      currentImage = overlay.getByRole("img", { name: `Product ${index}` });
       await expect(currentImage).toBeVisible();
     }
   });

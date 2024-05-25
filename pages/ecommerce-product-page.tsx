@@ -123,8 +123,10 @@ function Header() {
         onClick={() => {
           setMenuOpen(true);
         }}
+        type="button"
       >
         <svg viewBox="0 0 16 15" className="w-4">
+          <title>Menu</title>
           <use href="/ecommerce-product-page/images/icon-menu.svg#icon-menu" />
         </svg>
       </button>
@@ -136,7 +138,7 @@ function Header() {
             const { text, href } = nav;
             return (
               <li
-                key={index}
+                key={`${index}-${nav.text}`}
                 className="hover:relative hover:text-ecommerce-neutral-600 hover:before:absolute hover:before:bottom-[-49px] hover:before:left-0 hover:before:z-20 hover:before:h-1 hover:before:w-full hover:before:bg-ecommerce-primary-200 hover:before:content-['']"
               >
                 <a href={href ?? ""} className="">
@@ -153,6 +155,7 @@ function Header() {
         onClick={() => {
           setCartOpen((c) => !c);
         }}
+        type="button"
       >
         <svg
           viewBox="0 0 22 20"
@@ -162,6 +165,7 @@ function Header() {
               : "fill-ecommerce-neutral-600"
           }`}
         >
+          <title>Cart</title>
           <use href="/ecommerce-product-page/images/icon-cart.svg#icon-cart" />
         </svg>
         {cartItem.length !== 0 && (
@@ -170,7 +174,10 @@ function Header() {
           </span>
         )}
       </button>
-      <button className="relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2 hover:ring hover:ring-ecommerce-primary-200 lg:ml-[45px] lg:h-[50px] lg:w-[50px]">
+      <button
+        className="relative ml-[21px] mt-[2px] h-6 w-6 rounded-full p-2 hover:ring hover:ring-ecommerce-primary-200 lg:ml-[45px] lg:h-[50px] lg:w-[50px]"
+        type="button"
+      >
         <Image
           src={"/ecommerce-product-page/images/image-avatar.png"}
           className="object-contain"
@@ -197,8 +204,10 @@ function PhotoSlide({ product }: { product: Product }) {
               return p !== 0 ? p - 1 : 3;
             });
           }}
+          type="button"
         >
           <svg viewBox="0 0 12 18" className="w-[12px] stroke-[4px]">
+            <title>Prev</title>
             <use href="/ecommerce-product-page/images/icon-previous.svg#icon-previous" />
           </svg>
         </button>
@@ -214,12 +223,13 @@ function PhotoSlide({ product }: { product: Product }) {
         >
           {product.images.map((img, index) => {
             return (
-              <div className="relative h-full w-[100%]" key={index}>
+              <div className="relative h-full w-[100%]" key={img}>
                 <button
                   className="relative z-10 flex h-full w-full items-center justify-center opacity-0 max-lg:hidden"
                   onClick={() => {
                     setOpen({ open: true, position: index });
                   }}
+                  type="button"
                 />
                 <Image
                   src={img}
@@ -238,8 +248,10 @@ function PhotoSlide({ product }: { product: Product }) {
               return p !== 3 ? p + 1 : 0;
             });
           }}
+          type="button"
         >
           <svg viewBox="0 0 13 18" className="w-[13px] stroke-[4px]">
+            <title>Next</title>
             <use href="/ecommerce-product-page/images/icon-next.svg#icon-next" />
           </svg>
         </button>
@@ -248,7 +260,7 @@ function PhotoSlide({ product }: { product: Product }) {
         {product.thumbnails.map((thumb, index) => {
           return (
             <button
-              key={index}
+              key={thumb}
               className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:z-10 hover:before:h-full hover:before:w-full hover:before:bg-white/50 hover:before:content-[''] ${
                 leftPos === index &&
                 "ring-2 ring-ecommerce-primary-200 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
@@ -256,6 +268,7 @@ function PhotoSlide({ product }: { product: Product }) {
               onClick={() => {
                 setLeftPos(index);
               }}
+              type="button"
             >
               <Image
                 src={thumb}
@@ -332,12 +345,13 @@ function Logo({
     <svg
       style={
         {
-          "--size": size + "px",
+          "--size": `${size}px`,
         } as CSSProperties
       }
       viewBox="0 0 138 20"
       className={`w-[var(--size)] ${className}`}
     >
+      <title>Logo</title>
       <use href="/ecommerce-product-page/images/logo.svg#logo" />
     </svg>
   );
