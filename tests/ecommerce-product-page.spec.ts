@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 
 const product = {
   discount: 50,
@@ -132,6 +132,26 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     await expect(overlay).not.toBeVisible();
   });
 
+  /** Test if the page can navigate 'Lightbox' using product thumbnails */
+  test("can navigate 'Lightbox' using product thumbnails", async ({ page }) => {
+    const toggle = page.locator("div").nth(3).locator("button").nth(1);
+    await toggle.click();
+    await page.waitForTimeout(1000);
+    const overlay = page.locator(".fixed");
+    let currentImage: Locator;
+    const selectorButtons = await overlay
+      .locator("div")
+      .nth(8)
+      .getByRole("button")
+      .all();
+    for (const [idx, button] of Object.entries(selectorButtons)) {
+      const index = Number(idx);
+      currentImage = overlay.getByRole("img", { name: `Product ${index + 1}` });
+      await button.click();
+      await expect(currentImage).toBeVisible();
+    }
+  });
+
   /** Test if the page is responsive */
   test.describe("page is responsive", () => {
     test.use({
@@ -152,7 +172,7 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
         // FIXME: fix pattern or fix dom
         await expect(slideContainer).toHaveAttribute(
           "style",
-          new RegExp(`.* * -25%.*`, "i"),
+          /.* * -25%.*/i,
           // `--translate:calc(${imgIndex - 1} * -25%)`,
         );
         await nextButton.click();
