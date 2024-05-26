@@ -174,6 +174,26 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     }
   });
 
+  /** Test if the product quantity counter works */
+  test("product quantity counter works", async ({ page }) => {
+    const quantity = page.getByLabel("Quantity");
+    const decrease = page.getByRole("button", { name: "Decrease" });
+    const increase = page.getByRole("button", { name: "Increase" });
+    await expect(quantity).toBeVisible();
+    await expect(decrease).toBeVisible();
+    await expect(decrease).toBeDisabled();
+    await expect(increase).toBeVisible();
+    await expect(quantity).toHaveText("0");
+    await increase.click();
+    await expect(quantity).toHaveText("1");
+    await increase.click();
+    await expect(quantity).toHaveText("2");
+    await decrease.click();
+    await expect(quantity).toHaveText("1");
+    await decrease.click();
+    await expect(quantity).toHaveText("0");
+  });
+
   /** Test if the page is responsive */
   test.describe("page is responsive", () => {
     test.use({
