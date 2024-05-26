@@ -28,12 +28,17 @@ export default function CartController({ product }: { product: Product }) {
           onClick={() => {
             productCount !== 0 && setProductCount((p) => p - 1);
           }}
+          type="button"
         >
           <svg viewBox="0 0 12 4" className="w-3">
+            <title>Decrease</title>
             <use href="/ecommerce-product-page/images/icon-minus.svg#icon-minus" />
           </svg>
         </button>
-        <div className="font-bold text-ecommerce-neutral-600">
+        <div
+          className="font-bold text-ecommerce-neutral-600"
+          aria-label="Quantity"
+        >
           {productCount}
         </div>
         <button
@@ -41,8 +46,10 @@ export default function CartController({ product }: { product: Product }) {
           onClick={() => {
             setProductCount((p) => p + 1);
           }}
+          type="button"
         >
           <svg viewBox="0 0 12 12" className="w-3">
+            <title>Increase</title>
             <use href="/ecommerce-product-page/images/icon-plus.svg#icon-plus" />
           </svg>
         </button>
@@ -57,10 +64,12 @@ export default function CartController({ product }: { product: Product }) {
             setProductCount(0);
           }
         }}
+        type="button"
       >
         <svg
           viewBox="0 0 22 20"
           className="w-[18px] fill-ecommerce-primary-100"
+          role="presentation"
         >
           <use href="/ecommerce-product-page/images/icon-cart.svg#icon-cart" />
         </svg>
@@ -92,8 +101,8 @@ function CartPopup() {
       if (
         ![
           targetAsEl.id,
-          targetAsEl.parentElement!.id,
-          targetAsEl.parentElement!.parentElement!.id,
+          targetAsEl.parentElement?.id,
+          targetAsEl.parentElement?.parentElement?.id,
         ].includes("cart-toggle")
       ) {
         setCartOpen(false);
@@ -113,6 +122,7 @@ function CartPopup() {
         cartItem.length === 0 ? "h-[256px]" : "min-h-[256px]"
       }`}
       ref={ref}
+      // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
       tabIndex={1}
     >
       <h2
@@ -132,7 +142,7 @@ function CartPopup() {
             <div className="flex flex-col gap-6">
               {cartItem.map((c, index) => {
                 return (
-                  <div key={index} className="flex w-full items-center">
+                  <div key={c.name} className="flex w-full items-center">
                     <div className="relative h-[50px] w-[50px] overflow-hidden rounded">
                       <Image
                         src={c.thumbnails[0]}
@@ -159,12 +169,15 @@ function CartPopup() {
                           });
                         });
                       }}
+                      // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
                       tabIndex={1}
+                      type="button"
                     >
                       <svg
                         className="mt-[1px] w-[14px] fill-[#C3CAD9] group-hover:fill-ecommerce-neutral-600"
                         viewBox="0 0 14 16"
                       >
+                        <title>Delete</title>
                         <use href="/ecommerce-product-page/images/icon-delete.svg#icon-delete" />
                       </svg>
                     </button>
@@ -174,7 +187,9 @@ function CartPopup() {
             </div>
             <button
               className="mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] bg-ecommerce-primary-200 font-bold text-ecommerce-neutral-100 hover:bg-ecommerce-primary-200/70"
+              // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
               tabIndex={1}
+              type="button"
             >
               Checkout
             </button>
