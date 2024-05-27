@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { ubuntu } from "../utils/fonts/ubuntu";
 import { overpass } from "../utils/fonts/overpass";
+import { type Dispatch, type SetStateAction, useState, useEffect } from "react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -76,9 +77,9 @@ function OtherFeatures() {
           <Image
             loader={({ width, src }) => {
               if (width > 1023) {
-                return src + "illustration-laptop-desktop.svg";
+                return `${src}illustration-laptop-desktop.svg`;
               }
-              return src + "illustration-laptop-mobile.svg";
+              return `${src}illustration-laptop-mobile.svg`;
             }}
             src="/blogr-landing-page/images/"
             alt="Illustration Laptop"
@@ -89,7 +90,7 @@ function OtherFeatures() {
       </header>
       <div className="mt-0 flex flex-col gap-[44px] lg:-mt-9 lg:w-1/2 lg:gap-[77px] lg:pl-[15px] lg:pr-40">
         {articles.map((el, index) => {
-          return <Article type="other" key={index} {...el} />;
+          return <Article type="other" key={`${index}-${el.h3}`} {...el} />;
         })}
       </div>
     </section>
@@ -146,9 +147,9 @@ function Future() {
             <Image
               loader={({ width, src }) => {
                 if (width > 1023) {
-                  return src + "illustration-editor-desktop.svg";
+                  return `${src}illustration-editor-desktop.svg`;
                 }
-                return src + "illustration-editor-mobile.svg";
+                return `${src}illustration-editor-mobile.svg`;
               }}
               src="/blogr-landing-page/images/"
               alt="Illustration Editor"
@@ -159,7 +160,7 @@ function Future() {
         </div>
         <div className="mt-[62px] flex flex-col gap-[43px] lg:mt-0 lg:w-1/2 lg:-translate-y-1 lg:gap-[77px]">
           {articles.map((el, index) => {
-            return <Article type="future" key={index} {...el} />;
+            return <Article type="future" key={`${index}-${el.h3}`} {...el} />;
           })}
         </div>
       </div>
@@ -201,7 +202,7 @@ function Footer() {
       <div className="mt-[76px] flex flex-col justify-start gap-[46px] lg:mt-0 lg:w-[74.25%] lg:flex-row lg:pr-[20px] lg:pt-1 lg:-tracking-[0.4px]">
         {navItems.map((el, index) => {
           return (
-            <nav key={index} className="lg:w-1/3">
+            <nav key={`${index}-${el.parent}`} className="lg:w-1/3">
               <h3 className="text-center font-ubuntu text-[18px] font-medium text-blogr-neutral-100/90 lg:text-left lg:text-[16px]">
                 {el.parent}
               </h3>
@@ -209,7 +210,7 @@ function Footer() {
                 {el.children.map((el, index) => {
                   return (
                     <li
-                      key={index}
+                      key={`${index}-${el}`}
                       className="font-ubuntu text-[18px] font-normal text-blogr-neutral-200/80 hover:underline hover:decoration-2 lg:text-[16px] lg:text-blogr-neutral-200/90"
                     >
                       <a href="">{el}</a>
@@ -246,43 +247,98 @@ function Footer() {
   );
 }
 
-type CollapsibleNavItemsProps = { navChildren: string[]; navParent: string };
-function CollapsibleNavItems(props: CollapsibleNavItemsProps) {
+type CollapsibleNavItemsProps = {
+  navChildren: string[];
+  navParent: string;
+  id: string;
+  isPopUpOpen: boolean;
+  setIsPopUpOpen: Dispatch<SetStateAction<boolean>>;
+  activePopUp: string | null;
+  setActivePopUp: Dispatch<SetStateAction<string | null>>;
+};
+function CollapsibleNavItems({
+  activePopUp,
+  id,
+  isPopUpOpen,
+  navChildren,
+  navParent,
+  setActivePopUp,
+  setIsPopUpOpen,
+}: CollapsibleNavItemsProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    setIsExpanded(activePopUp === id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activePopUp]);
+
   return (
-    <details className="group/details lg:relative">
-      <summary className="group/summary flex list-none items-center justify-center gap-2 text-[18px] font-semibold text-blogr-primary-blue/90 hover:cursor-pointer focus-visible:outline-none">
-        <span className="group-open/details:text-blogr-primary-blue/75 group-hover/summary:font-bold group-hover/summary:tracking-[-.2px] group-hover/summary:underline lg:font-ubuntu lg:text-[16px] lg:font-medium lg:text-blogr-neutral-100/75 lg:group-open/details:text-blogr-neutral-100/75">
-          {props.navParent}
+    <>
+      <a
+        className="group/menuparent flex list-none items-center justify-center gap-2 text-[18px] font-semibold text-blogr-primary-blue/90 hover:cursor-pointer focus-visible:outline-white focus-visible:outline-1 focus-visible:rounded focus-visible:outline-offset-1 peer"
+        href={`#${navParent.toLowerCase()}`}
+        role="menuitem"
+        aria-haspopup={true}
+        aria-expanded={isExpanded}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // expanded handled by effect
+          if (isPopUpOpen) {
+            if (activePopUp === id) {
+              setIsPopUpOpen(false);
+              setActivePopUp(null);
+            } else {
+              setActivePopUp(id);
+            }
+          } else {
+            setActivePopUp(id);
+            setIsPopUpOpen(true);
+          }
+        }}
+      >
+        <span className="group-aria-[expanded=true]/menuparent:text-blogr-primary-blue/75 group-hover/menuparent:font-bold group-hover/menuparent:tracking-[-.2px] group-hover/menuparent:underline lg:font-ubuntu lg:text-[16px] lg:font-medium lg:text-blogr-neutral-100/75 lg:group-aria-[expanded=true]/menuparent:text-blogr-neutral-100/75">
+          {navParent}
         </span>
         <Image
           src="/blogr-landing-page/images/icon-arrow-dark.svg"
           alt="Red Arrow Icon"
           width={10}
           height={7}
-          className="block origin-center transition-all group-open/details:rotate-180 lg:hidden"
+          className="block origin-center transition-all group-aria-[expanded=true]/menuparent:rotate-180 lg:hidden"
         />
         <Image
           src="/blogr-landing-page/images/icon-arrow-light.svg"
           alt="White Arrow Icon"
           width={10}
           height={7}
-          className="hidden shrink-0 transition-all group-open/details:rotate-180 lg:block"
+          className="hidden shrink-0 transition-all group-aria-[expanded=true]/menuparent:rotate-180 lg:block"
         />
-      </summary>
-      <ul className="mb-[4px] mt-[18px] flex w-full flex-col items-center gap-[16px] rounded-md bg-blogr-neutral-200/25 pb-[21px] pt-[25px] text-[16px] font-semibold text-blogr-primary-blue/75 lg:absolute lg:-left-6 lg:top-[30.5px] lg:w-[166px] lg:items-start lg:gap-[10.5px] lg:rounded-[4px] lg:bg-blogr-neutral-100 lg:px-6 lg:pb-[29px] lg:pt-[29px] lg:font-ubuntu lg:text-[15px] lg:font-medium lg:text-blogr-primary-blue lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)]">
-        {props.navChildren.map((el, index) => {
+      </a>
+      <ul
+        className="mb-[4px] mt-[18px] flex w-full flex-col items-center gap-[16px] rounded-md bg-blogr-neutral-200/25 pb-[21px] pt-[25px] text-[16px] font-semibold text-blogr-primary-blue/75 lg:absolute lg:-left-6 lg:top-[30.5px] lg:w-[166px] lg:items-start lg:gap-[10.5px] lg:rounded-[4px] lg:bg-blogr-neutral-100 lg:px-6 lg:pb-[29px] lg:pt-[29px] lg:font-ubuntu lg:text-[15px] lg:font-medium lg:text-blogr-primary-blue lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)] peer-aria-[expanded=false]:hidden"
+        role="menu"
+        aria-label={navParent}
+      >
+        {navChildren.map((el, index) => {
           return (
-            <li key={index} className="hover:font-bold">
-              <a href="">{el}</a>
+            <li key={`${index}-${el}`} className="hover:font-bold">
+              <a href={`#${el.toLowerCase()}`} role="menuitem">
+                {el}
+              </a>
             </li>
           );
         })}
       </ul>
-    </details>
+    </>
   );
 }
 
 function Header() {
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [activePopUp, setActivePopUp] = useState<string | null>(null);
+
   return (
     <header className="relative flex aspect-[375/600] h-[600px] w-screen flex-col items-center justify-center gap-[49px] rounded-bl-[100px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-red-100 to-blogr-gradient-red-200 bg-auto bg-no-repeat before:absolute before:bottom-0 before:left-0 before:z-0 before:h-full before:w-full before:overflow-hidden before:rounded-bl-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')] before:bg-[top_-244px_left_-335px] md:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] md:before:bg-[top_-1342px_right_-1295px] md:before:bg-no-repeat lg:justify-end lg:gap-[104px] lg:bg-[linear-gradient(110deg,_var(--tw-gradient-stops))] lg:bg-bottom lg:pb-[155px]">
       <nav className="group absolute top-0 z-20 flex h-[9rem] w-full items-center justify-between bg-transparent px-6 lg:mt-[21px] lg:h-[7.8rem] lg:justify-start lg:gap-[54px] lg:px-40">
@@ -294,7 +350,10 @@ function Header() {
             fill
           />
         </div>
-        <button className="peer/menu group relative aspect-[4/3] h-fit w-8 focus-visible:outline-none lg:hidden">
+        <button
+          className="peer/menu group relative aspect-[4/3] h-fit w-8 focus-visible:outline-none lg:hidden"
+          type="button"
+        >
           <Image
             src="/blogr-landing-page/images/icon-hamburger.svg"
             alt="Menu"
@@ -309,22 +368,30 @@ function Header() {
           />
         </button>
         <div
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: <explanation>
           tabIndex={0}
           className="lg:gap-[49px invisible absolute left-[calc(50%-2px)] top-[125px] flex w-[calc(100%-52px)] -translate-x-1/2 flex-col rounded-md bg-sunny-neutral-100 px-6 py-[31px] shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] focus-visible:outline-none group-focus-within:visible lg:visible lg:static lg:left-0 lg:mt-1 lg:w-full lg:translate-x-0 lg:flex-row lg:justify-between lg:bg-transparent lg:px-1 lg:shadow-none lg:before:hidden"
         >
           <ul
-            tabIndex={0}
             className="flex flex-col items-center justify-center gap-[25px] lg:flex-row lg:gap-[32px]"
+            role="menubar"
           >
             {navItems.map((el, index) => {
               return (
                 <li
-                  key={index}
-                  className="w-full text-center font-overpass lg:h-[24px] lg:text-[18px] lg:font-medium"
+                  key={`${index}-${el.parent}`}
+                  className="w-full text-center font-overpass lg:h-[24px] lg:text-[18px] lg:font-medium lg:relative"
                 >
                   <CollapsibleNavItems
                     navChildren={el.children}
                     navParent={el.parent}
+                    id={`${index}-${el.parent}`}
+                    {...{
+                      isPopUpOpen,
+                      setIsPopUpOpen,
+                      activePopUp,
+                      setActivePopUp,
+                    }}
                   />
                 </li>
               );
