@@ -2,7 +2,13 @@ import Head from "next/head";
 import Image from "next/image";
 import { ubuntu } from "../utils/fonts/ubuntu";
 import { overpass } from "../utils/fonts/overpass";
-import { type Dispatch, type SetStateAction, useState, useEffect } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -297,6 +303,12 @@ function CollapsibleNavItems({
             setIsPopUpOpen(true);
           }
         }}
+        onPointerOver={() => {
+          if (isPopUpOpen) setActivePopUp(id);
+        }}
+        onFocus={() => {
+          if (isPopUpOpen) setActivePopUp(id);
+        }}
       >
         <span className="group-aria-[expanded=true]/menuparent:text-blogr-primary-blue/75 group-hover/menuparent:font-bold group-hover/menuparent:tracking-[-.2px] group-hover/menuparent:underline lg:font-ubuntu lg:text-[16px] lg:font-medium lg:text-blogr-neutral-100/75 lg:group-aria-[expanded=true]/menuparent:text-blogr-neutral-100/75">
           {navParent}
@@ -338,6 +350,26 @@ function CollapsibleNavItems({
 function Header() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [activePopUp, setActivePopUp] = useState<string | null>(null);
+  const menubarRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const cur = menubarRef.current;
+
+    if (cur) {
+      const onOutsideClick = (event: PointerEvent) => {
+        if (!cur.contains(event.target as Element)) {
+          setIsPopUpOpen(false);
+          setActivePopUp(null);
+        }
+      };
+
+      window.addEventListener("pointerdown", onOutsideClick, true);
+
+      return () => {
+        window.removeEventListener("pointerdown", onOutsideClick);
+      };
+    }
+  }, []);
 
   return (
     <header className="relative flex aspect-[375/600] h-[600px] w-screen flex-col items-center justify-center gap-[49px] rounded-bl-[100px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-red-100 to-blogr-gradient-red-200 bg-auto bg-no-repeat before:absolute before:bottom-0 before:left-0 before:z-0 before:h-full before:w-full before:overflow-hidden before:rounded-bl-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')] before:bg-[top_-244px_left_-335px] md:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] md:before:bg-[top_-1342px_right_-1295px] md:before:bg-no-repeat lg:justify-end lg:gap-[104px] lg:bg-[linear-gradient(110deg,_var(--tw-gradient-stops))] lg:bg-bottom lg:pb-[155px]">
@@ -375,6 +407,7 @@ function Header() {
           <ul
             className="flex flex-col items-center justify-center gap-[25px] lg:flex-row lg:gap-[32px]"
             role="menubar"
+            ref={menubarRef}
           >
             {navItems.map((el, index) => {
               return (
