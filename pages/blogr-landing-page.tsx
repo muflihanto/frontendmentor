@@ -275,6 +275,8 @@ function CollapsibleNavItems({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const onParentKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
+    const tgt = event.currentTarget;
+    const firstChildAnchor = tgt.nextElementSibling?.querySelector("a");
     const key = event.key;
     let flag = false;
 
@@ -293,8 +295,67 @@ function CollapsibleNavItems({
         if (!isPopUpOpen) {
           setActivePopUp(id);
           setIsPopUpOpen(true);
+          // FIXME fix logic -> avoid delay
+          setTimeout(() => {
+            firstChildAnchor?.focus();
+          }, 50);
           flag = true;
         }
+        break;
+    }
+
+    if (flag) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
+
+  const onItemKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
+    const tgt = event.currentTarget;
+    const listItemElement = tgt.parentElement;
+    const key = event.key;
+    const firstAnchor = listItemElement?.parentElement?.parentElement
+      ?.querySelector("li")
+      ?.querySelector("a");
+    const lastAnchor = listItemElement?.parentElement?.parentElement
+      ?.querySelector("li:last-child")
+      ?.querySelector("a");
+    const nextAnchor = listItemElement?.nextElementSibling?.querySelector("a");
+    const prevAnchor =
+      listItemElement?.previousElementSibling?.querySelector("a");
+    const parentAnchor = listItemElement?.parentElement
+      ?.previousElementSibling as HTMLAnchorElement | null | undefined;
+    let flag = false;
+
+    switch (key) {
+      case "Esc":
+      case "Escape":
+        if (isPopUpOpen) {
+          parentAnchor?.focus();
+          setIsPopUpOpen(false);
+          setActivePopUp(null);
+          flag = true;
+        }
+        break;
+
+      case "Down":
+      case "ArrowDown":
+        if (nextAnchor) {
+          nextAnchor.focus();
+        } else {
+          firstAnchor?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Up":
+      case "ArrowUp":
+        if (prevAnchor) {
+          prevAnchor.focus();
+        } else {
+          lastAnchor?.focus();
+        }
+        flag = true;
         break;
     }
 
@@ -368,7 +429,11 @@ function CollapsibleNavItems({
         {navChildren.map((el, index) => {
           return (
             <li key={`${index}-${el}`} className="hover:font-bold">
-              <a href={`#${el.toLowerCase()}`} role="menuitem">
+              <a
+                href={`#${el.toLowerCase()}`}
+                role="menuitem"
+                onKeyDown={onItemKeyDown}
+              >
                 {el}
               </a>
             </li>
