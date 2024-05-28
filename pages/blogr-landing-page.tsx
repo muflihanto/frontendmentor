@@ -8,6 +8,7 @@ import {
   useState,
   useEffect,
   useRef,
+  type KeyboardEvent,
 } from "react";
 
 // import dynamic from "next/dynamic";
@@ -273,6 +274,36 @@ function CollapsibleNavItems({
 }: CollapsibleNavItemsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const onParentKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
+    const key = event.key;
+    let flag = false;
+
+    switch (key) {
+      case "Esc":
+      case "Escape":
+        if (isPopUpOpen) {
+          setIsPopUpOpen(false);
+          setActivePopUp(null);
+          flag = true;
+        }
+        break;
+
+      case "ArrowDown":
+      case "Down":
+        if (!isPopUpOpen) {
+          setActivePopUp(id);
+          setIsPopUpOpen(true);
+          flag = true;
+        }
+        break;
+    }
+
+    if (flag) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setIsExpanded(activePopUp === id);
@@ -309,6 +340,7 @@ function CollapsibleNavItems({
         onFocus={() => {
           if (isPopUpOpen) setActivePopUp(id);
         }}
+        onKeyDown={onParentKeyDown}
       >
         <span className="group-aria-[expanded=true]/menuparent:text-blogr-primary-blue/75 group-hover/menuparent:font-bold group-hover/menuparent:tracking-[-.2px] group-hover/menuparent:underline lg:font-ubuntu lg:text-[16px] lg:font-medium lg:text-blogr-neutral-100/75 lg:group-aria-[expanded=true]/menuparent:text-blogr-neutral-100/75">
           {navParent}
