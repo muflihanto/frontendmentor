@@ -277,6 +277,14 @@ function CollapsibleNavItems({
   const onParentKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
     const tgt = event.currentTarget;
     const firstChildAnchor = tgt.nextElementSibling?.querySelector("a");
+    const nextSiblingAnchor =
+      tgt.parentElement?.nextElementSibling?.querySelector("a");
+    const prevSiblingAnchor =
+      tgt.parentElement?.previousElementSibling?.querySelector("a");
+    const firstSiblingAnchor =
+      tgt.parentElement?.parentElement?.firstElementChild?.querySelector("a");
+    const lastSiblingAnchor =
+      tgt.parentElement?.parentElement?.lastElementChild?.querySelector("a");
     const key = event.key;
     let flag = false;
 
@@ -301,6 +309,26 @@ function CollapsibleNavItems({
           }, 50);
           flag = true;
         }
+        break;
+
+      case "Right":
+      case "ArrowRight":
+        if (nextSiblingAnchor) {
+          nextSiblingAnchor.focus();
+        } else {
+          firstSiblingAnchor?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Left":
+      case "ArrowLeft":
+        if (prevSiblingAnchor) {
+          prevSiblingAnchor.focus();
+        } else {
+          lastSiblingAnchor?.focus();
+        }
+        flag = true;
         break;
     }
 
