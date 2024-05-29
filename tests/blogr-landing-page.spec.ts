@@ -87,6 +87,28 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
     await expect(nav.getByRole("link", { name: "Sign Up" })).toBeVisible();
   });
 
+  /** Test if can navigate navbar using keyboard */
+  test("can navigate navbar using keyboard", async ({ page }) => {
+    const nav = page.getByRole("banner").locator("nav");
+    for (const [index, item] of Object.entries(navItems)) {
+      const parentLink = nav.getByRole("menuitem", { name: item.parent });
+      const nextLink = nav.getByRole("menuitem", {
+        name: navItems[(Number(index) + 1) % navItems.length].parent,
+      });
+      await expect(parentLink).toBeVisible();
+      await expect(nextLink).toBeVisible();
+      await expect(nextLink).not.toBeFocused();
+      await parentLink.focus();
+      await expect(parentLink).toBeFocused();
+      await page.keyboard.down("ArrowRight");
+      await expect(parentLink).not.toBeFocused();
+      await expect(nextLink).toBeFocused();
+      await page.keyboard.down("ArrowLeft");
+      await expect(parentLink).toBeFocused();
+      await expect(nextLink).not.toBeFocused();
+    }
+  });
+
   /** Test if the page has 'Designed for the future' section */
   test.describe("has 'Designed for the future' section", () => {
     test("section is visible", async ({ page }) => {
