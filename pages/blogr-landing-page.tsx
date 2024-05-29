@@ -551,11 +551,7 @@ function Header() {
             fill
           />
         </button>
-        <div
-          // biome-ignore lint/a11y/noNoninteractiveTabindex: <explanation>
-          tabIndex={0}
-          className="lg:gap-[49px invisible absolute left-[calc(50%-2px)] top-[125px] flex w-[calc(100%-52px)] -translate-x-1/2 flex-col rounded-md bg-sunny-neutral-100 px-6 py-[31px] shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] focus-visible:outline-none group-focus-within:visible lg:visible lg:static lg:left-0 lg:mt-1 lg:w-full lg:translate-x-0 lg:flex-row lg:justify-between lg:bg-transparent lg:px-1 lg:shadow-none lg:before:hidden"
-        >
+        <div className="lg:gap-[49px invisible absolute left-[calc(50%-2px)] top-[125px] flex w-[calc(100%-52px)] -translate-x-1/2 flex-col rounded-md bg-sunny-neutral-100 px-6 py-[31px] shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] focus-visible:outline-none group-focus-within:visible lg:visible lg:static lg:left-0 lg:mt-1 lg:w-full lg:translate-x-0 lg:flex-row lg:justify-between lg:bg-transparent lg:px-1 lg:shadow-none lg:before:hidden">
           <ul
             className="flex flex-col items-center justify-center gap-[25px] lg:flex-row lg:gap-[32px]"
             role="menubar"

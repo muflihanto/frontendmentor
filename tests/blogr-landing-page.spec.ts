@@ -59,24 +59,27 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
     // has blogr logo
     await expect(nav.getByRole("img", { name: "Blogr Logo" })).toBeVisible();
     // has navigation links
-    const navlinks = await nav.locator("ul summary").all();
+    const navlinks = await nav.getByRole("menubar").locator(">li").all();
     expect(navlinks).toHaveLength(3);
     for (const [index] of Object.entries(navlinks)) {
-      const menu = page.locator("summary", {
-        hasText: navItems[Number(index)].parent,
+      const group = navItems[Number(index)].parent;
+      const menu = page.getByRole("menuitem", {
+        name: group,
       });
-      const details = page.locator("details", { has: menu });
+      await expect(menu).toHaveAttribute("aria-haspopup", "true");
+      await expect(menu).toHaveAttribute("aria-expanded", "false");
       await expect(menu).toBeVisible();
-      await expect(details).toBeVisible();
       await menu.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(100);
       // collapsible menu works
-      const menuitems = nav.getByText(
-        navItems[Number(index)].children.join(""),
-      );
-      await expect(details).toHaveAttribute("open");
-      await expect(menuitems).toBeVisible();
+      const popup = nav.getByLabel(group);
+      await expect(menu).toHaveAttribute("aria-expanded", "true");
+      await expect(popup).toBeVisible();
+      for (const item of navItems[Number(index)].children) {
+        await expect(popup.getByRole("menuitem", { name: item })).toBeVisible();
+      }
       await menu.click();
+      await expect(menu).toHaveAttribute("aria-expanded", "false");
     }
     // has login link
     await expect(nav.getByRole("link", { name: "Login" })).toBeVisible();
