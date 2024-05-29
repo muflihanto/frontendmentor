@@ -273,6 +273,14 @@ function CollapsibleNavItems({
   setIsPopUpOpen,
 }: CollapsibleNavItemsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const closePopUp = () => {
+    setIsPopUpOpen(false);
+    setActivePopUp(null);
+  };
+  const openPopUp = () => {
+    setActivePopUp(id);
+    setIsPopUpOpen(true);
+  };
 
   const onParentKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
     const tgt = event.currentTarget;
@@ -286,29 +294,28 @@ function CollapsibleNavItems({
     const lastSiblingAnchor =
       tgt.parentElement?.parentElement?.lastElementChild?.querySelector("a");
     const key = event.key;
+    const openAndFocusPopUp = () => {
+      openPopUp();
+      // FIXME fix logic -> avoid delay
+      setTimeout(() => {
+        firstChildAnchor?.focus();
+      }, 50);
+    };
     let flag = false;
 
     switch (key) {
       case "Esc":
       case "Escape":
         if (isPopUpOpen) {
-          setIsPopUpOpen(false);
-          setActivePopUp(null);
+          closePopUp();
           flag = true;
         }
         break;
 
       case "ArrowDown":
       case "Down":
-        if (!isPopUpOpen) {
-          setActivePopUp(id);
-          setIsPopUpOpen(true);
-          // FIXME fix logic -> avoid delay
-          setTimeout(() => {
-            firstChildAnchor?.focus();
-          }, 50);
-          flag = true;
-        }
+        openAndFocusPopUp();
+        flag = true;
         break;
 
       case "Right":
@@ -327,6 +334,28 @@ function CollapsibleNavItems({
           prevSiblingAnchor.focus();
         } else {
           lastSiblingAnchor?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Home":
+      case "PageUp":
+        firstSiblingAnchor?.focus();
+        flag = true;
+        break;
+
+      case "End":
+      case "PageDown":
+        lastSiblingAnchor?.focus();
+        flag = true;
+        break;
+
+      case " ":
+      case "Enter":
+        if (isPopUpOpen) {
+          closePopUp();
+        } else {
+          openAndFocusPopUp();
         }
         flag = true;
         break;
@@ -413,14 +442,12 @@ function CollapsibleNavItems({
           // expanded handled by effect
           if (isPopUpOpen) {
             if (activePopUp === id) {
-              setIsPopUpOpen(false);
-              setActivePopUp(null);
+              closePopUp();
             } else {
               setActivePopUp(id);
             }
           } else {
-            setActivePopUp(id);
-            setIsPopUpOpen(true);
+            openPopUp();
           }
         }}
         onPointerOver={() => {
