@@ -106,6 +106,15 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await page.keyboard.down("ArrowLeft");
       await expect(parentLink).toBeFocused();
       await expect(nextLink).not.toBeFocused();
+      const popup = nav.getByLabel(item.parent);
+      await expect(popup).not.toBeVisible();
+      await expect(parentLink).toHaveAttribute("aria-expanded", "false");
+      await page.keyboard.down("ArrowDown");
+      await expect(popup).toBeVisible();
+      await expect(parentLink).toHaveAttribute("aria-expanded", "true");
+      await page.keyboard.down("Escape");
+      await expect(popup).not.toBeVisible();
+      await expect(parentLink).toHaveAttribute("aria-expanded", "false");
     }
   });
 
