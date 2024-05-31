@@ -237,13 +237,13 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
 
   /** Test if the page displayed correctly on mobile */
   test.describe("displayed correctly on mobile", () => {
-    test.use({ viewport: { height: 667, width: 375 } });
+    test.use({ viewport: { height: 667, width: 375 }, hasTouch: true });
 
     test("has mobile navigation menu", async ({ page }) => {
       const header = page.getByRole("banner");
       const menuButton = header.getByRole("button", { name: "Menu" });
       await expect(menuButton).toBeVisible();
-      await menuButton.focus();
+      await menuButton.tap();
       const navContainer = header.locator("div").filter({
         hasText:
           "ProductOverviewPricingMarketplaceFeaturesIntegrationsCompanyAboutTeamBlogCareers",
@@ -253,7 +253,7 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(navContainer).toBeVisible();
       for (const nav of navItems) {
         await expect(
-          navContainer.locator("summary", { hasText: nav.parent }),
+          navContainer.getByRole("menuitem", { name: nav.parent }),
         ).toBeVisible();
       }
       await expect(login).toBeVisible();
@@ -262,7 +262,7 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(navContainer).not.toBeVisible();
       for (const nav of navItems) {
         await expect(
-          navContainer.locator("summary", { hasText: nav.parent }),
+          navContainer.getByRole("menuitem", { name: nav.parent }),
         ).not.toBeVisible();
       }
       await expect(login).not.toBeVisible();
