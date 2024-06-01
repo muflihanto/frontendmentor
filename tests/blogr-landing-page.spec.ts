@@ -133,6 +133,22 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(popup).not.toBeVisible();
       await expect(parentLink).toHaveAttribute("aria-expanded", "false");
     }
+    await page.keyboard.down("Home");
+    await expect(
+      nav.getByRole("menuitem", { name: "Product White Arrow Icon" }),
+    ).toBeFocused();
+    await page.keyboard.down("End");
+    await expect(
+      nav.getByRole("menuitem", { name: "Connect White Arrow Icon" }),
+    ).toBeFocused();
+    await page.keyboard.down("PageUp");
+    await expect(
+      nav.getByRole("menuitem", { name: "Product White Arrow Icon" }),
+    ).toBeFocused();
+    await page.keyboard.down("PageDown");
+    await expect(
+      nav.getByRole("menuitem", { name: "Connect White Arrow Icon" }),
+    ).toBeFocused();
   });
 
   /** Test if the page has 'Designed for the future' section */
