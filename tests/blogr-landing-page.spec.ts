@@ -115,6 +115,23 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await page.keyboard.down("Escape");
       await expect(popup).not.toBeVisible();
       await expect(parentLink).toHaveAttribute("aria-expanded", "false");
+      await page.keyboard.down(" ");
+      await expect(popup).toBeVisible();
+      await expect(parentLink).toHaveAttribute("aria-expanded", "true");
+      await page.keyboard.down("Escape");
+      await expect(popup).not.toBeVisible();
+      await expect(parentLink).toHaveAttribute("aria-expanded", "false");
+      await page.keyboard.down("Enter");
+      await expect(popup).toBeVisible();
+      await expect(parentLink).toHaveAttribute("aria-expanded", "true");
+      await expect(popup.getByRole("menuitem").first()).toBeVisible();
+      await page.keyboard.down("ArrowDown");
+      await expect(popup.getByRole("menuitem").nth(1)).toBeVisible();
+      await page.keyboard.down("ArrowUp");
+      await expect(popup.getByRole("menuitem").first()).toBeVisible();
+      await page.keyboard.down("Escape");
+      await expect(popup).not.toBeVisible();
+      await expect(parentLink).toHaveAttribute("aria-expanded", "false");
     }
   });
 
