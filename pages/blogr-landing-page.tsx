@@ -537,6 +537,16 @@ function Header() {
         <button
           className="peer/menu group relative aspect-[4/3] h-fit w-8 focus-visible:outline-none lg:hidden"
           type="button"
+          onTouchEnd={(e) => {
+            const ctg = e.currentTarget;
+            const itemsContainer = ctg.nextElementSibling;
+            const active = document.activeElement;
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+            if (active?.isEqualNode(ctg) || itemsContainer?.contains(active)) {
+              e.preventDefault();
+              (active as HTMLElement | null)?.blur();
+            }
+          }}
         >
           <Image
             src="/blogr-landing-page/images/icon-hamburger.svg"
