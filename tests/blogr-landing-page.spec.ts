@@ -285,13 +285,24 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       const signUp = navContainer.getByRole("link", { name: "Sign Up" });
       await expect(navContainer).toBeVisible();
       for (const nav of navItems) {
-        await expect(
-          navContainer.getByRole("menuitem", { name: nav.parent }),
-        ).toBeVisible();
+        const parent = navContainer.getByRole("menuitem", { name: nav.parent });
+        await expect(parent).toBeVisible();
+        for (const item of nav.children) {
+          await expect(
+            navContainer.getByRole("menuitem", { name: item }),
+          ).not.toBeVisible();
+        }
+        await parent.tap();
+        for (const item of nav.children) {
+          await expect(
+            navContainer.getByRole("menuitem", { name: item }),
+          ).toBeVisible();
+        }
+        await parent.tap();
       }
       await expect(login).toBeVisible();
       await expect(signUp).toBeVisible();
-      await menuButton.blur();
+      await menuButton.tap();
       await expect(navContainer).not.toBeVisible();
       for (const nav of navItems) {
         await expect(
