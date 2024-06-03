@@ -255,8 +255,12 @@ function Main() {
             )}
           </label>
         </div>
-        <button className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]">
+        <button
+          className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]"
+          type="button"
+        >
           <svg viewBox="0 0 46 44" className="h-11 stroke-[3px] lg:stroke-2">
+            <title>Arrow Icon</title>
             <use href="/age-calculator-app/assets/images/icon-arrow.svg#icon-arrow" />
           </svg>
         </button>
@@ -265,7 +269,7 @@ function Main() {
       <div className="mt-[65px] flex flex-col gap-[6px] font-poppins text-[56px] font-extrabold italic leading-none tracking-[-1px] text-age-calculator-neutral-500 lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]">
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {!!diff.year ? (
+            {Number(diff.year) ? (
               <CountUp
                 isCounting
                 start={0}
@@ -280,7 +284,7 @@ function Main() {
         </p>
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {!!diff.month ? (
+            {Number(diff.month) ? (
               <CountUp
                 isCounting
                 start={0}
@@ -295,7 +299,7 @@ function Main() {
         </p>
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {!!diff.day ? (
+            {Number(diff.day) ? (
               <CountUp
                 isCounting
                 start={0}
