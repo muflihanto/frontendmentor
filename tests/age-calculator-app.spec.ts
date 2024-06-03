@@ -11,9 +11,16 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
     await expect(page).toHaveTitle("Frontend Mentor | Age calculator app");
   });
 
-  /** Test if the page has a form */
-  test("has a form", async ({ page }) => {
-    await expect(page.getByText("DayMonthYear")).toBeVisible();
+  /** Test if the page has main card */
+  test("has main card", async ({ page }) => {
+    const form = page.locator("form");
+    await expect(form.getByPlaceholder("DD")).toBeVisible();
+    await expect(form.getByPlaceholder("MM")).toBeVisible();
+    await expect(form.getByPlaceholder("YYYY")).toBeVisible();
+    await expect(form.getByRole("button")).toBeVisible();
+    await expect(page.getByText("- -years")).toBeVisible();
+    await expect(page.getByText("- -months")).toBeVisible();
+    await expect(page.getByText("- -days")).toBeVisible();
   });
 
   /** Test if the page has a correct footer */
