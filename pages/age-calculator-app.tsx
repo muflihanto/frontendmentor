@@ -257,7 +257,7 @@ function Main() {
         </div>
         <button
           className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]"
-          type="button"
+          type="submit"
         >
           <svg viewBox="0 0 46 44" className="h-11 stroke-[3px] lg:stroke-2">
             <title>Arrow Icon</title>
