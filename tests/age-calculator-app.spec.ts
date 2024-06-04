@@ -43,6 +43,27 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await expect(monthLabel).toHaveCSS("color", "rgb(255, 87, 87)");
       await expect(yearLabel).toHaveCSS("color", "rgb(255, 87, 87)");
     });
+    test("can handle valid inputs", async ({ page }) => {
+      const form = page.locator("form");
+      const submit = form.getByRole("button");
+      const dayField = form.getByPlaceholder("DD");
+      const monthField = form.getByPlaceholder("MM");
+      const yearField = form.getByPlaceholder("YYYY");
+      const yearDiff = page.getByText("- -years");
+      const monthDiff = page.getByText("- -months");
+      const dayDiff = page.getByText("- -days");
+      await dayField.fill("12");
+      await monthField.fill("12");
+      await yearField.fill("2012");
+      await expect(yearDiff).toBeVisible();
+      await expect(monthDiff).toBeVisible();
+      await expect(dayDiff).toBeVisible();
+      await submit.click();
+      await page.waitForTimeout(2000);
+      await expect(yearDiff).not.toBeVisible();
+      await expect(monthDiff).not.toBeVisible();
+      await expect(dayDiff).not.toBeVisible();
+    });
   });
 
   /** Test if the page has a correct footer */
