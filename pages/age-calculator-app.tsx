@@ -20,21 +20,21 @@ const dateInputsSchema = z
     day: z
       .number({
         required_error: "This field is required",
-        invalid_type_error: "This field is required",
+        invalid_type_error: "Must be a valid day",
       })
       .min(1, "Must be a valid day")
       .max(31, "Must be a valid day"),
     month: z
       .number({
         required_error: "This field is required",
-        invalid_type_error: "This field is required",
+        invalid_type_error: "Must be a valid month",
       })
       .min(1, "Must be a valid month")
       .max(12, "Must be a valid month"),
     year: z
       .number({
         required_error: "This field is required",
-        invalid_type_error: "This field is required",
+        invalid_type_error: "Must be a valid year",
       })
       .min(1900, "Must be a valid year")
       .max(new Date().getFullYear(), "Must be in the past"),
@@ -139,6 +139,9 @@ function Main() {
     // console.log(now.diff(date));
   });
 
+  const setValueAs = (value: string) =>
+    value === "" ? undefined : Number(value);
+
   return (
     <div
       className={`h-[486px] w-[calc(100vw-32px)] max-w-md rounded-[24px] rounded-br-[100px] bg-age-calculator-neutral-100 px-6 pt-[47px] lg:max-w-[840px] lg:rounded-br-[200px] lg:px-[56px] lg:pt-[55px] ${
@@ -173,7 +176,7 @@ function Main() {
               type="number"
               {...register("day", {
                 required: true,
-                valueAsNumber: true,
+                setValueAs,
                 min: 1,
                 minLength: 1,
               })}
@@ -207,7 +210,7 @@ function Main() {
               type="number"
               {...register("month", {
                 required: true,
-                valueAsNumber: true,
+                setValueAs,
                 min: 1,
                 minLength: 1,
               })}
@@ -243,7 +246,7 @@ function Main() {
               max={new Date().getFullYear()}
               {...register("year", {
                 required: true,
-                valueAsNumber: true,
+                setValueAs,
                 min: 1,
                 minLength: 1,
               })}
