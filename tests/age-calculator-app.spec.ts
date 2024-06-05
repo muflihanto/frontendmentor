@@ -43,6 +43,27 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await expect(monthLabel).toHaveCSS("color", "rgb(255, 87, 87)");
       await expect(yearLabel).toHaveCSS("color", "rgb(255, 87, 87)");
     });
+    test("can handle invalid inputs", async ({ page }) => {
+      const form = page.locator("form");
+      const submit = form.getByRole("button");
+      const dayField = form.getByPlaceholder("DD");
+      const monthField = form.getByPlaceholder("MM");
+      const yearField = form.getByPlaceholder("YYYY");
+      const dayError = page.getByText("Must be a valid day");
+      const monthError = page.getByText("Must be a valid month");
+      const yearError = page.getByText("Must be in the past");
+      await expect(dayError).not.toBeVisible();
+      await expect(monthError).not.toBeVisible();
+      await expect(yearError).not.toBeVisible();
+      // case: invalid all input values
+      await dayField.fill("35");
+      await monthField.fill("15");
+      await yearField.fill("2025");
+      await submit.click();
+      await expect(dayError).toBeVisible();
+      await expect(monthError).toBeVisible();
+      await expect(yearError).toBeVisible();
+    });
     test("can handle valid inputs", async ({ page }) => {
       const form = page.locator("form");
       const submit = form.getByRole("button");
