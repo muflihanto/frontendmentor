@@ -53,6 +53,7 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       const monthError = page.getByText("Must be a valid month");
       const yearError = page.getByText("Must be a valid year");
       const pastError = page.getByText("Must be in the past");
+      const date = new Date();
       await expect(dayError).not.toBeVisible();
       await expect(monthError).not.toBeVisible();
       await expect(yearError).not.toBeVisible();
@@ -67,14 +68,34 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await page.reload();
       await page.waitForLoadState("domcontentloaded");
       // case: future year value
-      await dayField.fill("12");
-      await monthField.fill("12");
-      await yearField.fill("2025");
+      await dayField.fill(`${date.getDate() - 1 ?? date.getDate()}`);
+      await monthField.fill(`${date.getMonth() + 1}`);
+      await yearField.fill(`${date.getFullYear() + 1}`);
       await submit.click();
       await expect(
         page.locator("label", { hasText: "Year", has: pastError }),
       ).toBeVisible();
       await page.reload();
+      await page.waitForLoadState("domcontentloaded");
+      // case: future month value
+      await dayField.fill(`${date.getDate() - 1 ?? date.getDate()}`);
+      await monthField.fill(`${date.getMonth() + 2}`);
+      await yearField.fill(`${date.getFullYear()}`);
+      await submit.click();
+      await expect(
+        page.locator("label", { hasText: "Month", has: pastError }),
+      ).toBeVisible();
+      await page.reload();
+      await page.waitForLoadState("domcontentloaded");
+      // case: future day value
+      // TODO: handle date overflow
+      await dayField.fill(`${date.getDate() + 1}`);
+      await monthField.fill(`${date.getMonth() + 1}`);
+      await yearField.fill(`${date.getFullYear()}`);
+      await submit.click();
+      await expect(
+        page.locator("label", { hasText: "Day", has: pastError }),
+      ).toBeVisible();
     });
     test("can handle valid inputs", async ({ page }) => {
       const form = page.locator("form");
