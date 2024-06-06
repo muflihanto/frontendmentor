@@ -51,18 +51,30 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       const yearField = form.getByPlaceholder("YYYY");
       const dayError = page.getByText("Must be a valid day");
       const monthError = page.getByText("Must be a valid month");
-      const yearError = page.getByText("Must be in the past");
+      const yearError = page.getByText("Must be a valid year");
+      const pastError = page.getByText("Must be in the past");
       await expect(dayError).not.toBeVisible();
       await expect(monthError).not.toBeVisible();
       await expect(yearError).not.toBeVisible();
       // case: invalid all input values
       await dayField.fill("35");
       await monthField.fill("15");
-      await yearField.fill("2025");
+      await yearField.fill("12");
       await submit.click();
       await expect(dayError).toBeVisible();
       await expect(monthError).toBeVisible();
       await expect(yearError).toBeVisible();
+      await page.reload();
+      await page.waitForLoadState("domcontentloaded");
+      // case: future year value
+      await dayField.fill("12");
+      await monthField.fill("12");
+      await yearField.fill("2025");
+      await submit.click();
+      await expect(
+        page.locator("label", { hasText: "Year", has: pastError }),
+      ).toBeVisible();
+      await page.reload();
     });
     test("can handle valid inputs", async ({ page }) => {
       const form = page.locator("form");

@@ -14,6 +14,7 @@ import { poppins } from "../utils/fonts/poppins";
 // TODO: View the optimal layout for the interface depending on their device's screen size
 
 // FIXME: optimize check for invalid date
+// FIXME: unexpected behaviour for year under "100"
 
 const dateInputsSchema = z
   .object({
@@ -36,7 +37,7 @@ const dateInputsSchema = z
         required_error: "This field is required",
         invalid_type_error: "Must be a valid year",
       })
-      .min(1900, "Must be a valid year")
+      .min(100, "Must be a valid year")
       .max(new Date().getFullYear(), "Must be in the past"),
   })
   .required()
