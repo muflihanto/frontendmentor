@@ -89,6 +89,7 @@ function LearnMore({ href = "" }: { href?: string }) {
 function Icons({ variant }: { variant: "sedans" | "luxury" | "suvs" }) {
   return (
     <svg className="ml-[1px] h-10 w-[64px]" viewBox="0 0 64 40">
+      <title>{variant}</title>
       <use
         href={`/3-column-preview-card-component/images/icon-${variant}.svg#icon-${variant}`}
       />

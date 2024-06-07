@@ -82,6 +82,7 @@ function Main() {
                 : "bg-article-preview-100"
             }`}
             onClick={() => setShareMenu((prev) => !prev)}
+            type="button"
           >
             <svg
               viewBox="0 0 15 13"
@@ -90,6 +91,7 @@ function Main() {
                 shareMenu && "fill-article-preview-100",
               ])}
             >
+              <title>Share</title>
               <use href="/article-preview-component/images/icon-share.svg#icon-share" />
             </svg>
           </button>
@@ -122,12 +124,13 @@ function SocialIcons() {
       {(["facebook", "twitter", "pinterest"] as const).map((el) => {
         return (
           <li key={el}>
-            <button>
+            <button type="button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height={el === "twitter" ? "17" : "20"}
               >
+                <title>{el}</title>
                 <use
                   href={`/article-preview-component/images/icon-${el}.svg#icon-${el}`}
                 />

@@ -157,6 +157,7 @@ function Header() {
         viewBox="0 0 148 25"
         className="h-[25px] text-bookmark-neutral-200 lg:ml-[6px]"
       >
+        <title>Bookmark Logo</title>
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
@@ -190,6 +191,7 @@ function Header() {
                   viewBox="0 0 148 25"
                   className="h-[25px] text-bookmark-neutral-200/95"
                 >
+                  <title>Bookmark Logo White</title>
                   <use href="/bookmark-landing-page/images/logo-bookmark-white.svg#logo-bookmark-white" />
                 </svg>
                 <Button onPress={close} className="h-[15px] w-4">
@@ -236,6 +238,7 @@ function Header() {
                   className="text-white hover:text-bookmark-primary-red"
                 >
                   <svg viewBox="0 0 24 24" className="w-6">
+                    <title>Facebook</title>
                     <use href="/bookmark-landing-page/images/icon-facebook.svg#icon-facebook" />
                   </svg>
                 </a>
@@ -244,6 +247,7 @@ function Header() {
                   className="text-white hover:text-bookmark-primary-red"
                 >
                   <svg viewBox="0 0 24 20" className="w-6">
+                    <title>Twitter</title>
                     <use href="/bookmark-landing-page/images/icon-twitter.svg#icon-twitter" />
                   </svg>
                 </a>
@@ -280,10 +284,16 @@ function Hero() {
           a new browser tab and see your sites load instantly. Try it for free.
         </p>
         <div className="mt-[32px] flex h-12 w-full items-center justify-between gap-4 lg:w-[342px]">
-          <button className="flex h-full w-full items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue">
+          <button
+            className="flex h-full w-full items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue"
+            type="button"
+          >
             Get it on Chrome
           </button>
-          <button className="flex h-full w-full items-center justify-center rounded border-2 border-transparent bg-bookmark-neutral-100/10 text-[15px] text-bookmark-neutral-200 shadow-md shadow-bookmark-neutral-100/25 hover:border-bookmark-neutral-200/75">
+          <button
+            className="flex h-full w-full items-center justify-center rounded border-2 border-transparent bg-bookmark-neutral-100/10 text-[15px] text-bookmark-neutral-200 shadow-md shadow-bookmark-neutral-100/25 hover:border-bookmark-neutral-200/75"
+            type="button"
+          >
             Get it on Firefox
           </button>
         </div>
@@ -401,7 +411,10 @@ function Feature() {
           <p className="mt-[11px] px-8 text-center text-[15px] leading-[25px] text-bookmark-neutral-100 lg:mt-[26px] lg:w-[435px] lg:px-0 lg:text-left lg:text-[18px] lg:leading-[28px]">
             {features[tab].description}
           </p>
-          <button className="mt-[32px] flex h-12 w-[114px] items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue max-lg:hidden">
+          <button
+            className="mt-[32px] flex h-12 w-[114px] items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue max-lg:hidden"
+            type="button"
+          >
             More Info
           </button>
         </div>
@@ -456,7 +469,10 @@ function DownloadCard({
         alt="dots"
       />
 
-      <button className="mt-[24.25px] flex h-12 w-[calc(280px-48px)] items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue">
+      <button
+        className="mt-[24.25px] flex h-12 w-[calc(280px-48px)] items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue"
+        type="button"
+      >
         Add & Install Extension
       </button>
     </div>
@@ -506,7 +522,7 @@ function DownloadExtension() {
             <DownloadCard
               style={
                 {
-                  "--mt": index * 40 + "px",
+                  "--mt": `${index * 40}px`,
                 } as CSSProperties
               }
               className="max-lg:mt-[41px] max-lg:first:mt-0 lg:mt-[--mt]"
@@ -575,6 +591,7 @@ function FAQ() {
                         ])}
                         viewBox="0 0 18 12"
                       >
+                        <title>Arrow</title>
                         <use href="/bookmark-landing-page/images/icon-arrow.svg#icon-arrow" />
                       </svg>
                     </Disclosure.Button>
@@ -588,7 +605,10 @@ function FAQ() {
           );
         })}
       </div>
-      <button className="mt-[47px] flex h-12 w-[114px] items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue lg:mt-[53px]">
+      <button
+        className="mt-[47px] flex h-12 w-[114px] items-center justify-center rounded border-2 border-transparent bg-bookmark-primary-blue text-[15px] text-white shadow-md shadow-bookmark-primary-blue/25 hover:border-bookmark-primary-blue hover:bg-white hover:text-bookmark-primary-blue lg:mt-[53px]"
+        type="button"
+      >
         More Info
       </button>
     </div>
@@ -657,6 +677,7 @@ function ContactUs() {
               viewBox="0 0 20 20"
               className="absolute right-4 top-[14px] w-5"
             >
+              <title>Error</title>
               <use href="/bookmark-landing-page/images/icon-error.svg#icon-error" />
             </svg>
           )}
@@ -666,7 +687,10 @@ function ContactUs() {
             </p>
           )}
         </div>
-        <button className="flex h-12 items-center justify-center rounded-md border-2 border-transparent bg-bookmark-primary-red text-[14px] font-medium text-white hover:border-bookmark-primary-red hover:bg-white hover:text-bookmark-primary-red lg:w-full">
+        <button
+          className="flex h-12 items-center justify-center rounded-md border-2 border-transparent bg-bookmark-primary-red text-[14px] font-medium text-white hover:border-bookmark-primary-red hover:bg-white hover:text-bookmark-primary-red lg:w-full"
+          type="submit"
+        >
           Contact Us
         </button>
       </form>
@@ -678,6 +702,7 @@ function Footer() {
   return (
     <footer className="lg: relative flex h-[334.25px] w-full flex-col items-center bg-bookmark-neutral-200 pt-[40px] text-white lg:h-[89px] lg:flex-row lg:px-[165px] lg:pt-0">
       <svg viewBox="0 0 148 25" className="h-[25px] text-white">
+        <title>Bookmark Logo</title>
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
@@ -690,11 +715,13 @@ function Footer() {
       <div className="mt-[48px] flex items-center justify-center gap-x-10 lg:ml-auto lg:mt-0">
         <a href="" className="text-white hover:text-bookmark-primary-red">
           <svg viewBox="0 0 24 24" className="w-6">
+            <title>Facebook</title>
             <use href="/bookmark-landing-page/images/icon-facebook.svg#icon-facebook" />
           </svg>
         </a>
         <a href="" className="text-white hover:text-bookmark-primary-red">
           <svg viewBox="0 0 24 20" className="w-6">
+            <title>Facebook</title>
             <use href="/bookmark-landing-page/images/icon-twitter.svg#icon-twitter" />
           </svg>
         </a>

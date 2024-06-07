@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
@@ -13,7 +14,7 @@ import { type ReactElement, type ReactNode, useState } from "react";
 import type { AppProps } from "next/app";
 import type { NextPage } from "next";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
