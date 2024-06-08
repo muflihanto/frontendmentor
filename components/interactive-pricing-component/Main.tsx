@@ -45,11 +45,12 @@ const Main: React.FC = () => {
           max={5}
           step={1}
           onChange={({ target }) => {
-            setPrice(parseInt(target.value));
-            target.style.backgroundSize =
-              ((parseInt(target.value) - parseInt(target.min)) * 100) /
-                (parseInt(target.max) - parseInt(target.min)) +
-              "% 100%";
+            setPrice(Number.parseInt(target.value));
+            target.style.backgroundSize = `${
+              ((Number.parseInt(target.value) - Number.parseInt(target.min)) *
+                100) /
+              (Number.parseInt(target.max) - Number.parseInt(target.min))
+            }% 100%`;
           }}
           className="mx-auto my-10 h-2 w-[calc(100%-48px)] appearance-none rounded-full bg-pricing-neutral-200 bg-gradient-to-r from-pricing-primary-cyan-100 to-pricing-primary-cyan-100 bg-[length:50%_100%] bg-no-repeat thumb:h-10 thumb:w-10 thumb:cursor-pointer thumb:appearance-none thumb:rounded-full thumb:border-none thumb:bg-pricing-primary-cyan-200 thumb:bg-[url('/interactive-pricing-component/images/icon-slider.svg')] thumb:bg-center thumb:bg-no-repeat thumb:shadow-xl thumb:shadow-pricing-primary-cyan-200/60 active:thumb:bg-[hsl(174,67%,41%)] track:appearance-none track:border-none track:bg-transparent track:shadow-none lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mt-[52px] lg:w-[calc(100%-8px)]"
         />
@@ -79,6 +80,7 @@ const Main: React.FC = () => {
               return prev === "monthly" ? "yearly" : "monthly";
             });
           }}
+          type="button"
         />
         <p className="relative flex items-center place-self-start">
           Yearly Billing
@@ -94,11 +96,12 @@ const Main: React.FC = () => {
           {featureList.map((el, index) => {
             return (
               <li
-                key={index}
+                key={`${index}-${el}`}
                 className="flex items-center justify-center gap-[15px] pr-1 lg:justify-start"
               >
                 <span>
                   <svg viewBox="0 0 9 8" className="mt-[2px] h-2">
+                    <title>Check</title>
                     <use href="/interactive-pricing-component/images/icon-check.svg#icon-check" />
                   </svg>
                 </span>
@@ -109,7 +112,10 @@ const Main: React.FC = () => {
             );
           })}
         </ul>
-        <button className="mx-auto mt-8 flex h-[41px] w-[170px] items-center justify-center rounded-full bg-pricing-neutral-500 text-[12px] font-extrabold text-pricing-neutral-300/90 hover:text-pricing-neutral-100 lg:m-0">
+        <button
+          className="mx-auto mt-8 flex h-[41px] w-[170px] items-center justify-center rounded-full bg-pricing-neutral-500 text-[12px] font-extrabold text-pricing-neutral-300/90 hover:text-pricing-neutral-100 lg:m-0"
+          type="button"
+        >
           Start my trial
         </button>
       </div>

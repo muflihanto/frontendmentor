@@ -25,7 +25,7 @@ const inputSchema = z.object({
     .min(1, "Can't be blank")
     .regex(/[0-9]{2}/, "Wrong format, numbers only")
     .refine(
-      (value) => parseInt(value) <= 12 && parseInt(value) >= 1,
+      (value) => Number.parseInt(value) <= 12 && Number.parseInt(value) >= 1,
       "Invalid month",
     ),
   // .number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" })
@@ -37,14 +37,16 @@ const inputSchema = z.object({
     .regex(/[0-9]{2}/, "Wrong format, numbers only")
     .refine(
       (value) =>
-        parseInt(value) <=
-          parseInt(new Date().getFullYear().toString().substring(2) + 5) &&
-        parseInt(value) >=
-          parseInt(new Date().getFullYear().toString().substring(2)),
+        Number.parseInt(value) <=
+          Number.parseInt(
+            new Date().getFullYear().toString().substring(2) + 5,
+          ) &&
+        Number.parseInt(value) >=
+          Number.parseInt(new Date().getFullYear().toString().substring(2)),
       "Invalid year",
     ),
   // .number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" })
-  // .gte(parseInt(new Date().getFullYear().toString().substring(2))),
+  // .gte(Number.parseInt(new Date().getFullYear().toString().substring(2))),
   cvc: z
     .string()
     .min(1, "Can't be blank")
@@ -86,7 +88,7 @@ function CardPreview() {
       <div className="relative h-full w-full max-w-[calc(375px-32px)] translate-y-8 lg:h-[527px] lg:w-[541px] lg:max-w-none lg:translate-x-[222px] lg:translate-y-0 lg:self-end">
         <div className="absolute right-0 top-0 z-[1] aspect-[447/245] w-[286px] rounded bg-[url('/interactive-card-details-form/images/bg-card-back.png')] bg-contain shadow-2xl shadow-interactive-card-neutral-400/25 lg:bottom-0 lg:right-0 lg:top-auto lg:z-0 lg:w-[447px]">
           <p className="absolute right-[calc(26/286*100%)] top-[calc(64/156.75*100%)] flex h-6 w-11 items-center justify-end pr-[12px] text-[10px] tracking-[.12px] text-interactive-card-neutral-100 lg:top-[101px] lg:h-[38px] lg:w-[360px] lg:px-[17px] lg:text-[14px] lg:tracking-[1.75px]">
-            {!!inputval?.cvc ? inputval.cvc : "000"}
+            {inputval?.cvc !== undefined ? inputval.cvc : "000"}
           </p>
         </div>
         <div className="absolute bottom-0 left-0 z-[2] aspect-[447/245] w-[286px] translate-y-[11px] bg-[url('/interactive-card-details-form/images/bg-card-front.png')] bg-contain shadow-2xl shadow-interactive-card-neutral-400/25 lg:bottom-auto lg:left-0 lg:top-0 lg:w-[447px] lg:translate-y-0">
@@ -96,13 +98,13 @@ function CardPreview() {
               <div className="aspect-square w-[14px] rounded-full border border-interactive-card-neutral-200 bg-transparent lg:w-[21px]" />
             </div>
             <p className="mt-[35px] text-[18px] tracking-[2.17px] text-interactive-card-neutral-100 lg:mt-[62px] lg:text-[27px] lg:tracking-[4px]">
-              {!!inputval?.cardNumber
+              {inputval?.cardNumber !== undefined
                 ? inputval.cardNumber
                 : "0000 0000 0000 0000"}
             </p>
             <div className="mt-[13px] flex justify-between text-[10px] uppercase text-interactive-card-neutral-100 lg:mt-[21.5px] lg:text-[14px]">
               <p className="tracking-[0.7px] lg:tracking-[2px]">
-                {!!inputval?.cardholderName
+                {inputval?.cardholderName !== undefined
                   ? inputval.cardholderName
                   : "Jane Appleseed"}
               </p>
@@ -143,6 +145,7 @@ function CompleteModal({ reset }: { reset: UseFormReset<InputSchema> }) {
       <button
         onClick={handleClick}
         className="mt-[46.5px] flex h-[53px] w-full items-center justify-center rounded-lg bg-interactive-card-neutral-400 text-[18px] text-interactive-card-neutral-100"
+        type="button"
       >
         Continue
       </button>
@@ -202,12 +205,12 @@ function Main() {
               {...register("cardholderName")}
               placeholder="e.g. Jane Appleseed"
               className={`${
-                !!errors.cardholderName
+                errors.cardholderName !== undefined
                   ? "border-interactive-card-primary-red"
                   : "border-interactive-card-neutral-200"
               }`}
             />
-            {!!errors.cardholderName && (
+            {errors.cardholderName !== undefined && (
               <p className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red">
                 {errors.cardholderName.message}
               </p>
@@ -225,12 +228,12 @@ function Main() {
               placeholder="e.g. 1234 5678 9123 0000"
               maxLength={19}
               className={`${
-                !!errors.cardNumber
+                errors.cardNumber !== undefined
                   ? "border-interactive-card-primary-red"
                   : "border-interactive-card-neutral-200"
               }`}
             />
-            {!!errors.cardNumber && (
+            {errors.cardNumber !== undefined && (
               <p className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red">
                 {errors.cardNumber.message}
               </p>
@@ -245,7 +248,7 @@ function Main() {
               <div>
                 <input
                   className={`${
-                    !!errors.expMonth
+                    errors.expMonth !== undefined
                       ? "border-interactive-card-primary-red"
                       : "border-interactive-card-neutral-200"
                   } w-full`}
@@ -261,7 +264,7 @@ function Main() {
               <div>
                 <input
                   className={`${
-                    !!errors.expYear
+                    errors.expYear !== undefined
                       ? "border-interactive-card-primary-red"
                       : "border-interactive-card-neutral-200"
                   } w-full`}
@@ -293,7 +296,7 @@ function Main() {
               minLength={3}
               maxLength={3}
               className={`${
-                !!errors.cvc
+                errors.cvc !== undefined
                   ? "border-interactive-card-primary-red"
                   : "border-interactive-card-neutral-200"
               }`}
@@ -306,10 +309,13 @@ function Main() {
           </label>
           <button
             className={`col-span-2 mt-[9px] flex h-[53px] items-center justify-center rounded-lg bg-interactive-card-neutral-400 text-[18px] text-white ${
-              !!errors.cvc || !!errors.expMonth || !!errors.expYear
+              errors.cvc !== undefined ||
+              errors.expMonth !== undefined ||
+              errors.expYear !== undefined
                 ? "lg:mt-[2px]"
                 : "lg:mt-[15px]"
             }`}
+            type="submit"
           >
             Confirm
           </button>

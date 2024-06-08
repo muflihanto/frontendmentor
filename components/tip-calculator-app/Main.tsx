@@ -56,9 +56,8 @@ export default function Main() {
         tipPP: (totalTip / people).toFixed(2),
         billPP: (totalBill / people).toFixed(2),
       };
-    } else {
-      return undefined;
     }
+    return undefined;
   }, [tip, bill, people]);
 
   const reset = () => {
@@ -74,7 +73,7 @@ export default function Main() {
       <form className="flex flex-col gap-[34px] px-2 py-1 lg:w-[calc(411/1440*100vw)] lg:gap-[42px] lg:px-4 lg:pb-[16px] lg:pt-[17px]">
         <NumberField
           label="Bill"
-          value={bill ?? NaN}
+          value={bill ?? Number.NaN}
           onChange={setBill}
           icon={<DollarIcon />}
           minValue={0}
@@ -87,7 +86,7 @@ export default function Main() {
             {percentValue.map((el, index) => {
               return (
                 <TipButton
-                  key={index}
+                  key={`${index}-${el}`}
                   tip={tip}
                   percent={el}
                   setTip={setTip}
@@ -102,7 +101,7 @@ export default function Main() {
                 value={isCustom ? tip : ""}
                 onChange={(e) => {
                   setIsCustom(true);
-                  setTip(parseFloat(e.target.value));
+                  setTip(Number.parseFloat(e.target.value));
                 }}
                 onWheel={(e) => e.currentTarget.blur()}
                 id="custom-tip"
@@ -115,7 +114,7 @@ export default function Main() {
         </fieldset>
         <NumberField
           label="Number of People"
-          value={people ?? NaN}
+          value={people ?? Number.NaN}
           onChange={(val) => {
             setPeople(val);
             if (val === 0) {
@@ -169,9 +168,12 @@ const ResultCard = ({ result, reset }: ResultCardProps) => {
         </div>
       </div>
       <button
-        className={`mx-auto mt-2 block h-[48px] w-full rounded-md bg-tip-primary pt-[2px] text-center text-[20px] font-medium uppercase text-tip-neutral-600 disabled:bg-tip-primary/25 lg:mt-auto`}
+        className={
+          "mx-auto mt-2 block h-[48px] w-full rounded-md bg-tip-primary pt-[2px] text-center text-[20px] font-medium uppercase text-tip-neutral-600 disabled:bg-tip-primary/25 lg:mt-auto"
+        }
         disabled={!result?.billPP && !result?.tipPP}
         onClick={reset}
+        type="reset"
       >
         Reset
       </button>
@@ -196,10 +198,10 @@ const TipButton = (props: TipButtonProps) => {
         checked={!isCustom && tip === percent}
         onChange={(e) => {
           setIsCustom(false);
-          setTip(parseFloat(e.target.value));
+          setTip(Number.parseFloat(e.target.value));
         }}
         onClick={(e) => {
-          const val = parseFloat(e.currentTarget.value);
+          const val = Number.parseFloat(e.currentTarget.value);
           if (val === tip) {
             setTip(undefined);
             setIsCustom(false);

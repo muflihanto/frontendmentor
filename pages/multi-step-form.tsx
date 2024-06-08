@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { type FormEventHandler } from "react";
+import type { FormEventHandler } from "react";
 import Link from "next/link";
 import { cn } from "../utils/cn";
 import { atom, useAtom, useAtomValue } from "jotai";
@@ -140,15 +140,15 @@ function PersonalInfoForm() {
       return {
         ...prev,
         ...data,
-        completedStep: !!prevStep && parseInt(prevStep) > 1 ? prevStep : "1",
+        completedStep:
+          !!prevStep && Number.parseInt(prevStep) > 1 ? prevStep : "1",
       };
     });
+    const step = (router.query as Queries).step;
     await router.push({
       pathname: "/multi-step-form",
       query: {
-        step: (router.query as Queries).step
-          ? parseInt((router.query as Queries).step!) + 1
-          : 2,
+        step: step ? Number.parseInt(step) + 1 : 2,
       },
     });
   });
@@ -169,7 +169,7 @@ function PersonalInfoForm() {
         <label htmlFor="name">
           <p className="flex justify-between text-[12px] text-multi-step-primary-blue-400 lg:text-[14px]">
             <span>Name</span>
-            {!!errors.name ? (
+            {errors.name !== undefined ? (
               <span className="font-bold text-red-500">
                 {errors.name.message}
               </span>
@@ -188,7 +188,7 @@ function PersonalInfoForm() {
         <label htmlFor="email">
           <p className="flex justify-between text-[12px] text-multi-step-primary-blue-400 lg:text-[14px]">
             <span>Email Address</span>
-            {!!errors.email ? (
+            {errors.email !== undefined ? (
               <span className="font-bold text-red-500">
                 {errors.email.message}
               </span>
@@ -207,7 +207,7 @@ function PersonalInfoForm() {
         <label htmlFor="phone">
           <p className="flex justify-between text-[12px] text-multi-step-primary-blue-400 lg:text-[14px]">
             <span>Phone Number</span>
-            {!!errors.phone ? (
+            {errors.phone !== undefined ? (
               <span className="font-bold text-red-500">
                 {errors.phone.message}
               </span>
@@ -226,7 +226,10 @@ function PersonalInfoForm() {
       </fieldset>
 
       <div className="fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-end bg-multi-step-neutral-100 p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
-        <button className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">
+        <button
+          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
+          type="submit"
+        >
           Next Step
         </button>
       </div>
@@ -248,7 +251,8 @@ function PlanForm() {
       return {
         ...prev,
         ...data,
-        completedStep: !!prevStep && parseInt(prevStep) > 2 ? prevStep : "2",
+        completedStep:
+          !!prevStep && Number.parseInt(prevStep) > 2 ? prevStep : "2",
       };
     });
     await router.push({
@@ -430,7 +434,10 @@ function PlanForm() {
         >
           Go Back
         </Link>
-        <button className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">
+        <button
+          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
+          type="submit"
+        >
           Next Step
         </button>
       </div>
@@ -457,15 +464,15 @@ function AddOnsForm() {
       return {
         ...prev,
         ...data,
-        completedStep: !!prevStep && parseInt(prevStep) > 3 ? prevStep : "3",
+        completedStep:
+          !!prevStep && Number.parseInt(prevStep) > 3 ? prevStep : "3",
       };
     });
+    const step = (router.query as Queries).step;
     await router.push({
       pathname: "/multi-step-form",
       query: {
-        step: (router.query as Queries).step
-          ? parseInt((router.query as Queries).step!) + 1
-          : 2,
+        step: step ? Number.parseInt(step) + 1 : 2,
       },
     });
   });
@@ -591,7 +598,10 @@ function AddOnsForm() {
         >
           Go Back
         </Link>
-        <button className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">
+        <button
+          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
+          type="submit"
+        >
           Next Step
         </button>
       </div>
@@ -715,7 +725,10 @@ function FinishingUp() {
         >
           Go Back
         </Link>
-        <button className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-300 text-[14px] font-medium text-multi-step-neutral-100 hover:bg-opacity-60 lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base">
+        <button
+          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-300 text-[14px] font-medium text-multi-step-neutral-100 hover:bg-opacity-60 lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
+          type="submit"
+        >
           Confirm
         </button>
       </div>
@@ -766,10 +779,12 @@ function Main() {
         pathname: "/multi-step-form",
         query: { step: 1 },
       });
-    } else if (parseInt(step) > parseInt(formsInput.completedStep ?? "1")) {
+    } else if (
+      Number.parseInt(step) > Number.parseInt(formsInput.completedStep ?? "1")
+    ) {
       void router.push({
         pathname: "/multi-step-form",
-        query: { step: parseInt(formsInput.completedStep ?? "1") },
+        query: { step: Number.parseInt(formsInput.completedStep ?? "1") },
       });
     }
   });
@@ -777,16 +792,19 @@ function Main() {
   return (
     <main className="relative flex min-h-screen flex-col items-center bg-multi-step-neutral-300 bg-[url('/multi-step-form/assets/images/bg-sidebar-mobile.svg')] bg-no-repeat pt-4 lg:grid lg:h-[600px] lg:min-h-0 lg:w-[940px] lg:grid-cols-[274px,auto] lg:gap-4 lg:rounded-xl lg:bg-white lg:bg-none lg:p-4 lg:shadow-xl lg:shadow-multi-step-neutral-500/20">
       <div className="flex gap-4 bg-no-repeat p-4 lg:h-full lg:w-full lg:flex-col lg:gap-[31px] lg:rounded-xl lg:bg-[url('/multi-step-form/assets/images/bg-sidebar-desktop.svg')] lg:p-8 lg:py-[40px]">
-        {Array.from({ length: 4 }).map((_, index) => {
+        {Array.from({ length: 4 }).map((el, index) => {
           return (
-            <div key={index} className="flex items-center gap-4">
+            <div
+              key={`${index}-${el as string}`}
+              className="flex items-center gap-4"
+            >
               <Link
                 className={cn([
                   "flex h-[33px] w-[33px] items-center justify-center rounded-full border pb-px pl-px text-[14px] font-bold tabular-nums", //
                   (router.query as Queries).step === String(index + 1)
                     ? "border-transparent bg-multi-step-primary-blue-100 text-multi-step-primary-blue-400"
                     : "border-multi-step-neutral-100 text-multi-step-neutral-100",
-                  index > parseInt(formsInput.completedStep ?? "0") &&
+                  index > Number.parseInt(formsInput.completedStep ?? "0") &&
                     "pointer-events-none",
                 ])}
                 href={{
@@ -815,7 +833,7 @@ function Main() {
       ) : (router.query as Queries).step === "3" ? (
         <AddOnsForm />
       ) : (router.query as Queries).step === "4" ? (
-        !!(router.query as Queries).completed ? (
+        (router.query as Queries).completed !== undefined ? (
           <ThankYou />
         ) : (
           <FinishingUp />
