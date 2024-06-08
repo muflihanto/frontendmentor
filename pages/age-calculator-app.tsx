@@ -141,7 +141,7 @@ function Main() {
   });
 
   const setValueAs = (value: string) =>
-    value === "" ? undefined : Number(value);
+    value === "" ? undefined : Number.parseInt(value);
 
   return (
     <div
@@ -273,11 +273,11 @@ function Main() {
       <div className="mt-[65px] flex flex-col gap-[6px] font-poppins text-[56px] font-extrabold italic leading-none tracking-[-1px] text-age-calculator-neutral-500 lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]">
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {Number(diff.year) ? (
+            {Number.parseInt(diff.year) ? (
               <CountUp
                 isCounting
                 start={0}
-                end={Number(diff.year)}
+                end={Number.parseInt(diff.year)}
                 duration={2}
               />
             ) : (
@@ -288,11 +288,11 @@ function Main() {
         </p>
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {Number(diff.month) ? (
+            {Number.parseInt(diff.month) ? (
               <CountUp
                 isCounting
                 start={0}
-                end={Number(diff.month)}
+                end={Number.parseInt(diff.month)}
                 duration={2}
               />
             ) : (
@@ -303,11 +303,11 @@ function Main() {
         </p>
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {Number(diff.day) ? (
+            {Number.parseInt(diff.day) ? (
               <CountUp
                 isCounting
                 start={0}
-                end={Number(diff.day)}
+                end={Number.parseInt(diff.day)}
                 duration={2}
               />
             ) : (

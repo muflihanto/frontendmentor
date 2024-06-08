@@ -10,7 +10,7 @@ import { useHydrateAtoms } from "jotai/utils";
 import requestIp from "request-ip";
 import type { IpInfoResponse } from "./api/getIpInfo";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
-const Map = dynamic(() => import("../components/ip-address-tracker/Map"), {
+const GeoMap = dynamic(() => import("../components/ip-address-tracker/Map"), {
   ssr: false,
 });
 const Layout = dynamic(
@@ -22,8 +22,8 @@ const locAtom = atom("");
 const detailAtom = atom<IpInfoResponse | undefined>(undefined);
 export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
   const loc = get(locAtom);
-  if (!!loc) {
-    const [lat, lng] = loc.split(",").map((data) => Number(data));
+  if (loc) {
+    const [lat, lng] = loc.split(",").map((data) => Number.parseFloat(data));
     return { lat, lng };
   }
   return { lat: 43.73155840383045, lng: 7.414983972724603 };
@@ -35,8 +35,8 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 export const getServerSideProps: GetServerSideProps<{
   detail: IpInfoResponse;
 }> = async ({ req }) => {
-  const clientIp = requestIp.getClientIp(req)!;
-  const token = process.env.IPINFO_TOKEN!;
+  const clientIp = requestIp.getClientIp(req);
+  const token = process.env.IPINFO_TOKEN;
   const res = await fetch(`https://ipinfo.io/${clientIp}/?token=${token}`);
   const detail = (await res.json()) as IpInfoResponse;
   return { props: { detail } };
@@ -63,7 +63,7 @@ function Main() {
   return (
     <>
       <Intro />
-      <Map geoData={geoData} />
+      <GeoMap geoData={geoData} />
     </>
   );
 }
@@ -135,8 +135,10 @@ function Intro() {
           <button
             onClick={onClick}
             className="flex w-[58px] items-center justify-center bg-black hover:bg-opacity-[75%]"
+            type="submit"
           >
             <svg className="w-[11px]" viewBox="0 0 11 14">
+              <title>Arrow</title>
               <use href="/ip-address-tracker/images/icon-arrow.svg#icon-arrow" />
             </svg>
           </button>
@@ -153,10 +155,9 @@ function DetailCard({ detail }: { detail?: IpInfoResponse }) {
     if (detail !== undefined && "country" in detail) {
       const { country, city, postal } = detail;
       if (!!country && !!city) {
-        return `${country}, ${city}${!!postal ? ` ${postal}` : ""}`;
-      } else if (!!country) {
-        return `${country}`;
+        return `${country}, ${city}${postal !== undefined ? ` ${postal}` : ""}`;
       }
+      if (country) return `${country}`;
     }
     return null;
   }, [detail]);

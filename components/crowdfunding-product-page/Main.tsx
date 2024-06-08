@@ -37,7 +37,7 @@ export default function Main() {
 
   const openSelectionModal = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     const targetValue = e.currentTarget.value;
-    targetValue !== "" && setSelectedOption(Number(targetValue));
+    targetValue !== "" && setSelectedOption(Number.parseInt(targetValue));
     setIsSelectionModalOpen(true);
   }, []);
 

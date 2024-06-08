@@ -85,7 +85,7 @@ export default function SelectionModal(props: SelectionModalProps) {
                     pledge={pledge}
                     onChange={(e) => {
                       const val = e.target.value;
-                      if (val !== "") setPledge(Number(val));
+                      if (val !== "") setPledge(Number.parseInt(val));
                     }}
                   />
                 )}
