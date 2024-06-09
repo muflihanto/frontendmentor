@@ -35,10 +35,7 @@ export default function ClipboardLandingPage() {
 function CTA({ className = "" }: { className?: string }) {
   return (
     <div
-      className={
-        "flex w-full flex-col gap-6 text-[18px] font-semibold tracking-[.4px] lg:flex-row lg:justify-center lg:gap-4 " +
-        className
-      }
+      className={`flex w-full flex-col gap-6 text-[18px] font-semibold tracking-[.4px] lg:flex-row lg:justify-center lg:gap-4 ${className}`}
     >
       <a
         href=""
@@ -60,6 +57,7 @@ function HeroSection() {
   return (
     <main className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat px-8 py-[123px] lg:bg-[url('/clipboard-landing-page/images/bg-header-desktop.png')] lg:py-[131px]">
       <svg className="w-[125px]" viewBox="0 0 125 125">
+        <title>Clipboard Logo</title>
         <use href="/clipboard-landing-page/images/logo.svg#clipboard-logo" />
       </svg>
       <h1 className="mt-[64px] text-center text-[32px] font-semibold leading-[40px] tracking-[-.5px] text-clipboard-neutral-200 lg:mt-[65px] lg:text-[46px] lg:tracking-[-.75px]">
@@ -303,6 +301,7 @@ function SocialIcons({ className = "" }: { className?: string }) {
         className="text-clipboard-neutral-200 hover:text-clipboard-primary-cyan"
       >
         <svg className="w-6" viewBox="0 0 24 24">
+          <title>Facebook</title>
           <use href="/clipboard-landing-page/images/icon-facebook.svg#icon-facebook" />
         </svg>
       </a>
@@ -311,6 +310,7 @@ function SocialIcons({ className = "" }: { className?: string }) {
         className="text-clipboard-neutral-200 hover:text-clipboard-primary-cyan"
       >
         <svg className="w-6" viewBox="0 0 24 20">
+          <title>Twitter</title>
           <use href="/clipboard-landing-page/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
@@ -319,6 +319,7 @@ function SocialIcons({ className = "" }: { className?: string }) {
         className="text-clipboard-neutral-200 hover:text-clipboard-primary-cyan"
       >
         <svg className="w-6" viewBox="0 0 24 24">
+          <title>Instagram</title>
           <use href="/clipboard-landing-page/images/icon-instagram.svg#icon-instagram" />
         </svg>
       </a>

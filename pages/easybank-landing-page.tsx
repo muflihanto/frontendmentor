@@ -172,7 +172,7 @@ function Features() {
       </p>
       <div className="mt-14 flex flex-col items-center gap-8 lg:mt-[71px] lg:grid lg:w-full lg:grid-cols-4 lg:grid-rows-1 lg:items-start lg:gap-[28.5px]">
         {features.map((feature, index) => {
-          return <Feature key={index} {...feature} />;
+          return <Feature key={`${index}-${feature.heading}`} {...feature} />;
         })}
       </div>
     </div>
@@ -404,6 +404,7 @@ function Logo({
         className,
       ])}
     >
+      <title>Easybank Logo</title>
       <use href="/easybank-landing-page/images/logo.svg#easybank-logo" />
     </svg>
   );
@@ -474,6 +475,7 @@ function Icon({
 
   return (
     <svg {...props} {...variantProps}>
+      <title>{variant}</title>
       <use
         href={`/easybank-landing-page/images/icon-${variant}.svg#icon-${variant}`}
       />

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { inter } from "../utils/fonts/inter";
 
 // import dynamic from "next/dynamic";
@@ -23,6 +23,7 @@ const CodingBootcamp = () => {
           viewBox="0 0 610 154"
           className="absolute bottom-0 w-[75%] lg:w-[610px]"
         >
+          <title>Pattern Curve</title>
           <use href="/coding-bootcamp-testimonials-slider/images/pattern-curve.svg#pattern-curve" />
         </svg>
         {/* <DesignSlider
@@ -115,9 +116,9 @@ function Testimony({ activeIndex }: { activeIndex: number }) {
 function Main() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const slide = () => {
+  const slide = useCallback(() => {
     setActiveIndex((prev) => (prev === 0 ? 1 : 0));
-  };
+  }, []);
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -131,7 +132,7 @@ function Main() {
     return () => {
       document.body.removeEventListener("keydown", listener);
     };
-  }, []);
+  }, [slide]);
 
   function SliderButton() {
     return (
@@ -141,11 +142,13 @@ function Main() {
             slide();
           }}
           className="group flex h-full w-1/2 items-center justify-center"
+          type="button"
         >
           <svg
             viewBox="0 0 12 18"
             className="h-[13px] stroke-[4px] text-[#8585AC] group-hover:text-[#4A3FDB] lg:h-[18px] lg:stroke-[3px]"
           >
+            <title>Previous</title>
             <use href="/coding-bootcamp-testimonials-slider/images/icon-prev.svg#icon-prev" />
           </svg>
         </button>
@@ -154,11 +157,13 @@ function Main() {
             slide();
           }}
           className="group flex h-full w-1/2 items-center justify-center"
+          type="button"
         >
           <svg
             viewBox="0 0 13 18"
             className="h-[13px] stroke-[4px] text-[#8585AC] group-hover:text-[#4A3FDB] lg:h-[18px] lg:stroke-[3px]"
           >
+            <title>Next</title>
             <use href="/coding-bootcamp-testimonials-slider/images/icon-next.svg#icon-next" />
           </svg>
         </button>

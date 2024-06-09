@@ -134,7 +134,7 @@ function ChatImages({ images }: { images: string[] }) {
         return (
           <div
             className="relative aspect-square w-[40px] overflow-hidden rounded-[10px]"
-            key={index}
+            key={`${index}-${image}`}
           >
             <Image
               fill
