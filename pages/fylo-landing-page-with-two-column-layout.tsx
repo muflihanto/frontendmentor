@@ -63,6 +63,7 @@ function FyloLogo({
           : "fill-white text-white",
       ])}
     >
+      <title>Logo</title>
       <use href="/fylo-landing-page-with-two-column-layout/images/logo.svg#logo" />
     </svg>
   );
@@ -137,11 +138,11 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
         !!errors.email && "relative",
         formStyle[variant].form,
         variant === "early" &&
-          (!!errors.email
+          (errors.email !== undefined
             ? "grid-rows-[40px,12px,40px] lg:mt-[43px] lg:grid-rows-[47px,auto,48px]"
             : "lg:grid-rows-[50px,48px]"),
         variant === "hero" &&
-          (!!errors.email
+          (errors.email !== undefined
             ? "grid-rows-[40px,auto,40px] gap-y-2"
             : "grid-rows-[repeat(2,40px)] gap-y-4"),
       ])}
@@ -154,7 +155,7 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
         className={cn([
           "w-full rounded-sm border placeholder:opacity-50",
           formStyle[variant].input,
-          !!errors.email
+          errors.email !== undefined
             ? "border-[hsl(339,28%,73%)] focus-visible:outline focus-visible:outline-transparent"
             : "border-fylo-landing-primary-blue-100",
         ])}
@@ -169,6 +170,7 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
           "rounded-sm bg-fylo-landing-accent-blue font-bold text-fylo-landing-neutral-100 shadow-md shadow-fylo-landing-primary-blue-200/10 hover:bg-[hsl(221,100%,71%)]",
           formStyle[variant].button,
         ])}
+        type="submit"
       >
         {formStyle[variant].btnText}
       </button>
@@ -251,6 +253,7 @@ function ProductiveSection() {
               viewBox="0 0 16 16"
               className="w-4 text-[#3DA08F] group-hover:text-[hsl(168,56%,66%)] lg:mt-[4px]"
             >
+              <title>Arrow</title>
               <use href="/fylo-landing-page-with-two-column-layout/images/icon-arrow.svg#fylo-icon-arrow" />
             </svg>
           </a>
@@ -268,6 +271,7 @@ function Testimony() {
         className="-ml-[1px] w-[16px] font-manrope lg:w-[20px]"
         viewBox="0 0 16 12"
       >
+        <title>Quotes</title>
         <use href="/fylo-landing-page-with-two-column-layout/images/icon-quotes.svg#fylo-icon-quotes" />
       </svg>
       <p className="mt-[6px] leading-[18px] lg:mt-[9px] lg:text-[13px] lg:leading-[23.15px] lg:tracking-[.5px]">
@@ -375,12 +379,14 @@ function Footer() {
         <div className="mt-[39px] flex flex-col gap-4 px-[2px] lg:mt-0">
           <p className="flex gap-[18px]">
             <svg className="mx-[1px] w-[18px]" viewBox="0 0 18 18">
+              <title>Phone</title>
               <use href="/fylo-landing-page-with-two-column-layout/images/icon-phone.svg#icon-phone" />
             </svg>
             <span>Phone: +1-543-123-4567</span>
           </p>
           <p className="flex gap-[18px] text-fylo-landing-neutral-200">
             <svg viewBox="0 0 20 16" className="w-5">
+              <title>Email</title>
               <use href="/fylo-landing-page-with-two-column-layout/images/icon-email.svg#icon-email" />
             </svg>
             <span>example@fylo.com</span>

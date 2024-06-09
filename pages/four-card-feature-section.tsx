@@ -67,7 +67,10 @@ function Main() {
         {Object.keys(cards).map((el, index) => {
           const variant = el as CardVariant;
           return (
-            <Card key={index} className={cards[variant].cardStyle}>
+            <Card
+              key={`${index}-${variant}`}
+              className={cards[variant].cardStyle}
+            >
               <Card.Heading>{variant}</Card.Heading>
               <Card.Body>{cards[variant].p}</Card.Body>
               <Icon variant={variant} />
@@ -111,6 +114,7 @@ const Icon: FC<{ variant: CardVariant }> = ({ variant }) => {
   const variantKebabCase = variant.toLowerCase().replace(" ", "-");
   return (
     <svg viewBox="0 0 64 64" className="mt-auto h-[57px] self-end lg:h-[64px]">
+      <title>{variant} Icon</title>
       <use
         href={`/four-card-feature-section/images/icon-${variantKebabCase}.svg#icon-${variantKebabCase}`}
       />

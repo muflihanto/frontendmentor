@@ -66,9 +66,9 @@ function Main() {
             src={"/faq-accordion-card/images/"}
             loader={({ width, src }) => {
               if (width > 1023) {
-                return src + "illustration-woman-online-desktop.svg";
+                return `${src}illustration-woman-online-desktop.svg`;
               }
-              return src + "illustration-woman-online-mobile.svg";
+              return `${src}illustration-woman-online-mobile.svg`;
             }}
             alt="Illustration Woman Online"
             fill
@@ -78,9 +78,9 @@ function Main() {
             src={"/faq-accordion-card/images/"}
             loader={({ width, src }) => {
               if (width > 1023) {
-                return src + "bg-pattern-desktop.svg";
+                return `${src}bg-pattern-desktop.svg`;
               }
-              return src + "bg-pattern-mobile.svg";
+              return `${src}bg-pattern-mobile.svg`;
             }}
             alt="Background Pattern"
             fill
@@ -94,7 +94,13 @@ function Main() {
         </h1>
         <div className="divide mt-[19px] flex w-full flex-col divide-y divide-faq-accordion-neutral-text-100/20 border-b border-b-faq-accordion-neutral-text-100/20 text-[13px] leading-none text-faq-accordion-neutral-text-200 lg:mt-[25px] lg:max-h-[350px] lg:overflow-y-scroll lg:pr-4">
           {faqs.map((faq, index) => {
-            return <FaqWrapper key={index} {...faq} isOpen={index === 1} />;
+            return (
+              <FaqWrapper
+                key={`${index}-${faq.button}`}
+                {...faq}
+                isOpen={index === 1}
+              />
+            );
           })}
           <div className="absolute hidden aspect-[191/184] w-[191px] lg:-left-[92px] lg:top-[calc(40%+1px)] lg:z-20 lg:block lg:transition-all lg:peer-hover:-translate-x-[20%] lg:peer-active:scale-90 lg:peer-active:duration-75">
             <Image

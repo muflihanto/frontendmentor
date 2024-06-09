@@ -209,6 +209,7 @@ function Productive() {
             className="w-4 text-[#62E0D9] group-hover:text-white"
             viewBox="0 0 16 16"
           >
+            <title>Arrow Icon</title>
             <use href="/fylo-dark-theme-landing-page/images/icon-arrow.svg#icon-arrow" />
           </svg>
         </a>
@@ -364,7 +365,10 @@ function GetEarlyAccess() {
             {errors.email.message}
           </p>
         )}
-        <button className="flex flex-col items-center justify-center rounded-full bg-gradient-to-br from-fylo-dark-accent-cyan to-fylo-dark-accent-blue font-raleway text-[14px] font-bold text-fylo-dark-neutral hover:to-fylo-dark-accent-cyan lg:pb-[2px]">
+        <button
+          className="flex flex-col items-center justify-center rounded-full bg-gradient-to-br from-fylo-dark-accent-cyan to-fylo-dark-accent-blue font-raleway text-[14px] font-bold text-fylo-dark-neutral hover:to-fylo-dark-accent-cyan lg:pb-[2px]"
+          type="submit"
+        >
           Get Started For Free
         </button>
       </form>
@@ -510,6 +514,7 @@ function Footer() {
 function IconAccessAnywhere({ className }: ComponentProps<"svg">) {
   return (
     <svg viewBox="0 0 83 78" className={cn(["w-[83px]", className])}>
+      <title>Access Anywhere</title>
       <use href="/fylo-dark-theme-landing-page/images/icon-access-anywhere.svg#icon-access-anywhere" />
     </svg>
   );
@@ -518,6 +523,7 @@ function IconAccessAnywhere({ className }: ComponentProps<"svg">) {
 function IconSecurity({ className }: ComponentProps<"svg">) {
   return (
     <svg viewBox="0 0 70 88" className={cn(["w-[68px]", className])}>
+      <title>Security</title>
       <use href="/fylo-dark-theme-landing-page/images/icon-security.svg#icon-security" />
     </svg>
   );
@@ -526,6 +532,7 @@ function IconSecurity({ className }: ComponentProps<"svg">) {
 function IconCollaboration({ className }: ComponentProps<"svg">) {
   return (
     <svg viewBox="0 0 86 71" className={cn(["h-[55px]", className])}>
+      <title>Collaboration</title>
       <use href="/fylo-dark-theme-landing-page/images/icon-collaboration.svg#icon-collaboration" />
     </svg>
   );
@@ -534,6 +541,7 @@ function IconCollaboration({ className }: ComponentProps<"svg">) {
 function IconAnyFile({ className }: ComponentProps<"svg">) {
   return (
     <svg viewBox="0 0 91 65" className={cn(["h-[51px]", className])}>
+      <title>Any File</title>
       <use href="/fylo-dark-theme-landing-page/images/icon-any-file.svg#icon-any-file" />
     </svg>
   );
@@ -542,6 +550,7 @@ function IconAnyFile({ className }: ComponentProps<"svg">) {
 function IconLocation() {
   return (
     <svg viewBox="0 0 13 18" className="w-[13px] pt-2">
+      <title>Location</title>
       <use href="/fylo-dark-theme-landing-page/images/icon-location.svg#icon-location" />
     </svg>
   );
@@ -553,6 +562,7 @@ function IconPhone() {
       viewBox="0 0 18 18"
       className="mb-[2px] ml-[3px] w-[13px] lg:ml-0 lg:mt-[3px] lg:w-[18px]"
     >
+      <title>Phone</title>
       <use href="/fylo-dark-theme-landing-page/images/icon-phone.svg#icon-phone" />
     </svg>
   );
@@ -561,6 +571,7 @@ function IconPhone() {
 function IconEmail() {
   return (
     <svg viewBox="0 0 20 16" className="ml-[2px] mt-[3px] w-5 lg:ml-0">
+      <title>Email</title>
       <use href="/fylo-dark-theme-landing-page/images/icon-email.svg#icon-email" />
     </svg>
   );

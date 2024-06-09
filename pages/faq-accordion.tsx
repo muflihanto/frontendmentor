@@ -68,7 +68,13 @@ function Main() {
           </h1>
           <div className="mt-[27px] flex flex-col divide-y text-[14px] lg:mt-[37px]">
             {faqs.map((faq, index) => {
-              return <Accordion {...faq} key={index} open={index === 0} />;
+              return (
+                <Accordion
+                  {...faq}
+                  key={`${index}-${faq.question}`}
+                  open={index === 0}
+                />
+              );
             })}
           </div>
         </section>

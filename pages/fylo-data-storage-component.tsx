@@ -44,6 +44,7 @@ function NavLink(props: NavLinkProps) {
         className={props.variant === "document" ? "w-5" : "w-6"}
         viewBox={variantProps[props.variant]}
       >
+        <title>{props.variant}</title>
         <use
           href={`/fylo-data-storage-component/images/icon-${props.variant}.svg#icon-${props.variant}`}
         />
@@ -99,7 +100,7 @@ function Status() {
         <div
           style={
             {
-              "--bar-length": (storage.remaining / storage.maximum) * 100 + "%",
+              "--bar-length": `${(storage.remaining / storage.maximum) * 100}%`,
             } as CSSProperties
           }
           className="flex h-full w-[--bar-length] items-center justify-end rounded-full bg-gradient-to-r from-fylo-storage-primary-gradient-100 to-fylo-storage-primary-gradient-200 p-[2px]"
