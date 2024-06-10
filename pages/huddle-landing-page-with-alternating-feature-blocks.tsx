@@ -134,6 +134,7 @@ function Footer() {
         <div className="max-md:row-start-1 lg:w-[370px]">
           <p className="mt-[24px] grid grid-flow-col-dense justify-items-start lg:mt-0">
             <svg className="mr-[5px] w-[13px] pt-[8px]" viewBox="0 0 13 18">
+              <title>Location</title>
               <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-location.svg#icon-location" />
             </svg>
             <span className="ml-[21px] pr-[4px] text-[15px] leading-[24px] tracking-[0.6px] lg:text-[16px] lg:tracking-[0px]">
@@ -143,6 +144,7 @@ function Footer() {
           </p>
           <p className="mt-[24px] flex items-center justify-start">
             <svg className="ml-[3px] w-[18px]" viewBox="0 0 18 18">
+              <title>Phone</title>
               <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-phone.svg#icon-phone" />
             </svg>
             <span className="ml-[18px] text-[15px] leading-[24px] tracking-[0.6px] lg:text-[16px] lg:tracking-[0px]">
@@ -151,6 +153,7 @@ function Footer() {
           </p>
           <p className="mt-[24px] flex items-center justify-start">
             <svg className="ml-[2px] w-5" viewBox="0 0 20 16">
+              <title>Email</title>
               <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-email.svg#icon-email" />
             </svg>
             <span className="ml-[19px] text-[15px] leading-[24px] tracking-[0.6px] lg:text-[16px] lg:tracking-[0px]">
@@ -208,11 +211,12 @@ function Footer() {
   );
 }
 
-function SocialIcons({}) {
+function SocialIcons() {
   return (
     <div className="mt-[52px] flex items-center justify-start gap-[12px] place-self-center lg:mt-0 lg:gap-[12px] lg:place-self-start [&_a:hover]:border-huddle-alternate-primary [&_a]:flex [&_a]:aspect-square [&_a]:h-[31px] [&_a]:w-[31px] [&_a]:items-center [&_a]:justify-center [&_a]:rounded-full [&_a]:border [&_svg]:h-[15px]">
       <a href="" className="group">
         <svg className="text-white group-hover:text-huddle-alternate-primary">
+          <title>Facebook</title>
           <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-facebook.svg#icon-facebook" />
         </svg>
       </a>
@@ -221,6 +225,7 @@ function SocialIcons({}) {
           className="text-white group-hover:text-huddle-alternate-primary"
           viewBox="0 0 512 512"
         >
+          <title>Twitter</title>
           <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
@@ -229,6 +234,7 @@ function SocialIcons({}) {
           className="text-white group-hover:text-huddle-alternate-primary"
           viewBox="0 0 448 512"
         >
+          <title>Instagram</title>
           <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-instagram.svg#icon-instagram" />
         </svg>
       </a>
@@ -248,6 +254,7 @@ function Logo({ className, white }: { className: string; white?: boolean }) {
         } as CSSProperties
       }
     >
+      <title>Huddle Logo</title>
       <use href="/huddle-landing-page-with-curved-sections/images/logo.svg#huddle-logo" />
     </svg>
   );
@@ -264,6 +271,7 @@ function HeroImage({ className }: { className?: string }) {
 function ScreenMockups({ className = "" }: ComponentProps<"svg">) {
   return (
     <svg className={className} viewBox="0 0 1035 739">
+      <title>Screen Mockups</title>
       <use href="/huddle-landing-page-with-curved-sections/images/screen-mockups.svg#screen-mockups" />
     </svg>
   );
@@ -296,6 +304,7 @@ function Card({
 function GrowIllustration({ className }: ComponentProps<"svg">) {
   return (
     <svg viewBox="0 0 1023.46 837.84" className={className}>
+      <title>Illustration Grow Together</title>
       <use href="/huddle-landing-page-with-curved-sections/images/illustration-grow-together.svg#illustration-grow-together" />
     </svg>
   );
@@ -304,6 +313,7 @@ function GrowIllustration({ className }: ComponentProps<"svg">) {
 function FlowIllustration({ className }: ComponentProps<"svg">) {
   return (
     <svg viewBox="0 0 1125.12 800.94" className={className}>
+      <title>Illustration Flowing Conversations</title>
       <use href="/huddle-landing-page-with-curved-sections/images/illustration-flowing-conversation.svg#illustration-flowing-conversation" />
     </svg>
   );
@@ -312,6 +322,7 @@ function FlowIllustration({ className }: ComponentProps<"svg">) {
 function UsersIllustration({ className }: ComponentProps<"svg">) {
   return (
     <svg viewBox="0 0 1077.87 813.02" className={className}>
+      <title>Illustration Your Users</title>
       <use href="/huddle-landing-page-with-curved-sections/images/illustration-your-users.svg#illustration-your-users" />
     </svg>
   );

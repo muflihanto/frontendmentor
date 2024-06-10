@@ -16,9 +16,9 @@ const Footer = () => {
           className="object-contain"
           loader={({ src, width }) => {
             if (width > 1023) {
-              return src + "bg-footer-top-desktop.svg";
+              return `${src}bg-footer-top-desktop.svg`;
             }
-            return src + "bg-footer-top-mobile.svg";
+            return `${src}bg-footer-top-mobile.svg`;
           }}
           fill
         />
@@ -32,6 +32,7 @@ const Footer = () => {
           </p>
           <p className="ml-[3px] mt-[42px] flex items-center justify-start lg:mt-[26px]">
             <svg viewBox="0 0 18 18" className="w-[18px]">
+              <title>Phone</title>
               <use href="/huddle-landing-page-with-curved-sections/images/icon-phone.svg#icon-phone" />
             </svg>
             <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">
@@ -40,6 +41,7 @@ const Footer = () => {
           </p>
           <p className="ml-[3px] mt-[19px] flex items-center justify-start lg:mt-[15px]">
             <svg className="w-5" viewBox="0 0 20 16">
+              <title>Email</title>
               <use href="/huddle-landing-page-with-curved-sections/images/icon-email.svg#icon-email" />
             </svg>
             <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">
@@ -76,21 +78,24 @@ const Footer = () => {
 
 export default Footer;
 
-function SocialIcons({}) {
+function SocialIcons() {
   return (
     <div className="mt-[48px] flex items-center justify-start gap-[17px] lg:mt-[78px] lg:gap-[24px] [&>a:hover]:text-[hsl(192,99%,49%)] [&>a]:text-white [&_svg]:h-[26px] lg:[&_svg]:h-[37px]">
       <a href="">
         <svg viewBox="0 0 448 512">
+          <title>Facebook</title>
           <use href="/huddle-landing-page-with-curved-sections/images/icon-facebook.svg#icon-facebook" />
         </svg>
       </a>
       <a href="">
         <svg viewBox="0 0 448 512">
+          <title>Instagram</title>
           <use href="/huddle-landing-page-with-curved-sections/images/icon-instagram.svg#icon-instagram" />
         </svg>
       </a>
       <a href="">
         <svg viewBox="0 0 448 512">
+          <title>Twitter</title>
           <use href="/huddle-landing-page-with-curved-sections/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
@@ -153,7 +158,10 @@ function SubscribeNewsletter({ className }: ComponentProps<"div">) {
             </p>
           ) : null}
         </div>
-        <button className="col-start-2 rounded-md bg-huddle-curve-primary-pink-200 font-bold text-huddle-curve-neutral-100/75 hover:bg-huddle-curve-primary-pink-100 lg:col-start-2">
+        <button
+          className="col-start-2 rounded-md bg-huddle-curve-primary-pink-200 font-bold text-huddle-curve-neutral-100/75 hover:bg-huddle-curve-primary-pink-100 lg:col-start-2"
+          type="submit"
+        >
           Subscribe
         </button>
       </form>

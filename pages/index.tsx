@@ -30,6 +30,7 @@ export const pages = [
     title: "Base Apparel Coming Soon",
     path: "base-apparel-coming-soon",
   },
+  { title: "Blog preview card", path: "blog-preview-card" },
   { title: "Blogr Landing Page", path: "blogr-landing-page" },
   { title: "Bookmark Landing Page", path: "bookmark-landing-page" },
   { title: "Calculator App", path: "calculator-app" },
@@ -52,6 +53,7 @@ export const pages = [
     title: "Expenses Chart Component",
     path: "expenses-chart-component",
   },
+  { title: "FAQ Accordion", path: "faq-accordion" },
   { title: "Faq Accordion Card", path: "faq-accordion-card" },
   {
     title: "Four Card Feature Section",
@@ -186,8 +188,6 @@ export const pages = [
   { title: "Tip Calculator App", path: "tip-calculator-app" },
   { title: "Todo App", path: "todo-app" },
   { title: "Url Shortening Api", path: "url-shortening-api" },
-  { title: "FAQ Accordion", path: "faq-accordion" },
-  { title: "Blog preview card", path: "blog-preview-card" },
 ];
 
 // export default function Home({
@@ -199,13 +199,10 @@ export function Home() {
     setInput(e.target.value);
   };
   const filteredPages = useMemo(() => {
-    if (!input) {
-      return pages;
-    } else {
-      return pages.filter((page) => {
-        return page.title.toLowerCase().includes(input.toLowerCase());
-      });
-    }
+    if (!input) return pages;
+    return pages.filter((page) => {
+      return page.title.toLowerCase().includes(input.toLowerCase());
+    });
   }, [input]);
   // }, [input, pages]);
   const { setTheme, resolvedTheme } = useTheme();
@@ -241,9 +238,9 @@ export function Home() {
           placeholder="Type here..."
         />
         <ul className="mx-auto mt-8 grid max-w-screen-md grid-cols-1 items-center gap-4 self-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {filteredPages.map((page, index) => {
+          {filteredPages.map((page) => {
             return (
-              <li key={index}>
+              <li key={page.title}>
                 <Link
                   href={page.path}
                   className="mb-2 flex h-[180px] min-w-[180px] items-center justify-center rounded-xl bg-sky-600 p-5 text-center text-[18px] font-semibold text-white shadow-md hover:bg-sky-600/80 hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-sky-500 dark:bg-sky-900"
@@ -259,6 +256,7 @@ export function Home() {
           onClick={() => {
             setTheme(resolvedTheme === "dark" ? "light" : "dark");
           }}
+          type="button"
         >
           <Image
             src={iconProps.src}

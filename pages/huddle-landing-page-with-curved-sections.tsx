@@ -53,6 +53,7 @@ export const Logo = ({
         } as CSSProperties
       }
     >
+      <title>Huddle Logo</title>
       <use href="/huddle-landing-page-with-curved-sections/images/logo.svg#huddle-logo" />
     </svg>
   );
@@ -62,7 +63,10 @@ const Header = () => {
   return (
     <header className="flex w-full items-center justify-between px-[24px] py-6 lg:py-[78px] lg:pl-20 lg:pr-[64px]">
       <Logo className="h-[16px] lg:h-[39px]" />
-      <button className="flex h-6 w-[80px] items-center justify-center rounded-full border border-huddle-curve-primary-pink-200 text-huddle-curve-primary-pink-200 hover:border-huddle-curve-primary-pink-100 hover:text-huddle-curve-primary-pink-100 hover:shadow hover:shadow-huddle-curve-neutral-700/10 lg:h-[40px] lg:w-[136px]">
+      <button
+        className="flex h-6 w-[80px] items-center justify-center rounded-full border border-huddle-curve-primary-pink-200 text-huddle-curve-primary-pink-200 hover:border-huddle-curve-primary-pink-100 hover:text-huddle-curve-primary-pink-100 hover:shadow hover:shadow-huddle-curve-neutral-700/10 lg:h-[40px] lg:w-[136px]"
+        type="button"
+      >
         <span className="pb-[2px] text-[10px] leading-none tracking-[0.1px] lg:text-[16px]">
           Try it Free
         </span>
@@ -96,6 +100,7 @@ const HeroImage = () => {
   return (
     <div className="px-[36px] py-[10px] lg:mx-auto lg:w-[1036px] lg:px-0">
       <svg className="w-full" viewBox="0 0 1035 739">
+        <title>Screen Mockups</title>
         <use href="/huddle-landing-page-with-curved-sections/images/screen-mockups.svg#screen-mockups" />
       </svg>
     </div>
@@ -151,9 +156,9 @@ const GrowSection = () => {
           src="/huddle-landing-page-with-curved-sections/images/"
           loader={({ src, width }) => {
             if (width > 1023) {
-              return src + "bg-section-top-desktop-1.svg";
+              return `${src}bg-section-top-desktop-1.svg`;
             }
-            return src + "bg-section-top-mobile-1.svg";
+            return `${src}bg-section-top-mobile-1.svg`;
           }}
           alt="Section Curved Background"
         />
@@ -178,9 +183,9 @@ const GrowSection = () => {
           src="/huddle-landing-page-with-curved-sections/images/"
           loader={({ src, width }) => {
             if (width > 1023) {
-              return src + "bg-section-bottom-desktop-1.svg";
+              return `${src}bg-section-bottom-desktop-1.svg`;
             }
-            return src + "bg-section-bottom-mobile-1.svg";
+            return `${src}bg-section-bottom-mobile-1.svg`;
           }}
           alt="Section Curved Background"
         />
@@ -216,9 +221,9 @@ const UsersSection = () => {
           src="/huddle-landing-page-with-curved-sections/images/"
           loader={({ src, width }) => {
             if (width > 1023) {
-              return src + "bg-section-top-desktop-2.svg";
+              return `${src}bg-section-top-desktop-2.svg`;
             }
-            return src + "bg-section-top-mobile-2.svg";
+            return `${src}bg-section-top-mobile-2.svg`;
           }}
           alt="Section Curved Background"
         />
@@ -243,9 +248,9 @@ const UsersSection = () => {
           src="/huddle-landing-page-with-curved-sections/images/"
           loader={({ src, width }) => {
             if (width > 1023) {
-              return src + "bg-section-bottom-desktop-2.svg";
+              return `${src}bg-section-bottom-desktop-2.svg`;
             }
-            return src + "bg-section-bottom-mobile-2.svg";
+            return `${src}bg-section-bottom-mobile-2.svg`;
           }}
           alt="Section Curved Background"
         />
@@ -275,6 +280,7 @@ const CtaSection = () => {
 const GrowIllustration = ({ className }: { className: string }) => {
   return (
     <svg viewBox="0 0 1023.46 837.84" className={className}>
+      <title>Illustration Grow Together</title>
       <use href="/huddle-landing-page-with-curved-sections/images/illustration-grow-together.svg#illustration-grow-together" />
     </svg>
   );
@@ -283,6 +289,7 @@ const GrowIllustration = ({ className }: { className: string }) => {
 const FlowIllustration = ({ className }: { className: string }) => {
   return (
     <svg viewBox="0 0 1125.12 800.94" className={className}>
+      <title>Illustration Flowing Conversations</title>
       <use href="/huddle-landing-page-with-curved-sections/images/illustration-flowing-conversation.svg#illustration-flowing-conversation" />
     </svg>
   );
@@ -291,6 +298,7 @@ const FlowIllustration = ({ className }: { className: string }) => {
 const UsersIllustration = ({ className }: { className: string }) => {
   return (
     <svg viewBox="0 0 1077.87 813.02" className={className}>
+      <title>Illustration Your Users</title>
       <use href="/huddle-landing-page-with-curved-sections/images/illustration-your-users.svg#illustration-your-users" />
     </svg>
   );

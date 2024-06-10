@@ -81,16 +81,19 @@ function SocialMedia() {
     <div className="mt-[64px] flex items-center justify-center gap-[10px] place-self-center lg:absolute lg:bottom-[40px] lg:right-[80px] lg:z-40 lg:mt-0 lg:gap-[16px] lg:place-self-start [&_a:hover]:border-huddle-intro-primary-magenta [&_a]:flex [&_a]:aspect-square [&_a]:w-[28px] [&_a]:items-center [&_a]:justify-center [&_a]:rounded-full [&_a]:border lg:[&_a]:w-10">
       <a href="" className="group">
         <svg className="h-[14px] text-white group-hover:text-huddle-intro-primary-magenta lg:h-[18.5px]">
+          <title>Facebook</title>
           <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-facebook.svg#icon-facebook" />
         </svg>
       </a>
       <a href="" className="group">
         <svg className="h-[13px] text-white group-hover:text-huddle-intro-primary-magenta lg:h-[17px]">
+          <title>Twitter</title>
           <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
       <a href="" className="group">
         <svg className="h-[15px] text-white group-hover:text-huddle-intro-primary-magenta lg:h-[20px]">
+          <title>Instagram</title>
           <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-instagram.svg#icon-instagram" />
         </svg>
       </a>
@@ -104,6 +107,7 @@ function Mockup() {
       <Image
         src="/huddle-landing-page-with-single-introductory-section/images/illustration-mockups.svg"
         alt="Huddle Illustration Mockup"
+        title="Huddle Illustration Mockup"
         fill
         className="object-contain"
       />
