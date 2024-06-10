@@ -38,6 +38,7 @@ function ChildComponent() {
       <button
         onClick={() => setCount((v) => v + 1)}
         className="rounded border px-1"
+        type="button"
       >
         +
       </button>
@@ -54,6 +55,7 @@ function OtherComponent() {
       <button
         onClick={() => setCount((v) => v + 1)}
         className="rounded border px-1"
+        type="button"
       >
         +
       </button>

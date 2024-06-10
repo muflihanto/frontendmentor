@@ -124,7 +124,10 @@ function Main() {
               placeholder="Password"
             />
             <ErrorMessage field={errors.password} />
-            <button className="flex h-[52px] items-center justify-center rounded-md bg-intro-signup-primary-green pt-[6px] text-center font-medium uppercase tracking-[.4px] text-white shadow-[0px_4px_hsl(154,59%,46%)] hover:opacity-75 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-transparent">
+            <button
+              className="flex h-[52px] items-center justify-center rounded-md bg-intro-signup-primary-green pt-[6px] text-center font-medium uppercase tracking-[.4px] text-white shadow-[0px_4px_hsl(154,59%,46%)] hover:opacity-75 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-transparent"
+              type="submit"
+            >
               Claim your free trial
             </button>
           </fieldset>

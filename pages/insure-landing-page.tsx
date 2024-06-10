@@ -138,8 +138,9 @@ function MobileNavButton({
 }) {
   const name = isOpen ? "close" : "hamburger";
   return (
-    <button onClick={toggle} className="lg:hidden">
+    <button onClick={toggle} className="lg:hidden" type="button">
       <svg viewBox="0 0 32 32" className="w-8">
+        <title>{name}</title>
         <use
           href={`/insure-landing-page/images/icon-${name}.svg#icon-${name}`}
         />
@@ -157,7 +158,7 @@ function IntroSection() {
             src="/insure-landing-page/images/"
             alt="Left Background Intro Section"
             loader={({ src, width }) => {
-              return src + `bg-pattern-intro-left-${getScreenType(width)}.svg`;
+              return `${src}bg-pattern-intro-left-${getScreenType(width)}.svg`;
             }}
             className="object-contain"
             fill
@@ -167,7 +168,7 @@ function IntroSection() {
           <Image
             src="/insure-landing-page/images/"
             loader={({ src, width }) => {
-              return src + `image-intro-${getScreenType(width)}.jpg`;
+              return `${src}image-intro-${getScreenType(width)}.jpg`;
             }}
             alt="Happy Family of 4 Holding Each Other's Hands"
             className="object-contain"
@@ -196,7 +197,7 @@ function IntroSection() {
             src="/insure-landing-page/images/"
             alt="Lower Background Intro Section"
             loader={({ src, width }) => {
-              return src + `bg-pattern-intro-right-${getScreenType(width)}.svg`;
+              return `${src}bg-pattern-intro-right-${getScreenType(width)}.svg`;
             }}
             className="object-contain"
             fill
@@ -256,6 +257,12 @@ type WereDifferentSectionProps = {
 function WereDifferentSectionIcon({ type }: WereDifferentSectionProps) {
   return (
     <svg viewBox="0 0 86 86" className="w-[86px]">
+      <title>
+        {type
+          .split("-")
+          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+          .join(" ")}
+      </title>
       <use href={`/insure-landing-page/images/icon-${type}.svg#icon-${type}`} />
     </svg>
   );
@@ -417,6 +424,7 @@ function SocialMediaIcons() {
                   viewBox={`0 0 24 ${el === "twitter" ? 20 : 24}`}
                   className="w-6 fill-[#837D88] group-hover:fill-insure-primary-200"
                 >
+                  <title>{el.charAt(0).toUpperCase() + el.slice(1)}</title>
                   <use
                     href={`/insure-landing-page/images/icon-${el}.svg#icon-${el}`}
                   />

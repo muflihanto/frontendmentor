@@ -65,6 +65,9 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
   return (
     <main
       className="relative mt-[5px] flex h-[416px]
+
+
+
     w-[calc(100vw-48px)] max-w-[413px] flex-col justify-center rounded-[32px] bg-[radial-gradient(circle_at_top,hsl(213,19%,18%)_0,_hsl(213,30%,12%)_100%)] pb-[31px] pl-7 pr-10 pt-8 text-rating-neutral-100 max-[375px]:mt-[2px] max-[375px]:h-[360px] max-[375px]:rounded-2xl max-[375px]:pb-[32px] max-[375px]:pl-5 max-[375px]:pr-[22px] max-[375px]:pt-[24px]"
       ref={main}
     >
@@ -163,6 +166,7 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
         <button
           id="submit"
           className="ml-[6px] mt-[31.5px] h-[45px] w-[calc(100%-4px)] rounded-full bg-rating-primary-orange pt-[4px] text-[15px] font-bold uppercase leading-none tracking-[2px] text-rating-neutral-100 max-[375px]:ml-[2px] max-[375px]:mt-[23.5px] max-[375px]:w-[calc(100%-6px)] max-[375px]:text-[14px]"
+          type="submit"
         >
           Submit
         </button>
@@ -185,6 +189,9 @@ function ThankYouState({ rating }: Input) {
     <main
       id="thank-you-modal"
       className="relative mt-[5px] flex
+
+
+
       h-[416px] w-[calc(100vw-48px)] max-w-[413px] flex-col items-center justify-center rounded-[32px] bg-[radial-gradient(circle_at_top,hsl(213,19%,18%)_0,_hsl(213,30%,12%)_100%)] pb-[47px] pl-8 pr-10 pt-[45.5px] text-center text-rating-neutral-100 max-[375px]:h-[360px] max-[375px]:rounded-2xl max-[375px]:px-6 max-[375px]:py-[33px]"
     >
       <div className="relative aspect-[162/108] h-[108px]">
