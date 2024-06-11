@@ -59,6 +59,7 @@ function FlipCard({
     };
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     void flip(
       ".top-flip",
@@ -84,26 +85,26 @@ function FlipCard({
               ? `0${value}`
               : value
             : value < 10
-            ? `0${value}`
-            : value}
+              ? `0${value}`
+              : value}
         </div>
         <div className="bottom">
           {init
             ? "--"
             : value + 1 < 10
-            ? `0${value + 1}`
-            : value + 1 > maxValue
-            ? `00`
-            : value + 1}
+              ? `0${value + 1}`
+              : value + 1 > maxValue
+                ? "00"
+                : value + 1}
         </div>
         <div className="top-flip">
           {init
             ? "--"
             : value + 1 < 10
-            ? `0${value + 1}`
-            : value + 1 > maxValue
-            ? `00`
-            : value + 1}
+              ? `0${value + 1}`
+              : value + 1 > maxValue
+                ? "00"
+                : value + 1}
         </div>
         <div className="bottom-flip">
           {init
@@ -111,8 +112,8 @@ function FlipCard({
               ? `0${value}`
               : value
             : value < 10
-            ? `0${value}`
-            : value}
+              ? `0${value}`
+              : value}
         </div>
       </div>
 
@@ -278,6 +279,7 @@ function SocialIcons() {
                   viewBox="0 0 24 24"
                   className="h-6 w-6 fill-[#8385A9] group-hover:fill-countdown-primary-red"
                 >
+                  <title>{el}</title>
                   <use
                     href={`/launch-countdown-timer/images/icon-${el}.svg#icon-${el}`}
                   />

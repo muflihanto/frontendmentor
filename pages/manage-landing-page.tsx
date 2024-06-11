@@ -9,6 +9,7 @@ import {
   useEffect,
   useRef,
   useState,
+  useCallback,
 } from "react";
 import { cn } from "../utils/cn";
 import clsx from "clsx";
@@ -61,6 +62,7 @@ function Logo({
       viewBox="0 0 146 24"
       {...props}
     >
+      <title>Logo</title>
       <use href="/manage-landing-page/images/logo.svg#manage-logo" />
     </svg>
   );
@@ -82,7 +84,7 @@ function MobileNav() {
     if (width > 1023) {
       setOpen(false);
     }
-  }, [width, setOpen]);
+  }, [width]);
 
   return (
     <div className="lg:hidden">
@@ -94,6 +96,7 @@ function MobileNav() {
         onClick={() => {
           setOpen((o) => !o);
         }}
+        type="button"
       >
         {open ? (
           <Image
@@ -268,8 +271,8 @@ function USP() {
         </p>
       </div>
       <div className="mt-[54px] flex w-full flex-col gap-[46px] lg:mt-0 lg:flex-1 lg:gap-[41.5px]">
-        {sellingPoints.map((sell, index) => {
-          return <SellingPoint {...sell} key={index} />;
+        {sellingPoints.map((sell) => {
+          return <SellingPoint {...sell} key={sell.idx} />;
         })}
       </div>
     </div>
@@ -336,12 +339,12 @@ function Testimonials() {
   const [active, setActive] = useState(0);
   const [panInfo, setPanInfo] = useState<number>();
 
-  const onClick = (idx: number) => {
-    if (!!carouselRef.current) {
+  const onClick = useCallback((idx: number) => {
+    if (carouselRef.current) {
       const { scrollWidth } = carouselRef.current;
       carouselRef.current.scrollTo((idx / 4) * scrollWidth, 0);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (width > 640) {
@@ -349,7 +352,7 @@ function Testimonials() {
     } else {
       onClick(1);
     }
-  }, [width]);
+  }, [width, onClick]);
 
   return (
     <div className="flex flex-col items-center pb-[41.93px] pt-[42.5px] lg:pb-[180px] lg:pt-[125px]">
@@ -366,7 +369,7 @@ function Testimonials() {
           ])}
           ref={carouselRef}
           onMouseDown={() => {
-            setPanInfo(carouselRef.current!.scrollLeft);
+            setPanInfo(carouselRef.current?.scrollLeft);
           }}
           onPan={(_, info) => {
             panInfo !== undefined &&
@@ -391,7 +394,7 @@ function Testimonials() {
           })}
         </motion.div>
         <div className="relative flex h-4 items-start justify-center gap-1 pt-[2px] lg:hidden">
-          {testimonials.map((_, index) => {
+          {testimonials.map((testi, index) => {
             return (
               <button
                 className={cn(
@@ -403,7 +406,8 @@ function Testimonials() {
                 onClick={() => {
                   onClick(index);
                 }}
-                key={index}
+                key={testi.name}
+                type="button"
               />
             );
           })}
@@ -498,6 +502,7 @@ function Icon({ variant }: { variant: IconVariant }) {
       className="flex aspect-square h-full items-center justify-center"
       viewBox={viewboxes[variant]}
     >
+      <title>{variant}</title>
       <use href={`/manage-landing-page/images/icon-${variant}.svg#icon`} />
     </svg>
   );
@@ -589,6 +594,7 @@ function Footer() {
             "flex h-full w-full items-center justify-center rounded-full bg-manage-primary-red pb-[2px] text-[13px] font-bold uppercase text-manage-neutral-100 lg:normal-case",
             "hover:relative hover:overflow-hidden hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:h-full hover:before:w-full hover:before:bg-white/30",
           )}
+          type="submit"
         >
           Go
         </button>
@@ -603,7 +609,7 @@ function Footer() {
         <ul className="grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[75px] gap-y-[12.5px] pl-[13px] pt-[4px] text-[15px] tracking-[-.25px] text-manage-neutral-200 lg:gap-x-[18px] lg:py-0 lg:pl-[min(calc(100vw-1024px+16px),124px)]">
           {navLinks.map((link, index) => {
             return (
-              <li key={index}>
+              <li key={`${index}-${link}`}>
                 <a href="" className="hover:text-manage-primary-red">
                   {link}
                 </a>
