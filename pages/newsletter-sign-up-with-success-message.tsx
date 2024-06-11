@@ -136,7 +136,10 @@ function Main() {
               }`}
               {...register("email", { required: true })}
             />
-            <button className="mt-6 flex h-[56px] w-full items-center justify-center rounded-lg bg-newsletter-neutral-400 pt-[2px] font-bold text-newsletter-neutral-100 hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]">
+            <button
+              className="mt-6 flex h-[56px] w-full items-center justify-center rounded-lg bg-newsletter-neutral-400 pt-[2px] font-bold text-newsletter-neutral-100 hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]"
+              type="submit"
+            >
               Subscribe to monthly newsletter
             </button>
           </label>
@@ -149,6 +152,7 @@ function Main() {
 function IconList({ className }: { className?: string }) {
   return (
     <svg className={twMerge("w-[21px]", className)} viewBox="0 0 21 21">
+      <title>List</title>
       <use href="/newsletter-sign-up-with-success-message/assets/images/icon-list.svg#icon-list" />
     </svg>
   );
@@ -161,10 +165,12 @@ function IllustrationSignUp() {
     <>
       {width >= 1024 ? (
         <svg className="w-full flex-1 translate-x-5" viewBox="0 0 400 593">
+          <title>Illustration Desktop</title>
           <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-desktop.svg#illustration-desktop" />
         </svg>
       ) : (
         <svg className="w-full" viewBox="0 0 375 284">
+          <title>Illustration Sign Up Mobile</title>
           <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-mobile.svg#illustration-mobile" />
         </svg>
       )}
@@ -185,6 +191,7 @@ function SuccessScreen() {
     <div className="fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll bg-news-homepage-neutral-100 px-6 py-10 lg:static lg:h-[520px] lg:w-[505px] lg:gap-0 lg:rounded-[36px] lg:p-16 lg:pt-[48px] lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
       <div className="flex flex-col place-self-center lg:place-self-start">
         <svg className="w-16" viewBox="0 0 64 64">
+          <title>Success</title>
           <use href="/newsletter-sign-up-with-success-message/assets/images/icon-success.svg#icon-success" />
         </svg>
         <h1 className="mt-10 text-[40px] font-bold leading-none text-newsletter-neutral-400 lg:-translate-y-[1px] lg:text-[56px]">
@@ -200,6 +207,7 @@ function SuccessScreen() {
       <button
         className="h-[56px] w-full rounded-lg bg-newsletter-neutral-400 pl-[2px] pt-[2px] font-bold text-news-homepage-neutral-100 hover:bg-gradient-to-r hover:from-[#FF527B] hover:to-[#FF6A3A] hover:shadow-[0px_10px_10px_theme(colors.newsletter.primary/25%),0px_20px_20px_10px_theme(colors.newsletter.primary/20%)]"
         onClick={closeMenu}
+        type="button"
       >
         Dismiss message
       </button>

@@ -136,9 +136,11 @@ function Header() {
       </div>
       <button
         onClick={() => setMenuOpen(true)}
-        className={`hidden max-lg:block`}
+        className="hidden max-lg:block"
+        type="button"
       >
         <svg viewBox="0 0 40 17" className="w-10">
+          <title>Hamburger</title>
           <use href="/news-homepage/assets/images/icon-menu.svg#icon-menu" />
         </svg>
       </button>
@@ -151,10 +153,10 @@ function NavLinks() {
   const navLinks = useAtomValue(navLinkAtom);
   return (
     <>
-      {navLinks.map((link, index) => {
+      {navLinks.map((link) => {
         return (
           <li
-            key={index}
+            key={link.href}
             className="flex h-7 items-center text-[18px] lg:text-[16px]"
           >
             <a
@@ -205,9 +207,11 @@ function MobileMenu() {
           <div className="absolute right-0 top-0 h-full w-[68.25%] bg-white">
             <button
               onClick={() => setMenuOpen(false)}
-              className={`absolute right-[20px] top-[27px]`}
+              className="absolute right-[20px] top-[27px]"
+              type="button"
             >
               <svg className="w-8" viewBox="0 0 32 31">
+                <title>Close Menu</title>
                 <use href="/news-homepage/assets/images/icon-menu-close.svg#icon-menu-close" />
               </svg>
             </button>
@@ -279,7 +283,7 @@ function NewPostSection() {
       <ul className="mt-[31px] flex flex-col divide-news-homepage-neutral-300 text-news-homepage-neutral-100 lg:mt-[30px]">
         {newPosts.map(({ body, title, href }, index) => {
           return (
-            <Fragment key={index}>
+            <Fragment key={title}>
               <li className="flex flex-col justify-center">
                 <h3 className="text-[20px] font-bold tracking-[.15px]">
                   <a
@@ -313,12 +317,12 @@ function PopularPostSection() {
         {popularPosts.map(({ body, title, href, image }, index) => {
           return (
             <li
-              key={index}
+              key={title}
               className="grid grid-cols-[100px,auto] grid-rows-1 items-center gap-x-6 lg:h-[fit-content(127px)]"
             >
               <div className="relative h-[129px] w-[100px] lg:aspect-[200/254] lg:h-full">
                 <Image
-                  src={"/news-homepage/assets/images/" + image.src}
+                  src={`/news-homepage/assets/images/${image.src}`}
                   alt={image.alt}
                   fill
                   className="object-cover"
