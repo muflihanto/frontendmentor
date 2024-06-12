@@ -9,6 +9,7 @@ export default function Header() {
       </div>
       <div className="h-auto w-[60px] pb-[2px] md:w-[72px] md:pb-0">
         <svg viewBox="0 0 72 48" className="h-12">
+          <title>Logo</title>
           <use href="/expenses-chart-component/images/logo.svg#logo" />
         </svg>
       </div>

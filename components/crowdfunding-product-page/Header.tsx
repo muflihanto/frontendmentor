@@ -40,12 +40,14 @@ const MenuButton = ({
         viewBox="0 0 14 15"
         className="invisible absolute left-0 top-0 w-[14px] group-aria-expanded:visible"
       >
+        <title>Close Menu</title>
         <use href="/crowdfunding-product-page/images/icon-close-menu.svg#icon-close-menu" />
       </svg>
       <svg
         viewBox="0 0 16 15"
         className="visible absolute left-0 top-0 w-4 group-aria-expanded:invisible"
       >
+        <title>Hamburger Menu</title>
         <use href="/crowdfunding-product-page/images/icon-hamburger.svg#icon-hamburger" />
       </svg>
     </button>
@@ -77,7 +79,7 @@ export default function Header() {
           <nav className="invisible absolute right-0 top-[53px] z-20 w-[calc(min(100vw,375px)-48px)] opacity-0 shadow-md transition-all peer-aria-expanded:visible peer-aria-expanded:opacity-100 lg:visible lg:static lg:w-fit lg:opacity-100 lg:shadow-none">
             <ul className="flex flex-col gap-[21px] rounded-lg bg-white pb-[22px] pt-[22px] lg:flex-row lg:gap-[33.5px] lg:bg-transparent lg:p-0">
               {["About", "Discover", "Get Started"].map((el, index) => {
-                return <NavItem key={index} text={el} hr={index < 2} />;
+                return <NavItem key={el} text={el} hr={index < 2} />;
               })}
             </ul>
           </nav>

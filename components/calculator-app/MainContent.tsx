@@ -149,6 +149,7 @@ function Header() {
                   return t === 3 ? 1 : ((t + 1) as calculatorTheme);
                 });
               }}
+              type="button"
             >
               <motion.div
                 animate={{
@@ -156,11 +157,11 @@ function Header() {
                     theme === 1
                       ? "5px"
                       : theme === 2
-                      ? "calc(50% - 8px)"
-                      : "calc(100% - 21px)",
+                        ? "calc(50% - 8px)"
+                        : "calc(100% - 21px)",
                 }}
                 className={`${classes[theme].key3} absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full group-hover:brightness-125`}
-              ></motion.div>
+              />
             </button>
           </div>
         </div>
@@ -183,7 +184,7 @@ function Screen() {
           theme === 1 ? classes[theme].text1 : classes[theme].text2
         }`}
       >
-        {!!display ? display.replace("*", "x") : "0"}
+        {display ? display.replace("*", "x") : "0"}
       </p>
     </div>
   );
@@ -200,6 +201,7 @@ function Keyboard() {
     const ch = keys.find((c) => {
       return c.key === char;
     });
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     return ch!.type;
   };
 
@@ -234,7 +236,7 @@ function Keyboard() {
 
     if (currentInputType.current === "operator" && !isFloat) {
       const dotIndex = getMaxIndex(display, /[\.]/g);
-      if (!!dotIndex) {
+      if (dotIndex !== undefined) {
         const oprIndex = getMaxIndex(display.slice(0, -1), /\+|\-|\/|\*/g);
         if (!oprIndex || dotIndex > oprIndex) setIsFloat(true);
       }
@@ -252,7 +254,7 @@ function Keyboard() {
       setDisplay("0.");
     } else {
       setDisplay(
-        (d) => d + `${currentInputType.current === "operator" ? "0" : ""}.`,
+        (d) => `${d}${currentInputType.current === "operator" ? "0" : ""}.`,
       );
     }
     setIsFloat(true);
@@ -262,7 +264,7 @@ function Keyboard() {
 
   const handleOperator = (key: Key) => {
     if (!currentInputType.current) {
-      setDisplay("0" + key.key);
+      setDisplay(`0${key.key}`);
     } else {
       const curr = (["operator", "dot"] as KeyType[]).includes(
         currentInputType.current,
@@ -302,7 +304,7 @@ function Keyboard() {
           return (
             <motion.button
               whileTap={{ scale: 0.95 }}
-              key={index}
+              key={key.key}
               onClick={() => {
                 switch (key.type) {
                   case "number":
@@ -334,8 +336,8 @@ function Keyboard() {
                 index === 3 || index > 15
                   ? "pb-[6px] text-[19px] lg:pb-[4px] lg:text-[28px]"
                   : index === 15
-                  ? "pt-[14px] text-[22px] lg:text-[24px]"
-                  : "text-[32px] lg:pb-[2px] lg:text-[40px]"
+                    ? "pt-[14px] text-[22px] lg:text-[24px]"
+                    : "text-[32px] lg:pb-[2px] lg:text-[40px]"
               } ${
                 index === 3 || index === 16
                   ? [
@@ -344,16 +346,16 @@ function Keyboard() {
                       classes[theme].text1,
                     ].join(" ")
                   : index === 17
-                  ? [
-                      classes[theme].key3,
-                      classes[theme].key4,
-                      classes[theme].text1,
-                    ].join(" ")
-                  : [
-                      classes[theme].key5,
-                      classes[theme].key6,
-                      classes[theme].text2,
-                    ].join(" ")
+                    ? [
+                        classes[theme].key3,
+                        classes[theme].key4,
+                        classes[theme].text1,
+                      ].join(" ")
+                    : [
+                        classes[theme].key5,
+                        classes[theme].key6,
+                        classes[theme].text2,
+                      ].join(" ")
               }`}
             >
               {key.key.replace("*", "x")}

@@ -8,7 +8,7 @@ export default function Chart({ data }: { data: ChartData }) {
       <ChartBar
         value={bar.amount}
         day={bar.day}
-        key={index}
+        key={`${index}-${bar.day}`}
         maxVal={bar.amount === maxVal}
       />
     );

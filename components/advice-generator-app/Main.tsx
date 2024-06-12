@@ -24,6 +24,7 @@ export default function Main() {
       });
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     void fetchNewQuote();
     // setData({
@@ -61,6 +62,7 @@ const DiceButton = ({
         isLoading && "animate-spin",
       ])}
       onClick={fetchNewQuote}
+      type="button"
     >
       <Image
         src="/advice-generator-app/images/icon-dice.svg"
@@ -74,9 +76,9 @@ const DiceButton = ({
 
 const dividerImageLoader = ({ width, src }: { width: number; src: string }) => {
   if (width > 1023) {
-    return src + "pattern-divider-desktop.svg";
+    return `${src}pattern-divider-desktop.svg`;
   }
-  return src + "pattern-divider-mobile.svg";
+  return `${src}pattern-divider-mobile.svg`;
 };
 
 const Divider = () => {

@@ -66,6 +66,7 @@ function MenuContent({ navs }: { navs: Nav[] }) {
       leaveTo="-translate-x-10"
       className="absolute left-0 top-0 h-full w-[66.75%] bg-white px-4 py-[15px]"
       ref={ref}
+      // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
       tabIndex={1}
     >
       <button
@@ -73,9 +74,12 @@ function MenuContent({ navs }: { navs: Nav[] }) {
         onClick={() => {
           setMenuOpen(false);
         }}
+        // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
         tabIndex={2}
+        type="button"
       >
         <svg viewBox="0 0 14 15" className="w-[14px] fill-[#69707D]">
+          <title>Close</title>
           <use href="/ecommerce-product-page/images/icon-close.svg#icon-close" />
         </svg>
       </button>
@@ -84,10 +88,11 @@ function MenuContent({ navs }: { navs: Nav[] }) {
           {navs.map((nav, index) => {
             const { text, href } = nav;
             return (
-              <li key={index}>
+              <li key={`${index}-${text}`}>
                 <a
                   className="w-full rounded px-[9px] py-2 font-kumbh-sans text-[18px] font-bold text-ecommerce-neutral-500"
                   href={href}
+                  // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
                   tabIndex={1}
                 >
                   {text}
