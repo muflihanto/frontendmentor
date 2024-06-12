@@ -9,7 +9,7 @@ import {
   zEdit,
 } from "../../pages/interactive-comments-section";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,14 +28,14 @@ const transformDate = (data: typeof rawData) => {
     [2, "day"],
   ];
   const formatDate = (dat: Comment[] | Reply[]) => {
-    dat.forEach((c) => {
+    for (const c of dat) {
       c.createdAt = dayjs()
         .subtract(dates[c.id - 1][0], dates[c.id - 1][1])
         .format();
       if (!!c.replies && c.replies.length > 0) {
         formatDate(c.replies);
       }
-    });
+    }
   };
   formatDate(comments);
   return { ...data, comments };
@@ -43,27 +43,27 @@ const transformDate = (data: typeof rawData) => {
 const getVotes = () => {
   const obj: Record<string, "up" | "down" | null> = {};
   function getId(input: Comment[] | Reply[]) {
-    input.forEach((data) => {
+    for (const data of input) {
       obj[`id${data.id}`] = null;
-      if (!!data.replies) {
+      if (data.replies !== undefined) {
         getId(data.replies);
       }
-    });
+    }
   }
   getId(rawData.comments);
   return obj;
 };
 const getLatestId = () => {
-  let latestId = NaN;
+  let latestId = Number.NaN;
   function getId(input: Comment[] | Reply[]) {
-    input.forEach((data) => {
+    for (const data of input) {
       if (!latestId || data.id > latestId) {
         latestId = data.id;
       }
-      if (!!data.replies) {
+      if (data.replies !== undefined) {
         getId(data.replies);
       }
-    });
+    }
   }
   getId(rawData.comments);
   return latestId;
@@ -91,13 +91,13 @@ export default function Main() {
       data: Comment[] | Reply[],
       type: "increment" | "decrement",
     ) => {
-      data.forEach((comment) => {
+      for (const comment of data) {
         if (comment.id === id) {
           comment.score = comment.score + (type === "increment" ? 1 : -1);
-        } else if (!!comment.replies) {
+        } else if (comment.replies !== undefined) {
           update(id, comment.replies, type);
         }
-      });
+      }
     },
     [],
   );
@@ -207,10 +207,10 @@ function Card({
           <div className="relative h-8 w-8">
             <Image
               fill
-              src={
-                "/interactive-comments-section" + data.user.image.webp.slice(1)
-              }
-              alt={data.user.username + "Avatar"}
+              src={`/interactive-comments-section${data.user.image.webp.slice(
+                1,
+              )}`}
+              alt={`${data.user.username}Avatar`}
             />
           </div>
           <p className="pb-[2px] font-medium tracking-[.1px] text-interactive-comment-neutral-500">
@@ -225,7 +225,7 @@ function Card({
             {dayjs(data.createdAt).fromNow()}
           </p>
         </div>
-        {!!isEditOpen ? (
+        {isEditOpen ? (
           <EditForm
             id={data.id}
             data={data}
@@ -247,7 +247,7 @@ function Card({
         <div className="mt-[17px] flex items-center justify-between">
           <div
             className={`${
-              !!vote[`id${data.id}`]
+              vote[`id${data.id}`] !== null
                 ? "bg-interactive-comment-neutral-300"
                 : "bg-interactive-comment-neutral-200"
             } grid h-10 w-[100px] grid-cols-3 grid-rows-1 items-center justify-center rounded-xl px-1 pb-[2px] lg:absolute lg:left-[24px] lg:top-[24px] lg:h-[100px] lg:w-10 lg:grid-cols-1 lg:grid-rows-3`}
@@ -273,6 +273,7 @@ function Card({
                   handleUpdate(data.id, "increment");
                 }
               }}
+              type="button"
             >
               +
             </button>
@@ -300,6 +301,7 @@ function Card({
                   handleUpdate(data.id, "decrement");
                 }
               }}
+              type="button"
             >
               &mdash;
             </button>
@@ -313,8 +315,10 @@ function Card({
                     setIdToDelete(data.id);
                     openDeleteModal();
                   }}
+                  type="button"
                 >
                   <svg viewBox="0 0 12 14" className="w-3">
+                    <title>Delete</title>
                     <use href="/interactive-comments-section/images/icon-delete.svg#icon-delete" />
                   </svg>
                   <span className="pb-[2px] font-medium text-interactive-comment-primary-red-200">
@@ -326,8 +330,10 @@ function Card({
                   onClick={() => {
                     setIsEditOpen((p) => !p);
                   }}
+                  type="button"
                 >
                   <svg viewBox="0 0 14 14" className="w-[14px]">
+                    <title>Edit</title>
                     <use href="/interactive-comments-section/images/icon-edit.svg#icon-edit" />
                   </svg>
                   <span className="pb-[3px] font-medium text-interactive-comment-primary-blue-200">
@@ -341,12 +347,14 @@ function Card({
                 onClick={() => {
                   setIsReplyOpen((p) => !p);
                 }}
+                type="button"
               >
                 <span>
                   <svg
                     viewBox="0 0 14 13"
                     className="h-[13px] translate-y-[1px]"
                   >
+                    <title>Reply</title>
                     <use href="/interactive-comments-section/images/icon-reply.svg#icon-reply" />
                   </svg>
                 </span>
@@ -424,13 +432,14 @@ function NewEntryForm({
       id: latestId + 1,
       score: 0,
       user: data.currentUser,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       replyingTo: replyingTo!,
       replies: [],
     };
     setData((prev) => {
       const { comments } = prev;
       const searchById = (data: Comment[] | Reply[], id: number) => {
-        data.forEach((dat) => {
+        for (const dat of data) {
           if (dat.id === id) {
             if (dat.replies) {
               dat.replies.push(newReply);
@@ -442,8 +451,9 @@ function NewEntryForm({
               searchById(dat.replies, id);
             }
           }
-        });
+        }
       };
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       searchById(comments, parentId!);
       return { ...prev, comments };
     });
@@ -460,9 +470,7 @@ function NewEntryForm({
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
-      if (variant === "reply") {
-        toggle!();
-      }
+      if (typeof toggle === "function" && variant === "reply") toggle();
     }
   }, [variant, reset, isSubmitSuccessful, toggle]);
 
@@ -482,11 +490,10 @@ function NewEntryForm({
       <div className="relative col-start-1 row-start-2 aspect-square h-8 w-8 lg:mt-1 lg:h-10 lg:w-10">
         <Image
           fill
-          alt={data.currentUser.username + " Avatar"}
-          src={
-            "/interactive-comments-section" +
-            data.currentUser.image.webp.slice(1)
-          }
+          alt={`${data.currentUser.username} Avatar`}
+          src={`/interactive-comments-section${data.currentUser.image.webp.slice(
+            1,
+          )}`}
         />
       </div>
       <textarea
@@ -504,7 +511,10 @@ function NewEntryForm({
           {...register("replyingTo", { value: replyingTo })}
         />
       )}
-      <button className="col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg bg-interactive-comment-primary-blue-200 pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">
+      <button
+        className="col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg bg-interactive-comment-primary-blue-200 pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start"
+        type="submit"
+      >
         {variant === "comment" ? "Send" : "Reply"}
       </button>
     </form>
@@ -573,7 +583,9 @@ function EditForm({
 
   return (
     <form
-      className={`mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 pb-[14px] pr-[10px]`}
+      className={
+        "mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 pb-[14px] pr-[10px]"
+      }
       onSubmit={handleEdit}
     >
       <textarea
@@ -588,7 +600,10 @@ function EditForm({
         placeholder="Add a comment..."
         required
       />
-      <button className="col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg bg-interactive-comment-primary-blue-200 pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start">
+      <button
+        className="col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg bg-interactive-comment-primary-blue-200 pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start"
+        type="submit"
+      >
         Update
       </button>
     </form>
@@ -609,18 +624,18 @@ function DeleteModal({ close }: { close: () => void }) {
         const reps = replies.filter((rep) => {
           return rep.id !== id;
         });
-        reps.forEach((rep) => {
+        for (const rep of reps) {
           if (!!rep.replies && rep.replies.length > 0) {
             rep.replies = deleteReply(id, rep.replies);
           }
-        });
+        }
         return reps;
       };
-      filteredComments.forEach((comment) => {
+      for (const comment of filteredComments) {
         if (!!comment.replies && comment.replies.length > 0) {
           comment.replies = deleteReply(id, comment.replies);
         }
-      });
+      }
       setData((prev) => ({ ...prev, comments: filteredComments }));
     },
     [data, setData],
@@ -656,17 +671,19 @@ function DeleteModal({ close }: { close: () => void }) {
             onClick={() => {
               close();
             }}
+            type="button"
           >
             No, cancel
           </button>
           <button
             className="rounded-lg bg-interactive-comment-primary-red-200 pb-[2px] font-medium uppercase text-interactive-comment-neutral-100"
             onClick={() => {
-              if (!!idToDelete) {
+              if (idToDelete !== null) {
                 handleDelete(idToDelete);
                 close();
               }
             }}
+            type="button"
           >
             Yes, delete
           </button>
