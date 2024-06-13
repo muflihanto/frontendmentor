@@ -21,16 +21,19 @@ export default function MenuButton(props: MenuButtonProps) {
         setIsMenuOpen((prev) => !prev);
       }}
       className="group relative z-30 pb-2 lg:hidden"
+      type="button"
     >
       {isMenuOpen ? (
         <svg
           viewBox="0 0 26 26"
           className="fixed right-[19px] top-[21px] w-[26px]"
         >
+          <title>Close Menu</title>
           <use href="/intro-section-with-dropdown-navigation/images/icon-close-menu.svg#icon-close-menu" />
         </svg>
       ) : (
         <svg viewBox="0 0 32 18" className="w-8">
+          <title>Menu</title>
           <use href="/intro-section-with-dropdown-navigation/images/icon-menu.svg#icon-menu" />
         </svg>
       )}

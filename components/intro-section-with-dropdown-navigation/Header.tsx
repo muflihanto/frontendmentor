@@ -13,6 +13,7 @@ export default function Header() {
     <header className="relative flex h-[75px] items-center justify-between px-4 lg:h-[84px] lg:justify-start lg:gap-[62px] lg:px-[41px]">
       <div className="lg:pt-[6px]">
         <svg viewBox="0 0 84 27" className="w-[84px]">
+          <title>Logo</title>
           <use href="/intro-section-with-dropdown-navigation/images/logo.svg#logo" />
         </svg>
       </div>
@@ -21,6 +22,7 @@ export default function Header() {
         <NavItems />
       </nav>
       {isMenuOpen && (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div
           onClick={(e) => {
             if (e.target === e.currentTarget) setIsMenuOpen(false);

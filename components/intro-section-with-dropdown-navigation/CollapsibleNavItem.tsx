@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import type { ReactNode, MouseEventHandler } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ReactNode, MouseEventHandler, MutableRefObject } from "react";
 
 type CollapsibleProps = {
   label: string;
@@ -61,7 +61,12 @@ export default function Collapsible(props: CollapsibleProps) {
     if (detailsRef.current && summaryRef.current && contentRef.current) {
       if (animation) animation.cancel();
 
-      let start, end, key, element;
+      let start: string;
+      let end: string;
+      let key: string;
+      let element: MutableRefObject<
+        HTMLDetailsElement | HTMLUListElement | null
+      >;
       if (window.innerWidth < 1024) {
         detailsRef.current.style.overflow = "hidden";
         key = "height";
@@ -114,7 +119,7 @@ export default function Collapsible(props: CollapsibleProps) {
     animate({ id: "expand" });
   };
 
-  const onAnimationFinish = (open: boolean) => {
+  const onAnimationFinish = useCallback((open: boolean) => {
     if (detailsRef.current) {
       detailsRef.current.open = open;
       setAnimation(null);
@@ -122,7 +127,7 @@ export default function Collapsible(props: CollapsibleProps) {
       setIsExpanding(false);
       detailsRef.current.style.height = detailsRef.current.style.overflow = "";
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (animation?.id === "expand") {
@@ -132,10 +137,11 @@ export default function Collapsible(props: CollapsibleProps) {
       animation.onfinish = () => onAnimationFinish(false);
       animation.oncancel = () => setIsClosing(false);
     }
-  }, [animation]);
+  }, [animation, onAnimationFinish]);
 
   return (
     <details ref={detailsRef} className="group group lg:relative">
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <summary
         ref={summaryRef}
         onClick={handleSummaryClick}
@@ -148,6 +154,7 @@ export default function Collapsible(props: CollapsibleProps) {
         </span>
         <span className="inline-block transition-transform duration-300 group-open:rotate-180">
           <svg viewBox="0 0 10 6" className="h-1.5">
+            <title>Arrow Down</title>
             <use href="/intro-section-with-dropdown-navigation/images/icon-arrow-down.svg#icon-arrow-down" />
           </svg>
         </span>

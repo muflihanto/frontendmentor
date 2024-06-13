@@ -54,7 +54,10 @@ const FeatureItems = () => {
     <>
       {items.map((item, index) => {
         return (
-          <li key={index} className="lg:hover:text-introdrop-neutral-300">
+          <li
+            key={`${index}-${item.label}`}
+            className="lg:hover:text-introdrop-neutral-300"
+          >
             <a
               href=""
               className="flex items-start gap-3 lg:items-center lg:gap-[11px]"
@@ -64,6 +67,7 @@ const FeatureItems = () => {
                   viewBox={`0 0 ${item.width} ${item.height}`}
                   className="h-4"
                 >
+                  <title>{item.label}</title>
                   <use
                     href={`/intro-section-with-dropdown-navigation/images/icon-${item.icon}.svg#icon-${item.icon}`}
                   />
@@ -88,7 +92,10 @@ const CompanyItems = () => {
     <>
       {items.map((item, index) => {
         return (
-          <li key={index} className="lg:hover:text-introdrop-neutral-300">
+          <li
+            key={`${index}-${item.label}`}
+            className="lg:hover:text-introdrop-neutral-300"
+          >
             <a href="">{item.label}</a>
           </li>
         );
