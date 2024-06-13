@@ -14,7 +14,7 @@ export function ChangeView({ coords }: { coords: LatLngExpression }) {
   return null;
 }
 
-export default function Map({
+export default function GeoMap({
   geoData,
 }: {
   geoData: {
@@ -39,10 +39,7 @@ export default function Map({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {geoData.lat && geoData.lng && (
-        <Marker
-          icon={markerIcon}
-          position={[geoData.lat, geoData.lng]}
-        >
+        <Marker icon={markerIcon} position={[geoData.lat, geoData.lng]}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>

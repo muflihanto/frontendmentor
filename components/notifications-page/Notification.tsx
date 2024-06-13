@@ -40,7 +40,7 @@ export default function Notification(props: Notifications[number]) {
                 />
               )}{" "}
             {props.isNew && (
-              <span className="ml-1 inline-block h-2 w-2 rounded-full bg-notif-primary-red"></span>
+              <span className="ml-1 inline-block h-2 w-2 rounded-full bg-notif-primary-red" />
             )}
           </p>
           <p className="mt-[1px] text-[14px] text-notif-neutral-500 md:mt-[0px] md:text-[1rem]">

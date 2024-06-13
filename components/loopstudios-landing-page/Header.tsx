@@ -32,13 +32,16 @@ const Header: NextPage = () => {
           onClick={() => {
             setIsMenuOpen((a) => !a);
           }}
+          type="button"
         >
           {isMenuOpen ? (
             <svg viewBox="0 0 20 20" className="w-5">
+              <title>Close</title>
               <use href="/loopstudios-landing-page/images/icon-close.svg#icon-close" />
             </svg>
           ) : (
             <svg viewBox="0 0 24 16" className="w-6">
+              <title>Hamburger Menu</title>
               <use href="/loopstudios-landing-page/images/icon-hamburger.svg#icon-hamburger" />
             </svg>
           )}

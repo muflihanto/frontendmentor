@@ -27,7 +27,12 @@ export default function Main() {
   const notificationElement = useMemo(() => {
     if (notificationData) {
       return notificationData.map((notif, index) => {
-        return <Notification key={index} {...notif} />;
+        return (
+          <Notification
+            key={`${index}-${notif.subject}-${notif.actionType}`}
+            {...notif}
+          />
+        );
       });
     }
   }, [notificationData]);

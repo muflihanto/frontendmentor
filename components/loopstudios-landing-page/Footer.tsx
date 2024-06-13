@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
         <ul className="mt-8 flex flex-col items-center gap-[17.25px] lg:col-start-1 lg:row-start-2 lg:mt-[24px] lg:flex-row lg:gap-[32.5px] [&_*]:text-loopstudios-primary-white [&_li:hover]:relative [&_li:hover]:before:absolute [&_li:hover]:before:-bottom-[11px] [&_li:hover]:before:left-1/2 [&_li:hover]:before:h-1 [&_li:hover]:before:w-[45%] [&_li:hover]:before:-translate-x-1/2 [&_li:hover]:before:border-b-2 [&_li:hover]:before:content-['']">
           {navLinks.map((el, index) => {
             return (
-              <li key={index}>
+              <li key={`${index}-${el}`}>
                 <a href="" className="text-[15px]">
                   {el}
                 </a>
@@ -64,6 +64,7 @@ const SocialMediaButtons = ({ className }: { className: string }) => {
                 viewBox={`0 0 24 ${el === "twitter" ? "20" : "24"}`}
                 className="w-6"
               >
+                <title>{el}</title>
                 <use
                   href={`/loopstudios-landing-page/images/icon-${el}.svg#icon-${el}`}
                 />
