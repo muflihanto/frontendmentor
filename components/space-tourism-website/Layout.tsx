@@ -18,9 +18,7 @@ export function Layout({ children }: PropsWithChildren) {
     >
       <Header
         currentPage={
-          (!!pathname.split("/space-tourism-website/")[1]
-            ? pathname.split("/space-tourism-website/")[1]
-            : "home") as Page
+          (pathname.split("/space-tourism-website/")[1] ?? "home") as Page
         }
       />
       {children}

@@ -165,7 +165,7 @@ function Nutrition() {
       <ul className="mt-[12px] divide-y *:flex *:h-12 *:flex-row *:items-center">
         {nutrients.map(({ name, value }, index) => {
           return (
-            <li key={index} className="w-full pl-8 pr-4 *:flex-1">
+            <li key={`${index}-${name}`} className="w-full pl-8 pr-4 *:flex-1">
               <div className="text-recipe-neutral-500">{name}</div>
               <div className="text-recipe-primary-dark-raspberry font-bold">
                 {value}

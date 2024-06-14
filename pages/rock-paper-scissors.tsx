@@ -74,6 +74,7 @@ function RulesModal() {
         onClick={() => {
           setOpen(true);
         }}
+        type="button"
       >
         rules
       </button>
@@ -88,6 +89,7 @@ function RulesModal() {
               className="mt-[105px] w-[304px] md:mt-12"
               viewBox="0 0 304 270"
             >
+              <title>Rules</title>
               <use href="/rock-paper-scissors/images/image-rules.svg#rules-image" />
             </svg>
             <button
@@ -95,6 +97,7 @@ function RulesModal() {
               onClick={() => {
                 setOpen(false);
               }}
+              type="button"
             >
               <Image
                 fill
@@ -255,6 +258,7 @@ function Choices() {
         className="absolute left-1/2 top-[61px] w-[calc(375px-170px)] -translate-x-1/2 stroke-[27] lg:left-[calc(50%+4px)] lg:top-[94px] lg:w-[313px] lg:stroke-[16px]"
         viewBox="0 0 313 278"
       >
+        <title>Triangle Background</title>
         <use href="/rock-paper-scissors/images/bg-triangle.svg#bg-triangle" />
       </svg>
     </div>
@@ -283,7 +287,7 @@ function WaitForHouse() {
   };
 
   useEffectOnce(() => {
-    if (!!choice) {
+    if (choice !== null) {
       setTimeout(() => {
         const opt = getRandomHouse(choice);
         const isWin = weapons[choice].strongTo === opt;
@@ -305,11 +309,11 @@ function WaitForHouse() {
         )}
       >
         <div className="flex flex-col items-center lg:flex-col-reverse">
-          {!!choice ? (
+          {choice !== null ? (
             <div
               className={cn([
                 "animate-in fade-in-5 lg:mt-[61px]", //
-                !!win ? winStyle : "relative z-10",
+                win ? winStyle : "relative z-10",
               ])}
             >
               <ChoiceButton variant={choice} disabled />
@@ -335,6 +339,7 @@ function WaitForHouse() {
                 setHouse(null);
                 setStep(1);
               }}
+              type="button"
             >
               play again
             </button>
@@ -342,7 +347,7 @@ function WaitForHouse() {
         ) : null}
         <div className="-mr-[14px] flex w-[50%] flex-col items-center lg:-mr-[6px] lg:w-[294px] lg:flex-col-reverse">
           <div className="flex h-[133px] items-center justify-center lg:mt-[61px] lg:h-[300px]">
-            {!!house ? (
+            {house !== null ? (
               <div
                 className={cn([
                   "animate-in fade-in-5", //

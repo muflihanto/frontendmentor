@@ -134,7 +134,7 @@ function Header() {
   return (
     <>
       <motion.header
-        className={`absolute left-0 top-0 z-20 flex h-[110px] w-full items-center px-6 lg:h-[142px] lg:w-auto lg:px-16`}
+        className="absolute left-0 top-0 z-20 flex h-[110px] w-full items-center px-6 lg:h-[142px] lg:w-auto lg:px-16"
         animate={{
           backgroundColor: menuOpen ? "rgb(255,255,255)" : "rgba(0,0,0,0)",
         }}
@@ -145,13 +145,16 @@ function Header() {
             setMenuOpen((p) => !p);
           }}
           className="lg:hidden"
+          type="button"
         >
           {menuOpen ? (
             <svg viewBox="0 0 16 16" className="ml-[2px] w-4">
+              <title>Close Menu</title>
               <use href="/room-homepage/images/icon-close.svg#icon-close" />
             </svg>
           ) : (
             <svg viewBox="0 0 20 14" className="w-5">
+              <title>Hamburger Menu</title>
               <use href="/room-homepage/images/icon-hamburger.svg#icon-hamburger" />
             </svg>
           )}
@@ -160,6 +163,7 @@ function Header() {
           viewBox="0 0 62 14"
           className="absolute left-1/2 top-1/2 z-0 h-[14px] -translate-x-1/2 -translate-y-1/2 lg:static lg:transform-none"
         >
+          <title>Room Logo</title>
           <use href="/room-homepage/images/logo.svg#room-logo" />
         </svg>
         <AnimatePresence>
@@ -250,6 +254,7 @@ function Slide() {
             className="w-10 text-room-primary-400 group-hover:text-room-primary-200"
             viewBox="0 0 40 12"
           >
+            <title>Arrow</title>
             <use href="/room-homepage/images/icon-arrow.svg#icon-arrow" />
           </svg>
         </a>
@@ -262,8 +267,13 @@ function Slide() {
             });
           }}
           className="flex h-full w-full items-center justify-center bg-room-primary-400 hover:bg-room-primary-300"
+          type="button"
         >
-          <svg viewBox="0 0 14 24" className="h-4 stroke-2 lg:h-6 lg:stroke-1">
+          <svg
+            viewBox="0 0 14 24"
+            className="pointer-events-auto h-4 stroke-2 lg:h-6 lg:stroke-1"
+          >
+            <title>Angle Left</title>
             <use href="/room-homepage/images/icon-angle-left.svg#icon-angle-left" />
           </svg>
         </button>
@@ -274,8 +284,13 @@ function Slide() {
             });
           }}
           className="flex h-full w-full items-center justify-center bg-room-primary-400 hover:bg-room-primary-300"
+          type="button"
         >
-          <svg viewBox="0 0 14 24" className="h-4 stroke-2 lg:h-6 lg:stroke-1">
+          <svg
+            viewBox="0 0 14 24"
+            className="pointer-events-none h-4 stroke-2 lg:h-6 lg:stroke-1"
+          >
+            <title>Angle Right</title>
             <use href="/room-homepage/images/icon-angle-right.svg#icon-angle-right" />
           </svg>
         </button>

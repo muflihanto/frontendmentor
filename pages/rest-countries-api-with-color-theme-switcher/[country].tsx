@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCountry, useBorders } from "../../utils/useCountries";
-import { type PropsWithChildren, type ReactElement } from "react";
+import type { PropsWithChildren, ReactElement } from "react";
 import { Footer, Header } from "./index";
 import { nunitoSans } from "../../utils/fonts/nunitoSans";
 
@@ -15,7 +15,7 @@ import { nunitoSans } from "../../utils/fonts/nunitoSans";
 export default function Page() {
   const router = useRouter();
   const { data, isLoading } = useCountry(
-    !!router.query.country
+    router.query.country !== undefined
       ? (router.query.country as string).split("_").join(" ")
       : "",
   );
@@ -114,13 +114,13 @@ export default function Page() {
           data[0].borders.length > 0 &&
           isBorderLoading ? (
             <BordersSkeleton />
-          ) : !!borders ? (
+          ) : borders !== undefined ? (
             <div className="mt-[14px] grid translate-x-[-2px] grid-cols-[repeat(3,99px)] gap-2 min-[1200px]:grid-cols-[repeat(4,99px)] min-[1420px]:mt-0">
               {borders.map((border, index) => {
                 return (
                   <Link
                     className="h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-center text-[12px] leading-[30px] shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/20 lg:px-1 lg:text-[14px]"
-                    key={index}
+                    key={`${index}-${border.name.common}`}
                     href={`/rest-countries-api-with-color-theme-switcher/${border.name.common
                       .toLowerCase()
                       .split(" ")
@@ -159,12 +159,13 @@ function Layout({ children }: PropsWithChildren) {
 
       <Header />
 
-      <div className="min-h-52 flex flex-col items-center bg-rest-countries-gray-200 px-7 pb-16 pt-[39px] dark:bg-rest-countries-darkblue-200 md:bg-rest-countries-gray-100 md:px-20 md:pt-[79px]">
+      <div className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-7 pb-16 pt-[39px] dark:bg-rest-countries-darkblue-200 md:bg-rest-countries-gray-100 md:px-20 md:pt-[79px]">
         <button
           className="flex h-[34px] w-[105px] items-center justify-center gap-3 self-start rounded-sm border bg-white px-3 py-0.5 text-[14px] shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/50  md:-ml-0.5 md:h-[42px] md:w-[137px] md:gap-[14px] md:rounded-lg md:text-base"
           onClick={() =>
             router.push("/rest-countries-api-with-color-theme-switcher/")
           }
+          type="button"
         >
           <FontAwesomeIcon icon={faArrowLeft} />
           <span>Back</span>
@@ -195,13 +196,16 @@ function LoadingSkeleton() {
       <div className="h-[280px] w-full animate-pulse rounded bg-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 lg:h-[400px] lg:w-1/2 lg:min-w-[480px] lg:max-w-[560px] lg:shrink-0" />
 
       <div className="mt-[43px] lg:mt-[36px] lg:w-full lg:max-w-[600px]">
-        <h1 className="h-12 w-52 animate-pulse bg-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100" />
+        <div className="h-12 w-52 animate-pulse bg-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100" />
 
         <div className="mt-[22px] lg:flex lg:flex-col lg:justify-between min-[1320px]:mt-[26px] min-[1320px]:flex-row">
           <div className="space-y-[11px] text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100  lg:space-y-2 min-[1320px]:max-w-[50%]">
             {widthData.slice(0, 5).map((el, index) => {
               return (
-                <p key={index} className="flex h-[21px] gap-1 lg:h-6">
+                <p
+                  key={`${index}-${el[0]}`}
+                  className="flex h-[21px] gap-1 lg:h-6"
+                >
                   <span
                     className={`bg-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 ${el[0]} animate-pulse`}
                   />
@@ -216,7 +220,10 @@ function LoadingSkeleton() {
           <div className="mt-[43px] space-y-[11px] text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:space-y-2 min-[1320px]:mt-0 min-[1320px]:max-w-[50%]">
             {widthData.slice(5).map((el, index) => {
               return (
-                <p key={index} className="flex h-[21px] gap-1 lg:h-6">
+                <p
+                  key={`${index}-${el[0]}`}
+                  className="flex h-[21px] gap-1 lg:h-6"
+                >
                   <span
                     className={`bg-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 ${el[0]} animate-pulse`}
                   />
@@ -230,7 +237,7 @@ function LoadingSkeleton() {
         </div>
 
         <div className="mt-[39px] min-[1420px]:mt-[70px] min-[1420px]:flex min-[1420px]:gap-4">
-          <h2 className="h-6 w-32 animate-pulse bg-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 lg:h-[30px]" />
+          <div className="h-6 w-32 animate-pulse bg-rest-countries-gray-300 dark:bg-rest-countries-darkblue-100 lg:h-[30px]" />
           <BordersSkeleton />
         </div>
       </div>
@@ -241,10 +248,10 @@ function LoadingSkeleton() {
 function BordersSkeleton() {
   return (
     <div className="mt-[14px] grid translate-x-[-2px] grid-cols-[repeat(3,99px)] gap-2 min-[1200px]:grid-cols-[repeat(4,99px)] min-[1420px]:mt-0">
-      {Array.from({ length: 3 }).map((_, a) => {
+      {Array.from({ length: 3 }).map((x, a) => {
         return (
           <div
-            key={a}
+            key={`${x as string}-${a}`}
             className="h-[30px] w-[99px] animate-pulse truncate text-ellipsis rounded-sm border bg-rest-countries-gray-300 px-3 text-[12px] shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/20"
           />
         );

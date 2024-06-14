@@ -94,7 +94,10 @@ function Main() {
             </div>
           </li>
         </ul>
-        <button className="mt-6 flex h-[56px] w-full items-center justify-center rounded-full bg-result-summary-neutral-400 text-[18px] font-bold text-result-summary-neutral-100 hover:bg-gradient-to-b hover:from-result-summary-gradients-background-100 hover:from-[-40%] hover:to-result-summary-gradients-background-200 md:mt-[41px]">
+        <button
+          className="mt-6 flex h-[56px] w-full items-center justify-center rounded-full bg-result-summary-neutral-400 text-[18px] font-bold text-result-summary-neutral-100 hover:bg-gradient-to-b hover:from-result-summary-gradients-background-100 hover:from-[-40%] hover:to-result-summary-gradients-background-200 md:mt-[41px]"
+          type="button"
+        >
           Continue
         </button>
       </div>
@@ -105,7 +108,11 @@ function Main() {
 type IconVariants = "memory" | "reaction" | "verbal" | "visual";
 function Icons(props: ComponentProps<"svg"> & { variant: IconVariants }) {
   return (
-    <svg viewBox="0 0 20 20" className={cn(["w-5", props.className])}>
+    <svg
+      viewBox="0 0 20 20"
+      className={cn(["pointer-events-none w-5", props.className])}
+    >
+      <title>{props.variant}</title>
       <use
         href={`/results-summary-component/assets/images/icon-${props.variant}.svg#icon-${props.variant}`}
       />

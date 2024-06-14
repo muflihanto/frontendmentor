@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
 import { Listbox } from "@headlessui/react";
 import data from "../../public/rest-countries-api-with-color-theme-switcher/all.json";
-import { type Country } from "../../utils/types";
+import type { Country } from "../../utils/types";
 import { nunitoSans } from "../../utils/fonts/nunitoSans";
 // import { useRouter } from "next/router";
 
@@ -88,6 +88,7 @@ export function Header() {
       <button
         className="flex items-center px-px pt-px text-[12px] font-normal text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:text-[16px]"
         onClick={() => toggle()}
+        type="button"
       >
         <span className="relative mr-[10px] aspect-square h-[14px] lg:h-[16px]">
           <Image
@@ -214,7 +215,7 @@ function Main() {
   const keywordFilter = useAtomValue(keywordFilterAtom);
 
   return (
-    <div className="min-h-52 flex flex-col items-center bg-rest-countries-gray-200 px-4 py-6 dark:bg-rest-countries-darkblue-200 md:px-20 md:py-12">
+    <div className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-4 py-6 dark:bg-rest-countries-darkblue-200 md:px-20 md:py-12">
       <div className="flex w-full flex-col items-center md:flex-row md:justify-between">
         <InputField />
         <RegionFilter />
@@ -229,7 +230,12 @@ function Main() {
                   .includes(keywordFilter.toLowerCase());
               })
               .map((ctr, index) => {
-                return <CountryCard key={index} country={ctr as Country} />;
+                return (
+                  <CountryCard
+                    key={`${index}-${ctr.name.common}`}
+                    country={ctr as Country}
+                  />
+                );
               })
           : data
               .filter((ctr) => {
@@ -243,7 +249,12 @@ function Main() {
                 );
               })
               .map((ctr, index) => {
-                return <CountryCard key={index} country={ctr as Country} />;
+                return (
+                  <CountryCard
+                    key={`${index}-${ctr.name.common}`}
+                    country={ctr as Country}
+                  />
+                );
               })}
       </div>
     </div>
