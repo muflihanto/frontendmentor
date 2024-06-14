@@ -47,6 +47,7 @@ function Main() {
         <div className="mt-6 flex h-20 w-full items-center rounded-xl bg-order-summary-neutral-100 p-4 lg:mt-5 lg:h-[98px] lg:px-6 lg:py-0 lg:pb-[1px]">
           <span>
             <svg viewBox="0 0 48 48" className="w-12">
+              <title>Music</title>
               <use href="/order-summary-component/images/icon-music.svg#icon-music" />
             </svg>
           </span>

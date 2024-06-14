@@ -102,7 +102,10 @@ function Main() {
             {errors.email.message}
           </p>
         ) : null}
-        <button className="h-10 w-full rounded-full bg-ping-coming-soon-primary-blue pb-[2px] text-[12px] font-semibold text-white/75 shadow-md shadow-ping-coming-soon-primary-blue/30 hover:opacity-80 lg:h-full lg:w-[200px] lg:pb-0 lg:text-[16px]">
+        <button
+          className="h-10 w-full rounded-full bg-ping-coming-soon-primary-blue pb-[2px] text-[12px] font-semibold text-white/75 shadow-md shadow-ping-coming-soon-primary-blue/30 hover:opacity-80 lg:h-full lg:w-[200px] lg:pb-0 lg:text-[16px]"
+          type="submit"
+        >
           Notify Me
         </button>
       </form>

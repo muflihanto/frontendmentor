@@ -50,15 +50,18 @@ function Header({
   return (
     <header className="flex h-[100px] items-center justify-between px-8 lg:h-[160px] lg:px-[165px]">
       <svg className="w-6 lg:w-8" viewBox="0 0 32 32">
+        <title>Logo</title>
         <use href="/project-tracking-intro-component/images/logo.svg#logo" />
       </svg>
-      <button onClick={toggle} className="hidden max-md:block">
+      <button onClick={toggle} className="hidden max-md:block" type="button">
         {isMenuOpen ? (
           <svg className="w-6" viewBox="0 0 20 20">
+            <title>Close Menu</title>
             <use href="/project-tracking-intro-component/images/icon-close.svg#icon-close" />
           </svg>
         ) : (
           <svg className="w-6" viewBox="0 0 24 16">
+            <title>Hamburger Menu</title>
             <use href="/project-tracking-intro-component/images/icon-hamburger.svg#icon-hamburger" />
           </svg>
         )}
@@ -136,7 +139,7 @@ function Main() {
 
   const toggle = useCallback(() => {
     setIsMenuOpen((prev) => !prev);
-  }, [setIsMenuOpen]);
+  }, []);
 
   useEffect(() => {
     setIsMenuOpen(window?.innerWidth >= 768);

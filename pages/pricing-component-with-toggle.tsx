@@ -52,6 +52,7 @@ function Header({ mode, toggle }: { mode: Payment; toggle: () => void }) {
         <button
           className="ml-1 mt-[1px] h-[32px] w-[56px] rounded-full bg-gradient-to-r from-pricing-toggle-primary-gradient-100 to-pricing-toggle-primary-gradient-200 px-[5px] hover:opacity-50"
           onClick={toggle}
+          type="button"
         >
           <div
             className={`aspect-square w-6 rounded-full bg-pricing-toggle-neutral-100 transition-transform ${
@@ -183,7 +184,7 @@ function PriceListSection({ features }: { features: Features }) {
             plan={plan}
             features={features[plan]}
             variant={plan === "professional" ? "blue" : "white"}
-            key={index}
+            key={`${index}-${el[0]}`}
           />
         );
       })}

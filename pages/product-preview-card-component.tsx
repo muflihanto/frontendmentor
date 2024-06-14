@@ -48,7 +48,7 @@ function ProductImage() {
       <Image
         src="/product-preview-card-component/images/"
         loader={({ width, src }) =>
-          src + `image-product-${width > 750 ? "desktop" : "mobile"}.jpg`
+          `${src}image-product-${width > 750 ? "desktop" : "mobile"}.jpg`
         }
         alt="Image Product"
         className="object-cover brightness-[.89] contrast-[1.1]"
@@ -79,8 +79,15 @@ function ProductDescription() {
           $169.99
         </span>
       </p>
-      <button className="relative flex h-[48px] items-center justify-center gap-3 rounded-[.6rem] bg-product-review-primary-cyan font-montserrat font-bold text-product-review-neutral-100 hover:bg-[hsl(156,42%,18%)]">
-        <svg viewBox="0 0 15 16" className="h-[17px] object-contain pt-[.5px]">
+      <button
+        className="relative flex h-[48px] items-center justify-center gap-3 rounded-[.6rem] bg-product-review-primary-cyan font-montserrat font-bold text-product-review-neutral-100 hover:bg-[hsl(156,42%,18%)]"
+        type="button"
+      >
+        <svg
+          viewBox="0 0 15 16"
+          className="pointer-events-none h-[17px] object-contain pt-[.5px]"
+        >
+          <title>Cart</title>
           <use href="/product-preview-card-component/images/icon-cart.svg#icon-cart" />
         </svg>
         <span>Add to Cart</span>
