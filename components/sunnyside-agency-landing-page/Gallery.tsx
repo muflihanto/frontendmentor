@@ -25,7 +25,7 @@ export default function Gallery() {
         return (
           <div
             className="relative aspect-square w-full lg:aspect-[360/447]"
-            key={index}
+            key={`${index}-${el.src}`}
           >
             <Image
               src="/sunnyside-agency-landing-page/images"

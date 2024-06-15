@@ -5,19 +5,20 @@ export default function Footer() {
     <footer className="relative flex flex-col items-center justify-center bg-[#90d4c5] pb-[80px] pt-[65px] lg:pb-[71px] lg:pt-[72px]">
       <svg
         viewBox="0 0 124 24"
-        className="w-[170px] -translate-x-[6px] fill-[#2C7566]"
+        className="w-[170px] -translate-x-[6px] fill-[#2C7566] pointer-events-none"
       >
+        <title>Sunnyside Logo</title>
         <use href="/sunnyside-agency-landing-page/images/logo.svg#sunnyside-logo" />
       </svg>
       <div className="mt-[39px] w-[375px] px-2 lg:px-[10px]">
         <ul className="flex justify-around text-[18px] text-[#2C7566]/75">
-          <li className="hover:text-sunny-neutral-100 text-center font-bold">
+          <li className="text-center font-bold hover:text-sunny-neutral-100">
             <a href="">About</a>
           </li>
-          <li className="hover:text-sunny-neutral-100 text-center font-bold">
+          <li className="text-center font-bold hover:text-sunny-neutral-100">
             <a href="">Services</a>
           </li>
-          <li className="hover:text-sunny-neutral-100 text-center font-bold">
+          <li className="text-center font-bold hover:text-sunny-neutral-100">
             <a href="">Projects</a>
           </li>
         </ul>
@@ -33,19 +34,19 @@ export default function Footer() {
           );
         })}
       </div>
-      <div className="font-barlow text-sunny-primary-cyan-100 absolute bottom-3 w-full text-center text-[11px]">
+      <div className="absolute bottom-3 w-full text-center font-barlow text-[11px] text-sunny-primary-cyan-100">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
           target="_blank"
           rel="noreferrer"
-          className="hover:text-sunny-neutral-100 font-fraunces font-black text-[#2C7566] hover:drop-shadow-sm"
+          className="font-fraunces font-black text-[#2C7566] hover:text-sunny-neutral-100 hover:drop-shadow-sm"
         >
           Frontend Mentor
         </a>
         . Coded by{" "}
         <a
-          className="hover:text-sunny-neutral-100 font-fraunces font-black text-[#2C7566] hover:drop-shadow-sm"
+          className="font-fraunces font-black text-[#2C7566] hover:text-sunny-neutral-100 hover:drop-shadow-sm"
           href="https://github.com/muflihanto"
           target="_blank"
           rel="noreferrer"
@@ -58,17 +59,25 @@ export default function Footer() {
   );
 }
 
-function SocialLink({ viewBox, type, href }: { viewBox: string; href?: string; type: (typeof socialType)[number] }) {
+function SocialLink({
+  viewBox,
+  type,
+  href,
+}: {
+  viewBox: string;
+  href?: string;
+  type: (typeof socialType)[number];
+}) {
   return (
     <a
       href={href ?? ""}
-      className="hover:fill-sunny-neutral-100 fill-[#2C7566]"
+      className="fill-[#2C7566] hover:fill-sunny-neutral-100"
     >
-      <svg
-        viewBox={viewBox}
-        className="w-5"
-      >
-        <use href={`/sunnyside-agency-landing-page/images/icon-${type}.svg#icon-${type}`} />
+      <svg viewBox={viewBox} className="pointer-events-none w-5">
+        <title>{type}</title>
+        <use
+          href={`/sunnyside-agency-landing-page/images/icon-${type}.svg#icon-${type}`}
+        />
       </svg>
     </a>
   );
