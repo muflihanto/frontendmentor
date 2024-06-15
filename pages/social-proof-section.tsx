@@ -60,7 +60,8 @@ export default function SocialProofSection() {
 
 function StarIcon() {
   return (
-    <svg viewBox="0 0 17 16" className="h-4">
+    <svg viewBox="0 0 17 16" className="pointer-events-none h-4">
+      <title>Star</title>
       <use href="/social-proof-section/images/icon-star.svg#icon-star" />
     </svg>
   );
@@ -70,8 +71,8 @@ function RatingCard({ rating, rater }: { rating: number; rater: string }) {
   return (
     <div className="flex h-[78px] w-full flex-col items-center justify-center gap-[15px] rounded bg-social-proof-neutral-200 pt-[1px] lg:h-[56px] lg:w-[444px] lg:flex-row lg:justify-start lg:gap-[32px] lg:px-8 lg:pb-[1px] lg:pt-0">
       <div className="flex gap-[8px]">
-        {Array.from({ length: rating }, (_, index) => {
-          return <StarIcon key={index} />;
+        {Array.from({ length: rating }, (el, index) => {
+          return <StarIcon key={`${index}-${el as string}`} />;
         })}
       </div>
       <span className="text-[17px] font-bold leading-none text-social-proof-primary-magenta">
@@ -130,13 +131,13 @@ function Main() {
 
       <div className="mt-[39px] flex flex-col gap-4 justify-self-end lg:mt-0 lg:w-[540px] lg:pt-[11px] [&>div:nth-child(2)]:self-center [&>div:nth-child(3)]:self-end">
         {ratings.map((el, index) => {
-          return <RatingCard key={index} {...el} />;
+          return <RatingCard key={`${index}-${el.rater}`} {...el} />;
         })}
       </div>
 
       <div className="mt-[49px] flex flex-col gap-4 lg:col-span-2 lg:mt-0 lg:h-[266px] lg:flex-row lg:justify-between [&>div:nth-child(2)]:self-center [&>div:nth-child(3)]:self-end">
         {testimonies.map((el, index) => {
-          return <TestimonyCard key={index} {...el} />;
+          return <TestimonyCard key={`${index}-${el.name}`} {...el} />;
         })}
       </div>
     </div>

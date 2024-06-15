@@ -109,6 +109,7 @@ function Category({
     <button
       className="flex h-[32px] items-center justify-center rounded bg-job-listings-neutral-200 pl-2 pr-[12px] pt-[2px] font-bold tracking-[-0.2px] text-job-listings-primary hover:bg-job-listings-primary hover:text-job-listings-neutral-100 lg:px-[9px]"
       onClick={onClick}
+      type="button"
     >
       {children}
     </button>
@@ -125,8 +126,10 @@ function FilterButton({
       <button
         onClick={onClick}
         className="ml-auto flex h-8 w-8 items-center justify-center rounded-r bg-job-listings-primary hover:bg-job-listings-neutral-400"
+        type="button"
       >
-        <svg viewBox="0 0 14 14" className="w-[14px]">
+        <svg viewBox="0 0 14 14" className="pointer-events-none w-[14px]">
+          <title>Remove</title>
           <use href="/static-job-listings/images/icon-remove.svg#icon-remove" />
         </svg>
       </button>
@@ -153,7 +156,7 @@ function Card({ job }: { job: Job }) {
         <Image
           fill
           alt={`${job.company} ${job.position}`}
-          src={"/static-job-listings" + job.logo.slice(1)}
+          src={`/static-job-listings${job.logo.slice(1)}`}
         />
       </div>
       <div className="lg:ml-6">
@@ -199,7 +202,7 @@ function Card({ job }: { job: Job }) {
           job.languages.map((lang, index) => {
             return (
               <Category
-                key={index}
+                key={`${index}-${lang}`}
                 onClick={() => {
                   setFilters((filter) => {
                     return { ...filter, languages: filter.languages.add(lang) };
@@ -214,7 +217,7 @@ function Card({ job }: { job: Job }) {
           job.tools.map((tool, index) => {
             return (
               <Category
-                key={index}
+                key={`${index}-${tool}`}
                 onClick={() => {
                   setFilters((filter) => {
                     return { ...filter, tools: filter.tools.add(tool) };
@@ -260,9 +263,7 @@ function Main() {
 
   const isFilterEmpty = useMemo(() => {
     return (
-      Object.values(filters)
-        .map((set) => Array.from(set))
-        .flat().length === 0
+      Object.values(filters).flatMap((set) => Array.from(set)).length === 0
     );
   }, [filters]);
 
@@ -283,46 +284,44 @@ function Main() {
         <div className="flex min-h-[72px] w-[calc(100%-48px)] -translate-y-[36px] items-center justify-between rounded bg-white p-5 shadow-lg shadow-job-listings-primary/20 lg:w-[calc(100%-330px)] lg:px-10">
           <div className="flex flex-wrap gap-4 lg:gap-[15px]">
             {(Object.entries(filters) as FilterEntries).map((entry, index) => {
-              if (entry[1].size === 0) {
-                return null;
-              } else {
-                return (
-                  <Fragment key={index}>
-                    {Array.from(entry[1]).map((e, eindex) => {
-                      const onClick = () => {
-                        setFilters((filt) => {
-                          const newSet = filt[entry[0]];
-                          match(entry[0])
-                            .with("languages", () => {
-                              (newSet as Set<Language>).delete(e as Language);
-                            })
-                            .with("levels", () => {
-                              (newSet as Set<Level>).delete(e as Level);
-                            })
-                            .with("roles", () => {
-                              (newSet as Set<Role>).delete(e as Role);
-                            })
-                            .with("tools", () => {
-                              (newSet as Set<Tool>).delete(e as Tool);
-                            })
-                            .exhaustive();
-                          return { ...filt, [entry[0]]: newSet };
-                        });
-                      };
-                      return (
-                        <FilterButton key={eindex} onClick={onClick}>
-                          {e}
-                        </FilterButton>
-                      );
-                    })}
-                  </Fragment>
-                );
-              }
+              if (entry[1].size === 0) return null;
+              return (
+                <Fragment key={`${index}-${entry[0]}`}>
+                  {Array.from(entry[1]).map((e, eindex) => {
+                    const onClick = () => {
+                      setFilters((filt) => {
+                        const newSet = filt[entry[0]];
+                        match(entry[0])
+                          .with("languages", () => {
+                            (newSet as Set<Language>).delete(e as Language);
+                          })
+                          .with("levels", () => {
+                            (newSet as Set<Level>).delete(e as Level);
+                          })
+                          .with("roles", () => {
+                            (newSet as Set<Role>).delete(e as Role);
+                          })
+                          .with("tools", () => {
+                            (newSet as Set<Tool>).delete(e as Tool);
+                          })
+                          .exhaustive();
+                        return { ...filt, [entry[0]]: newSet };
+                      });
+                    };
+                    return (
+                      <FilterButton key={`${eindex}-${e}`} onClick={onClick}>
+                        {e}
+                      </FilterButton>
+                    );
+                  })}
+                </Fragment>
+              );
             })}
           </div>
           <button
             className="h-[24px] px-[6px] pt-[2px] font-bold leading-none text-job-listings-neutral-300"
             onClick={handleClear}
+            type="button"
           >
             Clear
           </button>
@@ -334,7 +333,7 @@ function Main() {
         }`}
       >
         {filteredJob.map((job, index) => {
-          return <Card key={index} job={job} />;
+          return <Card key={`${index}-${job.id}`} job={job} />;
         })}
       </div>
     </div>

@@ -169,8 +169,9 @@ function Header() {
         <button
           className="flex h-[24px] w-[48px] items-center justify-end rounded-full bg-social-toggle-light bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green lg:pr-[3px]"
           onClick={() => {
-            update !== undefined && update();
+            update?.();
           }}
+          type="button"
         >
           <span className="aspect-square h-[18px] rounded-full bg-social-neutral-light-300 dark:bg-social-neutral-dark-300" />
         </button>
@@ -215,7 +216,7 @@ function Card({ socialMedia }: { socialMedia: TSocialMedia }) {
           <span className="text-[56px] font-bold leading-none tracking-[-2px] text-social-neutral-light-500 dark:text-social-neutral-dark-100">
             {data[socialMedia].followers < 10000
               ? data[socialMedia].followers
-              : String(Math.floor(data[socialMedia].followers / 1000)) + "k"}
+              : `${String(Math.floor(data[socialMedia].followers / 1000))}k`}
           </span>
           <span className="mt-[3px] text-[12px] uppercase tracking-[4.9px] text-social-neutral-light-400 dark:text-social-neutral-dark-200">
             {socialMedia === "youtube" ? "Subscribers" : "Followers"}
@@ -239,8 +240,8 @@ function Card({ socialMedia }: { socialMedia: TSocialMedia }) {
               followers === 0
                 ? "text-social-neutral-light-400"
                 : followers > 0
-                ? "text-social-primary-green"
-                : "text-social-primary-red"
+                  ? "text-social-primary-green"
+                  : "text-social-primary-red"
             } text-[12px] font-bold leading-none`}
           >{`${Math.abs(followers)} Today`}</p>
         </div>
@@ -278,7 +279,7 @@ function SummaryCard({
       <div className="text-[32px] font-bold text-social-neutral-light-500 dark:text-social-neutral-dark-100">
         {data[socialMedia][summary[0]] < 10000
           ? data[socialMedia][summary[0]]
-          : String(Math.floor(data[socialMedia][summary[0]] / 1000)) + "k"}
+          : `${String(Math.floor(data[socialMedia][summary[0]] / 1000))}k`}
       </div>
       <div className="flex gap-[3px] self-end justify-self-end">
         {summary[1].value !== 0 ? (
@@ -298,8 +299,8 @@ function SummaryCard({
             summary[1].value === 0
               ? "text-social-neutral-light-400"
               : summary[1].value > 0
-              ? "text-social-primary-green"
-              : "text-social-primary-red"
+                ? "text-social-primary-green"
+                : "text-social-primary-red"
           }`}
         >
           {Math.abs(summary[1].value)}%
@@ -313,7 +314,7 @@ function FollowersSection() {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:gap-[30px]">
       {Array.from(Object.keys(data)).map((el, index) => {
-        return <Card socialMedia={el as TSocialMedia} key={index} />;
+        return <Card socialMedia={el as TSocialMedia} key={`${index}-${el}`} />;
       })}
     </div>
   );
@@ -341,7 +342,7 @@ function SummarySection() {
           return Object.entries(sum).map((el, idx) => {
             return (
               <div
-                key={idx}
+                key={`${idx}-${el[0]}`}
                 className={`flex ${
                   ["instagram", "youtube"].includes(el[0])
                     ? "flex-col-reverse lg:flex-row-reverse"
@@ -352,7 +353,7 @@ function SummarySection() {
                   (el2, index) => {
                     return (
                       <SummaryCard
-                        key={index}
+                        key={`${index}-${el2[0]}`}
                         summary={el2}
                         socialMedia={el[0] as TSocialMedia}
                       />
