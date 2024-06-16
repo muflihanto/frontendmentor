@@ -137,7 +137,6 @@ function Main() {
       month: (now.diff(date, "month") % 12).toString(),
       year: now.diff(date, "year").toString(),
     });
-    // console.log(now.diff(date));
   });
 
   const setValueAs = (value: string) =>
@@ -273,7 +272,7 @@ function Main() {
       <div className="mt-[65px] flex flex-col gap-[6px] font-poppins text-[56px] font-extrabold italic leading-none tracking-[-1px] text-age-calculator-neutral-500 lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]">
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {Number.parseInt(diff.year) ? (
+            {!Number.isNaN(Number.parseInt(diff.year)) ? (
               <CountUp
                 isCounting
                 start={0}
@@ -288,7 +287,7 @@ function Main() {
         </p>
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {Number.parseInt(diff.month) ? (
+            {!Number.isNaN(Number.parseInt(diff.month)) ? (
               <CountUp
                 isCounting
                 start={0}
@@ -303,7 +302,7 @@ function Main() {
         </p>
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
-            {Number.parseInt(diff.day) ? (
+            {!Number.isNaN(Number.parseInt(diff.day)) ? (
               <CountUp
                 isCounting
                 start={0}
