@@ -39,15 +39,25 @@ function Main() {
 
 function FlipCard({
   value,
-  maxValue,
+  maxValue = Number.POSITIVE_INFINITY,
   duration = 1000,
 }: {
   value: number;
-  maxValue: number;
+  maxValue?: number;
   duration?: number;
 }) {
   const [ref, flip] = useAnimate();
   const [init, setInit] = useState(true);
+
+  const digit = useMemo(() => {
+    const val1 = `${value}`.padStart(2, "0");
+    const val2 = init
+      ? "--"
+      : value + 1 > maxValue
+        ? "00"
+        : `${value + 1}`.padStart(2, "0");
+    return [val1, val2];
+  }, [value, init, maxValue]);
 
   useEffectOnce(() => {
     const timeout = setTimeout(() => {
@@ -79,42 +89,10 @@ function FlipCard({
         className="flip-card relative flex flex-col items-center justify-center rounded bg-countdown-neutral-200 text-[32px] font-bold tracking-tight text-countdown-primary-red md:rounded-lg md:text-[78px]"
         ref={ref}
       >
-        <div className="top">
-          {init
-            ? value < 10
-              ? `0${value}`
-              : value
-            : value < 10
-              ? `0${value}`
-              : value}
-        </div>
-        <div className="bottom">
-          {init
-            ? "--"
-            : value + 1 < 10
-              ? `0${value + 1}`
-              : value + 1 > maxValue
-                ? "00"
-                : value + 1}
-        </div>
-        <div className="top-flip">
-          {init
-            ? "--"
-            : value + 1 < 10
-              ? `0${value + 1}`
-              : value + 1 > maxValue
-                ? "00"
-                : value + 1}
-        </div>
-        <div className="bottom-flip">
-          {init
-            ? value < 10
-              ? `0${value}`
-              : value
-            : value < 10
-              ? `0${value}`
-              : value}
-        </div>
+        <div className="top">{digit[0]}</div>
+        <div className="bottom">{digit[1]}</div>
+        <div className="top-flip">{digit[1]}</div>
+        <div className="bottom-flip">{digit[0]}</div>
       </div>
 
       <style jsx>{`
@@ -246,7 +224,7 @@ function CountdownTimer() {
           } as CSSProperties
         }
       >
-        <FlipCard value={timeUnits.days} duration={duration} maxValue={0} />
+        <FlipCard value={timeUnits.days} duration={duration} />
         <FlipCard value={timeUnits.hours} duration={duration} maxValue={23} />
         <FlipCard value={timeUnits.minutes} duration={duration} maxValue={59} />
         <FlipCard value={timeUnits.seconds} duration={duration} maxValue={59} />
