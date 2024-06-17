@@ -36,7 +36,7 @@ export default function Main() {
       {data.map((el, index) => {
         return (
           <ActivityCard
-            key={index}
+            key={`${index}-${el.title}`}
             title={el.title as ActivityType}
             timeframes={el.timeframes[activeTab]}
             timeUnit={timeUnit.current[activeTab]}

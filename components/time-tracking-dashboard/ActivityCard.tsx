@@ -16,11 +16,12 @@ export default function ActivityCard(props: ActivityCardProps) {
       <div className="z-10 flex h-[122px] flex-col justify-center rounded-[16px] bg-tracking-neutral-300 px-6 lg:h-[calc(100%-45px)] lg:justify-start lg:gap-[33px] lg:px-[30px] lg:pt-[26px] lg:hover:cursor-pointer lg:hover:bg-[#34397b]">
         <div className="flex items-center justify-between">
           <div className="text-[18px] font-medium">{props.title}</div>
-          <button className="group">
+          <button className="group" type="button">
             <svg
               viewBox="0 0 21 5"
-              className="h-[5px] fill-[#BBC0FF] group-hover:fill-white"
+              className="pointer-events-none h-[5px] fill-[#BBC0FF] group-hover:fill-white"
             >
+              <title>Ellipsis</title>
               <use href="/time-tracking-dashboard/images/icon-ellipsis.svg#icon-ellipsis" />
             </svg>
           </button>

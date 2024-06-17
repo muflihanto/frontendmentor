@@ -28,6 +28,7 @@ export default function BgIcons({ activity }: { activity: ActivityType }) {
           } as CSSProperties
         }
       >
+        <title>{activity}</title>
         <use
           href={`/time-tracking-dashboard/images/icon-${filename}.svg#icon-${filename}`}
         />

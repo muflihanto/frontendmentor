@@ -32,7 +32,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
       <ul className="grid w-full grid-cols-3 pb-[22px] pt-[21px] lg:grid-cols-1 lg:grid-rows-3 lg:gap-[15px] lg:px-8 lg:pt-[23px]">
         {buttons.map((button, index) => {
           return (
-            <li key={index}>
+            <li key={`${index}-${button}`}>
               <button
                 className={`${
                   button.toLowerCase() === activeTab
@@ -42,6 +42,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
                 onClick={() => {
                   setActiveTab(button.toLowerCase() as TimeUnit);
                 }}
+                type="button"
               >
                 {button}
               </button>
