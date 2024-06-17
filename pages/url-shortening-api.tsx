@@ -58,6 +58,7 @@ function Logo(props: ComponentProps<"svg">) {
         props.className,
       ])}
     >
+      <title>Shortly Logo</title>
       <use href="/url-shortening-api/images/logo.svg#shortly-logo" />
     </svg>
   );
@@ -79,7 +80,7 @@ function MobileNav() {
     if (width > 1023) {
       setOpen(false);
     }
-  }, [width, setOpen]);
+  }, [width]);
 
   return (
     <div className="lg:hidden">
@@ -91,6 +92,7 @@ function MobileNav() {
         onClick={() => {
           setOpen((o) => !o);
         }}
+        type="button"
       >
         {open ? (
           <svg
@@ -98,6 +100,7 @@ function MobileNav() {
             className="w-5 text-url-shortening-neutral-200"
             viewBox="0 0 20 21"
           >
+            <title>Close</title>
             <g fillRule="evenodd" fill="currentColor">
               <path d="M2.575.954l16.97 16.97-2.12 2.122L.455 3.076z" />
               <path d="M.454 17.925L17.424.955l2.122 2.12-16.97 16.97z" />
@@ -109,6 +112,7 @@ function MobileNav() {
             viewBox="0 0 24 21"
             className="w-6 text-url-shortening-neutral-200"
           >
+            <title>Menu</title>
             <g fill="currentColor" fillRule="evenodd">
               <path d="M0 0h24v3H0zM0 9h24v3H0zM0 18h24v3H0z" />
             </g>
@@ -218,7 +222,10 @@ function Intro() {
           Build your brand’s recognition and get detailed insights on how your
           links are performing.
         </p>
-        <button className="mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full bg-url-shortening-primary-cyan text-center text-[20px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-[37px] lg:text-start">
+        <button
+          className="mt-[30px] flex h-[56px] w-[198px] items-center justify-center rounded-full bg-url-shortening-primary-cyan text-center text-[20px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-[37px] lg:text-start"
+          type="button"
+        >
           Get Started
         </button>
       </div>
@@ -326,12 +333,15 @@ function CopyLink({ data }: { data: ApiResponse["result"] }) {
             ? "bg-url-shortening-primary-violet hover:bg-[hsl(257,17%,50%)]"
             : "bg-url-shortening-primary-cyan hover:bg-[hsl(179,56%,75%)]",
         ])}
+        type="button"
       >
         {copied ? "Copied!" : "Copy"}
       </button>
     </div>
   );
 }
+
+// TODO: shrtco.de is offline, replace with other service
 
 function Shorten() {
   const {
@@ -345,7 +355,7 @@ function Shorten() {
 
   const onSubmit = handleSubmit(async (data) => {
     // console.log(data);
-    await fetch("https://api.shrtco.de/v2/shorten?url=" + data.link).then(
+    await fetch(`https://api.shrtco.de/v2/shorten?url=${data.link}`).then(
       async (res) => {
         // console.log(res);
         await res.json().then((dat) => {
@@ -392,14 +402,17 @@ function Shorten() {
             {errors.link.message}
           </p>
         )}
-        <button className="mt-4 flex h-12 w-full items-center justify-center rounded-[5px] bg-url-shortening-primary-cyan pb-px text-[18px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]">
+        <button
+          className="mt-4 flex h-12 w-full items-center justify-center rounded-[5px] bg-url-shortening-primary-cyan pb-px text-[18px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-0 lg:h-16 lg:w-[188px] lg:flex-shrink-0 lg:rounded-[11px] lg:text-[20px]"
+          type="submit"
+        >
           Shorten It!
         </button>
       </form>
       {links.length > 0 && (
         <div className="mt-6 flex w-full -translate-y-[80px] flex-col gap-[23px] px-6 max-lg:-mb-px lg:-translate-y-[84px] lg:gap-4 lg:px-[165px]">
           {links.map((lnk, index) => {
-            return <CopyLink key={index} data={lnk} />;
+            return <CopyLink key={`${index}-${lnk.code}`} data={lnk} />;
           })}
         </div>
       )}
@@ -425,7 +438,7 @@ function Feature({ feat }: { feat: Feature }) {
         >
           <Image
             src={feat.icon}
-            alt={feat.name + " icon"}
+            alt={`${feat.name} icon`}
             fill
             className="object-contain"
           />
@@ -490,7 +503,10 @@ function BoostLinks() {
       <h3 className="text-[28px] font-bold tracking-[-.75px] text-white lg:text-[40px] lg:tracking-[-1px]">
         Boost your links today
       </h3>
-      <button className="text-cente mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full bg-url-shortening-primary-cyan text-[20px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-[22px]">
+      <button
+        className="text-cente mt-[16px] flex h-[56px] w-[198px] items-center justify-center rounded-full bg-url-shortening-primary-cyan text-[20px] font-bold text-white hover:bg-[hsl(179,56%,75%)] lg:mt-[22px]"
+        type="button"
+      >
         Get Started
       </button>
     </div>
@@ -614,22 +630,26 @@ function SNSLinks({ className, ...props }: ComponentProps<"nav">) {
       ])}
     >
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="w-6" viewBox="0 0 24 24">
+        <svg className="pointer-events-none w-6" viewBox="0 0 24 24">
+          <title>Facebook</title>
           <use href="/url-shortening-api/images/icon-facebook.svg#icon-facebook" />
         </svg>
       </a>
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="w-6" viewBox="0 0 24 20">
+        <svg className="pointer-events-none w-6" viewBox="0 0 24 20">
+          <title>Twitter</title>
           <use href="/url-shortening-api/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="w-6" viewBox="0 0 24 24">
+        <svg className="pointer-events-none w-6" viewBox="0 0 24 24">
+          <title>Pinterest</title>
           <use href="/url-shortening-api/images/icon-pinterest.svg#icon-pinterest" />
         </svg>
       </a>
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="w-6" viewBox="0 0 24 24">
+        <svg className="pointer-events-none w-6" viewBox="0 0 24 24">
+          <title>Instagram</title>
           <use href="/url-shortening-api/images/icon-instagram.svg#icon-instagram" />
         </svg>
       </a>
