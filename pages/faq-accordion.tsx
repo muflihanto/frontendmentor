@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { workSans } from "../utils/fonts/workSans";
+import type { KeyboardEvent } from "react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -92,13 +93,76 @@ function Accordion({
   answer: string;
   open?: boolean;
 }) {
+  const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    const summary = event.currentTarget;
+    const detailsElement = summary.parentElement;
+    const groupElement = detailsElement?.parentElement;
+    const key = event.key;
+    const allSummary = groupElement?.parentElement?.querySelectorAll("summary");
+    const firstSummary = allSummary?.[0];
+    const lastSummary = allSummary?.[allSummary.length - 1];
+    const nextSummary =
+      groupElement?.nextElementSibling?.querySelector("summary");
+    const prevSummary =
+      groupElement?.previousElementSibling?.querySelector("summary");
+
+    let flag = false;
+
+    switch (key) {
+      case "Esc":
+      case "Escape":
+        detailsElement?.removeAttribute("open");
+        flag = true;
+        break;
+
+      case "Down":
+      case "ArrowDown":
+        if (nextSummary) {
+          nextSummary.focus();
+        } else {
+          firstSummary?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Up":
+      case "ArrowUp":
+        if (prevSummary) {
+          prevSummary.focus();
+        } else {
+          lastSummary?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Home":
+      case "PageUp":
+        firstSummary?.focus();
+        flag = true;
+        break;
+
+      case "End":
+      case "PageDown":
+        lastSummary?.focus();
+        flag = true;
+        break;
+    }
+
+    if (flag) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
   return (
     <div className="group/faqs">
       <details
         className="group/detail peer [&::-webkit-details-marker]:hidden"
         open={open}
       >
-        <summary className="group/summary block cursor-pointer list-none focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-[#AD28EB]">
+        <summary
+          className="group/summary block cursor-pointer list-none focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-[#AD28EB]"
+          onKeyDown={onItemKeyDown}
+        >
           <h2
             role="term"
             className="relative mb-6 mt-5 flex items-center justify-between gap-6 text-base/[19px] font-semibold text-faq-400 [transition:_margin_100ms_200ms_ease-out] hover:text-[#AD28EB] group-first/faqs:mt-0 group-last/faqs:mb-0 group-open/detail:transition-none group-last/faqs:group-open/detail:mb-[22px] group-focus-visible/summary:text-[#AD28EB] lg:mt-6 lg:text-lg/[24px] lg:group-last/faqs:group-open/detail:mb-6"
