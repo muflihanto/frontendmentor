@@ -1,18 +1,22 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export default function Slider({ basePath, active = false, absolutePath = "" }) {
+export default function Slider({
+  basePath,
+  active = false,
+  absolutePath = "",
+}) {
   const imageRef = useRef(null);
   const sliderRef = useRef(null);
   const [clicked, setClicked] = useState(false);
   const getWidthStatus = () => {
     if (window.innerWidth <= 375) {
       return window.innerWidth;
-    } else if (window.innerWidth > 375 && window.innerWidth < 1440) {
+    }
+    if (window.innerWidth > 375 && window.innerWidth < 1440) {
       return window.innerWidth;
       // return 375;
-    } else {
-      return 1440;
     }
+    return 1440;
   };
   const [offset, setOffset] = useState({ w: getWidthStatus() });
   const containerRef = useRef(null);
@@ -25,15 +29,17 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
         sliderRef.current.style.left = `calc(${width} - 20px)`;
       }
     },
-    [offset]
+    [offset],
   );
 
   const getSliderImg = () => {
-    if (Boolean(absolutePath)) {
+    if (absolutePath) {
       return absolutePath;
     }
     if (!active) {
-      return `${basePath}/${window.innerWidth >= 1440 ? "desktop" : "mobile"}-design.jpg`;
+      return `${basePath}/${
+        window.innerWidth >= 1440 ? "desktop" : "mobile"
+      }-design.jpg`;
     }
     return `${basePath}/active-states.jpg`;
   };
@@ -45,16 +51,18 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
   };
 
   const getCursorPos = (e) => {
-    e = e.changedTouches ? e.changedTouches[0] : e;
-    let a = containerRef.current.getBoundingClientRect();
-    let x = e.pageX - a.left;
+    const el = e.changedTouches ? e.changedTouches[0] : e;
+    const a = containerRef.current.getBoundingClientRect();
+    let x = el.pageX - a.left;
     x = x - window.pageXOffset;
     return x;
   };
 
   const slide = (pos) => {
     containerRef.current.style.width = `${pos}px`;
-    sliderRef.current.style.left = `${containerRef.current.offsetWidth - sliderRef.current.offsetWidth / 2}px`;
+    sliderRef.current.style.left = `${
+      containerRef.current.offsetWidth - sliderRef.current.offsetWidth / 2
+    }px`;
   };
 
   const slideFinish = () => {
@@ -73,16 +81,21 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
   };
 
   const handleScroll = () => {
-    sliderRef.current.style.top = `${window.innerHeight / 2 + window.pageYOffset}px`;
+    sliderRef.current.style.top = `${
+      window.innerHeight / 2 + window.pageYOffset
+    }px`;
   };
 
   const handleWindowResize = () => {
     setImagePath(getSliderImg());
     const newOffset = getWidthStatus();
     setOffset({ w: newOffset });
-    sliderRef.current.style.left = `${containerRef.current.offsetWidth - sliderRef.current.offsetWidth / 2}px`;
+    sliderRef.current.style.left = `${
+      containerRef.current.offsetWidth - sliderRef.current.offsetWidth / 2
+    }px`;
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (sliderRef.current) {
       window.addEventListener("scroll", handleScroll);
@@ -105,7 +118,7 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
       window.removeEventListener("resize", handleWindowResize);
       window.removeEventListener("scroll", handleScroll);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clicked]);
 
   return (
@@ -116,17 +129,9 @@ export default function Slider({ basePath, active = false, absolutePath = "" }) 
         onTouchStart={slideReady}
         onMouseDown={slideReady}
       />
-      <div
-        style={imgCompContainer}
-        ref={containerCallbackRef}
-      >
+      <div style={imgCompContainer} ref={containerCallbackRef}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          style={imgCompImg}
-          src={imagePath}
-          ref={imageRef}
-          alt="Slider"
-        />
+        <img style={imgCompImg} src={imagePath} ref={imageRef} alt="Slider" />
       </div>
     </>
   );

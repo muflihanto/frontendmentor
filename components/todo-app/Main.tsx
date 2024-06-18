@@ -60,6 +60,7 @@ function Header() {
               viewBox="0 0 26 26"
               className="mb-[6px] w-[20px] lg:-mr-[1px] lg:mb-0 lg:w-[26px] lg:-translate-y-[5px]"
             >
+              <title>Light Mode</title>
               <use href="/todo-app/images/icon-sun.svg#icon-sun" />
             </svg>
           ) : (
@@ -67,6 +68,7 @@ function Header() {
               viewBox="0 0 26 26"
               className="mb-[4px] w-[20px] lg:mb-0 lg:w-[26px] lg:-translate-y-[4px]"
             >
+              <title>Dark Mode</title>
               <use href="/todo-app/images/icon-moon.svg#icon-moon" />
             </svg>
           )}
@@ -116,11 +118,11 @@ function Todo() {
     (d: Data) => {
       if (filterType === "all") {
         return d;
-      } else if (filterType === "active") {
-        return !d.completed;
-      } else {
-        return d.completed;
       }
+      if (filterType === "active") {
+        return !d.completed;
+      }
+      return d.completed;
     },
     [filterType],
   );
@@ -158,7 +160,7 @@ function Todo() {
       onSubmit={onSubmit}
     >
       <label htmlFor="input" className="relative w-full max-w-[540px]">
-        <div className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border dark:border-todo-neutral-dark-500 lg:left-6 lg:h-6 lg:w-6"></div>
+        <div className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border dark:border-todo-neutral-dark-500 lg:left-6 lg:h-6 lg:w-6" />
         <input
           {...register("input")}
           type="text"
@@ -328,6 +330,7 @@ function Item({
       >
         {d.completed ? (
           <svg viewBox="0 0 11 9" className="h-2 lg:h-[9px]">
+            <title>Check</title>
             <use href="/todo-app/images/icon-check.svg#icon-check" />
           </svg>
         ) : null}
@@ -353,6 +356,7 @@ function Item({
           viewBox="0 0 18 18"
           className="w-[12px] fill-[#494C6B] hover:fill-todo-neutral-light-400 dark:hover:fill-todo-neutral-dark-200 lg:w-[18px]"
         >
+          <title>Cross</title>
           <use href="/todo-app/images/icon-cross.svg#icon-cross" />
         </svg>
       </button>
