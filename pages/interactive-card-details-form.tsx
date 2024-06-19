@@ -11,47 +11,57 @@ import Image from "next/image";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
 // TODO: Fix validation rules
-const inputSchema = z.object({
-  cardholderName: z.string().min(1, "Can't be blank"),
-  cardNumber: z
-    .string()
-    .min(1, "Can't be blank")
-    .regex(
-      new RegExp(/^([0-9]{4}\s){3}[0-9]{4}$/, "i"),
-      "Wrong format, numbers only",
-    ),
-  expMonth: z
-    .string()
-    .min(1, "Can't be blank")
-    .regex(/[0-9]{2}/, "Wrong format, numbers only")
-    .refine(
-      (value) => Number.parseInt(value) <= 12 && Number.parseInt(value) >= 1,
-      "Invalid month",
-    ),
-  // .number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" })
-  //   .gte(1)
-  //   .lte(12)
-  expYear: z
-    .string()
-    .min(1, "Can't be blank")
-    .regex(/[0-9]{2}/, "Wrong format, numbers only")
-    .refine(
-      (value) =>
-        Number.parseInt(value) <=
-          Number.parseInt(
-            new Date().getFullYear().toString().substring(2) + 5,
-          ) &&
-        Number.parseInt(value) >=
-          Number.parseInt(new Date().getFullYear().toString().substring(2)),
-      "Invalid year",
-    ),
-  // .number({ invalid_type_error: "Wrong format, numbers only", required_error: "Can't be blank" })
-  // .gte(Number.parseInt(new Date().getFullYear().toString().substring(2))),
-  cvc: z
-    .string()
-    .min(1, "Can't be blank")
-    .regex(/[0-9]{3}/, "Wrong format, numbers only"),
-});
+const inputSchema = z
+  .object({
+    cardholderName: z.string().min(1, "Can't be blank"),
+    cardNumber: z
+      .string()
+      .min(1, "Can't be blank")
+      .regex(
+        new RegExp(/^([0-9]{4}\s){3}[0-9]{4}$/, "i"),
+        "Wrong format, numbers only",
+      ),
+    expMonth: z
+      .string()
+      .min(1, "Can't be blank")
+      .regex(/[0-9]{2}/, "Wrong format, numbers only")
+      .refine(
+        (value) => Number.parseInt(value) <= 12 && Number.parseInt(value) >= 1,
+        "Invalid month",
+      ),
+    expYear: z
+      .string()
+      .min(1, "Can't be blank")
+      .regex(/[0-9]{2}/, "Wrong format, numbers only"),
+    cvc: z
+      .string()
+      .min(1, "Can't be blank")
+      .regex(/[0-9]{3}/, "Wrong format, numbers only"),
+  })
+  .superRefine((val, ctx) => {
+    const today = new Date();
+    const yearInput = Number.parseInt(val.expYear);
+    const monthInput = Number.parseInt(val.expMonth);
+    const thisYear = Number.parseInt(
+      today.getFullYear().toString().substring(2),
+    );
+    const next5Year = thisYear + 5;
+    const thisMonth = today.getMonth() + 1;
+    if (yearInput > next5Year || yearInput < thisYear) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.invalid_date,
+        message: "Invalid year",
+        path: ["expYear"],
+      });
+    }
+    if (yearInput === thisYear && monthInput < thisMonth) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.invalid_date,
+        message: "Invalid month",
+        path: ["expMonth"],
+      });
+    }
+  });
 
 type InputSchema = z.infer<typeof inputSchema>;
 
@@ -277,14 +287,19 @@ function Main() {
                 />
               </div>
             </fieldset>
-            {!!errors.expYear && (
+            {(!!errors.expYear || !!errors.expMonth) && (
               <p className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red">
-                {errors.expYear.message}
+                {errors.expMonth?.message === errors.expYear?.message
+                  ? errors.expMonth?.message
+                  : `${
+                      errors.expMonth
+                        ? `${errors.expMonth.message}${
+                            errors.expYear ? ", " : ""
+                          }`
+                        : ""
+                    }${errors.expYear ? errors.expYear.message : ""}`}
               </p>
             )}
-            {/*
-             // TODO: Fix error message
-            */}
           </label>
           <label className="flex w-full flex-col gap-[7px]" htmlFor="cvc">
             <span>CVC</span>
