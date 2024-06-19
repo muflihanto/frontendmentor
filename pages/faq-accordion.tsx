@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { workSans } from "../utils/fonts/workSans";
-import type { KeyboardEvent } from "react";
+import { useState, type KeyboardEvent } from "react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -73,7 +73,7 @@ function Main() {
                 <Accordion
                   {...faq}
                   key={`${index}-${faq.question}`}
-                  open={index === 0}
+                  defaultOpen={index === 0}
                 />
               );
             })}
@@ -87,11 +87,11 @@ function Main() {
 function Accordion({
   question,
   answer,
-  open,
+  defaultOpen,
 }: {
   question: string;
   answer: string;
-  open?: boolean;
+  defaultOpen?: boolean;
 }) {
   const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     const summary = event.currentTarget;
@@ -109,12 +109,6 @@ function Accordion({
     let flag = false;
 
     switch (key) {
-      case "Esc":
-      case "Escape":
-        detailsElement?.removeAttribute("open");
-        flag = true;
-        break;
-
       case "Down":
       case "ArrowDown":
         if (nextSummary) {
@@ -153,20 +147,24 @@ function Accordion({
       event.preventDefault();
     }
   };
+  const id = question.toLowerCase().slice(0, 10).trim().replaceAll(" ", "-");
+  const [open, setOpen] = useState(defaultOpen);
+
   return (
     <div className="group/faqs">
       <details
         className="group/detail peer [&::-webkit-details-marker]:hidden"
         open={open}
+        onToggle={() => setOpen((o) => !o)}
+        aria-controls={`answer-${id}`}
+        id={`question-${id}`}
       >
         <summary
           className="group/summary block cursor-pointer list-none focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-[#AD28EB]"
           onKeyDown={onItemKeyDown}
+          aria-expanded={open}
         >
-          <h2
-            role="term"
-            className="relative mb-6 mt-5 flex items-center justify-between gap-6 text-base/[19px] font-semibold text-faq-400 [transition:_margin_100ms_200ms_ease-out] hover:text-[#AD28EB] group-first/faqs:mt-0 group-last/faqs:mb-0 group-open/detail:transition-none group-last/faqs:group-open/detail:mb-[22px] group-focus-visible/summary:text-[#AD28EB] lg:mt-6 lg:text-lg/[24px] lg:group-last/faqs:group-open/detail:mb-6"
-          >
+          <h2 className="relative mb-6 mt-5 flex items-center justify-between gap-6 text-base/[19px] font-semibold text-faq-400 [transition:_margin_100ms_200ms_ease-out] hover:text-[#AD28EB] group-first/faqs:mt-0 group-last/faqs:mb-0 group-open/detail:transition-none group-last/faqs:group-open/detail:mb-[22px] group-focus-visible/summary:text-[#AD28EB] lg:mt-6 lg:text-lg/[24px] lg:group-last/faqs:group-open/detail:mb-6">
             {question}
             <span className="relative aspect-[30/31] w-[30px] shrink-0">
               <Image
@@ -186,8 +184,10 @@ function Accordion({
         </summary>
       </details>
       <div
-        role="definition"
+        role="region"
         className="mt-0 max-h-0 overflow-hidden text-faq-300 [transition:_max-height_200ms_ease-out,_margin_200ms_200ms_ease-out] peer-open:mb-[21px] peer-open:mt-0.5 peer-open:max-h-80 peer-open:[transition:_max-height_500ms_ease-out] group-last/faqs:peer-open:mb-0 lg:text-base/[24px] lg:peer-open:mb-[23px] lg:peer-open:mt-[-1px]"
+        id={`answer-${id}`}
+        aria-labelledby={`question-${id}`}
       >
         {answer}
       </div>
