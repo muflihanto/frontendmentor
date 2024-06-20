@@ -100,7 +100,10 @@ const Main: React.FC = () => {
                 className="flex items-center justify-center gap-[15px] pr-1 lg:justify-start"
               >
                 <span>
-                  <svg viewBox="0 0 9 8" className="mt-[2px] h-2">
+                  <svg
+                    viewBox="0 0 9 8"
+                    className="mt-[2px] h-2 pointer-events-none"
+                  >
                     <title>Check</title>
                     <use href="/interactive-pricing-component/images/icon-check.svg#icon-check" />
                   </svg>

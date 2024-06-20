@@ -74,7 +74,9 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         toggle.getByText("Yearly Billing-25% discount"),
       ).toBeVisible();
       await expect(
-        card.getByText("Unlimited websites100% data ownershipEmail reports"),
+        card.getByText(
+          "CheckUnlimited websitesCheck100% data ownershipCheckEmail reports",
+        ),
       ).toBeVisible();
       await expect(
         card.getByRole("button", { name: "Start my trial" }),

@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+
+// TODO: add accordion toggle test case
+
 const faqs = [
   {
     question: "What is Frontend Mentor, and how will it help me?",
@@ -47,7 +50,7 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
       const parent = page
         .locator("div:has(>details)")
         .filter({ has: question });
-      const answer = parent.getByRole("definition");
+      const answer = parent.getByRole("region");
       await expect(question).toBeVisible();
       if (index === "0") {
         await expect(answer).toBeVisible();
