@@ -150,6 +150,35 @@ function Intro() {
   );
 }
 
+function getTimezoneOffset(tz: string): string {
+  const d1 = new Date(Date.now());
+  d1.setMilliseconds(0); // for nice rounding
+  const d1OffsetHrs = (d1.getTimezoneOffset() / 60) * -1;
+
+  const d2LocaleStr = d1.toLocaleString("en-US", { timeZone: tz });
+  const d2 = new Date(d2LocaleStr);
+
+  const diffHrs = (d2.getTime() - d1.getTime()) / 1000 / 60 / 60;
+  const d2OffsetHrs = d1OffsetHrs + diffHrs;
+
+  let formattedOffset = "UTC ";
+  switch (true) {
+    case d2OffsetHrs < -9:
+      formattedOffset += `${d2OffsetHrs}`;
+      break;
+    case d2OffsetHrs < 0:
+      formattedOffset += `-0${d2OffsetHrs.toString()[1]}`;
+      break;
+    case d2OffsetHrs < 10:
+      formattedOffset += `+0${d2OffsetHrs}`;
+      break;
+    default:
+      formattedOffset += `+${d2OffsetHrs}`;
+  }
+
+  return `${formattedOffset}:00`;
+}
+
 function DetailCard({ detail }: { detail?: IpInfoResponse }) {
   const location = useMemo(() => {
     if (detail !== undefined && "country" in detail) {
@@ -178,7 +207,7 @@ function DetailCard({ detail }: { detail?: IpInfoResponse }) {
           {/* TODO: change timezone to utc */}
           <ListDetail>
             {detail !== undefined && "timezone" in detail
-              ? detail.timezone
+              ? getTimezoneOffset(detail.timezone)
               : "-"}
           </ListDetail>
           {/* <!-- add offset value dynamically using the API --> */}

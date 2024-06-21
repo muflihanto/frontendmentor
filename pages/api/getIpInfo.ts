@@ -1,4 +1,4 @@
-import { type NextApiHandler } from "next";
+import type { NextApiHandler } from "next";
 
 export type IpInfoResponse =
   | {
