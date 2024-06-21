@@ -153,8 +153,12 @@ export default function Collapsible(props: CollapsibleProps) {
           {props.label}
         </span>
         <span className="inline-block transition-transform duration-300 group-open:rotate-180">
-          <svg viewBox="0 0 10 6" className="h-1.5">
-            <title>Arrow Down</title>
+          <svg
+            viewBox="0 0 10 6"
+            className="h-1.5"
+            role="graphics-symbol"
+            aria-label="Arrow Down"
+          >
             <use href="/intro-section-with-dropdown-navigation/images/icon-arrow-down.svg#icon-arrow-down" />
           </svg>
         </span>

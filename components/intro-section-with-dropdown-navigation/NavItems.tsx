@@ -66,8 +66,9 @@ const FeatureItems = () => {
                 <svg
                   viewBox={`0 0 ${item.width} ${item.height}`}
                   className="h-4"
+                  role="graphics-symbol"
+                  aria-label={item.label}
                 >
-                  <title>{item.label}</title>
                   <use
                     href={`/intro-section-with-dropdown-navigation/images/icon-${item.icon}.svg#icon-${item.icon}`}
                   />
