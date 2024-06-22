@@ -34,8 +34,9 @@ function Main() {
           <svg
             viewBox="0 0 48 48"
             className="z-20 w-12 transition-all duration-150 group-active:scale-90"
+            aria-label="View"
+            role="graphics-symbol"
           >
-            <title>View</title>
             <use href="/nft-preview-card-component/images/icon-view.svg#icon-view" />
           </svg>
         </a>
@@ -55,8 +56,12 @@ function Main() {
       <div className="mt-[14px] flex justify-between">
         <p className="flex items-center gap-[7px] text-nft-primary-cyan">
           <span>
-            <svg viewBox="0 0 11 18" className="h-[18px]">
-              <title>Ethereum</title>
+            <svg
+              viewBox="0 0 11 18"
+              className="h-[18px]"
+              aria-label="Ethereum"
+              role="graphics-symbol"
+            >
               <use href="/nft-preview-card-component/images/icon-ethereum.svg#icon-ethereum" />
             </svg>
           </span>
@@ -64,8 +69,12 @@ function Main() {
         </p>
         <p className="flex items-center gap-[8px]">
           <span>
-            <svg className="w-[17px]" viewBox="0 0 17 17">
-              <title>Clock</title>
+            <svg
+              className="w-[17px]"
+              viewBox="0 0 17 17"
+              aria-label="Clock"
+              role="graphics-symbol"
+            >
               <use href="/nft-preview-card-component/images/icon-clock.svg#icon-clock" />
             </svg>
           </span>

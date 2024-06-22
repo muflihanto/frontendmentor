@@ -1,10 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  atom,
-  useAtom,
-  useAtomValue,
-  // useSetAtom
-} from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import Mexp from "math-expression-evaluator";
 import { useEffect, useRef, useState } from "react";
@@ -280,8 +275,6 @@ function Keyboard() {
 
   const handleEqual = () => {
     const mex = new Mexp();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     const result = String(mex.eval(display));
     setDisplay(result);
     setIsFloat(result.includes("."));

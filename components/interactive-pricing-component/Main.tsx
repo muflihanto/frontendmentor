@@ -102,7 +102,7 @@ const Main: React.FC = () => {
                 <span>
                   <svg
                     viewBox="0 0 9 8"
-                    className="mt-[2px] h-2 pointer-events-none"
+                    className="pointer-events-none mt-[2px] h-2"
                   >
                     <title>Check</title>
                     <use href="/interactive-pricing-component/images/icon-check.svg#icon-check" />
