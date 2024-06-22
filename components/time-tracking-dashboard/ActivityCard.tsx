@@ -20,8 +20,9 @@ export default function ActivityCard(props: ActivityCardProps) {
             <svg
               viewBox="0 0 21 5"
               className="pointer-events-none h-[5px] fill-[#BBC0FF] group-hover:fill-white"
+              role="graphics-symbol"
+              aria-label="Ellipsis"
             >
-              <title>Ellipsis</title>
               <use href="/time-tracking-dashboard/images/icon-ellipsis.svg#icon-ellipsis" />
             </svg>
           </button>

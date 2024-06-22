@@ -27,8 +27,9 @@ export default function BgIcons({ activity }: { activity: ActivityType }) {
             "--right": `${right}px`,
           } as CSSProperties
         }
+        role="graphics-symbol"
+        aria-label={activity}
       >
-        <title>{activity}</title>
         <use
           href={`/time-tracking-dashboard/images/icon-${filename}.svg#icon-${filename}`}
         />
