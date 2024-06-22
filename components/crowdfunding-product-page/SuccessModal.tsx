@@ -16,8 +16,12 @@ export default function SuccessModal({ isOpen, setIsOpen }: SuccessModalProps) {
       ref={modalRef}
     >
       <Card className="flex h-[382px] flex-col items-center justify-start overflow-scroll px-6 pt-[32px] lg:h-[449px] lg:w-[540px] lg:px-10 lg:pt-[48px]">
-        <svg className="w-16 lg:w-[90px]" viewBox="0 0 64 64">
-          <title>Check</title>
+        <svg
+          className="w-16 lg:w-[90px]"
+          viewBox="0 0 64 64"
+          role="graphics-symbol"
+          aria-label="Check Icon"
+        >
           <use href="/crowdfunding-product-page/images/icon-check.svg#icon-check" />
         </svg>
         <h2 className="mt-[20.5px] text-[19px] font-bold -tracking-[0.4px] lg:mt-[44px] lg:text-[24px] lg:tracking-normal">

@@ -39,15 +39,17 @@ const MenuButton = ({
       <svg
         viewBox="0 0 14 15"
         className="invisible absolute left-0 top-0 w-[14px] group-aria-expanded:visible"
+        role="graphics-symbol"
+        aria-label="Close Menu"
       >
-        <title>Close Menu</title>
         <use href="/crowdfunding-product-page/images/icon-close-menu.svg#icon-close-menu" />
       </svg>
       <svg
         viewBox="0 0 16 15"
         className="visible absolute left-0 top-0 w-4 group-aria-expanded:invisible"
+        role="graphics-symbol"
+        aria-label="Hamburger Menu"
       >
-        <title>Hamburger Menu</title>
         <use href="/crowdfunding-product-page/images/icon-hamburger.svg#icon-hamburger" />
       </svg>
     </button>

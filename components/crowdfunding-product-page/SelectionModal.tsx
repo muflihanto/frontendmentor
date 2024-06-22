@@ -117,11 +117,10 @@ const CardHeader = ({ handleClose }: CardHeaderProps) => {
         <button
           className="pt-[1px] lg:-translate-y-[25px] lg:translate-x-[17px]"
           onClick={handleClose}
-          type="button"
           aria-label="Close 'Back this project' modal"
+          type="button"
         >
-          <svg viewBox="0 0 15 15" className="w-[15px]">
-            <title>Close</title>
+          <svg viewBox="0 0 15 15" className="w-[15px]" role="graphics-symbol">
             <use href="/crowdfunding-product-page/images/icon-close-modal.svg#icon-close-modal" />
           </svg>
         </button>

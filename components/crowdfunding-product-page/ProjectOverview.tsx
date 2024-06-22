@@ -55,8 +55,8 @@ export default function Overview(props: OverviewProps) {
                   ? "fill-crowdfunding-primary-200 text-white group-hover:fill-crowdfunding-primary-100"
                   : "fill-[#2F2F2F] text-[#B1B1B1] group-hover:fill-crowdfunding-neutral-100",
               ].join(" ")}
+              aria-hidden="true"
             >
-              <title>Bookmark</title>
               <use href="/crowdfunding-product-page/images/icon-bookmark.svg#icon-bookmark" />
             </svg>
             <span
