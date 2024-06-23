@@ -196,7 +196,12 @@ function PhotoSlide({ product }: { product: Product }) {
 
   return (
     <div>
-      <div className="relative mx-auto h-[calc(100vw-375px+300px)] max-h-[445px] w-full max-w-[445px] overflow-hidden bg-ecommerce-primary-200 lg:rounded-2xl">
+      <div
+        className="relative mx-auto h-[calc(100vw-375px+300px)] max-h-[445px] w-full max-w-[445px] overflow-hidden bg-ecommerce-primary-200 lg:rounded-2xl"
+        id="product-images-slider"
+        aria-roledescription="carousel"
+        aria-label="Product images slider"
+      >
         <button
           className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ecommerce-primary-100 p-[14px] lg:hidden"
           onClick={() => {
@@ -205,6 +210,7 @@ function PhotoSlide({ product }: { product: Product }) {
             });
           }}
           type="button"
+          aria-controls="slider-items"
         >
           <svg viewBox="0 0 12 18" className="w-[12px] stroke-[4px]">
             <title>Prev</title>
@@ -220,16 +226,24 @@ function PhotoSlide({ product }: { product: Product }) {
               }%)`,
             } as CSSProperties
           }
+          id="slider-items"
         >
           {product.images.map((img, index) => {
             return (
-              <div className="relative h-full w-[100%]" key={img}>
+              <div
+                className="relative h-full w-[100%]"
+                key={img}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${index + 1} of ${product.images.length}`}
+              >
                 <button
                   className="relative z-10 flex h-full w-full items-center justify-center opacity-0 max-lg:hidden"
                   onClick={() => {
                     setOpen({ open: true, position: index });
                   }}
                   type="button"
+                  aria-controls="product-lightbox"
                 />
                 <Image
                   src={img}
@@ -249,6 +263,7 @@ function PhotoSlide({ product }: { product: Product }) {
             });
           }}
           type="button"
+          aria-controls="slider-items"
         >
           <svg viewBox="0 0 13 18" className="w-[13px] stroke-[4px]">
             <title>Next</title>
@@ -269,6 +284,7 @@ function PhotoSlide({ product }: { product: Product }) {
                 setLeftPos(index);
               }}
               type="button"
+              aria-controls="slider-items"
             >
               <Image
                 src={thumb}
@@ -287,25 +303,43 @@ function PhotoSlide({ product }: { product: Product }) {
 function ProductDetail({ product }: { product: Product }) {
   return (
     <div className="mx-auto w-full max-w-[445px] px-6 pt-[21px] lg:px-0 lg:pt-[59px]">
-      <p className="text-[12px] font-bold uppercase tracking-[1.7px] text-ecommerce-primary-200/80 lg:text-[14px] lg:tracking-[1.2px]">
+      <p
+        className="text-[12px] font-bold uppercase tracking-[1.7px] text-ecommerce-primary-200/80 lg:text-[14px] lg:tracking-[1.2px]"
+        aria-label="Brand name"
+      >
         {product.brand}
       </p>
-      <h1 className="mt-[13px] text-[28px] font-bold leading-[32px] text-ecommerce-neutral-500 lg:mt-[17px] lg:text-[44px] lg:leading-[48px]">
+      <h1
+        className="mt-[13px] text-[28px] font-bold leading-[32px] text-ecommerce-neutral-500 lg:mt-[17px] lg:text-[44px] lg:leading-[48px]"
+        aria-label="Product name"
+      >
         {product.name}
       </h1>
-      <p className="mt-[16px] text-[15px] leading-[25px] tracking-[0.02px] text-ecommerce-neutral-400 lg:mt-[35px] lg:text-[16px] lg:leading-[26px] lg:tracking-[0.075px]">
+      <p
+        className="mt-[16px] text-[15px] leading-[25px] tracking-[0.02px] text-ecommerce-neutral-400 lg:mt-[35px] lg:text-[16px] lg:leading-[26px] lg:tracking-[0.075px]"
+        aria-label="Product description"
+      >
         {product.description}
       </p>
       <div className="mt-[21px] flex items-center lg:flex-col lg:items-start lg:gap-1">
         <p className="flex items-center lg:px-[1px]">
-          <span className="text-[28px] font-bold tracking-[1px] text-ecommerce-neutral-500">
+          <span
+            className="text-[28px] font-bold tracking-[1px] text-ecommerce-neutral-500"
+            aria-label="Current Price"
+          >
             ${product.price.toFixed(2)}
           </span>
-          <span className="ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded bg-ecommerce-primary-100 pt-[1px] font-bold tracking-[0.5px] text-ecommerce-primary-200">
+          <span
+            className="ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded bg-ecommerce-primary-100 pt-[1px] font-bold tracking-[0.5px] text-ecommerce-primary-200"
+            aria-label="Discount Value"
+          >
             {product.discount}%
           </span>
         </p>
-        <p className="ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] text-ecommerce-neutral-300 line-through lg:ml-0">
+        <p
+          className="ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] text-ecommerce-neutral-300 line-through lg:ml-0"
+          aria-label="Original Price"
+        >
           ${product.originalPrice.toFixed(2)}
         </p>
       </div>

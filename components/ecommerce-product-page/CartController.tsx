@@ -69,7 +69,7 @@ export default function CartController({ product }: { product: Product }) {
         <svg
           viewBox="0 0 22 20"
           className="w-[18px] fill-ecommerce-primary-100"
-          role="presentation"
+          role="graphics-symbol"
         >
           <use href="/ecommerce-product-page/images/icon-cart.svg#icon-cart" />
         </svg>

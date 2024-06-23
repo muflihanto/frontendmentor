@@ -23,13 +23,13 @@ export default function Lightbox({ product }: { product: Product }) {
       leaveTo="opacity-0"
       className="fixed left-0 top-0 z-50 flex h-[100svh] w-screen flex-col items-center justify-center bg-black/75"
     >
-      <MainContent product={product} position={open.position} />
+      <LightboxContent product={product} position={open.position} />
     </Transition>,
     document.body,
   );
 }
 
-function MainContent({
+function LightboxContent({
   product,
   position = 0,
 }: {
@@ -48,7 +48,12 @@ function MainContent({
   });
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      aria-roledescription="lightbox"
+      aria-label="Product images"
+      id="product-lightbox"
+    >
       <button
         className="group ml-auto flex h-5 w-5 items-center justify-center"
         onClick={() => {
@@ -73,13 +78,17 @@ function MainContent({
             });
           }}
           type="button"
+          aria-controls="lightbox-items"
         >
           <svg viewBox="0 0 12 18" className="w-[12px] stroke-[3px]">
             <title>Prev</title>
             <use href="/ecommerce-product-page/images/icon-previous.svg#icon-previous" />
           </svg>
         </button>
-        <div className="relative h-full w-full overflow-hidden bg-ecommerce-primary-200 lg:rounded-2xl">
+        <div
+          className="relative h-full w-full overflow-hidden bg-ecommerce-primary-200 lg:rounded-2xl"
+          id="lightbox-items"
+        >
           <div
             className="relative left-0 flex h-full w-[400%] translate-x-[var(--translate)] gap-0 transition-all duration-150"
             style={
@@ -95,6 +104,9 @@ function MainContent({
                 <div
                   className="relative h-full w-[100%]"
                   key={`${index}-${img}`}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${product.images.length}`}
                 >
                   <Image
                     src={img}
@@ -115,6 +127,7 @@ function MainContent({
             });
           }}
           type="button"
+          aria-controls="lightbox-items"
         >
           <svg viewBox="0 0 13 18" className="w-[13px] stroke-[3px]">
             <title>Next</title>
@@ -135,6 +148,7 @@ function MainContent({
                 setLeftPos(index);
               }}
               type="button"
+              aria-controls="lightbox-items"
             >
               <Image
                 src={thumb}
