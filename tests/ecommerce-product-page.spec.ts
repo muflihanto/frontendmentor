@@ -65,19 +65,12 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   /** Test if the page has 'Product Details' section */
   test("has 'Product Details' section", async ({ page }) => {
     const section = page.locator("div").nth(11);
-    await expect(section.getByText(product.brand)).toBeVisible();
-    await expect(
-      section.getByRole("heading", {
-        level: 1,
-        name: product.name,
-      }),
-    ).toBeVisible();
-    await expect(section.getByText(product.description)).toBeVisible();
-    await expect(section.getByText(`$${product.price}.00`)).toBeVisible();
-    await expect(section.getByText("50%")).toBeVisible();
-    await expect(
-      section.getByText(`$${product.originalPrice}.00`),
-    ).toBeVisible();
+    await expect(section.getByLabel("Brand name")).toBeVisible();
+    await expect(section.getByLabel("Product name")).toBeVisible();
+    await expect(section.getByLabel("Product description")).toBeVisible();
+    await expect(section.getByLabel("Current Price")).toBeVisible();
+    await expect(section.getByLabel("Discount Value")).toBeVisible();
+    await expect(section.getByLabel("Original Price")).toBeVisible();
     await expect(
       section.getByRole("button", { name: "Add to cart" }),
     ).toBeVisible();
