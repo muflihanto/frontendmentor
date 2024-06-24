@@ -143,7 +143,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       await footer.scrollIntoViewIfNeeded();
       const subgrid1 = footer.locator("div").nth(2);
       const subgrid1images = await subgrid1.getByRole("img").all();
-      expect(subgrid1images).toHaveLength(6);
+      expect(subgrid1images).toHaveLength(4);
       for (const img of subgrid1images) {
         await expect(img).toBeVisible();
       }

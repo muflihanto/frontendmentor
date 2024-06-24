@@ -25,14 +25,17 @@ const Footer = () => {
       </div>
       <div className="relative grid grid-rows-2 gap-y-[92px] bg-huddle-curve-neutral-700 px-7 pb-[43.48px] pt-[56px] text-huddle-curve-neutral-100 lg:grid-cols-2 lg:grid-rows-1 lg:px-[120px] lg:pb-[100.18px] lg:pt-[122px]">
         <div className="max-md:row-start-2 lg:w-[310px]">
-          <Logo className="h-[32px] lg:h-[39px]" white />
+          <Logo
+            className="h-[32px] lg:h-[39px]"
+            labelId="huddle-logo-footer"
+            white
+          />
           <p className="mt-[16px] pr-2 text-[14px] leading-[24px] tracking-[0.25px] lg:mt-[25px]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
             nulla quam, hendrerit lacinia vestibulum a, ultrices quis sem.
           </p>
           <p className="ml-[3px] mt-[42px] flex items-center justify-start lg:mt-[26px]">
-            <svg viewBox="0 0 18 18" className="w-[18px]">
-              <title>Phone</title>
+            <svg viewBox="0 0 18 18" className="w-[18px]" aria-hidden="true">
               <use href="/huddle-landing-page-with-curved-sections/images/icon-phone.svg#icon-phone" />
             </svg>
             <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">
@@ -40,8 +43,7 @@ const Footer = () => {
             </span>
           </p>
           <p className="ml-[3px] mt-[19px] flex items-center justify-start lg:mt-[15px]">
-            <svg className="w-5" viewBox="0 0 20 16">
-              <title>Email</title>
+            <svg className="w-5" viewBox="0 0 20 16" aria-hidden="true">
               <use href="/huddle-landing-page-with-curved-sections/images/icon-email.svg#icon-email" />
             </svg>
             <span className="ml-[18px] text-[14px] tracking-[0.25px] lg:text-[16px] lg:tracking-[0px]">
@@ -82,20 +84,21 @@ function SocialIcons() {
   return (
     <div className="mt-[48px] flex items-center justify-start gap-[17px] lg:mt-[78px] lg:gap-[24px] [&>a:hover]:text-[hsl(192,99%,49%)] [&>a]:text-white [&_svg]:h-[26px] lg:[&_svg]:h-[37px]">
       <a href="">
-        <svg viewBox="0 0 448 512">
-          <title>Facebook</title>
+        <svg role="graphics-symbol" aria-label="Facebook" viewBox="0 0 448 512">
           <use href="/huddle-landing-page-with-curved-sections/images/icon-facebook.svg#icon-facebook" />
         </svg>
       </a>
       <a href="">
-        <svg viewBox="0 0 448 512">
-          <title>Instagram</title>
+        <svg
+          role="graphics-symbol"
+          aria-label="Instagram"
+          viewBox="0 0 448 512"
+        >
           <use href="/huddle-landing-page-with-curved-sections/images/icon-instagram.svg#icon-instagram" />
         </svg>
       </a>
       <a href="">
-        <svg viewBox="0 0 448 512">
-          <title>Twitter</title>
+        <svg role="graphics-symbol" aria-label="Twitter" viewBox="0 0 448 512">
           <use href="/huddle-landing-page-with-curved-sections/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
