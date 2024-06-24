@@ -90,8 +90,9 @@ function Main() {
                 "w-[15px] fill-[#6E8098]",
                 shareMenu && "fill-article-preview-100",
               ])}
+              aria-labelledby="share-button-title"
             >
-              <title>Share</title>
+              <title id="share-button-title">Share</title>
               <use href="/article-preview-component/images/icon-share.svg#icon-share" />
             </svg>
           </button>
@@ -129,8 +130,9 @@ function SocialIcons() {
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height={el === "twitter" ? "17" : "20"}
+                aria-labelledby={`share-${el}-button`}
               >
-                <title>{el}</title>
+                <title id={`share-${el}-button`}>{el}</title>
                 <use
                   href={`/article-preview-component/images/icon-${el}.svg#icon-${el}`}
                 />
