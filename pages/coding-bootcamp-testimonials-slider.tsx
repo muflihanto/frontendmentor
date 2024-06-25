@@ -22,6 +22,7 @@ const CodingBootcamp = () => {
         <svg
           viewBox="0 0 610 154"
           className="absolute bottom-0 w-[75%] lg:w-[610px]"
+          aria-hidden="true"
         >
           <title>Pattern Curve</title>
           <use href="/coding-bootcamp-testimonials-slider/images/pattern-curve.svg#pattern-curve" />
@@ -97,15 +98,28 @@ const data = [
 
 function Testimony({ activeIndex }: { activeIndex: number }) {
   return (
-    <div className="mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] text-coding-primary-200 lg:z-10 lg:my-0 lg:ml-[0px] lg:mr-[-75px] lg:w-[632px] lg:bg-[length:120px,100px] lg:bg-[left_95px_top_0px] lg:px-0 lg:pb-[44px] lg:pt-[65px] [&_*]:text-center lg:[&_*]:text-left">
-      <p className="text-[18px] font-light leading-[24px] lg:text-[32px] lg:leading-[44px]">
+    <div
+      className="mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] text-coding-primary-200 lg:z-10 lg:my-0 lg:ml-[0px] lg:mr-[-75px] lg:w-[632px] lg:bg-[length:120px,100px] lg:bg-[left_95px_top_0px] lg:px-0 lg:pb-[44px] lg:pt-[65px] [&_*]:text-center lg:[&_*]:text-left"
+      aria-label={`${activeIndex + 1} of 2`}
+      aria-roledescription="slide"
+    >
+      <p
+        className="text-[18px] font-light leading-[24px] lg:text-[32px] lg:leading-[44px]"
+        aria-label="Testimonial"
+      >
         {data[activeIndex].testimony}
       </p>
       <div className="mt-[19px] lg:mt-[36px] lg:flex lg:items-center lg:gap-[8px]">
-        <p className="text-[15px] font-bold leading-[18px] lg:mt-0 lg:text-[20px] lg:leading-normal lg:tracking-[0.2px]">
+        <p
+          className="text-[15px] font-bold leading-[18px] lg:mt-0 lg:text-[20px] lg:leading-normal lg:tracking-[0.2px]"
+          aria-label="Author Name"
+        >
           {data[activeIndex].name}
         </p>
-        <p className="text-[15px] font-medium text-coding-primary-100 lg:text-[20px]">
+        <p
+          className="text-[15px] font-medium text-coding-primary-100 lg:text-[20px]"
+          aria-label="Author Occupation"
+        >
           {data[activeIndex].occupation}
         </p>
       </div>
@@ -143,12 +157,13 @@ function Main() {
           }}
           className="group flex h-full w-1/2 items-center justify-center"
           type="button"
+          aria-controls="slider-items"
         >
           <svg
             viewBox="0 0 12 18"
             className="h-[13px] stroke-[4px] text-[#8585AC] group-hover:text-[#4A3FDB] lg:h-[18px] lg:stroke-[3px]"
           >
-            <title>Previous</title>
+            <title>Previous Slide</title>
             <use href="/coding-bootcamp-testimonials-slider/images/icon-prev.svg#icon-prev" />
           </svg>
         </button>
@@ -158,12 +173,13 @@ function Main() {
           }}
           className="group flex h-full w-1/2 items-center justify-center"
           type="button"
+          aria-controls="slider-items"
         >
           <svg
             viewBox="0 0 13 18"
             className="h-[13px] stroke-[4px] text-[#8585AC] group-hover:text-[#4A3FDB] lg:h-[18px] lg:stroke-[3px]"
           >
-            <title>Next</title>
+            <title>Next Slide</title>
             <use href="/coding-bootcamp-testimonials-slider/images/icon-next.svg#icon-next" />
           </svg>
         </button>
@@ -172,8 +188,13 @@ function Main() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center pt-[54px] lg:flex-row-reverse lg:justify-between lg:px-[165px] lg:pt-[113px]">
-      <div className="flex flex-col max-md:items-center">
+    <div
+      className="flex flex-col items-center justify-center pt-[54px] lg:flex-row-reverse lg:justify-between lg:px-[165px] lg:pt-[113px]"
+      id="testimonials-slider"
+      aria-roledescription="carousel"
+      aria-label="Coding bootcamp testimonials"
+    >
+      <div className="flex flex-col max-md:items-center" id="slider-items">
         <Avatar
           src={data[activeIndex].img.src}
           alt={data[activeIndex].img.alt}
