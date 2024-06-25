@@ -56,8 +56,12 @@ function CTA({ className = "" }: { className?: string }) {
 function HeroSection() {
   return (
     <main className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat px-8 py-[123px] lg:bg-[url('/clipboard-landing-page/images/bg-header-desktop.png')] lg:py-[131px]">
-      <svg className="w-[125px]" viewBox="0 0 125 125">
-        <title>Clipboard Logo</title>
+      <svg
+        className="w-[125px]"
+        viewBox="0 0 125 125"
+        aria-labelledby="clipboard-logo-title"
+      >
+        <title id="clipboard-logo-title">Clipboard Logo</title>
         <use href="/clipboard-landing-page/images/logo.svg#clipboard-logo" />
       </svg>
       <h1 className="mt-[64px] text-center text-[32px] font-semibold leading-[40px] tracking-[-.5px] text-clipboard-neutral-200 lg:mt-[65px] lg:text-[46px] lg:tracking-[-.75px]">

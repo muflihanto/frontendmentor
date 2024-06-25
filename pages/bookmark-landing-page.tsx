@@ -156,8 +156,9 @@ function Header() {
       <svg
         viewBox="0 0 148 25"
         className="h-[25px] text-bookmark-neutral-200 lg:ml-[6px]"
+        aria-labelledby="bookmark-logo-title"
       >
-        <title>Bookmark Logo</title>
+        <title id="bookmark-logo-title">Bookmark Logo</title>
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
@@ -190,8 +191,11 @@ function Header() {
                 <svg
                   viewBox="0 0 148 25"
                   className="h-[25px] text-bookmark-neutral-200/95"
+                  aria-labelledby="bookmark-logo-white-title"
                 >
-                  <title>Bookmark Logo White</title>
+                  <title id="bookmark-logo-white-title">
+                    Bookmark Logo White
+                  </title>
                   <use href="/bookmark-landing-page/images/logo-bookmark-white.svg#logo-bookmark-white" />
                 </svg>
                 <Button onPress={close} className="h-[15px] w-4">
@@ -590,8 +594,9 @@ function FAQ() {
                             : "text-bookmark-primary-blue",
                         ])}
                         viewBox="0 0 18 12"
+                        role="graphics-symbol"
+                        aria-label="Arrow"
                       >
-                        <title>Arrow</title>
                         <use href="/bookmark-landing-page/images/icon-arrow.svg#icon-arrow" />
                       </svg>
                     </Disclosure.Button>
@@ -673,18 +678,19 @@ function ContactUs() {
             ])}
           />
           {errors.email && (
-            <svg
-              viewBox="0 0 20 20"
-              className="absolute right-4 top-[14px] w-5"
-            >
-              <title>Error</title>
-              <use href="/bookmark-landing-page/images/icon-error.svg#icon-error" />
-            </svg>
-          )}
-          {errors.email && (
-            <p className="mt-[3px] px-[11px] text-[9px] font-medium italic tracking-[0.8px]">
-              {errors.email.message}
-            </p>
+            <>
+              <svg
+                viewBox="0 0 20 20"
+                className="absolute right-4 top-[14px] w-5"
+                role="graphics-symbol"
+                aria-label="Error indicator"
+              >
+                <use href="/bookmark-landing-page/images/icon-error.svg#icon-error" />
+              </svg>
+              <p className="mt-[3px] px-[11px] text-[9px] font-medium italic tracking-[0.8px]">
+                {errors.email.message}
+              </p>
+            </>
           )}
         </div>
         <button
@@ -701,8 +707,12 @@ function ContactUs() {
 function Footer() {
   return (
     <footer className="lg: relative flex h-[334.25px] w-full flex-col items-center bg-bookmark-neutral-200 pt-[40px] text-white lg:h-[89px] lg:flex-row lg:px-[165px] lg:pt-0">
-      <svg viewBox="0 0 148 25" className="h-[25px] text-white">
-        <title>Bookmark Logo</title>
+      <svg
+        viewBox="0 0 148 25"
+        className="h-[25px] text-white"
+        aria-labelledby="bookmark-logo-footer-title"
+      >
+        <title id="bookmark-logo-footer-title">Bookmark Logo</title>
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
@@ -721,7 +731,7 @@ function Footer() {
         </a>
         <a href="" className="text-white hover:text-bookmark-primary-red">
           <svg viewBox="0 0 24 20" className="w-6">
-            <title>Facebook</title>
+            <title>Twitter</title>
             <use href="/bookmark-landing-page/images/icon-twitter.svg#icon-twitter" />
           </svg>
         </a>
