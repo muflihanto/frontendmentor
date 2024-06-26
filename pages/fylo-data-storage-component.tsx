@@ -43,8 +43,9 @@ function NavLink(props: NavLinkProps) {
       <svg
         className={props.variant === "document" ? "w-5" : "w-6"}
         viewBox={variantProps[props.variant]}
+        role="graphics-symbol"
+        aria-label={props.variant}
       >
-        <title>{props.variant}</title>
         <use
           href={`/fylo-data-storage-component/images/icon-${props.variant}.svg#icon-${props.variant}`}
         />

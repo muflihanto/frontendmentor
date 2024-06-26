@@ -213,12 +213,14 @@ function ProductiveSection() {
           alt="Curve Bg"
           fill
           className="block object-contain lg:hidden"
+          aria-hidden="true"
         />
         <Image
           src="/fylo-landing-page-with-two-column-layout/images/bg-curve-desktop.svg"
           alt="Curve Bg"
           fill
           className="hidden object-contain lg:block"
+          aria-hidden="true"
         />
       </div>
       <div className="flex flex-col items-center bg-fylo-landing-neutral-100 px-7 pb-[81.5px] lg:grid lg:grid-cols-[auto,540px] lg:grid-rows-1 lg:items-start lg:px-20 lg:pb-[106px] lg:pt-[57px]">
@@ -252,8 +254,8 @@ function ProductiveSection() {
             <svg
               viewBox="0 0 16 16"
               className="w-4 text-[#3DA08F] group-hover:text-[hsl(168,56%,66%)] lg:mt-[4px]"
+              aria-hidden="true"
             >
-              <title>Arrow</title>
               <use href="/fylo-landing-page-with-two-column-layout/images/icon-arrow.svg#fylo-icon-arrow" />
             </svg>
           </a>
@@ -270,8 +272,9 @@ function Testimony() {
       <svg
         className="-ml-[1px] w-[16px] font-manrope lg:w-[20px]"
         viewBox="0 0 16 12"
+        role="graphics-symbol"
+        aria-hidden="true"
       >
-        <title>Quotes</title>
         <use href="/fylo-landing-page-with-two-column-layout/images/icon-quotes.svg#fylo-icon-quotes" />
       </svg>
       <p className="mt-[6px] leading-[18px] lg:mt-[9px] lg:text-[13px] lg:leading-[23.15px] lg:tracking-[.5px]">
@@ -378,15 +381,26 @@ function Footer() {
       <div className="flex flex-col text-fylo-landing-neutral-100 lg:mt-[23px] lg:flex-row lg:justify-start [&_li:hover]:text-fylo-landing-neutral-200/70">
         <div className="mt-[39px] flex flex-col gap-4 px-[2px] lg:mt-0">
           <p className="flex gap-[18px]">
-            <svg className="mx-[1px] w-[18px]" viewBox="0 0 18 18">
+            <svg
+              className="mx-[1px] w-[18px]"
+              viewBox="0 0 18 18"
+              aria-label="Phone"
+              role="graphics-symbol"
+              aria-hidden="true"
+            >
               <title>Phone</title>
               <use href="/fylo-landing-page-with-two-column-layout/images/icon-phone.svg#icon-phone" />
             </svg>
             <span>Phone: +1-543-123-4567</span>
           </p>
           <p className="flex gap-[18px] text-fylo-landing-neutral-200">
-            <svg viewBox="0 0 20 16" className="w-5">
-              <title>Email</title>
+            <svg
+              viewBox="0 0 20 16"
+              className="w-5"
+              aria-label="Email"
+              role="graphics-symbol"
+              aria-hidden="true"
+            >
               <use href="/fylo-landing-page-with-two-column-layout/images/icon-email.svg#icon-email" />
             </svg>
             <span>example@fylo.com</span>
