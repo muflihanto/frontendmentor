@@ -474,8 +474,12 @@ function Icon({
   }
 
   return (
-    <svg {...props} {...variantProps}>
-      <title>{variant}</title>
+    <svg
+      {...props}
+      {...variantProps}
+      role="graphics-symbol"
+      aria-label={variant[0].toUpperCase() + variant.slice(1)}
+    >
       <use
         href={`/easybank-landing-page/images/icon-${variant}.svg#icon-${variant}`}
       />

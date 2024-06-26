@@ -113,8 +113,12 @@ Card.Body = Body;
 const Icon: FC<{ variant: CardVariant }> = ({ variant }) => {
   const variantKebabCase = variant.toLowerCase().replace(" ", "-");
   return (
-    <svg viewBox="0 0 64 64" className="mt-auto h-[57px] self-end lg:h-[64px]">
-      <title>{variant} Icon</title>
+    <svg
+      viewBox="0 0 64 64"
+      className="mt-auto h-[57px] self-end lg:h-[64px]"
+      role="graphics-symbol"
+      aria-label={variant}
+    >
       <use
         href={`/four-card-feature-section/images/icon-${variantKebabCase}.svg#icon-${variantKebabCase}`}
       />
