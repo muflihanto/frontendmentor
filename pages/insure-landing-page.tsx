@@ -139,8 +139,12 @@ function MobileNavButton({
   const name = isOpen ? "close" : "hamburger";
   return (
     <button onClick={toggle} className="lg:hidden" type="button">
-      <svg viewBox="0 0 32 32" className="w-8">
-        <title>{name}</title>
+      <svg
+        viewBox="0 0 32 32"
+        className="w-8"
+        role="graphics-symbol"
+        aria-label={`${name[0].toUpperCase() + name.slice(1)} Menu`}
+      >
         <use
           href={`/insure-landing-page/images/icon-${name}.svg#icon-${name}`}
         />
@@ -256,13 +260,15 @@ type WereDifferentSectionProps = {
 };
 function WereDifferentSectionIcon({ type }: WereDifferentSectionProps) {
   return (
-    <svg viewBox="0 0 86 86" className="w-[86px]">
-      <title>
-        {type
-          .split("-")
-          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-          .join(" ")}
-      </title>
+    <svg
+      viewBox="0 0 86 86"
+      className="w-[86px]"
+      role="graphics-symbol"
+      aria-label={type
+        .split("-")
+        .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+        .join(" ")}
+    >
       <use href={`/insure-landing-page/images/icon-${type}.svg#icon-${type}`} />
     </svg>
   );
@@ -423,8 +429,9 @@ function SocialMediaIcons() {
                 <svg
                   viewBox={`0 0 24 ${el === "twitter" ? 20 : 24}`}
                   className="w-6 fill-[#837D88] group-hover:fill-insure-primary-200"
+                  aria-label={el.charAt(0).toUpperCase() + el.slice(1)}
+                  role="graphics-symbol"
                 >
-                  <title>{el.charAt(0).toUpperCase() + el.slice(1)}</title>
                   <use
                     href={`/insure-landing-page/images/icon-${el}.svg#icon-${el}`}
                   />

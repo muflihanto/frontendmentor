@@ -317,8 +317,7 @@ function Card({
                   }}
                   type="button"
                 >
-                  <svg viewBox="0 0 12 14" className="w-3">
-                    <title>Delete</title>
+                  <svg viewBox="0 0 12 14" className="w-3" aria-hidden="true">
                     <use href="/interactive-comments-section/images/icon-delete.svg#icon-delete" />
                   </svg>
                   <span className="pb-[2px] font-medium text-interactive-comment-primary-red-200">
@@ -332,8 +331,11 @@ function Card({
                   }}
                   type="button"
                 >
-                  <svg viewBox="0 0 14 14" className="w-[14px]">
-                    <title>Edit</title>
+                  <svg
+                    viewBox="0 0 14 14"
+                    className="w-[14px]"
+                    aria-hidden="true"
+                  >
                     <use href="/interactive-comments-section/images/icon-edit.svg#icon-edit" />
                   </svg>
                   <span className="pb-[3px] font-medium text-interactive-comment-primary-blue-200">
@@ -353,8 +355,8 @@ function Card({
                   <svg
                     viewBox="0 0 14 13"
                     className="h-[13px] translate-y-[1px]"
+                    aria-hidden="true"
                   >
-                    <title>Reply</title>
                     <use href="/interactive-comments-section/images/icon-reply.svg#icon-reply" />
                   </svg>
                 </span>
