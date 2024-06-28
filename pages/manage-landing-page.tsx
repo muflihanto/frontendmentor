@@ -501,8 +501,9 @@ function Icon({ variant }: { variant: IconVariant }) {
     <svg
       className="flex aspect-square h-full items-center justify-center"
       viewBox={viewboxes[variant]}
+      aria-label={variant[0].toUpperCase() + variant.slice(1)}
+      role="graphics-symbol"
     >
-      <title>{variant}</title>
       <use href={`/manage-landing-page/images/icon-${variant}.svg#icon`} />
     </svg>
   );

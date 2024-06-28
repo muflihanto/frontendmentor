@@ -256,8 +256,9 @@ function SocialIcons() {
                 <svg
                   viewBox="0 0 24 24"
                   className="h-6 w-6 fill-[#8385A9] group-hover:fill-countdown-primary-red"
+                  role="graphics-symbol"
+                  aria-label={el}
                 >
-                  <title>{el}</title>
                   <use
                     href={`/launch-countdown-timer/images/icon-${el}.svg#icon-${el}`}
                   />

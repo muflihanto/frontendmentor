@@ -137,8 +137,12 @@ function Intro() {
             className="flex w-[58px] items-center justify-center bg-black hover:bg-opacity-[75%]"
             type="submit"
           >
-            <svg className="w-[11px]" viewBox="0 0 11 14">
-              <title>Arrow</title>
+            <svg
+              className="w-[11px]"
+              viewBox="0 0 11 14"
+              aria-label="Submit"
+              role="graphics-symbol"
+            >
               <use href="/ip-address-tracker/images/icon-arrow.svg#icon-arrow" />
             </svg>
           </button>
