@@ -151,8 +151,12 @@ function Main() {
 
 function IconList({ className }: { className?: string }) {
   return (
-    <svg className={twMerge("w-[21px]", className)} viewBox="0 0 21 21">
-      <title>List</title>
+    <svg
+      className={twMerge("w-[21px]", className)}
+      viewBox="0 0 21 21"
+      role="graphics-symbol"
+      aria-label="List"
+    >
       <use href="/newsletter-sign-up-with-success-message/assets/images/icon-list.svg#icon-list" />
     </svg>
   );
@@ -161,17 +165,29 @@ function IconList({ className }: { className?: string }) {
 function IllustrationSignUp() {
   const { width } = useWindowSize();
 
+  console.log({ width });
+
   return (
     <>
-      {width >= 1024 ? (
-        <svg className="w-full flex-1 translate-x-5" viewBox="0 0 400 593">
-          <title>Illustration Desktop</title>
-          <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-desktop.svg#illustration-desktop" />
+      {width < 1024 ? (
+        <svg
+          className="w-full"
+          viewBox="0 0 375 284"
+          aria-labelledby="illustration-sign-up-mobile-title"
+        >
+          <title id="illustration-sign-up-mobile-title">
+            Illustration Sign Up Mobile
+          </title>
+          <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-mobile.svg#illustration-mobile" />
         </svg>
       ) : (
-        <svg className="w-full" viewBox="0 0 375 284">
-          <title>Illustration Sign Up Mobile</title>
-          <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-mobile.svg#illustration-mobile" />
+        <svg
+          className="w-full flex-1 translate-x-5"
+          viewBox="0 0 400 593"
+          aria-labelledby="illustration-desktop-title"
+        >
+          <title id="illustration-desktop-title">Illustration Desktop</title>
+          <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-desktop.svg#illustration-desktop" />
         </svg>
       )}
     </>
@@ -190,8 +206,12 @@ function SuccessScreen() {
   return (
     <div className="fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll bg-news-homepage-neutral-100 px-6 py-10 lg:static lg:h-[520px] lg:w-[505px] lg:gap-0 lg:rounded-[36px] lg:p-16 lg:pt-[48px] lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
       <div className="flex flex-col place-self-center lg:place-self-start">
-        <svg className="w-16" viewBox="0 0 64 64">
-          <title>Success</title>
+        <svg
+          className="w-16"
+          viewBox="0 0 64 64"
+          aria-label="Success"
+          role="graphics-symbol"
+        >
           <use href="/newsletter-sign-up-with-success-message/assets/images/icon-success.svg#icon-success" />
         </svg>
         <h1 className="mt-10 text-[40px] font-bold leading-none text-newsletter-neutral-400 lg:-translate-y-[1px] lg:text-[56px]">
