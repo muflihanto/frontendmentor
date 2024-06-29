@@ -94,8 +94,8 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
   /** Test if the hero slider works */
   test("hero slider works", async ({ page }) => {
     const section = page.locator("div").nth(3);
-    const prevImage = section.getByRole("button").first();
-    const nextImage = section.getByRole("button").nth(1);
+    const prevImage = section.getByRole("button", { name: "Previous slide" });
+    const nextImage = section.getByRole("button", { name: "Next slide" });
     const heroImage = section.locator(">div").first();
     const textgrid = section.locator(">div").nth(1);
     for (const [index, product] of Object.entries(products)) {

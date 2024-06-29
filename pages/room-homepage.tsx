@@ -148,13 +148,21 @@ function Header() {
           type="button"
         >
           {menuOpen ? (
-            <svg viewBox="0 0 16 16" className="ml-[2px] w-4">
-              <title>Close Menu</title>
+            <svg
+              viewBox="0 0 16 16"
+              className="ml-[2px] w-4"
+              aria-label="Close menu"
+              role="graphics-symbol"
+            >
               <use href="/room-homepage/images/icon-close.svg#icon-close" />
             </svg>
           ) : (
-            <svg viewBox="0 0 20 14" className="w-5">
-              <title>Hamburger Menu</title>
+            <svg
+              viewBox="0 0 20 14"
+              className="w-5"
+              aria-label="Open menu"
+              role="graphics-symbol"
+            >
               <use href="/room-homepage/images/icon-hamburger.svg#icon-hamburger" />
             </svg>
           )}
@@ -162,12 +170,13 @@ function Header() {
         <svg
           viewBox="0 0 62 14"
           className="absolute left-1/2 top-1/2 z-0 h-[14px] -translate-x-1/2 -translate-y-1/2 lg:static lg:transform-none"
+          aria-labelledby="room-logo-title"
         >
-          <title>Room Logo</title>
+          <title id="room-logo-title">Room Logo</title>
           <use href="/room-homepage/images/logo.svg#room-logo" />
         </svg>
         <AnimatePresence>
-          {(!!menuOpen || width > 1023) && (
+          {!menuOpen && width < 1024 ? null : (
             <nav className="relative ml-auto pt-[3px] lg:ml-[56px] lg:pb-[2px] lg:pt-0">
               <ul className="flex gap-8 lg:gap-[33px]">
                 {links.map((link) => {
@@ -197,6 +206,7 @@ function Header() {
   );
 }
 
+// TODO: add slider accessibility features
 function Slide() {
   const [product] = useState(products);
   const [activeProduct, setActiveProduct] = useState(0);
@@ -253,8 +263,8 @@ function Slide() {
           <svg
             className="w-10 text-room-primary-400 group-hover:text-room-primary-200"
             viewBox="0 0 40 12"
+            aria-hidden="true"
           >
-            <title>Arrow</title>
             <use href="/room-homepage/images/icon-arrow.svg#icon-arrow" />
           </svg>
         </a>
@@ -272,8 +282,9 @@ function Slide() {
           <svg
             viewBox="0 0 14 24"
             className="pointer-events-auto h-4 stroke-2 lg:h-6 lg:stroke-1"
+            aria-label="Previous slide"
+            role="graphics-symbol"
           >
-            <title>Angle Left</title>
             <use href="/room-homepage/images/icon-angle-left.svg#icon-angle-left" />
           </svg>
         </button>
@@ -289,8 +300,9 @@ function Slide() {
           <svg
             viewBox="0 0 14 24"
             className="pointer-events-none h-4 stroke-2 lg:h-6 lg:stroke-1"
+            aria-label="Next slide"
+            role="graphics-symbol"
           >
-            <title>Angle Right</title>
             <use href="/room-homepage/images/icon-angle-right.svg#icon-angle-right" />
           </svg>
         </button>

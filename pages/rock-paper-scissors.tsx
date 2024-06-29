@@ -257,8 +257,8 @@ function Choices() {
       <svg
         className="absolute left-1/2 top-[61px] w-[calc(375px-170px)] -translate-x-1/2 stroke-[27] lg:left-[calc(50%+4px)] lg:top-[94px] lg:w-[313px] lg:stroke-[16px]"
         viewBox="0 0 313 278"
+        aria-hidden="true"
       >
-        <title>Triangle Background</title>
         <use href="/rock-paper-scissors/images/bg-triangle.svg#bg-triangle" />
       </svg>
     </div>

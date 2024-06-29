@@ -111,8 +111,9 @@ function Icons(props: ComponentProps<"svg"> & { variant: IconVariants }) {
     <svg
       viewBox="0 0 20 20"
       className={cn(["pointer-events-none w-5", props.className])}
+      aria-label={props.variant}
+      role="graphics-symbol"
     >
-      <title>{props.variant}</title>
       <use
         href={`/results-summary-component/assets/images/icon-${props.variant}.svg#icon-${props.variant}`}
       />

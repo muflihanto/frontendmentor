@@ -281,8 +281,8 @@ function Choices() {
       <svg
         className="pointer-events-none absolute left-1/2 top-[56px] w-[calc(375px-164px)] -translate-x-1/2 stroke-[24px] lg:left-[calc(50%)] lg:top-[78px] lg:w-[329px] lg:stroke-[15px]"
         viewBox="0 0 329 313"
+        aria-hidden="true"
       >
-        <title>Pentagon</title>
         <use href="/rock-paper-scissors/images/bg-pentagon.svg#bg-pentagon" />
       </svg>
     </div>
