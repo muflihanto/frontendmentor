@@ -49,19 +49,31 @@ function Header({
 }) {
   return (
     <header className="flex h-[100px] items-center justify-between px-8 lg:h-[160px] lg:px-[165px]">
-      <svg className="w-6 lg:w-8" viewBox="0 0 32 32">
-        <title>Logo</title>
+      <svg
+        className="w-6 lg:w-8"
+        viewBox="0 0 32 32"
+        aria-labelledby="logo-title"
+      >
+        <title id="logo-title">Logo</title>
         <use href="/project-tracking-intro-component/images/logo.svg#logo" />
       </svg>
       <button onClick={toggle} className="hidden max-md:block" type="button">
         {isMenuOpen ? (
-          <svg className="w-6" viewBox="0 0 20 20">
-            <title>Close Menu</title>
+          <svg
+            className="w-6"
+            viewBox="0 0 20 20"
+            aria-label="Close Menu"
+            role="graphics-symbol"
+          >
             <use href="/project-tracking-intro-component/images/icon-close.svg#icon-close" />
           </svg>
         ) : (
-          <svg className="w-6" viewBox="0 0 24 16">
-            <title>Hamburger Menu</title>
+          <svg
+            className="w-6"
+            viewBox="0 0 24 16"
+            aria-label="Open Menu"
+            role="graphics-symbol"
+          >
             <use href="/project-tracking-intro-component/images/icon-hamburger.svg#icon-hamburger" />
           </svg>
         )}

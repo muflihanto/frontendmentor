@@ -64,10 +64,18 @@ test.describe("FrontendMentor Challenge - Product preview card component page", 
   /** Test if the page has correct pricing */
   test.describe("has pricing", () => {
     test("has current price", async ({ page }) => {
-      await expect(page.getByText("$149.99")).toBeVisible();
+      const currentPrice = page.getByText("$149.99", { exact: true });
+      await expect(currentPrice).toBeVisible();
+      const currentPriceSr = page.getByText("Current price: $149.99");
+      await expect(currentPriceSr).toBeAttached();
+      await expect(currentPriceSr).toHaveClass("sr-only");
     });
     test("has real price", async ({ page }) => {
-      await expect(page.getByText("$169.99")).toBeVisible();
+      const originalPrice = page.getByText("$169.99", { exact: true });
+      await expect(originalPrice).toBeVisible();
+      const originalPriceSr = page.getByText("Original price: $169.99");
+      await expect(originalPriceSr).toBeAttached();
+      await expect(originalPriceSr).toHaveClass("sr-only");
     });
   });
 

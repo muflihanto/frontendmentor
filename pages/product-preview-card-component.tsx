@@ -72,10 +72,18 @@ function ProductDescription() {
         Perfumer-Creator for the House of CHANEL.
       </p>
       <p className="flex items-center gap-[1.4rem] font-montserrat font-light text-product-review-neutral-300">
-        <span className="font-fraunces text-[2.2rem] font-bold leading-none tracking-[.75px] text-product-review-primary-cyan">
+        <span className="sr-only">Current price: $149.99</span>
+        <span
+          className="font-fraunces text-[2.2rem] font-bold leading-none tracking-[.75px] text-product-review-primary-cyan"
+          aria-hidden="true"
+        >
           $149.99
         </span>
-        <span className="font-montserrat text-[13px] font-medium text-product-review-neutral-200 line-through">
+        <span className="sr-only">Original price: $169.99</span>
+        <span
+          className="font-montserrat text-[13px] font-medium text-product-review-neutral-200 line-through"
+          aria-hidden="true"
+        >
           $169.99
         </span>
       </p>
@@ -86,8 +94,8 @@ function ProductDescription() {
         <svg
           viewBox="0 0 15 16"
           className="pointer-events-none h-[17px] object-contain pt-[.5px]"
+          aria-hidden="true"
         >
-          <title>Cart</title>
           <use href="/product-preview-card-component/images/icon-cart.svg#icon-cart" />
         </svg>
         <span>Add to Cart</span>
