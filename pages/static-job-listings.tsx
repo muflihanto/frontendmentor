@@ -128,8 +128,12 @@ function FilterButton({
         className="ml-auto flex h-8 w-8 items-center justify-center rounded-r bg-job-listings-primary hover:bg-job-listings-neutral-400"
         type="button"
       >
-        <svg viewBox="0 0 14 14" className="pointer-events-none w-[14px]">
-          <title>Remove</title>
+        <svg
+          viewBox="0 0 14 14"
+          className="pointer-events-none w-[14px]"
+          aria-label="Remove"
+          role="graphics-symbol"
+        >
           <use href="/static-job-listings/images/icon-remove.svg#icon-remove" />
         </svg>
       </button>

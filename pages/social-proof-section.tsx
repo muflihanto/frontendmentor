@@ -60,8 +60,12 @@ export default function SocialProofSection() {
 
 function StarIcon() {
   return (
-    <svg viewBox="0 0 17 16" className="pointer-events-none h-4">
-      <title>Star</title>
+    <svg
+      viewBox="0 0 17 16"
+      className="pointer-events-none h-4"
+      aria-label="Star"
+      role="graphics-symbol"
+    >
       <use href="/social-proof-section/images/icon-star.svg#icon-star" />
     </svg>
   );

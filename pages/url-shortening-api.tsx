@@ -57,8 +57,9 @@ function Logo(props: ComponentProps<"svg">) {
         "w-[121px]", //
         props.className,
       ])}
+      aria-labelledby="shortly-logo-title"
     >
-      <title>Shortly Logo</title>
+      <title id="shortly-logo-title">Shortly Logo</title>
       <use href="/url-shortening-api/images/logo.svg#shortly-logo" />
     </svg>
   );
@@ -99,8 +100,9 @@ function MobileNav() {
             xmlns="http://www.w3.org/2000/svg"
             className="w-5 text-url-shortening-neutral-200"
             viewBox="0 0 20 21"
+            aria-label="Close Menu"
+            role="graphics-symbol"
           >
-            <title>Close</title>
             <g fillRule="evenodd" fill="currentColor">
               <path d="M2.575.954l16.97 16.97-2.12 2.122L.455 3.076z" />
               <path d="M.454 17.925L17.424.955l2.122 2.12-16.97 16.97z" />
@@ -111,8 +113,9 @@ function MobileNav() {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 21"
             className="w-6 text-url-shortening-neutral-200"
+            aria-label="Open Menu"
+            role="graphics-symbol"
           >
-            <title>Menu</title>
             <g fill="currentColor" fillRule="evenodd">
               <path d="M0 0h24v3H0zM0 9h24v3H0zM0 18h24v3H0z" />
             </g>
@@ -630,26 +633,42 @@ function SNSLinks({ className, ...props }: ComponentProps<"nav">) {
       ])}
     >
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="pointer-events-none w-6" viewBox="0 0 24 24">
-          <title>Facebook</title>
+        <svg
+          className="pointer-events-none w-6"
+          viewBox="0 0 24 24"
+          role="graphics-symbol"
+          aria-label="Facebook"
+        >
           <use href="/url-shortening-api/images/icon-facebook.svg#icon-facebook" />
         </svg>
       </a>
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="pointer-events-none w-6" viewBox="0 0 24 20">
-          <title>Twitter</title>
+        <svg
+          className="pointer-events-none w-6"
+          viewBox="0 0 24 20"
+          role="graphics-symbol"
+          aria-label="Twitter"
+        >
           <use href="/url-shortening-api/images/icon-twitter.svg#icon-twitter" />
         </svg>
       </a>
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="pointer-events-none w-6" viewBox="0 0 24 24">
-          <title>Pinterest</title>
+        <svg
+          className="pointer-events-none w-6"
+          viewBox="0 0 24 24"
+          role="graphics-symbol"
+          aria-label="Pinterest"
+        >
           <use href="/url-shortening-api/images/icon-pinterest.svg#icon-pinterest" />
         </svg>
       </a>
       <a href="" className="text-white hover:text-url-shortening-primary-cyan">
-        <svg className="pointer-events-none w-6" viewBox="0 0 24 24">
-          <title>Instagram</title>
+        <svg
+          className="pointer-events-none w-6"
+          viewBox="0 0 24 24"
+          role="graphics-symbol"
+          aria-label="Instagram"
+        >
           <use href="/url-shortening-api/images/icon-instagram.svg#icon-instagram" />
         </svg>
       </a>
