@@ -231,8 +231,16 @@ function Slide() {
           "--height": "calc(360/375*100vw)",
         } as CSSProperties
       }
+      id="feature-slides"
+      aria-roledescription="carousel"
+      aria-label="Room product features"
     >
-      <div className="relative aspect-[375/360] w-full lg:aspect-auto lg:h-full lg:w-[calc(840/1440*100vw)]">
+      <div
+        className="relative aspect-[375/360] w-full lg:aspect-auto lg:h-full lg:w-[calc(840/1440*100vw)]"
+        aria-roledescription="slide"
+        id="product-image-slide"
+        aria-label={"Product image"}
+      >
         <Image
           src={"/room-homepage/images/"}
           loader={({ src, width }) => {
@@ -246,13 +254,26 @@ function Slide() {
           className="object-cover"
           fill
           alt={`Product ${activeProduct + 1}`}
+          aria-label={`Product image ${activeProduct + 1} of ${product.length}`}
         />
       </div>
-      <div className="h-[410px] w-full px-8 py-[61px] lg:flex lg:h-full lg:w-auto lg:flex-col lg:justify-center lg:px-[clamp(80px,calc(100/1440*100vw),100px)] lg:py-0 lg:pb-[34px]">
-        <h1 className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]">
+      <div
+        className="h-[410px] w-full px-8 py-[61px] lg:flex lg:h-full lg:w-auto lg:flex-col lg:justify-center lg:px-[clamp(80px,calc(100/1440*100vw),100px)] lg:py-0 lg:pb-[34px]"
+        role="group"
+        id="product-description-slide"
+        aria-roledescription="slide"
+        aria-label={"Feature description"}
+      >
+        <h1
+          className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]"
+          aria-label={`Feature ${activeProduct + 1} of ${product.length}`}
+        >
           {product[activeProduct].title}
         </h1>
-        <p className="mt-[15px] font-medium leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[22px] lg:text-[clamp(15px,calc(16/800*100dvh),16px)]">
+        <p
+          className="mt-[15px] font-medium leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[22px] lg:text-[clamp(15px,calc(16/800*100dvh),16px)]"
+          aria-label={`Description ${activeProduct + 1} of ${product.length}`}
+        >
           {product[activeProduct].description}
         </p>
         <a
@@ -278,12 +299,15 @@ function Slide() {
           }}
           className="flex h-full w-full items-center justify-center bg-room-primary-400 hover:bg-room-primary-300"
           type="button"
+          aria-controls="product-image-slide product-description-slide"
+          aria-labelledby="prevSlideIcon"
         >
           <svg
             viewBox="0 0 14 24"
             className="pointer-events-auto h-4 stroke-2 lg:h-6 lg:stroke-1"
             aria-label="Previous slide"
             role="graphics-symbol"
+            id="prevSlideIcon"
           >
             <use href="/room-homepage/images/icon-angle-left.svg#icon-angle-left" />
           </svg>
@@ -296,12 +320,15 @@ function Slide() {
           }}
           className="flex h-full w-full items-center justify-center bg-room-primary-400 hover:bg-room-primary-300"
           type="button"
+          aria-controls="product-image-slide product-description-slide"
+          aria-labelledby="nextSlideIcon"
         >
           <svg
             viewBox="0 0 14 24"
             className="pointer-events-none h-4 stroke-2 lg:h-6 lg:stroke-1"
             aria-label="Next slide"
             role="graphics-symbol"
+            id="nextSlideIcon"
           >
             <use href="/room-homepage/images/icon-angle-right.svg#icon-angle-right" />
           </svg>
