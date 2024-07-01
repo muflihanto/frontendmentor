@@ -83,7 +83,9 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
     await expect(section.getByRole("button").nth(1)).toBeVisible();
     const grid1 = section.locator(">div").first();
     const grid2 = section.locator(">div").nth(1);
-    await expect(grid1.getByRole("img", { name: "Product 1" })).toBeVisible();
+    await expect(
+      grid1.getByRole("img", { name: "Product image 1 of 3" }),
+    ).toBeVisible();
     await expect(
       grid2.getByRole("heading", { name: products[0].title }),
     ).toBeVisible();
@@ -100,7 +102,9 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
     const textgrid = section.locator(">div").nth(1);
     for (const [index, product] of Object.entries(products)) {
       await expect(
-        heroImage.getByRole("img", { name: `Product ${Number(index) + 1}` }),
+        heroImage.getByRole("img", {
+          name: `Product image ${Number(index) + 1} of ${products.length}`,
+        }),
       ).toBeVisible();
       await expect(
         textgrid.getByRole("heading", { name: product.title }),
@@ -115,7 +119,9 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
       await prevImage.click();
       await expect(
         heroImage.getByRole("img", {
-          name: `Product ${products.length - Number(index)}`,
+          name: `Product image ${products.length - Number(index)} of ${
+            products.length
+          }`,
         }),
       ).toBeVisible();
       await expect(

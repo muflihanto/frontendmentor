@@ -266,13 +266,13 @@ function Slide() {
       >
         <h1
           className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]"
-          aria-label={`Feature ${activeProduct + 1} of ${product.length}`}
+          // aria-label={`Feature ${activeProduct + 1} of ${product.length}`}
         >
           {product[activeProduct].title}
         </h1>
         <p
           className="mt-[15px] font-medium leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[22px] lg:text-[clamp(15px,calc(16/800*100dvh),16px)]"
-          aria-label={`Description ${activeProduct + 1} of ${product.length}`}
+          // aria-label={`Description ${activeProduct + 1} of ${product.length}`}
         >
           {product[activeProduct].description}
         </p>
