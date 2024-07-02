@@ -44,6 +44,10 @@ export const pages = [
     path: "coding-bootcamp-testimonials-slider",
   },
   {
+    title: "Contact form",
+    path: "contact-form",
+  },
+  {
     title: "Crowdfunding Product Page",
     path: "crowdfunding-product-page",
   },
