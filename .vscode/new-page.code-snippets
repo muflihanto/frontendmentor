@@ -22,7 +22,7 @@
 			"import Head from \"next/head\";",
 			"import Image from \"next/image\";",
 			"import dynamic from \"next/dynamic\";",
-			"const Slider = dynamic(() => import(\"../components/Slider\"), { ssr: false });",
+			"const Slider = dynamic(() => import(\"../components/SliderTs\"), { ssr: false });",
 			"",
 			"export default function ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}() {",
 			"  return (",

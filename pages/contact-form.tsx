@@ -1,7 +1,9 @@
 import Head from "next/head";
 // import Image from "next/image";
 import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+import { karla } from "../utils/fonts/karla";
+import { cn } from "../utils/cn";
+const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function ContactForm() {
   return (
@@ -9,7 +11,12 @@ export default function ContactForm() {
       <Head>
         <title>Frontend Mentor | Contact form</title>
       </Head>
-      <div className="App min-h-[100svh] relative">
+      <div
+        className={cn(
+          `App bg-contact-primary-green-200 relative flex min-h-[100svh] flex-col items-center py-8 ${karla.variable} font-karla`,
+          "overflow-x-hidden ",
+        )}
+      >
         <Main />
         <Footer />
         <Slider basePath="/contact-form/design" />
@@ -20,10 +27,11 @@ export default function ContactForm() {
 
 function Main() {
   return (
-    <>
-      {`
+    <main className="w-[343px] rounded-2xl bg-white px-6 py-4">
+      <h1 className="text-contact-neutral-grey-900 text-[32px] font-bold tracking-tight">
         Contact Us
-
+      </h1>
+      {/* {`
         First Name
         This field is required
 
@@ -49,8 +57,8 @@ function Main() {
 
         Message Sent!
         Thanks for completing the form. We'll be in touch soon!
-      `}
-    </>
+      `} */}
+    </main>
   );
 }
 

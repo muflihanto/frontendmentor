@@ -1,4 +1,4 @@
-import { type Config } from "tailwindcss";
+import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 
@@ -935,6 +935,18 @@ export default {
             600: "hsl(24,5%,18%)",
           },
         },
+        contact: {
+          primary: {
+            "green-200": "hsl(148,38%,91%)",
+            "green-600": "hsl(169,82%,27%)",
+            red: "hsl(0,66%,54%)",
+          },
+          neutral: {
+            white: "hsl(0,0%,100%)",
+            "grey-500": "hsl(186,15%,59%)",
+            "grey-900": "hsl(187,24%,22%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": [
@@ -1067,7 +1079,7 @@ export default {
     },
   },
   plugins: [
-    plugin(function ({ addVariant, addUtilities }) {
+    plugin(({ addVariant, addUtilities }) => {
       addVariant("thumb", [
         "&[type='range']::-webkit-slider-thumb",
         "&[type='range']::-moz-range-thumb",
