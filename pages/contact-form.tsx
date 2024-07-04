@@ -1,9 +1,9 @@
 import Head from "next/head";
 // import Image from "next/image";
-import dynamic from "next/dynamic";
 import { karla } from "../utils/fonts/karla";
 import { cn } from "../utils/cn";
-const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function ContactForm() {
   return (
@@ -13,13 +13,14 @@ export default function ContactForm() {
       </Head>
       <div
         className={cn(
-          `App bg-contact-primary-green-200 relative flex min-h-[100svh] flex-col items-center pt-8 pb-10 ${karla.variable} font-karla`,
-          "overflow-x-hidden ",
+          `App relative flex min-h-[100svh] flex-col items-center bg-contact-primary-green-200 pb-10 pt-8 ${karla.variable} font-karla`,
+          "md:justify-center md:py-16",
+          "overflow-x-hidden",
         )}
       >
         <Main />
         <Footer />
-        <Slider basePath="/contact-form/design" />
+        {/* <Slider basePath="/contact-form/design" /> */}
       </div>
     </>
   );
@@ -27,95 +28,105 @@ export default function ContactForm() {
 
 function Main() {
   return (
-    <main className="w-[343px] rounded-2xl bg-white px-6 pt-4 pb-6">
-      <h1 className="text-contact-neutral-grey-900 text-[32px] font-bold tracking-tight">
+    <main
+      className={cn(
+        "w-[343px] rounded-2xl bg-white px-6 pb-6 pt-4",
+        "md:h-[772px] md:w-[736px] md:px-[40px] md:pt-[32px]",
+      )}
+    >
+      <h1 className="text-[32px] font-bold tracking-tight text-contact-neutral-grey-900">
         Contact Us
       </h1>
-      <form className="flex flex-col mt-[23px] text-contact-neutral-grey-900 gap-[23px]">
-        <label className="flex flex-col w-full gap-[9px]">
+      <form
+        className={cn(
+          "mt-[23px] flex flex-col gap-[23px] text-contact-neutral-grey-900",
+          "md:grid md:grid-cols-2 md:gap-x-4",
+        )}
+      >
+        <label className="flex w-full flex-col gap-[9px]">
           <p>
             <span>First Name</span>
-            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+            <span className="ml-[9px] text-contact-primary-green-600">*</span>
           </p>
           <input
             type="text"
-            className="h-[51px] border rounded-lg border-contact-neutral-grey-500"
+            className="h-[51px] rounded-lg border border-contact-neutral-grey-500 p-3"
           />
         </label>
-        <label className="flex flex-col w-full gap-[9px]">
+        <label className="flex w-full flex-col gap-[9px]">
           <p>
             <span>Last Name</span>
-            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+            <span className="ml-[9px] text-contact-primary-green-600">*</span>
           </p>
           <input
             type="text"
-            className="h-[51px] border rounded-lg border-contact-neutral-grey-500"
+            className="h-[51px] rounded-lg border border-contact-neutral-grey-500 p-3"
           />
         </label>
-        <label className="flex flex-col w-full gap-[9px]">
+        <label className="flex w-full flex-col gap-[9px] md:col-span-2">
           <p>
             <span>Email Address</span>
-            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+            <span className="ml-[9px] text-contact-primary-green-600">*</span>
           </p>
           <input
             type="email"
-            className="h-[51px] border rounded-lg border-contact-neutral-grey-500"
+            className="h-[51px] rounded-lg border border-contact-neutral-grey-500 p-3"
           />
         </label>
-        <fieldset>
+        <fieldset className="md:col-span-2">
           <legend>
             <span>Query Type</span>
-            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+            <span className="ml-[9px] text-contact-primary-green-600">*</span>
           </legend>
-          <div className="flex flex-col mt-[17px] gap-4">
+          <div className="mt-[17px] flex flex-col gap-4 md:flex-row">
             <label
               htmlFor="general-enquiry"
-              className="w-full flex h-[51px] items-center rounded-lg border border-contact-neutral-grey-500 px-[28px] gap-4 text-lg/none group/label cursor-pointer"
+              className="group/label flex h-[51px] w-full cursor-pointer items-center gap-4 rounded-lg border border-contact-neutral-grey-500 px-[28px] text-lg/none"
             >
               <input
                 type="radio"
                 name="query"
                 id="general-enquiry"
                 value="general-enquiry"
-                className="accent-contact-primary-green-600 text-9xl scale-[135%]"
+                className="scale-[135%] text-9xl accent-contact-primary-green-600"
               />
               General Enquiry
             </label>
             <label
               htmlFor="support-request"
-              className="w-full flex h-[51px] items-center rounded-lg border border-contact-neutral-grey-500 px-[28px] gap-4 text-lg/none group/label cursor-pointer"
+              className="group/label flex h-[51px] w-full cursor-pointer items-center gap-4 rounded-lg border border-contact-neutral-grey-500 px-[28px] text-lg/none"
             >
               <input
                 type="radio"
                 name="query"
                 id="support-request"
                 value="support-request"
-                className="accent-contact-primary-green-600 text-9xl scale-[135%]"
+                className="scale-[135%] text-9xl accent-contact-primary-green-600"
               />
               Support Request
             </label>
           </div>
         </fieldset>
-        <label className="w-full flex flex-col gap-2 mt-px">
+        <label className="mt-px flex w-full flex-col gap-2 md:col-span-2">
           <p>
             <span>Message</span>
-            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+            <span className="ml-[9px] text-contact-primary-green-600">*</span>
           </p>
-          <textarea className="resize-none rounded-lg h-[240px] border border-contact-neutral-grey-500" />
+          <textarea className="h-[240px] resize-none rounded-lg border border-contact-neutral-grey-500 md:h-[105px] px-3 py-2" />
         </label>
-        <label className="flex gap-[22px] px-1 mt-4">
+        <label className="mt-4 flex gap-[22px] px-1 md:col-span-2">
           <input
             type="checkbox"
             className="scale-[135%] accent-contact-primary-green-600"
           />
           <p>
             <span>I consent to being contacted by the team</span>
-            <span className="text-contact-primary-green-600 ml-[4px]">*</span>
+            <span className="ml-[4px] text-contact-primary-green-600">*</span>
           </p>
         </label>
         <button
           type="submit"
-          className="w-full rounded-lg bg-contact-primary-green-600 flex items-center justify-center font-bold text-contact-neutral-white h-[59px] mt-[18px] text-lg pb-0.5"
+          className="mt-[18px] flex h-[59px] w-full items-center justify-center rounded-lg bg-contact-primary-green-600 pb-0.5 text-lg font-bold text-contact-neutral-white md:col-span-2"
         >
           Submit
         </button>
