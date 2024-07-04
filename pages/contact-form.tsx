@@ -13,7 +13,7 @@ export default function ContactForm() {
       </Head>
       <div
         className={cn(
-          `App bg-contact-primary-green-200 relative flex min-h-[100svh] flex-col items-center py-8 ${karla.variable} font-karla`,
+          `App bg-contact-primary-green-200 relative flex min-h-[100svh] flex-col items-center pt-8 pb-10 ${karla.variable} font-karla`,
           "overflow-x-hidden ",
         )}
       >
@@ -27,33 +27,112 @@ export default function ContactForm() {
 
 function Main() {
   return (
-    <main className="w-[343px] rounded-2xl bg-white px-6 py-4">
+    <main className="w-[343px] rounded-2xl bg-white px-6 pt-4 pb-6">
       <h1 className="text-contact-neutral-grey-900 text-[32px] font-bold tracking-tight">
         Contact Us
       </h1>
+      <form className="flex flex-col mt-[23px] text-contact-neutral-grey-900 gap-[23px]">
+        <label className="flex flex-col w-full gap-[9px]">
+          <p>
+            <span>First Name</span>
+            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+          </p>
+          <input
+            type="text"
+            className="h-[51px] border rounded-lg border-contact-neutral-grey-500"
+          />
+        </label>
+        <label className="flex flex-col w-full gap-[9px]">
+          <p>
+            <span>Last Name</span>
+            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+          </p>
+          <input
+            type="text"
+            className="h-[51px] border rounded-lg border-contact-neutral-grey-500"
+          />
+        </label>
+        <label className="flex flex-col w-full gap-[9px]">
+          <p>
+            <span>Email Address</span>
+            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+          </p>
+          <input
+            type="email"
+            className="h-[51px] border rounded-lg border-contact-neutral-grey-500"
+          />
+        </label>
+        <fieldset>
+          <legend>
+            <span>Query Type</span>
+            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+          </legend>
+          <div className="flex flex-col mt-[17px] gap-4">
+            <label
+              htmlFor="general-enquiry"
+              className="w-full flex h-[51px] items-center rounded-lg border border-contact-neutral-grey-500 px-[28px] gap-4 text-lg/none group/label cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="query"
+                id="general-enquiry"
+                value="general-enquiry"
+                className="accent-contact-primary-green-600 text-9xl scale-[135%]"
+              />
+              General Enquiry
+            </label>
+            <label
+              htmlFor="support-request"
+              className="w-full flex h-[51px] items-center rounded-lg border border-contact-neutral-grey-500 px-[28px] gap-4 text-lg/none group/label cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="query"
+                id="support-request"
+                value="support-request"
+                className="accent-contact-primary-green-600 text-9xl scale-[135%]"
+              />
+              Support Request
+            </label>
+          </div>
+        </fieldset>
+        <label className="w-full flex flex-col gap-2 mt-px">
+          <p>
+            <span>Message</span>
+            <span className="text-contact-primary-green-600 ml-[9px]">*</span>
+          </p>
+          <textarea className="resize-none rounded-lg h-[240px] border border-contact-neutral-grey-500" />
+        </label>
+        <label className="flex gap-[22px] px-1 mt-4">
+          <input
+            type="checkbox"
+            className="scale-[135%] accent-contact-primary-green-600"
+          />
+          <p>
+            <span>I consent to being contacted by the team</span>
+            <span className="text-contact-primary-green-600 ml-[4px]">*</span>
+          </p>
+        </label>
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-contact-primary-green-600 flex items-center justify-center font-bold text-contact-neutral-white h-[59px] mt-[18px] text-lg pb-0.5"
+        >
+          Submit
+        </button>
+      </form>
       {/* {`
-        First Name
         This field is required
 
-        Last Name
         This field is required
 
-        Email Address
         Please enter a valid email address
         This field is required
-
-        Query Type
-        General Enquiry
-        Support Request
+        
         Please select a query type
 
-        Message
         This field is required
 
-        I consent to being contacted by the team
         To submit this form, please consent to being contacted
-
-        Submit
 
         Message Sent!
         Thanks for completing the form. We'll be in touch soon!
