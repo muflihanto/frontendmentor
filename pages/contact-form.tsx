@@ -8,7 +8,7 @@ import {
 } from "react";
 import { cn } from "../utils/cn";
 import { karla } from "../utils/fonts/karla";
-import { useForm } from "@tanstack/react-form";
+import { type ValidationError, useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 // import dynamic from "next/dynamic";
@@ -31,7 +31,7 @@ export default function ContactForm() {
         <Footer />
         {/* <Slider
           basePath="/contact-form/design"
-          // absolutePath="/contact-form/design/focus-and-active-state.jpg"
+          absolutePath="/contact-form/design/error-state.jpg"
         /> */}
       </div>
     </>
@@ -60,7 +60,12 @@ function FormInput({
   children,
   label,
   className,
-}: PropsWithChildren & { label: string; className?: string }) {
+  errors,
+}: PropsWithChildren & {
+  label: string;
+  className?: string;
+  errors: ValidationError[];
+}) {
   return isValidElement<FormInputChildrenProps>(children) ? (
     <label
       className={cn("flex w-full flex-col gap-[9px]", className)}
@@ -75,8 +80,14 @@ function FormInput({
         className: cn(
           "h-[51px] rounded-lg border border-contact-neutral-grey-500 px-[23px] pb-0.5 text-lg hover:border-contact-primary-green-600 focus-visible:border-contact-primary-green-600 focus-visible:outline focus-visible:outline-transparent",
           children.props.className,
+          errors.length > 0
+            ? "border-red-600 focus-visible:border-red-600 hover:border-red-600"
+            : "",
         ),
       })}
+      {errors ? (
+        <p className="text-red-600 -mt-0.5">{errors.join(", ")}</p>
+      ) : null}
     </label>
   ) : null;
 }
@@ -110,8 +121,8 @@ function Main() {
   return (
     <main
       className={cn(
-        "w-[343px] rounded-2xl bg-white px-6 pb-6 pt-4",
-        "md:h-[772px] md:w-[736px] md:px-[40px] md:pt-[32px]",
+        "w-[343px] rounded-2xl bg-white px-6 pb-[39px] pt-4",
+        "md:min-h-[772px] md:w-[736px] md:px-[40px] md:pt-[32px]",
       )}
     >
       <h1 className="text-[32px] font-bold tracking-tight text-contact-neutral-grey-900">
@@ -131,14 +142,33 @@ function Main() {
         <form.Field
           name="firstName"
           validators={{
-            onChange: z
-              .string()
-              .min(0, "This field is required")
-              .min(3, "First name must be at least 3 characters"),
+            onChange: z.string().superRefine((val, ctx) => {
+              if (val.length === 0) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.too_small,
+                  message: "This field is required",
+                  type: "string",
+                  inclusive: true,
+                  minimum: 1,
+                });
+                return;
+              }
+
+              if (val.length < 3) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.too_small,
+                  message: "First name must be at least 3 characters",
+                  type: "string",
+                  inclusive: true,
+                  minimum: 3,
+                });
+                return;
+              }
+            }),
           }}
         >
           {(field) => (
-            <FormInput label="First Name">
+            <FormInput label="First Name" errors={field.state.meta.errors}>
               <input
                 id={field.name}
                 name={field.name}
@@ -152,14 +182,33 @@ function Main() {
         <form.Field
           name="lastName"
           validators={{
-            onChange: z
-              .string()
-              .min(0, "This field is required")
-              .min(3, "Last name must be at least 3 characters"),
+            onChange: z.string().superRefine((val, ctx) => {
+              if (val.length === 0) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.too_small,
+                  message: "This field is required",
+                  type: "string",
+                  inclusive: true,
+                  minimum: 1,
+                });
+                return;
+              }
+
+              if (val.length < 3) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.too_small,
+                  message: "Last must be at least 3 characters",
+                  type: "string",
+                  inclusive: true,
+                  minimum: 3,
+                });
+                return;
+              }
+            }),
           }}
         >
           {(field) => (
-            <FormInput label="Last Name">
+            <FormInput label="Last Name" errors={field.state.meta.errors}>
               <input
                 id={field.name}
                 name={field.name}
@@ -175,12 +224,16 @@ function Main() {
           validators={{
             onChange: z
               .string()
-              .min(0, "This field is required")
+              .min(1, "This field is required")
               .email("Please enter a valid email address"),
           }}
         >
           {(field) => (
-            <FormInput label="Email Address" className="md:col-span-2">
+            <FormInput
+              label="Email Address"
+              className="md:col-span-2"
+              errors={field.state.meta.errors}
+            >
               <input
                 type="email"
                 id={field.name}
@@ -255,18 +308,49 @@ function Main() {
               )}
             </form.Field>
           </div>
+          <form.Subscribe selector={(state) => state.fieldMeta.queryType}>
+            {(fieldMeta) => {
+              const queryFieldError = fieldMeta?.errorMap?.onChange;
+              return queryFieldError ? (
+                <p className="text-red-600 mt-[17px]">{queryFieldError}</p>
+              ) : null;
+            }}
+          </form.Subscribe>
         </fieldset>
         <form.Field
           name="message"
           validators={{
-            onChange: z
-              .string()
-              .min(0, "This field is required")
-              .min(50, "Message be at least 50 characters"),
+            onChange: z.string().superRefine((val, ctx) => {
+              if (val.length === 0) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.too_small,
+                  message: "This field is required",
+                  type: "string",
+                  inclusive: true,
+                  minimum: 1,
+                });
+                return;
+              }
+
+              if (val.length < 50) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.too_small,
+                  message: "Message must be at least 50 characters",
+                  type: "string",
+                  inclusive: true,
+                  minimum: 3,
+                });
+                return;
+              }
+            }),
           }}
         >
           {(field) => (
-            <FormInput label="Message" className="mt-px gap-2 md:col-span-2">
+            <FormInput
+              label="Message"
+              className="mt-px gap-2 md:col-span-2"
+              errors={field.state.meta.errors}
+            >
               <textarea
                 id={field.name}
                 name={field.name}
@@ -281,30 +365,37 @@ function Main() {
         <form.Field
           name="consent"
           validators={{
-            onChange: z.literal(true, {
+            onChange: z.boolean().refine((val) => val === true, {
               message: "To submit this form, please consent to being contacted",
             }),
           }}
         >
           {(field) => {
             return (
-              <label className="mt-4 flex gap-[22px] px-1 md:col-span-2">
-                <input
-                  type="checkbox"
-                  className="scale-[135%] accent-contact-primary-green-600"
-                  id={field.name}
-                  name={field.name}
-                  checked={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) =>
-                    field.handleChange(!!e.currentTarget.checked)
-                  }
-                />
-                <p>
-                  <span>I consent to being contacted by the team</span>
-                  <RequiredFieldIndicator className="ml-1" />
-                </p>
-              </label>
+              <>
+                <label className="flex gap-[22px] px-1 mt-4 md:col-span-2">
+                  <input
+                    type="checkbox"
+                    className="scale-[135%] accent-contact-primary-green-600"
+                    id={field.name}
+                    name={field.name}
+                    checked={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) =>
+                      field.handleChange(!!e.currentTarget.checked)
+                    }
+                  />
+                  <p>
+                    <span>I consent to being contacted by the team</span>
+                    <RequiredFieldIndicator className="ml-1" />
+                  </p>
+                </label>{" "}
+                {field.state.meta.errors ? (
+                  <p className="text-red-600 -mt-4 md:col-span-2">
+                    {field.state.meta.errors.join(", ")}
+                  </p>
+                ) : null}
+              </>
             );
           }}
         </form.Field>
