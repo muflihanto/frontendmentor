@@ -115,7 +115,11 @@ function Main() {
     onSubmit: ({ value }) => {
       console.log(value);
     },
-    validatorAdapter: zodValidator(),
+    validatorAdapter: zodValidator({
+      transformErrors: (errors) => {
+        return errors[0].message;
+      },
+    }),
   });
 
   return (
@@ -142,29 +146,10 @@ function Main() {
         <form.Field
           name="firstName"
           validators={{
-            onChange: z.string().superRefine((val, ctx) => {
-              if (val.length === 0) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.too_small,
-                  message: "This field is required",
-                  type: "string",
-                  inclusive: true,
-                  minimum: 1,
-                });
-                return;
-              }
-
-              if (val.length < 3) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.too_small,
-                  message: "First name must be at least 3 characters",
-                  type: "string",
-                  inclusive: true,
-                  minimum: 3,
-                });
-                return;
-              }
-            }),
+            onChange: z
+              .string()
+              .min(1, "This field is required")
+              .min(3, "First name must be at least 3 characters"),
           }}
         >
           {(field) => (
@@ -182,29 +167,10 @@ function Main() {
         <form.Field
           name="lastName"
           validators={{
-            onChange: z.string().superRefine((val, ctx) => {
-              if (val.length === 0) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.too_small,
-                  message: "This field is required",
-                  type: "string",
-                  inclusive: true,
-                  minimum: 1,
-                });
-                return;
-              }
-
-              if (val.length < 3) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.too_small,
-                  message: "Last must be at least 3 characters",
-                  type: "string",
-                  inclusive: true,
-                  minimum: 3,
-                });
-                return;
-              }
-            }),
+            onChange: z
+              .string()
+              .min(1, "This field is required")
+              .min(3, "Last name must be at least 3 characters"),
           }}
         >
           {(field) => (
@@ -320,29 +286,10 @@ function Main() {
         <form.Field
           name="message"
           validators={{
-            onChange: z.string().superRefine((val, ctx) => {
-              if (val.length === 0) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.too_small,
-                  message: "This field is required",
-                  type: "string",
-                  inclusive: true,
-                  minimum: 1,
-                });
-                return;
-              }
-
-              if (val.length < 50) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.too_small,
-                  message: "Message must be at least 50 characters",
-                  type: "string",
-                  inclusive: true,
-                  minimum: 3,
-                });
-                return;
-              }
-            }),
+            onChange: z
+              .string()
+              .min(1, "This field is required")
+              .min(50, "Message must be at least 50 characters"),
           }}
         >
           {(field) => (
