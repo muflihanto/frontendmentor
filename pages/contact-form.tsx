@@ -11,6 +11,7 @@ import { karla } from "../utils/fonts/karla";
 import { type ValidationError, useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -86,7 +87,7 @@ function FormInput({
         ),
       })}
       {errors.length > 0 ? (
-        <p className="text-red-600 -mt-0.5">{errors.join(", ")}</p>
+        <p className="-mt-0.5 text-red-600">{errors.join(", ")}</p>
       ) : null}
     </label>
   ) : null;
@@ -269,7 +270,7 @@ function Form() {
           {(fieldMeta) => {
             const queryFieldError = fieldMeta?.errorMap?.onChange;
             return queryFieldError ? (
-              <p className="text-red-600 mt-[17px]">{queryFieldError}</p>
+              <p className="mt-[17px] text-red-600">{queryFieldError}</p>
             ) : null;
           }}
         </form.Subscribe>
@@ -311,7 +312,7 @@ function Form() {
         {(field) => {
           return (
             <>
-              <label className="flex gap-[22px] px-1 mt-4 md:col-span-2">
+              <label className="mt-4 flex gap-[22px] px-1 md:col-span-2">
                 <input
                   type="checkbox"
                   className="scale-[135%] accent-contact-primary-green-600"
@@ -329,7 +330,7 @@ function Form() {
                 </p>
               </label>
               {field.state.meta.errors.length > 0 ? (
-                <p className="text-red-600 -mt-4 md:col-span-2">
+                <p className="-mt-4 text-red-600 md:col-span-2">
                   {field.state.meta.errors.join(", ")}
                 </p>
               ) : null}
@@ -347,6 +348,20 @@ function Form() {
   );
 }
 
+function SuccessToast() {
+  return (
+    <div className="absolute top-6 flex h-[107px] w-[450px] flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white">
+      <h2 className="flex items-center gap-2 self-start px-6 text-lg font-bold">
+        <CheckCircleIcon className="h-6 w-6" />
+        <span>Message Sent!</span>
+      </h2>
+      <p className="text-contact-primary-green-200">
+        Thanks for completing the form. We&apos;ll be in touch soon!
+      </p>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <main
@@ -359,10 +374,6 @@ function Main() {
         Contact Us
       </h1>
       <Form />
-      {/* {`
-        Message Sent!
-        Thanks for completing the form. We'll be in touch soon!
-      `} */}
     </main>
   );
 }
