@@ -3,6 +3,7 @@ import Head from "next/head";
 import {
   cloneElement,
   isValidElement,
+  useEffect,
   type ComponentProps,
   type PropsWithChildren,
 } from "react";
@@ -12,8 +13,12 @@ import { type ValidationError, useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
+import { atom, useAtom } from "jotai";
+
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
+const toastAtom = atom<"visible" | "invisible">("invisible");
 
 export default function ContactForm() {
   return (
@@ -30,6 +35,7 @@ export default function ContactForm() {
       >
         <Main />
         <Footer />
+        <SuccessToast />
         {/* <Slider
           basePath="/contact-form/design"
           absolutePath="/contact-form/design/success-state.jpg"
@@ -104,6 +110,8 @@ const queryType = z
 type QueryType = z.infer<typeof queryType>;
 
 function Form() {
+  const [, setToast] = useAtom(toastAtom);
+
   const form = useForm({
     defaultValues: {
       firstName: "",
@@ -114,6 +122,7 @@ function Form() {
       consent: false,
     },
     onSubmit: ({ value }) => {
+      setToast("visible");
       console.log(value);
     },
     validatorAdapter: zodValidator({
@@ -349,17 +358,28 @@ function Form() {
 }
 
 function SuccessToast() {
-  return (
-    <div className="absolute top-6 flex h-[107px] w-[450px] flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white">
+  const [toast, setToast] = useAtom(toastAtom);
+
+  useEffect(() => {
+    if (toast === "visible") {
+      const timer = setTimeout(() => setToast("invisible"), 2000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [toast, setToast]);
+
+  return toast === "visible" ? (
+    <div className="fixed top-6 flex h-[107px] w-[450px] flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white">
       <h2 className="flex items-center gap-2 self-start px-6 text-lg font-bold">
         <CheckCircleIcon className="h-6 w-6" />
         <span>Message Sent!</span>
       </h2>
       <p className="text-contact-primary-green-200">
-        Thanks for completing the form. We&apos;ll be in touch soon!
+        Thanks for completing the form. We&rsquo;ll be in touch soon!
       </p>
     </div>
-  );
+  ) : null;
 }
 
 function Main() {
@@ -377,6 +397,7 @@ function Main() {
     </main>
   );
 }
+
 function Footer() {
   return (
     <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
