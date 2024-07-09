@@ -46,6 +46,22 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     ).toBeVisible();
   });
 
+  /** Test if user can handle empty input submit */
+  test("can handle empty input submit", async ({ page }) => {
+    const submit = page.getByRole("button", { name: "Submit" });
+    await submit.click();
+    await page.waitForTimeout(1500);
+    const required = await page.getByText("This field is required").all();
+    const uncheckedQuery = page.getByText("Please select a query type");
+    const uncheckedConsent = page.getByText("To submit this form, please");
+    expect(required).toHaveLength(4);
+    for (const req of required) {
+      await expect(req).toBeVisible();
+    }
+    await expect(uncheckedQuery).toBeVisible();
+    await expect(uncheckedConsent).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
