@@ -14,6 +14,7 @@ import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { atom, useAtom } from "jotai";
+import { Transition } from "@headlessui/react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -357,20 +358,29 @@ function Form() {
   );
 }
 
-function SuccessToast() {
+function SuccessToast({ duration = 3000 }: { duration?: number }) {
   const [toast, setToast] = useAtom(toastAtom);
 
   useEffect(() => {
     if (toast === "visible") {
-      const timer = setTimeout(() => setToast("invisible"), 2000);
+      const timer = setTimeout(() => setToast("invisible"), duration);
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [toast, setToast]);
+  }, [toast, setToast, duration]);
 
-  return toast === "visible" ? (
-    <div className="fixed top-6 flex h-[107px] w-[450px] flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white">
+  return (
+    <Transition
+      show={toast === "visible"}
+      className="fixed left-1/2 top-6 flex h-[107px] w-[450px] -translate-x-1/2 flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white"
+      enter="transition-all duration-100"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-all duration-300"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
       <h2 className="flex items-center gap-2 self-start px-6 text-lg font-bold">
         <CheckCircleIcon className="h-6 w-6" />
         <span>Message Sent!</span>
@@ -378,8 +388,8 @@ function SuccessToast() {
       <p className="text-contact-primary-green-200">
         Thanks for completing the form. We&rsquo;ll be in touch soon!
       </p>
-    </div>
-  ) : null;
+    </Transition>
+  );
 }
 
 function Main() {
