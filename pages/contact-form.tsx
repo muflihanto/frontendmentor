@@ -373,7 +373,10 @@ function SuccessToast({ duration = 3000 }: { duration?: number }) {
   return (
     <Transition
       show={toast === "visible"}
-      className="fixed left-1/2 top-6 flex h-[107px] w-[450px] -translate-x-1/2 flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white"
+      className={cn(
+        "fixed left-1/2 top-6 flex h-[107px] -translate-x-1/2 flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white md:w-[450px] px-6",
+        "w-[300px]",
+      )}
       enter="transition-all duration-100"
       enterFrom="opacity-0"
       enterTo="opacity-100"
@@ -381,7 +384,7 @@ function SuccessToast({ duration = 3000 }: { duration?: number }) {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <h2 className="flex items-center gap-2 self-start px-6 text-lg font-bold">
+      <h2 className="flex items-center gap-2 self-start text-lg font-bold">
         <CheckCircleIcon className="h-6 w-6" />
         <span>Message Sent!</span>
       </h2>
