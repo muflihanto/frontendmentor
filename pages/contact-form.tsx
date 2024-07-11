@@ -122,9 +122,10 @@ function Form() {
       message: "",
       consent: false,
     },
-    onSubmit: ({ value }) => {
+    onSubmit: ({ value, formApi }) => {
       setToast("visible");
       console.log(value);
+      formApi.reset();
     },
     validatorAdapter: zodValidator({
       transformErrors: (errors) => {
@@ -236,6 +237,7 @@ function Form() {
                   onChange={(e) =>
                     field.handleChange(e.target.value as QueryType)
                   }
+                  checked={field.getValue() === "general-enquiry"}
                   className="peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600"
                 />
                 <label
@@ -264,6 +266,7 @@ function Form() {
                   onChange={(e) =>
                     field.handleChange(e.target.value as QueryType)
                   }
+                  checked={field.getValue() === "support-request"}
                   className="peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600"
                 />
                 <label
@@ -374,7 +377,7 @@ function SuccessToast({ duration = 3000 }: { duration?: number }) {
     <Transition
       show={toast === "visible"}
       className={cn(
-        "fixed left-1/2 top-6 flex h-[107px] -translate-x-1/2 flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 pb-0.5 text-contact-neutral-white md:w-[450px] px-6",
+        "fixed left-1/2 top-6 flex h-[107px] -translate-x-1/2 flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 px-6 pb-0.5 text-contact-neutral-white md:w-[450px]",
         "w-[300px]",
       )}
       enter="transition-all duration-100"
