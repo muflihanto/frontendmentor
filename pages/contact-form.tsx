@@ -238,11 +238,17 @@ function Form() {
                     field.handleChange(e.target.value as QueryType)
                   }
                   checked={field.getValue() === "general-enquiry"}
-                  className="peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600"
+                  className={cn(
+                    "peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600",
+                    "focus-visible:outline focus-visible:outline-transparent",
+                  )}
                 />
                 <label
                   htmlFor="general-enquiry"
-                  className="group/label flex h-[51px] w-full cursor-pointer items-center gap-4 rounded-lg border border-contact-neutral-grey-500 pl-[59px] text-lg/none hover:border-contact-primary-green-600 peer-checked:border-contact-primary-green-600 peer-checked:bg-contact-primary-green-600/10"
+                  className={cn(
+                    "group/label flex h-[51px] w-full cursor-pointer items-center gap-4 rounded-lg border border-contact-neutral-grey-500 pl-[59px] text-lg/none hover:border-contact-primary-green-600 peer-checked:border-contact-primary-green-600 peer-checked:bg-contact-primary-green-600/10",
+                    "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-1 peer-focus-visible:outline-contact-primary-green-600",
+                  )}
                 >
                   General Enquiry
                 </label>
@@ -267,11 +273,17 @@ function Form() {
                     field.handleChange(e.target.value as QueryType)
                   }
                   checked={field.getValue() === "support-request"}
-                  className="peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600"
+                  className={cn(
+                    "peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600",
+                    "focus-visible:outline focus-visible:outline-transparent",
+                  )}
                 />
                 <label
                   htmlFor="support-request"
-                  className="group/label flex h-[51px] w-full cursor-pointer items-center gap-4 rounded-lg border border-contact-neutral-grey-500 pl-[59px] text-lg/none hover:border-contact-primary-green-600 peer-checked:border-contact-primary-green-600 peer-checked:bg-contact-primary-green-600/10"
+                  className={cn(
+                    "group/label flex h-[51px] w-full cursor-pointer items-center gap-4 rounded-lg border border-contact-neutral-grey-500 pl-[59px] text-lg/none hover:border-contact-primary-green-600 peer-checked:border-contact-primary-green-600 peer-checked:bg-contact-primary-green-600/10",
+                    "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-1 peer-focus-visible:outline-contact-primary-green-600",
+                  )}
                 >
                   Support Request
                 </label>
@@ -378,12 +390,12 @@ function SuccessToast({ duration = 3000 }: { duration?: number }) {
       show={toast === "visible"}
       className={cn(
         "fixed left-1/2 top-6 flex h-[107px] -translate-x-1/2 flex-col items-center justify-center gap-2 rounded-xl bg-contact-neutral-grey-900 px-6 pb-0.5 text-contact-neutral-white md:w-[450px]",
-        "w-[300px]",
+        "w-[300px] transition-all",
       )}
-      enter="transition-all duration-100"
+      enter="duration-100"
       enterFrom="opacity-0"
       enterTo="opacity-100"
-      leave="transition-all duration-300"
+      leave="duration-300"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
