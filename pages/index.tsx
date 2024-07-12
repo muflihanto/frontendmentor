@@ -119,6 +119,10 @@ export const pages = [
     path: "loopstudios-landing-page",
   },
   { title: "Manage Landing Page", path: "manage-landing-page" },
+  {
+    title: "Mortgage Repayment Calculator",
+    path: "mortgage-repayment-calculator",
+  },
   { title: "Multi Step Form", path: "multi-step-form" },
   { title: "News Homepage", path: "news-homepage" },
   {
