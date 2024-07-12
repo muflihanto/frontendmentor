@@ -947,11 +947,32 @@ export default {
             "grey-900": "hsl(187,24%,22%)",
           },
         },
+        mortgage: {
+          primary: {
+            lime: "hsl(61,70%,52%)",
+            red: "hsl(4,69%,50%)",
+          },
+          neutral: {
+            white: "hsl(0,0%,100%)",
+            slate: {
+              100: "hsl(202,86%,94%)",
+              300: "hsl(203,41%,72%)",
+              500: "hsl(200,26%,54%)",
+              700: "hsl(200,24%,40%)",
+              900: "hsl(202,55%,16%)",
+            },
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": [
           "var(--font-plus-jakarta)",
           "Plus Jakarta Sans",
+          ...fontFamily.sans,
+        ],
+        "plus-jakarta-italic": [
+          "var(--font-plus-jakarta-italic)",
+          "Plus Jakarta Sans Italic",
           ...fontFamily.sans,
         ],
         "dm-sans": ["var(--font-dm-sans)", "DM Sans", ...fontFamily.sans],

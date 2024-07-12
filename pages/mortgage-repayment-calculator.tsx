@@ -1,7 +1,12 @@
 import Head from "next/head";
 // import Image from "next/image";
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+import {
+  PlusJakartaSans,
+  // PlusJakartaSansItalic,
+} from "../utils/fonts/plusJakartaSans";
+import { cn } from "../utils/cn";
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function MortgageRepaymentCalculator() {
   return (
@@ -9,10 +14,20 @@ export default function MortgageRepaymentCalculator() {
       <Head>
         <title>Frontend Mentor | Mortgage Repayment Calculator</title>
       </Head>
-      <div className="App min-h-[100svh] relative">
+      <div
+        className={cn(
+          "App min-h-[100svh] relative font-medium",
+          PlusJakartaSans.variable,
+          "font-plus-jakarta",
+          "overflow-x-hidden",
+        )}
+      >
         <Main />
         <Footer />
-        <Slider basePath="/mortgage-repayment-calculator/design" />
+        {/* <Slider
+          basePath="/mortgage-repayment-calculator/design"
+          absolutePath="/mortgage-repayment-calculator/design/mobile-design-empty.jpg"
+        /> */}
       </div>
     </>
   );
@@ -20,9 +35,9 @@ export default function MortgageRepaymentCalculator() {
 
 function Main() {
   return (
-    <>
+    <main>
+      <h1 className="font-bold">Mortgage Calculator</h1>
       {/* {`
-            Mortgage Calculator
             Clear All
 
             Mortgage Amount
@@ -59,7 +74,7 @@ function Main() {
 
             <!-- Completed results end --> 
       `} */}
-    </>
+    </main>
   );
 }
 
