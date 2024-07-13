@@ -3,7 +3,9 @@ import Head from "next/head";
 import {
   cloneElement,
   isValidElement,
+  useCallback,
   useEffect,
+  useRef,
   type ComponentProps,
   type PropsWithChildren,
 } from "react";
@@ -115,6 +117,13 @@ type QueryType = z.infer<typeof queryType>;
 function Form() {
   const [, setToast] = useAtom(toastAtom);
 
+  const fistNameInput = useRef<null | HTMLInputElement>(null);
+  useEffect(() => {
+    if (fistNameInput.current) {
+      fistNameInput.current?.focus();
+    }
+  }, []);
+
   const form = useForm({
     defaultValues: {
       firstName: "",
@@ -165,6 +174,7 @@ function Form() {
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
+              ref={fistNameInput}
             />
           </FormInput>
         )}
@@ -375,17 +385,48 @@ function Form() {
   );
 }
 
-function SuccessToast({ duration = 3000 }: { duration?: number }) {
+function SuccessToast({ duration = 1000 }: { duration?: number }) {
   const [toast, setToast] = useAtom(toastAtom);
+  const timerId = useRef<null | {
+    start: number;
+    pausedAt: number;
+    timeout: ReturnType<typeof setTimeout>;
+  }>(null);
+
+  const handleDismiss = useCallback(() => {
+    setToast("invisible");
+  }, [setToast]);
+
+  const handleMouseEnter = () => {
+    if (timerId.current) {
+      timerId.current = { ...timerId.current, pausedAt: Date.now() };
+      clearTimeout(timerId.current?.timeout);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (timerId.current) {
+      const remainingTime =
+        duration - (timerId.current.pausedAt - timerId.current.start);
+      timerId.current.timeout = setTimeout(() => {
+        handleDismiss();
+      }, remainingTime);
+    }
+  };
 
   useEffect(() => {
     if (toast === "visible") {
-      const timer = setTimeout(() => setToast("invisible"), duration);
+      timerId.current = {
+        timeout: setTimeout(handleDismiss, duration),
+        start: Date.now(),
+        pausedAt: Date.now(),
+      };
+
       return () => {
-        clearTimeout(timer);
+        clearTimeout(timerId.current?.timeout);
       };
     }
-  }, [toast, setToast, duration]);
+  }, [toast, duration, handleDismiss]);
 
   return (
     <Transition
@@ -400,6 +441,8 @@ function SuccessToast({ duration = 3000 }: { duration?: number }) {
       leave="duration-300"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <h2 className="flex items-center gap-2 self-start text-lg font-bold">
         <CheckCircleIcon className="h-6 w-6" />
