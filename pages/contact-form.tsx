@@ -385,7 +385,7 @@ function Form() {
   );
 }
 
-function SuccessToast({ duration = 1000 }: { duration?: number }) {
+function SuccessToast({ duration = 5000 }: { duration?: number }) {
   const [toast, setToast] = useAtom(toastAtom);
   const timerId = useRef<null | {
     start: number;
@@ -443,6 +443,7 @@ function SuccessToast({ duration = 1000 }: { duration?: number }) {
       leaveTo="opacity-0"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      role="alert"
     >
       <h2 className="flex items-center gap-2 self-start text-lg font-bold">
         <CheckCircleIcon className="h-6 w-6" />
