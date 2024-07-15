@@ -5,7 +5,6 @@ import {
   // PlusJakartaSansItalic,
 } from "../utils/fonts/plusJakartaSans";
 import { cn } from "../utils/cn";
-import { CalculatorIcon } from "@heroicons/react/20/solid";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -37,7 +36,7 @@ export default function MortgageRepaymentCalculator() {
 
 function MortgageForm() {
   return (
-    <form className="w-full px-6 py-[31px] text-mortgage-neutral-slate-700">
+    <form className="w-full px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700">
       <h1 className="text-2xl font-bold text-mortgage-neutral-slate-900">
         Mortgage Calculator
       </h1>
@@ -126,7 +125,19 @@ function MortgageForm() {
           type="submit"
           className="flex h-[56px] w-full items-center justify-center gap-[13px] rounded-full bg-mortgage-primary-lime text-lg/none font-bold text-mortgage-neutral-slate-900"
         >
-          <CalculatorIcon className="h-[22px] text-mortgage-neutral-slate-900" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={24}
+            height={24}
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              fill="#133041"
+              d="M18.75 2.25H5.25a1.5 1.5 0 0 0-1.5 1.5v16.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V3.75a1.5 1.5 0 0 0-1.5-1.5Zm-10.5 16.5a1.125 1.125 0 1 1 0-2.25 1.125 1.125 0 0 1 0 2.25Zm0-3.75a1.125 1.125 0 1 1 0-2.25 1.125 1.125 0 0 1 0 2.25ZM12 18.75a1.125 1.125 0 1 1 0-2.25 1.125 1.125 0 0 1 0 2.25ZM12 15a1.125 1.125 0 1 1 0-2.25A1.125 1.125 0 0 1 12 15Zm3.75 3.75a1.125 1.125 0 1 1 0-2.25 1.125 1.125 0 0 1 0 2.25Zm0-3.75a1.125 1.125 0 1 1 0-2.25 1.125 1.125 0 0 1 0 2.25Zm1.5-5.25a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1-.75-.75V6a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 .75.75v3.75Z"
+            />
+          </svg>
           <span>Calculate Repayments</span>
         </button>
       </div>
@@ -134,18 +145,33 @@ function MortgageForm() {
   );
 }
 
+function Results() {
+  return (
+    <div className="flex flex-col items-center justify-center h-[390px] bg-mortgage-neutral-slate-900 text-mortgage-neutral-white w-full">
+      <svg
+        aria-hidden="true"
+        className="aspect-square w-[192px]"
+        viewBox="0 0 192 192"
+      >
+        <use href="/mortgage-repayment-calculator/assets/images/illustration-empty.svg#illustration-empty" />
+      </svg>
+      <h2 className="font-bold text-2xl mt-[15px] text-center">
+        Results shown here
+      </h2>
+      <p className="text-center text-mortgage-neutral-slate-300 mt-4">
+        Complete the form and click “calculate repayments” to see what your
+        monthly repayments would be.
+      </p>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <main className="flex w-full flex-col items-center justify-center">
       <MortgageForm />
+      <Results />
       {/* {`
-            Results shown here
-
-            Complete the form and click “calculate repayments” to see what 
-            your monthly repayments would be.
-
-            <!-- Empty results end -->
-
             <!-- Completed results start -->
 
             Your results
@@ -165,7 +191,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-2 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy text-mortgage-neutral-slate-100">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
