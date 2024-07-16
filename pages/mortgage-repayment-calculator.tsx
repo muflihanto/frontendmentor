@@ -5,6 +5,9 @@ import {
   // PlusJakartaSansItalic,
 } from "../utils/fonts/plusJakartaSans";
 import { cn } from "../utils/cn";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import { z } from "zod";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -38,18 +41,53 @@ function RadioIndicator() {
   return (
     <div
       className={cn(
-        "absolute left-[18px] w-[19px] rounded-full border-2 border-mortgage-neutral-slate-700 aspect-square top-1/2 -translate-y-1/2 flex-col flex items-center justify-center",
-        "peer-checked:border-mortgage-primary-lime peer-checked:border-[1.5px] peer-checked:[&>div]:bg-mortgage-primary-lime peer-checked:[&>div]:block",
+        "absolute left-[18px] top-1/2 flex aspect-square w-[19px] -translate-y-1/2 flex-col items-center justify-center rounded-full border-2 border-mortgage-neutral-slate-700",
+        "peer-checked:border-[1.5px] peer-checked:border-mortgage-primary-lime peer-checked:[&>div]:block peer-checked:[&>div]:bg-mortgage-primary-lime",
       )}
     >
-      <div className="w-[10px] aspect-square rounded-full hidden" />
+      <div className="hidden aspect-square w-[10px] rounded-full" />
     </div>
   );
 }
 
+const mortgageType = z
+  .enum(["repayment", "interest-only"], {
+    message: "Please select a mortgage type",
+  })
+  .optional()
+  .refine((val) => val !== undefined, {
+    message: "Please select a mortgage type",
+  });
+type MortgageType = z.infer<typeof mortgageType>;
+
 function MortgageForm() {
+  const form = useForm({
+    defaultValues: {
+      amount: "",
+      term: "",
+      interestRate: "",
+      mortgageType: undefined as MortgageType,
+    },
+    onSubmit: ({ value, formApi }) => {
+      console.log(value);
+      formApi.reset();
+    },
+    validatorAdapter: zodValidator({
+      transformErrors: (errors) => {
+        return errors[0].message;
+      },
+    }),
+  });
+
   return (
-    <form className="w-full px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700">
+    <form
+      className="w-full px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        await form.handleSubmit();
+      }}
+    >
       <h1 className="text-2xl font-bold text-mortgage-neutral-slate-900">
         Mortgage Calculator
       </h1>
@@ -57,77 +95,167 @@ function MortgageForm() {
         Clear All
       </button>
       <div className="mt-[23px] flex w-full flex-col gap-[23px]">
-        <label htmlFor="" className="relative flex flex-col gap-[11px]">
-          <span>Mortgage Amount</span>
-          <input
-            className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-16 text-sm focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent text-mortgage-neutral-slate-900"
-            type="text"
-          />
-          <span className="absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
-            &pound;
-          </span>
-        </label>
-        <label htmlFor="" className="relative flex flex-col gap-[11px]">
-          <span>Mortgage Term</span>
-          <input
-            className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent text-mortgage-neutral-slate-900"
-            type="text"
-          />
-          <span className="absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
-            years
-          </span>
-        </label>
-        <label htmlFor="" className="relative flex flex-col gap-[11px]">
-          <span>Interest Rate</span>
-          <input
-            className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent text-mortgage-neutral-slate-900"
-            type="text"
-          />
-          <span className="absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
-            %
-          </span>
-        </label>
+        <form.Field
+          name="amount"
+          validators={{
+            onChange: z.coerce.number().min(1, "This field is required"),
+          }}
+        >
+          {(field) => {
+            return (
+              <label
+                htmlFor={field.name}
+                className="relative flex flex-col gap-[11px]"
+              >
+                <span>Mortgage Amount</span>
+                <input
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-16 text-sm text-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  type="number"
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <span className="pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                  &pound;
+                </span>
+              </label>
+            );
+          }}
+        </form.Field>
+        <form.Field
+          name="term"
+          validators={{
+            onChange: z.coerce.number().min(1, "This field is required"),
+          }}
+        >
+          {(field) => {
+            return (
+              <label
+                htmlFor={field.name}
+                className="relative flex flex-col gap-[11px]"
+              >
+                <span>Mortgage Term</span>
+                <input
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  type="number"
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                  years
+                </span>
+              </label>
+            );
+          }}
+        </form.Field>
+        <form.Field
+          name="interestRate"
+          validators={{
+            onChange: z.coerce.number().min(1, "This field is required"),
+          }}
+        >
+          {(field) => {
+            return (
+              <label
+                htmlFor={field.name}
+                className="relative flex flex-col gap-[11px]"
+              >
+                <span>Interest Rate</span>
+                <input
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  type="number"
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+
+                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                  %
+                </span>
+              </label>
+            );
+          }}
+        </form.Field>
         <fieldset>
           <legend>Mortgage Type</legend>
           <div className="mt-[11px] flex flex-col gap-[10px]">
-            <div className="relative w-full md:flex-1">
-              <input
-                type="radio"
-                value="repayment"
-                name="mortgageType"
-                className="peer hidden"
-                id="repayment"
-              />
-              <RadioIndicator />
-              <label
-                htmlFor="repayment"
-                className={cn(
-                  "group/label flex h-[50px] w-full cursor-pointer items-center gap-4 rounded border border-mortgage-neutral-slate-500 pl-[55px] text-lg/none font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-primary-lime",
-                  "peer-checked:border-mortgage-primary-lime peer-checked:bg-mortgage-primary-lime/10 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-1 peer-focus-visible:outline-mortgage-primary-lime",
-                )}
-              >
-                Repayment
-              </label>
-            </div>
-            <div className="relative w-full md:flex-1">
-              <input
-                type="radio"
-                value="interest-only"
-                id="interest-only"
-                name="mortgageType"
-                className="peer hidden"
-              />
-              <RadioIndicator />
-              <label
-                htmlFor="interest-only"
-                className={cn(
-                  "group/label flex h-[50px] w-full cursor-pointer items-center gap-4 rounded border border-mortgage-neutral-slate-500 pl-[55px] text-lg/none font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-primary-lime",
-                  "peer-checked:border-mortgage-primary-lime peer-checked:bg-mortgage-primary-lime/10 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-1 peer-focus-visible:outline-mortgage-primary-lime",
-                )}
-              >
-                Interest Only
-              </label>
-            </div>
+            <form.Field
+              name="mortgageType"
+              validators={{
+                onChange: mortgageType,
+              }}
+            >
+              {(field) => {
+                return (
+                  <div className="relative w-full md:flex-1">
+                    <input
+                      type="radio"
+                      className="peer hidden"
+                      id="repayment"
+                      value="repayment"
+                      name={field.name}
+                      onBlur={field.handleBlur}
+                      checked={field.getValue() === "repayment"}
+                      onChange={(e) =>
+                        field.handleChange(e.target.value as MortgageType)
+                      }
+                    />
+                    <RadioIndicator />
+                    <label
+                      htmlFor="repayment"
+                      className={cn(
+                        "group/label flex h-[50px] w-full cursor-pointer items-center gap-4 rounded border border-mortgage-neutral-slate-500 pl-[55px] text-lg/none font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-primary-lime",
+                        "peer-checked:border-mortgage-primary-lime peer-checked:bg-mortgage-primary-lime/10 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-1 peer-focus-visible:outline-mortgage-primary-lime",
+                      )}
+                    >
+                      Repayment
+                    </label>
+                  </div>
+                );
+              }}
+            </form.Field>
+            <form.Field
+              name="mortgageType"
+              validators={{
+                onChange: mortgageType,
+              }}
+            >
+              {(field) => {
+                return (
+                  <div className="relative w-full md:flex-1">
+                    <input
+                      type="radio"
+                      value="interest-only"
+                      id="interest-only"
+                      className="peer hidden"
+                      name={field.name}
+                      onBlur={field.handleBlur}
+                      checked={field.getValue() === "interest-only"}
+                      onChange={(e) =>
+                        field.handleChange(e.target.value as MortgageType)
+                      }
+                    />
+                    <RadioIndicator />
+                    <label
+                      htmlFor="interest-only"
+                      className={cn(
+                        "group/label flex h-[50px] w-full cursor-pointer items-center gap-4 rounded border border-mortgage-neutral-slate-500 pl-[55px] text-lg/none font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-primary-lime",
+                        "peer-checked:border-mortgage-primary-lime peer-checked:bg-mortgage-primary-lime/10 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-1 peer-focus-visible:outline-mortgage-primary-lime",
+                      )}
+                    >
+                      Interest Only
+                    </label>
+                  </div>
+                );
+              }}
+            </form.Field>
           </div>
         </fieldset>
         <button
@@ -156,7 +284,7 @@ function MortgageForm() {
 
 function Results() {
   return (
-    <div className="flex flex-col items-center justify-center h-[390px] bg-mortgage-neutral-slate-900 text-mortgage-neutral-white w-full">
+    <div className="flex h-[390px] w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white">
       <svg
         aria-hidden="true"
         className="aspect-square w-[192px]"
@@ -164,10 +292,10 @@ function Results() {
       >
         <use href="/mortgage-repayment-calculator/assets/images/illustration-empty.svg#illustration-empty" />
       </svg>
-      <h2 className="font-bold text-2xl mt-[15px] text-center">
+      <h2 className="mt-[15px] text-center text-2xl font-bold">
         Results shown here
       </h2>
-      <p className="text-center text-mortgage-neutral-slate-300 mt-4">
+      <p className="mt-4 text-center text-mortgage-neutral-slate-300">
         Complete the form and click “calculate repayments” to see what your
         monthly repayments would be.
       </p>
@@ -200,7 +328,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-2 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy text-mortgage-neutral-slate-100">
+    <footer className="absolute bottom-2 w-full text-center text-[11px] text-mortgage-neutral-slate-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
