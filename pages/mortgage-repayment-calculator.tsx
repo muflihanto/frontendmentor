@@ -27,10 +27,23 @@ export default function MortgageRepaymentCalculator() {
         <Footer />
         {/* <Slider
           basePath="/mortgage-repayment-calculator/design"
-          absolutePath="/mortgage-repayment-calculator/design/mobile-design-empty.jpg"
+          absolutePath="/mortgage-repayment-calculator/design/mobile-design-completed.jpg"
         /> */}
       </div>
     </>
+  );
+}
+
+function RadioIndicator() {
+  return (
+    <div
+      className={cn(
+        "absolute left-[18px] w-[19px] rounded-full border-2 border-mortgage-neutral-slate-700 aspect-square top-1/2 -translate-y-1/2 flex-col flex items-center justify-center",
+        "peer-checked:border-mortgage-primary-lime peer-checked:border-[1.5px] peer-checked:[&>div]:bg-mortgage-primary-lime peer-checked:[&>div]:block",
+      )}
+    >
+      <div className="w-[10px] aspect-square rounded-full hidden" />
+    </div>
   );
 }
 
@@ -82,12 +95,10 @@ function MortgageForm() {
                 type="radio"
                 value="repayment"
                 name="mortgageType"
-                className={cn(
-                  "peer absolute left-5 top-1/2 -translate-y-1/2 scale-[140%] text-9xl text-mortgage-primary-lime/10 accent-mortgage-primary-lime",
-                  "focus-visible:outline focus-visible:outline-transparent",
-                )}
+                className="peer hidden"
                 id="repayment"
               />
+              <RadioIndicator />
               <label
                 htmlFor="repayment"
                 className={cn(
@@ -104,11 +115,9 @@ function MortgageForm() {
                 value="interest-only"
                 id="interest-only"
                 name="mortgageType"
-                className={cn(
-                  "peer absolute left-5 top-1/2 -translate-y-1/2 scale-[140%] text-9xl text-mortgage-primary-lime/10 accent-mortgage-primary-lime",
-                  "focus-visible:outline focus-visible:outline-transparent",
-                )}
+                className="peer hidden"
               />
+              <RadioIndicator />
               <label
                 htmlFor="interest-only"
                 className={cn(
