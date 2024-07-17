@@ -9,6 +9,7 @@ import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { atom, useAtom } from "jotai";
+import { useMemo } from "react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -19,13 +20,13 @@ type MortgageData = {
   interestRate: string;
   mortgageType: MortgageType;
 };
-// const mortgageAtom = atom<null | MortgageData>(null);
-const mortgageAtom = atom<null | MortgageData>({
-  amount: "300000",
-  term: "25",
-  interestRate: "5.25",
-  mortgageType: "repayment",
-});
+const mortgageAtom = atom<null | MortgageData>(null);
+// const mortgageAtom = atom<null | MortgageData>({
+//   amount: "300000",
+//   term: "25",
+//   interestRate: "5.25",
+//   mortgageType: "repayment",
+// });
 
 export default function MortgageRepaymentCalculator() {
   return (
@@ -306,7 +307,25 @@ function MortgageForm() {
 }
 
 function Results() {
-  const [mortgage] = useAtom(mortgageAtom);
+  const [input] = useAtom(mortgageAtom);
+
+  const mortgage = useMemo(() => {
+    if (input === null) return null;
+    const [p, n_year, i_year] = Object.values(input).map(
+      (val) => Number(val) ?? 0,
+    );
+    const n = n_year * 12;
+    const i = i_year / 100 / 12;
+    const monthly = i !== 0 ? (i * p) / (1 - 1 / (1 + i) ** n) : p / n;
+    const total = monthly * n;
+    const format = (n: number): string =>
+      Number(n.toFixed(2)).toLocaleString("en-US");
+    return {
+      monthly: format(monthly),
+      total: format(total),
+    };
+  }, [input]);
+
   return (
     <div
       className={cn(
@@ -347,7 +366,7 @@ function Results() {
                 Your monthly repayments
               </p>
               <p className="font-bold text-[40px]/none text-mortgage-primary-lime">
-                &pound;1,797.74
+                &pound;{mortgage.monthly}
               </p>
             </div>
             <hr className="border-mortgage-neutral-slate-700 mt-[22px] mb-[15px]" />
@@ -355,7 +374,9 @@ function Results() {
               <p className="text-mortgage-neutral-slate-300">
                 Total you&apos;ll repay over the term
               </p>
-              <p className="font-bold text-[24px]/none">&pound;539,322.94</p>
+              <p className="font-bold text-[24px]/none">
+                &pound;{mortgage.total}
+              </p>
             </div>
           </div>
         </>
