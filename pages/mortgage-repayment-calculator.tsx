@@ -320,9 +320,20 @@ function Results() {
     const total = monthly * n;
     const format = (n: number): string =>
       Number(n.toFixed(2)).toLocaleString("en-US");
+
+    if (input.mortgageType === "repayment") {
+      return {
+        monthly: format(monthly),
+        total: format(total),
+      };
+    }
+
+    const total_i = total - p;
+    const monthly_i = total_i / n;
+
     return {
-      monthly: format(monthly),
-      total: format(total),
+      monthly: format(monthly_i),
+      total: format(total_i),
     };
   }, [input]);
 
@@ -363,7 +374,10 @@ function Results() {
           <div className="rounded-lg border-t-4 border-t-mortgage-primary-lime w-full bg-[hsl(202,56%,12%)] mt-[23px] p-4 pt-[20px] pb-[27px]">
             <div className="space-y-3">
               <p className="text-mortgage-neutral-slate-300">
-                Your monthly repayments
+                Your monthly{" "}
+                {input?.mortgageType === "repayment"
+                  ? "repayments"
+                  : "interests"}
               </p>
               <p className="font-bold text-[40px]/none text-mortgage-primary-lime">
                 &pound;{mortgage.monthly}
@@ -372,7 +386,11 @@ function Results() {
             <hr className="border-mortgage-neutral-slate-700 mt-[22px] mb-[15px]" />
             <div className="space-y-3">
               <p className="text-mortgage-neutral-slate-300">
-                Total you&apos;ll repay over the term
+                Total{" "}
+                {input?.mortgageType === "repayment"
+                  ? "you&apos;ll repay"
+                  : "interests"}{" "}
+                over the term
               </p>
               <p className="font-bold text-[24px]/none">
                 &pound;{mortgage.total}
