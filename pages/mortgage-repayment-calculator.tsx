@@ -8,9 +8,24 @@ import { cn } from "../utils/cn";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
+import { atom, useAtom } from "jotai";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
+type MortgageData = {
+  amount: string;
+  term: string;
+  interestRate: string;
+  mortgageType: MortgageType;
+};
+// const mortgageAtom = atom<null | MortgageData>(null);
+const mortgageAtom = atom<null | MortgageData>({
+  amount: "300000",
+  term: "25",
+  interestRate: "5.25",
+  mortgageType: "repayment",
+});
 
 export default function MortgageRepaymentCalculator() {
   return (
@@ -60,16 +75,20 @@ const mortgageType = z
   });
 type MortgageType = z.infer<typeof mortgageType>;
 
+const defaultValues = {
+  amount: "",
+  term: "",
+  interestRate: "",
+  mortgageType: undefined as MortgageType,
+};
+
 function MortgageForm() {
+  const [, setMortgage] = useAtom(mortgageAtom);
   const form = useForm({
-    defaultValues: {
-      amount: "",
-      term: "",
-      interestRate: "",
-      mortgageType: undefined as MortgageType,
-    },
+    defaultValues,
     onSubmit: ({ value, formApi }) => {
       console.log(value);
+      setMortgage(value);
       formApi.reset();
     },
     validatorAdapter: zodValidator({
@@ -287,22 +306,60 @@ function MortgageForm() {
 }
 
 function Results() {
+  const [mortgage] = useAtom(mortgageAtom);
   return (
-    <div className="flex h-[390px] w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white">
-      <svg
-        aria-hidden="true"
-        className="aspect-square w-[192px]"
-        viewBox="0 0 192 192"
-      >
-        <use href="/mortgage-repayment-calculator/assets/images/illustration-empty.svg#illustration-empty" />
-      </svg>
-      <h2 className="mt-[15px] text-center text-2xl font-bold">
-        Results shown here
-      </h2>
-      <p className="mt-4 text-center text-mortgage-neutral-slate-300">
-        Complete the form and click “calculate repayments” to see what your
-        monthly repayments would be.
-      </p>
+    <div
+      className={cn(
+        "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white",
+        mortgage === null ? "h-[390px]" : "h-[455px] px-6 py-4 justify-start",
+      )}
+    >
+      {mortgage === null ? (
+        <>
+          <svg
+            aria-hidden="true"
+            className="aspect-square w-[192px]"
+            viewBox="0 0 192 192"
+          >
+            <use href="/mortgage-repayment-calculator/assets/images/illustration-empty.svg#illustration-empty" />
+          </svg>
+          <h2 className="mt-[15px] text-center text-2xl font-bold">
+            Results shown here
+          </h2>
+          <p className="mt-4 text-center text-mortgage-neutral-slate-300">
+            Complete the form and click “calculate repayments” to see what your
+            monthly repayments would be.
+          </p>
+        </>
+      ) : (
+        <>
+          <h2 className="mt-[15px] text-left w-full text-2xl font-bold">
+            Your results
+          </h2>
+          <p className="mt-4 text-left text-mortgage-neutral-slate-300">
+            Your results are shown below based on the information you provided.
+            To adjust the results, edit the form and click “calculate
+            repayments” again.
+          </p>
+          <div className="rounded-lg border-t-4 border-t-mortgage-primary-lime w-full bg-[hsl(202,56%,12%)] mt-[23px] p-4 pt-[20px] pb-[27px]">
+            <div className="space-y-3">
+              <p className="text-mortgage-neutral-slate-300">
+                Your monthly repayments
+              </p>
+              <p className="font-bold text-[40px]/none text-mortgage-primary-lime">
+                &pound;1,797.74
+              </p>
+            </div>
+            <hr className="border-mortgage-neutral-slate-700 mt-[22px] mb-[15px]" />
+            <div className="space-y-3">
+              <p className="text-mortgage-neutral-slate-300">
+                Total you&apos;ll repay over the term
+              </p>
+              <p className="font-bold text-[24px]/none">&pound;539,322.94</p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -312,20 +369,6 @@ function Main() {
     <main className="flex w-full flex-col items-center justify-center">
       <MortgageForm />
       <Results />
-      {/* {`
-            <!-- Completed results start -->
-
-            Your results
-
-            Your results are shown below based on the information you provided. 
-            To adjust the results, edit the form and click “calculate repayments” again.
-
-            Your monthly repayments
-
-            Total you'll repay over the term
-
-            <!-- Completed results end --> 
-      `} */}
     </main>
   );
 }
