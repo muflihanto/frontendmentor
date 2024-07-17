@@ -79,6 +79,10 @@ function MortgageForm() {
     }),
   });
 
+  const clearFields = () => {
+    form.reset();
+  };
+
   return (
     <form
       className="w-full px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700"
@@ -91,7 +95,7 @@ function MortgageForm() {
       <h1 className="text-2xl font-bold text-mortgage-neutral-slate-900">
         Mortgage Calculator
       </h1>
-      <button className="mt-2 underline" type="reset">
+      <button className="mt-2 underline" type="reset" onClick={clearFields}>
         Clear All
       </button>
       <div className="mt-[23px] flex w-full flex-col gap-[23px]">
