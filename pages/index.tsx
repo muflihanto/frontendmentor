@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo, useState, type ChangeEvent } from "react";
 import { useIsClient } from "usehooks-ts";
 import pages from "../docs/data.json";
+import { BsGithub } from "react-icons/bs";
 
 // import getPages from "../utils/getPages";
 // import type { InferGetServerSidePropsType } from "next";
@@ -66,15 +67,15 @@ export function Home() {
         <ul className="mx-auto mt-8 grid max-w-screen-lg grid-cols-1 items-center gap-4 self-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
           {filteredPages.map((page) => {
             return (
-              <li key={page.name}>
-                <div className="mb-2 flex h-[480px] min-w-[180px] flex-col gap-2 overflow-hidden rounded-xl bg-sky-600 text-center text-white shadow-lg shadow-sky-950/20 focus-within:outline focus-within:outline-offset-2 focus-within:outline-sky-500 dark:bg-sky-900">
-                  <Link className="h-[240px] group" href={page.path}>
-                    <div className="h-full w-full overflow-hidden relative">
-                      <div className="w-full h-14 bg-transparent bg-gradient-to-b from-slate-800/10 group-hover:from-slate-800/20 to-transparent transition-all duration-1000 top-0 left-0 absolute z-10" />
+              <li key={page.name} className="h-full">
+                <div className="mb-2 flex h-full flex-col gap-2 overflow-hidden rounded-xl bg-sky-600 text-center text-white shadow-lg shadow-sky-950/20 focus-within:outline focus-within:outline-offset-2 focus-within:outline-sky-500 dark:bg-sky-900">
+                  <Link className="group" href={page.path}>
+                    <div className="relative aspect-[700/513] w-full overflow-hidden">
+                      <div className="absolute left-0 top-0 z-10 h-14 w-full bg-transparent bg-gradient-to-b from-slate-800/10 to-transparent transition-all duration-1000 group-hover:from-slate-800/20" />
                       <Image
                         src={page["preview-src"]}
                         alt={page.name}
-                        className="group-hover:scale-110 transition-all duration-300"
+                        className="transition-all duration-300 group-hover:scale-110"
                         fill
                       />
                     </div>
@@ -109,6 +110,13 @@ export function Home() {
             height={20}
           />
         </button>
+        <Link
+          className="fixed bottom-16 right-4 flex h-10 w-10 items-center justify-center rounded-md bg-sky-500 shadow transition-transform hover:bg-opacity-75 active:scale-95 dark:bg-sky-700 dark:hover:bg-opacity-75 lg:bottom-6 lg:right-20"
+          target="_blank"
+          href={"https://github.com/muflihanto/frontendmentor"}
+        >
+          <BsGithub />
+        </Link>
       </main>
     </div>
   );
