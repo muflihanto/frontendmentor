@@ -1,0 +1,562 @@
+[
+  {
+    "description": "This challenge is perfect if you're just getting started. The shift between the layouts will be a nice test if you're new to building responsive projects.",
+    "path": "3-column-preview-card-component",
+    "name": "3-column preview card component",
+    "preview-src": "/index/previews/001-ap7h50kkrdq7zclbokox.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/3column-preview-card-component-pH92eAR2-"
+  },
+  {
+    "description": "The perfect project if you're learning how to interact with 3rd-party APIs. This challenge uses the Advice Slip API to generate random quotes of advice.",
+    "path": "advice-generator-app",
+    "name": "Advice generator app",
+    "preview-src": "/index/previews/002-l0nkljeqewyxuw0vedhd.jpg",
+    "tags": "FreeHTMLCSSJSAPI2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/advice-generator-app-QdUG-13db"
+  },
+  {
+    "description": "This challenge is designed to sharpen your JavaScript and form validation skills. Working with dates in JavaScript can be tricky, so this will be a nice test!",
+    "path": "age-calculator-app",
+    "name": "Age calculator app",
+    "preview-src": "/index/previews/003-jmzygkuazktqtg2akkkx.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q"
+  },
+  {
+    "description": "This challenge will be a perfect test of your layout and responsive skills. There's a tiny bit of JS for the mobile menu, but the focus is HTML & CSS.",
+    "path": "sunnyside-agency-landing-page",
+    "name": "Agency landing page",
+    "preview-src": "/index/previews/004-wqzotbyfysz9pbfk9jus.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/agency-landing-page-7yVs3B6ef"
+  },
+  {
+    "description": "Practice your layout skills with this article preview component. There's lots of fun to be had playing around with animations for the sharing icons as well.",
+    "path": "article-preview-component",
+    "name": "Article preview component",
+    "preview-src": "/index/previews/005-xqhq3ggsxbtkv4o3av6j.jpg",
+    "tags": "FreeHTMLCSSJS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/article-preview-component-dYBN_pYFT"
+  },
+  {
+    "description": "This layout looks simple enough, but there are some interesting details to it that will test your CSS skills. You'll also get to practice basic form validation.",
+    "path": "base-apparel-coming-soon",
+    "name": "Base Apparel coming soon page",
+    "preview-src": "/index/previews/006-oxwdbpj64r1au0gp1frc.jpg",
+    "tags": "FreeHTMLCSSJS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/base-apparel-coming-soon-page-5d46b47f8db8a7063f9331a0"
+  },
+  {
+    "description": "This HTML & CSS-only challenge is a perfect project for beginners getting up to speed with HTML and CSS fundamentals, like HTML structure and the box model.",
+    "path": "blog-preview-card",
+    "name": "Blog preview card",
+    "preview-src": "/index/previews/007-kaiwxzdh90xhbdwsstvl.jpg",
+    "tags": "Free+HTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/blog-preview-card-ckPaj01IcS"
+  },
+  {
+    "description": "Flex your layout muscles with this landing page challenge. You'll mostly be working with HTML & CSS for this project with a tiny bit of JS for the mobile menu.",
+    "path": "blogr-landing-page",
+    "name": "Blogr landing page",
+    "preview-src": "/index/previews/008-awqnouxukwefdkaqt5iq.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/blogr-landing-page-EX2RLAApP"
+  },
+  {
+    "description": "This challenge will really test your layout skills. There are also areas that will require some JavaScript, such as the tabbed features section and the FAQ accordion.",
+    "path": "bookmark-landing-page",
+    "name": "Bookmark landing page",
+    "preview-src": "/index/previews/009-nmfs59ofpjizo6knhpsr.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/bookmark-landing-page-5d0b588a9edda32581d29158"
+  },
+  {
+    "description": "This calculator app will be a great test of your CSS and JS skills especially. If you're wanting to practice using Grid, this challenge will be perfect for you!",
+    "path": "calculator-app",
+    "name": "Calculator app",
+    "preview-src": "/index/previews/010-kbiajeinu576ltgcclbt.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/calculator-app-9lteq5N29"
+  },
+  {
+    "description": "In this challenge, you'll be building out the entire app illustration from scratch. This will seriously test your CSS skills. So give it a go if you feel confident!",
+    "path": "chat-app-css-illustration",
+    "name": "Chat app CSS illustration",
+    "preview-src": "/index/previews/011-tdenrz6vmcjolwsgjy3r.jpg",
+    "tags": "FreeHTMLCSS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/chat-app-css-illustration-O5auMkFqY"
+  },
+  {
+    "description": "Put your layout skills to the test with this HTML & CSS landing page challenge. This challenge includes a design for hover states.",
+    "path": "clipboard-landing-page",
+    "name": "Clipboard landing page",
+    "preview-src": "/index/previews/012-xiydlw7ggmnfnldlflit.jpg",
+    "tags": "FreeHTMLCSS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/clipboard-landing-page-5cc9bccd6c4c91111378ecb9"
+  },
+  {
+    "description": "This challenge will be a nice test if you're new to JavaScript. It's also a great opportunity to play around with content animations and transitions.",
+    "path": "coding-bootcamp-testimonials-slider",
+    "name": "Coding bootcamp testimonials slider",
+    "preview-src": "/index/previews/013-dejjtjv4akklm3c4vrb1.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/coding-bootcamp-testimonials-slider-4FNyLA8JL"
+  },
+  {
+    "description": "Building accessible forms is a crucial task for front-end developers. This challenge will help you practice building a form with several input types and validation.",
+    "path": "contact-form",
+    "name": "Contact form",
+    "preview-src": "/index/previews/014-dmfvghaamqjt9lrx43ql.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/contact-form--G-hYlqKJj"
+  },
+  {
+    "description": "This challenge will test both your layout and state management skills. As visitors make pledges, your goal is to keep track of the changes.",
+    "path": "crowdfunding-product-page",
+    "name": "Crowdfunding product page",
+    "preview-src": "/index/previews/015-luxbxwbgw9q8cj3i8d7l.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/crowdfunding-product-page-7uvcZe7ZR"
+  },
+  {
+    "description": "In this challenge, you'll build a beautiful product page. We'll be putting your JS skills to the test with a lightbox product gallery and cart functionality!",
+    "path": "ecommerce-product-page",
+    "name": "E-commerce product page",
+    "preview-src": "/index/previews/016-xde5z4efoocyw2mcuqod.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/ecommerce-product-page-UPsZ9MJp6"
+  },
+  {
+    "description": "This challenge will provide a nice test for your layout skills. If you're ready to move up from Junior challenges, this one is a great next step.",
+    "path": "easybank-landing-page",
+    "name": "Easybank landing page",
+    "preview-src": "/index/previews/017-yezt1f56cfp2njnakpbo.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/easybank-landing-page-WaUhkoDN"
+  },
+  {
+    "description": "In this challenge, you'll create a bar chart component from scratch. We provide a local JSON file, so you can add the chart data dynamically if you choose.",
+    "path": "expenses-chart-component",
+    "name": "Expenses chart component",
+    "preview-src": "/index/previews/018-qqz8vfg0jzmrtk2liteo.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/expenses-chart-component-e7yJBUdjwt"
+  },
+  {
+    "description": "In this challenge, you'll build an FAQ accordion. This is an extremely common front-end pattern, so it's an excellent opportunity to get some practice in!",
+    "path": "faq-accordion",
+    "name": "FAQ accordion",
+    "preview-src": "/index/previews/019-txnhbxbvi4zqxxcqmrwq.jpg",
+    "tags": "FreeHTMLCSSJS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/faq-accordion-wyfFdeBwBz"
+  },
+  {
+    "description": "In this challenge, you'll be building out an FAQ accordion. This is an extremely common front-end pattern, so it's a great opportunity to get some practice in!",
+    "path": "faq-accordion-card",
+    "name": "FAQ accordion card",
+    "preview-src": "/index/previews/020-y4zn9ukalew5zbnodrjs.jpg",
+    "tags": "FreeHTMLCSSJS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/faq-accordion-card-XlyjD0Oam"
+  },
+  {
+    "description": "A nice layout-based challenge for beginners. This will test anyone who is new to multi-column and responsive layouts.",
+    "path": "four-card-feature-section",
+    "name": "Four card feature section",
+    "preview-src": "/index/previews/021-wbsdema37uawkvkp9lab.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/four-card-feature-section-weK1eFYK"
+  },
+  {
+    "description": "This design has some nice layout challenges in it. A perfect training ground to practice your Flexbox and/or Grid skills.",
+    "path": "fylo-dark-theme-landing-page",
+    "name": "Fylo dark theme landing page",
+    "preview-src": "/index/previews/022-r2ntg9yanvjruk8rbdxn.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/fylo-dark-theme-landing-page-5ca5f2d21e82137ec91a50fd"
+  },
+  {
+    "description": "This component has some interesting CSS challenges in the design. If you're looking to test your CSS skills, this will be a great project for you!",
+    "path": "fylo-data-storage-component",
+    "name": "Fylo data storage component",
+    "preview-src": "/index/previews/023-beiy7t7hcpdkhgc6ueho.jpg",
+    "tags": "FreeHTMLCSS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/fylo-data-storage-component-1dZPRbV5n"
+  },
+  {
+    "description": "This project is great if you're starting to get confident with slightly more complex layouts. The second section with the testimonial area will provide a nice challenge.",
+    "path": "fylo-landing-page-with-two-column-layout",
+    "name": "Fylo landing page with two column layout",
+    "preview-src": "/index/previews/024-alno0v75fow4xueknwtu.jpg",
+    "tags": "FreeHTMLCSS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/fylo-landing-page-with-two-column-layout-5ca5ef041e82137ec91a50f5"
+  },
+  {
+    "description": "A perfect challenge for beginners, this project will get you working with a two column layout.",
+    "path": "huddle-landing-page-with-single-introductory-section",
+    "name": "Huddle landing page with a single introductory section",
+    "preview-src": "/index/previews/025-m8aueljlhfwzve7zxpy7.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/huddle-landing-page-with-a-single-introductory-section-B_2Wvxgi0"
+  },
+  {
+    "description": "This challenge is perfect if you're wanting to practice your layout skills. If you're starting to get a bit more confident laying out a web page, give this project a go.",
+    "path": "huddle-landing-page-with-alternating-feature-blocks",
+    "name": "Huddle landing page with alternating feature blocks",
+    "preview-src": "/index/previews/026-wn3pttg6nwgymod2iqxy.jpg",
+    "tags": "FreeHTMLCSS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/huddle-landing-page-with-alternating-feature-blocks-5ca5f5981e82137ec91a5100"
+  },
+  {
+    "description": "Practice using pseudo-elements for styling extras and the CSS position property for the sections with curved edges.",
+    "path": "huddle-landing-page-with-curved-sections",
+    "name": "Huddle landing page with curved sections",
+    "preview-src": "/index/previews/027-r6fio3uuca3rqvijjavh.jpg",
+    "tags": "FreeHTMLCSS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/huddle-landing-page-with-curved-sections-5ca5ecd01e82137ec91a50f2"
+  },
+  {
+    "description": "In this challenge, you'll be using two separate APIs together to create an IP Address Tracking app.",
+    "path": "ip-address-tracker",
+    "name": "IP Address Tracker",
+    "preview-src": "/index/previews/028-ld4kxbjoxpqpjenak8w6.jpg",
+    "tags": "FreeHTMLCSSJSAPI3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/ip-address-tracker-I8-0yYAH0"
+  },
+  {
+    "description": "Test your layout skills with this HTML & CSS only landing page. This challenge is perfect if you're starting to get confident in laying out web pages.",
+    "path": "insure-landing-page",
+    "name": "Insure landing page",
+    "preview-src": "/index/previews/029-sp3gewqjnhazsoovtqjm.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/insure-landing-page-uTU68JV8"
+  },
+  {
+    "description": "This fun project will be an excellent way to practice DOM manipulation and form validation while also putting your HTML and CSS skills to the test.",
+    "path": "interactive-card-details-form",
+    "name": "Interactive card details form",
+    "preview-src": "/index/previews/030-o5wnlelbwhhjcmbjnq62.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/interactive-card-details-form-XpS8cKZDWw"
+  },
+  {
+    "description": "This is project will put your JavaScript skills to the test. We provide a JSON file to pull the data, but it's also a perfect project to build as a full-stack CRUD app!",
+    "path": "interactive-comments-section",
+    "name": "Interactive comments section",
+    "preview-src": "/index/previews/031-v9wskl4mnbt5gbxm4o2r.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9"
+  },
+  {
+    "description": "In this project, you'll build out an interactive pricing component complete with custom range input slider and pricing toggle. A perfect way to test your JS skills!",
+    "path": "interactive-pricing-component",
+    "name": "Interactive pricing component",
+    "preview-src": "/index/previews/032-pnoljknuewnetbngzmto.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/interactive-pricing-component-t0m8PIyY8"
+  },
+  {
+    "description": "This is a nice, small project to practice handling user interactions and updating the DOM. Perfect for anyone who has learned the basics of JavaScript!",
+    "path": "interactive-rating-component",
+    "name": "Interactive rating component",
+    "preview-src": "/index/previews/033-uvyyaf5ua06symjnjpe1.jpg",
+    "tags": "FreeHTMLCSSJS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/interactive-rating-component-koxpeBUmI"
+  },
+  {
+    "description": "Practice building out a sign-up form complete with client-side validation using JavaScript.",
+    "path": "intro-component-with-signup-form",
+    "name": "Intro component with sign-up form",
+    "preview-src": "/index/previews/034-mnmpkjsbvur3xvrydf66.jpg",
+    "tags": "FreeHTMLCSSJS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/intro-component-with-signup-form-5cf91bd49edda32581d28fd1"
+  },
+  {
+    "description": "This challenge will test your ability to create dropdown navigation menus, a common pattern on larger sites. It will also provide some nice basic layout challenges.",
+    "path": "intro-section-with-dropdown-navigation",
+    "name": "Intro section with dropdown navigation",
+    "preview-src": "/index/previews/035-zp74vhrxan0bpg43z2uu.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/intro-section-with-dropdown-navigation-ryaPetHE5"
+  },
+  {
+    "description": "In this challenge, you'll be using JavaScript to filter out jobs based on selected categories. We provide a local JSON file to help you practice working with JSON data.",
+    "path": "static-job-listings",
+    "name": "Job listings with filtering",
+    "preview-src": "/index/previews/036-thcmrk07xdvnzf8qtay3.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/job-listings-with-filtering-ivstIPCt"
+  },
+  {
+    "description": "This will be a fun one! Your challenge is to build this countdown timer. There are lots of small CSS tests in the design as well. So it should keep you busy!",
+    "path": "launch-countdown-timer",
+    "name": "Launch countdown timer",
+    "preview-src": "/index/previews/037-sgyggipeoqrv2inrkxja.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/launch-countdown-timer-N0XkGfyz-"
+  },
+  {
+    "description": "This challenge is perfect if you're looking to test your CSS Grid chops. Even without Grid, this project will be a fun one to help you practice your layout skills!",
+    "path": "loopstudios-landing-page",
+    "name": "Loopstudios landing page",
+    "preview-src": "/index/previews/038-kfaa5whc9ukiqp3tqseo.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/loopstudios-landing-page-N88J5Onjw"
+  },
+  {
+    "description": "This challenge will be a great test for your responsive skills. There are lots of small details and slight content shifts for different screen sizes.",
+    "path": "manage-landing-page",
+    "name": "Manage landing page",
+    "preview-src": "/index/previews/039-qkpgcsmter7tah2sjdij.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/manage-landing-page-SLXqC6P5"
+  },
+  {
+    "description": "This mortgage calculator is an excellent project for practicing working with forms, client-side validation, and updating the DOM. Remember to focus on accessibility, too!",
+    "path": "mortgage-repayment-calculator",
+    "name": "Mortgage repayment calculator",
+    "preview-src": "/index/previews/040-jxgbqnn2ft6dmecbsvtf.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/mortgage-repayment-calculator-Galx1LXK73"
+  },
+  {
+    "description": "An excellent test for your form-building and JS skills, this project will pose many challenges along the way to completion.",
+    "path": "multi-step-form",
+    "name": "Multi-step form",
+    "preview-src": "/index/previews/041-vxqbpnpbamodg5ioplbj.jpg",
+    "tags": "FreeHTMLCSSJS4advanced",
+    "name-href": "https://www.frontendmentor.io/challenges/multistep-form-YVAnSdqQBJ"
+  },
+  {
+    "description": "This HTML & CSS only challenge is perfect for anyone just starting out or anyone wanting a small project to play around with.",
+    "path": "nft-preview-card-component",
+    "name": "NFT preview card component",
+    "preview-src": "/index/previews/042-sr9i7z9p1tfb2m40pigu.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/nft-preview-card-component-SbdUL_w0U"
+  },
+  {
+    "description": "This news homepage will be an excellent opportunity to practice your CSS Grid skills. There will be lots of tricky decisions to make and plenty of learning opportunities!",
+    "path": "news-homepage",
+    "name": "News homepage",
+    "preview-src": "/index/previews/043-pegqgyz9hsj11urrxpfj.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/news-homepage-H6SWTa1MFl"
+  },
+  {
+    "description": "This will test your skills with basic form structure, validation, and submission. The success state will also be an excellent opportunity to work with DOM manipulation.",
+    "path": "newsletter-sign-up-with-success-message",
+    "name": "Newsletter sign-up form with success message",
+    "preview-src": "/index/previews/044-q7yvs5yvgchjhjs2znay.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/newsletter-signup-form-with-success-message-3FC1AZbNrv"
+  },
+  {
+    "description": "This project will be a brilliant test of your HTML, CSS, and basic JavaScript skills. You'll use JS to toggle the visual state of the notifications.",
+    "path": "notifications-page",
+    "name": "Notifications page",
+    "preview-src": "/index/previews/045-hkmsdxxteijprjdzskhg.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/notifications-page-DqK5QAmKbC"
+  },
+  {
+    "description": "A perfect project for newbies who are starting to build confidence with layouts!",
+    "path": "order-summary-component",
+    "name": "Order summary component",
+    "preview-src": "/index/previews/046-gh4wbxnbnf9wqezb0b6y.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/order-summary-component-QlPmajDUj"
+  },
+  {
+    "description": "This challenge is great for beginners and offers a chance to practice basic client-side form validation.",
+    "path": "ping-coming-soon-page",
+    "name": "Ping single column coming soon page",
+    "preview-src": "/index/previews/047-i30yb3bo5vfag44bojox.jpg",
+    "tags": "FreeHTMLCSSJS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/ping-single-column-coming-soon-page-5cadd051fec04111f7b848da"
+  },
+  {
+    "description": "This challenge will get you thinking about building an accessible custom toggle control and also test your layout skills.",
+    "path": "pricing-component-with-toggle",
+    "name": "Pricing component with toggle",
+    "preview-src": "/index/previews/048-pzkdrqu0lizrk8qgmiti.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/pricing-component-with-toggle-8vPwRMIC"
+  },
+  {
+    "description": "Practice updating the UI in multiple places based on user actions. The starter download also includes a JSON file to help you practice populating the DOM dynamically.",
+    "path": "product-list-with-cart",
+    "name": "Product list with cart",
+    "preview-src": "/index/previews/049-hnwdoqpec5hxujjl1nj7.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/product-list-with-cart-5MmqLVAp_d"
+  },
+  {
+    "description": "This HTML & CSS-only challenge will be perfect for anyone starting to build responsive projects.",
+    "path": "product-preview-card-component",
+    "name": "Product preview card component",
+    "preview-src": "/index/previews/050-d0bm3lh8bp36gyi3jiop.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/product-preview-card-component-GO7UmttRfa"
+  },
+  {
+    "description": "This is a perfect challenge to test your layout skills. The card layout doesn't shift, so it's also great for those that haven't dived into responsive websites yet!",
+    "path": "profile-card-component",
+    "name": "Profile card component",
+    "preview-src": "/index/previews/051-tsdyz2ccordcztyrn8m0.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/profile-card-component-cfArpWshJ"
+  },
+  {
+    "description": "Some interesting layout and code challenges are baked into this design. Perfect if you're a beginner who is starting to get a bit more confident with your layouts.",
+    "path": "project-tracking-intro-component",
+    "name": "Project tracking intro component",
+    "preview-src": "/index/previews/052-quaxtotuavno8ieuobbx.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/project-tracking-intro-component-5d289097500fcb331a67d80e"
+  },
+  {
+    "description": "A perfect first challenge if you're new to HTML and CSS. The card layout doesn't shift, so it's ideal if you haven't learned about building responsive layouts yet.",
+    "path": "qr-code-component",
+    "name": "QR code component",
+    "preview-src": "/index/previews/053-cybxdhr4wewlscvco9dd.jpg",
+    "tags": "Free+HTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/qr-code-component-iux_sIO_H"
+  },
+  {
+    "description": "If you're wanting to test your JavaScript skills this is the challenge for you. Use whichever JS framework you prefer and pull data from the REST Countries API.",
+    "path": "rest-countries-api-with-color-theme-switcher",
+    "name": "REST Countries API with color theme switcher",
+    "preview-src": "/index/previews/054-wirxeocmd6tpnn9c5oqc.jpg",
+    "tags": "FreeHTMLCSSJSAPI4advanced",
+    "name-href": "https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca"
+  },
+  {
+    "description": "This challenge will help you focus on writing semantic HTML. Ensure you think through what HTML elements are most appropriate for each piece of content.",
+    "path": "recipe-page",
+    "name": "Recipe page",
+    "preview-src": "/index/previews/055-sogk9gtrzrmsf2rzcj63.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/recipe-page-KiTsR8QQKm"
+  },
+  {
+    "description": "This challenge has something for everyone. It’s a HTML and CSS only project, but we’ve also provided a JSON file of the test results for anyone wanting to practice JS.",
+    "path": "results-summary-component",
+    "name": "Results summary component",
+    "preview-src": "/index/previews/056-aqbssn4qnnb7jwp9kbw2.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/results-summary-component-CE_K6s0maV"
+  },
+  {
+    "description": "This challenge will test your HTML, CSS and JavaScript skills. There's even a Rock, Paper, Scissors, Lizard, Spock version if you really want to challenge yourself.",
+    "path": "rock-paper-scissors-bonus",
+    "name": "Rock, Paper, Scissors bonus game",
+    "preview-src": "/index/previews/057-fnzuxyyl1wwyscqgaiyc.jpg",
+    "tags": "FreeHTMLCSSJS4advanced",
+    "name-href": "https://www.frontendmentor.io/challenges/rock-paper-scissors-game-pTgwgvgH"
+  },
+  {
+    "description": "This challenge will test your HTML, CSS and JavaScript skills. There's even a Rock, Paper, Scissors, Lizard, Spock version if you really want to challenge yourself.",
+    "path": "rock-paper-scissors",
+    "name": "Rock, Paper, Scissors game",
+    "preview-src": "/index/previews/057-fnzuxyyl1wwyscqgaiyc.jpg",
+    "tags": "FreeHTMLCSSJS4advanced",
+    "name-href": "https://www.frontendmentor.io/challenges/rock-paper-scissors-game-pTgwgvgH"
+  },
+  {
+    "description": "This small homepage challenge packs a big punch to test your layout skills. There's also a slider in there to add a JS layer for extra practice.",
+    "path": "room-homepage",
+    "name": "Room homepage",
+    "preview-src": "/index/previews/058-pjoks3mpy5tdpsopoepc.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/room-homepage-BtdBY_ENq"
+  },
+  {
+    "description": "In this challenge, you will build out the pricing component to the designs provided. This is perfect for beginners and people who want to complete a smaller challenge.",
+    "path": "single-price-grid-component",
+    "name": "Single price grid component",
+    "preview-src": "/index/previews/059-ouvhkqeq9dhokut9payi.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/single-price-grid-component-5ce41129d0ff452fec5abbbc"
+  },
+  {
+    "description": "In this small project, you'll build out your social link-sharing profile. You can even personalize it and use it to share all your social profiles!",
+    "path": "social-links-profile",
+    "name": "Social links profile",
+    "preview-src": "/index/previews/060-sfsa14rwjz0wp7lzel2x.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/social-links-profile-UG32l9m6dQ"
+  },
+  {
+    "description": "This challenge will be a perfect chance to practice your Grid skills. The color theme switcher also adds a nice additional test.",
+    "path": "social-media-dashboard-with-theme-switcher",
+    "name": "Social media dashboard with theme switcher",
+    "preview-src": "/index/previews/061-ftdvklbtn6y7ydjxjjuj.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/social-media-dashboard-with-theme-switcher-6oY8ozp_H"
+  },
+  {
+    "description": "This project will test your layout skills. If you're starting to get confident with Flexbox or Grid, this will provide a nice challenge!",
+    "path": "social-proof-section",
+    "name": "Social proof section",
+    "preview-src": "/index/previews/062-rqjrs5fhup3ufygdjigk.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/social-proof-section-6e0qTv_bA"
+  },
+  {
+    "description": "This project is a fun collaboration with Scrimba and Kevin Powell! If you like, you can follow along and watch Kevin complete the project on Scrimba. Lots to learn!",
+    "path": "space-tourism-website",
+    "name": "Space tourism multi-page website",
+    "preview-src": "/index/previews/063-x8skdsukkmwiwxejthio.jpg",
+    "tags": "Free+HTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/space-tourism-multipage-website-gRWj1URZ3"
+  },
+  {
+    "description": "This is a great small challenge to help get you used to building to a design. There's no JS in this project, so you'll be able to focus on your HTML & CSS skills.",
+    "path": "stats-preview-card-component",
+    "name": "Stats preview card component",
+    "preview-src": "/index/previews/064-t26y9p3veejvbc9biv3f.jpg",
+    "tags": "FreeHTMLCSS1newbie",
+    "name-href": "https://www.frontendmentor.io/challenges/stats-preview-card-component-8JqbgoU62"
+  },
+  {
+    "description": "This challenge will be perfect practice for anyone wanting to test their CSS Grid skills. Grid is such a powerful addition to CSS, so it's worth getting to grips with it!",
+    "path": "testimonials-grid-section",
+    "name": "Testimonials grid section",
+    "preview-src": "/index/previews/065-h05k6b7pqcylnhsw8pqs.jpg",
+    "tags": "FreeHTMLCSS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/testimonials-grid-section-Nnw6J7Un7"
+  },
+  {
+    "description": "A perfect opportunity to practice your CSS Grid skills. For anyone wanting to take it up a notch, we provide a JSON data file to practice working with data.",
+    "path": "time-tracking-dashboard",
+    "name": "Time tracking dashboard",
+    "preview-src": "/index/previews/066-dgmrkrfyzvyzwuwl7vac.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/time-tracking-dashboard-UIQ7167Jw"
+  },
+  {
+    "description": "This small app is perfect for anyone starting to get to grips with JavaScript. The calculator functionality will be a nice test!",
+    "path": "tip-calculator-app",
+    "name": "Tip calculator app",
+    "preview-src": "/index/previews/067-so0b0hpmowz5ujjwbhkp.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/tip-calculator-app-ugJNGbJUX"
+  },
+  {
+    "description": "The classic todo app with a few twists! This app includes a dark/light theme toggle and drag & drop reordering for anyone wanting an extra test.",
+    "path": "todo-app",
+    "name": "Todo app",
+    "preview-src": "/index/previews/068-llcq9eiv3ney5tkxgdtu.jpg",
+    "tags": "FreeHTMLCSSJS3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW"
+  },
+  {
+    "description": "Integrate with the Clean URI link shortening API and play with browser storage in this landing page challenge.",
+    "path": "url-shortening-api",
+    "name": "URL shortening API landing page",
+    "preview-src": "/index/previews/069-erg4fyzl3bu0r4kwcvvq.jpg",
+    "tags": "FreeHTMLCSSJSAPI3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/url-shortening-api-landing-page-2ce3ob-G"
+  }
+]
