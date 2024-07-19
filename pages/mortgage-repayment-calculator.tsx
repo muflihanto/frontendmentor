@@ -46,7 +46,7 @@ export default function MortgageRepaymentCalculator() {
         <Footer />
         {/* <Slider
           basePath="/mortgage-repayment-calculator/design"
-          absolutePath="/mortgage-repayment-calculator/design/mobile-design-completed.jpg"
+          absolutePath="/mortgage-repayment-calculator/design/tablet-design-empty.jpg"
         /> */}
       </div>
     </>
@@ -105,20 +105,26 @@ function MortgageForm() {
 
   return (
     <form
-      className="w-full px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700"
+      className="w-full bg-mortgage-neutral-white px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700 md:px-10 md:pb-10 md:pt-[39px]"
       onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
         await form.handleSubmit();
       }}
     >
-      <h1 className="text-2xl font-bold text-mortgage-neutral-slate-900">
-        Mortgage Calculator
-      </h1>
-      <button className="mt-2 underline" type="reset" onClick={clearFields}>
-        Clear All
-      </button>
-      <div className="mt-[23px] flex w-full flex-col gap-[23px]">
+      <div className="md:flex md:justify-between">
+        <h1 className="text-2xl font-bold text-mortgage-neutral-slate-900">
+          Mortgage Calculator
+        </h1>
+        <button
+          className="mt-2 underline md:mt-0"
+          type="reset"
+          onClick={clearFields}
+        >
+          Clear All
+        </button>
+      </div>
+      <div className="mt-[23px] flex w-full flex-col gap-[23px] md:mt-[39px] md:grid md:grid-cols-2">
         <form.Field
           name="amount"
           validators={{
@@ -129,7 +135,7 @@ function MortgageForm() {
             return (
               <label
                 htmlFor={field.name}
-                className="relative flex flex-col gap-[11px]"
+                className="relative flex flex-col gap-[11px] md:col-span-2"
               >
                 <span>Mortgage Amount</span>
                 <input
@@ -207,7 +213,7 @@ function MortgageForm() {
             );
           }}
         </form.Field>
-        <fieldset>
+        <fieldset className="md:col-span-2">
           <legend>Mortgage Type</legend>
           <div className="mt-[11px] flex flex-col gap-[10px]">
             <form.Field
@@ -284,7 +290,7 @@ function MortgageForm() {
         </fieldset>
         <button
           type="submit"
-          className="flex h-[56px] w-full items-center justify-center gap-[13px] rounded-full bg-mortgage-primary-lime text-lg/none font-bold text-mortgage-neutral-slate-900"
+          className="flex h-[56px] w-full items-center justify-center gap-[13px] rounded-full bg-mortgage-primary-lime text-lg/none font-bold text-mortgage-neutral-slate-900 md:col-span-2 md:mt-4 md:w-[314px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -340,8 +346,10 @@ function Results() {
   return (
     <div
       className={cn(
-        "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white",
-        mortgage === null ? "h-[390px]" : "h-[455px] justify-start px-6 py-4",
+        "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white md:px-8",
+        mortgage === null
+          ? "h-[390px] md:h-[382px]"
+          : "h-[455px] justify-start px-6 py-4",
       )}
     >
       {mortgage === null ? (
@@ -405,16 +413,18 @@ function Results() {
 
 function Main() {
   return (
-    <main className="flex w-full flex-col items-center justify-center">
-      <MortgageForm />
-      <Results />
+    <main className="flex w-full items-center justify-center bg-mortgage-neutral-slate-100 md:p-10">
+      <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden bg-mortgage-neutral-white shadow-mortgage-neutral-slate-900/20 md:rounded-3xl md:shadow-xl">
+        <MortgageForm />
+        <Results />
+      </div>
     </main>
   );
 }
 
 function Footer() {
   return (
-    <footer className="absolute bottom-2 w-full text-center text-[11px] text-mortgage-neutral-slate-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-2 w-full text-center text-[11px] text-mortgage-neutral-slate-100 md:bottom-3 md:text-mortgage-neutral-slate-900 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
