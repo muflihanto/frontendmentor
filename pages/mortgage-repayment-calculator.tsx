@@ -221,7 +221,7 @@ function MortgageForm() {
                   <div className="relative w-full md:flex-1">
                     <input
                       type="radio"
-                      className="peer hidden"
+                      className="peer sr-only"
                       id="repayment"
                       value="repayment"
                       name={field.name}
@@ -258,7 +258,7 @@ function MortgageForm() {
                       type="radio"
                       value="interest-only"
                       id="interest-only"
-                      className="peer hidden"
+                      className="peer sr-only"
                       name={field.name}
                       onBlur={field.handleBlur}
                       checked={field.getValue() === "interest-only"}
@@ -341,7 +341,7 @@ function Results() {
     <div
       className={cn(
         "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white",
-        mortgage === null ? "h-[390px]" : "h-[455px] px-6 py-4 justify-start",
+        mortgage === null ? "h-[390px]" : "h-[455px] justify-start px-6 py-4",
       )}
     >
       {mortgage === null ? (
@@ -363,7 +363,7 @@ function Results() {
         </>
       ) : (
         <>
-          <h2 className="mt-[15px] text-left w-full text-2xl font-bold">
+          <h2 className="mt-[15px] w-full text-left text-2xl font-bold">
             Your results
           </h2>
           <p className="mt-4 text-left text-mortgage-neutral-slate-300">
@@ -371,7 +371,7 @@ function Results() {
             To adjust the results, edit the form and click “calculate
             repayments” again.
           </p>
-          <div className="rounded-lg border-t-4 border-t-mortgage-primary-lime w-full bg-[hsl(202,56%,12%)] mt-[23px] p-4 pt-[20px] pb-[27px]">
+          <div className="mt-[23px] w-full rounded-lg border-t-4 border-t-mortgage-primary-lime bg-[hsl(202,56%,12%)] p-4 pb-[27px] pt-[20px]">
             <div className="space-y-3">
               <p className="text-mortgage-neutral-slate-300">
                 Your monthly{" "}
@@ -379,20 +379,20 @@ function Results() {
                   ? "repayments"
                   : "interests"}
               </p>
-              <p className="font-bold text-[40px]/none text-mortgage-primary-lime">
+              <p className="text-[40px]/none font-bold text-mortgage-primary-lime">
                 &pound;{mortgage.monthly}
               </p>
             </div>
-            <hr className="border-mortgage-neutral-slate-700 mt-[22px] mb-[15px]" />
+            <hr className="mb-[15px] mt-[22px] border-mortgage-neutral-slate-700" />
             <div className="space-y-3">
               <p className="text-mortgage-neutral-slate-300">
                 Total{" "}
                 {input?.mortgageType === "repayment"
-                  ? "you&apos;ll repay"
+                  ? "you'll repay"
                   : "interests"}{" "}
                 over the term
               </p>
-              <p className="font-bold text-[24px]/none">
+              <p className="text-[24px]/none font-bold">
                 &pound;{mortgage.total}
               </p>
             </div>
