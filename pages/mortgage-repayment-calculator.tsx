@@ -46,7 +46,7 @@ export default function MortgageRepaymentCalculator() {
         <Footer />
         {/* <Slider
           basePath="/mortgage-repayment-calculator/design"
-          absolutePath="/mortgage-repayment-calculator/design/tablet-design-completed.jpg"
+          absolutePath="/mortgage-repayment-calculator/design/hover-states.jpg"
         /> */}
       </div>
     </>
@@ -139,7 +139,7 @@ function MortgageForm() {
               >
                 <span>Mortgage Amount</span>
                 <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-16 text-sm text-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-16 text-sm text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
                   type="number"
                   id={field.name}
                   name={field.name}
@@ -147,7 +147,7 @@ function MortgageForm() {
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
-                <span className="pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                <span className="pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
                   &pound;
                 </span>
               </label>
@@ -168,7 +168,7 @@ function MortgageForm() {
               >
                 <span>Mortgage Term</span>
                 <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
                   type="number"
                   id={field.name}
                   name={field.name}
@@ -176,7 +176,7 @@ function MortgageForm() {
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
-                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
                   years
                 </span>
               </label>
@@ -197,7 +197,7 @@ function MortgageForm() {
               >
                 <span>Interest Rate</span>
                 <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
                   type="number"
                   id={field.name}
                   name={field.name}
@@ -206,7 +206,7 @@ function MortgageForm() {
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
 
-                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
                   %
                 </span>
               </label>
@@ -290,7 +290,7 @@ function MortgageForm() {
         </fieldset>
         <button
           type="submit"
-          className="flex h-[56px] w-full items-center justify-center gap-[13px] rounded-full bg-mortgage-primary-lime text-lg/none font-bold text-mortgage-neutral-slate-900 md:col-span-2 md:mt-4 md:w-[314px]"
+          className="flex h-[56px] w-full items-center justify-center gap-[13px] rounded-full bg-mortgage-primary-lime text-lg/none font-bold text-mortgage-neutral-slate-900 hover:bg-opacity-50 hover:text-opacity-90 md:col-span-2 md:mt-4 md:w-[314px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -346,10 +346,10 @@ function Results() {
   return (
     <div
       className={cn(
-        "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white md:px-8",
+        "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 px-6 text-mortgage-neutral-white",
         mortgage === null
-          ? "h-[390px] md:h-[382px]"
-          : "h-[455px] justify-start px-6 py-4 md:h-[507px] md:px-10 md:py-6",
+          ? "h-[390px] md:h-[382px] md:px-8"
+          : "h-[455px] justify-start py-4 md:h-[507px] md:px-10 md:py-6",
       )}
     >
       {mortgage === null ? (
@@ -374,7 +374,7 @@ function Results() {
           <h2 className="mt-[15px] w-full text-left text-2xl font-bold">
             Your results
           </h2>
-          <p className="mt-4 text-left text-mortgage-neutral-slate-300">
+          <p className="mt-4 w-full text-left text-mortgage-neutral-slate-300">
             Your results are shown below based on the information you provided.
             To adjust the results, edit the form and click “calculate
             repayments” again.
