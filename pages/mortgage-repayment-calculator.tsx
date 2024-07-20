@@ -46,7 +46,7 @@ export default function MortgageRepaymentCalculator() {
         <Footer />
         {/* <Slider
           basePath="/mortgage-repayment-calculator/design"
-          absolutePath="/mortgage-repayment-calculator/design/tablet-design-empty.jpg"
+          absolutePath="/mortgage-repayment-calculator/design/tablet-design-completed.jpg"
         /> */}
       </div>
     </>
@@ -349,7 +349,7 @@ function Results() {
         "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 text-mortgage-neutral-white md:px-8",
         mortgage === null
           ? "h-[390px] md:h-[382px]"
-          : "h-[455px] justify-start px-6 py-4",
+          : "h-[455px] justify-start px-6 py-4 md:h-[507px] md:px-10 md:py-6",
       )}
     >
       {mortgage === null ? (
@@ -379,20 +379,20 @@ function Results() {
             To adjust the results, edit the form and click “calculate
             repayments” again.
           </p>
-          <div className="mt-[23px] w-full rounded-lg border-t-4 border-t-mortgage-primary-lime bg-[hsl(202,56%,12%)] p-4 pb-[27px] pt-[20px]">
-            <div className="space-y-3">
+          <div className="mt-[23px] w-full rounded-lg border-t-4 border-t-mortgage-primary-lime bg-[hsl(202,56%,12%)] p-4 pb-[27px] pt-[20px] md:mt-[39px] md:px-8 md:pb-[35px] md:pt-[29px]">
+            <div className="space-y-3 md:space-y-[14px]">
               <p className="text-mortgage-neutral-slate-300">
                 Your monthly{" "}
                 {input?.mortgageType === "repayment"
                   ? "repayments"
                   : "interests"}
               </p>
-              <p className="text-[40px]/none font-bold text-mortgage-primary-lime">
+              <p className="text-[40px]/none font-bold text-mortgage-primary-lime md:text-[56px]/none">
                 &pound;{mortgage.monthly}
               </p>
             </div>
-            <hr className="mb-[15px] mt-[22px] border-mortgage-neutral-slate-700" />
-            <div className="space-y-3">
+            <hr className="mb-[15px] mt-[22px] border-mortgage-neutral-slate-700 md:mb-[33px] md:mt-[39px]" />
+            <div className="space-y-3 md:space-y-[10px]">
               <p className="text-mortgage-neutral-slate-300">
                 Total{" "}
                 {input?.mortgageType === "repayment"
