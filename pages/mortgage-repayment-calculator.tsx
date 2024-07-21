@@ -124,7 +124,7 @@ function MortgageForm() {
           Clear All
         </button>
       </div>
-      <div className="mt-[23px] flex w-full flex-col gap-[23px] md:mt-[39px] md:grid md:grid-cols-2">
+      <div className="mt-[23px] flex w-full flex-col gap-[23px] md:mt-[39px] md:grid md:grid-cols-2 lg:gap-[22px]">
         <form.Field
           name="amount"
           validators={{
@@ -346,7 +346,7 @@ function Results() {
   return (
     <div
       className={cn(
-        "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 px-6 text-mortgage-neutral-white lg:shrink-0 lg:w-[504px]",
+        "flex w-full flex-col items-center justify-center bg-mortgage-neutral-slate-900 px-6 text-mortgage-neutral-white lg:h-[606px] lg:w-[504px] lg:shrink-0 lg:rounded-bl-[81px]",
         mortgage === null
           ? "h-[390px] md:h-[382px] md:px-8"
           : "h-[455px] justify-start py-4 md:h-[507px] md:px-10 md:py-6",
@@ -413,8 +413,8 @@ function Results() {
 
 function Main() {
   return (
-    <main className="flex w-full items-center justify-center bg-mortgage-neutral-slate-100 md:p-10 lg:min-h-[100svh]">
-      <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden bg-mortgage-neutral-white shadow-mortgage-neutral-slate-200/20 md:rounded-3xl md:shadow-xl lg:flex-row lg:w-[1008px] lg:shadow-2xl lg:shadow-mortgage-neutral-slate-300/50">
+    <main className="flex w-full items-center justify-center bg-mortgage-neutral-slate-100 md:p-10 lg:min-h-[100svh] lg:py-16">
+      <div className="shadow-mortgage-neutral-slate-200/20 flex h-full w-full flex-col items-center justify-center overflow-hidden bg-mortgage-neutral-white md:rounded-3xl md:shadow-xl lg:w-[1008px] lg:flex-row lg:shadow-2xl lg:shadow-mortgage-neutral-slate-300/50">
         <MortgageForm />
         <Results />
       </div>
