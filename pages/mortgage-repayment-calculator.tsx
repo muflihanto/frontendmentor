@@ -101,6 +101,7 @@ function MortgageForm() {
 
   const clearFields = () => {
     form.reset();
+    setMortgage(null);
   };
 
   return (
