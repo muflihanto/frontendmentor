@@ -10,6 +10,7 @@ import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { atom, useAtom } from "jotai";
 import { useMemo } from "react";
+import { NumericFormat } from "react-number-format";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -46,7 +47,7 @@ export default function MortgageRepaymentCalculator() {
         <Footer />
         {/* <Slider
           basePath="/mortgage-repayment-calculator/design"
-          absolutePath="/mortgage-repayment-calculator/design/desktop-design-empty.jpg"
+          absolutePath="/mortgage-repayment-calculator/design/desktop-design-completed.jpg"
         /> */}
       </div>
     </>
@@ -139,14 +140,15 @@ function MortgageForm() {
                 className="relative flex flex-col gap-[11px] md:col-span-2"
               >
                 <span>Mortgage Amount</span>
-                <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-16 text-sm text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
-                  type="number"
+                <NumericFormat
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  type="text"
+                  thousandSeparator=","
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
+                  onValueChange={(val) => field.handleChange(val.value)}
                   onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
                 />
                 <span className="pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
                   &pound;
@@ -169,7 +171,7 @@ function MortgageForm() {
               >
                 <span>Mortgage Term</span>
                 <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
                   type="number"
                   id={field.name}
                   name={field.name}
@@ -198,7 +200,7 @@ function MortgageForm() {
               >
                 <span>Interest Rate</span>
                 <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-4 pr-16 text-sm text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
                   type="number"
                   id={field.name}
                   name={field.name}
