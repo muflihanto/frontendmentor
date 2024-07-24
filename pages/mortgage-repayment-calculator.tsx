@@ -29,17 +29,6 @@ const mortgageAtom = atom<null | MortgageData>(null);
 //   mortgageType: "repayment",
 // });
 
-function FieldErrorMessage({
-  errors,
-  ...props
-}: { errors: ValidationError[] } & ComponentProps<"p">) {
-  return errors.length > 0 ? (
-    <p className="mb-[3px] text-sm text-red-600" {...props}>
-      {errors.join(", ")}
-    </p>
-  ) : null;
-}
-
 export default function MortgageRepaymentCalculator() {
   return (
     <>
@@ -95,6 +84,17 @@ const defaultValues = {
   mortgageType: undefined as MortgageType,
 };
 
+function FieldErrorMessage({
+  errors,
+  ...props
+}: { errors: ValidationError[] } & ComponentProps<"p">) {
+  return errors.length > 0 ? (
+    <p className="mb-[3px] text-sm text-red-600" {...props}>
+      {errors.join(", ")}
+    </p>
+  ) : null;
+}
+
 function MortgageForm() {
   const [, setMortgage] = useAtom(mortgageAtom);
   const form = useForm({
@@ -144,6 +144,7 @@ function MortgageForm() {
             onChange: z.coerce.number().min(1, "This field is required"),
           }}
         >
+          {/* FIXME: Error triggered after submit */}
           {(field) => {
             return (
               <label
@@ -153,7 +154,12 @@ function MortgageForm() {
                 <span>Mortgage Amount</span>
                 <div className="relative">
                   <NumericFormat
-                    className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                    className={cn(
+                      "peer h-[50px] w-full rounded border pl-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
+                      field.state.meta.errors.length === 0
+                        ? "border-mortgage-neutral-slate-500"
+                        : "border-red-600 ",
+                    )}
                     type="text"
                     thousandSeparator=","
                     id={field.name}
@@ -162,7 +168,14 @@ function MortgageForm() {
                     onValueChange={(val) => field.handleChange(val.value)}
                     onBlur={field.handleBlur}
                   />
-                  <span className="pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                  <span
+                    className={cn(
+                      "pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900",
+                      field.state.meta.errors.length === 0
+                        ? "border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100"
+                        : "border-red-600 bg-red-600 text-mortgage-neutral-white",
+                    )}
+                  >
                     &pound;
                   </span>
                 </div>
@@ -186,7 +199,12 @@ function MortgageForm() {
                 <span>Mortgage Term</span>
                 <div className="relative">
                   <input
-                    className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                    className={cn(
+                      "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
+                      field.state.meta.errors.length === 0
+                        ? "border-mortgage-neutral-slate-500"
+                        : "border-red-600 ",
+                    )}
                     type="number"
                     id={field.name}
                     name={field.name}
@@ -194,7 +212,14 @@ function MortgageForm() {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
-                  <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                  <span
+                    className={cn(
+                      "pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900",
+                      field.state.meta.errors.length === 0
+                        ? "border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100"
+                        : "border-red-600 bg-red-600 text-mortgage-neutral-white",
+                    )}
+                  >
                     years
                   </span>
                 </div>
@@ -218,7 +243,12 @@ function MortgageForm() {
                 <span>Interest Rate</span>
                 <div className="relative">
                   <input
-                    className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                    className={cn(
+                      "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
+                      field.state.meta.errors.length === 0
+                        ? "border-mortgage-neutral-slate-500"
+                        : "border-red-600 ",
+                    )}
                     type="number"
                     id={field.name}
                     name={field.name}
@@ -226,7 +256,14 @@ function MortgageForm() {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
-                  <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                  <span
+                    className={cn(
+                      "pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900",
+                      field.state.meta.errors.length === 0
+                        ? "border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100"
+                        : "border-red-600 bg-red-600 text-mortgage-neutral-white",
+                    )}
+                  >
                     %
                   </span>
                 </div>
