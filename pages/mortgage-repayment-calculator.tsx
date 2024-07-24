@@ -141,10 +141,9 @@ function MortgageForm() {
         <form.Field
           name="amount"
           validators={{
-            onChange: z.coerce.number().min(1, "This field is required"),
+            onSubmit: z.coerce.number().min(1, "This field is required"),
           }}
         >
-          {/* FIXME: Error triggered after submit */}
           {(field) => {
             return (
               <label
@@ -166,7 +165,6 @@ function MortgageForm() {
                     name={field.name}
                     value={field.state.value}
                     onValueChange={(val) => field.handleChange(val.value)}
-                    onBlur={field.handleBlur}
                   />
                   <span
                     className={cn(
@@ -187,7 +185,7 @@ function MortgageForm() {
         <form.Field
           name="term"
           validators={{
-            onChange: z.coerce.number().min(1, "This field is required"),
+            onSubmit: z.coerce.number().min(1, "This field is required"),
           }}
         >
           {(field) => {
@@ -198,19 +196,17 @@ function MortgageForm() {
               >
                 <span>Mortgage Term</span>
                 <div className="relative">
-                  <input
+                  <NumericFormat
                     className={cn(
                       "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
                       field.state.meta.errors.length === 0
                         ? "border-mortgage-neutral-slate-500"
                         : "border-red-600 ",
                     )}
-                    type="number"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onValueChange={(val) => field.handleChange(val.value)}
                   />
                   <span
                     className={cn(
@@ -231,7 +227,7 @@ function MortgageForm() {
         <form.Field
           name="interestRate"
           validators={{
-            onChange: z.coerce.number().min(1, "This field is required"),
+            onSubmit: z.coerce.number().min(1, "This field is required"),
           }}
         >
           {(field) => {
@@ -242,19 +238,17 @@ function MortgageForm() {
               >
                 <span>Interest Rate</span>
                 <div className="relative">
-                  <input
+                  <NumericFormat
                     className={cn(
                       "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
                       field.state.meta.errors.length === 0
                         ? "border-mortgage-neutral-slate-500"
                         : "border-red-600 ",
                     )}
-                    type="number"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onValueChange={(val) => field.handleChange(val.value)}
                   />
                   <span
                     className={cn(
