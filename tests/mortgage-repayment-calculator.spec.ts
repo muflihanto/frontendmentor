@@ -40,6 +40,18 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     ).toBeVisible();
   });
 
+  /** Test if the page can handle empty inputs */
+  test("can handle empty inputs", async ({ page }) => {
+    const form = page.locator("form");
+    await expect(form).toBeVisible();
+    await form.getByRole("button", { name: "Calculate Repayments" }).click();
+    const errorMessages = await page.getByText("This field is required").all();
+    expect(errorMessages).toHaveLength(4);
+    for (const err of errorMessages) {
+      await expect(err).toBeVisible();
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
