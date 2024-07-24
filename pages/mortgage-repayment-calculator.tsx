@@ -5,11 +5,11 @@ import {
   // PlusJakartaSansItalic,
 } from "../utils/fonts/plusJakartaSans";
 import { cn } from "../utils/cn";
-import { useForm } from "@tanstack/react-form";
+import { type ValidationError, useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { atom, useAtom } from "jotai";
-import { useMemo } from "react";
+import { type ComponentProps, useMemo } from "react";
 import { NumericFormat } from "react-number-format";
 
 // import dynamic from "next/dynamic";
@@ -29,6 +29,17 @@ const mortgageAtom = atom<null | MortgageData>(null);
 //   mortgageType: "repayment",
 // });
 
+function FieldErrorMessage({
+  errors,
+  ...props
+}: { errors: ValidationError[] } & ComponentProps<"p">) {
+  return errors.length > 0 ? (
+    <p className="mb-[3px] text-sm text-red-600" {...props}>
+      {errors.join(", ")}
+    </p>
+  ) : null;
+}
+
 export default function MortgageRepaymentCalculator() {
   return (
     <>
@@ -47,7 +58,7 @@ export default function MortgageRepaymentCalculator() {
         <Footer />
         {/* <Slider
           basePath="/mortgage-repayment-calculator/design"
-          absolutePath="/mortgage-repayment-calculator/design/desktop-design-completed.jpg"
+          absolutePath="/mortgage-repayment-calculator/design/error-states.jpg"
         /> */}
       </div>
     </>
@@ -69,11 +80,11 @@ function RadioIndicator() {
 
 const mortgageType = z
   .enum(["repayment", "interest-only"], {
-    message: "Please select a mortgage type",
+    message: "This field is required",
   })
   .optional()
   .refine((val) => val !== undefined, {
-    message: "Please select a mortgage type",
+    message: "This field is required",
   });
 type MortgageType = z.infer<typeof mortgageType>;
 
@@ -107,7 +118,7 @@ function MortgageForm() {
 
   return (
     <form
-      className="w-full bg-mortgage-neutral-white px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700 md:px-10 md:pb-10 md:pt-[39px]"
+      className="w-full bg-mortgage-neutral-white px-6 py-[31px] pb-8 text-mortgage-neutral-slate-700 md:h-full md:px-10 md:pb-10 md:pt-[39px]"
       onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -137,22 +148,25 @@ function MortgageForm() {
             return (
               <label
                 htmlFor={field.name}
-                className="relative flex flex-col gap-[11px] md:col-span-2"
+                className="flex flex-col gap-[11px] md:col-span-2"
               >
                 <span>Mortgage Amount</span>
-                <NumericFormat
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
-                  type="text"
-                  thousandSeparator=","
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onValueChange={(val) => field.handleChange(val.value)}
-                  onBlur={field.handleBlur}
-                />
-                <span className="pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
-                  &pound;
-                </span>
+                <div className="relative">
+                  <NumericFormat
+                    className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 pl-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                    type="text"
+                    thousandSeparator=","
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onValueChange={(val) => field.handleChange(val.value)}
+                    onBlur={field.handleBlur}
+                  />
+                  <span className="pointer-events-none absolute bottom-0 left-0 flex h-[50px] w-11 flex-col items-center justify-center rounded-l border border-r-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                    &pound;
+                  </span>
+                </div>
+                <FieldErrorMessage errors={field.state.meta.errors} />
               </label>
             );
           }}
@@ -170,18 +184,21 @@ function MortgageForm() {
                 className="relative flex flex-col gap-[11px]"
               >
                 <span>Mortgage Term</span>
-                <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
-                  type="number"
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
-                  years
-                </span>
+                <div className="relative">
+                  <input
+                    className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                    type="number"
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-20 flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                    years
+                  </span>
+                </div>
+                <FieldErrorMessage errors={field.state.meta.errors} />
               </label>
             );
           }}
@@ -199,19 +216,21 @@ function MortgageForm() {
                 className="relative flex flex-col gap-[11px]"
               >
                 <span>Interest Rate</span>
-                <input
-                  className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
-                  type="number"
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-
-                <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
-                  %
-                </span>
+                <div className="relative">
+                  <input
+                    className="peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent"
+                    type="number"
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  <span className="pointer-events-none absolute bottom-0 right-0 flex h-[50px] w-[50px] flex-col items-center justify-center rounded-r border border-l-0 border-mortgage-neutral-slate-500 bg-mortgage-neutral-slate-100 text-lg font-bold peer-hover:border-mortgage-neutral-slate-900 peer-focus-visible:border-mortgage-primary-lime peer-focus-visible:bg-mortgage-primary-lime peer-focus-visible:text-mortgage-neutral-slate-900">
+                    %
+                  </span>
+                </div>
+                <FieldErrorMessage errors={field.state.meta.errors} />
               </label>
             );
           }}
@@ -290,6 +309,16 @@ function MortgageForm() {
               }}
             </form.Field>
           </div>
+          <form.Subscribe selector={(state) => state.fieldMeta.mortgageType}>
+            {(fieldMeta) => {
+              const queryFieldError = fieldMeta?.errorMap?.onChange;
+              return queryFieldError ? (
+                <p className="mb-[3px] mt-[11px] text-sm text-red-600">
+                  {queryFieldError}
+                </p>
+              ) : null;
+            }}
+          </form.Subscribe>
         </fieldset>
         <button
           type="submit"
