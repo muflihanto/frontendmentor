@@ -62,6 +62,45 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await expect(uncheckedConsent).toBeVisible();
   });
 
+  /** Test if user can handle invalid input submit */
+  test("can handle invalid input submit", async ({ page }) => {
+    const firstNameError = page.getByText(
+      "First name must be at least 3 characters",
+    );
+    const lastNameError = page.getByText(
+      "Last name must be at least 3 characters",
+    );
+    const emailError = page.getByText("Please enter a valid email address");
+    const messageError = page.getByText(
+      "Message must be at least 50 characters",
+    );
+    await expect(firstNameError).not.toBeVisible();
+    await expect(lastNameError).not.toBeVisible();
+    await expect(emailError).not.toBeVisible();
+    await expect(messageError).not.toBeVisible();
+    const firstName = page.getByLabel("First Name*");
+    await firstName.fill("Fi");
+    await expect(firstNameError).toBeVisible();
+    const lastName = page.getByLabel("Last Name*");
+    await lastName.fill("La");
+    await expect(lastNameError).toBeVisible();
+    const email = page.getByLabel("Email Address*");
+    await email.fill("mail@example");
+    await expect(emailError).toBeVisible();
+    const supportRequest = page.getByLabel("Support Request");
+    await supportRequest.click();
+    const message = page.getByLabel("Message*");
+    await message.fill("Hello");
+    await expect(messageError).toBeVisible();
+    const consent = page.getByLabel("I consent to being contacted");
+    await consent.click();
+    const submit = page.getByRole("button", { name: "Submit" });
+    await submit.click();
+    await expect(
+      page.getByRole("heading", { name: "Message Sent!" }),
+    ).not.toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
