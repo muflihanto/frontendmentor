@@ -21,8 +21,6 @@ import { Transition } from "@headlessui/react";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-// TODO: Have inputs, error messages, and the success message announced on their screen reader
-
 const toastAtom = atom<"visible" | "invisible">("invisible");
 
 export default function ContactForm() {
