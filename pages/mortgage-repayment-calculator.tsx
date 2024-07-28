@@ -418,10 +418,11 @@ function Results() {
       {mortgage === null ? (
         <>
           <svg
-            aria-hidden="true"
             className="aspect-square w-[192px]"
             viewBox="0 0 192 192"
+            aria-labelledby="illustration-title"
           >
+            <title id="illustration-title">Empty results illutration</title>
             <use href="/mortgage-repayment-calculator/assets/images/illustration-empty.svg#illustration-empty" />
           </svg>
           <h2 className="mt-[15px] text-center text-2xl font-bold">
