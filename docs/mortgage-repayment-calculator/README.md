@@ -10,6 +10,8 @@ This is a solution to the [Mortgage repayment calculator challenge on Frontend M
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -56,42 +58,41 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [TanStack Form](https://tanstack.com/form/latest) - TS library for type-safe form state management
 - [Zod](https://zod.dev/) - TS library for schema validation
+- [React number format](https://s-yadav.github.io/react-number-format/docs/intro/) - React input-formatter library
 
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+### What I learned
 
-<!-- ### What I learned
+- We can specify when the form validation done using `validator` props.
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+  - `onSubmit`
 
-To see how you can add code snippets, see below:
+  ```typescript
+  <form.Field
+    name="amount"
+    validators={{
+      onSubmit: z.coerce.number().min(1, "This field is required"),
+    }}
+  >
+  ```
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
+  - `onChange`
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+  ```typescript
+  <form.Field
+    name="amount"
+    validators={{
+      onChange: z.coerce.number().min(1, "This field is required"),
+    }}
+  >
+  ```
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+<!-- ### Continued development
 
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [React Example: Zod](https://tanstack.com/form/latest/docs/framework/react/examples/zod) - This helped me build a form using TanStack Form and Zod Validator. -->
+- [Form and Field Validation](https://tanstack.com/form/latest/docs/framework/react/guides/validation) - This helped me understand more about the concept of how Form and Field Validation works in Tanstack Form.
 
 ## Author
 
