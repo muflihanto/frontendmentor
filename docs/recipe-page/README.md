@@ -7,11 +7,16 @@ This is a solution to the [Recipe page challenge on Frontend Mentor](https://www
 - [Frontend Mentor - Recipe page solution](#frontend-mentor---recipe-page-solution)
   - [Table of contents](#table-of-contents)
   - [Overview](#overview)
+    - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
   - [Author](#author)
 
 ## Overview
+
+### The challenge
+
+- build out the recipe page and get it looking as close to the design as possible.
 
 <!-- ### Screenshot
 
