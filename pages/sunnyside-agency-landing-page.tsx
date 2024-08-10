@@ -11,7 +11,7 @@ import { fraunces } from "../utils/fonts/fraunces";
 export default function Sunnyside() {
   return (
     <div
-      className={`App relative h-fit font-barlow text-sunny-neutral-400 ${barlow.variable} ${fraunces.variable}`}
+      className={`App relative h-fit bg-white font-barlow text-sunny-neutral-400 ${barlow.variable} ${fraunces.variable}`}
     >
       <Head>
         <title>Frontend Mentor | Sunnyside agency landing page</title>

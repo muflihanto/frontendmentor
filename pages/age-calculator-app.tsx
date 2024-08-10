@@ -168,7 +168,7 @@ function Main() {
             </p>
             <input
               placeholder="DD"
-              className={`h-[54px] w-full rounded-md border px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+              className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
                 !!errors.day || !!errors.month || !!errors.year
                   ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
                   : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
@@ -202,7 +202,7 @@ function Main() {
             </p>
             <input
               placeholder="MM"
-              className={`h-[54px] w-full rounded-md border px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+              className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
                 !!errors.day || !!errors.month || !!errors.year
                   ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
                   : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
@@ -236,7 +236,7 @@ function Main() {
             </p>
             <input
               placeholder="YYYY"
-              className={`h-[54px] w-full rounded-md border px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+              className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
                 !!errors.day || !!errors.month || !!errors.year
                   ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
                   : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
