@@ -39,7 +39,7 @@ export default function BookmarkLandingPage() {
         <title>Frontend Mentor | Bookmark landing page</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-rubik ${rubik.variable}`}
+        className={`App relative min-h-[100svh] bg-white font-rubik ${rubik.variable}`}
       >
         <Main />
         <Footer />

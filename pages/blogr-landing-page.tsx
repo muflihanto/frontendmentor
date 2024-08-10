@@ -15,6 +15,10 @@ import {
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function Blogr() {
+  useEffect(() => {
+    document.body.classList.add("bg-white");
+  }, []);
+
   return (
     <div
       className={`App w-screen overflow-hidden lg:bg-blogr-neutral-200/10 ${ubuntu.variable} ${overpass.variable}`}
@@ -431,7 +435,7 @@ function CollapsibleNavItems({
   return (
     <>
       <a
-        className="group/menuparent flex list-none items-center justify-center gap-2 text-[18px] font-semibold text-blogr-primary-blue/90 hover:cursor-pointer focus-visible:outline-white focus-visible:outline-1 focus-visible:rounded focus-visible:outline-offset-1 peer"
+        className="group/menuparent peer flex list-none items-center justify-center gap-2 text-[18px] font-semibold text-blogr-primary-blue/90 hover:cursor-pointer focus-visible:rounded focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-white"
         href={`#${navParent.toLowerCase()}`}
         role="menuitem"
         aria-haspopup={true}
@@ -458,7 +462,7 @@ function CollapsibleNavItems({
         }}
         onKeyDown={onParentKeyDown}
       >
-        <span className="group-aria-[expanded=true]/menuparent:text-blogr-primary-blue/75 group-hover/menuparent:font-bold group-hover/menuparent:tracking-[-.2px] group-hover/menuparent:underline lg:font-ubuntu lg:text-[16px] lg:font-medium lg:text-blogr-neutral-100/75 lg:group-aria-[expanded=true]/menuparent:text-blogr-neutral-100/75">
+        <span className="group-hover/menuparent:font-bold group-hover/menuparent:tracking-[-.2px] group-hover/menuparent:underline group-aria-[expanded=true]/menuparent:text-blogr-primary-blue/75 lg:font-ubuntu lg:text-[16px] lg:font-medium lg:text-blogr-neutral-100/75 lg:group-aria-[expanded=true]/menuparent:text-blogr-neutral-100/75">
           {navParent}
         </span>
         <Image
@@ -477,7 +481,7 @@ function CollapsibleNavItems({
         />
       </a>
       <ul
-        className="mb-[4px] mt-[18px] flex w-full flex-col items-center gap-[16px] rounded-md bg-blogr-neutral-200/25 pb-[21px] pt-[25px] text-[16px] font-semibold text-blogr-primary-blue/75 lg:absolute lg:-left-6 lg:top-[30.5px] lg:w-[166px] lg:items-start lg:gap-[10.5px] lg:rounded-[4px] lg:bg-blogr-neutral-100 lg:px-6 lg:pb-[29px] lg:pt-[29px] lg:font-ubuntu lg:text-[15px] lg:font-medium lg:text-blogr-primary-blue lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)] peer-aria-[expanded=false]:hidden"
+        className="mb-[4px] mt-[18px] flex w-full flex-col items-center gap-[16px] rounded-md bg-blogr-neutral-200/25 pb-[21px] pt-[25px] text-[16px] font-semibold text-blogr-primary-blue/75 peer-aria-[expanded=false]:hidden lg:absolute lg:-left-6 lg:top-[30.5px] lg:w-[166px] lg:items-start lg:gap-[10.5px] lg:rounded-[4px] lg:bg-blogr-neutral-100 lg:px-6 lg:pb-[29px] lg:pt-[29px] lg:font-ubuntu lg:text-[15px] lg:font-medium lg:text-blogr-primary-blue lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)]"
         role="menu"
         aria-label={navParent}
       >
@@ -571,7 +575,7 @@ function Header() {
               return (
                 <li
                   key={`${index}-${el.parent}`}
-                  className="w-full text-center font-overpass lg:h-[24px] lg:text-[18px] lg:font-medium lg:relative"
+                  className="w-full text-center font-overpass lg:relative lg:h-[24px] lg:text-[18px] lg:font-medium"
                 >
                   <CollapsibleNavItems
                     navChildren={el.children}
