@@ -19,7 +19,7 @@ export default function ClipboardLandingPage() {
         <title>Frontend Mentor | Clipboard landing page</title>
       </Head>
       <div
-        className={`App relative flex min-h-[100svh] flex-col items-center font-bai-jamjuree ${baiJamjuree.variable}`}
+        className={`App relative flex min-h-[100svh] flex-col items-center bg-white font-bai-jamjuree ${baiJamjuree.variable}`}
       >
         <Main />
         <Footer />
@@ -372,7 +372,7 @@ function Footer() {
         </nav>
         <SocialIcons className="mt-[49px] lg:ml-auto lg:mt-0 lg:self-center lg:pb-[18px]" />
       </div>
-      <p className="absolute bottom-3 left-0 w-full text-center text-[11px] lg:bottom-8 lg:px-[165px] lg:text-right [&_a:hover]:text-clipboard-primary-cyan [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      <p className="absolute bottom-3 left-0 w-full text-center text-[11px] text-clipboard-neutral-200 lg:bottom-8 lg:px-[165px] lg:text-right [&_a:hover]:text-clipboard-primary-cyan [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
