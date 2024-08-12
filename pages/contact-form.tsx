@@ -88,7 +88,7 @@ function FormInput({
       {cloneElement(children, {
         ...children.props,
         className: cn(
-          "h-[51px] rounded-lg border border-contact-neutral-grey-500 px-[23px] pb-0.5 text-lg hover:border-contact-primary-green-600 focus-visible:border-contact-primary-green-600 focus-visible:outline focus-visible:outline-transparent",
+          "h-[51px] rounded-lg border border-contact-neutral-grey-500 px-[23px] pb-0.5 text-lg hover:border-contact-primary-green-600 focus-visible:border-contact-primary-green-600 focus-visible:outline focus-visible:outline-transparent bg-white",
           children.props.className,
           errors.length > 0
             ? "border-red-600 focus-visible:border-red-600 hover:border-red-600"
@@ -112,6 +112,7 @@ const queryType = z
   });
 type QueryType = z.infer<typeof queryType>;
 
+// TODO: replace radio checked style with svg
 function Form() {
   const [, setToast] = useAtom(toastAtom);
 
@@ -249,7 +250,7 @@ function Form() {
                   }
                   checked={field.getValue() === "general-enquiry"}
                   className={cn(
-                    "peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600",
+                    "peer absolute left-[25px] top-1/2 h-5 w-5 -translate-y-1/2 appearance-none rounded-full border-2 border-contact-neutral-grey-500 bg-white bg-clip-content checked:border-contact-primary-green-600 checked:bg-contact-primary-green-600 checked:p-1 hover:border-contact-neutral-grey-900/75 checked:hover:border-contact-primary-green-600/75 checked:hover:bg-contact-primary-green-600/75",
                     "focus-visible:outline focus-visible:outline-transparent",
                   )}
                 />
@@ -284,7 +285,7 @@ function Form() {
                   }
                   checked={field.getValue() === "support-request"}
                   className={cn(
-                    "peer absolute left-7 top-1/2 -translate-y-1/2 scale-[140%] text-9xl accent-contact-primary-green-600",
+                    "peer absolute left-[25px] top-1/2 h-5 w-5 -translate-y-1/2 appearance-none rounded-full border-2 border-contact-neutral-grey-500 bg-white bg-clip-content checked:border-contact-primary-green-600 checked:bg-contact-primary-green-600 checked:p-1 hover:border-contact-neutral-grey-900/75 checked:hover:border-contact-primary-green-600/75 checked:hover:bg-contact-primary-green-600/75",
                     "focus-visible:outline focus-visible:outline-transparent",
                   )}
                 />
@@ -347,10 +348,10 @@ function Form() {
         {(field) => {
           return (
             <>
-              <label className="mt-4 flex gap-[22px] px-1 md:col-span-2">
+              <label className="mt-4 flex items-center gap-[22px] px-1 md:col-span-2">
                 <input
                   type="checkbox"
-                  className="scale-[135%] accent-contact-primary-green-600"
+                  className="h-5 w-5 appearance-none rounded border-2 border-contact-neutral-grey-500 bg-white bg-contain bg-clip-content checked:overflow-hidden checked:border-0 checked:bg-[image:url('/contact-form/assets/images/icon-checkbox-check.svg')] hover:border-contact-neutral-grey-900/75"
                   id={field.name}
                   name={field.name}
                   checked={field.state.value}
@@ -472,7 +473,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-contact-primary-green-600 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
