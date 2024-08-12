@@ -15,7 +15,7 @@ const CodingBootcamp = () => {
         <title>Frontend Mentor | Coding Bootcamp Testimonials Slider</title>
       </Head>
       <div
-        className={`App relative min-h-screen bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat font-inter lg:bg-[length:auto,660px] lg:bg-[right_73px_top_calc(50%-22px)] ${inter.variable}`}
+        className={`App relative min-h-screen bg-white bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat font-inter lg:bg-[length:auto,660px] lg:bg-[right_73px_top_calc(50%-22px)] ${inter.variable}`}
       >
         <Main />
         <Footer />
@@ -41,7 +41,7 @@ export default CodingBootcamp;
 
 function Footer() {
   return (
-    <div className="absolute bottom-2 z-10 mx-auto w-full text-center text-[11px] lg:bottom-4 lg:text-[13px] [&_a]:font-bold [&_a]:text-[#4A3FDB] [&_a]:underline [&_a]:decoration-[#D3629D] [&_a]:decoration-wavy">
+    <div className="absolute bottom-2 z-10 mx-auto w-full text-center text-[11px] text-coding-primary-200 lg:bottom-4 lg:text-[13px] [&_a]:font-bold [&_a]:text-[#4A3FDB] [&_a]:underline [&_a]:decoration-[#D3629D] [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
