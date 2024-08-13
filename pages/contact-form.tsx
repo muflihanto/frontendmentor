@@ -41,7 +41,7 @@ export default function ContactForm() {
         <SuccessToast />
         {/* <Slider
           basePath="/contact-form/design"
-          absolutePath="/contact-form/design/success-state.jpg"
+          absolutePath="/contact-form/design/focus-and-active-state.jpg"
         /> */}
       </div>
     </>
@@ -112,7 +112,6 @@ const queryType = z
   });
 type QueryType = z.infer<typeof queryType>;
 
-// TODO: replace radio checked style with svg
 function Form() {
   const [, setToast] = useAtom(toastAtom);
 
@@ -250,7 +249,7 @@ function Form() {
                   }
                   checked={field.getValue() === "general-enquiry"}
                   className={cn(
-                    "peer absolute left-[25px] top-1/2 h-5 w-5 -translate-y-1/2 appearance-none rounded-full border-2 border-contact-neutral-grey-500 bg-white bg-clip-content checked:border-contact-primary-green-600 checked:bg-contact-primary-green-600 checked:p-1 hover:border-contact-neutral-grey-900/75 checked:hover:border-contact-primary-green-600/75 checked:hover:bg-contact-primary-green-600/75",
+                    "peer absolute left-[27px] top-1/2 h-[19px] w-[19px] -translate-y-1/2 cursor-pointer appearance-none rounded-full border border-contact-neutral-grey-500/50 bg-white bg-clip-content checked:border-0 checked:bg-[image:_url('/contact-form/assets/images/icon-radio-selected.svg')] checked:bg-center checked:bg-no-repeat hover:border-contact-neutral-grey-500 checked:hover:border-contact-primary-green-600/75 checked:hover:brightness-90",
                     "focus-visible:outline focus-visible:outline-transparent",
                   )}
                 />
@@ -285,7 +284,7 @@ function Form() {
                   }
                   checked={field.getValue() === "support-request"}
                   className={cn(
-                    "peer absolute left-[25px] top-1/2 h-5 w-5 -translate-y-1/2 appearance-none rounded-full border-2 border-contact-neutral-grey-500 bg-white bg-clip-content checked:border-contact-primary-green-600 checked:bg-contact-primary-green-600 checked:p-1 hover:border-contact-neutral-grey-900/75 checked:hover:border-contact-primary-green-600/75 checked:hover:bg-contact-primary-green-600/75",
+                    "peer absolute left-[27px] top-1/2 h-[19px] w-[19px] -translate-y-1/2 cursor-pointer appearance-none rounded-full border border-contact-neutral-grey-500/50 bg-white bg-clip-content checked:border-0 checked:bg-[image:_url('/contact-form/assets/images/icon-radio-selected.svg')] checked:bg-center checked:bg-no-repeat hover:border-contact-neutral-grey-500 checked:hover:border-contact-primary-green-600/75 checked:hover:brightness-90",
                     "focus-visible:outline focus-visible:outline-transparent",
                   )}
                 />
@@ -348,10 +347,10 @@ function Form() {
         {(field) => {
           return (
             <>
-              <label className="mt-4 flex items-center gap-[22px] px-1 md:col-span-2">
+              <label className="mt-4 flex items-center gap-5 px-0.5 md:col-span-2">
                 <input
                   type="checkbox"
-                  className="h-5 w-5 appearance-none rounded border-2 border-contact-neutral-grey-500 bg-white bg-contain bg-clip-content checked:overflow-hidden checked:border-0 checked:bg-[image:url('/contact-form/assets/images/icon-checkbox-check.svg')] hover:border-contact-neutral-grey-900/75"
+                  className="h-[18px] w-[18px] appearance-none border-2 border-contact-neutral-grey-500/75 bg-white bg-contain checked:overflow-hidden checked:border-0 checked:bg-[image:url('/contact-form/assets/images/icon-checkbox-check.svg')] checked:bg-clip-content hover:border-contact-neutral-grey-500"
                   id={field.name}
                   name={field.name}
                   checked={field.state.value}
