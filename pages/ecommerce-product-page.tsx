@@ -84,7 +84,7 @@ export default function EcommerceProductPage() {
         <title>Frontend Mentor | E-commerce product page</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-kumbh-sans ${kumbhSans.variable}`}
+        className={`App relative min-h-[100svh] bg-white font-kumbh-sans ${kumbhSans.variable}`}
       >
         <Header />
         <Main />
@@ -350,7 +350,7 @@ function ProductDetail({ product }: { product: Product }) {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-ecommerce-neutral-600 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
