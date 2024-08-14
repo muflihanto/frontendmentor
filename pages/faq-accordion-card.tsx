@@ -154,7 +154,7 @@ function FaqWrapper({
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-faq-accordion-neutral-dividers [&_a]:underline [&_a]:decoration-faq-accordion-primary-text-red [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] font-medium text-faq-accordion-primary-text-blue [&_a]:font-bold [&_a]:text-faq-accordion-neutral-dividers [&_a]:underline [&_a]:decoration-faq-accordion-primary-text-red [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
