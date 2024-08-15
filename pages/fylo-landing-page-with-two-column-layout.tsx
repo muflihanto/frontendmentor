@@ -33,7 +33,7 @@ export default function FyloLandingPageWithTwoColumnLayout() {
         </title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-open-sans ${openSans.variable} ${raleway.variable} ${manrope}`}
+        className={`App relative min-h-[100svh] bg-white font-open-sans ${openSans.variable} ${raleway.variable} ${manrope}`}
       >
         <Header />
         <Main />
@@ -111,7 +111,7 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
   const formStyle = {
     hero: {
       form: "mt-[31.75px] lg:mt-[25px] lg:grid-rows-[45px] pl-[14px] pr-[9px] w-full lg:px-0 lg:grid-cols-[320px,200px] lg:gap-x-[18px]",
-      input: "text-[12px] px-5 py-[1px] lg:text-[15px] lg:pt-[6px]",
+      input: "text-[12px] px-5 py-[1px] lg:text-[15px] lg:pt-[6px] bg-white",
       button: "-translate-x-[2px] text-[14px]",
       placeholder: "Enter your email...",
       btnText: "Get Started",
@@ -121,7 +121,7 @@ function GetStartedForm({ variant = "hero" }: { variant?: "hero" | "early" }) {
     early: {
       form: "mt-[23px] grid-rows-[34px,32px] gap-y-[7px] w-[245px] pr-[3px] lg:gap-[15px] lg:pb-[10px] lg:w-full",
       input:
-        "px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px] text-fylo-landing-primary-blue-200 text-[12px]",
+        "px-2 py-[1px] lg:w-[calc(481/517*100%)] lg:max-w-[480px] lg:px-5 lg:text-[12px] text-fylo-landing-primary-blue-200 text-[12px] bg-white",
       button:
         "text-[10px] w-[calc(100%-2px)] place-self-center h-full lg:w-[200px] lg:place-self-start lg:text-[14px]",
       placeholder: "email@example.com",
@@ -268,7 +268,7 @@ function ProductiveSection() {
 
 function Testimony() {
   return (
-    <div className="mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pl-[26px] pr-3 pt-[21px] text-[10px] tracking-[.4px] shadow-md shadow-fylo-landing-primary-blue-100/10 lg:mt-[45px] lg:h-[216px] lg:w-[356px] lg:px-[33px] lg:pt-[25px]">
+    <div className="mt-10 flex h-[170px] w-[280px] flex-col items-start rounded bg-white pl-[26px] pr-3 pt-[21px] text-[10px] tracking-[.4px] text-fylo-landing-primary-blue-200 shadow-md shadow-fylo-landing-primary-blue-100/10 lg:mt-[45px] lg:h-[216px] lg:w-[356px] lg:px-[33px] lg:pt-[25px]">
       <svg
         className="-ml-[1px] w-[16px] font-manrope lg:w-[20px]"
         viewBox="0 0 16 12"
