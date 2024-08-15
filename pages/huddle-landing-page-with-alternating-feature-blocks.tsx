@@ -16,11 +16,11 @@ const HuddleAlternate = () => {
         </title>
       </Head>
       <div
-        className={`App relative font-open-sans ${openSans.variable} ${poppins.variable}`}
+        className={`App relative font-open-sans ${openSans.variable} ${poppins.variable} bg-white`}
       >
         <Header />
         <Hero />
-        <div className="flex flex-col gap-[40px] px-[20px] pb-[53px] pt-[59px] lg:px-[103px] lg:pb-[65px] lg:pt-[160px]">
+        <div className="flex flex-col gap-[40px] bg-white px-[20px] pb-[53px] pt-[59px] lg:px-[103px] lg:pb-[65px] lg:pt-[160px]">
           <Card className="pt-[23.5px] lg:pt-1" reverse>
             <GrowIllustration className="w-[236px] lg:mr-[7px] lg:w-[406px] lg:pb-1" />
             <div className="lg:w-[480px]">
@@ -106,7 +106,7 @@ function Hero() {
   return (
     <div className="flex h-[718px] flex-col items-center justify-center bg-[hsl(191,89%,96%)] bg-no-repeat px-[26px] pt-[96px] max-md:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-mobile.svg')] lg:grid lg:h-[721px] lg:grid-cols-[minmax(0,auto),calc(693/1440*100vw)] lg:grid-rows-1 lg:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-desktop.svg')] lg:pl-20 lg:pr-[84px] lg:pt-[107px]">
       <div className="lg:mt-[5px] lg:pr-[68px]">
-        <h1 className="text-center font-poppins text-[24px] font-semibold leading-[36px] lg:text-left lg:text-[40px] lg:leading-normal lg:-tracking-[0.2px]">
+        <h1 className="text-center font-poppins text-[24px] font-semibold leading-[36px] text-huddle-alternate-neutral-300 lg:text-left lg:text-[40px] lg:leading-normal lg:-tracking-[0.2px]">
           Build The Community Your Fans Will Love
         </h1>
         <p className="mt-[21px] px-2 text-center font-open-sans text-[16px] text-huddle-curve-neutral-700 lg:mt-[28px] lg:p-0 lg:text-left lg:text-[18px]">
