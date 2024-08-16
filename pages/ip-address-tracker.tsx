@@ -128,7 +128,7 @@ function Intro() {
         >
           <input
             type="text"
-            className="w-full px-6 text-[18px] font-normal text-ip-address-200"
+            className="w-full bg-white px-6 text-[18px] font-normal text-ip-address-200"
             {...register("ipAddress", { required: true })}
             placeholder="Search for any IP address or domain"
           />
@@ -253,7 +253,7 @@ function ListDetail({ children }: { children?: ReactNode }) {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 z-10 w-full text-center text-[11px] max-lg:bottom-5 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 z-10 w-full text-center text-[11px] text-ip-address-200 max-lg:bottom-5 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"

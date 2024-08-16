@@ -9,7 +9,7 @@ export default function Layout({ children }: PropsWithChildren) {
         <title>Frontend Mentor | IP Address Tracker</title>
       </Head>
       <div
-        className={`App relative min-h-[100dvh] font-rubik font-medium ${rubik.variable}`}
+        className={`App relative min-h-[100dvh] bg-white font-rubik font-medium ${rubik.variable}`}
       >
         {children}
       </div>
