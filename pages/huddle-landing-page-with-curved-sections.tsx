@@ -11,7 +11,7 @@ import { poppins } from "../utils/fonts/poppins";
 export default function HuddleCurved() {
   return (
     <div
-      className={`App font-open-sans ${openSans.variable} ${poppins.variable}`}
+      className={`App bg-white font-open-sans ${openSans.variable} ${poppins.variable}`}
     >
       <Head>
         <title>
@@ -81,7 +81,7 @@ const Header = () => {
 const Hero = () => {
   return (
     <div className="flex h-[446px] flex-col items-center justify-center px-6 lg:h-[564px] lg:justify-start lg:pt-[170px]">
-      <h1 className="text-center font-poppins text-[24px] font-bold leading-[36px] lg:text-[48px]">
+      <h1 className="text-center font-poppins text-[24px] font-bold leading-[36px] text-huddle-curve-neutral-700 lg:text-[48px]">
         Build The Community Your Fans Will Love
       </h1>
       <p className="mt-[22px] px-2 text-center font-open-sans text-[14px] text-huddle-curve-neutral-700 lg:mt-[40px] lg:w-[640px] lg:text-[20px]">
@@ -127,7 +127,7 @@ const Statistics = () => {
             className="object-contain"
           />
         </div>
-        <p className="text-[60px] font-bold leading-[82px] lg:mt-[14px] lg:text-[97px] lg:leading-none">
+        <p className="text-[60px] font-bold leading-[82px] text-huddle-curve-neutral-700 lg:mt-[14px] lg:text-[97px] lg:leading-none">
           1.4k+
         </p>
         <p className="mt-[6px] text-[14px] leading-[23px] lg:mt-[34px] lg:text-[24px]">
@@ -144,7 +144,7 @@ const Statistics = () => {
             className="object-contain"
           />
         </div>
-        <p className="text-[53px] font-bold leading-[74px] lg:mt-[18px] lg:text-[97px] lg:leading-none">
+        <p className="text-[53px] font-bold leading-[74px] text-huddle-curve-neutral-700 lg:mt-[18px] lg:text-[97px] lg:leading-none">
           2.7m+
         </p>
         <p className="mt-[4px] pr-[26px] max-md:w-[100px] max-md:text-[13px] lg:mt-[25px] lg:pr-[40px] lg:text-[24px]">

@@ -150,7 +150,7 @@ function SubscribeNewsletter({ className }: ComponentProps<"div">) {
           <input
             type="email"
             className={cn([
-              "h-full w-full rounded-md px-4 text-left text-huddle-curve-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-huddle-curve-primary-pink-200", //
+              "h-full w-full rounded-md bg-white px-4 text-left text-huddle-curve-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-huddle-curve-primary-pink-200", //
               !!errors.email && "text-red-500 focus-visible:outline-red-500",
             ])}
             {...register("email")}
