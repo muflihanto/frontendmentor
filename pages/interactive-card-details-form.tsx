@@ -75,7 +75,7 @@ export default function InteractiveCardDetailsForm() {
         <title>Frontend Mentor | Interactive card details form</title>
       </Head>
       <div
-        className={`App relative min-h-[704px] font-space-grotesk font-medium lg:grid lg:min-h-screen lg:grid-cols-[483px,auto] lg:grid-rows-1 ${spaceGrotesk.variable}`}
+        className={`App relative min-h-[704px] bg-white font-space-grotesk font-medium lg:grid lg:min-h-screen lg:grid-cols-[483px,auto] lg:grid-rows-1 ${spaceGrotesk.variable}`}
       >
         <CardPreview />
         <Main />
@@ -202,7 +202,7 @@ function Main() {
       ) : (
         <form
           onSubmit={onSubmit}
-          className="grid w-full grid-cols-2 grid-rows-[repeat(4,auto)] gap-y-[19px] lg:h-[423.5px] lg:place-content-start lg:gap-y-[25px] [&_input::placeholder]:text-interactive-card-neutral-300/50 [&_input:focus-visible]:border-interactive-card-neutral-400 [&_input:focus-visible]:outline [&_input:focus-visible]:outline-1 [&_input:focus-visible]:outline-transparent [&_input]:h-[45px] [&_input]:rounded-lg [&_input]:border [&_input]:px-[15px] [&_input]:text-[18px] [&_span]:text-[12px] [&_span]:uppercase [&_span]:tracking-[2px] [&_span]:text-interactive-card-neutral-400"
+          className="grid w-full grid-cols-2 grid-rows-[repeat(4,auto)] gap-y-[19px] lg:h-[423.5px] lg:place-content-start lg:gap-y-[25px] [&_input::placeholder]:text-interactive-card-neutral-300/50 [&_input:focus-visible]:border-interactive-card-neutral-400 [&_input:focus-visible]:outline [&_input:focus-visible]:outline-1 [&_input:focus-visible]:outline-transparent [&_input]:h-[45px] [&_input]:rounded-lg [&_input]:border [&_input]:bg-white [&_input]:px-[15px] [&_input]:text-[18px] [&_input]:text-interactive-card-neutral-400 [&_span]:text-[12px] [&_span]:uppercase [&_span]:tracking-[2px] [&_span]:text-interactive-card-neutral-400"
         >
           <label
             className="col-span-2 flex w-full flex-col gap-[7px]"
@@ -342,7 +342,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] lg:right-0 lg:flex lg:w-[calc(100vw-483px)] lg:justify-center [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-interactive-card-neutral-400 lg:right-0 lg:flex lg:w-[calc(100vw-483px)] lg:justify-center [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       <p className="lg:w-fit lg:translate-x-[calc(61/1440*100vw)]">
         Challenge by{" "}
         <a
