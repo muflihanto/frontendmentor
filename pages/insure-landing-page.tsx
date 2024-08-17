@@ -15,7 +15,7 @@ const Insure = () => {
       </Head>
 
       <div
-        className={`App font-karla ${karla.variable} ${dmSerifDisplay.variable}`}
+        className={`App bg-white font-karla ${karla.variable} ${dmSerifDisplay.variable}`}
       >
         <Header />
         <Main />
@@ -214,7 +214,7 @@ function IntroSection() {
 
 function WereDifferentSection() {
   return (
-    <section className="pb-[140.5px] pt-[140px] lg:mt-[164px] lg:px-[165px] lg:pb-[158px]">
+    <section className="bg-white pb-[140.5px] pt-[140px] lg:mt-[164px] lg:px-[165px] lg:pb-[158px]">
       <hr className="mx-auto w-[150px] border-t-2 border-t-insure-neutral-300/30 lg:mx-0" />
       <h1 className="mx-auto mt-[27px] text-center font-dm-serif-display text-[48px] tracking-[-0.7px] text-insure-neutral-300 lg:mt-[40px] lg:text-left lg:text-[72px]">
         We’re different
@@ -400,7 +400,7 @@ function FooterNav() {
 
 function Attribution() {
   return (
-    <div className="mt-7 text-center text-[11px] [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-insure-primary-200 [&_a]:decoration-wavy">
+    <div className="mt-7 text-center text-[11px] text-insure-primary-200 [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-insure-primary-200 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
