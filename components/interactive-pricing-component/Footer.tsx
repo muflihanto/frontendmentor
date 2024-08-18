@@ -1,6 +1,6 @@
 const Footer: React.FC = () => {
   return (
-    <footer className="text-[11px] text-center [&_a]:text-[hsl(228,45%,44%)] [&_a]:font-bold [&_a]:underline [&_a]:decoration-wavy [&_a]:decoration-pricing-primary-red-200 py-6">
+    <footer className="py-6 text-center text-[11px] text-pricing-neutral-500 [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-pricing-primary-red-200 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -10,11 +10,7 @@ const Footer: React.FC = () => {
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
         Muflihanto
       </a>
       .

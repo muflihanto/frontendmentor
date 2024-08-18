@@ -82,7 +82,7 @@ function Main() {
           <fieldset className="flex flex-col gap-4 lg:gap-5">
             <input
               {...register("firstName", { required: true })}
-              className={`h-[56px] w-full rounded border px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
+              className={`h-[56px] w-full rounded border bg-white px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
                 errors.firstName
                   ? "border-red-500 bg-[url('/intro-component-with-signup-form/images/icon-error.svg')] bg-[length:24px_24px] bg-[right_26px_center] bg-no-repeat text-red-500 placeholder:opacity-0 focus-visible:border-red-300"
                   : "border-introdrop-neutral-200/30  text-introdrop-neutral-300 placeholder:text-introdrop-neutral-200 focus:placeholder:opacity-30 focus-visible:border-introdrop-neutral-200"
@@ -93,7 +93,7 @@ function Main() {
             <ErrorMessage field={errors.firstName} />
             <input
               {...register("lastName", { required: true })}
-              className={`h-[56px] w-full rounded border px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
+              className={`h-[56px] w-full rounded border bg-white px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
                 errors.lastName
                   ? "border-red-500 bg-[url('/intro-component-with-signup-form/images/icon-error.svg')] bg-[length:24px_24px] bg-[right_26px_center] bg-no-repeat text-red-500 placeholder:opacity-0 focus-visible:border-red-300"
                   : "border-introdrop-neutral-200/30  text-introdrop-neutral-300 placeholder:text-introdrop-neutral-200 focus:placeholder:opacity-30 focus-visible:border-introdrop-neutral-200"
@@ -104,7 +104,7 @@ function Main() {
             <ErrorMessage field={errors.lastName} />
             <input
               {...register("email", { required: true })}
-              className={`h-[56px] w-full rounded border px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
+              className={`h-[56px] w-full rounded border bg-white px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
                 errors.email
                   ? "border-red-500 bg-[url('/intro-component-with-signup-form/images/icon-error.svg')] bg-[length:24px_24px] bg-[right_26px_center] bg-no-repeat text-red-500 placeholder:opacity-0 focus-visible:border-red-300"
                   : "border-introdrop-neutral-200/30  text-introdrop-neutral-300 placeholder:text-introdrop-neutral-200 focus:placeholder:opacity-30 focus-visible:border-introdrop-neutral-200"
@@ -115,7 +115,7 @@ function Main() {
             <ErrorMessage field={errors.email} />
             <input
               {...register("password", { required: true })}
-              className={`h-[56px] w-full rounded border px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
+              className={`h-[56px] w-full rounded border bg-white px-[19px] pt-[1px] text-[14px] font-semibold placeholder:text-[14px] placeholder:font-semibold placeholder:tracking-[.2px] focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-transparent lg:px-[31px] ${
                 errors.password
                   ? "border-red-500 bg-[url('/intro-component-with-signup-form/images/icon-error.svg')] bg-[length:24px_24px] bg-[right_26px_center] bg-no-repeat text-red-500 placeholder:opacity-0 focus-visible:border-red-300"
                   : "border-introdrop-neutral-200/30  text-introdrop-neutral-300 placeholder:text-introdrop-neutral-200 focus:placeholder:opacity-30 focus-visible:border-introdrop-neutral-200"
