@@ -503,7 +503,7 @@ function NewEntryForm({
           required: true,
           value: variant === "reply" ? `@${replyingTo} ` : "",
         })}
-        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 px-[22px] py-[10px] placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:flex-1"
+        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 bg-white px-[22px] py-[10px] text-interactive-comment-neutral-500 placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:flex-1"
         placeholder="Add a comment..."
         required
       />
@@ -598,7 +598,7 @@ function EditForm({
               ? data.content
               : `@${(data as Reply).replyingTo} ${data.content}`,
         })}
-        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 px-[22px] py-[10px] pr-[24px] placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[124px]"
+        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 bg-white px-[22px] py-[10px] pr-[24px] text-interactive-comment-neutral-500 placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[124px]"
         placeholder="Add a comment..."
         required
       />
