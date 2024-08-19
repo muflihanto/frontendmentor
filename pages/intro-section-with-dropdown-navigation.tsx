@@ -11,7 +11,7 @@ import { epilogue } from "../utils/fonts/epilogue";
 export default function IntroDropdown() {
   return (
     <div
-      className={`${epilogue} relative mx-auto min-h-screen max-w-screen-sm pb-16 font-epilogue lg:max-w-full lg:bg-introdrop-neutral-100`}
+      className={`${epilogue} relative mx-auto min-h-screen max-w-screen-sm bg-introdrop-neutral-100 pb-16 font-epilogue lg:max-w-full`}
     >
       <Head>
         <title>Frontend Mentor | Intro section with dropdown navigation</title>

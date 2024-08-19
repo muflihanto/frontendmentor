@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="absolute bottom-3 left-0 w-full text-center text-[11px] font-semibold">
+    <footer className="absolute bottom-3 left-0 w-full text-center text-[11px] font-semibold text-introdrop-neutral-300">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
