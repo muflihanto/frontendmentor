@@ -346,7 +346,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-2 w-full text-center text-[11px] lg:bottom-4 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-2 w-full text-center text-[11px] text-job-listings-neutral-400 lg:bottom-4 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"

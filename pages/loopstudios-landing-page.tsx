@@ -84,7 +84,7 @@ export type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 const Loopstudios: NextPage<PageProps> = ({ creations }: PageProps) => {
   return (
     <div
-      className={`App relative font-alata ${josefin.variable} ${alata.variable}`}
+      className={`App relative bg-white font-alata ${josefin.variable} ${alata.variable}`}
     >
       <Head>
         <title>Frontend Mentor | Loopstudios landing page</title>

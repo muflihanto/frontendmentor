@@ -19,7 +19,7 @@ const Interactive = () => {
         />
       </div>
       <div className="mt-[46px] flex flex-col items-center px-3 lg:absolute lg:bottom-0 lg:right-[164px] lg:m-0 lg:h-[317px] lg:w-[542px] lg:items-start lg:justify-end lg:bg-loopstudios-primary-white lg:p-0 lg:pl-[96px]">
-        <h2 className="text-center font-josefin text-[31.5px] font-light uppercase leading-[32px] tracking-[1.5px] lg:text-left lg:text-[48px] lg:leading-none">
+        <h2 className="text-center font-josefin text-[31.5px] font-light uppercase leading-[32px] tracking-[1.5px] text-loopstudios-primary-black lg:text-left lg:text-[48px] lg:leading-none">
           The leader in interactive VR
         </h2>
         <p className="mt-[18px] text-center text-[15px] font-normal leading-[25px] text-loopstudios-primary-grey-100 lg:mt-[29px] lg:text-left">

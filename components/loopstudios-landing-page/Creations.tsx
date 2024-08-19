@@ -3,12 +3,12 @@ import type { PageProps } from "../../pages/loopstudios-landing-page";
 const Creations = ({ creations }: PageProps) => {
   return (
     <div className="row-start-1 mt-[84px] grid grid-cols-1 grid-rows-[repeat(3,_minmax(0px,_auto))] justify-items-center px-6 lg:mt-[167px] lg:grid-cols-2 lg:justify-items-center lg:px-[calc(164/1440*100vw)]">
-      <h2 className="text-center font-josefin text-[32px] uppercase tracking-[1.5px] lg:place-self-start lg:text-left lg:text-[48px]">
+      <h2 className="text-center font-josefin text-[32px] uppercase tracking-[1.5px] text-loopstudios-primary-black lg:place-self-start lg:text-left lg:text-[48px]">
         Our creations
       </h2>
       <a
         href=""
-        className="row-start-3 mx-auto mt-[33px] w-[160px] self-center border-2 border-loopstudios-primary-grey-200 p-[8.5px] text-center text-[14px] uppercase tracking-[5px] hover:border-loopstudios-primary-black hover:bg-loopstudios-primary-black hover:text-loopstudios-primary-white lg:col-start-2 lg:row-start-1 lg:m-0 lg:mb-[10.5px] lg:place-self-end"
+        className="row-start-3 mx-auto mt-[33px] w-[160px] self-center border-2 border-loopstudios-primary-grey-200 p-[8.5px] text-center text-[14px] uppercase tracking-[5px] text-loopstudios-primary-black hover:border-loopstudios-primary-black hover:bg-loopstudios-primary-black hover:text-loopstudios-primary-white lg:col-start-2 lg:row-start-1 lg:m-0 lg:mb-[10.5px] lg:place-self-end"
       >
         See All
       </a>
