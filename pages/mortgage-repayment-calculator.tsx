@@ -154,7 +154,7 @@ function MortgageForm() {
                 <div className="relative">
                   <NumericFormat
                     className={cn(
-                      "peer h-[50px] w-full rounded border pl-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
+                      "peer h-[50px] w-full rounded border bg-white pl-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
                       field.state.meta.errors.length === 0
                         ? "border-mortgage-neutral-slate-500"
                         : "border-red-600 ",
@@ -198,7 +198,7 @@ function MortgageForm() {
                 <div className="relative">
                   <NumericFormat
                     className={cn(
-                      "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
+                      "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 bg-white p-[15px] pr-[59px] text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
                       field.state.meta.errors.length === 0
                         ? "border-mortgage-neutral-slate-500"
                         : "border-red-600 ",
@@ -240,7 +240,7 @@ function MortgageForm() {
                 <div className="relative">
                   <NumericFormat
                     className={cn(
-                      "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
+                      "peer h-[50px] w-full rounded border border-mortgage-neutral-slate-500 bg-white p-[15px] pr-16 text-lg font-bold text-mortgage-neutral-slate-900 hover:border-mortgage-neutral-slate-900 focus-visible:border-mortgage-primary-lime focus-visible:outline focus-visible:outline-transparent",
                       field.state.meta.errors.length === 0
                         ? "border-mortgage-neutral-slate-500"
                         : "border-red-600 ",
