@@ -32,7 +32,7 @@ export default function ManageLandingPage() {
         <title>Frontend Mentor | Manage landing page</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-be-vietnam ${beVietnam.variable}`}
+        className={`App relative min-h-[100svh] bg-white font-be-vietnam ${beVietnam.variable}`}
       >
         <Header />
         <Main />
@@ -585,7 +585,7 @@ function Footer() {
           {...register("email")}
           placeholder="Updates in your inbox…"
           className={cn(
-            "h-full w-full rounded-full p-1 px-6 pb-[6px] text-[13px] font-medium tracking-[-.1px] text-manage-primary-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-manage-primary-red lg:px-4",
+            "h-full w-full rounded-full bg-white p-1 px-6 pb-[6px] text-[13px] font-medium tracking-[-.1px] text-manage-primary-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-manage-primary-red lg:px-4",
             errors.email &&
               "border border-red-500 text-red-500 focus-visible:outline-red-500",
           )}
