@@ -177,7 +177,7 @@ function PersonalInfoForm() {
           </p>
           <input
             className={cn([
-              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
+              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 bg-white px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
               errors.name && "border-red-500 focus-visible:border-red-500",
             ])}
             type="text"
@@ -196,7 +196,7 @@ function PersonalInfoForm() {
           </p>
           <input
             className={cn([
-              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
+              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 bg-white px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg  lg:text-[16px]", //
               errors.email && "border-red-500 focus-visible:border-red-500",
             ])}
             type="email"
@@ -215,7 +215,7 @@ function PersonalInfoForm() {
           </p>
           <input
             className={cn([
-              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
+              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 bg-white px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg  lg:text-[16px]", //
               errors.phone && "border-red-500 focus-visible:border-red-500",
             ])}
             type="text"
