@@ -106,7 +106,7 @@ export default function NewsHomepage() {
         <title>Frontend Mentor | News homepage</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] pb-20 font-inter lg:pb-32 ${inter.variable}`}
+        className={`App relative min-h-[100svh] bg-white pb-20 font-inter lg:pb-32 ${inter.variable}`}
       >
         <Header />
         <Sections />
@@ -335,7 +335,7 @@ function PopularPostSection() {
                 <h4 className="mt-[10px] text-[18px] font-extrabold lg:mt-[11px]">
                   <a
                     href={href}
-                    className="hover:text-news-homepage-primary-red"
+                    className="text-news-homepage-neutral-400 hover:text-news-homepage-primary-red"
                   >
                     {title}
                   </a>
@@ -354,7 +354,7 @@ function PopularPostSection() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-news-homepage-neutral-400 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
