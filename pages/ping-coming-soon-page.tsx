@@ -30,7 +30,7 @@ export default function PingComingSoonPage() {
         <title>Frontend Mentor | Ping coming soon page</title>
       </Head>
       <div
-        className={`App relative pb-[16px] pt-[84.5px] font-libre-franklin font-light max-lg:min-h-[812px] lg:min-h-[1024px] lg:pt-[86px] ${libreFranklin.variable}`}
+        className={`App relative bg-white pb-[16px] pt-[84.5px] font-libre-franklin font-light max-lg:min-h-[812px] lg:min-h-[1024px] lg:pt-[86px] ${libreFranklin.variable}`}
       >
         <Main />
         <Footer />
@@ -91,7 +91,7 @@ function Main() {
           {...register("email")}
           type="email"
           placeholder="Your email address..."
-          className={`h-10 w-full rounded-full border px-[33px] pb-[1px] text-[12px] font-normal leading-none text-ping-coming-soon-neutral-blue placeholder:text-ping-coming-soon-primary-blue/30 focus-visible:outline focus-visible:outline-1 lg:h-full lg:w-[422px] lg:px-[30px] lg:pb-0 lg:text-[16px] ${
+          className={`h-10 w-full rounded-full border bg-white px-[33px] pb-[1px] text-[12px] font-normal leading-none text-ping-coming-soon-neutral-blue placeholder:text-ping-coming-soon-primary-blue/30 focus-visible:outline focus-visible:outline-1 lg:h-full lg:w-[422px] lg:px-[30px] lg:pb-0 lg:text-[16px] ${
             errors.email
               ? "border-[hsl(352,30%,60%)] focus-visible:outline-[hsl(352,30%,60%)]"
               : "border-ping-coming-soon-primary-blue/30 focus-visible:outline-ping-coming-soon-primary-blue"
