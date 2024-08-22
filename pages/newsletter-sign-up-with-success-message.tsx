@@ -113,7 +113,7 @@ function Main() {
             <p className="-mt-[2px]">And much more!</p>
           </li>
         </ul>
-        <form className="mt-10 w-full" onSubmit={onSubmit} noValidate>
+        <form className="mt-10 w-full bg-white" onSubmit={onSubmit} noValidate>
           <label htmlFor="email">
             <div className="flex">
               <p className="text-[12px] font-bold text-newsletter-neutral-400">
@@ -132,7 +132,7 @@ function Main() {
               className={`mt-2 h-[56px] w-full rounded-[8px] border px-[23px] focus-visible:outline focus-visible:outline-transparent ${
                 errors.email
                   ? "border-newsletter-primary bg-newsletter-primary/[15%] text-newsletter-primary placeholder:text-newsletter-primary/50"
-                  : "border-newsletter-neutral-200/75 text-newsletter-neutral-300 focus:border-newsletter-neutral-300 "
+                  : "border-newsletter-neutral-200/75 bg-white text-newsletter-neutral-300 focus:border-newsletter-neutral-300"
               }`}
               {...register("email", { required: true })}
             />
@@ -237,7 +237,7 @@ function SuccessScreen() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] lg:text-newsletter-neutral-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-newsletter-neutral-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
