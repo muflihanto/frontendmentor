@@ -16,7 +16,7 @@ const plusJakartaSans = `${_plusJakartaSans.variable} font-plus-jakarta`;
 export default function NotificationPage() {
   return (
     <div
-      className={`${plusJakartaSans} App md:bg-notif-neutral-200 md:pt-[8vh]`}
+      className={`${plusJakartaSans} App relative bg-white pb-[30px] md:bg-notif-neutral-200 md:pb-[79px] md:pt-[8vh]`}
     >
       <Head>
         <title>Notifications Page</title>
