@@ -23,7 +23,7 @@ const ProjectTracking = () => {
       <div className="absolute right-0 top-0 -z-10 h-[424px] w-[50vw] rounded-bl-[60px] bg-project-tracking-neutral-100 lg:h-[427px] lg:w-[calc(705/1440*100vw)]" />
       <div
         className={cn([
-          "App relative pb-[75.5px] font-barlow max-lg:mx-auto max-lg:max-w-screen-sm",
+          "App relative bg-white pb-[75.5px] font-barlow max-lg:mx-auto max-lg:max-w-screen-sm",
           barlow.variable,
           barlowCondensed.variable,
         ])}
@@ -209,7 +209,7 @@ function Main() {
 function Footer() {
   return (
     <footer className="absolute bottom-3 left-0 mx-auto w-full text-center">
-      <p className="text-center text-[11px] [&_a:hover]:text-project-tracking-primary-red [&_a:hover]:decoration-project-tracking-primary-red/75 [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-project-tracking-primary-red [&_a]:decoration-wavy">
+      <p className="text-center text-[11px] text-project-tracking-neutral-400 [&_a:hover]:text-project-tracking-primary-red [&_a:hover]:decoration-project-tracking-primary-red/75 [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-project-tracking-primary-red [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io?ref=challenge"
