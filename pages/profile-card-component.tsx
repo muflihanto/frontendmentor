@@ -79,7 +79,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 z-20 w-full text-center text-[11px] [&_a]:font-bold [&_a]:text-white [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 z-20 w-full text-center text-[11px] text-profile-card-primary-dark-blue-200 [&_a]:font-bold [&_a]:text-white [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
