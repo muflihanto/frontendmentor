@@ -61,7 +61,7 @@ function ProductImage() {
 function ProductDescription() {
   return (
     <main className="flex flex-col justify-around overflow-scroll px-[2.3rem] py-[1.2rem] max-[750px]:px-[1.8rem] max-[750px]:py-4">
-      <h3 className="font-montserrat text-[0.8rem] font-light uppercase tracking-[.4rem]">
+      <h3 className="font-montserrat text-[0.8rem] font-light uppercase tracking-[.4rem] text-product-review-neutral-300">
         perfume
       </h3>
       <h1 className="-mt-3 font-fraunces text-[2.3rem] font-bold leading-none text-product-review-neutral-300 max-[750px]:-mt-2">
@@ -106,7 +106,7 @@ function ProductDescription() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center font-montserrat text-[11px] max-[750px]:bottom-1 [&_a]:font-bold [&_a]:text-product-review-primary-cyan [&_a]:underline [&_a]:decoration-product-review-neutral-200 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center font-montserrat text-[11px] text-product-review-neutral-300 max-[750px]:bottom-1 [&_a]:font-bold [&_a]:text-product-review-primary-cyan [&_a]:underline [&_a]:decoration-product-review-neutral-200 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
