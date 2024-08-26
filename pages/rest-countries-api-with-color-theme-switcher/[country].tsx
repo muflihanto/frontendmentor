@@ -50,7 +50,7 @@ export default function Page() {
       />
 
       <div className="mt-[43px] lg:mt-[36px] lg:w-full lg:max-w-[600px]">
-        <h1 className="text-[21px] font-extrabold dark:text-rest-countries-gray-100 lg:text-[32px]">
+        <h1 className="text-[21px] font-extrabold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:text-[32px]">
           {data[0].name.common}
         </h1>
 
@@ -107,7 +107,7 @@ export default function Page() {
         </div>
 
         <div className="mt-[39px] min-[1420px]:mt-[70px] min-[1420px]:flex min-[1420px]:gap-4">
-          <h2 className="font-semibold dark:text-rest-countries-gray-100 lg:leading-[30px]">
+          <h2 className="font-semibold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:leading-[30px]">
             Border Countries:{" "}
           </h2>
           {!!data[0].borders &&
@@ -119,7 +119,7 @@ export default function Page() {
               {borders.map((border, index) => {
                 return (
                   <Link
-                    className="h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-center text-[12px] leading-[30px] shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/20 lg:px-1 lg:text-[14px]"
+                    className="h-[30px] w-[99px] truncate text-ellipsis rounded-sm border bg-white px-3 text-center text-[12px] leading-[30px] text-rest-countries-darkblue-300 shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/20 lg:px-1 lg:text-[14px]"
                     key={`${index}-${border.name.common}`}
                     href={`/rest-countries-api-with-color-theme-switcher/${border.name.common
                       .toLowerCase()
@@ -161,7 +161,7 @@ function Layout({ children }: PropsWithChildren) {
 
       <div className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-7 pb-16 pt-[39px] dark:bg-rest-countries-darkblue-200 md:bg-rest-countries-gray-100 md:px-20 md:pt-[79px]">
         <button
-          className="flex h-[34px] w-[105px] items-center justify-center gap-3 self-start rounded-sm border bg-white px-3 py-0.5 text-[14px] shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/50  md:-ml-0.5 md:h-[42px] md:w-[137px] md:gap-[14px] md:rounded-lg md:text-base"
+          className="flex h-[34px] w-[105px] items-center justify-center gap-3 self-start rounded-sm border bg-white px-3 py-0.5 text-[14px] text-rest-countries-darkblue-300 shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100  dark:shadow-rest-countries-darkblue-300/50 md:-ml-0.5 md:h-[42px] md:w-[137px] md:gap-[14px] md:rounded-lg md:text-base"
           onClick={() =>
             router.push("/rest-countries-api-with-color-theme-switcher/")
           }
