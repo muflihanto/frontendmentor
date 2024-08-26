@@ -81,7 +81,7 @@ export function Header() {
   }, [dark]);
 
   return (
-    <header className="relative z-10 flex h-20 items-center justify-between px-4 shadow-md shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/5 lg:px-20">
+    <header className="relative z-10 flex h-20 items-center justify-between bg-white px-4 shadow-md shadow-rest-countries-darkblue-100/5 dark:bg-rest-countries-darkblue-100 dark:shadow-rest-countries-darkblue-300/5 lg:px-20">
       <h1 className="text-[14px] font-extrabold tracking-[-.1px] text-rest-countries-darkblue-200 dark:text-rest-countries-gray-100 lg:text-[24px]">
         Where in the world?
       </h1>
@@ -129,7 +129,7 @@ function InputField() {
         onChange={(e) => {
           setInput(e.target.value);
         }}
-        className="h-full w-full rounded px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] text-rest-countries-gray-300 shadow-md shadow-rest-countries-gray-300/10 placeholder:opacity-50 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/10 dark:placeholder:text-rest-countries-gray-100 dark:placeholder:opacity-80 lg:text-[14px] lg:placeholder:text-rest-countries-darkblue-100 lg:placeholder:opacity-80"
+        className="h-full w-full rounded bg-white px-4 py-2 pl-[74px] text-[12px] tracking-[.05px] text-rest-countries-gray-300 shadow-md shadow-rest-countries-gray-300/10 placeholder:opacity-50 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100 dark:shadow-rest-countries-darkblue-300/10 dark:placeholder:text-rest-countries-gray-100 dark:placeholder:opacity-80 lg:text-[14px] lg:placeholder:text-rest-countries-darkblue-100 lg:placeholder:opacity-80"
         placeholder="Search for a country..."
       />
     </form>
@@ -184,7 +184,7 @@ function CountryCard({ country }: { country: Country }) {
         />
       </div>
       <div className="flex w-full flex-col items-start px-[25px] pt-[24px] text-[14px]/[24px]">
-        <h2 className="mb-[12px] text-left text-[18px]/[1.5] font-extrabold dark:text-rest-countries-gray-100">
+        <h2 className="mb-[12px] text-left text-[18px]/[1.5] font-extrabold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100">
           {country.name.common}
         </h2>
         <p className="text-left text-rest-countries-darkblue-100 dark:text-rest-countries-gray-200">
@@ -263,7 +263,7 @@ function Main() {
 
 export function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] dark:text-rest-countries-gray-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
