@@ -13,7 +13,7 @@ export default function ResultsSummaryComponent() {
         <title>Frontend Mentor | Results summary component</title>
       </Head>
       <div
-        className={`App relative flex min-h-[100svh] justify-center font-hanken-grotesk font-medium md:items-center md:py-10 ${hankenGrotesk.variable}`}
+        className={`App relative flex min-h-[100svh] justify-center bg-white font-hanken-grotesk font-medium md:items-center md:py-10 ${hankenGrotesk.variable}`}
       >
         <Main />
         <Footer />
@@ -123,7 +123,7 @@ function Icons(props: ComponentProps<"svg"> & { variant: IconVariants }) {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-2 w-full text-center text-[11px] md:bottom-3 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-2 w-full text-center text-[11px] text-result-summary-neutral-400 md:bottom-3 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
