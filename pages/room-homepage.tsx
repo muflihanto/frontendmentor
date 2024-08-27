@@ -86,7 +86,7 @@ export default function RoomHomepage() {
         <title>Frontend Mentor | Room homepage</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-league-spartan font-medium ${leagueSpartan.variable}`}
+        className={`App relative min-h-[100svh] bg-white font-league-spartan font-medium ${leagueSpartan.variable}`}
       >
         <Header />
         <Main />
@@ -265,7 +265,7 @@ function Slide() {
         aria-label={"Feature description"}
       >
         <h1
-          className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]"
+          className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] text-room-primary-400 lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]"
           // aria-label={`Feature ${activeProduct + 1} of ${product.length}`}
         >
           {product[activeProduct].title}
@@ -350,7 +350,7 @@ function About() {
         />
       </div>
       <div className="flex h-[303.8px] flex-col justify-center p-8 pt-10 lg:h-full lg:p-12 lg:pt-[54px]">
-        <h2 className="text-[15px] font-bold uppercase tracking-[5.2px] lg:text-[clamp(15px,calc(16/800*100vh),16px)] lg:tracking-[6.7px]">
+        <h2 className="text-[15px] font-bold uppercase tracking-[5.2px] text-room-primary-400 lg:text-[clamp(15px,calc(16/800*100vh),16px)] lg:tracking-[6.7px]">
           About our furniture
         </h2>
         <p className="mt-4 leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[11px] lg:text-[clamp(15px,calc(16/800*100vh),16px)] ">
