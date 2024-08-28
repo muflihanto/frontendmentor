@@ -150,7 +150,7 @@ function Main() {
 
 function Footer() {
   return (
-    <div className="absolute bottom-3 z-20 w-full text-center text-[11px] lg:text-[13px] [&_a]:font-bold [&_a]:text-social-proof-primary-magenta [&_a]:underline [&_a]:decoration-social-proof-primary-pink [&_a]:decoration-wavy">
+    <div className="absolute bottom-3 z-20 w-full text-center text-[11px] text-social-proof-primary-magenta lg:text-[13px] [&_a]:font-bold [&_a]:text-social-proof-primary-magenta [&_a]:underline [&_a]:decoration-social-proof-primary-pink [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
