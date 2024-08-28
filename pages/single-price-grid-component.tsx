@@ -74,7 +74,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 z-20 w-full text-center text-[11px] lg:text-[13px] [&_a]:font-bold [&_a]:text-single-price-primary-cyan [&_a]:underline [&_a]:decoration-single-price-primary-yellow [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 z-20 w-full text-center text-[11px] text-single-price-primary-cyan lg:text-[13px] [&_a]:font-bold [&_a]:text-single-price-primary-cyan [&_a]:underline [&_a]:decoration-single-price-primary-yellow [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
