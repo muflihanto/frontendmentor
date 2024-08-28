@@ -186,7 +186,7 @@ function TestmimoyCard(props: TestimonyCardProps) {
 
 function Footer() {
   return (
-    <div className="absolute bottom-3 w-full text-center text-[11px]">
+    <div className="absolute bottom-3 w-full text-center text-[11px] text-testimonials-primary-dark-blue">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
