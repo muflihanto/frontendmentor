@@ -35,7 +35,7 @@ export default function TodoApp() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] dark:text-todo-neutral-dark-400 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:text-todo-neutral-dark-300">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] dark:text-todo-neutral-dark-400 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:text-todo-neutral-dark-300 text-todo-neutral-light-400 [&_a]:text-todo-neutral-light-500">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
