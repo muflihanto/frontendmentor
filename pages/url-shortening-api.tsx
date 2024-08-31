@@ -16,6 +16,7 @@ import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import copy from "copy-to-clipboard";
 import { poppins } from "../utils/fonts/poppins";
+import { ShortenApiResponse } from "./api/getShortenUrl";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -241,22 +242,22 @@ const FormInput = z.object({
 });
 type FormInput = z.infer<typeof FormInput>;
 
-const ApiResponse = z.object({
-  ok: z.literal(true),
-  result: z.object({
-    code: z.string(),
-    short_link: z.string(),
-    full_short_link: z.string().url(),
-    short_link2: z.string().optional(),
-    full_short_link2: z.string().url().optional(),
-    short_link3: z.string().optional(),
-    full_short_link3: z.string().url().optional(),
-    share_link: z.string(),
-    full_share_link: z.string().url(),
-    original_link: z.string().url(),
-  }),
-});
-type ApiResponse = z.infer<typeof ApiResponse>;
+// const ApiResponse = z.object({
+//   ok: z.literal(true),
+//   result: z.object({
+//     code: z.string(),
+//     short_link: z.string(),
+//     full_short_link: z.string().url(),
+//     short_link2: z.string().optional(),
+//     full_short_link2: z.string().url().optional(),
+//     short_link3: z.string().optional(),
+//     full_short_link3: z.string().url().optional(),
+//     share_link: z.string(),
+//     full_share_link: z.string().url(),
+//     original_link: z.string().url(),
+//   }),
+// });
+// type ApiResponse = z.infer<typeof ApiResponse>;
 
 // function ClientOnly({
 //   children,
@@ -307,27 +308,28 @@ type ApiResponse = z.infer<typeof ApiResponse>;
 //   },
 // ];
 
-const linksAtom = atomWithStorage<ApiResponse["result"][]>("links", [
+// const linksAtom = atomWithStorage<ApiResponse["result"][]>("links", [
+const linksAtom = atomWithStorage<ShortenApiResponse[]>("links", [
   // ...initialLinks
 ]);
 
-function CopyLink({ data }: { data: ApiResponse["result"] }) {
+function CopyLink({ data }: { data: ShortenApiResponse }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex h-[156px] w-full flex-col rounded-lg bg-white p-0 pt-[11px] lg:h-[72px] lg:flex-row lg:items-center lg:pl-8 lg:pr-6 lg:pt-0 lg:text-[20px]">
       <div className="h-[24px] w-full truncate text-ellipsis px-4 pt-[2px] text-url-shortening-neutral-300 lg:mt-[3px] lg:block lg:h-auto lg:w-auto lg:p-0">
-        {data.original_link}
+        {data.url}
       </div>
       <hr className="my-[13px] w-full lg:hidden" />
       <a
         className="w-full text-ellipsis px-4 text-url-shortening-primary-cyan lg:ml-auto lg:mt-[3px] lg:w-auto lg:px-0"
-        href={data.full_short_link}
+        href={data.result_url}
       >
-        {data.full_short_link}
+        {data.result_url}
       </a>
       <button
         onClick={() => {
-          copy(data.full_short_link);
+          copy(data.result_url);
           setCopied(true);
         }}
         className={cn([
@@ -344,7 +346,7 @@ function CopyLink({ data }: { data: ApiResponse["result"] }) {
   );
 }
 
-// TODO: shrtco.de is offline, replace with other service
+// TODO: cleanup code
 
 function Shorten() {
   const {
@@ -358,20 +360,19 @@ function Shorten() {
 
   const onSubmit = handleSubmit(async (data) => {
     // console.log(data);
-    await fetch(`https://api.shrtco.de/v2/shorten?url=${data.link}`).then(
-      async (res) => {
-        // console.log(res);
-        await res.json().then((dat) => {
-          const parse = ApiResponse.safeParse(dat);
-          if (parse.success) {
-            // console.log(parse.data);
-            setLinks((p) => [...p, parse.data.result]);
-          } else {
-            console.log(parse.error);
-          }
-        });
-      },
-    );
+    await fetch("/api/getShortenUrl", {
+      method: "POST",
+      body: JSON.stringify({ url: data.link }),
+    }).then(async (res) => {
+      await res.json().then((dat) => {
+        const parse = ShortenApiResponse.safeParse(dat);
+        if (parse.success) {
+          setLinks((p) => [...p, parse.data]);
+        } else {
+          console.log(parse.error);
+        }
+      });
+    });
   });
 
   useEffect(() => {
@@ -415,7 +416,7 @@ function Shorten() {
       {links.length > 0 && (
         <div className="mt-6 flex w-full -translate-y-[80px] flex-col gap-[23px] px-6 max-lg:-mb-px lg:-translate-y-[84px] lg:gap-4 lg:px-[165px]">
           {links.map((lnk, index) => {
-            return <CopyLink key={`${index}-${lnk.code}`} data={lnk} />;
+            return <CopyLink key={`${index}-${lnk.result_url}`} data={lnk} />;
           })}
         </div>
       )}
