@@ -33,7 +33,7 @@ export default function UrlShorteningApi() {
         <title>Frontend Mentor | Shortly URL shortening API Challenge</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] font-poppins font-medium ${poppins.variable}`}
+        className={`App relative min-h-[100svh] bg-white font-poppins font-medium ${poppins.variable}`}
       >
         <Header />
         <Main />
@@ -392,7 +392,7 @@ function Shorten() {
         <input
           type="text"
           className={cn([
-            "h-12 w-full rounded-[5px] pt-[3px] lg:h-16 lg:w-full lg:rounded-[11px] lg:px-8 lg:text-[20px]", //
+            "h-12 w-full rounded-[5px] bg-white pt-[3px] text-url-shortening-neutral-400 lg:h-16 lg:w-full lg:rounded-[11px] lg:px-8 lg:text-[20px]", //
             errors.link
               ? "border-[3px] border-url-shortening-secondary-red px-[13px] text-url-shortening-secondary-red placeholder:text-url-shortening-secondary-red/50"
               : "px-4",
