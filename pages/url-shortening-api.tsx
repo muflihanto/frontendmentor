@@ -242,76 +242,7 @@ const FormInput = z.object({
 });
 type FormInput = z.infer<typeof FormInput>;
 
-// const ApiResponse = z.object({
-//   ok: z.literal(true),
-//   result: z.object({
-//     code: z.string(),
-//     short_link: z.string(),
-//     full_short_link: z.string().url(),
-//     short_link2: z.string().optional(),
-//     full_short_link2: z.string().url().optional(),
-//     short_link3: z.string().optional(),
-//     full_short_link3: z.string().url().optional(),
-//     share_link: z.string(),
-//     full_share_link: z.string().url(),
-//     original_link: z.string().url(),
-//   }),
-// });
-// type ApiResponse = z.infer<typeof ApiResponse>;
-
-// function ClientOnly({
-//   children,
-//   ...delegated
-// }: PropsWithChildren<ComponentProps<"div">>) {
-//   const [hasMounted, setHasMounted] = useState(false);
-//   useEffect(() => {
-//     setHasMounted(true);
-//   }, []);
-//   if (!hasMounted) {
-//     return null;
-//   }
-//   return <div {...delegated}>{children}</div>;
-// }
-
-// const initialLinks = [
-//   {
-//     code: "aYuRB",
-//     short_link: "shrtco.de/aYuRB",
-//     full_short_link: "https://shrtco.de/aYuRB",
-//     short_link2: "9qr.de/aYuRB",
-//     full_short_link2: "https://9qr.de/aYuRB",
-//     short_link3: "shiny.link/aYuRB",
-//     full_short_link3: "https://shiny.link/aYuRB",
-//     share_link: "shrtco.de/share/aYuRB",
-//     full_share_link: "https://shrtco.de/share/aYuRB",
-//     original_link: "https://www.frontendmentor.io",
-//   },
-//   {
-//     code: "GKTMlb",
-//     short_link: "shrtco.de/GKTMlb",
-//     full_short_link: "https://shrtco.de/GKTMlb",
-//     short_link2: "9qr.de/GKTMlb",
-//     full_short_link2: "https://9qr.de/GKTMlb",
-//     short_link3: "shiny.link/GKTMlb",
-//     full_short_link3: "https://shiny.link/GKTMlb",
-//     share_link: "shrtco.de/share/GKTMlb",
-//     full_share_link: "https://shrtco.de/share/GKTMlb",
-//     original_link: "https://twitter.com/frontendmentor",
-//   },
-//   {
-//     code: "gob3X9",
-//     short_link: "rel.ink/gob3X9",
-//     full_short_link: "https://rel.ink/gob3X9",
-//     share_link: "rel.ink/share/gob3X9",
-//     full_share_link: "https://rel.ink/share/gob3X9",
-//     original_link: "https://www.linkedin.com/company/frontend-mentor",
-//   },
-// ];
-
-// const linksAtom = atomWithStorage<ApiResponse["result"][]>("links", [
-const linksAtom = atomWithStorage<ShortenApiResponse[]>("links", [
-  // ...initialLinks
-]);
+const linksAtom = atomWithStorage<ShortenApiResponse[]>("links", []);
 
 function CopyLink({ data }: { data: ShortenApiResponse }) {
   const [copied, setCopied] = useState(false);
@@ -346,8 +277,6 @@ function CopyLink({ data }: { data: ShortenApiResponse }) {
   );
 }
 
-// TODO: cleanup code
-
 function Shorten() {
   const {
     register,
@@ -359,19 +288,18 @@ function Shorten() {
   const [links, setLinks] = useAtom(linksAtom);
 
   const onSubmit = handleSubmit(async (data) => {
-    // console.log(data);
-    await fetch("/api/getShortenUrl", {
+    const response = await fetch("/api/getShortenUrl", {
       method: "POST",
       body: JSON.stringify({ url: data.link }),
-    }).then(async (res) => {
-      await res.json().then((dat) => {
-        const parse = ShortenApiResponse.safeParse(dat);
-        if (parse.success) {
-          setLinks((p) => [...p, parse.data]);
-        } else {
-          console.log(parse.error);
-        }
-      });
+    });
+
+    await response.json().then((dat) => {
+      const parse = ShortenApiResponse.safeParse(dat);
+      if (parse.success) {
+        setLinks((p) => [...p, parse.data]);
+      } else {
+        console.log(parse.error);
+      }
     });
   });
 

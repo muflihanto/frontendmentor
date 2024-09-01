@@ -11,22 +11,21 @@ export const CleanUriResponse = z.object({
 });
 export type CleanUriResponse = z.infer<typeof CleanUriResponse>;
 
-export const ShortenApiResponse = z.object({
-  url: z.string().min(1),
-  result_url: z.string().min(1),
-});
+export const ShortenApiResponse = CleanUriInput.extend(CleanUriResponse.shape);
 export type ShortenApiResponse = z.infer<typeof ShortenApiResponse>;
-
-// TODO: cleanup code
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method !== "POST") {
-    res.status(404).send("not found");
+    res.status(405).json({ error: "Method not allowed, Must be one of: POST" });
     return;
   }
 
   const parseBody = CleanUriInput.safeParse(JSON.parse(req.body as string));
-  if (!parseBody.success) return res.status(404);
+  if (!parseBody.success) {
+    res.status(400).json({ error: parseBody.error });
+    return;
+  }
+
   console.log({ parseBodyData: parseBody.data });
 
   const result = await fetch("https://cleanuri.com/api/v1/shorten", {
@@ -41,9 +40,10 @@ const handler: NextApiHandler = async (req, res) => {
     .json()
     .then((dat) => {
       const parse = CleanUriResponse.safeParse(dat);
+
       if (!parse.success) {
         console.log(parse.error);
-        res.status(400).send("invalid input");
+        res.status(400).json({ error: parse.error });
         return;
       }
 
@@ -53,7 +53,7 @@ const handler: NextApiHandler = async (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(404).json({ ...err });
+      res.status(500).json({ error: JSON.stringify(err) });
     });
 };
 
