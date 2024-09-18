@@ -47,7 +47,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
 <!-- ### What I learned
 
@@ -84,9 +84,9 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
+- Github - [Muflihanto](https://github.com/muflihanto)
+- Frontend Mentor - [@muflihanto](https://www.frontendmentor.io/profile/muflihanto)
+- Twitter - [@muflihanto](https://www.twitter.com/muflihanto)
 
 <!-- ## Acknowledgments
 
