@@ -1,12 +1,19 @@
 import Head from "next/head";
 import Image, { type ImageLoaderProps } from "next/image";
-import { redHatText } from "../utils/fonts/redHatText";
 import _products from "../public/product-list-with-cart/data.json";
+import { redHatText } from "../utils/fonts/redHatText";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const products = _products as Product[];
+
+// TODO: Add items to the cart and remove them
+// TODO: Increase/decrease the number of items in the cart
+// TODO: See an order confirmation modal when they click "Confirm Order"
+// TODO: Reset their selections when they click "Start New Order"
+// TODO: View the optimal layout for the interface depending on their device's screen size
+// TODO: See hover and focus states for all interactive elements on the page
 
 export default function ProductListWithCart() {
   return (
@@ -69,11 +76,11 @@ function ListItem(product: Product) {
           alt={product.name}
           src={product.image.thumbnail}
           loader={productImageloader}
-          className="object-contain rounded-lg"
+          className="rounded-lg object-contain"
           fill
         />
         <button
-          className="absolute bg-white left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 px-4 border rounded-full h-[44px] border-product-list-rose-300 w-[160px] flex items-center justify-center gap-2 font-semibold text-sm"
+          className="absolute bottom-0 left-1/2 flex h-[44px] w-[160px] -translate-x-1/2 translate-y-1/2 items-center justify-center gap-2 rounded-full border border-product-list-rose-300 bg-white px-4 text-sm font-semibold"
           type="button"
         >
           <svg className="aspect-[21/20] h-5" aria-hidden="true">
@@ -82,11 +89,11 @@ function ListItem(product: Product) {
           Add to Cart
         </button>
       </div>
-      <p className="text-sm text-product-list-rose-500 mt-[37px]">
+      <p className="mt-[37px] text-sm text-product-list-rose-500">
         {product.category}
       </p>
-      <p className="font-semibold mt-[2px]">{product.name}</p>
-      <p className="font-semibold text-product-list-red mt-px">
+      <p className="mt-[2px] font-semibold">{product.name}</p>
+      <p className="mt-px font-semibold text-product-list-red">
         ${product.price.toFixed(2)}
       </p>
     </div>
@@ -97,10 +104,14 @@ function Main() {
   return (
     <main className="p-6">
       <h1 className="text-[40px] font-bold leading-[1.15]">Desserts</h1>
-      <ul className="mt-[34px]">
-        <li>
-          <ListItem {...products[0]} />
-        </li>
+      <ul className="mb-4 mt-[34px] flex flex-col gap-[23px]">
+        {products.map((el) => {
+          return (
+            <li key={el.name}>
+              <ListItem {...el} />
+            </li>
+          );
+        })}
       </ul>
       {/* {`
         Waffle with Berries
