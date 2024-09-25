@@ -1,9 +1,12 @@
 import Head from "next/head";
-// import Image from "next/image";
+import Image, { type ImageLoaderProps } from "next/image";
 import { redHatText } from "../utils/fonts/redHatText";
+import _products from "../public/product-list-with-cart/data.json";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
+const products = _products as Product[];
 
 export default function ProductListWithCart() {
   return (
@@ -12,7 +15,7 @@ export default function ProductListWithCart() {
         <title>Frontend Mentor | Product list with cart</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] overflow-hidden bg-white text-product-list-rose-900 font-red-hat-text ${redHatText.variable}`}
+        className={`App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`}
       >
         <Main />
         <Footer />
@@ -25,10 +28,80 @@ export default function ProductListWithCart() {
   );
 }
 
+type Product = {
+  image: {
+    thumbnail: string;
+    mobile: string;
+    tablet: string;
+    desktop: string;
+  };
+  name: string;
+  category: string;
+  price: number;
+};
+
+function productImageloader({
+  src,
+  width,
+  thumbnail,
+}: ImageLoaderProps & { thumbnail?: boolean }): string {
+  let base = src.slice(2);
+
+  if (!thumbnail) {
+    base = base.slice(0, -13);
+    if (width > 1023) {
+      base = `${base}desktop.jpg`;
+    } else if (width > 767) {
+      base = `${base}tablet.jpg`;
+    } else {
+      base = `${base}mobile.jpg`;
+    }
+  }
+
+  return `/product-list-with-cart/${base}`;
+}
+
+function ListItem(product: Product) {
+  return (
+    <div>
+      <div className="relative aspect-[327/212] w-full">
+        <Image
+          alt={product.name}
+          src={product.image.thumbnail}
+          loader={productImageloader}
+          className="object-contain rounded-lg"
+          fill
+        />
+        <button
+          className="absolute bg-white left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 px-4 border rounded-full h-[44px] border-product-list-rose-300 w-[160px] flex items-center justify-center gap-2 font-semibold text-sm"
+          type="button"
+        >
+          <svg className="aspect-[21/20] h-5" aria-hidden="true">
+            <use href="/product-list-with-cart/assets/images/icon-add-to-cart.svg#add-to-cart" />
+          </svg>
+          Add to Cart
+        </button>
+      </div>
+      <p className="text-sm text-product-list-rose-500 mt-[37px]">
+        {product.category}
+      </p>
+      <p className="font-semibold mt-[2px]">{product.name}</p>
+      <p className="font-semibold text-product-list-red mt-px">
+        ${product.price.toFixed(2)}
+      </p>
+    </div>
+  );
+}
+
 function Main() {
   return (
     <main className="p-6">
-      <h1 className="font-bold text-[40px] leading-[1.15]">Desserts</h1>
+      <h1 className="text-[40px] font-bold leading-[1.15]">Desserts</h1>
+      <ul className="mt-[34px]">
+        <li>
+          <ListItem {...products[0]} />
+        </li>
+      </ul>
       {/* {`
         Waffle with Berries
         Waffle
