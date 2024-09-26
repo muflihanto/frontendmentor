@@ -22,7 +22,7 @@ export default function ProductListWithCart() {
         <title>Frontend Mentor | Product list with cart</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`}
+        className={`App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 pb-6 font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`}
       >
         <Main />
         <Footer />
@@ -113,55 +113,22 @@ function Main() {
           );
         })}
       </ul>
-      {/* {`
-        Waffle with Berries
-        Waffle
-        6.50
-        Add to Cart
-
-        Vanilla Bean Crème Brûlée
-        Crème Brûlée
-        7.00
-        Add to Cart
-
-        Macaron Mix of Five
-        Macaron
-        8.00
-        Add to Cart
-
-        Classic Tiramisu
-        Tiramisu
-        5.50
-        Add to Cart
-
-        Pistachio Baklava
-        Baklava
-        4.00
-        Add to Cart
-
-        Lemon Meringue Pie
-        Pie
-        5.00
-        Add to Cart
-
-        Red Velvet Cake
-        Cake
-        4.50
-        Add to Cart
-
-        Salted Caramel Brownie
-        Brownie
-        4.50
-        Add to Cart
-
-        Vanilla Panna Cotta
-        Panna Cotta
-        6.50
-        Add to Cart
-
-        Your Cart (<!-- Quantity -->)
-        Your added items will appear here
-      `} */}
+      <div className="mt-[31px] flex min-h-[300px] w-full flex-col items-center bg-white px-6 py-[23px]">
+        <h2 className="self-start text-[24px] font-bold text-product-list-red">
+          Your Cart (0)
+        </h2>
+        <svg
+          role="graphics-symbol"
+          aria-label="Empty Cart"
+          className="mt-[38px] aspect-square w-32"
+          aria-hidden="true"
+        >
+          <use href="/product-list-with-cart/assets/images/illustration-empty-cart.svg#empty-cart" />
+        </svg>
+        <p className="mt-[14px] text-center text-sm font-semibold text-product-list-rose-500">
+          Your added items will appear here
+        </p>
+      </div>
     </main>
   );
 }
