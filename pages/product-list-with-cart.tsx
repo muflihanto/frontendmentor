@@ -8,6 +8,8 @@ import {
   createContext,
   useState,
   useContext,
+  useMemo,
+  useEffect,
 } from "react";
 import { cn } from "../utils/cn";
 
@@ -92,7 +94,7 @@ function productImageloader({
 
 function ListItem(product: Product) {
   const [quantity, setQuantity] = useState(0);
-  const { setCart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
 
   const addToCart = () => {
     setQuantity(1);
@@ -137,6 +139,11 @@ function ListItem(product: Product) {
     updateCart(quantity + 1);
     setQuantity((p) => p + 1);
   };
+
+  useEffect(() => {
+    if (cart.filter((c) => c.name === product.name).length === 0)
+      setQuantity(0);
+  }, [cart, product.name]);
 
   return (
     <div>
@@ -210,6 +217,16 @@ function ListItem(product: Product) {
 function Main() {
   const [cart, setCart] = useState<Cart>([]);
 
+  const totalQuantity = useMemo<number>(() => {
+    if (cart.length === 0) return 0;
+    return cart.reduce((acc, cur) => acc + cur.quantity, 0);
+  }, [cart]);
+
+  const totalPrice = useMemo<number>(() => {
+    if (cart.length === 0) return 0;
+    return cart.reduce((acc, cur) => acc + cur.totalPrice, 0);
+  }, [cart]);
+
   return (
     <CartContext.Provider value={{ cart, setCart }}>
       <main className="p-6">
@@ -223,21 +240,78 @@ function Main() {
             );
           })}
         </ul>
-        <div className="mt-[31px] flex min-h-[300px] w-full flex-col items-center bg-white px-6 py-[23px]">
+        <div className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px]">
           <h2 className="self-start text-[24px] font-bold text-product-list-red">
-            Your Cart (0)
+            Your Cart ({totalQuantity})
           </h2>
-          <svg
-            role="graphics-symbol"
-            aria-label="Empty Cart"
-            className="mt-[38px] aspect-square w-32"
-            aria-hidden="true"
-          >
-            <use href="/product-list-with-cart/assets/images/illustration-empty-cart.svg#empty-cart" />
-          </svg>
-          <p className="mt-[14px] text-center text-sm font-semibold text-product-list-rose-500">
-            Your added items will appear here
-          </p>
+          {totalQuantity === 0 ? (
+            <>
+              <svg
+                role="graphics-symbol"
+                aria-label="Empty Cart"
+                className="mt-[38px] aspect-square w-32"
+                aria-hidden="true"
+              >
+                <use href="/product-list-with-cart/assets/images/illustration-empty-cart.svg#empty-cart" />
+              </svg>
+              <p className="mt-[14px] text-center text-sm font-semibold text-product-list-rose-500">
+                Your added items will appear here
+              </p>
+            </>
+          ) : (
+            <>
+              <ul className="mt-[5px] w-full divide-y divide-product-list-rose-50">
+                {cart.map((item) => {
+                  return (
+                    <li
+                      key={item.name}
+                      className="flex w-full items-center justify-between pb-4 pr-px pt-[15px] text-sm"
+                    >
+                      <div>
+                        <h3 className="font-semibold">{item.name}</h3>
+                        <p className="mt-[7px] flex gap-2">
+                          <span className="font-semibold text-product-list-red">
+                            {item.quantity}x
+                          </span>
+                          <span className="ml-2 text-product-list-rose-500">
+                            @ ${item.price.toFixed(2)}
+                          </span>
+                          <span className="font-semibold text-product-list-rose-500">
+                            ${item.totalPrice.toFixed(2)}
+                          </span>
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        className="flex aspect-square w-[18px] items-center justify-center rounded-full border border-[#CAAFA7] text-[#CAAFA7] hover:border-product-list-rose-900 hover:text-product-list-rose-900"
+                        onClick={() => {
+                          setCart((items) =>
+                            items.filter((i) => i.name !== item.name),
+                          );
+                        }}
+                      >
+                        <svg
+                          className="aspect-square h-[10px]"
+                          role="graphics-symbol"
+                          aria-label="Remove Item"
+                          aria-hidden="true"
+                        >
+                          <use href="/product-list-with-cart/assets/images/icon-remove-item.svg#remove-item" />
+                        </svg>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <hr className="my-[9px] w-full border-product-list-rose-50" />
+              <div className="mt-[14px] flex w-full items-center justify-between">
+                <p className="text-sm">Order Total</p>
+                <p className="text-2xl font-bold text-product-list-rose-900">
+                  ${totalPrice.toFixed(2)}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </main>
     </CartContext.Provider>
