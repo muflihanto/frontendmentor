@@ -29,6 +29,7 @@ type Cart = Array<
   Pick<Product, "name" | "price"> & {
     quantity: number;
     totalPrice: number;
+    thumbnail: string;
   }
 >;
 
@@ -52,7 +53,7 @@ export default function ProductListWithCart() {
         <Footer />
         {/* <Slider
           basePath="/product-list-with-cart/design"
-          absolutePath="/product-list-with-cart/design/mobile-design-selected.jpg"
+          absolutePath="/product-list-with-cart/design/mobile-design-order-confirmation.jpg"
         /> */}
       </div>
     </>
@@ -105,6 +106,8 @@ function ListItem(product: Product) {
           price: product.price,
           quantity: 1,
           totalPrice: product.price,
+          // FIXME: format the thumbnail path
+          thumbnail: product.image.thumbnail,
         },
         ...cart,
       ];
@@ -210,6 +213,116 @@ function ListItem(product: Product) {
       <p className="mt-px font-semibold text-product-list-red">
         ${product.price.toFixed(2)}
       </p>
+    </div>
+  );
+}
+
+function OrderConfirmationModal() {
+  const [open, setOpen] = useState(true);
+
+  const sampleCart: Cart = [
+    {
+      name: "Classic Tiramisu",
+      quantity: 1,
+      price: 5.5,
+      totalPrice: 5.5,
+      thumbnail:
+        "/product-list-with-cart/assets/images/image-tiramisu-thumbnail.jpg",
+    },
+    {
+      name: "Vanilla Bean Crème Brûlée",
+      quantity: 4,
+      price: 7.0,
+      totalPrice: 28.0,
+      thumbnail:
+        "/product-list-with-cart/assets/images/image-creme-brulee-thumbnail.jpg",
+    },
+    {
+      name: "Vanilla Panna Cotta",
+      quantity: 2,
+      price: 6.5,
+      totalPrice: 13.0,
+      thumbnail:
+        "/product-list-with-cart/assets/images/image-panna-cotta-thumbnail.jpg",
+    },
+  ];
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
+
+  return (
+    <div className="absolute left-0 top-0 h-[100svh] w-full bg-black/50">
+      <div className="absolute bottom-0 left-0 h-[88.25%] w-full rounded-t-xl bg-white p-6 py-10">
+        <svg
+          role="graphics-symbol"
+          aria-hidden={true}
+          className="aspect-square w-12"
+          aria-label="Order Confirmed"
+        >
+          <use href="/product-list-with-cart/assets/images/icon-order-confirmed.svg#order-confirmed" />
+        </svg>
+        <h2 className="mt-[23px] text-left text-[40px] font-bold leading-[1.2]">
+          Order Confirmed
+        </h2>
+        <p className="mt-[7px] text-product-list-rose-500">
+          We hope you enjoy your food!
+        </p>
+        <div className="mt-8 w-full rounded-lg bg-product-list-rose-50 px-6 pb-6 pt-[7px]">
+          <ul className="w-full divide-y divide-product-list-rose-100">
+            {sampleCart.map((item) => {
+              return (
+                <li
+                  key={item.name}
+                  className="flex w-full items-center justify-start gap-4 pb-4 pr-px pt-[16px] text-sm"
+                >
+                  <div className="relative aspect-square w-12">
+                    <Image
+                      src={item.thumbnail}
+                      alt={item.name}
+                      className="rounded"
+                      fill
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="max-w-[320px] truncate font-semibold">
+                      {item.name}
+                    </h3>
+                    <p className="mb-px mt-[7px] flex gap-[6px]">
+                      <span className="font-semibold text-product-list-red">
+                        {item.quantity}x
+                      </span>
+                      <span className="ml-2 text-product-list-rose-500">
+                        @ ${item.price.toFixed(2)}
+                      </span>
+                    </p>
+                  </div>
+                  <p className="ml-auto text-base font-semibold text-product-list-rose-900">
+                    ${item.totalPrice.toFixed(2)}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+          <hr className="my-[7px] w-full border-product-list-rose-100" />
+          <div className="mt-[24px] flex w-full items-center justify-between">
+            <p className="text-sm">Order Total</p>
+            <p className="text-2xl font-bold text-product-list-rose-900">
+              $46.50
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          className="mt-[33px] flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50"
+        >
+          Start New Order
+        </button>
+      </div>
     </div>
   );
 }
@@ -335,6 +448,7 @@ function Main() {
           )}
         </div>
       </main>
+      {/* <OrderConfirmationModal /> */}
     </CartContext.Provider>
   );
 }
