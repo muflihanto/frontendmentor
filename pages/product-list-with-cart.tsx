@@ -46,7 +46,7 @@ export default function ProductListWithCart() {
         <title>Frontend Mentor | Product list with cart</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 pb-6 font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`}
+        className={`App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 pb-px font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`}
       >
         <Main />
         <Footer />
@@ -310,6 +310,27 @@ function Main() {
                   ${totalPrice.toFixed(2)}
                 </p>
               </div>
+              <div className="mt-6 flex w-full items-center justify-center gap-2 rounded bg-product-list-rose-50 p-4 text-sm">
+                <svg
+                  role="graphics-symbol"
+                  aria-label="Carbon Neutral"
+                  className="aspect-[21/20] h-5"
+                  aria-hidden="true"
+                >
+                  <use href="/product-list-with-cart/assets/images/icon-carbon-neutral.svg#carbon-neutral" />
+                </svg>
+                <p>
+                  This is a{" "}
+                  <strong className="font-semibold">carbon-neutral</strong>{" "}
+                  delivery
+                </p>
+              </div>
+              <button
+                type="button"
+                className="mt-6 flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50"
+              >
+                Confirm Order
+              </button>
             </>
           )}
         </div>
