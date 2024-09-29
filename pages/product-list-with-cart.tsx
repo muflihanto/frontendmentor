@@ -165,7 +165,7 @@ function ListItem(product: Product) {
         />
         {quantity === 0 ? (
           <button
-            className="absolute bottom-0 left-1/2 flex h-[44px] w-[160px] -translate-x-1/2 translate-y-1/2 items-center justify-center gap-2 rounded-full border border-product-list-rose-300 bg-white px-4 text-sm font-semibold"
+            className="absolute bottom-0 left-1/2 flex h-[44px] w-[160px] -translate-x-1/2 translate-y-1/2 items-center justify-center gap-2 rounded-full border border-product-list-rose-300 bg-white px-4 text-sm font-semibold hover:border-product-list-red hover:text-product-list-red"
             type="button"
             onClick={addToCart}
           >
@@ -299,7 +299,7 @@ function OrderConfirmationModal({
       </div>
       <button
         type="button"
-        className="mt-[33px] flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50"
+        className="mt-[33px] flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50 hover:bg-[hsl(14,86%,32%)]"
         onClick={onClose}
       >
         Start New Order
@@ -445,7 +445,7 @@ function Main() {
               </div>
               <button
                 type="button"
-                className="mt-6 flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50"
+                className="mt-6 flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50 hover:bg-[hsl(14,86%,32%)]"
                 onClick={() => {
                   setConfirmOrder(cart);
                 }}
