@@ -50,13 +50,17 @@ export default function ProductListWithCart() {
         <title>Frontend Mentor | Product list with cart</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 pb-px font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`}
+        className={cn(
+          `App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 p-6 pb-[23px] font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`,
+          "lg:grid lg:grid-cols-[auto_384px] lg:grid-rows-1 lg:px-[112px] lg:pb-[70px] lg:pt-[88px]",
+        )}
       >
         <Main />
         <Footer />
         {/* <Slider
           basePath="/product-list-with-cart/design"
-          absolutePath="/product-list-with-cart/design/mobile-design-order-confirmation.jpg"
+          // absolutePath="/product-list-with-cart/design/mobile-design-empty.jpg"
+          absolutePath="/product-list-with-cart/design/desktop-design-empty.jpg"
         /> */}
       </div>
     </>
@@ -152,14 +156,14 @@ function ListItem(product: Product) {
 
   return (
     <div>
-      <div className="relative aspect-[327/212] w-full">
+      <div className="relative aspect-[327/212] w-full md:aspect-[377/360] md:w-[251px]">
         <Image
           alt={product.name}
           src={product.image.thumbnail}
           loader={productImageloader}
           className={cn(
             "rounded-lg object-contain",
-            quantity > 0 && "rinng ring-2 ring-product-list-red",
+            quantity > 0 && "ring-2 ring-product-list-red",
           )}
           fill
         />
@@ -347,115 +351,115 @@ function Main() {
 
   return (
     <CartContext.Provider value={{ cart, setCart }}>
-      <main className="p-6">
+      <main>
         <h1 className="text-[40px] font-bold leading-[1.15]">Desserts</h1>
-        <ul className="mb-4 mt-[34px] flex flex-col gap-[23px]">
+        <ul className="mb-4 mt-[34px] flex flex-col gap-[23px] lg:flex-row lg:flex-wrap lg:gap-6 lg:gap-y-8">
           {products.map((el) => {
             return (
-              <li key={el.name}>
+              <li key={el.name} className="lg:w-[250px]">
                 <ListItem {...el} />
               </li>
             );
           })}
         </ul>
-        <div className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px]">
-          <h2 className="self-start text-[24px] font-bold text-product-list-red">
-            Your Cart ({totalQuantity})
-          </h2>
-          {totalQuantity === 0 ? (
-            <>
+      </main>
+      <section className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:mt-0 lg:self-start">
+        <h2 className="self-start text-[24px] font-bold text-product-list-red">
+          Your Cart ({totalQuantity})
+        </h2>
+        {totalQuantity === 0 ? (
+          <>
+            <svg
+              role="graphics-symbol"
+              aria-label="Empty Cart"
+              className="mt-[38px] aspect-square w-32"
+              aria-hidden="true"
+            >
+              <use href="/product-list-with-cart/assets/images/illustration-empty-cart.svg#empty-cart" />
+            </svg>
+            <p className="mt-[14px] text-center text-sm font-semibold text-product-list-rose-500">
+              Your added items will appear here
+            </p>
+          </>
+        ) : (
+          <>
+            <ul className="mt-[5px] w-full divide-y divide-product-list-rose-50">
+              {cart.map((item) => {
+                return (
+                  <li
+                    key={item.name}
+                    className="flex w-full items-center justify-between pb-4 pr-px pt-[15px] text-sm"
+                  >
+                    <div>
+                      <h3 className="font-semibold">{item.name}</h3>
+                      <p className="mt-[7px] flex gap-2">
+                        <span className="font-semibold text-product-list-red">
+                          {item.quantity}x
+                        </span>
+                        <span className="ml-2 text-product-list-rose-500">
+                          @ ${item.price.toFixed(2)}
+                        </span>
+                        <span className="font-semibold text-product-list-rose-500">
+                          ${item.totalPrice.toFixed(2)}
+                        </span>
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="flex aspect-square w-[18px] items-center justify-center rounded-full border border-[#CAAFA7] text-[#CAAFA7] hover:border-product-list-rose-900 hover:text-product-list-rose-900"
+                      onClick={() => {
+                        setCart((items) =>
+                          items.filter((i) => i.name !== item.name),
+                        );
+                      }}
+                    >
+                      <svg
+                        className="aspect-square h-[10px]"
+                        role="graphics-symbol"
+                        aria-label="Remove Item"
+                        aria-hidden="true"
+                      >
+                        <use href="/product-list-with-cart/assets/images/icon-remove-item.svg#remove-item" />
+                      </svg>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <hr className="my-[9px] w-full border-product-list-rose-50" />
+            <div className="mt-[14px] flex w-full items-center justify-between">
+              <p className="text-sm">Order Total</p>
+              <p className="text-2xl font-bold text-product-list-rose-900">
+                ${totalPrice.toFixed(2)}
+              </p>
+            </div>
+            <div className="mt-6 flex w-full items-center justify-center gap-2 rounded bg-product-list-rose-50 p-4 text-sm">
               <svg
                 role="graphics-symbol"
-                aria-label="Empty Cart"
-                className="mt-[38px] aspect-square w-32"
+                aria-label="Carbon Neutral"
+                className="aspect-[21/20] h-5"
                 aria-hidden="true"
               >
-                <use href="/product-list-with-cart/assets/images/illustration-empty-cart.svg#empty-cart" />
+                <use href="/product-list-with-cart/assets/images/icon-carbon-neutral.svg#carbon-neutral" />
               </svg>
-              <p className="mt-[14px] text-center text-sm font-semibold text-product-list-rose-500">
-                Your added items will appear here
+              <p>
+                This is a{" "}
+                <strong className="font-semibold">carbon-neutral</strong>{" "}
+                delivery
               </p>
-            </>
-          ) : (
-            <>
-              <ul className="mt-[5px] w-full divide-y divide-product-list-rose-50">
-                {cart.map((item) => {
-                  return (
-                    <li
-                      key={item.name}
-                      className="flex w-full items-center justify-between pb-4 pr-px pt-[15px] text-sm"
-                    >
-                      <div>
-                        <h3 className="font-semibold">{item.name}</h3>
-                        <p className="mt-[7px] flex gap-2">
-                          <span className="font-semibold text-product-list-red">
-                            {item.quantity}x
-                          </span>
-                          <span className="ml-2 text-product-list-rose-500">
-                            @ ${item.price.toFixed(2)}
-                          </span>
-                          <span className="font-semibold text-product-list-rose-500">
-                            ${item.totalPrice.toFixed(2)}
-                          </span>
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        className="flex aspect-square w-[18px] items-center justify-center rounded-full border border-[#CAAFA7] text-[#CAAFA7] hover:border-product-list-rose-900 hover:text-product-list-rose-900"
-                        onClick={() => {
-                          setCart((items) =>
-                            items.filter((i) => i.name !== item.name),
-                          );
-                        }}
-                      >
-                        <svg
-                          className="aspect-square h-[10px]"
-                          role="graphics-symbol"
-                          aria-label="Remove Item"
-                          aria-hidden="true"
-                        >
-                          <use href="/product-list-with-cart/assets/images/icon-remove-item.svg#remove-item" />
-                        </svg>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-              <hr className="my-[9px] w-full border-product-list-rose-50" />
-              <div className="mt-[14px] flex w-full items-center justify-between">
-                <p className="text-sm">Order Total</p>
-                <p className="text-2xl font-bold text-product-list-rose-900">
-                  ${totalPrice.toFixed(2)}
-                </p>
-              </div>
-              <div className="mt-6 flex w-full items-center justify-center gap-2 rounded bg-product-list-rose-50 p-4 text-sm">
-                <svg
-                  role="graphics-symbol"
-                  aria-label="Carbon Neutral"
-                  className="aspect-[21/20] h-5"
-                  aria-hidden="true"
-                >
-                  <use href="/product-list-with-cart/assets/images/icon-carbon-neutral.svg#carbon-neutral" />
-                </svg>
-                <p>
-                  This is a{" "}
-                  <strong className="font-semibold">carbon-neutral</strong>{" "}
-                  delivery
-                </p>
-              </div>
-              <button
-                type="button"
-                className="mt-6 flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50 hover:bg-[hsl(14,86%,32%)]"
-                onClick={() => {
-                  setConfirmOrder(cart);
-                }}
-              >
-                Confirm Order
-              </button>
-            </>
-          )}
-        </div>
-      </main>
+            </div>
+            <button
+              type="button"
+              className="mt-6 flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50 hover:bg-[hsl(14,86%,32%)]"
+              onClick={() => {
+                setConfirmOrder(cart);
+              }}
+            >
+              Confirm Order
+            </button>
+          </>
+        )}
+      </section>
       <AnimatePresence>
         {confirmOrder !== null ? (
           <Dialog
@@ -494,7 +498,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-1 w-full text-center text-[11px] lg:bottom-4 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
