@@ -51,8 +51,9 @@ export default function ProductListWithCart() {
       </Head>
       <div
         className={cn(
-          `App relative min-h-[100svh] overflow-x-hidden bg-product-list-rose-50 p-6 pb-[23px] font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`,
+          `App relative min-h-[100svh] bg-product-list-rose-50 p-6 pb-[23px] font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`,
           "lg:grid lg:grid-cols-[auto_384px] lg:grid-rows-1 lg:px-[112px] lg:pb-[70px] lg:pt-[88px]",
+          // "overflow-x-hidden"
         )}
       >
         <Main />
@@ -363,7 +364,7 @@ function Main() {
           })}
         </ul>
       </main>
-      <section className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:mt-0 lg:self-start">
+      <aside className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-0 lg:self-start">
         <h2 className="self-start text-[24px] font-bold text-product-list-red">
           Your Cart ({totalQuantity})
         </h2>
@@ -459,7 +460,7 @@ function Main() {
             </button>
           </>
         )}
-      </section>
+      </aside>
       <AnimatePresence>
         {confirmOrder !== null ? (
           <Dialog
@@ -498,7 +499,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-1 w-full text-center text-[11px] lg:bottom-4 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-1 left-0 w-full text-center text-[11px] lg:bottom-4 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
