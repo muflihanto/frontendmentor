@@ -61,6 +61,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [TanStack Form](https://tanstack.com/form/latest) - TS library for type-safe form state management
 - [Zod](https://zod.dev/) - TS library for schema validation
+- [HeadlessUI](https://headlessui.com/) - UI components
 
 ### What I learned
 
