@@ -54,6 +54,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [HeadlessUI](https://headlessui.com/) - UI components
 - [Jotai](https://jotai.org/) - React state management
+- [TanStack Query](https://tanstack.com/query/latest) - Asynchronous state management for TS/JS
 
 <!-- ### What I learned
 
