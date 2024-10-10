@@ -50,6 +50,10 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Leaflet](https://leafletjs.com/) - JS library for mobile-friendly interactive maps
+- [Jotai](https://jotai.org/) - React state management
+- [React Hook Form](https://react-hook-form.com/) - React forms build tool
+- [Zod](https://zod.dev/) - TypeScript-first schema validation
 
 <!-- ### What I learned
 
