@@ -52,6 +52,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Framer Motion](https://www.framer.com/motion/) - Motion library for React
 - [Jotai](https://jotai.org/) - React state management
+- [math-expression-evaluator](https://github.com/redhivesoftware/math-expression-evaluator#readme) - Evaluator for Math expression in JS
 
 <!-- ### What I learned
 
