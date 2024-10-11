@@ -18,6 +18,15 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the page has initial cart content */
+  test("has initial cart content", async ({ page }) => {
+    await expect(
+      page.getByRole("heading", { name: "Your Cart (0)" }),
+    ).toBeVisible();
+    await expect(page.getByLabel("Empty Cart")).toBeVisible();
+    await expect(page.getByText("Your added items will appear")).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
