@@ -10,6 +10,7 @@ import {
   useContext,
   useMemo,
   useEffect,
+  useCallback,
 } from "react";
 import { cn } from "../utils/cn";
 import { Dialog } from "@headlessui/react";
@@ -26,7 +27,6 @@ const products = _products as Product[];
 // TODO: Reset their selections when they click "Start New Order"
 // TODO: View the optimal layout for the interface depending on their device's screen size
 // TODO: See hover and focus states for all interactive elements on the page
-// FIXME: Clear cart on modal backdrop click
 
 type Cart = Array<
   Pick<Product, "name" | "price"> & {
@@ -340,6 +340,12 @@ function Main() {
   // ]);
   const [confirmOrder, setConfirmOrder] = useState<null | Cart>(null);
 
+  const onModalClose = useCallback(() => {
+    setCart([]);
+    setConfirmOrder(null);
+    window.scrollTo({ behavior: "smooth", top: 0 });
+  }, []);
+
   const totalQuantity = useMemo<number>(() => {
     if (cart.length === 0) return 0;
     return cart.reduce((acc, cur) => acc + cur.quantity, 0);
@@ -467,7 +473,7 @@ function Main() {
             static
             as={motion.div}
             open={confirmOrder !== null}
-            onClose={() => setConfirmOrder(null)}
+            onClose={onModalClose}
             className="relative z-50"
           >
             <motion.div
@@ -484,10 +490,7 @@ function Main() {
             >
               <OrderConfirmationModal
                 orders={confirmOrder}
-                onClose={() => {
-                  setCart([]);
-                  setConfirmOrder(null);
-                }}
+                onClose={onModalClose}
               />
             </Dialog.Panel>
           </Dialog>
