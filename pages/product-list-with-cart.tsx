@@ -68,7 +68,7 @@ export default function ProductListWithCart() {
   );
 }
 
-type Product = {
+export type Product = {
   image: {
     thumbnail: string;
     mobile: string;
