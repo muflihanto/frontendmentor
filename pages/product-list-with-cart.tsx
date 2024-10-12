@@ -52,8 +52,8 @@ export default function ProductListWithCart() {
       <div
         className={cn(
           `App relative min-h-[100svh] bg-product-list-rose-50 p-6 pb-[23px] font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`,
-          "lg:grid lg:grid-cols-[auto_384px] lg:grid-rows-1 lg:px-[112px] lg:pb-[70px] lg:pt-[88px]",
-          // "overflow-x-hidden"
+          "lg:grid lg:grid-cols-[auto_384px] lg:grid-rows-1 lg:px-[112px] lg:pb-[70px] lg:pt-[56px]",
+          // "overflow-x-hidden",
         )}
       >
         <Main />
@@ -61,7 +61,7 @@ export default function ProductListWithCart() {
         {/* <Slider
           basePath="/product-list-with-cart/design"
           // absolutePath="/product-list-with-cart/design/mobile-design-empty.jpg"
-          absolutePath="/product-list-with-cart/design/desktop-design-empty.jpg"
+          absolutePath="/product-list-with-cart/design/desktop-design-order-confirmation.jpg"
         /> */}
       </div>
     </>
@@ -237,7 +237,7 @@ function OrderConfirmationModal({
   }, [orders]);
 
   return (
-    <div className="absolute bottom-0 left-0 max-h-screen min-h-0 w-full overflow-scroll rounded-t-xl bg-white p-6 py-10 pb-[72px] text-product-list-rose-900">
+    <div className="absolute bottom-0 left-0 max-h-screen min-h-0 w-full overflow-scroll rounded-t-xl bg-white p-6 py-10 pb-[72px] text-product-list-rose-900 lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:w-[592px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-xl lg:px-10 lg:py-10">
       <svg
         role="graphics-symbol"
         aria-hidden={true}
@@ -248,14 +248,14 @@ function OrderConfirmationModal({
       </svg>
       <Dialog.Title
         as="h2"
-        className="mt-[23px] text-left text-[40px] font-bold leading-[1.2]"
+        className="mt-[23px] text-left text-[40px] font-bold leading-[1.2] lg:mt-[21px]"
       >
         Order Confirmed
       </Dialog.Title>
-      <p className="mt-[7px] text-product-list-rose-500">
+      <p className="mt-[7px] text-product-list-rose-500 lg:mt-2">
         We hope you enjoy your food!
       </p>
-      <div className="mt-8 w-full rounded-lg bg-product-list-rose-50 px-6 pb-6 pt-[7px]">
+      <div className="mt-8 w-full rounded-lg bg-product-list-rose-50 px-6 pb-6 pt-[7px] lg:mt-[33px]">
         <ul className="w-full divide-y divide-product-list-rose-100">
           {orders?.map((item) => {
             return (
@@ -358,7 +358,7 @@ function Main() {
 
   return (
     <CartContext.Provider value={{ cart, setCart }}>
-      <main>
+      <main className="lg:mt-8">
         <h1 className="text-[40px] font-bold leading-[1.15]">Desserts</h1>
         <ul className="mb-4 mt-[34px] flex flex-col gap-[23px] lg:flex-row lg:flex-wrap lg:gap-6 lg:gap-y-8">
           {products.map((el) => {
@@ -370,7 +370,7 @@ function Main() {
           })}
         </ul>
       </main>
-      <aside className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-0 lg:self-start">
+      <aside className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-8 lg:self-start">
         <h2 className="self-start text-[24px] font-bold text-product-list-red">
           Your Cart ({totalQuantity})
         </h2>
@@ -474,7 +474,7 @@ function Main() {
             as={motion.div}
             open={confirmOrder !== null}
             onClose={onModalClose}
-            className="relative z-50"
+            className="relative z-0"
           >
             <motion.div
               initial={{ opacity: 0 }}
@@ -482,17 +482,19 @@ function Main() {
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black/50"
             />
-            <Dialog.Panel
-              as={motion.div}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-            >
-              <OrderConfirmationModal
-                orders={confirmOrder}
-                onClose={onModalClose}
-              />
-            </Dialog.Panel>
+            <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+              <Dialog.Panel
+                as={motion.div}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+              >
+                <OrderConfirmationModal
+                  orders={confirmOrder}
+                  onClose={onModalClose}
+                />
+              </Dialog.Panel>
+            </div>
           </Dialog>
         ) : null}
       </AnimatePresence>
