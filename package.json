@@ -32,6 +32,7 @@
     "jotai": "^2.0.3",
     "ky-universal": "^0.12.0",
     "leaflet": "^1.9.4",
+    "match-sorter": "^6.3.4",
     "math-expression-evaluator": "^2.0.2",
     "nanoid": "^4.0.2",
     "next": "^14.0.4",
