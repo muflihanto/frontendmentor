@@ -1,11 +1,12 @@
+import { matchSorter } from "match-sorter";
 import { ThemeProvider, useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, type ChangeEvent } from "react";
+import { BsGithub } from "react-icons/bs";
 import { useIsClient } from "usehooks-ts";
 import pages from "../docs/data.json";
-import { BsGithub } from "react-icons/bs";
 
 // import getPages from "../utils/getPages";
 // import type { InferGetServerSidePropsType } from "next";
@@ -27,8 +28,9 @@ export function Home() {
   };
   const filteredPages = useMemo(() => {
     if (!input) return pages;
-    return pages.filter((page) => {
-      return page.name.toLowerCase().includes(input.toLowerCase());
+    return matchSorter(pages, input, {
+      keys: ["name", "path", "description"],
+      threshold: matchSorter.rankings.CONTAINS,
     });
   }, [input]);
   // }, [input, pages]);
