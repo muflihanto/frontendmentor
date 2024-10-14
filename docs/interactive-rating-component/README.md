@@ -49,6 +49,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [React Hook Form](https://react-hook-form.com/) - React forms build tool
+- [AutoAnimate](https://auto-animate.formkit.com/) - JS zero-config, drop-in animation utility
 
 <!-- ### What I learned
 
