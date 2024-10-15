@@ -50,6 +50,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [HeadlessUI](https://headlessui.com/) - UI components
+- [Jotai](https://jotai.org/) - React state management
 
 <!-- ### What I learned
 
