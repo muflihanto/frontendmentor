@@ -55,6 +55,9 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Zod](https://zod.dev/) - TS library for schema validation
+- [Jotai](https://jotai.org/) - React state management
+- [React Hook Form](https://react-hook-form.com/) - React forms build tool
 
 <!-- ### What I learned
 
