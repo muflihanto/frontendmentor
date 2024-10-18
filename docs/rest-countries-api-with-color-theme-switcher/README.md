@@ -55,6 +55,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [HeadlessUI](https://headlessui.com/) - UI components
 - [Jotai](https://jotai.org/) - React state management
 - [TanStack Query](https://tanstack.com/query/latest) - Asynchronous state management for TS/JS
+- [Ky](https://github.com/sindresorhus/ky) - Tiny and elegant HTTP client for JS
 
 <!-- ### What I learned
 
