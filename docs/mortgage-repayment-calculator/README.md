@@ -58,6 +58,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [TanStack Form](https://tanstack.com/form/latest) - TS library for type-safe form state management
 - [Zod](https://zod.dev/) - TS library for schema validation
+- [Jotai](https://jotai.org/) - React state management
 - [React number format](https://s-yadav.github.io/react-number-format/docs/intro/) - React input-formatter library
 
 ### What I learned
