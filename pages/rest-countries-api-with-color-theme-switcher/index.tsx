@@ -1,19 +1,20 @@
+import {
+  faChevronDown,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Listbox } from "@headlessui/react";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { matchSorter, type MatchSorterOptions } from "match-sorter";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
-import {
-  faMagnifyingGlass,
-  faChevronDown,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "usehooks-ts";
-import { Listbox } from "@headlessui/react";
 import data from "../../public/rest-countries-api-with-color-theme-switcher/all.json";
-import type { Country } from "../../utils/types";
 import { nunitoSans } from "../../utils/fonts/nunitoSans";
+import type { Country } from "../../utils/types";
 // import { useRouter } from "next/router";
 
 // import dynamic from "next/dynamic";
@@ -213,6 +214,15 @@ function CountryCard({ country }: { country: Country }) {
 function Main() {
   const selectedFilter = useAtomValue(regionFilterAtom);
   const keywordFilter = useAtomValue(keywordFilterAtom);
+  const keywordFilterOptions: MatchSorterOptions<(typeof data)[number]> = {
+    keys: [
+      "name.common",
+      "name.official",
+      "name.nativeName.*.common",
+      "name.nativeName.*.official",
+    ],
+    threshold: matchSorter.rankings.CONTAINS,
+  };
 
   return (
     <div className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-4 py-6 dark:bg-rest-countries-darkblue-200 md:px-20 md:py-12">
@@ -221,41 +231,23 @@ function Main() {
         <RegionFilter />
       </div>
       <div className="mt-[32px] flex flex-col gap-10 md:grid md:w-full md:grid-cols-[repeat(2,265px)] md:justify-evenly lg:mt-[48px] lg:grid-cols-[repeat(3,265px)] lg:gap-x-0 lg:gap-y-[74px] min-[1280px]:grid-cols-[repeat(4,265px)] min-[1280px]:justify-between">
-        {selectedFilter === null
-          ? data
-              .filter((ctr) => {
-                if (keywordFilter === "") return true;
-                return ctr.name.common
-                  .toLowerCase()
-                  .includes(keywordFilter.toLowerCase());
+        {(selectedFilter === null
+          ? keywordFilter === ""
+            ? data
+            : matchSorter(data, keywordFilter, keywordFilterOptions)
+          : keywordFilter === ""
+            ? matchSorter(data, selectedFilter.name, {
+                keys: ["region"],
+                threshold: matchSorter.rankings.EQUAL,
               })
-              .map((ctr, index) => {
-                return (
-                  <CountryCard
-                    key={`${index}-${ctr.name.common}`}
-                    country={ctr as Country}
-                  />
-                );
-              })
-          : data
-              .filter((ctr) => {
-                if (keywordFilter === "")
-                  return ctr.region === selectedFilter.name;
-                return (
-                  ctr.name.common
-                    .toLowerCase()
-                    .includes(keywordFilter.toLowerCase()) &&
-                  ctr.region === selectedFilter.name
-                );
-              })
-              .map((ctr, index) => {
-                return (
-                  <CountryCard
-                    key={`${index}-${ctr.name.common}`}
-                    country={ctr as Country}
-                  />
-                );
-              })}
+            : matchSorter(
+                data.filter((ctr) => ctr.region === selectedFilter.name),
+                keywordFilter,
+                keywordFilterOptions,
+              )
+        ).map((ctr) => {
+          return <CountryCard key={ctr.name.common} country={ctr as Country} />;
+        })}
       </div>
     </div>
   );
