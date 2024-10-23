@@ -56,6 +56,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Jotai](https://jotai.org/) - React state management
 - [TanStack Query](https://tanstack.com/query/latest) - Asynchronous state management for TS/JS
 - [Ky](https://github.com/sindresorhus/ky) - Tiny and elegant HTTP client for JS
+- [match-sorter](https://github.com/kentcdodds/match-sorter) - match sorting of an array in JS
 
 <!-- ### What I learned
 
