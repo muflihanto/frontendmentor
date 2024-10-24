@@ -10,6 +10,7 @@ This is a solution to the [Product list with cart challenge on Frontend Mentor](
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -56,27 +57,23 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [HeadlessUI](https://headlessui.com/) - UI components
 - [Framer Motion](https://www.framer.com/motion/) - Motion library for React
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+<!-- Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
 
-To see how you can add code snippets, see below:
+To see how you can add code snippets, see below: -->
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
+- Using the toSpliced() method of Array instances to returns a new array with some elements removed and/or replaced at a given index:
+  ```js
+  toSpliced(start, deleteCount, item1, item2, /* …, */ itemN);
+  ```
+  ```js
+  const products = ["Cake", "Macaron", "Tiramisu"];
+  const products2 = products.toSpliced(1, 1, "Pie");
+  console.log(products2); // ["Cake", "Pie", "Tiramisu"]
+  ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+<!-- If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
 
 ### Continued development
 
@@ -85,6 +82,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [CSS: Debugging Position Sticky Not Working](https://element.how/css-debugging-position-sticky-not-working/) - This helped me fix my cart component positioning problem.
+- [Array.prototype.toSpliced()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSpliced) - This helped me modify the cart items in a declarative way without mutation.
 
 ## Author
 
