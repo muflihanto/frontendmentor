@@ -28,6 +28,8 @@ const products = _products as Product[];
 // TODO: View the optimal layout for the interface depending on their device's screen size
 // TODO: See hover and focus states for all interactive elements on the page
 
+// TODO: Persist cart state using localstorage
+
 type Cart = Array<
   Pick<Product, "name" | "price"> & {
     quantity: number;
@@ -109,6 +111,7 @@ function ListItem(product: Product) {
     setQuantity(1);
     setCart((cart) => {
       return [
+        ...cart,
         {
           name: product.name,
           price: product.price,
@@ -116,7 +119,6 @@ function ListItem(product: Product) {
           totalPrice: product.price,
           thumbnail: product.image.thumbnail,
         },
-        ...cart,
       ];
     });
   };
@@ -129,13 +131,21 @@ function ListItem(product: Product) {
       });
     } else {
       setCart((cart) => {
-        const currentCart = cart.filter((c) => c.name === product.name)[0];
+        const cartItemIndex = cart.findIndex(
+          (item) => item.name === product.name,
+        );
+        const currentCart = cart[cartItemIndex];
         const updatedCart = Object.assign({}, currentCart, {
           quantity,
           totalPrice: quantity * currentCart.price,
         });
-        const remainingCart = cart.filter((c) => c.name !== product.name);
-        return [updatedCart, ...remainingCart];
+        // return [
+        //   ...cart.slice(0, cartItemIndex),
+        //   updatedCart,
+        //   ...cart.slice(cartItemIndex + 1),
+        // ];
+        /** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSpliced */
+        return cart.toSpliced(cartItemIndex, 1, updatedCart);
       });
     }
   };
