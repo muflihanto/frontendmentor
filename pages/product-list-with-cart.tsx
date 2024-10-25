@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
@@ -350,6 +351,8 @@ function Main() {
   // ]);
   const [confirmOrder, setConfirmOrder] = useState<null | Cart>(null);
 
+  const [parent] = useAutoAnimate({ duration: 100 });
+
   const onModalClose = useCallback(() => {
     setCart([]);
     setConfirmOrder(null);
@@ -400,7 +403,10 @@ function Main() {
           </>
         ) : (
           <>
-            <ul className="mt-[5px] w-full divide-y divide-product-list-rose-50">
+            <ul
+              className="mt-[5px] w-full divide-y divide-product-list-rose-50"
+              ref={parent}
+            >
               {cart.map((item) => {
                 return (
                   <li
