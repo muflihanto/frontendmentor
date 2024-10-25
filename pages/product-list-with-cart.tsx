@@ -1,20 +1,21 @@
-import Head from "next/head";
-import Image, { type ImageLoaderProps } from "next/image";
-import _products from "../public/product-list-with-cart/data.json";
-import { redHatText } from "../utils/fonts/redHatText";
-import {
-  type Dispatch,
-  type SetStateAction,
-  createContext,
-  useState,
-  useContext,
-  useMemo,
-  useEffect,
-  useCallback,
-} from "react";
-import { cn } from "../utils/cn";
 import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
+import Head from "next/head";
+import Image, { type ImageLoaderProps } from "next/image";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+import { useLocalStorage } from "usehooks-ts";
+import _products from "../public/product-list-with-cart/data.json";
+import { cn } from "../utils/cn";
+import { redHatText } from "../utils/fonts/redHatText";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -27,8 +28,6 @@ const products = _products as Product[];
 // TODO: Reset their selections when they click "Start New Order"
 // TODO: View the optimal layout for the interface depending on their device's screen size
 // TODO: See hover and focus states for all interactive elements on the page
-
-// TODO: Persist cart state using localstorage
 
 type Cart = Array<
   Pick<Product, "name" | "price"> & {
@@ -108,7 +107,6 @@ function ListItem(product: Product) {
   const { cart, setCart } = useContext(CartContext);
 
   const addToCart = () => {
-    setQuantity(1);
     setCart((cart) => {
       return [
         ...cart,
@@ -152,17 +150,16 @@ function ListItem(product: Product) {
 
   const decrementQuantity = () => {
     updateCart(quantity - 1);
-    setQuantity((p) => p - 1);
   };
 
   const incrementQuantity = () => {
     updateCart(quantity + 1);
-    setQuantity((p) => p + 1);
   };
 
+  // TODO: optimize this
   useEffect(() => {
-    if (cart.filter((c) => c.name === product.name).length === 0)
-      setQuantity(0);
+    const item = cart.find((c) => c.name === product.name);
+    setQuantity(item?.quantity ?? 0);
   }, [cart, product.name]);
 
   return (
@@ -324,7 +321,10 @@ function OrderConfirmationModal({
 }
 
 function Main() {
-  const [cart, setCart] = useState<Cart>([]);
+  // const [cart, setCart] = useState<Cart>([]);
+  const [cart, setCart] = useLocalStorage<Cart>("product-list-with-cart", [], {
+    initializeWithValue: false,
+  });
   // const [cart, setCart] = useState<Cart>([
   //   {
   //     name: "Classic Tiramisu",
@@ -354,7 +354,7 @@ function Main() {
     setCart([]);
     setConfirmOrder(null);
     window.scrollTo({ behavior: "smooth", top: 0 });
-  }, []);
+  }, [setCart]);
 
   const totalQuantity = useMemo<number>(() => {
     if (cart.length === 0) return 0;
