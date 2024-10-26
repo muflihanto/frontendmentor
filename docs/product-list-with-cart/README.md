@@ -56,6 +56,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [HeadlessUI](https://headlessui.com/) - UI components
 - [Framer Motion](https://www.framer.com/motion/) - Motion library for React
+- [AutoAnimate](https://auto-animate.formkit.com/) - JS zero-config, drop-in animation utility
+- [usehook-ts](https://usehooks-ts.com/) - React hook library, ready to use, written in Typescript.
 
 ### What I learned
 
@@ -72,6 +74,7 @@ To see how you can add code snippets, see below: -->
   const products2 = products.toSpliced(1, 1, "Pie");
   console.log(products2); // ["Cake", "Pie", "Tiramisu"]
   ```
+- In SSR, [useLocalStorage](https://usehooks-ts.com/react-hook/use-local-storage) **_initializeWithValue_** option should be set to **_false_**, returning the initial value initially.
 
 <!-- If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
 
