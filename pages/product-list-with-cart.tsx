@@ -23,12 +23,7 @@ import { redHatText } from "../utils/fonts/redHatText";
 
 const products = _products as Product[];
 
-// TODO: Add items to the cart and remove them
-// TODO: Increase/decrease the number of items in the cart
-// TODO: See an order confirmation modal when they click "Confirm Order"
-// TODO: Reset their selections when they click "Start New Order"
 // TODO: View the optimal layout for the interface depending on their device's screen size
-// TODO: See hover and focus states for all interactive elements on the page
 
 type Cart = Array<
   Pick<Product, "name" | "price"> & {
@@ -383,7 +378,10 @@ function Main() {
           })}
         </ul>
       </main>
-      <aside className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-8 lg:self-start">
+      <aside
+        // TODO: improve layout when the component height is more than viewport
+        className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-8 lg:self-start"
+      >
         <h2 className="self-start text-[24px] font-bold text-product-list-red">
           Your Cart ({totalQuantity})
         </h2>
