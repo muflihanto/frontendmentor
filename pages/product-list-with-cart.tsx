@@ -23,8 +23,6 @@ import { redHatText } from "../utils/fonts/redHatText";
 
 const products = _products as Product[];
 
-// TODO: View the optimal layout for the interface depending on their device's screen size
-
 type Cart = Array<
   Pick<Product, "name" | "price"> & {
     quantity: number;
@@ -49,6 +47,7 @@ export default function ProductListWithCart() {
       <div
         className={cn(
           `App relative min-h-[100svh] bg-product-list-rose-50 p-6 pb-[23px] font-red-hat-text text-product-list-rose-900 ${redHatText.variable}`,
+          "sm:px-12 md:px-24",
           "lg:grid lg:grid-cols-[auto_384px] lg:grid-rows-1 lg:px-[112px] lg:pb-[70px] lg:pt-[56px]",
           // "overflow-x-hidden",
         )}
@@ -160,13 +159,13 @@ function ListItem(product: Product) {
 
   return (
     <div>
-      <div className="relative aspect-[327/212] w-full md:aspect-[377/360] md:w-[251px]">
+      <div className="relative aspect-[327/212] w-full lg:aspect-[377/360] lg:w-[251px]">
         <Image
           alt={product.name}
           src={product.image.thumbnail}
           loader={productImageloader}
           className={cn(
-            "rounded-lg object-contain",
+            "rounded-lg object-cover",
             quantity > 0 && "ring-2 ring-product-list-red",
           )}
           fill
@@ -368,7 +367,7 @@ function Main() {
     <CartContext.Provider value={{ cart, setCart }}>
       <main className="lg:mt-8">
         <h1 className="text-[40px] font-bold leading-[1.15]">Desserts</h1>
-        <ul className="mb-4 mt-[34px] flex flex-col gap-[23px] lg:flex-row lg:flex-wrap lg:gap-6 lg:gap-y-8">
+        <ul className="mb-4 mt-[34px] grid grid-cols-1 gap-[23px] sm:grid-cols-2 lg:flex lg:flex-row lg:flex-wrap lg:gap-6 lg:gap-y-8">
           {products.map((el) => {
             return (
               <li key={el.name} className="lg:w-[250px]">
