@@ -377,10 +377,7 @@ function Main() {
           })}
         </ul>
       </main>
-      <aside
-        // TODO: improve layout when the component height is more than viewport
-        className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-8 lg:self-start"
-      >
+      <aside className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-8 lg:max-h-[calc(100svh-32px)] lg:self-start lg:overflow-y-scroll">
         <h2 className="self-start text-[24px] font-bold text-product-list-red">
           Your Cart ({totalQuantity})
         </h2>
@@ -470,7 +467,7 @@ function Main() {
             </div>
             <button
               type="button"
-              className="mt-6 flex h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50 hover:bg-[hsl(14,86%,32%)]"
+              className="mt-6 flex min-h-[53px] w-full items-center justify-center rounded-full bg-product-list-red text-center font-semibold text-product-list-rose-50 hover:bg-[hsl(14,86%,32%)]"
               onClick={() => {
                 setConfirmOrder(cart);
               }}
