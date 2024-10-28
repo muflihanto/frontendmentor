@@ -52,6 +52,33 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     await expect(page.getByText("Your added items will appear")).toBeVisible();
   });
 
+  /** Test if the user can add a product to cart */
+  test("can add a product to cart", async ({ page }) => {
+    const addToCartButtons = products.map((product) => {
+      return page.getByRole("button", { name: `Add ${product.name} to Cart` });
+    });
+    for (const button of addToCartButtons) {
+      await expect(button).toBeVisible();
+      await button.click();
+    }
+    const quantityButtonGroup = products.map((product) => {
+      return page
+        .locator("li")
+        .filter({ hasText: `1${product.category}${product.name}` })
+        .locator("div")
+        .nth(2);
+    });
+    const cart = page.locator("aside");
+    for (const [index, group] of Object.entries(quantityButtonGroup)) {
+      await expect(group).toBeVisible();
+      await expect(
+        cart.getByRole("heading", {
+          name: products[Number.parseInt(index)].name,
+        }),
+      ).toBeVisible();
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
