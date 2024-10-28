@@ -175,6 +175,7 @@ function ListItem(product: Product) {
             className="absolute bottom-0 left-1/2 flex h-[44px] w-[160px] -translate-x-1/2 translate-y-1/2 items-center justify-center gap-2 rounded-full border border-product-list-rose-300 bg-white px-4 text-sm font-semibold hover:border-product-list-red hover:text-product-list-red"
             type="button"
             onClick={addToCart}
+            aria-label={`Add ${product.name} to Cart`}
           >
             <svg className="aspect-[21/20] h-5" aria-hidden="true">
               <use href="/product-list-with-cart/assets/images/icon-add-to-cart.svg#add-to-cart" />
@@ -191,7 +192,9 @@ function ListItem(product: Product) {
               <svg
                 className="aspect-[5/1] h-[2px]"
                 role="graphics-symbol"
-                aria-label="Decrement Quantity"
+                aria-label={`Decrement ${product.name} Quantity to ${
+                  quantity - 1
+                }`}
                 aria-hidden="true"
               >
                 <use href="/product-list-with-cart/assets/images/icon-decrement-quantity.svg#decrement-quantity" />
@@ -206,7 +209,9 @@ function ListItem(product: Product) {
               <svg
                 className="aspect-square h-[10px]"
                 role="graphics-symbol"
-                aria-label="Increment Quantity"
+                aria-label={`Increment ${product.name} Quantity to ${
+                  quantity + 1
+                }`}
                 aria-hidden="true"
               >
                 <use href="/product-list-with-cart/assets/images/icon-increment-quantity.svg#increment-quantity" />
