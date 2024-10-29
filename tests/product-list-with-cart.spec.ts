@@ -90,6 +90,51 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     }
   });
 
+  /** Test if the user can increase/decrease the number of items in the cart */
+  test("can increase/decrease the number of items in the cart", async ({
+    page,
+  }) => {
+    for (const product of products) {
+      await page
+        .getByRole("button", { name: `Add ${product.name} to Cart` })
+        .click();
+    }
+    const quantityButtonGroup = products.map((product) => {
+      return [
+        product.name,
+        page
+          .locator("li")
+          .filter({ hasText: `${product.category}${product.name}` })
+          .locator("div")
+          .nth(2),
+      ] as const;
+    });
+    const cart = page.locator("aside");
+    for (const [name, group] of quantityButtonGroup) {
+      const decrement = group.getByRole("button", {
+        name: `Decrement ${name}`,
+      });
+      const increment = group.getByRole("button", {
+        name: `Increment ${name}`,
+      });
+      const cartItem = cart.locator("li").filter({ hasText: name });
+
+      await expect(decrement).toBeVisible();
+      await expect(group.locator("span", { hasText: "1" })).toBeVisible();
+      await expect(cartItem.locator("span", { hasText: "1x" })).toBeVisible();
+      await expect(increment).toBeVisible();
+
+      await increment.click();
+      await increment.click();
+      await expect(group.locator("span", { hasText: "3" })).toBeVisible();
+      await expect(cartItem.locator("span", { hasText: "3x" })).toBeVisible();
+
+      await decrement.click();
+      await expect(group.locator("span", { hasText: "2" })).toBeVisible();
+      await expect(cartItem.locator("span", { hasText: "2x" })).toBeVisible();
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(

@@ -195,7 +195,6 @@ function ListItem(product: Product) {
                 aria-label={`Decrement ${product.name} Quantity to ${
                   quantity - 1
                 }`}
-                aria-hidden="true"
               >
                 <use href="/product-list-with-cart/assets/images/icon-decrement-quantity.svg#decrement-quantity" />
               </svg>
@@ -212,7 +211,6 @@ function ListItem(product: Product) {
                 aria-label={`Increment ${product.name} Quantity to ${
                   quantity + 1
                 }`}
-                aria-hidden="true"
               >
                 <use href="/product-list-with-cart/assets/images/icon-increment-quantity.svg#increment-quantity" />
               </svg>
