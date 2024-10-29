@@ -31,7 +31,7 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
       });
       await expect(card).toBeVisible();
       await expect(
-        card.getByRole("button", { name: "Add to Cart" }),
+        card.getByRole("button", { name: `Add ${product.name} to Cart` }),
       ).toBeVisible();
       await expect(
         card.getByText(product.category, { exact: true }),
@@ -52,8 +52,8 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     await expect(page.getByText("Your added items will appear")).toBeVisible();
   });
 
-  /** Test if the user can add a product to cart */
-  test("can add a product to cart", async ({ page }) => {
+  /** Test if the user can add items to the cart and remove them */
+  test("can add items to the cart and remove them", async ({ page }) => {
     const addToCartButtons = products.map((product) => {
       return page.getByRole("button", { name: `Add ${product.name} to Cart` });
     });
@@ -76,6 +76,17 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
           name: products[Number.parseInt(index)].name,
         }),
       ).toBeVisible();
+    }
+    const removeItemButtons = products.map(({ name }) => {
+      return [
+        name,
+        cart.locator("li").filter({ hasText: name }).getByRole("button"),
+      ] as const;
+    });
+    for (const [name, button] of removeItemButtons) {
+      await button.click();
+      await expect(button).not.toBeVisible();
+      await expect(cart.getByRole("heading", { name })).not.toBeVisible();
     }
   });
 
