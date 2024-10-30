@@ -135,6 +135,30 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     }
   });
 
+  /** Test if the user can see an order confirmation modal when they click 'Confirm Order' */
+  test("can see an order confirmation modal when they click 'Confirm Order'", async ({
+    page,
+  }) => {
+    for (const index of [1, 2, 3]) {
+      await page
+        .getByRole("button", { name: `Add ${products[index].name} to Cart` })
+        .click();
+    }
+    const confirmOrderButton = page
+      .locator("aside")
+      .getByRole("button", { name: "Confirm Order" });
+    await expect(confirmOrderButton).toBeVisible();
+
+    await confirmOrderButton.click();
+    await page.waitForTimeout(1500);
+    await expect(
+      page.getByRole("heading", { name: "Order Confirmed" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Start New Order" }),
+    ).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
