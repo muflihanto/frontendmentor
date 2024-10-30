@@ -159,6 +159,42 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the user can reset their selections when they click 'Start New Order' */
+  test("can reset their selections when they click 'Start New Order'", async ({
+    page,
+  }) => {
+    for (const index of [1, 2, 3]) {
+      await page
+        .getByRole("button", { name: `Add ${products[index].name} to Cart` })
+        .click();
+    }
+    const confirmOrderButton = page
+      .locator("aside")
+      .getByRole("button", { name: "Confirm Order" });
+    await expect(confirmOrderButton).toBeVisible();
+
+    await confirmOrderButton.click();
+
+    await page.waitForTimeout(1500);
+    await expect(
+      page.getByRole("heading", { name: "Order Confirmed" }),
+    ).toBeVisible();
+
+    const startNewOrderButton = page.getByRole("button", {
+      name: "Start New Order",
+    });
+    await expect(startNewOrderButton).toBeVisible();
+
+    await startNewOrderButton.click();
+    await expect(
+      page.getByRole("heading", { name: "Your Cart (0)" }),
+    ).toBeVisible();
+    await expect(page.getByText("Your added items will appear")).toBeVisible();
+    expect(
+      await page.locator("button", { hasText: "Add to Cart" }).all(),
+    ).toHaveLength(products.length);
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
