@@ -154,6 +154,37 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     await expect(
       page.getByRole("heading", { name: "Order Confirmed" }),
     ).toBeVisible();
+    const orderItems = page
+      .locator('[id="headlessui-portal-root"]')
+      .locator("ul");
+    for (const index of [1, 2, 3]) {
+      await expect(
+        orderItems.getByRole("heading", { name: products[index].name }),
+      ).toBeVisible();
+      await expect(
+        orderItems
+          .locator("li")
+          .nth(index - 1)
+          .getByText("1x"),
+      ).toBeVisible();
+      await expect(
+        orderItems.getByText(`@ $${products[index].price.toFixed(2)}`),
+      ).toBeVisible();
+      await expect(
+        orderItems.getByText(`$${products[index].price.toFixed(2)}`, {
+          exact: true,
+        }),
+      ).toBeVisible();
+    }
+    await expect(
+      page
+        .locator('[id="headlessui-portal-root"]')
+        .getByText(
+          `Order Total$${[1, 2, 3]
+            .reduce((acc, curr) => acc + products[curr].price, 0)
+            .toFixed(2)}`,
+        ),
+    ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Start New Order" }),
     ).toBeVisible();
