@@ -57,9 +57,24 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     const addToCartButtons = products.map((product) => {
       return page.getByRole("button", { name: `Add ${product.name} to Cart` });
     });
-    for (const button of addToCartButtons) {
+    const cart = page.locator("aside");
+    await expect(
+      cart.getByRole("heading", { name: "Your Cart (0)" }),
+    ).toBeVisible();
+    for (const [index, button] of Object.entries(addToCartButtons)) {
       await expect(button).toBeVisible();
       await button.click();
+      await expect(
+        cart.getByRole("heading", { name: `Your Cart (${Number(index) + 1})` }),
+      ).toBeVisible();
+      await expect(
+        cart.getByText(
+          `Order Total$${Array.from({ length: Number(index) + 1 })
+            .map((_, index) => index)
+            .reduce((acc, curr) => acc + products[curr].price, 0)
+            .toFixed(2)}`,
+        ),
+      ).toBeVisible();
     }
     const quantityButtonGroup = products.map((product) => {
       return page
@@ -68,7 +83,6 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
         .locator("div")
         .nth(2);
     });
-    const cart = page.locator("aside");
     for (const [index, group] of Object.entries(quantityButtonGroup)) {
       await expect(group).toBeVisible();
       await expect(
