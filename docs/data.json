@@ -48,6 +48,14 @@
     "name-href": "https://www.frontendmentor.io/challenges/base-apparel-coming-soon-page-5d46b47f8db8a7063f9331a0"
   },
   {
+    "description": "This challenge is perfect for testing your CSS Grid and responsive skills with this bento grid layout.",
+    "path": "bento-grid",
+    "name": "Bento grid",
+    "preview-src": "/index/previews/006-youkdcm0w5zedahid4by.jpeg",
+    "tags": "FreeHTMLCSS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/bento-grid-RMydElrlOj"
+  },
+  {
     "description": "This HTML & CSS-only challenge is a perfect project for beginners getting up to speed with HTML and CSS fundamentals, like HTML structure and the box model.",
     "path": "blog-preview-card",
     "name": "Blog preview card",
