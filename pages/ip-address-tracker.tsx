@@ -30,7 +30,6 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 });
 
 // TODO: View the optimal layout for each page depending on their device's screen size
-// TODO: change timezone information to utc
 
 export const getServerSideProps: GetServerSideProps<{
   detail: IpInfoResponse;
@@ -154,6 +153,9 @@ function Intro() {
   );
 }
 
+/**
+ * convert TZ identifier string (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) to utc offset (ex: UTC +07:00)
+ */
 function getTimezoneOffset(tz: string): string {
   const d1 = new Date(Date.now());
   d1.setMilliseconds(0); // for nice rounding
@@ -208,13 +210,11 @@ function DetailCard({ detail }: { detail?: IpInfoResponse }) {
         </ListItem>
         <ListItem>
           <ListHeading>Timezone</ListHeading>
-          {/* TODO: change timezone to utc */}
           <ListDetail>
             {detail !== undefined && "timezone" in detail
               ? getTimezoneOffset(detail.timezone)
               : "-"}
           </ListDetail>
-          {/* <!-- add offset value dynamically using the API --> */}
         </ListItem>
         <ListItem>
           <ListHeading>ISP</ListHeading>
