@@ -145,6 +145,7 @@ function SubscribeNewsletter({ className }: ComponentProps<"div">) {
       <form
         className="mt-[32px] grid grid-cols-2 grid-rows-2 gap-x-0 gap-y-4 lg:mt-[40px] lg:grid-cols-[minmax(0px,auto),160px] lg:grid-rows-1 lg:gap-x-[40px]"
         onSubmit={onSubmit}
+        noValidate
       >
         <div className="col-span-2 h-12 lg:col-span-1">
           <input

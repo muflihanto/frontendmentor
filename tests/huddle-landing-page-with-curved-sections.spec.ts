@@ -183,7 +183,6 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       await button.click();
       await expect(emptyMessage).toBeVisible();
       await expect(invalidMessage).not.toBeVisible();
-      // TODO: add novalidate
       await textbox.fill("invalidemail");
       await button.click();
       await expect(emptyMessage).not.toBeVisible();
