@@ -24,13 +24,13 @@ export default function BentoGrid() {
 
 function Main() {
   return (
-    <div className="bg-bento-purple-100/25 grid w-full grid-cols-1 px-4 py-[32px]">
-      <section className="bg-bento-purple-500 flex h-[290px] w-full flex-col items-center rounded-lg">
-        <h1 className="text-bento-white p-6 pt-[40px] text-center text-[45px] font-medium leading-[42px] -tracking-[1.25px]">
+    <div className="bg-bento-purple-100/25 grid w-full grid-cols-1 gap-8 px-4 py-[32px]">
+      <section className="bg-bento-purple-500 flex h-[290px] w-full flex-col items-center rounded-lg p-6 pt-[40px]">
+        <h1 className="text-bento-white text-center text-[45px] font-medium leading-[42px] -tracking-[1.25px]">
           Social Media <span className="text-bento-yellow-500">10x</span>{" "}
           <span className="italic">Faster</span> with AI
         </h1>
-        <div className="relative aspect-[384/64] w-[192px]">
+        <div className="relative mt-6 aspect-[384/64] w-[192px]">
           <Image
             src="/bento-grid/assets/images/illustration-five-stars.webp"
             alt="Illustration five stars"
@@ -41,11 +41,31 @@ function Main() {
           Over 4,000 5-star reviews
         </p>
       </section>
+      <section className="bg-bento-white flex h-[163px] w-full flex-col items-center rounded-lg py-4 pl-4 pr-[10px]">
+        <div className="relative aspect-[633/134] w-full">
+          <Image
+            src="/bento-grid/assets/images/illustration-multiple-platforms.webp"
+            alt="Illustration Multiple Platforms"
+            fill
+          />
+        </div>
+        <h2 className="text-bento-black mt-[16px] text-left text-[26px] font-medium leading-[24px] -tracking-[1.5px]">
+          Manage multiple accounts and platforms.
+        </h2>
+      </section>
+      <section className="bg-bento-yellow-500 flex h-[216px] w-full flex-col items-start overflow-hidden rounded-lg p-4 pb-0">
+        <h2 className="text-bento-black text-left text-[26px] font-medium leading-[24px] -tracking-[1.5px]">
+          Maintain a consistent posting schedule.
+        </h2>
+        <div className="relative mt-4 aspect-[414/314] w-[208px]">
+          <Image
+            src="/bento-grid/assets/images/illustration-consistent-schedule.webp"
+            alt="Illustration Multiple Platforms"
+            fill
+          />
+        </div>
+      </section>
       {/* {`
-        Manage multiple accounts and platforms.
-
-        Maintain a consistent posting schedule.
-
         Schedule to social media.
         Optimize post timings to publish content at the perfect time for your audience.
         
