@@ -2,8 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { dmSans } from "../utils/fonts/dmSans";
 
-import dynamic from "next/dynamic";
-const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+// import dynamic from "next/dynamic";
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function BentoGrid() {
   return (
@@ -12,11 +12,11 @@ export default function BentoGrid() {
         <title>Frontend Mentor | Bento grid</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] overflow-x-hidden bg-white font-dm-sans ${dmSans.variable}`}
+        className={`App relative h-[2607px] min-h-[100svh] overflow-x-hidden bg-white font-dm-sans ${dmSans.variable}`}
       >
         <Main />
         <Footer />
-        <Slider basePath="/bento-grid/design" />
+        {/* <Slider basePath="/bento-grid/design" /> */}
       </div>
     </>
   );
@@ -24,7 +24,7 @@ export default function BentoGrid() {
 
 function Main() {
   return (
-    <div className="grid w-full grid-cols-[repeat(1,minmax(0,400px))] place-content-center gap-8 bg-bento-purple-100/25 px-4 py-[32px]">
+    <div className="grid h-full w-full grid-cols-[repeat(1,minmax(0,400px))] place-content-center gap-8 bg-bento-purple-100/25 px-4 pb-[41px] pt-[32px]">
       <section className="flex h-[290px] w-full flex-col items-center justify-center rounded-lg bg-bento-purple-500 p-6 pt-[28px]">
         <h1 className="text-center text-[45px] font-medium leading-[42px] -tracking-[1.25px] text-bento-white">
           Social Media <span className="text-bento-yellow-500">10x</span>{" "}
@@ -109,11 +109,31 @@ function Main() {
           />
         </div>
       </section>
-      {/* {`
-        Create and schedule content quicker.
-
-        Write your content using AI.
-      `} */}
+      <section className="flex h-[234px] w-full flex-col items-start overflow-hidden rounded-lg bg-bento-yellow-100 p-8 pr-[30px]">
+        <h2 className="text-[32px] font-medium leading-[28px] -tracking-[1.8px] text-bento-black">
+          Create and schedule content{" "}
+          <span className="italic text-bento-purple-500">quicker</span>.
+        </h2>
+        <div className="relative mt-6 aspect-[382/182] h-[90px]">
+          <Image
+            src="/bento-grid/assets/images/illustration-create-post.webp"
+            alt="Illustration Create Post"
+            fill
+          />
+        </div>
+      </section>
+      <section className="flex h-[351px] w-full flex-col items-start overflow-hidden rounded-lg bg-bento-yellow-500 p-6">
+        <h2 className="text-[32px] font-medium leading-[28px] -tracking-[1.8px] text-bento-black">
+          Write your content using AI.
+        </h2>
+        <div className="relative mt-6 aspect-[440/446] h-[223px]">
+          <Image
+            src="/bento-grid/assets/images/illustration-ai-content.webp"
+            alt="Illustration AI Content"
+            fill
+          />
+        </div>
+      </section>
     </div>
   );
 }
