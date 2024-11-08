@@ -17,6 +17,16 @@ test.describe("FrontendMentor Challenge - Bento grid page", () => {
     expect(sections).toHaveLength(8);
   });
 
+  /** Test if the page has a heading and an image on every sections */
+  test("has a heading and an image on every sections", async ({ page }) => {
+    const sections = await page.locator("section").all();
+    for (const section of sections) {
+      await section.scrollIntoViewIfNeeded();
+      await expect(section.getByRole("heading")).toBeVisible();
+      await expect(section.getByRole("img")).toBeVisible();
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
