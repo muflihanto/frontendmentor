@@ -11,6 +11,12 @@ test.describe("FrontendMentor Challenge - Bento grid page", () => {
     await expect(page).toHaveTitle("Frontend Mentor | Bento grid");
   });
 
+  /** Test if the page has a correct number of sections */
+  test("has correct number of sections", async ({ page }) => {
+    const sections = await page.locator("section").all();
+    expect(sections).toHaveLength(8);
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
