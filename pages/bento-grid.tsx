@@ -12,7 +12,7 @@ export default function BentoGrid() {
         <title>Frontend Mentor | Bento grid</title>
       </Head>
       <div
-        className={`App relative h-[2607px] min-h-[100svh] overflow-x-hidden bg-white font-dm-sans ${dmSans.variable}`}
+        className={`App relative h-[2607px] min-h-[100svh] overflow-x-hidden bg-white font-dm-sans md:h-auto ${dmSans.variable}`}
       >
         <Main />
         <Footer />
@@ -24,8 +24,8 @@ export default function BentoGrid() {
 
 function Main() {
   return (
-    <div className="grid h-full w-full grid-cols-[repeat(1,minmax(0,400px))] place-content-center gap-8 bg-bento-purple-100/25 px-4 pb-[41px] pt-[32px]">
-      <section className="flex h-[290px] w-full flex-col items-center justify-center rounded-lg bg-bento-purple-500 p-6 pt-[28px]">
+    <div className="grid h-full w-full grid-cols-[repeat(1,minmax(0,400px))] place-content-center gap-8 bg-bento-purple-100/25 px-4 pb-[41px] pt-[32px] md:grid-cols-[repeat(2,minmax(0,400px))]">
+      <section className="flex h-[290px] w-full flex-col items-center justify-center rounded-lg bg-bento-purple-500 p-6 pt-[28px] md:col-span-2">
         <h1 className="text-center text-[45px] font-medium leading-[42px] -tracking-[1.25px] text-bento-white">
           Social Media <span className="text-bento-yellow-500">10x</span>{" "}
           <span className="italic">Faster</span> with AI
@@ -81,19 +81,19 @@ function Main() {
           audience.
         </p>
       </section>
-      <section className="flex h-[372px] w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-bento-purple-500 p-4 py-[23px]">
-        <div className="relative aspect-[456/402] w-[228px]">
+      <section className="flex h-[372px] w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-bento-purple-500 p-4 py-[23px] md:col-span-2 md:flex-row">
+        <div className="relative aspect-[456/402] w-[228px] md:w-[300px]">
           <Image
             src="/bento-grid/assets/images/illustration-grow-followers.webp"
             alt="Illustration Grow Followers"
             fill
           />
         </div>
-        <h2 className="mt-[41px] w-[240px] text-center text-[31px] font-medium leading-[28px] -tracking-[1.5px] text-bento-white">
+        <h2 className="mt-[41px] w-[240px] text-center text-[31px] font-medium leading-[28px] -tracking-[1.5px] text-bento-white md:mt-0">
           Grow followers with non-stop content.
         </h2>
       </section>
-      <section className="flex h-[215px] w-full flex-col items-start overflow-hidden rounded-lg bg-bento-white p-6 pt-[22px]">
+      <section className="flex h-[215px] w-full flex-col items-start overflow-hidden rounded-lg bg-bento-white p-6 pt-[22px] md:h-full">
         <h2 className="flex items-center text-[46px] font-medium leading-none text-bento-black">
           <span className="-translate-y-[4.5px]">{">"}</span>
           <span className="-ml-1 -tracking-[1.75px]">56%</span>
@@ -122,11 +122,11 @@ function Main() {
           />
         </div>
       </section>
-      <section className="flex h-[351px] w-full flex-col items-start overflow-hidden rounded-lg bg-bento-yellow-500 p-6">
+      <section className="flex h-[351px] w-full flex-col items-start overflow-hidden rounded-lg bg-bento-yellow-500 p-6 md:col-start-2 md:row-start-3 md:h-full">
         <h2 className="text-[32px] font-medium leading-[28px] -tracking-[1.8px] text-bento-black">
           Write your content using AI.
         </h2>
-        <div className="relative mt-6 aspect-[440/446] h-[223px]">
+        <div className="relative mt-6 aspect-[440/446] h-[223px] md:h-auto md:w-full">
           <Image
             src="/bento-grid/assets/images/illustration-ai-content.webp"
             alt="Illustration AI Content"
