@@ -10,6 +10,8 @@ This is a solution to the [Bento grid challenge on Frontend Mentor](https://www.
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -48,38 +50,43 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+"**display: contents**" makes the container disappear, making the child elements children of the element the next level up in the DOM
 
-To see how you can add code snippets, see below:
+Example:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+- The actual code:
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+  ```html
+  <div class="page-header">
+    <h1>Recent articles</h1>
+    <p>A look at my recent articles about CSS</p>
+  </div>
+  ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+  ```css
+  .page-header {
+    display: contents;
+  }
+  ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+  the visual:
 
-### Continued development
+  ```html
+  <!-- <div class="page-header"> -->
+  <h1>Recent articles</h1>
+  <p>A look at my recent articles about CSS</p>
+  <!-- </div> -->
+  ```
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [CSS display contents](https://ishadeed.com/article/display-contents/) - This helped me understand how to use display contents to build more fluid layouts.
 
 ## Author
 
