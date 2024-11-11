@@ -13,6 +13,8 @@ import { commissioner } from "../../utils/fonts/commissioner";
 import type { SuppportContext } from "./Main";
 import useFocusTrap from "../../utils/useFocusTrap";
 
+// TODO: Use React Number Format to replace current numeric input
+
 type SupportType = typeof supportType;
 
 type SelectionModalProps = {
@@ -220,7 +222,6 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
             <span className="pl-6 text-[14px] font-bold text-crowdfunding-neutral-100/75">
               $
             </span>
-            {/* FIXME fix logic, shouldn't accept 0 in "Pledge with no reward" */}
             <input
               id="pledge"
               name="pledge"
