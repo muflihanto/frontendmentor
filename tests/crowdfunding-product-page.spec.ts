@@ -74,7 +74,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const modal = page
         .locator("div")
         .filter({
-          hasText: "Back this projectCloseWant to",
+          hasText: "Back this projectWant to",
         })
         .nth(1);
       await expect(modal).toBeVisible();
@@ -85,7 +85,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const modal = page
         .locator("div")
         .filter({
-          hasText: "Back this projectCloseWant to",
+          hasText: "Back this projectWant to",
         })
         .nth(1);
       await expect(modal).toBeVisible();
@@ -107,7 +107,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const modal = page
         .locator("div")
         .filter({
-          hasText: "Back this projectCloseWant to",
+          hasText: "Back this projectWant to",
         })
         .nth(1);
       const form = modal.locator("form");
@@ -133,8 +133,8 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           await heading.click();
           await expect(input).toBeChecked();
           // pledge assertions
-          const pledge = elem.getByLabel("$", { exact: true });
-          const newVal = option.startsFrom + 5;
+          const pledge = elem.locator("id=pledge");
+          const newVal = option.startsFrom - 5;
           await expect(elem.getByText("Enter your pledge")).toBeVisible();
           await expect(pledge).toBeVisible();
           await expect(pledge).toHaveValue(
@@ -142,9 +142,10 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           );
           await pledge.fill(`${newVal}`);
           await expect(pledge).toHaveValue(`${newVal}`);
-          await expect(
-            elem.getByRole("button", { name: "Continue" }),
-          ).toBeVisible();
+          const continueButton = elem.getByRole("button", { name: "Continue" });
+          await expect(continueButton).toBeVisible();
+          await continueButton.click();
+          await expect(elem.locator("#pledge:invalid")).toBeVisible();
         }
         await expect(elem.getByText(option.details)).toBeVisible();
         if (option.startsFrom > 0) {
@@ -159,7 +160,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const modal = page
         .locator("div")
         .filter({
-          hasText: "Back this projectCloseWant to",
+          hasText: "Back this projectWant to",
         })
         .nth(1);
       const form = modal.locator("form");
