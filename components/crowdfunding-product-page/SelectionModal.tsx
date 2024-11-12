@@ -13,7 +13,7 @@ import { commissioner } from "../../utils/fonts/commissioner";
 import type { SuppportContext } from "./Main";
 import useFocusTrap from "../../utils/useFocusTrap";
 
-// TODO: Use React Number Format to replace current numeric input
+// TODO: Use NumberField from React Aria to replace current numeric input
 
 type SupportType = typeof supportType;
 
