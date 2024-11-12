@@ -1,19 +1,20 @@
 import {
+  useState,
   type ChangeEvent,
   type ComponentProps,
-  type FormEventHandler,
-  useState,
   type Dispatch,
+  type FormEventHandler,
   type SetStateAction,
 } from "react";
-import Card from "./Card";
-import supportType from "./supportType.json";
 import { useCallbackRef } from "use-callback-ref";
 import { commissioner } from "../../utils/fonts/commissioner";
-import type { SuppportContext } from "./Main";
 import useFocusTrap from "../../utils/useFocusTrap";
+import Card from "./Card";
+import type { SuppportContext } from "./Main";
+import { NumberField } from "./NumberField";
+import supportType from "./supportType.json";
 
-// TODO: Use NumberField from React Aria to replace current numeric input
+// TODO: improve NumberField invalid input
 
 type SupportType = typeof supportType;
 
@@ -82,14 +83,7 @@ export default function SelectionModal(props: SelectionModalProps) {
                   )}
                 </div>
                 {el.stock !== 0 && index === selectedOption && (
-                  <Continue
-                    el={el}
-                    pledge={pledge}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      if (val !== "") setPledge(Number.parseInt(val));
-                    }}
-                  />
+                  <Continue el={el} pledge={pledge} onChange={setPledge} />
                 )}
               </div>
             );
@@ -174,7 +168,7 @@ const RadioInput = ({ el, index, checked, onChange }: RadioInputProps) => {
         disabled={el.stock === 0}
       />
       <div
-        className={`flex aspect-square w-6 items-center justify-center rounded-full border bg-white peer-checked/reward:before:h-3 peer-checked/reward:before:w-3 peer-checked/reward:before:rounded-full peer-checked/reward:before:bg-crowdfunding-primary-100 lg:mt-[4px] peer-focus/reward:ring-2 peer-focus/reward:ring-crowdfunding-primary-100 ${
+        className={`flex aspect-square w-6 items-center justify-center rounded-full border bg-white peer-checked/reward:before:h-3 peer-checked/reward:before:w-3 peer-checked/reward:before:rounded-full peer-checked/reward:before:bg-crowdfunding-primary-100 peer-focus/reward:ring-2 peer-focus/reward:ring-crowdfunding-primary-100 lg:mt-[4px] ${
           el.stock !== 0 && "group-hover/label:text-crowdfunding-primary-100"
         }`}
       />
@@ -204,7 +198,7 @@ const RadioInput = ({ el, index, checked, onChange }: RadioInputProps) => {
 type ContinueProps = {
   el: SupportType[number];
   pledge: number;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: number) => void;
 };
 const Continue = ({ el, pledge, onChange }: ContinueProps) => {
   return (
@@ -215,23 +209,11 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
           Enter your pledge
         </p>
         <div className="mt-[19px] grid h-[48px] auto-cols-auto grid-flow-col grid-rows-1 items-center justify-between lg:mt-0 lg:gap-4">
-          <label
-            htmlFor="pledge"
-            className="flex h-full w-[100px] items-center gap-2 place-self-start rounded-full ring-2 ring-inset ring-crowdfunding-neutral-100/20 focus-within:ring-crowdfunding-primary-100/50 lg:w-[102px]"
-          >
-            <span className="pl-6 text-[14px] font-bold text-crowdfunding-neutral-100/75">
-              $
-            </span>
-            <input
-              id="pledge"
-              name="pledge"
-              type="number"
-              min={el.startsFrom > 0 ? el.startsFrom : 1}
-              value={pledge}
-              onChange={onChange}
-              className="h-[24px] w-[50%] rounded-full bg-none text-[14px] font-bold focus-within:outline-none"
-            />
-          </label>
+          <NumberField
+            minValue={el.startsFrom > 0 ? el.startsFrom : 1}
+            value={pledge}
+            onChange={onChange}
+          />
           <button
             className="h-full w-[115px] rounded-full bg-crowdfunding-primary-100 pb-[2px] text-[14px] font-bold text-white/75 hover:bg-crowdfunding-primary-200 lg:w-[107px]"
             type="submit"
