@@ -14,7 +14,7 @@ import type { SuppportContext } from "./Main";
 import { NumberField } from "./NumberField";
 import supportType from "./supportType.json";
 
-// TODO: improve NumberField invalid input
+// TODO: improve NumberField input error message
 
 type SupportType = typeof supportType;
 
@@ -210,9 +210,10 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
         </p>
         <div className="mt-[19px] grid h-[48px] auto-cols-auto grid-flow-col grid-rows-1 items-center justify-between lg:mt-0 lg:gap-4">
           <NumberField
-            minValue={el.startsFrom > 0 ? el.startsFrom : 1}
             value={pledge}
             onChange={onChange}
+            validationBehavior="native"
+            isInvalid={pledge < (el.startsFrom > 0 ? el.startsFrom : 1)}
           />
           <button
             className="h-full w-[115px] rounded-full bg-crowdfunding-primary-100 pb-[2px] text-[14px] font-bold text-white/75 hover:bg-crowdfunding-primary-200 lg:w-[107px]"
