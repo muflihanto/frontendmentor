@@ -6,12 +6,6 @@ import { baiJamjuree } from "../utils/fonts/baiJamjuree";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-/**
- * TODO : Add mobile to desktop responsivity
- * TODO : fix sponsors section layouting
- * TODO : fix desktop supercharge section grid layout
- */
-
 export default function ClipboardLandingPage() {
   return (
     <>
@@ -167,7 +161,7 @@ function SuperchargeWorkflow() {
       <p className="mt-[11px] px-[calc(32px-var(--section-padding))] text-center leading-[26px] tracking-[.1px] text-clipboard-neutral-100 lg:mt-6 lg:max-w-[720px] lg:text-[18px] lg:leading-[30px]">
         We’ve got the tools to boost your productivity.
       </p>
-      <div className="my-[90px] flex flex-col items-center gap-[52.5px] lg:mt-[72px] lg:grid lg:grid-cols-[repeat(3,348px)] lg:grid-rows-1 lg:items-start lg:gap-[32px]">
+      <div className="my-[90px] flex flex-col items-center gap-[52.5px] md:flex-wrap lg:mt-[72px] lg:grid lg:grid-cols-[repeat(3,minmax(200px,348px))] lg:grid-rows-1 lg:items-start lg:gap-[32px]">
         <article className="flex flex-col items-center">
           <div className="flex h-10 items-center justify-center">
             <Image
@@ -222,47 +216,42 @@ function SuperchargeWorkflow() {
   );
 }
 
-function Sponsors() {
+function Clients() {
   return (
-    <div className="flex h-[471px] flex-col items-center justify-between py-4 lg:mt-[27px] lg:h-auto lg:flex-row lg:px-[165px]">
+    <div className="flex flex-col items-center justify-between py-4 lg:mx-auto lg:mt-[27px] lg:h-auto lg:flex-row lg:flex-wrap lg:justify-center lg:gap-12 xl:w-[calc(100vw-330px)] xl:justify-between">
       <div className="relative aspect-[165/49] h-[41px] lg:h-[49px]">
         <Image
           src="/clipboard-landing-page/images/logo-google.png"
-          fill
-          className="object-contain"
           alt="Google Logo"
+          fill
         />
       </div>
-      <div className="relative aspect-[139/51] h-[42.5px] lg:h-[51px]">
+      <div className="relative mt-[66px] aspect-[139/51] h-[42.5px] lg:mt-0 lg:h-[51px]">
         <Image
           src="/clipboard-landing-page/images/logo-ibm.png"
-          fill
-          className="object-contain"
           alt="IBM Logo"
+          fill
         />
       </div>
-      <div className="relative aspect-[161/35] h-[30px] lg:h-[35px]">
+      <div className="relative mt-[70px] aspect-[161/35] h-[29px] lg:mt-0 lg:h-[35px]">
         <Image
           src="/clipboard-landing-page/images/logo-microsoft.png"
-          fill
-          className="object-contain"
           alt="Microsoft Logo"
+          fill
         />
       </div>
-      <div className="relative aspect-[135/56] h-[47px] lg:h-[56px]">
+      <div className="relative mt-[63px] aspect-[135/56] h-[47px] lg:mt-0 lg:h-[56px]">
         <Image
           src="/clipboard-landing-page/images/logo-hp.png"
-          fill
-          className="object-contain"
           alt="HP Logo"
+          fill
         />
       </div>
-      <div className="relative aspect-[125/30] h-[25px] lg:h-[30px]">
+      <div className="relative mt-[56px] aspect-[125/30] h-[25px] lg:mt-0 lg:h-[30px]">
         <Image
           src="/clipboard-landing-page/images/logo-vector-graphics.png"
-          fill
-          className="object-contain"
           alt="Vector Graphics Logo"
+          fill
         />
       </div>
     </div>
@@ -291,7 +280,7 @@ function Main() {
       <SnippetSection />
       <AccessAnywhereSection />
       <SuperchargeWorkflow />
-      <Sponsors />
+      <Clients />
       <Available />
     </div>
   );
