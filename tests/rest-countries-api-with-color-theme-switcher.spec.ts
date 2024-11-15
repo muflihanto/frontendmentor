@@ -191,7 +191,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     const themeSwitcher = header.getByRole("button", {
       name: "Moon Icon Dark Mode",
     });
-    await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
     await themeSwitcher.click();
     await expect(header).toHaveCSS("background-color", "rgb(43, 57, 69)");
     await themeSwitcher.click();
@@ -211,7 +211,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     const back = page.getByRole("button", { name: "Back" });
     await expect(main).toHaveCSS("background-color", "rgb(255, 255, 255)");
     await expect(back).toHaveCSS("background-color", "rgb(255, 255, 255)");
-    await expect(back).toHaveCSS("color", "rgb(0, 0, 0)");
+    await expect(back).toHaveCSS("color", "rgb(17, 21, 23)");
     await themeSwitcher.click();
     await expect(main).toHaveCSS("background-color", "rgb(32, 44, 55)");
     await expect(back).toHaveCSS("background-color", "rgb(43, 57, 69)");
