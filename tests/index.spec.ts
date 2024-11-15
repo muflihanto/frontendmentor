@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { pages } from "../pages";
+import pages from "../docs/data.json";
 
 test.describe("FrontendMentor index page", () => {
   /** Go to index page before each test */
@@ -27,13 +27,13 @@ test.describe("FrontendMentor index page", () => {
     const links = page.getByRole("link");
 
     for (const pg of pages) {
-      await expect(links.getByText(pg.title, { exact: true })).toHaveAttribute(
+      await expect(links.getByText(pg.name, { exact: true })).toHaveAttribute(
         "href",
         `/${pg.path}`,
       );
     }
 
-    await expect(links).toHaveCount(pages.length);
+    await expect(links).toHaveCount(pages.length * 2 + 1);
   });
 
   /** Test if the page has link filter input box */
@@ -50,21 +50,21 @@ test.describe("FrontendMentor index page", () => {
       await page.getByRole("textbox").clear();
     });
 
-    test("has 2 links that contain 'test'", async ({ page }) => {
+    test("has 78 links that contain 'test'", async ({ page }) => {
       await page.getByRole("textbox").fill("test");
-      const links = page.getByRole("link");
-      await expect(links).toHaveCount(2);
+      const links = page.locator("ul").getByRole("link");
+      await expect(links).toHaveCount(78);
     });
 
-    test("has 20 links that contain 'page'", async ({ page }) => {
+    test("has 46 links that contain 'page'", async ({ page }) => {
       await page.getByRole("textbox").fill("page");
-      const links = page.getByRole("link");
-      await expect(links).toHaveCount(20);
+      const links = page.locator("ul").getByRole("link");
+      await expect(links).toHaveCount(46);
     });
 
     test("has 0 links that contain 'arbitrarystring'", async ({ page }) => {
       await page.getByRole("textbox").fill("arbitrarystring");
-      const links = page.getByRole("link");
+      const links = page.locator("ul").getByRole("link");
       await expect(links).toHaveCount(0);
     });
   });
