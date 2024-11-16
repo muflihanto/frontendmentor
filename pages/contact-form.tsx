@@ -21,8 +21,6 @@ import { Transition } from "@headlessui/react";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-// FIXME: other fields validation is not working when the cursor is focused on a field
-
 const toastAtom = atom<"visible" | "invisible">("invisible");
 
 export default function ContactForm() {
@@ -117,13 +115,12 @@ type QueryType = z.infer<typeof queryType>;
 function Form() {
   const [, setToast] = useAtom(toastAtom);
 
-  // FIXME
-  // const fistNameInput = useRef<null | HTMLInputElement>(null);
-  // useEffect(() => {
-  //   if (fistNameInput.current) {
-  //     fistNameInput.current?.focus();
-  //   }
-  // }, []);
+  const fistNameInput = useRef<null | HTMLInputElement>(null);
+  useEffect(() => {
+    if (fistNameInput.current) {
+      fistNameInput.current?.focus();
+    }
+  }, []);
 
   const form = useForm({
     defaultValues: {
@@ -161,7 +158,7 @@ function Form() {
       <form.Field
         name="firstName"
         validators={{
-          onChange: z
+          onSubmit: z
             .string()
             .min(1, "This field is required")
             .min(3, "First name must be at least 3 characters"),
@@ -175,7 +172,7 @@ function Form() {
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
-              // ref={fistNameInput}
+              ref={fistNameInput}
             />
           </FormInput>
         )}
@@ -183,7 +180,7 @@ function Form() {
       <form.Field
         name="lastName"
         validators={{
-          onChange: z
+          onSubmit: z
             .string()
             .min(1, "This field is required")
             .min(3, "Last name must be at least 3 characters"),
@@ -204,7 +201,7 @@ function Form() {
       <form.Field
         name="emailAddress"
         validators={{
-          onChange: z
+          onSubmit: z
             .string()
             .min(1, "This field is required")
             .email("Please enter a valid email address"),
@@ -236,7 +233,7 @@ function Form() {
           <form.Field
             name="queryType"
             validators={{
-              onChange: queryType,
+              onSubmit: queryType,
             }}
           >
             {(field) => (
@@ -271,7 +268,7 @@ function Form() {
           <form.Field
             name="queryType"
             validators={{
-              onChange: queryType,
+              onSubmit: queryType,
             }}
           >
             {(field) => (
@@ -316,7 +313,7 @@ function Form() {
       <form.Field
         name="message"
         validators={{
-          onChange: z
+          onSubmit: z
             .string()
             .min(1, "This field is required")
             .min(50, "Message must be at least 50 characters"),
@@ -342,7 +339,7 @@ function Form() {
       <form.Field
         name="consent"
         validators={{
-          onChange: z.boolean().refine((val) => val === true, {
+          onSubmit: z.boolean().refine((val) => val === true, {
             message: "To submit this form, please consent to being contacted",
           }),
         }}
