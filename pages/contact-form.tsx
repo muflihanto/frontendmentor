@@ -233,7 +233,7 @@ function Form() {
           <form.Field
             name="queryType"
             validators={{
-              onSubmit: queryType,
+              onChange: queryType,
             }}
           >
             {(field) => (
@@ -268,7 +268,7 @@ function Form() {
           <form.Field
             name="queryType"
             validators={{
-              onSubmit: queryType,
+              onChange: queryType,
             }}
           >
             {(field) => (
