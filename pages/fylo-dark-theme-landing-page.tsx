@@ -72,10 +72,7 @@ function IntroSection() {
 function Hero() {
   return (
     <div className="mx-auto flex flex-col items-center px-6 pt-[24px] max-lg:max-w-screen-sm lg:w-[720px] lg:px-0 lg:pt-[2px]">
-      <div className="relative ml-[1px] aspect-[720/534] w-[calc(100%-23px)] lg:w-[720px]">
-        {/* 
-          // TODO: make responsive image
-        */}
+      <div className="relative ml-[1px] aspect-[720/534] w-[calc(100%-23px)] sm:w-[calc(100%-64px)] sm:max-w-lg lg:w-[720px] lg:max-w-none">
         <Image
           src="/fylo-dark-theme-landing-page/images/illustration-intro.png"
           alt="Hero Image Illustration"
@@ -105,7 +102,7 @@ function Hero() {
 
 function Header() {
   return (
-    <header className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] lg:h-[198px]">
+    <header className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] sm:h-[96px] md:h-[128px] lg:h-[198px]">
       <FyloLogo className="-ml-1 w-20 lg:ml-0 lg:w-[176px]" />
       <nav>
         <ul className="flex items-center gap-[25px] font-raleway text-[12px] leading-none text-fylo-dark-neutral lg:gap-[58px] lg:text-[16px]">
@@ -126,7 +123,7 @@ function Header() {
 
 function Features() {
   return (
-    <div className="grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px] text-fylo-dark-neutral lg:mx-auto lg:w-[940px] lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-[114px] lg:gap-y-20 lg:pt-0">
+    <div className="grid grid-cols-1 grid-rows-[repeat(4,280px)] gap-y-0 pt-[26px] text-fylo-dark-neutral sm:mx-auto sm:max-w-lg md:mx-6 md:max-w-none md:grid-cols-2 md:grid-rows-2 md:gap-x-8 md:gap-y-8 md:pt-24 lg:mx-auto lg:w-[940px] lg:gap-x-[114px] lg:gap-y-20 lg:pt-0">
       <div className="flex flex-col items-center justify-center px-7 pb-[1px] lg:justify-start lg:px-8">
         <IconAccessAnywhere className="h-[60px] lg:h-[84px] lg:pt-[6px]" />
         <h2 className="mt-8 text-center font-raleway text-[17px] font-bold tracking-[.5px] lg:mt-[26px] lg:text-[19px]">
@@ -175,10 +172,7 @@ function Features() {
 function Productive() {
   return (
     <div className="mt-[111px] px-7 text-fylo-dark-neutral lg:mt-[127px] lg:grid lg:grid-cols-[min(calc(50%),615px),auto] lg:grid-rows-1 lg:items-center lg:gap-[57px] lg:px-[105px]">
-      <div className="relative mx-auto aspect-[615/465] w-[calc(100%-16px)] lg:w-full">
-        {/* 
-          // TODO: make responsive image
-        */}
+      <div className="relative mx-auto aspect-[615/465] w-[calc(100%-16px)] max-w-sm md:w-full md:max-w-lg lg:max-w-none">
         <Image
           src="/fylo-dark-theme-landing-page/images/illustration-stay-productive.png"
           alt="Productive Illustration"
@@ -186,7 +180,7 @@ function Productive() {
           className="object-contain"
         />
       </div>
-      <div>
+      <div className="w-full max-w-sm max-lg:mx-auto md:max-w-lg lg:max-w-none">
         <h2 className="mt-[46px] px-1 font-raleway text-[18px] font-bold tracking-[.075px] lg:w-96 lg:px-0 lg:text-[40px] lg:leading-[50px]">
           Stay productive, wherever you are
         </h2>
@@ -338,7 +332,7 @@ function GetEarlyAccess() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <div className="relative z-10 mx-auto -mt-[16.1px] flex h-[353px] w-[335px] translate-y-[176.1px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] text-fylo-dark-neutral shadow-lg shadow-fylo-dark-primary-footer lg:h-[274px] lg:w-[862px] lg:translate-y-[202px] lg:pl-[77px] lg:pr-[76px] lg:pt-[40px]">
+    <div className="relative z-10 mx-auto -mt-[16.1px] flex h-[353px] w-[335px] translate-y-[176.1px] flex-col items-center rounded-md bg-[hsl(217,28%,15%)] pl-7 pr-[27px] pt-[38px] text-fylo-dark-neutral shadow-lg shadow-fylo-dark-primary-footer lg:h-[274px] lg:w-[862px] lg:translate-y-[218px] lg:pl-[77px] lg:pr-[76px] lg:pt-[40px]">
       <h2 className="text-center font-raleway text-[18px] font-bold lg:text-[32px]">
         Get early access today
       </h2>
@@ -378,7 +372,7 @@ function GetEarlyAccess() {
 
 function Main() {
   return (
-    <div className="[2790px] h-auto bg-fylo-dark-primary-main lg:pb-[86px]">
+    <div className="[2790px] h-auto bg-fylo-dark-primary-main lg:pb-[102px]">
       <Features />
       <Productive />
       <Testimonials />
@@ -440,7 +434,7 @@ function SocialIcon() {
 
 function Footer() {
   return (
-    <footer className="relative h-[1029px] bg-fylo-dark-primary-footer px-[28px] pt-[249px] lg:h-[514px] lg:pl-[120px] lg:pr-[82px] lg:pt-[200px]">
+    <footer className="relative h-[1029px] bg-fylo-dark-primary-footer px-[28px] pt-[249px] sm:px-10 md:px-20 lg:h-[514px] lg:pl-[120px] lg:pr-[82px] lg:pt-[200px]">
       <FyloLogo className="ml-[11px] h-[52px] lg:ml-0" />
       {/* Active states design
       <FyloLogo className="ml-[11px] h-[52px] lg:ml-0 lg:h-[32px]" /> */}
