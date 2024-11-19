@@ -4,6 +4,7 @@ import { atomWithStorage } from "jotai/utils";
 import Mexp from "math-expression-evaluator";
 import { useEffect, useRef, useState } from "react";
 import { getMaxIndex } from "../../utils/indexesOf";
+import { useMediaQuery } from "usehooks-ts";
 
 export type calculatorTheme = 1 | 2 | 3;
 
@@ -86,7 +87,14 @@ const keys: Key[] = [
 
 export default function MainContent() {
   const classes = useAtomValue(themeClassAtom);
-  const theme = useAtomValue(calculatorThemeAtom);
+  const [theme, setTheme] = useAtom(calculatorThemeAtom);
+  const matches = useMediaQuery("(prefers-color-scheme: dark)");
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    setTheme(matches ? 3 : 2);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matches]);
 
   return (
     <>
@@ -104,7 +112,7 @@ export default function MainContent() {
   );
 }
 
-// TODO: **Bonus**: Have their initial theme preference checked using `prefers-color-scheme` and have any additional changes saved in the browser
+// FIXME: don't change theme initially if the localStorage value is set
 // TODO: Format display with comma separator
 
 function Header() {
