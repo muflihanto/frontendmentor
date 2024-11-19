@@ -6,11 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import { getMaxIndex } from "../../utils/indexesOf";
 import { useMediaQuery } from "usehooks-ts";
 
+const MEDIA_QUERY = "(prefers-color-scheme: dark)";
+
 export type calculatorTheme = 1 | 2 | 3;
 
 export const calculatorThemeAtom = atomWithStorage<calculatorTheme>(
   "calc-theme",
-  1,
+  window.matchMedia(MEDIA_QUERY).matches ? 3 : 2,
 );
 export const themeClassAtom = atom({
   1: {
@@ -87,14 +89,7 @@ const keys: Key[] = [
 
 export default function MainContent() {
   const classes = useAtomValue(themeClassAtom);
-  const [theme, setTheme] = useAtom(calculatorThemeAtom);
-  const matches = useMediaQuery("(prefers-color-scheme: dark)");
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    setTheme(matches ? 3 : 2);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matches]);
+  const theme = useAtomValue(calculatorThemeAtom);
 
   return (
     <>
@@ -112,13 +107,22 @@ export default function MainContent() {
   );
 }
 
-// FIXME: don't change theme initially if the localStorage value is set
 // TODO: Format display with comma separator
 
 function Header() {
   const classes = useAtomValue(themeClassAtom);
   const [theme, setTheme] = useAtom(calculatorThemeAtom);
   // const setDisplay = useSetAtom(displayAtom);
+  const matches = useMediaQuery(MEDIA_QUERY);
+  const prevThemeRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (prevThemeRef.current !== 0) {
+      const updatedTheme = matches ? 3 : 2;
+      setTheme(updatedTheme);
+      prevThemeRef.current = updatedTheme;
+    }
+  }, [matches, setTheme]);
 
   return (
     <>
@@ -144,6 +148,7 @@ function Header() {
               className={`group relative flex h-[26px] w-[71px] items-center rounded-full px-[5px] ${classes[theme].bg2}`}
               onClick={() => {
                 setTheme((t) => {
+                  prevThemeRef.current = t;
                   return t === 3 ? 1 : ((t + 1) as calculatorTheme);
                 });
               }}
