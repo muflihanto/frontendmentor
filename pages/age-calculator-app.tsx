@@ -11,8 +11,6 @@ import { poppins } from "../utils/fonts/poppins";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-// TODO: View the optimal layout for the interface depending on their device's screen size
-
 // FIXME: optimize check for invalid date
 // FIXME: unexpected behaviour for year under "100"
 
@@ -144,7 +142,7 @@ function Main() {
 
   return (
     <div
-      className={`h-[486px] w-[calc(100vw-32px)] max-w-md rounded-[24px] rounded-br-[100px] bg-age-calculator-neutral-100 px-6 pt-[47px] lg:max-w-[840px] lg:rounded-br-[200px] lg:px-[56px] lg:pt-[55px] ${
+      className={`h-[486px] w-[calc(100vw-32px)] max-w-md rounded-[24px] rounded-br-[100px] bg-age-calculator-neutral-100 px-6 pt-[47px] md:h-[540px] md:max-w-screen-sm md:rounded-br-[128px] lg:max-w-[840px] lg:rounded-br-[200px] lg:px-[56px] lg:pt-[55px] ${
         !!errors.day || !!errors.month || !!errors.year
           ? "h-[680px] translate-y-[31px]"
           : "lg:h-[652px]"
@@ -259,7 +257,7 @@ function Main() {
           </label>
         </div>
         <button
-          className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]"
+          className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 md:h-20 md:w-20 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]"
           type="submit"
         >
           <svg
@@ -273,7 +271,7 @@ function Main() {
         </button>
         <hr className="w-full border-t-2 border-age-calculator-neutral-200 lg:mt-[47px]" />
       </form>
-      <div className="mt-[65px] flex flex-col gap-[6px] font-poppins text-[56px] font-extrabold italic leading-none tracking-[-1px] text-age-calculator-neutral-500 lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]">
+      <div className="mt-[65px] flex flex-col gap-[6px] font-poppins text-[56px] font-extrabold italic leading-none tracking-[-1px] text-age-calculator-neutral-500 md:text-7xl lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]">
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
             {!Number.isNaN(Number.parseInt(diff.year)) ? (
