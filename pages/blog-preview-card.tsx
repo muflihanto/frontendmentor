@@ -5,11 +5,6 @@ import { figtree } from "../utils/fonts/figtree";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
 
-/**
- * TODO: Your users should be able to:
- * - See hover and focus states for all interactive elements on the page
- */
-
 export default function BlogPreviewCard() {
   return (
     <>
@@ -21,7 +16,7 @@ export default function BlogPreviewCard() {
       >
         <Main />
         <Footer />
-        {/* <Slider basePath="/blog-preview-card/design" /> */}
+        {/* <Slider basePath="/blog-preview-card/design" active /> */}
       </div>
     </>
   );
@@ -29,7 +24,7 @@ export default function BlogPreviewCard() {
 
 function Main() {
   return (
-    <main className="relative z-0 m-6 mt-[23px] flex min-h-[500px] w-full max-w-[384px] flex-col justify-start rounded-[20px] border-[1.5px] border-blog-neutral-300 bg-blog-neutral-100 p-[23px] font-medium text-blog-neutral-300 drop-shadow-[8.5px_8.5px_0px_rgb(0,0,0)] sm:mt-[22px] sm:min-h-[522px]">
+    <main className="relative z-0 m-6 mt-[23px] flex min-h-[500px] w-full max-w-[384px] flex-col justify-start rounded-[20px] border-[1.5px] border-blog-neutral-300 bg-blog-neutral-100 p-[23px] font-medium text-blog-neutral-300 drop-shadow-[8.5px_8.5px_0px_rgb(0,0,0)] transition-all has-[a:focus]:drop-shadow-[16px_16px_0px_rgb(0,0,0)] has-[a:hover]:drop-shadow-[16px_16px_0px_rgb(0,0,0)] sm:mt-[22px] sm:min-h-[522px]">
       <header>
         <figure className="relative aspect-[278/200] w-full overflow-hidden rounded-xl sm:aspect-[336/201]">
           <Image
@@ -72,7 +67,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-blog-neutral-300 [&_a:focus]:drop-shadow-[3px_3px_0px_rgb(255,255,255)] [&_a:hover]:drop-shadow-[3px_3px_0px_rgb(255,255,255)] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
