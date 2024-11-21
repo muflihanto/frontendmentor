@@ -166,7 +166,7 @@ function Features() {
       <h2 className="text-center text-[32px] font-light leading-[37px] tracking-[-.5px] text-easybank-primary-blue lg:w-1/2 lg:text-left lg:text-[40px] lg:leading-normal lg:tracking-[-.75px]">
         Why choose Easybank?
       </h2>
-      <p className="mt-[16px] text-center text-[15px] leading-[25px] tracking-[-.25px] text-easybank-neutral-400 lg:mt-[19px] lg:w-7/12 lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">
+      <p className="mt-[16px] text-center text-[15px] leading-[25px] tracking-[-.25px] text-easybank-neutral-400 max-lg:max-w-96 lg:mt-[19px] lg:w-7/12 lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">
         We leverage Open Banking to turn your bank account into your financial
         hub. Control your finances like never before.
       </p>
@@ -195,7 +195,7 @@ function Feature({
       <h3 className="mt-7 text-[20px] font-light leading-none tracking-[-0.4px] text-easybank-primary-blue lg:mt-[43px] lg:text-left lg:text-[24px]">
         {heading}
       </h3>
-      <p className="mt-[20px] text-center text-[15px] leading-[25px] tracking-[-0.25px] text-easybank-neutral-400 lg:mt-7 lg:text-left lg:text-[16px] lg:leading-[26px]">
+      <p className="mt-[20px] text-center text-[15px] leading-[25px] tracking-[-0.25px] text-easybank-neutral-400 max-lg:max-w-96 lg:mt-7 lg:text-left lg:text-[16px] lg:leading-[26px]">
         {description}
       </p>
     </div>
