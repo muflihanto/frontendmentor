@@ -1,19 +1,18 @@
+import { animate, stagger } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
-import { type CSSProperties, type PropsWithChildren, useEffect } from "react";
+import { useEffect, type CSSProperties, type PropsWithChildren } from "react";
 import {
   BsChevronCompactLeft,
-  BsThreeDotsVertical,
   BsChevronRight,
+  BsThreeDotsVertical,
 } from "react-icons/bs";
 import { twMerge } from "tailwind-merge";
-import { stagger, animate } from "framer-motion";
 import { rubik } from "../utils/fonts/rubik";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-// TODO: View the optimal layout for the component depending on their device's screen size
 // TODO: **Bonus**: See the chat interface animate on the initial load
 
 export default function ChatAppCssIllustration() {
@@ -43,7 +42,7 @@ function Main() {
   return (
     <div className="relative z-10 flex w-full flex-col items-center lg:h-[100dvh] lg:min-h-[540px] lg:flex-row lg:justify-center lg:gap-[124px] lg:pl-[100px]">
       <div
-        className="absolute -left-[calc(var(--width)-50vw)] top-0 -z-10 h-[510px] w-[var(--width)] rounded-br-full bg-gradient-to-bl from-chat-app-primary-gradients-magenta from-[-50%] to-chat-app-primary-gradients-violet lg:left-[-90px] lg:h-[calc(700/800*100vh)] lg:w-[510px] lg:rounded-b-[255px] lg:bg-[linear-gradient(200deg,var(--tw-gradient-stops))] lg:from-[-40%]"
+        className="absolute -left-[calc((2*var(--width))-50vw)] top-0 -z-10 h-[510px] w-[calc(2*var(--width))] rounded-b-full bg-gradient-to-b from-chat-app-primary-gradients-magenta from-[-70%] to-chat-app-primary-gradients-violet lg:left-[-90px] lg:h-[calc(700/800*100vh)] lg:w-[510px] lg:rounded-b-[255px] lg:bg-[linear-gradient(200deg,var(--tw-gradient-stops))] lg:from-[-40%]"
         style={
           {
             "--width": "260px",
@@ -116,7 +115,7 @@ function Main() {
         <h1 className="text-center text-[40px] font-medium leading-[46px] text-chat-app-primary-text-mainhead lg:text-left">
           Simple booking
         </h1>
-        <p className="mt-6 text-center leading-[28px] text-chat-app-primary-text-paragraph lg:text-left">
+        <p className="mt-6 text-center leading-[28px] text-chat-app-primary-text-paragraph max-lg:max-w-screen-sm lg:text-left">
           Stay in touch with our dog walkers through the chat interface. This
           makes it easy to discuss arrangements and make bookings. Once the walk
           has been completed you can rate your walker and book again all through
