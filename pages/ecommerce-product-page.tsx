@@ -271,12 +271,12 @@ function PhotoSlide({ product }: { product: Product }) {
           </svg>
         </button>
       </div>
-      <div className="mx-auto mt-8 flex w-full max-w-[445px] justify-between max-lg:hidden">
+      <div className="mx-auto mt-8 flex w-full max-w-[445px] justify-between gap-4 max-lg:hidden">
         {product.thumbnails.map((thumb, index) => {
           return (
             <button
               key={thumb}
-              className={`relative h-[88px] w-[88px] overflow-hidden rounded-[10px] hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:z-10 hover:before:h-full hover:before:w-full hover:before:bg-white/50 hover:before:content-[''] ${
+              className={`relative aspect-square w-[88px] overflow-hidden rounded-[10px] hover:before:absolute hover:before:left-0 hover:before:top-0 hover:before:z-10 hover:before:h-full hover:before:w-full hover:before:bg-white/50 hover:before:content-[''] ${
                 leftPos === index &&
                 "ring-2 ring-ecommerce-primary-200 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-full before:bg-white/75 before:content-[''] hover:before:bg-white/75"
               }`}
