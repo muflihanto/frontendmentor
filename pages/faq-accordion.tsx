@@ -8,7 +8,6 @@ import { useState, type KeyboardEvent } from "react";
 
 /**
  * TODO: Navigate the questions and hide/show answers using keyboard navigation alone
- * TODO: See focus states for all interactive elements on the page
  */
 
 export default function FaqAccordion() {
@@ -197,7 +196,7 @@ function Accordion({
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] text-faq-accordion-primary-text-blue [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-faq-accordion-primary-text-blue [&_a:focus-visible]:rounded-md [&_a:focus-visible]:text-[#AD28EB] [&_a:focus-visible]:outline [&_a:focus-visible]:outline-offset-2 [&_a:focus-visible]:outline-[#AD28EB] [&_a:hover]:text-[#AD28EB] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
