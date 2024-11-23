@@ -153,7 +153,7 @@ function NavigationLinks() {
 
 function Header() {
   return (
-    <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px] lg:h-[155px] lg:justify-between lg:px-[165px] lg:pt-0">
+    <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px] sm:px-16 md:px-24 lg:h-[155px] lg:justify-between lg:px-32 lg:pt-0 xl:px-[165px]">
       <Logo variant="header" className="h-[18px] lg:mt-[14px] lg:h-[24px]" />
       <div className="mr-[10px] hidden gap-[35px] text-[12.5px] font-medium text-manage-primary-blue lg:mt-[4px] lg:flex lg:place-self-center [&>a:hover]:opacity-50">
         <NavigationLinks />
@@ -201,7 +201,7 @@ function Intro() {
         "flex w-full flex-col items-center px-[16.5px] pb-[92px] pt-[105px]",
         "bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg'),_url('/manage-landing-page/images/bg-tablet-pattern.svg')] bg-[length:var(--bg-top-size)_var(--bg-top-size),_var(--bg-bottom-size)_var(--bg-bottom-size)] bg-[position:top_-114px_right_-137px,_bottom_0px_right_-184px] bg-no-repeat", //bg
         "lg:bg-[url('/manage-landing-page/images/bg-tablet-pattern.svg')] lg:bg-[length:813.6px_813.6px] lg:bg-[top_-154px_right_-146px]", // large-bg
-        "lg:grid lg:h-[800px] lg:grid-cols-[auto_540px] lg:grid-rows-1 lg:px-[165px] lg:pb-[31px] lg:pt-[155px]", // large veiwport
+        "lg:grid lg:h-[800px] lg:grid-cols-[auto_minmax(40%,540px)] lg:grid-rows-1 lg:px-32 lg:pb-[31px] lg:pt-[155px] xl:grid-cols-[auto_540px] xl:px-[165px]", // large veiwport
       )}
       style={
         {
@@ -219,7 +219,7 @@ function Intro() {
           priority
         />
       </div>
-      <div className="mt-[2px] flex flex-col items-center px-[15.5px] lg:col-start-1 lg:row-start-1 lg:items-start lg:px-0 lg:pr-8">
+      <div className="mt-[2px] flex flex-col items-center px-[15.5px] max-lg:max-w-screen-sm lg:col-start-1 lg:row-start-1 lg:items-start lg:px-0 lg:pr-8">
         <h1 className="text-center text-[40px] font-bold leading-[1.25] tracking-[-.025em] text-manage-primary-blue lg:text-left lg:text-[56px] lg:leading-[1.14] lg:tracking-[-.02em]">
           Bring everyone together to build better products.
         </h1>
