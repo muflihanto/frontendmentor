@@ -41,12 +41,12 @@ export default function NewsletterSignUpWithSuccessMessage() {
         </title>
       </Head>
       <div
-        className={`App relative min-h-[100dvh] font-roboto lg:flex lg:items-center lg:justify-center lg:bg-newsletter-neutral-300 lg:py-10 ${roboto.variable}`}
+        className={`App relative min-h-[100dvh] bg-newsletter-neutral-300 font-roboto sm:max-lg:py-10 lg:flex lg:items-center lg:justify-center lg:py-10 ${roboto.variable}`}
       >
         {isSuccessOpen ? (
           <SuccessScreen />
         ) : (
-          <div className="flex flex-col bg-newsletter-neutral-100 lg:-mt-[1px] lg:h-[641px] lg:w-[926px] lg:flex-row-reverse lg:justify-between lg:rounded-[36px] lg:p-6 lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_30px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
+          <div className="flex flex-col bg-newsletter-neutral-100 sm:rounded-[36px] sm:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_30px_20px_30px_theme(colors.newsletter.neutral.400/25%)] sm:max-lg:mx-auto sm:max-lg:max-w-screen-sm sm:max-lg:overflow-hidden lg:-mt-[1px] lg:h-[641px] lg:w-[926px] lg:flex-row-reverse lg:justify-between lg:p-6">
             <IllustrationSignUp />
             <Main />
           </div>
@@ -171,7 +171,7 @@ function IllustrationSignUp() {
     <>
       {width < 1024 ? (
         <svg
-          className="w-full"
+          className="w-full sm:max-lg:rounded-t-[36px] sm:max-lg:p-6 sm:max-lg:pb-0"
           viewBox="0 0 375 284"
           aria-labelledby="illustration-sign-up-mobile-title"
         >
@@ -237,7 +237,7 @@ function SuccessScreen() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] text-newsletter-neutral-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-newsletter-neutral-400 sm:text-newsletter-neutral-100 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
