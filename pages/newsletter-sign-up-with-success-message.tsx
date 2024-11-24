@@ -7,12 +7,11 @@ import { useEffect } from "react";
 import { useWindowSize } from "usehooks-ts";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { roboto } from "../utils/fonts/roboto";
+import { cn } from "../utils/cn";
 
 // import Image from "next/image";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
-
-// TODO: - View the optimal layout for the interface depending on their device's screen size
 
 const zInputSchema = z.object({
   email: z.string().min(1, "Email required").email("Valid email required"),
@@ -41,7 +40,12 @@ export default function NewsletterSignUpWithSuccessMessage() {
         </title>
       </Head>
       <div
-        className={`App relative min-h-[100dvh] bg-newsletter-neutral-300 font-roboto sm:max-lg:py-10 lg:flex lg:items-center lg:justify-center lg:py-10 ${roboto.variable}`}
+        className={cn(
+          `App relative min-h-[100dvh] bg-newsletter-neutral-300 font-roboto sm:py-10 sm:max-lg:py-10 ${roboto.variable}`,
+          isSuccessOpen
+            ? "sm:flex sm:items-center sm:justify-center"
+            : "lg:flex lg:items-center lg:justify-center",
+        )}
       >
         {isSuccessOpen ? (
           <SuccessScreen />
@@ -204,8 +208,8 @@ function SuccessScreen() {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll bg-news-homepage-neutral-100 px-6 py-10 lg:static lg:h-[520px] lg:w-[505px] lg:gap-0 lg:rounded-[36px] lg:p-16 lg:pt-[48px] lg:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
-      <div className="flex flex-col place-self-center lg:place-self-start">
+    <div className="fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll bg-news-homepage-neutral-100 px-6 py-10 sm:static sm:h-[520px] sm:w-[505px] sm:gap-0 sm:rounded-[36px] sm:p-16 sm:pt-[48px] sm:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
+      <div className="flex flex-col place-self-center sm:place-self-start">
         <svg
           className="w-16"
           viewBox="0 0 64 64"
@@ -214,7 +218,7 @@ function SuccessScreen() {
         >
           <use href="/newsletter-sign-up-with-success-message/assets/images/icon-success.svg#icon-success" />
         </svg>
-        <h1 className="mt-10 text-[40px] font-bold leading-none text-newsletter-neutral-400 lg:-translate-y-[1px] lg:text-[56px]">
+        <h1 className="mt-10 text-[40px] font-bold leading-none text-newsletter-neutral-400 sm:-translate-y-[1px] sm:text-[56px]">
           Thanks for subscribing!
         </h1>
         <p className="mt-[23px] text-newsletter-neutral-300">
