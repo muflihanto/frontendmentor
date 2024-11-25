@@ -146,7 +146,7 @@ function Card({ job }: { job: Job }) {
 
   return (
     <div
-      className={`relative rounded-[5px] bg-white pb-6 pr-[23px] shadow-lg shadow-job-listings-primary/20 lg:flex lg:h-[152px] lg:items-center lg:px-10 lg:py-8 ${
+      className={`relative rounded-[5px] bg-white pb-6 pr-[23px] shadow-lg shadow-job-listings-primary/20 lg:flex lg:h-[152px] lg:items-center lg:px-8 lg:py-8 xl:px-10 ${
         job.featured
           ? "border-l-[5px] border-l-job-listings-primary pl-[19px] pt-8 lg:pl-[35px]"
           : "pl-[24px] pt-[32px]"
@@ -332,7 +332,7 @@ function Main() {
         </div>
       )}
       <div
-        className={`flex w-full flex-col gap-10 px-6 pb-[34px] lg:gap-6 lg:px-[165px] lg:pb-[120px] ${
+        className={`flex w-full flex-col gap-10 px-6 pb-[34px] lg:gap-6 lg:px-10 lg:pb-[120px] xl:px-[165px] ${
           isFilterEmpty ? "pt-14 lg:pt-[75px]" : "pt-5 lg:pt-[3px]"
         }`}
       >
