@@ -45,7 +45,7 @@ function Header() {
   }, [isDarkMode]);
 
   return (
-    <header className="flex items-center justify-center px-[24px]">
+    <header className="relative flex items-center justify-center px-[24px]">
       <div className="flex w-full max-w-[540px] items-center justify-between">
         <h1 className="pl-[1px] text-[26px] font-bold uppercase leading-[32px] tracking-[10.25px] text-todo-neutral-light-100 dark:leading-[31.5px] lg:pl-0 lg:text-[40px] lg:leading-none lg:tracking-[15px] lg:dark:leading-none">
           TODO
