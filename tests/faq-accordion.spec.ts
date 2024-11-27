@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-// TODO: add accordion toggle test case
+// TODO: add keyboard accessibility test case
 
 const faqs = [
   {
@@ -72,5 +72,21 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
     await expect(
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  /** Test if the accordion works */
+  test("accordion should works", async ({ page }) => {
+    const faqs = await page.locator("details").all();
+    for (const [index, faq] of Object.entries(faqs)) {
+      if (index === "0") {
+        await expect(faq).toHaveAttribute("open", "");
+        await faq.click();
+        await expect(faq).not.toHaveAttribute("open");
+      } else {
+        await expect(faq).not.toHaveAttribute("open");
+        await faq.click();
+        await expect(faq).toHaveAttribute("open", "");
+      }
+    }
   });
 });
