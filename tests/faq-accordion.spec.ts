@@ -78,14 +78,22 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
   test("accordion should works", async ({ page }) => {
     const faqs = await page.locator("details").all();
     for (const [index, faq] of Object.entries(faqs)) {
+      const id = await faq.getAttribute("id");
+      const answerId = id?.replace("question", "answer");
+      const answer = page.locator(`id=${answerId}`);
       if (index === "0") {
         await expect(faq).toHaveAttribute("open", "");
+        await expect(answer).toBeVisible();
         await faq.click();
         await expect(faq).not.toHaveAttribute("open");
+        await expect(answer).not.toBeVisible();
       } else {
         await expect(faq).not.toHaveAttribute("open");
+        await expect(answer).not.toBeVisible();
         await faq.click();
         await expect(faq).toHaveAttribute("open", "");
+        await expect(answer).toBeVisible();
+        await faq.click();
       }
     }
   });
