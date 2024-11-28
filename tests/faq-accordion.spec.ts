@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 
 // TODO: add keyboard accessibility test case
 
@@ -95,6 +95,23 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
         await expect(answer).toBeVisible();
         await faq.click();
       }
+    }
+  });
+
+  /** Test if the accordion keyboard navigation works */
+  test("accordion keyboard navigation works", async ({ page }) => {
+    const faqs = await page.locator("summary").all();
+    let faq: Locator;
+    let nextFaq: Locator;
+    for (let i = 0; i < faqs.length; i++) {
+      faq = faqs[i];
+      nextFaq = i !== faqs.length - 1 ? faqs[i + 1] : faqs[0];
+      await faq.focus();
+      await expect(faq).toBeFocused();
+      await page.keyboard.press("ArrowDown");
+      await expect(nextFaq).toBeFocused();
+      await page.keyboard.press("ArrowUp");
+      await expect(faq).toBeFocused();
     }
   });
 });
