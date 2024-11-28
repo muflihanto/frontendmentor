@@ -103,15 +103,43 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
     const faqs = await page.locator("summary").all();
     let faq: Locator;
     let nextFaq: Locator;
+    let id: string | null;
+    let answerId: string | undefined;
+    let answer: Locator;
     for (let i = 0; i < faqs.length; i++) {
       faq = faqs[i];
       nextFaq = i !== faqs.length - 1 ? faqs[i + 1] : faqs[0];
+      id = await page.locator("details").nth(i).getAttribute("id");
+      answerId = id?.replace("question", "answer");
+      answer = page.locator(`id=${answerId}`);
+      // test arrows
       await faq.focus();
       await expect(faq).toBeFocused();
       await page.keyboard.press("ArrowDown");
       await expect(nextFaq).toBeFocused();
       await page.keyboard.press("ArrowUp");
       await expect(faq).toBeFocused();
+      // test space and enter to toggle
+      if (i === 0) {
+        await expect(answer).toBeVisible();
+        await page.keyboard.press("Space");
+        await expect(answer).not.toBeVisible();
+        await page.keyboard.press("Enter");
+        await expect(answer).toBeVisible();
+      } else {
+        await expect(answer).not.toBeVisible();
+        await page.keyboard.press("Space");
+        await expect(answer).toBeVisible();
+        await page.keyboard.press("Enter");
+        await expect(answer).not.toBeVisible();
+      }
+      // test home and end
+      await faqs[2].focus();
+      await expect(faqs[2]).toBeFocused();
+      await page.keyboard.press("Home");
+      await expect(faqs[0]).toBeFocused();
+      await page.keyboard.press("End");
+      await expect(faqs[faqs.length - 1]).toBeFocused();
     }
   });
 });
