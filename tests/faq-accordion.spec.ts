@@ -133,12 +133,16 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
         await page.keyboard.press("Enter");
         await expect(answer).not.toBeVisible();
       }
-      // test home and end
+      // test home/pageup and end/pagedown
       await faqs[2].focus();
       await expect(faqs[2]).toBeFocused();
       await page.keyboard.press("Home");
       await expect(faqs[0]).toBeFocused();
       await page.keyboard.press("End");
+      await expect(faqs[faqs.length - 1]).toBeFocused();
+      await page.keyboard.press("PageUp");
+      await expect(faqs[0]).toBeFocused();
+      await page.keyboard.press("PageDown");
       await expect(faqs[faqs.length - 1]).toBeFocused();
     }
   });
