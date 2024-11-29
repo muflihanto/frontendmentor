@@ -80,6 +80,15 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(modal).toBeVisible();
       await expect(modal).toBeInViewport();
     });
+    test("focusTrap works", async ({ page }) => {
+      const button = page.getByRole("button", { name: "Back this project" });
+      await expect(button).toBeVisible();
+      await button.click();
+      await page.waitForTimeout(1000);
+      await page.keyboard.press("Tab");
+      const firstOption = page.locator("input").first();
+      await expect(firstOption).toBeFocused();
+    });
     test("'Back this project' modal has all elements", async ({ page }) => {
       await page.getByRole("button", { name: "Back this project" }).click();
       const modal = page
