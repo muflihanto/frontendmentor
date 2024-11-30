@@ -88,6 +88,16 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await page.keyboard.press("Tab");
       const firstOption = page.locator("input").first();
       await expect(firstOption).toBeFocused();
+      await page.locator("label").first().click();
+      const continueButton = page.getByRole("button", { name: "Continue" });
+      await expect(continueButton).toBeVisible();
+      await continueButton.click();
+      await page.waitForTimeout(1000);
+      const thankYouCard = page.getByText("Thanks for your support!Your");
+      await expect(thankYouCard).toBeVisible();
+      const gotItButton = thankYouCard.getByRole("button", { name: "Got it!" });
+      await page.keyboard.press("Tab");
+      await expect(gotItButton).toBeFocused();
     });
     test("'Back this project' modal has all elements", async ({ page }) => {
       await page.getByRole("button", { name: "Back this project" }).click();
