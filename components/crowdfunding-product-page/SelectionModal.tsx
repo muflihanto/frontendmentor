@@ -107,7 +107,7 @@ const CardHeader = ({ handleClose }: CardHeaderProps) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="text-[18px] font-bold lg:text-[24px]">
+        <h2 className="text-[18px] font-bold text-crowdfunding-neutral-200 lg:text-[24px]">
           Back this project
         </h2>
         <button
@@ -133,7 +133,9 @@ type StockProps = { value: number };
 const Stock = ({ value }: StockProps) => {
   return (
     <p className="mt-[21px] flex items-center gap-2 lg:col-start-3 lg:row-start-1 lg:mt-0 lg:-translate-y-1">
-      <span className="text-[18px] font-bold">{value}</span>
+      <span className="text-[18px] font-bold text-crowdfunding-neutral-200">
+        {value}
+      </span>
       <span className="text-[15px] font-medium text-crowdfunding-neutral-100/75">
         left
       </span>
@@ -174,7 +176,7 @@ const RadioInput = ({ el, index, checked, onChange }: RadioInputProps) => {
       />
       <div className="lg:flex lg:items-center lg:gap-4">
         <h3
-          className={`text-[14px] font-bold lg:text-[16px] ${
+          className={`text-[14px] font-bold text-crowdfunding-neutral-200 lg:text-[16px] ${
             el.stock !== 0 && "group-hover/label:text-crowdfunding-primary-100"
           }`}
         >

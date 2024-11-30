@@ -24,7 +24,7 @@ export default function SuccessModal({ isOpen, setIsOpen }: SuccessModalProps) {
         >
           <use href="/crowdfunding-product-page/images/icon-check.svg#icon-check" />
         </svg>
-        <h2 className="mt-[20.5px] text-[19px] font-bold -tracking-[0.4px] lg:mt-[44px] lg:text-[24px] lg:tracking-normal">
+        <h2 className="mt-[20.5px] text-[19px] font-bold -tracking-[0.4px] text-crowdfunding-neutral-200 lg:mt-[44px] lg:text-[24px] lg:tracking-normal">
           Thanks for your support!
         </h2>
         <p className="mt-[22px] text-center text-[14px] font-medium leading-[24px] text-crowdfunding-neutral-100/75 lg:mt-[12px] lg:text-[16px] lg:leading-[30px]">

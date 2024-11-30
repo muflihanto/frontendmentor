@@ -27,7 +27,7 @@ export function NumberField(props: AriaNumberFieldProps) {
         name="pledge"
         type="number"
         ref={inputRef}
-        className="h-[24px] w-[50%] rounded-full bg-none text-[14px] font-bold focus-within:outline-none"
+        className="h-[24px] w-[50%] rounded-full bg-white bg-none text-[14px] font-bold text-crowdfunding-neutral-200 focus-within:outline-none"
       />
     </label>
   );

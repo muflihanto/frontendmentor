@@ -18,7 +18,7 @@ export default function Overview(props: OverviewProps) {
         />
       </div>
       <div className="px-6 text-center lg:px-12">
-        <h1 className="px-1 text-[20px] font-bold leading-[24px] lg:text-[28px]">
+        <h1 className="px-1 text-[20px] font-bold leading-[24px] text-crowdfunding-neutral-200 lg:text-[28px]">
           Mastercraft Bamboo Monitor Riser
         </h1>
         <p className="mt-[16px] text-[14px] leading-[24px] text-crowdfunding-neutral-100 lg:mt-[18px] lg:text-[16px]">

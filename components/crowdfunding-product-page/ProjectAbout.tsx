@@ -8,7 +8,7 @@ type AboutProps = {
 export default function About(props: AboutProps) {
   return (
     <Card className="mt-6 px-[23px] pb-[39px] pt-[38px] lg:px-12 lg:pb-[47px] lg:pt-[45px]">
-      <h2 className="text-[18px] font-bold lg:text-[20px]">
+      <h2 className="text-[18px] font-bold text-crowdfunding-neutral-200 lg:text-[20px]">
         About this project
       </h2>
       <p className="mt-[22px] text-[14px] font-medium leading-[24px] text-crowdfunding-neutral-100/75 lg:mt-[33px] lg:text-[16px] lg:leading-[30px]">
@@ -55,7 +55,9 @@ function Reward({ data, value, openSelectionModal }: RewardProps) {
       }`}
     >
       <div className="lg:flex lg:justify-between">
-        <h3 className="text-[14px] font-bold lg:text-[18px]">{name}</h3>
+        <h3 className="text-[14px] font-bold text-crowdfunding-neutral-200 lg:text-[18px]">
+          {name}
+        </h3>
         <p className="mt-1 text-[14px] font-medium text-crowdfunding-primary-100 lg:mt-[3px] lg:text-[15px]">
           Pledge ${startsFrom} or more
         </p>
@@ -65,7 +67,9 @@ function Reward({ data, value, openSelectionModal }: RewardProps) {
       </p>
       <div className="lg:mt-[25px] lg:flex lg:items-center lg:justify-between">
         <p className="mt-5 flex items-center gap-[8px] lg:m-0">
-          <span className="text-[32px] font-bold">{stock}</span>
+          <span className="text-[32px] font-bold text-crowdfunding-neutral-200">
+            {stock}
+          </span>
           <span className="text-[15px] font-medium text-crowdfunding-neutral-100/75">
             left
           </span>

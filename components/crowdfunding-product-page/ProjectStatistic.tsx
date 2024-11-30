@@ -43,8 +43,10 @@ const Data = (props: DataProps) => {
   return (
     <div className="text-center lg:flex lg:flex-1 lg:justify-between lg:text-left">
       <div>
-        <h1 className="text-[32px] font-bold">{h}</h1>
-        <p className="text-crowdfunding-neutral-100/70 mt-[3px] text-[14px] font-medium lg:mt-[2px] lg:text-[15px]">
+        <h1 className="text-[32px] font-bold text-crowdfunding-neutral-200">
+          {h}
+        </h1>
+        <p className="mt-[3px] text-[14px] font-medium text-crowdfunding-neutral-100/70 lg:mt-[2px] lg:text-[15px]">
           {p}
         </p>
       </div>
@@ -58,9 +60,9 @@ const Data = (props: DataProps) => {
 type ProgressProps = { value: string; target: string };
 const Progress = (props: ProgressProps) => {
   return (
-    <div className="bg-crowdfunding-neutral-100/10 relative mx-auto mb-[12px] mt-[30px] h-[12px] w-[calc(100%-48px)] overflow-hidden rounded-full lg:mt-[34.5px] lg:w-full">
+    <div className="relative mx-auto mb-[12px] mt-[30px] h-[12px] w-[calc(100%-48px)] overflow-hidden rounded-full bg-crowdfunding-neutral-100/10 lg:mt-[34.5px] lg:w-full">
       <div
-        className="bg-crowdfunding-primary-100 absolute top-0 h-full w-[200px] rounded-full"
+        className="absolute top-0 h-full w-[200px] rounded-full bg-crowdfunding-primary-100"
         style={{
           width: `${(Number(props.value) / Number(props.target)) * 100}%`,
         }}
