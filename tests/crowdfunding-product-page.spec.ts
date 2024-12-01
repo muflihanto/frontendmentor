@@ -98,6 +98,9 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const gotItButton = thankYouCard.getByRole("button", { name: "Got it!" });
       await page.keyboard.press("Tab");
       await expect(gotItButton).toBeFocused();
+      await page.keyboard.press("Escape");
+      await expect(thankYouCard).not.toBeVisible();
+      await expect(gotItButton).not.toBeVisible();
     });
     test("'Back this project' modal has all elements", async ({ page }) => {
       await page.getByRole("button", { name: "Back this project" }).click();
