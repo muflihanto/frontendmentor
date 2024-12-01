@@ -79,19 +79,24 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
     const faqs = await page.locator("details").all();
     for (const [index, faq] of Object.entries(faqs)) {
       const id = await faq.getAttribute("id");
+      const summary = faq.locator("summary");
       const answerId = id?.replace("question", "answer");
       const answer = page.locator(`id=${answerId}`);
       if (index === "0") {
         await expect(faq).toHaveAttribute("open", "");
+        await expect(summary).toHaveAttribute("aria-expanded", "true");
         await expect(answer).toBeVisible();
         await faq.click();
         await expect(faq).not.toHaveAttribute("open");
+        await expect(summary).toHaveAttribute("aria-expanded", "false");
         await expect(answer).not.toBeVisible();
       } else {
         await expect(faq).not.toHaveAttribute("open");
+        await expect(summary).toHaveAttribute("aria-expanded", "false");
         await expect(answer).not.toBeVisible();
         await faq.click();
         await expect(faq).toHaveAttribute("open", "");
+        await expect(summary).toHaveAttribute("aria-expanded", "true");
         await expect(answer).toBeVisible();
         await faq.click();
       }
@@ -122,16 +127,22 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
       // test space and enter to toggle
       if (i === 0) {
         await expect(answer).toBeVisible();
+        await expect(faq).toHaveAttribute("aria-expanded", "true");
         await page.keyboard.press("Space");
         await expect(answer).not.toBeVisible();
+        await expect(faq).toHaveAttribute("aria-expanded", "false");
         await page.keyboard.press("Enter");
         await expect(answer).toBeVisible();
+        await expect(faq).toHaveAttribute("aria-expanded", "true");
       } else {
         await expect(answer).not.toBeVisible();
+        await expect(faq).toHaveAttribute("aria-expanded", "false");
         await page.keyboard.press("Space");
         await expect(answer).toBeVisible();
+        await expect(faq).toHaveAttribute("aria-expanded", "true");
         await page.keyboard.press("Enter");
         await expect(answer).not.toBeVisible();
+        await expect(faq).toHaveAttribute("aria-expanded", "false");
       }
       // test home/pageup and end/pagedown
       await faqs[2].focus();
