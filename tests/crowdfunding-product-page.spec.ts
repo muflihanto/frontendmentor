@@ -341,4 +341,11 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await closeModalButton.click();
     });
   });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
+    ).toBeVisible();
+  });
 });
