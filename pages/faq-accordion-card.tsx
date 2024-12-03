@@ -88,7 +88,7 @@ function Main() {
           />
         </div>
       </div>
-      <main className="px-6 lg:w-[366px] lg:self-start lg:px-0 lg:pt-[68px]">
+      <main className="w-full px-6 lg:w-[366px] lg:self-start lg:px-0 lg:pt-[68px]">
         <h1 className="text-[32px] font-bold leading-none text-faq-accordion-primary-text-blue max-lg:text-center">
           FAQ
         </h1>
