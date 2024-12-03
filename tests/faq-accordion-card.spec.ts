@@ -45,10 +45,27 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
       const current_state = await faq.getAttribute("data-headlessui-state");
       await toggle_button.click();
       const next_state = await faq.getAttribute("data-headlessui-state");
+      const controlledElem = faq.locator(
+        `id=${await toggle_button.getAttribute("aria-controls")}`,
+      );
       if (current_state === "") {
         expect(next_state).toStrictEqual("open");
+        await expect(toggle_button).toHaveAttribute("aria-expanded", "true");
+        await expect(toggle_button).toHaveAttribute(
+          "data-headlessui-state",
+          "open",
+        );
+        await expect(toggle_button).toHaveAttribute("aria-controls");
+        await expect(controlledElem).toBeVisible();
       } else {
         expect(next_state).toStrictEqual("");
+        await expect(toggle_button).toHaveAttribute("aria-expanded", "false");
+        await expect(toggle_button).toHaveAttribute(
+          "data-headlessui-state",
+          "",
+        );
+        await expect(toggle_button).not.toHaveAttribute("aria-controls");
+        await expect(controlledElem).not.toBeVisible();
       }
     }
   });
