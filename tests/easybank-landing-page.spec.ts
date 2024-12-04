@@ -191,9 +191,21 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
       const header = page.locator("div").nth(2);
       const menuButton = header.getByRole("button");
       await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("data-headlessui-state", "");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       await menuButton.click();
-      const navContainer = header.locator("div").nth(2);
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(menuButton).toHaveAttribute("data-headlessui-state", "open");
+      await expect(menuButton).toHaveAttribute("aria-controls");
+      const navContainer = header.locator(
+        `id=${await menuButton.getAttribute("aria-controls")}`,
+      );
       await expect(navContainer).toBeVisible();
+      await expect(navContainer).toHaveAttribute(
+        "data-headlessui-state",
+        "open",
+      );
       for (const nav of navs) {
         await expect(
           navContainer.getByRole("link", { name: nav }),
@@ -201,6 +213,9 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
       }
       await menuButton.click();
       await expect(navContainer).not.toBeVisible();
+      await expect(menuButton).toHaveAttribute("data-headlessui-state", "");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       for (const nav of navs) {
         await expect(
           navContainer.getByRole("link", { name: nav }),
