@@ -16,9 +16,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
   type AriaButtonProps,
+  type AriaDialogProps,
   type AriaModalOverlayProps,
   Overlay,
   useButton,
+  useDialog,
   useModalOverlay,
   useOverlayTrigger,
 } from "react-aria";
@@ -28,6 +30,10 @@ import {
   useOverlayTriggerState,
 } from "react-stately";
 import { rubik } from "../utils/fonts/rubik";
+
+interface DialogProps extends AriaDialogProps {
+  children: React.ReactNode;
+}
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -91,6 +97,7 @@ function Modal({
 }: PropsWithChildren<{ state: OverlayTriggerState } & AriaModalOverlayProps>) {
   const ref = useRef(null);
   const { modalProps, underlayProps } = useModalOverlay(props, state, ref);
+  console.log({ modalProps });
 
   return (
     <Overlay>
@@ -98,11 +105,7 @@ function Modal({
         className={`fixed right-0 top-0 z-50 flex h-screen w-screen bg-bookmark-neutral-200/95 font-rubik ${rubik.variable}`}
         {...underlayProps}
       >
-        <div
-          {...modalProps}
-          className="relative flex w-full flex-col items-center px-8 pb-12"
-          ref={ref}
-        >
+        <div {...modalProps} className="relative h-screen w-full" ref={ref}>
           {children}
         </div>
       </div>
@@ -150,6 +153,22 @@ function MobileNav({
   );
 }
 
+function Dialog({ children, ...props }: DialogProps) {
+  const ref = useRef(null);
+  const { dialogProps } = useDialog(props, ref);
+
+  return (
+    <div
+      className="relative flex h-full w-full flex-col items-center px-8 pb-12"
+      {...dialogProps}
+      ref={ref}
+      aria-label="Mobile Navigation Menu"
+    >
+      {children}
+    </div>
+  );
+}
+
 function Header() {
   return (
     <header className="flex h-[105px] w-full items-center justify-between px-8 lg:px-[165px] lg:pt-[31px]">
@@ -186,7 +205,7 @@ function Header() {
       <MobileNav label="Open Mobile Navigation Menu">
         {(close) => {
           return (
-            <>
+            <Dialog>
               <div className="flex h-[105px] w-full items-center justify-between lg:hidden">
                 <svg
                   viewBox="0 0 148 25"
@@ -256,7 +275,7 @@ function Header() {
                   </svg>
                 </a>
               </div>
-            </>
+            </Dialog>
           );
         }}
       </MobileNav>
