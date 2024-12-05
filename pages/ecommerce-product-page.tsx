@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { type CSSProperties, useState } from "react";
-import { atom, useAtomValue, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { cartAtom } from "../components/ecommerce-product-page/CartController";
 import { kumbhSans } from "../utils/fonts/kumbhSans";
 
@@ -114,7 +114,7 @@ function Main() {
 function Header() {
   const setCartOpen = useSetAtom(cartOpenAtom);
   const cartItem = useAtomValue(cartAtom);
-  const setMenuOpen = useSetAtom(menuOpenAtom);
+  const [menuOpen, setMenuOpen] = useAtom(menuOpenAtom);
 
   return (
     <header className="flex h-[68px] items-center px-6 pb-[8px] lg:relative lg:h-[112px] lg:px-[165px]">
@@ -124,6 +124,10 @@ function Header() {
           setMenuOpen(true);
         }}
         type="button"
+        id="menubutton"
+        aria-haspopup="true"
+        aria-controls="mobilenavmenu"
+        aria-expanded={menuOpen}
       >
         <svg viewBox="0 0 16 15" className="w-4">
           <title>Menu</title>

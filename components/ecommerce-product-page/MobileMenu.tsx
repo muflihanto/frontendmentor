@@ -19,6 +19,7 @@ export default function MobileMenu({ navs }: { navs: Nav[] }) {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
       className="fixed left-0 top-0 z-50 h-[100svh] w-screen bg-black/75 lg:hidden"
+      id="mobilenavmenu"
     >
       <MenuContent navs={navs} />
     </Transition>,
@@ -77,6 +78,7 @@ function MenuContent({ navs }: { navs: Nav[] }) {
         // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
         tabIndex={2}
         type="button"
+        aria-controls="mobilenavmenu"
       >
         <svg viewBox="0 0 14 15" className="w-[14px] fill-[#69707D]">
           <title>Close</title>
@@ -84,12 +86,18 @@ function MenuContent({ navs }: { navs: Nav[] }) {
         </svg>
       </button>
       <nav className="mt-[42px]">
-        <ul className="flex flex-col gap-[19px]">
+        <ul
+          className="flex flex-col gap-[19px]"
+          role="menu"
+          aria-labelledby="menubutton"
+        >
           {navs.map((nav, index) => {
             const { text, href } = nav;
             return (
-              <li key={`${index}-${text}`}>
+              // biome-ignore lint/a11y/useValidAriaRole: <explanation>
+              <li role="none" key={`${index}-${text}`}>
                 <a
+                  role="menuitem"
                   className="w-full rounded px-[9px] py-2 font-kumbh-sans text-[18px] font-bold text-ecommerce-neutral-500"
                   href={href}
                   // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
