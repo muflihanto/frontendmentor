@@ -6,15 +6,18 @@ type NavItemProps = { text: string; hr: boolean };
 const NavItem = ({ text, hr }: NavItemProps) => {
   return (
     <>
-      <li className="group px-6 lg:px-0">
+      {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
+      <li className="group px-6 lg:px-0" role="none">
         <a
+          role="menuitem"
           href=""
           className="text-[18px] font-medium text-crowdfunding-neutral-200 lg:block lg:text-[13px] lg:font-normal lg:leading-[20px] lg:text-white lg:group-hover:underline lg:group-hover:decoration-white/20"
         >
           {text}
         </a>
       </li>
-      {hr && <hr className="mb-[1px] lg:hidden" />}
+      {/* biome-ignore lint/a11y/noAriaHiddenOnFocusable: <explanation> */}
+      {hr && <hr className="mb-[1px] lg:hidden" aria-hidden="true" />}
     </>
   );
 };
@@ -34,6 +37,9 @@ const MenuButton = ({
       className={cn(["group absolute right-0 top-0 h-4 w-4", className])}
       onClick={handleClick}
       aria-expanded={isMenuOpen}
+      id="menubutton"
+      aria-haspopup="true"
+      aria-controls="mobilenavmenu"
       {...props}
     >
       <svg
@@ -79,7 +85,12 @@ export default function Header() {
             isMenuOpen={isMenuOpen}
           />
           <nav className="invisible absolute right-0 top-[53px] z-20 w-[calc(min(100vw,375px)-48px)] opacity-0 shadow-md transition-all peer-aria-expanded:visible peer-aria-expanded:opacity-100 lg:visible lg:static lg:w-fit lg:opacity-100 lg:shadow-none">
-            <ul className="flex flex-col gap-[21px] rounded-lg bg-white pb-[22px] pt-[22px] lg:flex-row lg:gap-[33.5px] lg:bg-transparent lg:p-0">
+            <ul
+              className="flex flex-col gap-[21px] rounded-lg bg-white pb-[22px] pt-[22px] lg:flex-row lg:gap-[33.5px] lg:bg-transparent lg:p-0"
+              id="mobilenavmenu"
+              role="menu"
+              aria-labelledby="menubutton"
+            >
               {["About", "Discover", "Get Started"].map((el, index) => {
                 return <NavItem key={el} text={el} hr={index < 2} />;
               })}
