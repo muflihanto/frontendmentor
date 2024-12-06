@@ -22,6 +22,10 @@ export default function MenuButton(props: MenuButtonProps) {
       }}
       className="group relative z-30 pb-2 lg:hidden"
       type="button"
+      id="menubutton"
+      aria-haspopup="true"
+      aria-controls="menu"
+      aria-expanded={isMenuOpen}
     >
       {isMenuOpen ? (
         <svg

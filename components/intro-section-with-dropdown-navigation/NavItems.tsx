@@ -3,26 +3,39 @@ import Collapsible from "./CollapsibleNavItem";
 export default function NavItems() {
   return (
     <>
-      <ul className="flex flex-col gap-[18px] font-semibold text-introdrop-neutral-200/90 lg:h-fit lg:flex-row lg:gap-[40px] lg:text-[14px] lg:font-medium lg:text-introdrop-neutral-200">
-        <li>
+      <ul
+        className="flex flex-col gap-[18px] font-semibold text-introdrop-neutral-200/90 lg:h-fit lg:flex-row lg:gap-[40px] lg:text-[14px] lg:font-medium lg:text-introdrop-neutral-200"
+        id="menu"
+        role="menu"
+        aria-labelledby="menubutton"
+      >
+        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
+        <li role="none">
           <Collapsible
             label="Features"
             items={<FeatureItems />}
             addClass="lg:right-0 pl-[20px] pt-[26px] pl-[21px] "
           />
         </li>
-        <li>
+        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
+        <li role="none">
           <Collapsible
             label="Company"
             items={<CompanyItems />}
             addClass="lg:left-0 lg:py-[20px] lg:leading-[24px] pt-[20px] pl-[24px] "
           />
         </li>
-        <li className="lg:hover:text-introdrop-neutral-300">
-          <a href="">Careers</a>
+        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
+        <li role="none" className="lg:hover:text-introdrop-neutral-300">
+          <a role="menuitem" href="">
+            Careers
+          </a>
         </li>
-        <li className="lg:hover:text-introdrop-neutral-300">
-          <a href="">About</a>
+        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
+        <li role="none" className="lg:hover:text-introdrop-neutral-300">
+          <a role="menuitem" href="">
+            About
+          </a>
         </li>
       </ul>
       <div className="mt-[22px] flex w-full flex-col items-center gap-1 text-[14px] font-medium text-introdrop-neutral-200 lg:ml-auto lg:mt-0 lg:w-fit lg:flex-row lg:gap-[10px] lg:text-[14px]">
@@ -54,11 +67,14 @@ const FeatureItems = () => {
     <>
       {items.map((item, index) => {
         return (
+          // biome-ignore lint/a11y/useValidAriaRole: <explanation>
           <li
+            role="none"
             key={`${index}-${item.label}`}
             className="lg:hover:text-introdrop-neutral-300"
           >
             <a
+              role="menuitem"
               href=""
               className="flex items-start gap-3 lg:items-center lg:gap-[11px]"
             >
@@ -93,11 +109,15 @@ const CompanyItems = () => {
     <>
       {items.map((item, index) => {
         return (
+          // biome-ignore lint/a11y/useValidAriaRole: <explanation>
           <li
+            role="none"
             key={`${index}-${item.label}`}
             className="lg:hover:text-introdrop-neutral-300"
           >
-            <a href="">{item.label}</a>
+            <a role="menuitem" href="">
+              {item.label}
+            </a>
           </li>
         );
       })}
