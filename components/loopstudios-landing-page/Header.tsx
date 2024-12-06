@@ -33,6 +33,10 @@ const Header: NextPage = () => {
             setIsMenuOpen((a) => !a);
           }}
           type="button"
+          id="menubutton"
+          aria-haspopup="true"
+          aria-controls="menu"
+          aria-expanded={isMenuOpen}
         >
           {isMenuOpen ? (
             <svg viewBox="0 0 20 20" className="w-5">
@@ -60,11 +64,14 @@ const Header: NextPage = () => {
 const links = ["About", "Careers", "Events", "Products", "Support"];
 const NavItems = ({ className }: { className: string }) => {
   return (
-    <ul className={className}>
+    <ul className={className} id="menu" role="menu" aria-label="loopstudios">
       {links.map((el) => {
         return (
-          <li key={el}>
-            <a href="">{el}</a>
+          // biome-ignore lint/a11y/useValidAriaRole: <explanation>
+          <li key={el} role="none">
+            <a role="menuitem" href="">
+              {el}
+            </a>
           </li>
         );
       })}
