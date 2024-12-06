@@ -1,6 +1,10 @@
 import Image from "next/image";
+import { useRef, useState } from "react";
 
 export default function Header() {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <header className="relative flex aspect-[375/538] w-full flex-col items-center justify-center gap-[49px] bg-sunny-primary-yellow bg-[url('/sunnyside-agency-landing-page/images/mobile/image-header.jpg')] bg-cover pt-[11px] lg:aspect-auto lg:h-screen lg:w-screen lg:gap-[104px] lg:bg-[url('/sunnyside-agency-landing-page/images/desktop/image-header.jpg')] lg:bg-contain lg:bg-bottom lg:pb-[123px] lg:pt-0 lg:font-black">
@@ -13,8 +17,20 @@ export default function Header() {
             <use href="/sunnyside-agency-landing-page/images/logo.svg#sunnyside-logo" />
           </svg>
           <button
-            className="peer/menu relative aspect-[4/3] h-fit w-6 focus:opacity-50 lg:hidden"
+            ref={buttonRef}
+            className="relative aspect-[4/3] h-fit w-6 focus:opacity-50 lg:hidden"
             type="button"
+            id="menubutton"
+            aria-haspopup="true"
+            aria-controls="menu"
+            onFocus={() => {
+              setOpen(true);
+            }}
+            onBlur={() => {
+              setOpen(false);
+            }}
+            // FIXME: aria-expanded based on group-focus-within
+            aria-expanded={open}
           >
             <Image
               src="/sunnyside-agency-landing-page/images/icon-hamburger.svg"
@@ -43,25 +59,7 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        <h1
-          className="text-center font-fraunces text-[40px] font-black uppercase leading-[49px] tracking-[7px] text-sunny-neutral-100
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        lg:text-[55px] lg:tracking-[11px]"
-        >
+        <h1 className="text-center font-fraunces text-[40px] font-black uppercase leading-[49px] tracking-[7px] text-sunny-neutral-100 lg:text-[55px] lg:tracking-[11px]">
           We are creatives
         </h1>
         <Image
