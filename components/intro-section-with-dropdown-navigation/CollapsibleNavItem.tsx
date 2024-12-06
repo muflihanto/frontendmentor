@@ -148,6 +148,8 @@ export default function Collapsible(props: CollapsibleProps) {
         onMouseEnter={handleSummaryHover}
         onMouseLeave={handleSummaryLeave}
         className="relative flex w-fit list-none items-center justify-start gap-[15px] hover:cursor-pointer lg:gap-[7px]"
+        aria-haspopup="true"
+        aria-expanded={!!detailsRef.current?.open}
       >
         <span className="lg:group-open:text-introdrop-neutral-300 lg:group-open:drop-shadow-[0_0_0.25px_hsl(0,0%,41%)]">
           {props.label}
@@ -168,6 +170,8 @@ export default function Collapsible(props: CollapsibleProps) {
         ref={contentRef}
         onMouseLeave={handleContentLeave}
         className={`lg:text flex flex-col gap-[18px] pb-[8px] lg:absolute lg:bottom-auto lg:left-auto lg:top-[38px] lg:w-max lg:gap-2 lg:rounded-lg lg:bg-white lg:px-6 lg:py-5 lg:shadow-[0px_0px_15px_10px_rgba(0,0,0,.05)] lg:before:absolute lg:before:right-0 lg:before:top-[-30px] lg:before:h-[30px] lg:before:w-full lg:before:bg-transparent lg:before:content-[''] ${props.addClass}`}
+        role="menu"
+        aria-label={props.label}
       >
         {props.items}
       </ul>

@@ -7,7 +7,7 @@ export default function NavItems() {
         className="flex flex-col gap-[18px] font-semibold text-introdrop-neutral-200/90 lg:h-fit lg:flex-row lg:gap-[40px] lg:text-[14px] lg:font-medium lg:text-introdrop-neutral-200"
         id="menu"
         role="menu"
-        aria-labelledby="menubutton"
+        aria-label="Snap"
       >
         {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
         <li role="none">
