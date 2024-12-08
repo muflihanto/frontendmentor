@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { karla } from "../utils/fonts/karla";
 import { dmSerifDisplay } from "../utils/fonts/dmSerifDisplay";
 
@@ -36,6 +36,19 @@ function Header() {
   const toggle = () => {
     setIsOpen((prev) => !prev);
   };
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (body) {
+      if (isOpen) {
+        body.style.overflow = "hidden";
+        window.scrollTo({ behavior: "smooth", top: 0, left: 0 });
+      }
+
+      return () => {
+        body.style.overflow = "auto";
+      };
+    }
+  }, [isOpen]);
   return (
     <header className="relative flex h-20 justify-between px-6 lg:z-20 lg:items-center lg:bg-white lg:px-[165px]">
       <div className="relative aspect-[112/18] w-[112px] lg:ml-[3px]">
