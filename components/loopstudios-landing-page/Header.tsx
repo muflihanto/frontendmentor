@@ -67,7 +67,6 @@ const NavItems = ({ className }: { className: string }) => {
     <ul className={className} id="menu" role="menu" aria-label="loopstudios">
       {links.map((el) => {
         return (
-          // biome-ignore lint/a11y/useValidAriaRole: <explanation>
           <li key={el} role="none">
             <a role="menuitem" href="">
               {el}

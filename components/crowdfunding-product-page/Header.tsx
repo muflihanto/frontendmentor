@@ -6,7 +6,6 @@ type NavItemProps = { text: string; hr: boolean };
 const NavItem = ({ text, hr }: NavItemProps) => {
   return (
     <>
-      {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
       <li className="group px-6 lg:px-0" role="none">
         <a
           role="menuitem"
