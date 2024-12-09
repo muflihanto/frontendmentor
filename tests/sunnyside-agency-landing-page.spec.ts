@@ -257,5 +257,22 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       const header = page.getByRole("banner");
       await expect(header.getByRole("button")).toBeVisible();
     });
+
+    test("mobile navigation menu works", async ({ page }) => {
+      const header = page.getByRole("banner");
+      const menuButton = header.getByRole("button");
+      await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).toHaveAttribute("aria-controls", "menu");
+      await menuButton.click();
+      await expect(menuButton).toBeFocused();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      const navContainer = header.locator("id=menu");
+      await expect(navContainer).toBeVisible();
+      await menuButton.blur();
+      await expect(navContainer).not.toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+    });
   });
 });
