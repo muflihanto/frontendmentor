@@ -20,7 +20,8 @@
     "rules": {
       "recommended": true,
       "a11y": {
-        "useValidAnchor": "off"
+        "useValidAnchor": "off",
+        "useValidAriaRole": "off"
       }
       // "nursery": {
       //   "useSortedClasses": "warn"
