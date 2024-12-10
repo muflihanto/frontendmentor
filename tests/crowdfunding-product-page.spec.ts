@@ -34,7 +34,9 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(navbar).toBeInViewport();
       const links = ["About", "Discover", "Get Started"];
       for (const link of links) {
-        await expect(navbar.getByRole("link", { name: link })).toBeVisible();
+        await expect(
+          navbar.getByRole("menuitem", { name: link }),
+        ).toBeVisible();
       }
     });
   });
@@ -356,6 +358,42 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
     test("has mobile navigation menu", async ({ page }) => {
       const header = page.getByRole("banner");
       await expect(header.getByRole("button")).toBeVisible();
+    });
+
+    test("mobile navigation menu works", async ({ page }) => {
+      const links = ["About", "Discover", "Get Started"];
+      const header = page.getByRole("banner");
+      const menuButton = header.getByRole("button");
+      await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).toHaveAttribute(
+        "aria-controls",
+        "mobilenavmenu",
+      );
+      for (const link of links) {
+        await expect(
+          header.getByRole("menuitem", { name: link }),
+        ).not.toBeVisible();
+      }
+      await menuButton.click();
+      await expect(menuButton).toBeFocused();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      const navContainer = header.locator("id=mobilenavmenu");
+      await expect(navContainer).toBeVisible();
+      for (const link of links) {
+        await expect(
+          header.getByRole("menuitem", { name: link }),
+        ).toBeVisible();
+      }
+      await menuButton.click();
+      await expect(navContainer).not.toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      for (const link of links) {
+        await expect(
+          header.getByRole("menuitem", { name: link }),
+        ).not.toBeVisible();
+      }
     });
   });
 });
