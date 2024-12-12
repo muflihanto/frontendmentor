@@ -213,6 +213,10 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
         await nextButton.click();
       }
     });
+    test("has mobile navigation menu", async ({ page }) => {
+      const button = page.getByRole("button", { name: "Menu" });
+      await expect(button).toBeVisible();
+    });
   });
 
   /** Test if the page has a footer */
