@@ -94,7 +94,6 @@ function MenuContent({ navs }: { navs: Nav[] }) {
           {navs.map((nav, index) => {
             const { text, href } = nav;
             return (
-              // biome-ignore lint/a11y/useValidAriaRole: <explanation>
               <li role="none" key={`${index}-${text}`}>
                 <a
                   role="menuitem"

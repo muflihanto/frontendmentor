@@ -9,7 +9,6 @@ export default function NavItems() {
         role="menu"
         aria-label="Snap"
       >
-        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
         <li role="none">
           <Collapsible
             label="Features"
@@ -17,7 +16,6 @@ export default function NavItems() {
             addClass="lg:right-0 pl-[20px] pt-[26px] pl-[21px] "
           />
         </li>
-        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
         <li role="none">
           <Collapsible
             label="Company"
@@ -25,13 +23,11 @@ export default function NavItems() {
             addClass="lg:left-0 lg:py-[20px] lg:leading-[24px] pt-[20px] pl-[24px] "
           />
         </li>
-        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
         <li role="none" className="lg:hover:text-introdrop-neutral-300">
           <a role="menuitem" href="">
             Careers
           </a>
         </li>
-        {/* biome-ignore lint/a11y/useValidAriaRole: <explanation> */}
         <li role="none" className="lg:hover:text-introdrop-neutral-300">
           <a role="menuitem" href="">
             About
@@ -67,7 +63,6 @@ const FeatureItems = () => {
     <>
       {items.map((item, index) => {
         return (
-          // biome-ignore lint/a11y/useValidAriaRole: <explanation>
           <li
             role="none"
             key={`${index}-${item.label}`}
@@ -109,7 +104,6 @@ const CompanyItems = () => {
     <>
       {items.map((item, index) => {
         return (
-          // biome-ignore lint/a11y/useValidAriaRole: <explanation>
           <li
             role="none"
             key={`${index}-${item.label}`}
