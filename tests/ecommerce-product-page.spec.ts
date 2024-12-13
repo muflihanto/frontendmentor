@@ -22,6 +22,8 @@ const product = {
   ],
 };
 
+const navlinks = ["Collections", "Men", "Women", "About", "Contact"];
+
 test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   /** Go to E-commerce product page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -39,7 +41,6 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     await expect(header).toBeVisible();
     await expect(header).toBeInViewport();
     await expect(header.getByRole("img").first()).toBeVisible();
-    const navlinks = ["Collections", "Men", "Women", "About", "Contact"];
     const nav = page.getByRole("navigation");
     for (const link of navlinks) {
       await expect(
@@ -216,6 +217,42 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     test("has mobile navigation menu", async ({ page }) => {
       const button = page.getByRole("button", { name: "Menu" });
       await expect(button).toBeVisible();
+    });
+    test("mobile navigation menu works", async ({ page }) => {
+      const menuButton = page.getByRole("button", { name: "Menu" });
+      const navContainer = page.locator("id=mobilenavmenu");
+      const closeButton = navContainer.getByRole("button");
+      await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).toHaveAttribute(
+        "aria-controls",
+        "mobilenavmenu",
+      );
+      await expect(navContainer).not.toBeVisible();
+      for (const link of navlinks) {
+        await expect(
+          navContainer.getByRole("menuitem", { name: link, exact: true }),
+        ).not.toBeVisible();
+      }
+      await expect(closeButton).not.toBeVisible();
+      await menuButton.click();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(navContainer).toBeVisible();
+      for (const link of navlinks) {
+        await expect(
+          navContainer.getByRole("menuitem", { name: link, exact: true }),
+        ).toBeVisible();
+      }
+      await closeButton.click();
+      await expect(navContainer).not.toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      for (const link of navlinks) {
+        await expect(
+          navContainer.getByRole("menuitem", { name: link, exact: true }),
+        ).not.toBeVisible();
+      }
+      await expect(closeButton).not.toBeVisible();
     });
   });
 
