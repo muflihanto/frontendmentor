@@ -100,4 +100,14 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
+
+  /** Test if the page displayed correctly on mobile */
+  test.describe("displayed correctly on mobile", () => {
+    test.use({ viewport: { height: 667, width: 375 } });
+
+    test("has mobile navigation menu", async ({ page }) => {
+      const header = page.getByRole("banner");
+      await expect(header.getByRole("button")).toBeVisible();
+    });
+  });
 });
