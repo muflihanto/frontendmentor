@@ -1,11 +1,11 @@
 import Collapsible from "./CollapsibleNavItem";
 
-export default function NavItems() {
+export default function NavItems({ menuid }: { menuid: string }) {
   return (
     <>
       <ul
         className="flex flex-col gap-[18px] font-semibold text-introdrop-neutral-200/90 lg:h-fit lg:flex-row lg:gap-[40px] lg:text-[14px] lg:font-medium lg:text-introdrop-neutral-200"
-        id="menu"
+        id={menuid}
         role="menu"
         aria-label="Snap"
       >

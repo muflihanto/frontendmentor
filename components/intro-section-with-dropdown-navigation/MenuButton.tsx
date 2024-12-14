@@ -24,7 +24,7 @@ export default function MenuButton(props: MenuButtonProps) {
       type="button"
       id="menubutton"
       aria-haspopup="true"
-      aria-controls="menu"
+      aria-controls="mobilenavmenu"
       aria-expanded={isMenuOpen}
     >
       {isMenuOpen ? (

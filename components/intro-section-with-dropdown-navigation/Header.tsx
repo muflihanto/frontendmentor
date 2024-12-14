@@ -19,7 +19,7 @@ export default function Header() {
       </div>
       <MenuButton isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <nav className="hidden justify-between lg:flex lg:w-full lg:items-center">
-        <NavItems />
+        <NavItems menuid="menu" />
       </nav>
       {isMenuOpen && (
         // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -33,7 +33,7 @@ export default function Header() {
           className="fixed right-0 top-0 z-20 h-full w-full bg-introdrop-neutral-300/[.75]"
         >
           <nav className="absolute right-0 top-0 h-full w-[64vw] bg-white py-5 pl-6 pr-5 pt-[78px] text-introdrop-neutral-300">
-            <NavItems />
+            <NavItems menuid="mobilenavmenu" />
           </nav>
         </div>
       )}
