@@ -109,5 +109,47 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
       const header = page.getByRole("banner");
       await expect(header.getByRole("button")).toBeVisible();
     });
+
+    test("mobile navigation menu works", async ({ page }) => {
+      const header = page.getByRole("banner");
+      const menuButton = header.getByRole("button");
+      const navContainer = page.locator("id=mobilenavmenu");
+      await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).toHaveAttribute(
+        "aria-controls",
+        "mobilenavmenu",
+      );
+      await expect(navContainer).not.toBeVisible();
+      for (const link of listItems) {
+        if (!link.children) {
+          await expect(
+            header.getByRole("menuitem", { name: link.parent }),
+          ).not.toBeVisible();
+        } else {
+          for (const child of link.children) {
+            await expect(
+              header.getByRole("menuitem", { name: child }),
+            ).not.toBeVisible();
+          }
+        }
+      }
+      await menuButton.click();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(navContainer).toBeVisible();
+      for (const link of listItems) {
+        if (!link.children) {
+          await expect(
+            navContainer.getByRole("menuitem", { name: link.parent }),
+          ).toBeVisible();
+        } else {
+          await expect(
+            navContainer.locator("summary", { hasText: link.parent }),
+          ).toBeVisible();
+          await expect(navContainer.getByLabel(link.parent)).not.toBeVisible();
+        }
+      }
+    });
   });
 });
