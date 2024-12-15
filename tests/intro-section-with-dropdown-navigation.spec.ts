@@ -144,12 +144,25 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
             navContainer.getByRole("menuitem", { name: link.parent }),
           ).toBeVisible();
         } else {
-          await expect(
-            navContainer.locator("summary", { hasText: link.parent }),
-          ).toBeVisible();
-          await expect(navContainer.getByLabel(link.parent)).not.toBeVisible();
+          const parent = navContainer.locator("summary", {
+            hasText: link.parent,
+          });
+          const submenu = navContainer.getByRole("menu", { name: link.parent });
+          await expect(parent).toBeVisible();
+          await expect(submenu).not.toBeVisible();
+          await parent.click();
+          await expect(submenu).toBeVisible();
+          for (const child of link.children) {
+            await expect(
+              submenu.getByRole("menuitem", { name: child }),
+            ).toBeVisible();
+          }
         }
       }
+      // fix button layout
+      await menuButton.locator("svg").click();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(navContainer).not.toBeVisible();
     });
   });
 });
