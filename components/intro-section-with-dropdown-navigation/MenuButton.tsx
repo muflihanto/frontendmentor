@@ -1,4 +1,5 @@
 import { type Dispatch, type SetStateAction, useEffect } from "react";
+import { cn } from "../../utils/cn";
 
 type MenuButtonProps = {
   isMenuOpen: boolean;
@@ -20,7 +21,10 @@ export default function MenuButton(props: MenuButtonProps) {
       onClick={() => {
         setIsMenuOpen((prev) => !prev);
       }}
-      className="group relative z-30 pb-2 lg:hidden"
+      className={cn(
+        "group z-30 pb-2 lg:hidden",
+        isMenuOpen ? "fixed right-[19px] top-[21px]" : "relative",
+      )}
       type="button"
       id="menubutton"
       aria-haspopup="true"
@@ -28,10 +32,7 @@ export default function MenuButton(props: MenuButtonProps) {
       aria-expanded={isMenuOpen}
     >
       {isMenuOpen ? (
-        <svg
-          viewBox="0 0 26 26"
-          className="fixed right-[19px] top-[21px] w-[26px]"
-        >
+        <svg viewBox="0 0 26 26" className="w-[26px]">
           <title>Close Menu</title>
           <use href="/intro-section-with-dropdown-navigation/images/icon-close-menu.svg#icon-close-menu" />
         </svg>

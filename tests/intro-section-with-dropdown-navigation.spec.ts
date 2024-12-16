@@ -159,8 +159,7 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
           }
         }
       }
-      // fix button layout
-      await menuButton.locator("svg").click();
+      await menuButton.click();
       await expect(menuButton).toHaveAttribute("aria-expanded", "false");
       await expect(navContainer).not.toBeVisible();
     });
