@@ -98,7 +98,7 @@ function MenuContent({ navs }: { navs: Nav[] }) {
                 <a
                   role="menuitem"
                   className="w-full rounded px-[9px] py-2 font-kumbh-sans text-[18px] font-bold text-ecommerce-neutral-500"
-                  href={href}
+                  href={href ?? ""}
                   // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
                   tabIndex={1}
                 >

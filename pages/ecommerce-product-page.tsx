@@ -136,16 +136,20 @@ function Header() {
       </button>
       <MobileMenu navs={navs} />
       <Logo className="ml-2 lg:ml-0 lg:mt-[2px]" />
-      <nav className="ml-14 text-[15px] text-ecommerce-neutral-400 max-lg:hidden">
-        <ul className="flex gap-[32.75px] tracking-[.1px]">
+      <nav
+        className="ml-14 text-[15px] text-ecommerce-neutral-400 max-lg:hidden"
+        aria-label="Sneakers Product Page"
+      >
+        <ul role="menubar" className="flex gap-[32.75px] tracking-[.1px]">
           {navs.map((nav, index) => {
             const { text, href } = nav;
             return (
               <li
+                role="none"
                 key={`${index}-${nav.text}`}
                 className="hover:relative hover:text-ecommerce-neutral-600 hover:before:absolute hover:before:bottom-[-49px] hover:before:left-0 hover:before:z-20 hover:before:h-1 hover:before:w-full hover:before:bg-ecommerce-primary-200 hover:before:content-['']"
               >
-                <a href={href ?? ""} className="">
+                <a role="menuitem" href={href ?? ""} className="">
                   {text}
                 </a>
               </li>
