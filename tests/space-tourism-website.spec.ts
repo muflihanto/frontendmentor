@@ -255,10 +255,21 @@ function testHeader() {
         "href",
         new RegExp(
           page === "home"
-            ? `.*/space-tourism-website`
+            ? ".*/space-tourism-website"
             : `.*/space-tourism-website/${page}`,
         ),
       );
     }
+  });
+
+  /** Test if the page has a mobile menu*/
+  test.describe("has a mobile menu", () => {
+    test.use({ viewport: { width: 375, height: 667 } });
+
+    test("button is visible", async ({ page }) => {
+      const button = page.getByRole("banner").getByRole("button");
+      await expect(button).toBeVisible();
+      await expect(button).toBeInViewport();
+    });
   });
 }
