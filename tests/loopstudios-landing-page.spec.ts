@@ -162,21 +162,29 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
     test("menu button works", async ({ page }) => {
       const header = page.getByRole("banner");
       const button = header.getByRole("button");
+      await expect(button).toBeVisible();
+      await expect(button).toHaveAttribute("aria-haspopup", "true");
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      await expect(button).toHaveAttribute("aria-controls", "menu");
       await button.click();
       await page.waitForTimeout(500);
       const nav = header.getByRole("navigation");
       const links = ["About", "Careers", "Events", "Products", "Support"];
       await expect(nav).toBeVisible();
       await expect(nav).toBeInViewport();
+      await expect(button).toHaveAttribute("aria-expanded", "true");
       for (const link of links) {
-        await expect(nav.getByRole("link", { name: link })).toBeVisible();
-        await expect(nav.getByRole("link", { name: link })).toBeInViewport();
+        await expect(nav.getByRole("menuitem", { name: link })).toBeVisible();
+        await expect(
+          nav.getByRole("menuitem", { name: link }),
+        ).toBeInViewport();
         // FIXME: nav link text is black in playwright test ui
       }
       await button.click();
       await page.waitForTimeout(500);
       await expect(nav).not.toBeVisible();
       await expect(nav).not.toBeInViewport();
+      await expect(button).toHaveAttribute("aria-expanded", "false");
     });
   });
 });
