@@ -1,28 +1,30 @@
-import Link from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
+import Link from "next/link";
 import {
-  type AriaModalOverlayProps,
-  Overlay,
-  useModalOverlay,
-  useOverlayTrigger,
-  useButton,
-  type AriaButtonProps,
-} from "react-aria";
-import {
-  type OverlayTriggerProps,
-  type OverlayTriggerState,
-  useOverlayTriggerState,
-} from "react-stately";
-import { type Page, pages } from "./Layout";
-import {
-  type HTMLProps,
-  type PropsWithChildren,
   cloneElement,
   useRef,
+  type HTMLProps,
+  type PropsWithChildren,
 } from "react";
-import { cn } from "../../utils/cn";
+import {
+  Overlay,
+  useButton,
+  useDialog,
+  useModalOverlay,
+  useOverlayTrigger,
+  type AriaButtonProps,
+  type AriaDialogProps,
+  type AriaModalOverlayProps,
+} from "react-aria";
+import {
+  useOverlayTriggerState,
+  type OverlayTriggerProps,
+  type OverlayTriggerState,
+} from "react-stately";
 import { useOnClickOutside } from "usehooks-ts";
+import { cn } from "../../utils/cn";
+import { pages, type Page } from "./Layout";
 
 function Button(
   props: PropsWithChildren<AriaButtonProps & HTMLProps<HTMLButtonElement>>,
@@ -59,11 +61,7 @@ function Modal({
         className="fixed right-0 top-0 z-50 flex h-screen w-[254px] bg-white/[4%] [backdrop-filter:blur(40.75px)]"
         {...underlayProps}
       >
-        <div
-          {...modalProps}
-          className="flex h-full w-full flex-col py-[33px] pl-8 pr-[26.45px]"
-          ref={ref}
-        >
+        <div {...modalProps} className="relative h-screen w-full" ref={ref}>
           {children}
         </div>
       </div>
@@ -108,6 +106,26 @@ function MobileNav({
         </Modal>
       )}
     </>
+  );
+}
+
+interface DialogProps extends AriaDialogProps {
+  children: React.ReactNode;
+}
+
+function Dialog({ children, ...props }: DialogProps) {
+  const ref = useRef(null);
+  const { dialogProps } = useDialog(props, ref);
+
+  return (
+    <div
+      className="flex h-full w-full flex-col py-[33px] pl-8 pr-[26.45px]"
+      {...dialogProps}
+      ref={ref}
+      aria-label="Mobile Navigation Menu"
+    >
+      {children}
+    </div>
   );
 }
 
@@ -167,8 +185,12 @@ export default function Header({ currentPage }: { currentPage: Page }) {
       <MobileNav label="Open Mobile Navigation Menu">
         {(close) => {
           return (
-            <>
-              <Button onPress={close} className="self-end">
+            <Dialog>
+              <Button
+                onPress={close}
+                className="self-end"
+                aria-label="Close Navigation Menu"
+              >
                 <Image
                   src="/space-tourism-website/assets/shared/icon-close.svg"
                   width={20}
@@ -177,7 +199,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                 />
               </Button>
 
-              <nav className="mt-16">
+              <nav className="mt-16" aria-label="Main Menu">
                 <ul className="flex flex-col gap-8 font-barlow-condensed uppercase leading-[19px] tracking-[2.7px] text-space-tourism-white">
                   {pages.map((link, index) => {
                     return (
@@ -187,6 +209,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                             link === "home" ? "" : link
                           }`}
                           className="peer"
+                          aria-label={link[0].toUpperCase() + link.slice(1)}
                         >
                           <span className="mr-[9px] font-bold tabular-nums tracking-[2.4px]">
                             0{`${index}`}
@@ -206,7 +229,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                   })}
                 </ul>
               </nav>
-            </>
+            </Dialog>
           );
         }}
       </MobileNav>
