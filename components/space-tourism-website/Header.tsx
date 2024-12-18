@@ -89,6 +89,7 @@ function MobileNav({
           "flex items-center justify-center md:hidden",
           state.isOpen && "hidden",
         ])}
+        aria-label={props.label}
         {...triggerProps}
       >
         <Image

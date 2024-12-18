@@ -267,9 +267,51 @@ function testHeader() {
     test.use({ viewport: { width: 375, height: 667 } });
 
     test("button is visible", async ({ page }) => {
-      const button = page.getByRole("banner").getByRole("button");
+      const button = page.getByLabel("Open Mobile Navigation Menu");
       await expect(button).toBeVisible();
       await expect(button).toBeInViewport();
+    });
+
+    test("mobile navigation menu works", async ({ page }) => {
+      const menuButton = page.getByLabel("Open Mobile Navigation Menu");
+      const navContainer = page.getByRole("dialog");
+      const closeButton = navContainer.getByRole("button", {
+        name: "Close Navigation Menu",
+      });
+      await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
+      await expect(navContainer).not.toBeVisible();
+      for (const link of pages) {
+        await expect(
+          navContainer.getByRole("link", { name: link, exact: true }),
+        ).not.toBeVisible();
+      }
+      await menuButton.click();
+      await expect(menuButton).toHaveAttribute("aria-controls");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(navContainer).toBeVisible();
+      for (const link of pages) {
+        await expect(
+          navContainer.getByRole("link", {
+            name: link[0].toUpperCase() + link.slice(1),
+            exact: true,
+          }),
+        ).toBeVisible();
+      }
+      await closeButton.click();
+      await expect(navContainer).not.toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      for (const link of pages) {
+        await expect(
+          navContainer.getByRole("link", {
+            name: link[0].toUpperCase() + link.slice(1),
+            exact: true,
+          }),
+        ).not.toBeVisible();
+      }
+      await expect(closeButton).not.toBeVisible();
     });
   });
 }
