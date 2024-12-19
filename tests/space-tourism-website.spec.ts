@@ -249,16 +249,34 @@ function testHeader(pageName: (typeof pages)[number]) {
       header.getByRole("img", { name: "Space Tourism Logo" }),
     ).toBeVisible();
     const nav = header.getByRole("navigation");
-    for (const page of pages) {
-      await expect(nav.getByRole("link", { name: page })).toBeVisible();
-      await expect(nav.getByRole("link", { name: page })).toHaveAttribute(
+    for (const link of pages) {
+      await expect(
+        nav.getByRole("link", { name: link[0].toUpperCase() + link.slice(1) }),
+      ).toBeVisible();
+      await expect(
+        nav.getByRole("link", { name: link[0].toUpperCase() + link.slice(1) }),
+      ).toHaveAttribute(
         "href",
         new RegExp(
-          page === "home"
+          link === "home"
             ? ".*/space-tourism-website"
-            : `.*/space-tourism-website/${page}`,
+            : `.*/space-tourism-website/${link}`,
         ),
       );
+      const indicator = nav
+        .locator("li")
+        .filter({
+          has: page.getByRole("link", {
+            name: link[0].toUpperCase() + link.slice(1),
+            exact: true,
+          }),
+        })
+        .locator("div");
+      if (link === pageName) {
+        await expect(indicator).toBeVisible();
+      } else {
+        await expect(indicator).not.toBeVisible();
+      }
     }
   });
 

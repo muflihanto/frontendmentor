@@ -147,6 +147,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
         className={clsx([
           "max-md:hidden md:h-full md:w-[450px] md:bg-space-tourism-white/[4%] md:text-[14px] md:leading-[17px] md:tracking-[2.36px] md:[backdrop-filter:blur(40.75px)] lg:w-auto lg:text-base lg:leading-[19px] lg:tracking-[2.7px]",
         ])}
+        aria-label="Main Menu"
       >
         <ul className="flex items-center gap-4 md:h-full md:w-full md:justify-center md:gap-[37px] lg:justify-end lg:gap-12 lg:pl-[123px] lg:pr-[min(12vw,165px)]">
           {pages.map((link, index) => {
@@ -163,6 +164,7 @@ export default function Header({ currentPage }: { currentPage: Page }) {
                 <Link
                   href={`/space-tourism-website/${link === "home" ? "" : link}`}
                   className="peer"
+                  aria-label={link[0].toUpperCase() + link.slice(1)}
                 >
                   <span className="font-bold tabular-nums md:hidden lg:mr-[8px] lg:inline">
                     0{`${index}`}
