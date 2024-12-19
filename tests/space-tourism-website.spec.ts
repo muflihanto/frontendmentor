@@ -14,7 +14,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Home Page", () =
     await expect(page).toHaveTitle("Space Tourism Website | Home");
   });
 
-  testHeader();
+  testHeader("home");
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Destination Page
     await expect(page).toHaveTitle("Space Tourism Website | Destination");
   });
 
-  testHeader();
+  testHeader("destination");
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -135,7 +135,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () =
     await expect(page).toHaveTitle("Space Tourism Website | Crew");
   });
 
-  testHeader();
+  testHeader("crew");
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -194,7 +194,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
     await expect(page).toHaveTitle("Space Tourism Website | Technology");
   });
 
-  testHeader();
+  testHeader("technology");
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -240,7 +240,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
 });
 
 /** Test if the page has a header */
-function testHeader() {
+function testHeader(pageName: (typeof pages)[number]) {
   test("has a header", async ({ page }) => {
     const header = page.getByRole("banner");
     await expect(header).toBeVisible();
@@ -299,6 +299,20 @@ function testHeader() {
             exact: true,
           }),
         ).toBeVisible();
+        const indicator = navContainer
+          .locator("li")
+          .filter({
+            has: page.getByRole("link", {
+              name: link[0].toUpperCase() + link.slice(1),
+              exact: true,
+            }),
+          })
+          .locator("div");
+        if (link === pageName) {
+          await expect(indicator).toBeVisible();
+        } else {
+          await expect(indicator).not.toBeVisible();
+        }
       }
       await closeButton.click();
       await expect(navContainer).not.toBeVisible();
