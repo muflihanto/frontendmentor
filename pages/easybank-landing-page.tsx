@@ -41,14 +41,16 @@ function Header() {
         <MobileMenuButton />
       ) : (
         <>
-          <div
-            className={cn([
-              "flex items-center gap-[29.5px] justify-self-center pb-[1px] text-[15px] text-easybank-neutral-400 [&>a]:leading-none [&>a]:tracking-[-.5px]",
-              "[&>a:hover]:relative [&>a:hover]:text-easybank-primary-blue [&>a:hover]:before:absolute [&>a:hover]:before:bottom-[-33px] [&>a:hover]:before:left-0 [&>a:hover]:before:h-[4px] [&>a:hover]:before:w-full [&>a:hover]:before:bg-gradient-to-r [&>a:hover]:before:from-easybank-primary-green [&>a:hover]:before:to-easybank-primary-cyan [&>a:hover]:before:content-['']",
-            ])}
-          >
-            <NavigationLinks />
-          </div>
+          <nav className="justify-self-center" aria-label="Easybank">
+            <ul
+              className={cn([
+                "flex items-center gap-[29.5px] justify-self-center pb-[1px] text-[15px] text-easybank-neutral-400 [&>a]:leading-none [&>a]:tracking-[-.5px]",
+                "[&>a:hover]:relative [&>a:hover]:text-easybank-primary-blue [&>a:hover]:before:absolute [&>a:hover]:before:bottom-[-33px] [&>a:hover]:before:left-0 [&>a:hover]:before:h-[4px] [&>a:hover]:before:w-full [&>a:hover]:before:bg-gradient-to-r [&>a:hover]:before:from-easybank-primary-green [&>a:hover]:before:to-easybank-primary-cyan [&>a:hover]:before:content-['']",
+              ])}
+            >
+              <NavigationLinks />
+            </ul>
+          </nav>
           <RequestInvite className="mt-0 justify-self-end lg:max-w-[164px]" />
         </>
       )}
@@ -59,11 +61,21 @@ function Header() {
 function NavigationLinks() {
   return (
     <>
-      <a href="">Home</a>
-      <a href="">About</a>
-      <a href="">Contact</a>
-      <a href="">Blog</a>
-      <a href="">Careers</a>
+      <li>
+        <a href="">Home</a>
+      </li>
+      <li>
+        <a href="">About</a>
+      </li>
+      <li>
+        <a href="">Contact</a>
+      </li>
+      <li>
+        <a href="">Blog</a>
+      </li>
+      <li>
+        <a href="">Careers</a>
+      </li>
     </>
   );
 }
@@ -78,9 +90,11 @@ function MobileMenuButton() {
               {open ? <Icon variant="close" /> : <Icon variant="hamburger" />}
             </Popover.Button>
             <Popover.Panel className="absolute left-0 top-16 h-[600px] w-full bg-gradient-to-b from-easybank-primary-blue to-transparent p-[24px]">
-              <div className="flex w-full flex-col items-center gap-[26px] rounded bg-white p-[32px] pb-[34px] text-[19px] text-easybank-primary-blue [&>a]:leading-none [&>a]:tracking-[-.5px]">
-                <NavigationLinks />
-              </div>
+              <nav aria-label="Easybank">
+                <ul className="flex w-full flex-col items-center gap-[26px] rounded bg-white p-[32px] pb-[34px] text-[19px] text-easybank-primary-blue [&>a]:leading-none [&>a]:tracking-[-.5px]">
+                  <NavigationLinks />
+                </ul>
+              </nav>
             </Popover.Panel>
           </>
         );
@@ -310,22 +324,23 @@ function SocialIcons() {
     { icon: "instagram" },
   ];
   return (
-    <div className="mt-8 flex items-center gap-[15.5px] lg:mt-auto lg:gap-[12.5px]">
+    <ul className="mt-8 flex items-center gap-[15.5px] lg:mt-auto lg:gap-[12.5px]">
       {socialMedia.map(({ href, icon }) => {
         return (
-          <a
-            href={href ?? ""}
-            key={icon}
-            className="flex h-6 items-center justify-center lg:h-5"
-          >
-            <Icon
-              className="h-6 text-white hover:text-easybank-primary-green lg:h-5"
-              variant={icon}
-            />
-          </a>
+          <li key={icon}>
+            <a
+              href={href ?? ""}
+              className="flex h-6 items-center justify-center lg:h-5"
+            >
+              <Icon
+                className="h-6 text-white hover:text-easybank-primary-green lg:h-5"
+                variant={icon}
+              />
+            </a>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }
 
@@ -335,7 +350,7 @@ function Footer() {
       <div className="flex flex-col items-center lg:h-[95px] lg:flex-wrap lg:items-start lg:px-[165px]">
         <Logo variant="footer" />
         <SocialIcons />
-        <nav className="mt-[37px] lg:-ml-[30px] lg:mt-0 lg:h-full lg:py-[6.5px]">
+        <div className="mt-[37px] lg:-ml-[30px] lg:mt-0 lg:h-full lg:py-[6.5px]">
           <ul className="flex flex-col items-center gap-[19px] text-[15px] leading-none tracking-[-.25px] text-easybank-neutral-300 lg:grid lg:h-full lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-3 lg:gap-x-[calc(96/1440*100vw)] [&_a:hover]:text-easybank-primary-green">
             <li>
               <a href="">About Us</a>
@@ -356,7 +371,7 @@ function Footer() {
               <a href="">Privacy Policy</a>
             </li>
           </ul>
-        </nav>
+        </div>
         <RequestInvite className="mt-[38px] lg:ml-auto lg:mt-[1px]" />
         <p className="mt-[25px] text-[15px] tracking-[-.25px] text-easybank-neutral-400 lg:ml-auto lg:mt-[26px]">
           © Easybank. All Rights Reserved
@@ -478,7 +493,7 @@ function Icon({
       {...props}
       {...variantProps}
       role="graphics-symbol"
-      aria-label={variant[0].toUpperCase() + variant.slice(1)}
+      aria-label={`Easybank on ${variant[0].toUpperCase()}${variant.slice(1)}`}
     >
       <use
         href={`/easybank-landing-page/images/icon-${variant}.svg#icon-${variant}`}

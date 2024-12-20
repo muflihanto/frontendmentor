@@ -27,7 +27,7 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
 
   /** Test if the page has an intro section */
   test("has an intro section", async ({ page }) => {
-    const section = page.locator("div").nth(5);
+    const section = page.locator("div").nth(4);
     await expect(section).toBeVisible();
     await expect(
       section.getByRole("heading", {
@@ -74,7 +74,7 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
           "Manage your savings, investments, pension, and much more from one account. Tracking your money has never been easier.",
       },
     ] as const;
-    const section = page.locator("div").nth(9);
+    const section = page.locator("div").nth(8);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
@@ -130,7 +130,7 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
         cover: "/easybank-landing-page/images/image-confetti.jpg",
       },
     ] as const;
-    const section = page.locator("div").nth(15);
+    const section = page.locator("div").nth(14);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
@@ -154,7 +154,7 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
 
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
-    const footerNav = [
+    const footerLinks = [
       "About Us",
       "Contact",
       "Blog",
@@ -162,15 +162,28 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
       "Support",
       "Privacy Policy",
     ] as const;
+    const snss = [
+      "facebook",
+      "youtube",
+      "twitter",
+      "pinterest",
+      "instagram",
+    ] as const;
     const footer = page.getByRole("contentinfo");
     await footer.scrollIntoViewIfNeeded();
     await expect(footer).toBeVisible();
     await expect(footer.locator("div>svg")).toBeVisible();
-    const snsContainer = footer.locator("div").nth(1);
-    expect(await snsContainer.getByRole("link").all()).toHaveLength(5);
-    const navElement = footer.locator("nav");
-    for (const nav of footerNav) {
-      await expect(navElement.getByRole("link", { name: nav })).toBeVisible();
+    const snsContainer = footer.getByRole("list");
+    for (const sns of snss) {
+      await expect(
+        snsContainer.getByRole("link", { name: `Easybank on ${sns}` }),
+      ).toBeVisible();
+    }
+    const linksContainer = footer.getByRole("list").nth(1);
+    for (const link of footerLinks) {
+      await expect(
+        linksContainer.getByRole("link", { name: link }),
+      ).toBeVisible();
     }
     await expect(
       footer.getByRole("button", { name: "Request Invite" }),
