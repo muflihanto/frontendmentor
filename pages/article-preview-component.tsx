@@ -83,6 +83,10 @@ function Main() {
             }`}
             onClick={() => setShareMenu((prev) => !prev)}
             type="button"
+            id="sharemenubutton"
+            aria-haspopup="true"
+            aria-controls="sharemenu"
+            aria-expanded={shareMenu}
           >
             <svg
               viewBox="0 0 15 13"
@@ -121,11 +125,16 @@ function Main() {
 
 function SocialIcons() {
   return (
-    <ul className="flex items-center gap-4">
+    <ul
+      className="flex items-center gap-4"
+      id="sharemenu"
+      role="menu"
+      aria-labelledby="sharemenubutton"
+    >
       {(["facebook", "twitter", "pinterest"] as const).map((el) => {
         return (
-          <li key={el}>
-            <button type="button">
+          <li key={el} role="none">
+            <button type="button" role="menuitem">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

@@ -59,7 +59,7 @@ test.describe("FrontendMentor Challenge - Article preview component Page", () =>
     await expect(share).toBeVisible();
     expect(sns_list).toHaveLength(3);
     for (const name of sns) {
-      await expect(share.getByRole("button", { name })).toBeVisible();
+      await expect(share.getByRole("menuitem", { name })).toBeVisible();
     }
     await button.click();
     await expect(share).not.toBeVisible();
