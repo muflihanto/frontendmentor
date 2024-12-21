@@ -59,8 +59,8 @@ function Header() {
           alt="insure logo"
         />
       </div>
-      <nav>
-        <ul className="mt-[2px] flex items-center justify-start gap-[26px] max-md:hidden">
+      <nav aria-label="Main menu" className="max-md:hidden">
+        <ul className="mt-[2px] flex items-center justify-start gap-[26px]">
           <li>
             <a
               className="flex h-[40px] items-center text-[14px] font-bold uppercase tracking-[0.75px] text-insure-neutral-200 hover:text-insure-neutral-300"
@@ -103,8 +103,14 @@ function Header() {
 
 function MobileNav() {
   return (
-    <nav className="absolute left-0 top-20 z-10 h-[calc(100svh-80px)] w-full bg-insure-neutral-300 bg-[url('/insure-landing-page/images/bg-pattern-mobile-nav.svg')] bg-[length:375px_218px] bg-[bottom_0px_center] bg-no-repeat px-6 pt-[32px] lg:hidden">
-      <ul className="flex w-full flex-col items-center justify-start gap-[8px]">
+    <nav
+      className="absolute left-0 top-20 z-10 h-[calc(100svh-80px)] w-full bg-insure-neutral-300 bg-[url('/insure-landing-page/images/bg-pattern-mobile-nav.svg')] bg-[length:375px_218px] bg-[bottom_0px_center] bg-no-repeat px-6 pt-[32px] lg:hidden"
+      aria-label="Main menu"
+    >
+      <ul
+        className="flex w-full flex-col items-center justify-start gap-[8px]"
+        id="mobilemenu"
+      >
         <li>
           <a
             className="flex h-[56px] items-center text-[20px] font-bold uppercase tracking-[1.5px] text-insure-neutral-100"
@@ -151,12 +157,20 @@ function MobileNavButton({
 }) {
   const name = isOpen ? "close" : "hamburger";
   return (
-    <button onClick={toggle} className="lg:hidden" type="button">
+    <button
+      onClick={toggle}
+      className="lg:hidden"
+      type="button"
+      id="menubutton"
+      aria-haspopup="true"
+      aria-controls={isOpen ? "mobilemenu" : undefined}
+      aria-expanded={isOpen}
+    >
       <svg
         viewBox="0 0 32 32"
         className="w-8"
         role="graphics-symbol"
-        aria-label={`${name[0].toUpperCase() + name.slice(1)} Menu`}
+        aria-label={isOpen ? "Close main menu" : "Open main menu"}
       >
         <use
           href={`/insure-landing-page/images/icon-${name}.svg#icon-${name}`}
@@ -316,7 +330,7 @@ function Main() {
 
 function FooterNav() {
   return (
-    <nav className="flex flex-col items-center gap-[34px] text-[14px] font-semibold uppercase tracking-[1px] lg:w-full lg:flex-row lg:items-start lg:gap-[30px] [&>div>ul]:flex [&>div>ul]:flex-col [&>div>ul]:items-center [&>div>ul]:gap-[10px] lg:[&>div>ul]:items-start [&>div]:flex [&>div]:flex-col [&>div]:items-center [&>div]:gap-[30px] lg:[&>div]:flex-1 lg:[&>div]:items-start [&_a]:text-insure-neutral-300 [&_h3]:text-insure-neutral-200">
+    <div className="flex flex-col items-center gap-[34px] text-[14px] font-semibold uppercase tracking-[1px] lg:w-full lg:flex-row lg:items-start lg:gap-[30px] [&>div>ul]:flex [&>div>ul]:flex-col [&>div>ul]:items-center [&>div>ul]:gap-[10px] lg:[&>div>ul]:items-start [&>div]:flex [&>div]:flex-col [&>div]:items-center [&>div]:gap-[30px] lg:[&>div]:flex-1 lg:[&>div]:items-start [&_a]:text-insure-neutral-300 [&_h3]:text-insure-neutral-200">
       <div>
         <h3>Our company</h3>
         <ul>
@@ -407,7 +421,7 @@ function FooterNav() {
           </li>
         </ul>
       </div>
-    </nav>
+    </div>
   );
 }
 
