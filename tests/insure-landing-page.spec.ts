@@ -191,9 +191,15 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
     test("menu button works", async ({ page }) => {
       const header = page.getByRole("banner");
       const button = header.getByRole("button");
+      await expect(button).toBeVisible();
+      await expect(button).toHaveAttribute("aria-haspopup", "true");
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      await expect(button).not.toHaveAttribute("aria-controls", "mobilemenu");
       await button.click();
       await page.waitForTimeout(500);
-      const nav = header.getByRole("navigation").nth(1);
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      await expect(button).toHaveAttribute("aria-controls", "mobilemenu");
+      const nav = header.getByRole("navigation");
       const links = ["How we work", "Blog", "Account", "View plans"];
       await expect(nav).toBeVisible();
       await expect(nav).toBeInViewport();
@@ -203,6 +209,8 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       }
       await button.click();
       await page.waitForTimeout(500);
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      await expect(button).not.toHaveAttribute("aria-controls", "mobilemenu");
       await expect(nav).not.toBeVisible();
       await expect(nav).not.toBeInViewport();
     });
