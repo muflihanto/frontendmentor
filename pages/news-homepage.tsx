@@ -160,7 +160,7 @@ function NavLinks() {
       {navLinks.map((link) => {
         return (
           <li
-            key={link.href}
+            key={link.body}
             className="flex h-7 items-center text-[18px] lg:text-[16px]"
           >
             <a
@@ -186,7 +186,6 @@ function DesktopNav() {
   );
 }
 
-// FIXME: menu open layout shift
 function MobileMenu() {
   const [isMenuOpen, setMenuOpen] = useAtom(mobileMenuAtom);
   return (
@@ -198,6 +197,7 @@ function MobileMenu() {
       leave="transition-opacity duration-300"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
+      className="fixed left-0 top-0 z-50 h-[100svh] w-screen lg:hidden"
     >
       <div className="absolute left-0 top-0 h-screen w-screen bg-news-homepage-neutral-400/50">
         <Transition.Child
