@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { Fragment, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import { inter } from "../utils/fonts/inter";
@@ -122,7 +122,7 @@ export default function NewsHomepage() {
 }
 
 function Header() {
-  const setMenuOpen = useSetAtom(mobileMenuAtom);
+  const [menuOpen, setMenuOpen] = useAtom(mobileMenuAtom);
 
   return (
     <header className="flex h-[88px] items-center justify-between px-4 pb-1 lg:h-[184px] lg:px-[min(calc(50vw-472px),165px)] lg:py-0 lg:pt-[34px]">
@@ -138,9 +138,13 @@ function Header() {
         onClick={() => setMenuOpen(true)}
         className="hidden max-lg:block"
         type="button"
+        id="menubutton"
+        aria-haspopup="true"
+        aria-expanded={menuOpen}
+        aria-controls={menuOpen ? "mobilemenu" : undefined}
       >
         <svg viewBox="0 0 40 17" className="w-10">
-          <title>Hamburger</title>
+          <title>Open Main Menu</title>
           <use href="/news-homepage/assets/images/icon-menu.svg#icon-menu" />
         </svg>
       </button>
@@ -174,7 +178,7 @@ function NavLinks() {
 
 function DesktopNav() {
   return (
-    <nav className="hidden lg:block">
+    <nav className="hidden lg:block" aria-label="Main menu">
       <ul className="flex flex-row gap-[38.5px]">
         <NavLinks />
       </ul>
@@ -182,6 +186,7 @@ function DesktopNav() {
   );
 }
 
+// FIXME: menu open layout shift
 function MobileMenu() {
   const [isMenuOpen, setMenuOpen] = useAtom(mobileMenuAtom);
   return (
@@ -209,14 +214,18 @@ function MobileMenu() {
               onClick={() => setMenuOpen(false)}
               className="absolute right-[20px] top-[27px]"
               type="button"
+              aria-controls="mobilemenu"
             >
               <svg className="w-8" viewBox="0 0 32 31">
                 <title>Close Menu</title>
                 <use href="/news-homepage/assets/images/icon-menu-close.svg#icon-menu-close" />
               </svg>
             </button>
-            <nav className="absolute top-[142px] w-full px-5">
-              <ul className="flex flex-col gap-5">
+            <nav
+              className="absolute top-[142px] w-full px-5"
+              aria-label="Main menu"
+            >
+              <ul className="flex flex-col gap-5" id="mobilemenu">
                 <NavLinks />
               </ul>
             </nav>
