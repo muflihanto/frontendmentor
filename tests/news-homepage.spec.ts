@@ -180,8 +180,13 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
     test("menu button works", async ({ page }) => {
       const header = page.getByRole("banner").first();
       const button = header.getByRole("button");
+      await expect(button).toHaveAttribute("aria-haspopup", "true");
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      await expect(button).not.toHaveAttribute("aria-controls");
       await button.click();
       await page.waitForTimeout(500);
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      await expect(button).toHaveAttribute("aria-controls", "mobilemenu");
       const nav = page.getByRole("navigation");
       const links = ["Home", "New", "Popular", "Trending", "Categories"];
       await expect(nav).toBeVisible();
@@ -193,6 +198,8 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       const closeButton = page.getByRole("button").nth(1);
       await closeButton.click();
       await page.waitForTimeout(500);
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      await expect(button).not.toHaveAttribute("aria-controls");
       await expect(nav).not.toBeVisible();
       await expect(nav).not.toBeInViewport();
     });
