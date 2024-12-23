@@ -165,7 +165,7 @@ function NavLinks() {
           >
             <a
               href={link.href}
-              className="w-full rounded px-[5px] hover:text-news-homepage-primary-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-news-homepage-primary-red lg:px-0 lg:text-news-homepage-neutral-300"
+              className="w-full rounded px-[5px] text-news-homepage-neutral-400 hover:text-news-homepage-primary-red focus-visible:outline focus-visible:outline-2 focus-visible:outline-news-homepage-primary-red lg:px-0 lg:text-news-homepage-neutral-300"
             >
               {link.body}
             </a>
