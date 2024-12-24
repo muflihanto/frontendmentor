@@ -68,6 +68,9 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
       const header = page.getByRole("banner");
       const menuButton = header.getByRole("button");
       await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       // nav is not visible
       const nav = header.getByRole("navigation");
       for (const link of navLinks) {
@@ -75,11 +78,15 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
       }
       await menuButton.click();
       await page.waitForTimeout(250);
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(menuButton).toHaveAttribute("aria-controls", "menu");
       for (const link of navLinks) {
         await expect(nav.getByRole("link", { name: link })).toBeVisible();
       }
       await menuButton.click();
       await page.waitForTimeout(250);
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       for (const link of navLinks) {
         await expect(nav.getByRole("link", { name: link })).not.toBeVisible();
       }
