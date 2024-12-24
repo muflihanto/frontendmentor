@@ -57,7 +57,15 @@ function Header({
         <title id="logo-title">Logo</title>
         <use href="/project-tracking-intro-component/images/logo.svg#logo" />
       </svg>
-      <button onClick={toggle} className="hidden max-md:block" type="button">
+      <button
+        onClick={toggle}
+        className="hidden max-md:block"
+        type="button"
+        aria-haspopup="true"
+        id="menubutton"
+        aria-expanded={isMenuOpen}
+        aria-controls={isMenuOpen ? "menu" : undefined}
+      >
         {isMenuOpen ? (
           <svg
             className="w-6"
@@ -125,8 +133,14 @@ function NavAnchor({
 
 function NavigationMenu() {
   return (
-    <nav className="absolute top-[100px] z-10 h-[233px] w-[calc(100%-64px)] rounded-sm bg-white shadow-md md:static md:h-auto md:w-auto md:bg-transparent md:shadow-none">
-      <ul className="flex flex-col items-center gap-[19px] px-6 py-[22px] md:flex-row md:gap-[42px] md:p-0">
+    <nav
+      className="absolute top-[100px] z-10 h-[233px] w-[calc(100%-64px)] rounded-sm bg-white shadow-md md:static md:h-auto md:w-auto md:bg-transparent md:shadow-none"
+      aria-label="Project Tracking"
+    >
+      <ul
+        className="flex flex-col items-center gap-[19px] px-6 py-[22px] md:flex-row md:gap-[42px] md:p-0"
+        id="menu"
+      >
         <li>
           <NavAnchor variant="darkgrey">Product</NavAnchor>
         </li>
