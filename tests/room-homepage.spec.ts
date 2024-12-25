@@ -172,6 +172,9 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
       await expect(header).toBeInViewport();
       const menuButton = header.getByRole("button");
       await expect(menuButton).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       for (const { display } of links) {
         await expect(
           header.getByRole("link", { name: display }),
@@ -179,11 +182,15 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
       }
       await menuButton.click();
       await page.waitForTimeout(250);
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(menuButton).toHaveAttribute("aria-controls", "menu");
       for (const { display } of links) {
         await expect(header.getByRole("link", { name: display })).toBeVisible();
       }
       await menuButton.click();
       await page.waitForTimeout(250);
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       for (const { display } of links) {
         await expect(
           header.getByRole("link", { name: display }),
