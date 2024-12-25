@@ -146,6 +146,10 @@ function Header() {
           }}
           className="lg:hidden"
           type="button"
+          id="menubutton"
+          aria-haspopup="true"
+          aria-expanded={menuOpen}
+          aria-controls={menuOpen ? "menu" : undefined}
         >
           {menuOpen ? (
             <svg
@@ -177,8 +181,11 @@ function Header() {
         </svg>
         <AnimatePresence>
           {!menuOpen && width < 1024 ? null : (
-            <nav className="relative ml-auto pt-[3px] lg:ml-[56px] lg:pb-[2px] lg:pt-0">
-              <ul className="flex gap-8 lg:gap-[33px]">
+            <nav
+              className="relative ml-auto pt-[3px] lg:ml-[56px] lg:pb-[2px] lg:pt-0"
+              aria-label="Main menu"
+            >
+              <ul className="flex gap-8 lg:gap-[33px]" id="menu">
                 {links.map((link) => {
                   return (
                     <NavigationLink key={link.display} href={link.href}>
