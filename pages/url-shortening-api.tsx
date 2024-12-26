@@ -95,6 +95,10 @@ function MobileNav() {
           setOpen((o) => !o);
         }}
         type="button"
+        id="menubutton"
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls={open ? "menu" : undefined}
       >
         {open ? (
           <svg
@@ -141,7 +145,7 @@ function MobileNav() {
             "flex h-[383px] w-[calc(100%-48px)] max-w-screen-sm flex-col items-center rounded-xl bg-url-shortening-primary-violet px-6 pt-[43px] text-[18px] font-bold text-white"
           }
         >
-          <nav className="flex flex-col items-center gap-[39px] leading-none">
+          <nav aria-label="Main menu">
             <NavigationLinks />
           </nav>
           <hr className="mb-5 mt-9 w-full border-t border-t-url-shortening-neutral-200/30" />
@@ -164,18 +168,30 @@ function MobileNav() {
 
 function NavigationLinks() {
   return (
-    <>
-      <a href="">Features</a>
-      <a href="">Pricing</a>
-      <a href="">Resources</a>
-    </>
+    <ul
+      className="flex flex-col items-center gap-[39px] leading-none lg:contents"
+      id="menu"
+    >
+      <li>
+        <a href="">Features</a>
+      </li>
+      <li>
+        <a href="">Pricing</a>
+      </li>
+      <li>
+        <a href="">Resources</a>
+      </li>
+    </ul>
   );
 }
 
 function LargeNav() {
   return (
     <div className="mb-[6px] ml-[45px] flex h-full w-full items-center justify-between bg-transparent text-[15px] max-lg:hidden">
-      <nav className="flex items-center gap-[30px] font-bold text-url-shortening-neutral-200 [&>a:hover]:text-url-shortening-neutral-400 [&>a:last-child]:ml-[2px]">
+      <nav
+        className="flex items-center gap-[30px] font-bold text-url-shortening-neutral-200 [&>a:hover]:text-url-shortening-neutral-400 [&>a:last-child]:ml-[2px]"
+        aria-label="Main menu"
+      >
         <NavigationLinks />
       </nav>
       <div className="flex items-center gap-[5px] text-[15px] font-bold">
