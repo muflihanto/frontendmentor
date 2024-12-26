@@ -184,8 +184,13 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     });
 
     test("mobile navigation menu works", async () => {
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       await menuButton.click();
       await page.waitForTimeout(1000);
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(menuButton).toHaveAttribute("aria-controls", "menu");
       navContainer = header.locator("div").nth(2);
       await expect(navContainer).toBeVisible();
       for (const nav of headerNavs) {
@@ -194,6 +199,8 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
         ).toBeVisible();
       }
       await menuButton.click();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       await expect(navContainer).not.toBeVisible();
       for (const nav of headerNavs) {
         await expect(
