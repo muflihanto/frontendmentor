@@ -97,18 +97,21 @@ function MobileNav() {
           setOpen((o) => !o);
         }}
         type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls={open ? "menu" : undefined}
       >
         {open ? (
           <Image
             src={"/manage-landing-page/images/icon-close.svg"}
-            alt="Close Button"
+            alt="Close menu"
             height={22}
             width={21}
           />
         ) : (
           <Image
             src={"/manage-landing-page/images/icon-hamburger.svg"}
-            alt="Hamburger Button"
+            alt="Open menu"
             height={18}
             width={25}
           />
@@ -127,27 +130,38 @@ function MobileNav() {
         transition={{ duration: 0.25 }}
         className="fixed left-0 top-0 z-10 flex h-screen w-full origin-top flex-col items-center bg-gradient-to-b from-transparent to-black/60 pt-[103px]"
       >
-        <div
+        <nav
           className={
-            "flex h-[291px] w-[calc(100%-48px)] max-w-screen-sm flex-col items-center justify-center gap-[31px] rounded bg-white px-[32px] pt-[2px] font-bold text-manage-primary-blue [&>a]:leading-none [&>a]:tracking-[-.5px]"
+            "flex h-[291px] w-[calc(100%-48px)] max-w-screen-sm flex-col items-center justify-center gap-[23px] rounded bg-white px-[32px] font-bold text-manage-primary-blue [&_a]:leading-none [&_a]:tracking-[-.35px]"
           }
+          aria-label="Main menu"
         >
-          <NavigationLinks />
-        </div>
+          <NavigationLinks id="menu" />
+        </nav>
       </motion.div>
     </div>
   );
 }
 
-function NavigationLinks() {
+function NavigationLinks({ id }: { id?: string }) {
   return (
-    <>
-      <a href="">Pricing</a>
-      <a href="">Product</a>
-      <a href="">About Us</a>
-      <a href="">Careers</a>
-      <a href="">Community</a>
-    </>
+    <ul className="contents" id={id}>
+      <li>
+        <a href="">Pricing</a>
+      </li>
+      <li>
+        <a href="">Product</a>
+      </li>
+      <li>
+        <a href="">About Us</a>
+      </li>
+      <li>
+        <a href="">Careers</a>
+      </li>
+      <li>
+        <a href="">Community</a>
+      </li>
+    </ul>
   );
 }
 
@@ -155,9 +169,12 @@ function Header() {
   return (
     <header className="absolute left-0 top-0 flex h-[105px] w-full items-center justify-between bg-transparent px-6 pt-[3px] sm:px-16 md:px-24 lg:h-[155px] lg:justify-between lg:px-32 lg:pt-0 xl:px-[165px]">
       <Logo variant="header" className="h-[18px] lg:mt-[14px] lg:h-[24px]" />
-      <div className="mr-[10px] hidden gap-[35px] text-[12.5px] font-medium text-manage-primary-blue lg:mt-[4px] lg:flex lg:place-self-center [&>a:hover]:opacity-50">
+      <nav
+        aria-label="Main menu"
+        className="mr-[10px] gap-[35px] text-[12.5px] font-medium text-manage-primary-blue max-lg:hidden lg:mt-[4px] lg:flex lg:place-self-center [&_a:hover]:opacity-50"
+      >
         <NavigationLinks />
-      </div>
+      </nav>
       <GetStarted
         variant="primary"
         className="max-lg:hidden lg:place-self-end lg:self-center"
@@ -606,7 +623,7 @@ function Footer() {
         )}
       </form>
 
-      <nav className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-[720px] lg:place-content-between">
+      <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-[720px] lg:place-content-between">
         <ul className="grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-[75px] gap-y-[12.5px] pl-[13px] pt-[4px] text-[15px] tracking-[-.25px] text-manage-neutral-200 lg:gap-x-[18px] lg:py-0 lg:pl-[min(calc(100vw-1024px+16px),124px)]">
           {navLinks.map((link, index) => {
             return (
@@ -618,7 +635,7 @@ function Footer() {
             );
           })}
         </ul>
-      </nav>
+      </div>
 
       <SocialIcons className="h-8 gap-[34px] lg:col-start-1 lg:row-start-2 lg:h-[20px] lg:justify-between lg:gap-0 lg:self-end lg:pr-px" />
 
