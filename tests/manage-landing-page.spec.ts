@@ -234,9 +234,14 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     });
 
     test("mobile navigation menu works", async () => {
+      await expect(menuButton).toHaveAttribute("aria-haspopup", "true");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       await menuButton.click();
       await page.waitForTimeout(1000);
-      navContainer = header.locator("div").nth(2);
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+      await expect(menuButton).toHaveAttribute("aria-controls", "menu");
+      navContainer = header.getByRole("navigation", { name: "Main menu" });
       await expect(navContainer).toBeVisible();
       for (const nav of headerNavs) {
         await expect(
@@ -244,6 +249,8 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
         ).toBeVisible();
       }
       await menuButton.click();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(menuButton).not.toHaveAttribute("aria-controls");
       await expect(navContainer).not.toBeVisible();
       for (const nav of headerNavs) {
         await expect(
