@@ -20,7 +20,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
             fill
           />
         </div>
-        <div className="flex flex-col pt-1 lg:mt-[16px] lg:pl-[4px]">
+        <div className="flex flex-col pt-1 lg:mt-[16px] lg:pl-[4px]" id="title">
           <p className="text-[15px] leading-[17px] text-tracking-neutral-100/75 lg:leading-[22px]">
             Report for
           </p>
@@ -29,10 +29,14 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
           </p>
         </div>
       </div>
-      <ul className="grid w-full grid-cols-3 pb-[22px] pt-[21px] lg:grid-cols-1 lg:grid-rows-3 lg:gap-[15px] lg:px-8 lg:pt-[23px]">
+      <ul
+        className="grid w-full grid-cols-3 pb-[22px] pt-[21px] lg:grid-cols-1 lg:grid-rows-3 lg:gap-[15px] lg:px-8 lg:pt-[23px]"
+        role="tablist"
+        aria-labelledby="title"
+      >
         {buttons.map((button, index) => {
           return (
-            <li key={`${index}-${button}`}>
+            <li key={`${index}-${button}`} role="none">
               <button
                 className={`${
                   button.toLowerCase() === activeTab
@@ -43,6 +47,10 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
                   setActiveTab(button.toLowerCase() as TimeUnit);
                 }}
                 type="button"
+                role="tab"
+                id={`tab-${button.toLowerCase()}`}
+                aria-selected={activeTab === button}
+                aria-controls="tabpanel"
               >
                 {button}
               </button>

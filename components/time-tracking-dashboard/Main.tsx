@@ -33,17 +33,24 @@ export default function Main() {
   return (
     <div className="mx-auto grid w-full max-w-lg grid-rows-[7] gap-y-6 px-6 pb-[80.8px] pt-[81.2px] lg:h-[calc(518px)] lg:max-w-[calc(1110/1440*100vw)] lg:grid-cols-4 lg:grid-rows-2 lg:gap-[30px] lg:p-0">
       <User activeTab={activeTab} setActiveTab={setActiveTab} />
-      {data.map((el, index) => {
-        return (
-          <ActivityCard
-            key={`${index}-${el.title}`}
-            title={el.title as ActivityType}
-            timeframes={el.timeframes[activeTab]}
-            timeUnit={timeUnit.current[activeTab]}
-            bgColor={activityStyle.current[el.title as ActivityType]}
-          />
-        );
-      })}
+      <div
+        className="contents"
+        id="tabpanel"
+        role="tabpanel"
+        aria-labelledby={`tab-${activeTab}`}
+      >
+        {data.map((el, index) => {
+          return (
+            <ActivityCard
+              key={`${index}-${el.title}`}
+              title={el.title as ActivityType}
+              timeframes={el.timeframes[activeTab]}
+              timeUnit={timeUnit.current[activeTab]}
+              bgColor={activityStyle.current[el.title as ActivityType]}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
