@@ -15,6 +15,7 @@ export type ActivityData = (typeof data)[number];
 export type ActivityType = (typeof activities)[number];
 export type TimeUnit = keyof (typeof data)[number]["timeframes"];
 
+// TODO: add tabs keyboard support
 export default function Main() {
   const [activeTab, setActiveTab] = useState<TimeUnit>("weekly");
   const timeUnit = useRef({

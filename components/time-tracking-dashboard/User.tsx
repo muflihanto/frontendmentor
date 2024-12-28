@@ -49,7 +49,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
                 type="button"
                 role="tab"
                 id={`tab-${button.toLowerCase()}`}
-                aria-selected={activeTab === button}
+                aria-selected={activeTab === button.toLowerCase()}
                 aria-controls="tabpanel"
               >
                 {button}

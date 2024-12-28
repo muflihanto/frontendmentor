@@ -47,26 +47,31 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
       daily: "Yesterday",
       monthly: "Last Month",
     };
-    const switcher = page.getByText(units.join(""));
-    await expect(switcher.getByRole("button", { name: "Weekly" })).toHaveCSS(
+    const switcher = page.getByLabel("Report forJeremy Robson");
+    await expect(switcher.getByRole("tab", { name: "Weekly" })).toHaveCSS(
       "color",
       "rgb(255, 255, 255)",
     );
     type Timeframe = keyof (typeof data)[number]["timeframes"];
+    const tabpanel = page.getByRole("tabpanel");
     for (const name of units) {
-      const button = switcher.getByRole("button", { name });
+      const button = switcher.getByRole("tab", { name });
       await expect(button).toBeVisible();
+      await expect(button).toHaveAttribute("aria-selected", "false");
+      await expect(button).toHaveAttribute("aria-controls", "tabpanel");
+      await expect(tabpanel).not.toHaveAccessibleName(name);
       await button.click();
-      await expect(switcher.getByRole("button", { name })).toHaveCSS(
+      await expect(button).toHaveAttribute("aria-selected", "true");
+      await expect(tabpanel).toHaveAccessibleName(name);
+      await expect(switcher.getByRole("tab", { name })).toHaveCSS(
         "color",
         "rgb(255, 255, 255)",
       );
       for (const activity of data) {
-        const title = page
+        const container = page
           .locator("div")
           .filter({ hasText: activity.title })
-          .nth(0);
-        const container = page.locator("div").filter({ has: title }).nth(3);
+          .nth(4);
         await expect(container.getByText(activity.title)).toBeVisible();
         await expect(
           container.getByText(
