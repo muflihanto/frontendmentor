@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { TimeUnit } from "./Main";
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, KeyboardEvent, SetStateAction } from "react";
 
 type UserProps = {
   activeTab: TimeUnit;
@@ -8,6 +8,59 @@ type UserProps = {
 };
 export default function User({ activeTab, setActiveTab }: UserProps) {
   const buttons = ["Daily", "Weekly", "Monthly"];
+
+  const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    const tab = event.currentTarget;
+    const parent = tab.parentElement;
+    const tablist = parent?.parentElement;
+    const key = event.key;
+    const allTabs = tablist?.querySelectorAll("button");
+    const firstTab = allTabs?.[0];
+    const lastTab = allTabs?.[allTabs.length - 1];
+    const nextTab = parent?.nextElementSibling?.querySelector("button");
+    const prevTab = parent?.previousElementSibling?.querySelector("button");
+
+    let flag = false;
+
+    switch (key) {
+      case "Down":
+      case "ArrowDown":
+        if (nextTab) {
+          nextTab.focus();
+        } else {
+          firstTab?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Up":
+      case "ArrowUp":
+        if (prevTab) {
+          prevTab.focus();
+        } else {
+          lastTab?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Home":
+      case "PageUp":
+        firstTab?.focus();
+        flag = true;
+        break;
+
+      case "End":
+      case "PageDown":
+        lastTab?.focus();
+        flag = true;
+        break;
+    }
+
+    if (flag) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
 
   return (
     <div className="rounded-[16px] bg-tracking-neutral-300 lg:row-span-2">
@@ -51,6 +104,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
                 id={`tab-${button.toLowerCase()}`}
                 aria-selected={activeTab === button.toLowerCase()}
                 aria-controls="tabpanel"
+                onKeyDown={onItemKeyDown}
               >
                 {button}
               </button>
