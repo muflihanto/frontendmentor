@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { TimeUnit } from "./Main";
 import type { Dispatch, KeyboardEvent, SetStateAction } from "react";
+import { useWindowSize } from "usehooks-ts";
 
 type UserProps = {
   activeTab: TimeUnit;
@@ -8,6 +9,7 @@ type UserProps = {
 };
 export default function User({ activeTab, setActiveTab }: UserProps) {
   const buttons = ["Daily", "Weekly", "Monthly"];
+  const { width } = useWindowSize();
 
   const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     const tab = event.currentTarget;
@@ -25,22 +27,50 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
     switch (key) {
       case "Down":
       case "ArrowDown":
-        if (nextTab) {
-          nextTab.focus();
-        } else {
-          firstTab?.focus();
+        if (width > 1023) {
+          if (nextTab) {
+            nextTab.focus();
+          } else {
+            firstTab?.focus();
+          }
+          flag = true;
         }
-        flag = true;
         break;
 
       case "Up":
       case "ArrowUp":
-        if (prevTab) {
-          prevTab.focus();
-        } else {
-          lastTab?.focus();
+        if (width > 1023) {
+          if (prevTab) {
+            prevTab.focus();
+          } else {
+            lastTab?.focus();
+          }
+          flag = true;
         }
-        flag = true;
+        break;
+
+      case "Right":
+      case "ArrowRight":
+        if (width <= 1023) {
+          if (nextTab) {
+            nextTab.focus();
+          } else {
+            firstTab?.focus();
+          }
+          flag = true;
+        }
+        break;
+
+      case "Left":
+      case "ArrowLeft":
+        if (width <= 1023) {
+          if (prevTab) {
+            prevTab.focus();
+          } else {
+            lastTab?.focus();
+          }
+          flag = true;
+        }
         break;
 
       case "Home":
@@ -86,6 +116,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
         className="grid w-full grid-cols-3 pb-[22px] pt-[21px] lg:grid-cols-1 lg:grid-rows-3 lg:gap-[15px] lg:px-8 lg:pt-[23px]"
         role="tablist"
         aria-labelledby="title"
+        aria-orientation={width > 1023 ? "vertical" : "horizontal"}
       >
         {buttons.map((button, index) => {
           return (
