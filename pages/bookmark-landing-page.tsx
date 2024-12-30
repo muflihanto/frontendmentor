@@ -30,6 +30,7 @@ import {
   useOverlayTriggerState,
 } from "react-stately";
 import { rubik } from "../utils/fonts/rubik";
+import { useWindowSize } from "usehooks-ts";
 
 interface DialogProps extends AriaDialogProps {
   children: React.ReactNode;
@@ -333,7 +334,7 @@ function TabButton({
   return (
     <button
       className={cn([
-        "h-[58px] w-full text-[17px] text-bookmark-neutral-200/75 hover:text-bookmark-primary-red lg:h-[80px]", //
+        "h-[57.5px] w-full text-[17px] text-bookmark-neutral-200/75 hover:text-bookmark-primary-red lg:h-[80px]", //
         active &&
           "relative text-bookmark-neutral-200 before:absolute before:bottom-0 before:left-1/2 before:h-1 before:w-[143px] before:-translate-x-1/2 before:bg-bookmark-primary-red hover:text-bookmark-neutral-200 lg:before:w-full",
       ])}
@@ -369,6 +370,7 @@ function FeatureIllustration({
 
 function Feature() {
   const [tab, setTab] = useState(0);
+  const { width } = useWindowSize();
   const features = [
     {
       name: "Simple Bookmarking",
@@ -393,7 +395,10 @@ function Feature() {
   return (
     <div className="mt-[150px] lg:mt-[90px]">
       <div className="flex flex-col items-center px-8">
-        <h2 className="text-[24px] font-medium leading-[32px] text-bookmark-neutral-200 lg:text-[32px]">
+        <h2
+          className="text-[24px] font-medium leading-[32px] text-bookmark-neutral-200 lg:text-[32px]"
+          id="features"
+        >
           Features
         </h2>
         <p className="mt-[10px] text-center text-[15px] leading-[25px] text-bookmark-neutral-100 lg:mt-[26px] lg:w-[540px] lg:text-[18px] lg:leading-[28px]">
@@ -402,24 +407,39 @@ function Feature() {
           them on the go.
         </p>
 
-        <div className="mt-[39px] flex w-full flex-col items-center divide-y border-y text-bookmark-neutral-100 lg:mt-10 lg:grid lg:w-[730px] lg:grid-cols-3 lg:grid-rows-1 lg:divide-none lg:border-b lg:border-t-0">
+        <ul
+          className="mt-[39px] flex w-full flex-col items-center divide-y border-y text-bookmark-neutral-100 lg:mt-10 lg:grid lg:w-[730px] lg:grid-cols-3 lg:grid-rows-1 lg:divide-none lg:border-b lg:border-t-0"
+          role="tablist"
+          aria-labelledby="features"
+          aria-orientation={width > 1023 ? "horizontal" : "vertical"}
+        >
           {features.map((feature, index) => {
             return (
-              <TabButton
-                active={tab === index}
-                key={feature.name}
-                onClick={() => {
-                  setTab(index);
-                }}
-              >
-                {feature.name}
-              </TabButton>
+              <li key={feature.name} className="w-full">
+                <TabButton
+                  active={tab === index}
+                  onClick={() => {
+                    setTab(index);
+                  }}
+                  role="tab"
+                  id={`tab-${index + 1}`}
+                  aria-selected={tab === index}
+                  aria-controls="tabpanel"
+                >
+                  {feature.name}
+                </TabButton>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
 
-      <div className="lg:mt-[72px] lg:grid lg:h-[435px] lg:grid-cols-2 lg:grid-rows-1">
+      <div
+        className="lg:mt-[72px] lg:grid lg:h-[435px] lg:grid-cols-2 lg:grid-rows-1"
+        id="tabpanel"
+        role="tabpanel"
+        aria-labelledby={`tab-${tab + 1}`}
+      >
         <div className="relative mt-[35px] w-full py-[37px] lg:mt-0 lg:py-0 lg:pr-[14px]">
           <div className="relative z-10 w-full px-8 lg:flex lg:items-center lg:justify-end lg:px-0">
             <FeatureIllustration variant={tab} />
