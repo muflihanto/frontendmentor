@@ -3,6 +3,7 @@ import Image from "next/image";
 import {
   type CSSProperties,
   type ComponentProps,
+  type KeyboardEvent,
   type PropsWithChildren,
   cloneElement,
   useEffect,
@@ -331,6 +332,88 @@ function TabButton({
   children,
   ...props
 }: PropsWithChildren<{ active: boolean } & ComponentProps<"button">>) {
+  const { width } = useWindowSize();
+  const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    const tab = event.currentTarget;
+    const parent = tab.parentElement;
+    const tablist = parent?.parentElement;
+    const key = event.key;
+    const allTabs = tablist?.querySelectorAll("button");
+    const firstTab = allTabs?.[0];
+    const lastTab = allTabs?.[allTabs.length - 1];
+    const nextTab = parent?.nextElementSibling?.querySelector("button");
+    const prevTab = parent?.previousElementSibling?.querySelector("button");
+
+    let flag = false;
+
+    switch (key) {
+      case "Down":
+      case "ArrowDown":
+        if (width <= 1023) {
+          if (nextTab) {
+            nextTab.focus();
+          } else {
+            firstTab?.focus();
+          }
+          flag = true;
+        }
+        break;
+
+      case "Up":
+      case "ArrowUp":
+        if (width <= 1023) {
+          if (prevTab) {
+            prevTab.focus();
+          } else {
+            lastTab?.focus();
+          }
+          flag = true;
+        }
+        break;
+
+      case "Right":
+      case "ArrowRight":
+        if (width > 1023) {
+          if (nextTab) {
+            nextTab.focus();
+          } else {
+            firstTab?.focus();
+          }
+          flag = true;
+        }
+        break;
+
+      case "Left":
+      case "ArrowLeft":
+        if (width > 1023) {
+          if (prevTab) {
+            prevTab.focus();
+          } else {
+            lastTab?.focus();
+          }
+          flag = true;
+        }
+        break;
+
+      case "Home":
+      case "PageUp":
+        firstTab?.focus();
+        flag = true;
+        break;
+
+      case "End":
+      case "PageDown":
+        lastTab?.focus();
+        flag = true;
+        break;
+    }
+
+    if (flag) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
+
   return (
     <button
       className={cn([
@@ -339,6 +422,7 @@ function TabButton({
           "relative text-bookmark-neutral-200 before:absolute before:bottom-0 before:left-1/2 before:h-1 before:w-[143px] before:-translate-x-1/2 before:bg-bookmark-primary-red hover:text-bookmark-neutral-200 lg:before:w-full",
       ])}
       {...props}
+      onKeyDown={onItemKeyDown}
     >
       {children}
     </button>
