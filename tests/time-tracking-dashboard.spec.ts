@@ -91,40 +91,92 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
         ).toBeVisible();
       }
     }
-    // Keyboard navigation support
-    for (const [idx, unit] of Object.entries(units)) {
-      const index = Number.parseInt(idx);
-      const button = switcher.getByRole("tab", { name: unit });
-      const nextTabButton = switcher.getByRole("tab", {
-        name: units[index === 2 ? 0 : index + 1],
+  });
+
+  /** Test if the tab keyboard navigation works  */
+  test.describe("tab keyboard navigation works", () => {
+    const units = ["Daily", "Weekly", "Monthly"];
+
+    test("works on desktop", async ({ page }) => {
+      const switcher = page.getByLabel("Report forJeremy Robson");
+      const tabpanel = page.getByRole("tabpanel");
+      for (const [idx, unit] of Object.entries(units)) {
+        const index = Number.parseInt(idx);
+        const button = switcher.getByRole("tab", { name: unit });
+        const nextTabButton = switcher.getByRole("tab", {
+          name: units[index === 2 ? 0 : index + 1],
+        });
+        const prevTabButton = switcher.getByRole("tab", {
+          name: units[index === 0 ? 2 : index - 1],
+        });
+        const firstTabButton = switcher.getByRole("tab", { name: units[0] });
+        const lastTabButton = switcher.getByRole("tab", { name: units[2] });
+        await button.focus();
+        await page.keyboard.press("ArrowDown");
+        await expect(nextTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(
+          units[index === 2 ? 0 : index + 1],
+        );
+        await page.keyboard.press("ArrowUp");
+        await page.keyboard.press("ArrowUp");
+        await expect(prevTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(
+          units[index === 0 ? 2 : index - 1],
+        );
+        await page.keyboard.press("Home");
+        await expect(firstTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(units[0]);
+        await page.keyboard.press("End");
+        await expect(lastTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(units[2]);
+      }
+    });
+
+    test.describe("works on mobile", () => {
+      test.use({ viewport: { width: 375, height: 667 } });
+
+      test("works on mobile", async ({ page }) => {
+        const switcher = page.getByLabel("Report forJeremy Robson");
+        const tabpanel = page.getByRole("tabpanel");
+        for (const [idx, unit] of Object.entries(units)) {
+          const index = Number.parseInt(idx);
+          const button = switcher.getByRole("tab", { name: unit });
+          const nextTabButton = switcher.getByRole("tab", {
+            name: units[index === 2 ? 0 : index + 1],
+          });
+          const prevTabButton = switcher.getByRole("tab", {
+            name: units[index === 0 ? 2 : index - 1],
+          });
+          const firstTabButton = switcher.getByRole("tab", { name: units[0] });
+          const lastTabButton = switcher.getByRole("tab", { name: units[2] });
+          await button.focus();
+          await page.keyboard.press("ArrowRight");
+          await expect(nextTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(
+            units[index === 2 ? 0 : index + 1],
+          );
+          await page.keyboard.press("ArrowLeft");
+          await page.keyboard.press("ArrowLeft");
+          await expect(prevTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(
+            units[index === 0 ? 2 : index - 1],
+          );
+          await page.keyboard.press("Home");
+          await expect(firstTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(units[0]);
+          await page.keyboard.press("End");
+          await expect(lastTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(units[2]);
+        }
       });
-      const prevTabButton = switcher.getByRole("tab", {
-        name: units[index === 0 ? 2 : index - 1],
-      });
-      const firstTabButton = switcher.getByRole("tab", { name: units[0] });
-      const lastTabButton = switcher.getByRole("tab", { name: units[2] });
-      await button.focus();
-      await page.keyboard.press("ArrowDown");
-      await expect(nextTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName(
-        units[index === 2 ? 0 : index + 1],
-      );
-      await page.keyboard.press("ArrowUp");
-      await page.keyboard.press("ArrowUp");
-      await expect(prevTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName(
-        units[index === 0 ? 2 : index - 1],
-      );
-      await page.keyboard.press("Home");
-      await expect(firstTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName(units[0]);
-      await page.keyboard.press("End");
-      await expect(lastTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName(units[2]);
-    }
+    });
   });
 });
