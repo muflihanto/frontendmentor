@@ -133,6 +133,50 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         ).toBeVisible();
       }
     });
+
+    /** Test if the tab keyboard navigation works  */
+    test.describe("tab keyboard navigation works", () => {
+      const tabs = ["Simple Bookmarking", "Speedy Searching", "Easy Sharing"];
+
+      test("works on desktop", async ({ page }) => {
+        const switcher = page.getByRole("tablist");
+        const tabpanel = page.getByRole("tabpanel");
+        for (const [idx, unit] of Object.entries(tabs)) {
+          const index = Number.parseInt(idx);
+          const button = switcher.getByRole("tab", { name: unit });
+          const nextTabButton = switcher.getByRole("tab", {
+            name: tabs[index === 2 ? 0 : index + 1],
+          });
+          const prevTabButton = switcher.getByRole("tab", {
+            name: tabs[index === 0 ? 2 : index - 1],
+          });
+          const firstTabButton = switcher.getByRole("tab", { name: tabs[0] });
+          const lastTabButton = switcher.getByRole("tab", { name: tabs[2] });
+          await button.focus();
+          await page.keyboard.press("ArrowRight");
+          await expect(nextTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(
+            tabs[index === 2 ? 0 : index + 1],
+          );
+          await page.keyboard.press("ArrowLeft");
+          await page.keyboard.press("ArrowLeft");
+          await expect(prevTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(
+            tabs[index === 0 ? 2 : index - 1],
+          );
+          await page.keyboard.press("Home");
+          await expect(firstTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(tabs[0]);
+          await page.keyboard.press("End");
+          await expect(lastTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(tabs[2]);
+        }
+      });
+    });
   });
 
   /** Test if the page has a 'Download the extension' section */
