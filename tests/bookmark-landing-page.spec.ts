@@ -88,10 +88,10 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         ),
       ).toBeVisible();
       const initialFeature = features[0];
-      const tabs = section.locator("div").nth(1);
+      const tabs = section.getByRole("tablist");
       for (const feature of features) {
         await expect(
-          tabs.getByRole("button", { name: feature.name }),
+          tabs.getByRole("tab", { name: feature.name }),
         ).toBeVisible();
       }
       await expect(
