@@ -1,7 +1,7 @@
 import { motion, useDragControls, useMotionValue } from "framer-motion";
 // import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { useDarkMode } from "usehooks-ts";
+import { useDarkMode, useWindowSize } from "usehooks-ts";
 import _data from "./data.json";
 import { atomWithStorage } from "jotai/utils";
 import { useAtom } from "jotai";
@@ -94,6 +94,7 @@ function Todo() {
     handleSubmit,
     formState: { isSubmitSuccessful },
   } = useForm<InputScheme>({ resolver: zodResolver(zInputSchema) });
+  const { width } = useWindowSize();
 
   const onSubmit = handleSubmit((dat) => {
     setData((prev) => {
@@ -177,6 +178,9 @@ function Todo() {
           }
         }}
         className="relative mt-4 w-full max-w-[540px] rounded-md bg-white shadow-lg shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 dark:shadow-black/50 lg:mt-6 lg:shadow-[0px_40px_10px_-20px_var(--tw-shadow-colored),0px_25px_25px_20px_var(--tw-shadow-colored)] lg:shadow-black/[.025] lg:dark:shadow-black/[.15]"
+        role="tabpanel"
+        id="tabpanel"
+        aria-labelledby={`tab-${filterType}${width <= 1023 ? "-2" : ""}`}
       >
         {data.filter(filter).map((d, index) => {
           return (
@@ -193,47 +197,69 @@ function Todo() {
           <p className="lg:text-left">{`${
             data.filter((d) => !d.completed).length
           } items left`}</p>
-          <div className="flex gap-5 max-lg:hidden">
-            <button
-              type="button"
-              onClick={() => {
-                setFilterType("all");
-              }}
-              className={`${
-                filterType === "all"
-                  ? "text-todo-primary-blue"
-                  : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
-              } text-[14px] font-bold tracking-[-.25px]`}
-            >
-              All
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setFilterType("active");
-              }}
-              className={`${
-                filterType === "active"
-                  ? "text-todo-primary-blue"
-                  : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
-              } text-[14px] font-bold tracking-[-.25px]`}
-            >
-              Active
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setFilterType("completed");
-              }}
-              className={`${
-                filterType === "completed"
-                  ? "text-todo-primary-blue"
-                  : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
-              } text-[14px] font-bold tracking-[-.25px]`}
-            >
-              Completed
-            </button>
-          </div>
+          <ul
+            className="flex gap-5 max-lg:hidden"
+            role="tablist"
+            aria-label="Filter"
+          >
+            <li role="none">
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterType("all");
+                }}
+                className={`${
+                  filterType === "all"
+                    ? "text-todo-primary-blue"
+                    : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
+                } text-[14px] font-bold tracking-[-.25px]`}
+                role="tab"
+                id="tab-all"
+                aria-controls="tabpanel"
+                aria-selected={filterType === "all"}
+              >
+                All
+              </button>
+            </li>
+            <li role="none">
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterType("active");
+                }}
+                className={`${
+                  filterType === "active"
+                    ? "text-todo-primary-blue"
+                    : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
+                } text-[14px] font-bold tracking-[-.25px]`}
+                role="tab"
+                id="tab-active"
+                aria-controls="tabpanel"
+                aria-selected={filterType === "active"}
+              >
+                Active
+              </button>
+            </li>
+            <li role="none">
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterType("completed");
+                }}
+                className={`${
+                  filterType === "completed"
+                    ? "text-todo-primary-blue"
+                    : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
+                } text-[14px] font-bold tracking-[-.25px]`}
+                role="tab"
+                id="tab-completed"
+                aria-controls="tabpanel"
+                aria-selected={filterType === "completed"}
+              >
+                Completed
+              </button>
+            </li>
+          </ul>
           <button
             type="button"
             className="hover:text-todo-neutral-light-500 dark:hover:text-todo-neutral-dark-200 lg:text-right lg:tracking-[-.2px]"
@@ -245,47 +271,69 @@ function Todo() {
           </button>
         </div>
       </Reorder.Group>
-      <div className="mt-4 flex h-[48px] w-full max-w-[540px] items-center justify-center gap-[20px] rounded-md bg-white pt-1 shadow-lg shadow-todo-neutral-light-300/25 dark:bg-todo-neutral-dark-600 dark:shadow-[0px_5px_10px_rgba(0,0,0,.2),0px_50px_15px_-10px_rgba(0,0,0,.125)] lg:hidden">
-        <button
-          type="button"
-          onClick={() => {
-            setFilterType("all");
-          }}
-          className={`${
-            filterType === "all"
-              ? "text-todo-primary-blue"
-              : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
-          } text-[14px] font-bold tracking-[-.25px]`}
-        >
-          All
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setFilterType("active");
-          }}
-          className={`${
-            filterType === "active"
-              ? "text-todo-primary-blue"
-              : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
-          } text-[14px] font-bold tracking-[-.25px]`}
-        >
-          Active
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setFilterType("completed");
-          }}
-          className={`${
-            filterType === "completed"
-              ? "text-todo-primary-blue"
-              : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
-          } text-[14px] font-bold tracking-[-.25px]`}
-        >
-          Completed
-        </button>
-      </div>
+      <ul
+        className="mt-4 flex h-[48px] w-full max-w-[540px] items-center justify-center gap-[20px] rounded-md bg-white pt-1 shadow-lg shadow-todo-neutral-light-300/25 dark:bg-todo-neutral-dark-600 dark:shadow-[0px_5px_10px_rgba(0,0,0,.2),0px_50px_15px_-10px_rgba(0,0,0,.125)] lg:hidden"
+        role="tablist"
+        aria-label="Filter"
+      >
+        <li role="none">
+          <button
+            type="button"
+            onClick={() => {
+              setFilterType("all");
+            }}
+            className={`${
+              filterType === "all"
+                ? "text-todo-primary-blue"
+                : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
+            } text-[14px] font-bold tracking-[-.25px]`}
+            role="tab"
+            id="tab-all-mobile"
+            aria-controls="tabpanel"
+            aria-selected={filterType === "all"}
+          >
+            All
+          </button>
+        </li>
+        <li role="none">
+          <button
+            type="button"
+            onClick={() => {
+              setFilterType("active");
+            }}
+            className={`${
+              filterType === "active"
+                ? "text-todo-primary-blue"
+                : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
+            } text-[14px] font-bold tracking-[-.25px]`}
+            role="tab"
+            id="tab-active-mobile"
+            aria-controls="tabpanel"
+            aria-selected={filterType === "active"}
+          >
+            Active
+          </button>
+        </li>
+        <li role="none">
+          <button
+            type="button"
+            onClick={() => {
+              setFilterType("completed");
+            }}
+            className={`${
+              filterType === "completed"
+                ? "text-todo-primary-blue"
+                : "text-todo-neutral-light-400 hover:text-todo-neutral-light-500 dark:text-todo-neutral-dark-400 dark:hover:text-todo-neutral-dark-200"
+            } text-[14px] font-bold tracking-[-.25px]`}
+            role="tab"
+            id="tab-completed-mobile"
+            aria-controls="tabpanel"
+            aria-selected={filterType === "completed"}
+          >
+            Completed
+          </button>
+        </li>
+      </ul>
       <p className="mt-10 w-full text-center text-[14px] tracking-[-.2px] text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 lg:mt-[49px]">
         Drag and drop to reorder list
       </p>
