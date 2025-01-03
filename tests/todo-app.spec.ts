@@ -78,9 +78,15 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     }
     await expect(form.getByText("5 items left")).toBeVisible();
     for (const button of formFooterButtonLabels) {
-      await expect(
-        form.getByRole("button", { name: button, exact: true }),
-      ).toBeVisible();
+      if (button === "Clear Completed") {
+        await expect(
+          form.getByRole("button", { name: button, exact: true }),
+        ).toBeVisible();
+      } else {
+        await expect(
+          form.getByRole("tab", { name: button, exact: true }),
+        ).toBeVisible();
+      }
     }
   });
 
@@ -141,8 +147,11 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     test("form footer buttons work", async ({ page }) => {
       const form = page.locator("form");
       for (const label of formFooterButtonLabels) {
-        const button = form.getByRole("button", { name: label, exact: true });
-        await button.click();
+        const tabButton = form.getByRole(
+          label === "Clear Completed" ? "button" : "tab",
+          { name: label, exact: true },
+        );
+        await tabButton.click();
         switch (label) {
           case "All":
             for (const item of data) {
@@ -169,9 +178,7 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
             }
             break;
           default:
-            await form
-              .getByRole("button", { name: "All", exact: true })
-              .click();
+            await form.getByRole("tab", { name: "All", exact: true }).click();
             for (const item of data.filter((item) => !item.completed)) {
               const listitem = form
                 .locator("li")
@@ -188,14 +195,16 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
   test("theme switcher works", async ({ page }) => {
     const button = page.getByRole("banner").getByRole("button");
     const container = page.locator("div").nth(1);
-    await expect(container).toHaveCSS(
-      "background-image",
+    const getBgImage = async () =>
+      await container.evaluate(
+        (el) => window.getComputedStyle(el, "::before").backgroundImage,
+      );
+    expect(await getBgImage()).toStrictEqual(
       'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
     );
     await expect(container).toHaveCSS("background-color", "rgb(250, 250, 250)");
     await button.click();
-    await expect(container).toHaveCSS(
-      "background-image",
+    expect(await getBgImage()).toStrictEqual(
       'url("http://localhost:3000/todo-app/images/bg-desktop-dark.jpg")',
     );
     await expect(container).toHaveCSS("background-color", "rgb(22, 23, 34)");
