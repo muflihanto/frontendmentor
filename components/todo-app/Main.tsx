@@ -233,7 +233,7 @@ function Todo() {
         className="relative mt-4 w-full max-w-[540px] rounded-md bg-white shadow-lg shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 dark:shadow-black/50 lg:mt-6 lg:shadow-[0px_40px_10px_-20px_var(--tw-shadow-colored),0px_25px_25px_20px_var(--tw-shadow-colored)] lg:shadow-black/[.025] lg:dark:shadow-black/[.15]"
         role="tabpanel"
         id="tabpanel"
-        aria-labelledby={`tab-${filterType}${width <= 1023 ? "-2" : ""}`}
+        aria-labelledby={`tab-${filterType}${width <= 1023 ? "-mobile" : ""}`}
       >
         {data.filter(filter).map((d, index) => {
           return (
