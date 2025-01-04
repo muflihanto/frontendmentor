@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
 const data = [
   {
@@ -222,7 +222,7 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
   test.describe("tab keyboard navigation works", () => {
     const tabs = ["All", "Active", "Completed"];
 
-    test("works on desktop", async ({ page }) => {
+    async function doKeyboardTest(page: Page) {
       const switcher = page.getByRole("tablist");
       const tabpanel = page.getByRole("tabpanel");
       for (const [idx, unit] of Object.entries(tabs)) {
@@ -259,6 +259,17 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
         await page.keyboard.press("Enter");
         await expect(tabpanel).toHaveAccessibleName(tabs[2]);
       }
+    }
+
+    test("works on desktop", async ({ page }) => {
+      await doKeyboardTest(page);
+    });
+
+    test.describe("works on mobile", () => {
+      test.use({ viewport: { width: 375, height: 667 } });
+      test("works on mobile", async ({ page }) => {
+        await doKeyboardTest(page);
+      });
     });
   });
 });
