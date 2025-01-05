@@ -54,7 +54,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Destination Page
     await expect(
       page.getByRole("heading", { name: "01Pick your destination" }),
     ).toBeVisible();
-    const section = page.locator("div").nth(8);
+    const section = page.getByRole("tabpanel");
     const firstDestination = destinations[0];
     await expect(section).toBeVisible();
     await expect(section).toBeInViewport();
@@ -62,7 +62,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Destination Page
       section.getByRole("img", { name: `Image ${firstDestination.name}` }),
     ).toBeVisible();
     for (const { name } of destinations) {
-      await expect(section.getByRole("button", { name })).toBeVisible();
+      await expect(section.getByRole("tab", { name })).toBeVisible();
     }
     await expect(
       section.getByRole("heading", { name: firstDestination.name }),
@@ -87,18 +87,29 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Destination Page
     await expect(
       page.getByRole("heading", { name: "01Pick your destination" }),
     ).toBeVisible();
-    const section = page.locator("div").nth(8);
-    const buttons = await section.getByRole("button").all();
-    for (const [index, button] of Object.entries(buttons)) {
+    const section = page.getByRole("tabpanel");
+    const tabButtons = await section.getByRole("tab").all();
+    for (const [index, tab] of Object.entries(tabButtons)) {
       const indexNum = Number(index);
-      await button.click();
+      if (indexNum === 0) {
+        await expect(section).toHaveAccessibleName(destinations[indexNum].name);
+        await expect(tab).toHaveAttribute("aria-selected", "true");
+      } else {
+        await expect(section).not.toHaveAccessibleName(
+          destinations[indexNum].name,
+        );
+        await expect(tab).toHaveAttribute("aria-selected", "false");
+      }
+      await tab.click();
+      await expect(section).toHaveAccessibleName(destinations[indexNum].name);
+      await expect(tab).toHaveAttribute("aria-selected", "true");
       await expect(
         section.getByRole("img", {
           name: `Image ${destinations[indexNum].name}`,
         }),
       ).toBeVisible();
       for (const { name } of destinations) {
-        await expect(section.getByRole("button", { name })).toBeVisible();
+        await expect(section.getByRole("tab", { name })).toBeVisible();
       }
       await expect(
         section.getByRole("heading", { name: destinations[indexNum].name }),
