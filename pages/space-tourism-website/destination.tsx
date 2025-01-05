@@ -22,12 +22,20 @@ export default function Tech() {
       </Head>
 
       <div className="flex flex-col items-center bg-space-tourism-black bg-[url('/space-tourism-website/assets/destination/background-destination-mobile.jpg')] bg-[length:100vw_auto] px-6 pb-[58px] pt-[88px] text-space-tourism-white md:bg-[url('/space-tourism-website/assets/destination/background-destination-tablet.jpg')] md:px-[38.5px] md:pb-[61px] md:pt-[136px] lg:w-full lg:bg-[url('/space-tourism-website/assets/destination/background-destination-desktop.jpg')] lg:bg-cover lg:px-0 lg:pb-[112px] lg:pt-[176px]">
-        <h5 className="uppercase leading-[19px] tracking-[2.7px] text-space-tourism-white md:self-start md:text-[20px] md:leading-6 md:tracking-[3.38px] lg:ml-[166.5px] lg:mt-[36px] lg:text-[28px] lg:leading-[34px] lg:tracking-[4.72px]">
+        <h5
+          className="uppercase leading-[19px] tracking-[2.7px] text-space-tourism-white md:self-start md:text-[20px] md:leading-6 md:tracking-[3.38px] lg:ml-[166.5px] lg:mt-[36px] lg:text-[28px] lg:leading-[34px] lg:tracking-[4.72px]"
+          id="destination"
+        >
           <span className="mr-[16px] font-bold opacity-25 lg:mr-6">01</span>Pick
           your destination
         </h5>
 
-        <div className="flex flex-col items-center lg:mt-16 lg:flex lg:h-[478px] lg:w-full lg:flex-row lg:items-start lg:justify-between lg:pl-[230px] lg:pr-[163px]">
+        <div
+          className="flex flex-col items-center lg:mt-16 lg:flex lg:h-[478px] lg:w-full lg:flex-row lg:items-start lg:justify-between lg:pl-[230px] lg:pr-[163px]"
+          role="tabpanel"
+          id="tabpanel"
+          aria-labelledby={`tab-${tab.toLowerCase()}`}
+        >
           <div className="relative mt-8 aspect-square w-[170px] md:mt-[60px] md:w-[300px] lg:w-[445px] lg:self-end">
             <Image
               src={`${destination?.images.png}`}
@@ -37,35 +45,44 @@ export default function Tech() {
           </div>
 
           <div className="flex flex-col items-center lg:w-[445px] lg:items-start lg:self-start">
-            <div className="mt-[26px] flex h-[28px] items-start gap-[26px] md:mt-[53px] md:h-[34px] md:gap-[33px] lg:mt-0">
+            <ul
+              className="mt-[26px] flex h-[28px] items-start gap-[26px] md:mt-[53px] md:h-[34px] md:gap-[33px] lg:mt-0"
+              role="tablist"
+              aria-labelledby="destination"
+            >
               {tabType.map((t) => {
                 return (
-                  <button
-                    key={t}
-                    onClick={() => {
-                      setTab(t);
-                    }}
-                    className={cn([
-                      "group relative text-[14px] uppercase leading-[17px] tracking-[2.36px] md:text-base md:leading-[19px] md:tracking-[2.7px]", // base
-                      tab === t
-                        ? "text-space-tourism-white"
-                        : "text-space-tourism-lightblue",
-                    ])}
-                    type="button"
-                  >
-                    {t}
-                    <div
+                  <li key={t} role="none">
+                    <button
+                      onClick={() => {
+                        setTab(t);
+                      }}
                       className={cn([
-                        "absolute left-1/2 top-[25px] h-[3px] w-full -translate-x-[52%] bg-white md:top-[31px]", // base
+                        "group relative text-[14px] uppercase leading-[17px] tracking-[2.36px] md:text-base md:leading-[19px] md:tracking-[2.7px]", // base
                         tab === t
-                          ? "opacity-100"
-                          : "origin-center scale-0 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-50",
+                          ? "text-space-tourism-white"
+                          : "text-space-tourism-lightblue",
                       ])}
-                    />
-                  </button>
+                      type="button"
+                      role="tab"
+                      id={`tab-${t.toLowerCase()}`}
+                      aria-controls="tabpanel"
+                      aria-selected={t === tab}
+                    >
+                      {t}
+                      <div
+                        className={cn([
+                          "absolute left-1/2 top-[25px] h-[3px] w-full -translate-x-[52%] bg-white md:top-[31px]", // base
+                          tab === t
+                            ? "opacity-100"
+                            : "origin-center scale-0 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-50",
+                        ])}
+                      />
+                    </button>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
 
             <h1 className="mt-5 font-bellefair text-[56px] uppercase leading-[64px] md:mt-8 md:text-[80px] md:leading-[92px] lg:mt-[37px] lg:text-[100px] lg:leading-[115px]">
               {destination?.name}
