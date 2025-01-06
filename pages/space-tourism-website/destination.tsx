@@ -3,7 +3,7 @@ import { getLayout } from "../../components/space-tourism-website/Layout";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
 import _data from "../../components/space-tourism-website/data.json";
-import { useState } from "react";
+import { type KeyboardEvent, useState } from "react";
 import Image from "next/image";
 import { cn } from "../../utils/cn";
 const data = _data.destinations;
@@ -14,6 +14,59 @@ type Tab = (typeof tabType)[number];
 export default function Tech() {
   const [tab, setTab] = useState<Tab>("Moon");
   const destination = data.find((d) => d.name === tab);
+
+  const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    const tab = event.currentTarget;
+    const parent = tab.parentElement;
+    const tablist = parent?.parentElement;
+    const key = event.key;
+    const allTabs = tablist?.querySelectorAll("button");
+    const firstTab = allTabs?.[0];
+    const lastTab = allTabs?.[allTabs.length - 1];
+    const nextTab = parent?.nextElementSibling?.querySelector("button");
+    const prevTab = parent?.previousElementSibling?.querySelector("button");
+
+    let flag = false;
+
+    switch (key) {
+      case "Right":
+      case "ArrowRight":
+        if (nextTab) {
+          nextTab.focus();
+        } else {
+          firstTab?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Left":
+      case "ArrowLeft":
+        if (prevTab) {
+          prevTab.focus();
+        } else {
+          lastTab?.focus();
+        }
+        flag = true;
+        break;
+
+      case "Home":
+      case "PageUp":
+        firstTab?.focus();
+        flag = true;
+        break;
+
+      case "End":
+      case "PageDown":
+        lastTab?.focus();
+        flag = true;
+        break;
+    }
+
+    if (flag) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
 
   return (
     <>
@@ -68,6 +121,7 @@ export default function Tech() {
                       id={`tab-${t.toLowerCase()}`}
                       aria-controls="tabpanel"
                       aria-selected={t === tab}
+                      onKeyDown={onItemKeyDown}
                     >
                       {t}
                       <div
