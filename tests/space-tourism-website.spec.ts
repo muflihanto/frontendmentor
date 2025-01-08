@@ -268,8 +268,8 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
       page.getByRole("heading", { name: "03Space launch 101" }),
     ).toBeVisible();
     const section = page.locator("div").nth(7);
-    const selector = section.locator(">div").nth(1);
-    expect(await selector.getByRole("button").all()).toHaveLength(3);
+    const selector = section.locator("ul");
+    expect(await selector.getByRole("tab").all()).toHaveLength(3);
     const firstTech = techs[0];
     await expect(section).toBeVisible();
     await expect(section).toBeInViewport();
@@ -288,15 +288,19 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
   /** Test if the tech selector button works */
   test("tech selector button works", async ({ page }) => {
     const section = page.locator("div").nth(7);
-    const buttons = await section
-      .locator(">div")
-      .nth(1)
-      .getByRole("button")
-      .all();
-    for (const [index, button] of Object.entries(buttons)) {
+    const tabpanel = page.getByRole("tabpanel");
+    const tabs = await section.getByRole("tab").all();
+    for (const [index, tab] of Object.entries(tabs)) {
       const indexNum = Number(index);
       const { description, name } = techs[indexNum];
-      await button.click();
+      if (indexNum === 0) {
+        await expect(tab).toHaveAttribute("aria-selected", "true");
+      } else {
+        await expect(tab).toHaveAttribute("aria-selected", "false");
+      }
+      await tab.click();
+      await expect(tab).toHaveAttribute("aria-selected", "true");
+      await expect(tabpanel).toHaveAccessibleName(`${indexNum + 1}`);
       await page.waitForTimeout(500);
       await expect(section.getByRole("img", { name })).toBeVisible();
       await expect(section.getByRole("heading", { name })).toBeVisible();
