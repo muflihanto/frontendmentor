@@ -308,60 +308,63 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
     }
   });
 
-  /** Test if the tab keyboard navigation works */
-  test("tab keyboard navigation works", async ({ page }) => {
-    const tabs = techs.map((el) => el.name);
-    const largestIndex = tabs.length - 1;
-    const switcher = page.getByRole("tablist");
-    const tabpanel = page.getByRole("tabpanel");
-    console.log({ tabs });
-    for (const [idx] of Object.entries(tabs)) {
-      const index = Number.parseInt(idx);
-      const button = switcher.getByRole("tab", { name: `${index + 1}` });
-      const nextTabButton = switcher.getByRole("tab", {
-        name: `${(index === largestIndex ? 0 : index + 1) + 1}`,
-      });
-      const prevTabButton = switcher.getByRole("tab", {
-        name: `${(index === 0 ? largestIndex : index - 1) + 1}`,
-      });
-      const firstTabButton = switcher.getByRole("tab", { name: "1" });
-      const lastTabButton = switcher.getByRole("tab", {
-        name: `${largestIndex + 1}`,
-      });
-      if (index === 0 || index === largestIndex) {
-        await expect(tabpanel).toHaveAccessibleName(`${index + 1}`);
-        await expect(button).toHaveAttribute("aria-selected", "true");
-      } else {
-        await expect(tabpanel).not.toHaveAccessibleName(`${index + 1}`);
-        await expect(button).toHaveAttribute("aria-selected", "false");
+  /** Test if the tab keyboard navigation works  */
+  test.describe("tab keyboard navigation works", () => {
+    const tabs = ["1", "2", "3"];
+
+    test("works on desktop", async ({ page }) => {
+      const largestIndex = tabs.length - 1;
+      const switcher = page.getByRole("tablist");
+      const tabpanel = page.getByRole("tabpanel");
+      console.log({ tabs });
+      for (const [idx, name] of Object.entries(tabs)) {
+        const index = Number.parseInt(idx);
+        const button = switcher.getByRole("tab", { name });
+        const nextTabButton = switcher.getByRole("tab", {
+          name: tabs[index === largestIndex ? 0 : index + 1],
+        });
+        const prevTabButton = switcher.getByRole("tab", {
+          name: tabs[index === 0 ? largestIndex : index - 1],
+        });
+        const firstTabButton = switcher.getByRole("tab", { name: tabs[0] });
+        const lastTabButton = switcher.getByRole("tab", {
+          name: tabs[largestIndex],
+        });
+        if (index === 0 || index === largestIndex) {
+          await expect(tabpanel).toHaveAccessibleName(name);
+          await expect(button).toHaveAttribute("aria-selected", "true");
+        } else {
+          await expect(tabpanel).not.toHaveAccessibleName(name);
+          await expect(button).toHaveAttribute("aria-selected", "false");
+        }
+        await button.focus();
+        await page.keyboard.press("ArrowDown");
+        await expect(nextTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(
+          tabs[index === largestIndex ? 0 : index + 1],
+        );
+        await expect(nextTabButton).toHaveAttribute("aria-selected", "true");
+        await page.keyboard.press("ArrowUp");
+        await page.keyboard.press("ArrowUp");
+        await expect(prevTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(
+          tabs[index === 0 ? largestIndex : index - 1],
+        );
+        await expect(prevTabButton).toHaveAttribute("aria-selected", "true");
+        await page.keyboard.press("Home");
+        await expect(firstTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(tabs[0]);
+        await expect(firstTabButton).toHaveAttribute("aria-selected", "true");
+        await page.keyboard.press("End");
+        await expect(lastTabButton).toBeFocused();
+        await page.keyboard.press("Enter");
+        await expect(tabpanel).toHaveAccessibleName(tabs[largestIndex]);
+        await expect(lastTabButton).toHaveAttribute("aria-selected", "true");
       }
-      await button.focus();
-      await page.keyboard.press("ArrowDown");
-      await expect(nextTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName(
-        `${(index === largestIndex ? 0 : index + 1) + 1}`,
-      );
-      await expect(nextTabButton).toHaveAttribute("aria-selected", "true");
-      await page.keyboard.press("ArrowUp");
-      await page.keyboard.press("ArrowUp");
-      await expect(prevTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName(
-        `${(index === 0 ? largestIndex : index - 1) + 1}`,
-      );
-      await expect(prevTabButton).toHaveAttribute("aria-selected", "true");
-      await page.keyboard.press("Home");
-      await expect(firstTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName("1");
-      await expect(firstTabButton).toHaveAttribute("aria-selected", "true");
-      await page.keyboard.press("End");
-      await expect(lastTabButton).toBeFocused();
-      await page.keyboard.press("Enter");
-      await expect(tabpanel).toHaveAccessibleName(`${largestIndex + 1}`);
-      await expect(lastTabButton).toHaveAttribute("aria-selected", "true");
-    }
+    });
   });
 });
 
