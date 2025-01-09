@@ -6,11 +6,14 @@ import _data from "../../components/space-tourism-website/data.json";
 import { type KeyboardEvent, useState } from "react";
 import Image from "next/image";
 import { cn } from "../../utils/cn";
+import { useWindowSize } from "usehooks-ts";
 const data = _data.technology;
 
 export default function Tech() {
   const [techIndex, setTechIndex] = useState<number>(0);
   const tech = data[techIndex];
+
+  const { width } = useWindowSize();
 
   const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     const tab = event.currentTarget;
@@ -28,22 +31,50 @@ export default function Tech() {
     switch (key) {
       case "Down":
       case "ArrowDown":
-        if (nextTab) {
-          nextTab.focus();
-        } else {
-          firstTab?.focus();
+        if (width > 1023) {
+          if (nextTab) {
+            nextTab.focus();
+          } else {
+            firstTab?.focus();
+          }
+          flag = true;
         }
-        flag = true;
+        break;
+
+      case "Right":
+      case "ArrowRight":
+        if (width <= 1023) {
+          if (nextTab) {
+            nextTab.focus();
+          } else {
+            firstTab?.focus();
+          }
+          flag = true;
+        }
         break;
 
       case "Up":
       case "ArrowUp":
-        if (prevTab) {
-          prevTab.focus();
-        } else {
-          lastTab?.focus();
+        if (width > 1023) {
+          if (prevTab) {
+            prevTab.focus();
+          } else {
+            lastTab?.focus();
+          }
+          flag = true;
         }
-        flag = true;
+        break;
+
+      case "Left":
+      case "ArrowLeft":
+        if (width <= 1023) {
+          if (prevTab) {
+            prevTab.focus();
+          } else {
+            lastTab?.focus();
+          }
+          flag = true;
+        }
         break;
 
       case "Home":
@@ -107,6 +138,7 @@ export default function Tech() {
           className="mt-[34px] flex items-center gap-4 font-bellefair md:mt-14 lg:col-start-1 lg:row-start-2 lg:mt-[111px] lg:flex-col lg:gap-8"
           role="tablist"
           aria-labelledby="technology"
+          aria-orientation={width > 1023 ? "vertical" : "horizontal"}
         >
           {Array.from(Array(3).keys()).map((idx) => {
             return (
