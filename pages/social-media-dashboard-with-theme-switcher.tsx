@@ -140,7 +140,7 @@ const SocialDashboard = () => {
 export default SocialDashboard;
 
 function Header() {
-  const { update } = useThemeContext();
+  const { update, theme } = useThemeContext();
   const [totalFollowers, setTotalFollowers] = useState("");
 
   useEffect(() => {
@@ -162,16 +162,23 @@ function Header() {
         </p>
       </div>
       <hr className="mt-[22px] border-t-social-neutral-light-400 dark:border-t-social-neutral-dark-200/30 lg:hidden" />
-      <div className="mt-[16px] flex justify-between lg:mb-1 lg:mt-0 lg:gap-[14px]">
-        <p className="text-[14px] font-bold text-social-neutral-light-400 dark:text-social-neutral-dark-200 lg:leading-[22px] lg:opacity-75">
+      <div className="mt-[16px] flex justify-between rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-social-toggle-dark-blue lg:mb-1 lg:mt-0 lg:gap-[14px]">
+        <label
+          htmlFor="darkSwitch"
+          className="text-[14px] font-bold text-social-neutral-light-400 dark:text-social-neutral-dark-200 lg:leading-[22px] lg:opacity-75"
+          id="dark-label"
+        >
           Dark Mode
-        </p>
+        </label>
         <button
           className="flex h-[24px] w-[48px] items-center justify-end rounded-full bg-social-toggle-light bg-gradient-to-r pl-[3px] pr-[4px] focus-visible:outline-none dark:justify-start dark:from-social-toggle-dark-blue dark:to-social-toggle-dark-green lg:pr-[3px]"
           onClick={() => {
             update?.();
           }}
           type="button"
+          id="darkSwitch"
+          role="switch"
+          aria-checked={theme === "dark"}
         >
           <span className="aspect-square h-[18px] rounded-full bg-social-neutral-light-300 dark:bg-social-neutral-dark-300" />
         </button>
