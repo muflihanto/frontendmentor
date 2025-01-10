@@ -316,7 +316,6 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
       const largestIndex = tabs.length - 1;
       const switcher = page.getByRole("tablist");
       const tabpanel = page.getByRole("tabpanel");
-      console.log({ tabs });
       for (const [idx, name] of Object.entries(tabs)) {
         const index = Number.parseInt(idx);
         const button = switcher.getByRole("tab", { name });
@@ -364,6 +363,63 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
         await expect(tabpanel).toHaveAccessibleName(tabs[largestIndex]);
         await expect(lastTabButton).toHaveAttribute("aria-selected", "true");
       }
+    });
+
+    test.describe("works on mobile", () => {
+      test.use({ viewport: { width: 375, height: 667 } });
+
+      test("works on mobile", async ({ page }) => {
+        const largestIndex = tabs.length - 1;
+        const switcher = page.getByRole("tablist");
+        const tabpanel = page.getByRole("tabpanel");
+        for (const [idx, name] of Object.entries(tabs)) {
+          const index = Number.parseInt(idx);
+          const button = switcher.getByRole("tab", { name });
+          const nextTabButton = switcher.getByRole("tab", {
+            name: tabs[index === largestIndex ? 0 : index + 1],
+          });
+          const prevTabButton = switcher.getByRole("tab", {
+            name: tabs[index === 0 ? largestIndex : index - 1],
+          });
+          const firstTabButton = switcher.getByRole("tab", { name: tabs[0] });
+          const lastTabButton = switcher.getByRole("tab", {
+            name: tabs[largestIndex],
+          });
+          if (index === 0 || index === largestIndex) {
+            await expect(tabpanel).toHaveAccessibleName(name);
+            await expect(button).toHaveAttribute("aria-selected", "true");
+          } else {
+            await expect(tabpanel).not.toHaveAccessibleName(name);
+            await expect(button).toHaveAttribute("aria-selected", "false");
+          }
+          await button.focus();
+          await page.keyboard.press("ArrowRight");
+          await expect(nextTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(
+            tabs[index === largestIndex ? 0 : index + 1],
+          );
+          await expect(nextTabButton).toHaveAttribute("aria-selected", "true");
+          await page.keyboard.press("ArrowLeft");
+          await page.keyboard.press("ArrowLeft");
+          await expect(prevTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(
+            tabs[index === 0 ? largestIndex : index - 1],
+          );
+          await expect(prevTabButton).toHaveAttribute("aria-selected", "true");
+          await page.keyboard.press("Home");
+          await expect(firstTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(tabs[0]);
+          await expect(firstTabButton).toHaveAttribute("aria-selected", "true");
+          await page.keyboard.press("End");
+          await expect(lastTabButton).toBeFocused();
+          await page.keyboard.press("Enter");
+          await expect(tabpanel).toHaveAccessibleName(tabs[largestIndex]);
+          await expect(lastTabButton).toHaveAttribute("aria-selected", "true");
+        }
+      });
     });
   });
 });
