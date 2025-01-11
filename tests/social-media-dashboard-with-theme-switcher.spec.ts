@@ -67,10 +67,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
 
   /** Test if the page has a theme switcher button */
   test("has a theme switcher button", async ({ page }) => {
-    const button = page
-      .locator("div")
-      .filter({ hasText: /^Dark Mode$/ })
-      .getByRole("button");
+    const button = page.getByRole("switch", { name: "Dark Mode" });
     await expect(button).toBeVisible();
   });
 
@@ -81,10 +78,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
       name: "Social Media Dashboard",
     });
     const followers = page.getByText(`Total Followers: ${totalFollowers}`);
-    const button = page
-      .locator("div")
-      .filter({ hasText: /^Dark Mode$/ })
-      .getByRole("button");
+    const button = page.getByRole("switch", { name: "Dark Mode" });
     await expect(heading).toBeVisible();
     await expect(followers).toBeVisible();
     await expect(heading).toHaveCSS("color", "rgb(30, 32, 42)");
@@ -101,18 +95,14 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(container).toBeVisible();
     const cards = await container.locator(">div").all();
     const dataArr = Object.entries(data);
-    const button = page
-      .locator("div")
-      .filter({ hasText: /^Dark Mode$/ })
-      .getByRole("button");
+    const button = page.getByRole("switch", { name: "Dark Mode" });
     for (const theme of themes) {
       if (theme === "dark") await button.click();
       for (const [index, card] of Object.entries(cards)) {
         const followers =
           dataArr[Number(index)][1].followers < 10000
             ? dataArr[Number(index)][1].followers
-            : String(Math.floor(dataArr[Number(index)][1].followers / 1000)) +
-              "k";
+            : `${Math.floor(dataArr[Number(index)][1].followers / 1000)}k`;
         const folOrSubs =
           dataArr[Number(index)][0] === "youtube" ? "Subscribers" : "Followers";
         const value = dataArr[Number(index)][1].statistics.followers;
@@ -148,10 +138,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(container).toBeVisible();
     const cards = await container.locator(">div").all();
     const dataArr = Object.entries(data);
-    const button = page
-      .locator("div")
-      .filter({ hasText: /^Dark Mode$/ })
-      .getByRole("button");
+    const button = page.getByRole("switch", { name: "Dark Mode" });
     for (const theme of themes) {
       if (theme === "dark") {
         await button.click();
@@ -163,7 +150,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
         const views =
           dataArr[Number(index)][1].views < 10000
             ? dataArr[Number(index)][1].views
-            : String(Math.floor(dataArr[Number(index)][1].views / 1000)) + "k";
+            : `${Math.floor(dataArr[Number(index)][1].views / 1000)}k`;
         const likes = dataArr[Number(index)][1].likes;
         const viewstat = dataArr[Number(index)][1].statistics.views.value;
         const likestat = dataArr[Number(index)][1].statistics.likes.value;
