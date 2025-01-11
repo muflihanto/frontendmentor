@@ -83,10 +83,12 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(followers).toBeVisible();
     await expect(heading).toHaveCSS("color", "rgb(30, 32, 42)");
     await expect(followers).toHaveCSS("color", "rgb(99, 104, 126)");
+    await expect(button).toHaveAttribute("aria-checked", "false");
     // switch theme
     await button.click();
     await expect(heading).toHaveCSS("color", "rgb(255, 255, 255)");
     await expect(followers).toHaveCSS("color", "rgb(139, 151, 198)");
+    await expect(button).toHaveAttribute("aria-checked", "true");
   });
 
   /** Test if the page has a 'Followers' section */
