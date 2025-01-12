@@ -51,7 +51,7 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     await expect(header).toBeVisible();
     await expect(header).toBeInViewport();
     await expect(header.getByRole("heading", { name: "TODO" })).toBeVisible();
-    await expect(header.getByRole("button")).toBeVisible();
+    await expect(header.getByRole("switch")).toBeVisible();
   });
 
   /** Test if the page has a form */
@@ -193,7 +193,7 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
 
   /** Test if the theme switcher works */
   test("theme switcher works", async ({ page }) => {
-    const button = page.getByRole("banner").getByRole("button");
+    const button = page.getByRole("banner").getByRole("switch");
     const container = page.locator("div").nth(1);
     const getBgImage = async () =>
       await container.evaluate(
@@ -203,11 +203,13 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
       'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
     );
     await expect(container).toHaveCSS("background-color", "rgb(250, 250, 250)");
+    await expect(button).toHaveAttribute("aria-checked", "false");
     await button.click();
     expect(await getBgImage()).toStrictEqual(
       'url("http://localhost:3000/todo-app/images/bg-desktop-dark.jpg")',
     );
     await expect(container).toHaveCSS("background-color", "rgb(22, 23, 34)");
+    await expect(button).toHaveAttribute("aria-checked", "true");
   });
 
   /** Test if the page has a footer */
