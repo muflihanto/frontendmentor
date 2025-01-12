@@ -54,13 +54,16 @@ function Header() {
           onClick={() => {
             toggle();
           }}
+          role="switch"
+          aria-checked={isDarkMode}
+          aria-label="Dark Mode"
         >
           {isDarkMode ? (
             <svg
               viewBox="0 0 26 26"
               className="mb-[6px] w-[20px] lg:-mr-[1px] lg:mb-0 lg:w-[26px] lg:-translate-y-[5px]"
             >
-              <title>Light Mode</title>
+              <title>Turn Dark Mode Off</title>
               <use href="/todo-app/images/icon-sun.svg#icon-sun" />
             </svg>
           ) : (
@@ -68,7 +71,7 @@ function Header() {
               viewBox="0 0 26 26"
               className="mb-[4px] w-[20px] lg:mb-0 lg:w-[26px] lg:-translate-y-[4px]"
             >
-              <title>Dark Mode</title>
+              <title>Turn Dark Mode On</title>
               <use href="/todo-app/images/icon-moon.svg#icon-moon" />
             </svg>
           )}
