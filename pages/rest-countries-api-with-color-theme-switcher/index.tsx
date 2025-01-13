@@ -90,6 +90,9 @@ export function Header() {
         className="flex items-center px-px pt-px text-[12px] font-normal text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:text-[16px]"
         onClick={() => toggle()}
         type="button"
+        role="switch"
+        aria-checked={dark}
+        aria-labelledby="darkSwitchLabel"
       >
         <span className="relative mr-[10px] aspect-square h-[14px] lg:h-[16px]">
           <Image
@@ -100,9 +103,10 @@ export function Header() {
             }
             fill
             alt="Moon Icon"
+            aria-hidden="true"
           />
         </span>
-        <span>Dark Mode</span>
+        <label id="darkSwitchLabel">Dark Mode</label>
       </button>
     </header>
   );
