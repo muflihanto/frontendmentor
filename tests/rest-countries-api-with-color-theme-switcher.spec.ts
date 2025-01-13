@@ -28,7 +28,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       }),
     ).toBeVisible();
     await expect(
-      header.getByRole("button", { name: "Moon Icon Dark Mode" }),
+      header.getByRole("switch", { name: "Dark Mode" }),
     ).toBeVisible();
   });
 
@@ -188,13 +188,16 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
   /** Test if the theme switcher works */
   test("theme switcher works", async ({ page }) => {
     const header = page.getByRole("banner");
-    const themeSwitcher = header.getByRole("button", {
-      name: "Moon Icon Dark Mode",
+    const themeSwitcher = header.getByRole("switch", {
+      name: "Dark Mode",
     });
     await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "false");
     await themeSwitcher.click();
     await expect(header).toHaveCSS("background-color", "rgb(43, 57, 69)");
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "true");
     await themeSwitcher.click();
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "false");
     await page
       .getByRole("link", {
         name: "The flag of Indonesia is composed of two equal horizontal bands of red and white. Indonesia Population: 273,523,621 Region: Asia Capital: Jakarta",
@@ -213,6 +216,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     await expect(back).toHaveCSS("background-color", "rgb(255, 255, 255)");
     await expect(back).toHaveCSS("color", "rgb(17, 21, 23)");
     await themeSwitcher.click();
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "true");
     await expect(main).toHaveCSS("background-color", "rgb(32, 44, 55)");
     await expect(back).toHaveCSS("background-color", "rgb(43, 57, 69)");
     await expect(back).toHaveCSS("color", "rgb(255, 255, 255)");
