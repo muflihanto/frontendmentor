@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+// TODO: add theme switcher test case
+
 const keys = [
   { key: "7", type: "number" },
   { key: "8", type: "number" },
@@ -39,9 +41,13 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
     await expect(header).toBeInViewport();
     await expect(header.getByText("calc")).toBeVisible();
     const switcher = header.locator(">div");
-    await expect(switcher.getByText("theme")).toBeVisible();
+    await expect(switcher.getByText("theme", { exact: true })).toBeVisible();
     await expect(switcher.getByText("123", { exact: true })).toBeVisible();
     await expect(switcher.getByRole("button")).toBeVisible();
+    await expect(switcher.getByRole("button")).toHaveAccessibleName(
+      "Switch to 3",
+    );
+    await expect(switcher.getByLabel("Switch to")).toBeVisible();
   });
 
   /** Test if the page has a calculator screen */
