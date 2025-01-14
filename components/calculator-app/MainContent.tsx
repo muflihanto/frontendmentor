@@ -153,7 +153,10 @@ function Header() {
                 });
               }}
               type="button"
+              aria-pressed={theme !== 2}
+              aria-label={`Switch to ${(theme % 3) + 1}`}
             >
+              <span className="sr-only">Switch Theme</span>
               <motion.div
                 animate={{
                   left:
