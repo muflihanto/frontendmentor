@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+import data from "../public/expenses-chart-component/data.json";
+
 test.describe("FrontendMentor Challenge - Expenses chart component Page", () => {
   /** Go to Expenses chart component page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -40,6 +42,27 @@ test.describe("FrontendMentor Challenge - Expenses chart component Page", () => 
     ).toBeVisible();
     await expect(section.getByText("Total this month$478.33")).toBeVisible();
     await expect(section.getByText("+2.4%from last month")).toBeVisible();
+  });
+
+  /** Test if the tooltip works properly */
+  test("tooltip works properly", async ({ page }) => {
+    const heading = page.getByRole("heading", {
+      name: "Spending - Last 7 days",
+    });
+    for (const d of data) {
+      const id = `tooltip-${d.day}`;
+      const trigger = page.locator(`[aria-describedby=${id}]`);
+      const tooltip = page.locator(`id=${id}`);
+      await expect(tooltip).not.toBeVisible();
+      await trigger.hover();
+      await expect(tooltip).toBeVisible();
+      await heading.hover();
+      await expect(tooltip).not.toBeVisible();
+      await trigger.focus();
+      await expect(tooltip).toBeVisible();
+      await trigger.blur();
+      await expect(tooltip).not.toBeVisible();
+    }
   });
 
   /** Test if the page has a footer */
