@@ -67,7 +67,11 @@ const Main: React.FC = () => {
           </span>
         </div>
       </div>
-      <div className="grid-row-1 mt-[39px] grid grid-cols-[minmax(0,1fr),44px,minmax(0,1fr)] gap-x-3 lg:mt-[14px] [&_p]:self-center [&_p]:text-[12px] [&_p]:text-pricing-neutral-400">
+      <div
+        className="grid-row-1 mt-[39px] grid grid-cols-[minmax(0,1fr),44px,minmax(0,1fr)] gap-x-3 lg:mt-[14px] [&_p]:self-center [&_p]:text-[12px] [&_p]:text-pricing-neutral-400"
+        aria-label="Billing option switch"
+        role="group"
+      >
         <p className="place-self-end">Monthly Billing</p>
         <button
           className={`h-[22px] w-[44px] ${
@@ -81,8 +85,17 @@ const Main: React.FC = () => {
             });
           }}
           type="button"
+          role="switch"
+          aria-checked={billing === "yearly"}
+          tabIndex={0}
+          aria-label={`Switch to ${
+            billing === "monthly" ? "yearly" : "monthly"
+          } billing`}
         />
-        <p className="relative flex items-center place-self-start">
+        <p
+          className="relative flex items-center place-self-start"
+          aria-label="Yearly Billing with 25 percent discount"
+        >
           Yearly Billing
           <span className="ml-[6px] inline-block rounded-full bg-pricing-primary-red-100 px-2 pb-[3px] pt-[1px] text-[10px] font-extrabold text-pricing-primary-red-200">
             <span className="inline lg:hidden">-</span>
