@@ -64,14 +64,13 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
       const slider = card.getByRole("slider");
       await expect(slider).toBeVisible();
       expect(await slider.inputValue()).toEqual("3");
-      await expect(card.getByText("Monthly Billing")).toBeVisible();
-      const toggle = card
-        .locator("div")
-        .filter({ hasText: /^Monthly BillingYearly Billing-25% discount$/ });
-      await expect(toggle.getByText("Monthly Billing")).toBeVisible();
-      await expect(toggle.getByRole("button")).toBeVisible();
+      const switchGroup = page.getByRole("group");
+      await expect(switchGroup.getByText("Monthly Billing")).toBeVisible();
       await expect(
-        toggle.getByText("Yearly Billing-25% discount"),
+        switchGroup.getByLabel("Switch to yearly billing"),
+      ).toBeVisible();
+      await expect(
+        switchGroup.getByLabel("Yearly Billing with 25 percent discount"),
       ).toBeVisible();
       await expect(
         card.getByText(
@@ -93,13 +92,23 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         await expect(card.getByText(`$${price.price}.00/ month`)).toBeVisible();
       }
     });
+    test("billing switch works", async ({ page }) => {
+      const switchButton = page.getByRole("switch");
+      await expect(switchButton).toBeVisible();
+      await expect(switchButton).toHaveAttribute("aria-checked", "false");
+      await expect(switchButton).toHaveAccessibleName(
+        "Switch to yearly billing",
+      );
+      await switchButton.click();
+      await expect(switchButton).toHaveAttribute("aria-checked", "true");
+      await expect(switchButton).toHaveAccessibleName(
+        "Switch to monthly billing",
+      );
+    });
     test("yearly slider works", async ({ page }) => {
       const card = page.locator("div").nth(3);
       const slider = card.getByRole("slider");
-      const toggle = card
-        .locator("div")
-        .filter({ hasText: /^Monthly BillingYearly Billing-25% discount$/ })
-        .getByRole("button");
+      const toggle = card.getByLabel("Switch to yearly billing");
       await toggle.click();
       for (const [index, price] of Object.entries(priceList)) {
         await slider.fill(`${Number(index) + 1}`);
