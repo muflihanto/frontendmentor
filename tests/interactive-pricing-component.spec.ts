@@ -63,6 +63,16 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
       await expect(card.getByText("$16.00/ month")).toBeVisible();
       const slider = card.getByRole("slider");
       await expect(slider).toBeVisible();
+      await expect(slider).toHaveAccessibleName(
+        "Adjust pageviews and cost per month",
+      );
+      await expect(slider).toHaveAttribute(
+        "aria-valuetext",
+        "Pageviews: 100K, Price: $16.00",
+      );
+      await expect(slider).toHaveAttribute("aria-valuemin", "10000");
+      await expect(slider).toHaveAttribute("aria-valuemax", "1000000");
+      await expect(slider).toHaveAttribute("aria-valuenow", "100000");
       expect(await slider.inputValue()).toEqual("3");
       const switchGroup = page.getByRole("group");
       await expect(switchGroup.getByText("Monthly Billing")).toBeVisible();
@@ -90,6 +100,14 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
           card.getByRole("heading", { name: `${price.views} Pageviews` }),
         ).toBeVisible();
         await expect(card.getByText(`$${price.price}.00/ month`)).toBeVisible();
+        await expect(slider).toHaveAttribute(
+          "aria-valuenow",
+          price.views.replace("K", "000").replace("M", "000000"),
+        );
+        await expect(slider).toHaveAttribute(
+          "aria-valuetext",
+          `Pageviews: ${price.views}, Price: $${price.price}.00`,
+        );
       }
     });
     test("billing switch works", async ({ page }) => {
@@ -118,6 +136,14 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         await expect(
           card.getByText(`$${0.75 * price.price}.00/ month`),
         ).toBeVisible();
+        await expect(slider).toHaveAttribute(
+          "aria-valuenow",
+          price.views.replace("K", "000").replace("M", "000000"),
+        );
+        await expect(slider).toHaveAttribute(
+          "aria-valuetext",
+          `Pageviews: ${price.views}, Price: $${0.75 * price.price}.00`,
+        );
       }
     });
   });
