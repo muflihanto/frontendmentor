@@ -53,6 +53,7 @@ export default function Main() {
         className="mt-[23px] text-[24px] font-bold leading-[33px] lg:mt-[22px] lg:text-[28px] lg:leading-[38px]"
         aria-live="polite"
         aria-atomic="true"
+        id="advice-content"
       >
         {isLoading ? <Spinner /> : data ? `"${data.advice}"` : "..."}
       </div>

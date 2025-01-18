@@ -18,10 +18,10 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
       await expect(page.getByRole("status")).toBeVisible();
     });
     test("dice button works", async ({ page }) => {
-      const button = page.getByRole("button", { name: "Icon Dice" });
+      const button = page.getByLabel("Generate new advice");
       await expect(button).toBeVisible();
       await page.waitForTimeout(1000);
-      const advice = page.locator("div").nth(3);
+      const advice = page.locator("id=advice-content");
       const adviceText = await advice.innerText();
       await expect(page.getByRole("status")).not.toBeVisible();
       await expect(advice).toHaveText(/^\".*\"$/);
@@ -37,7 +37,11 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
 
   /** Test if the page has a divider */
   test("has a divider", async ({ page }) => {
-    await expect(page.getByRole("img", { name: "Line Divider" })).toBeVisible();
+    await expect(page.getByAltText("Line Divider")).toBeVisible();
+    await expect(page.getByAltText("Line Divider")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
   });
 
   /** Test if the page has a footer */
