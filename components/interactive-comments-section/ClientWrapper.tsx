@@ -146,7 +146,9 @@ export default function Main() {
   // }, [latestId]);
 
   return (
-    <div className="flex max-w-md flex-col items-center gap-4 px-4 py-8 lg:max-w-[764px] lg:gap-[20px] lg:py-16">
+    <main className="flex max-w-md flex-col items-center gap-4 px-4 py-8 lg:max-w-[764px] lg:gap-[20px] lg:py-16">
+      <h1 className="sr-only">Interactive comments section</h1>
+
       {data.comments.map((comment) => {
         return (
           <div key={comment.id} className="w-full">
@@ -174,7 +176,7 @@ export default function Main() {
           }}
         />
       )}
-    </div>
+    </main>
   );
 }
 
@@ -198,10 +200,12 @@ function Card({
 
   return (
     <>
-      <div
+      <article
         className={`min-h-[150px] rounded-lg bg-interactive-comment-neutral-100 p-4 pr-5 lg:relative lg:pb-2 lg:pl-[89px] lg:pt-6 ${
           variant === "reply" ? "break-words lg:pr-[16px]" : "lg:pr-[40px]"
         }`}
+        aria-labelledby={`comment${data.id}-heading`}
+        aria-describedby={`comment${data.id}-author comment${data.id}-time comment${data.id}-votes`}
       >
         <div className="flex items-center gap-4">
           <div className="relative h-8 w-8">
@@ -210,10 +214,16 @@ function Card({
               src={`/interactive-comments-section${data.user.image.webp.slice(
                 1,
               )}`}
-              alt={`${data.user.username}Avatar`}
+              alt={`${data.user.username}'s avatar`}
             />
           </div>
-          <p className="pb-[2px] font-medium tracking-[.1px] text-interactive-comment-neutral-500">
+          <h2 className="sr-only" id={`comment${data.id}-heading`}>
+            Comment by {data.user.username}
+          </h2>
+          <p
+            className="pb-[2px] font-medium tracking-[.1px] text-interactive-comment-neutral-500"
+            id={`comment${data.id}-author`}
+          >
             {data.user.username}
             {currentUser.username === data.user.username && (
               <span className="relative z-10 ml-2 px-[6px] text-[13px] text-interactive-comment-neutral-100 before:absolute before:-top-[1px] before:left-0 before:z-[-1] before:h-[19px] before:w-full before:rounded-sm before:bg-interactive-comment-primary-blue-200 before:content-['']">
@@ -221,7 +231,10 @@ function Card({
               </span>
             )}
           </p>
-          <p className="pb-[2px] text-interactive-comment-neutral-400">
+          <p
+            className="pb-[2px] text-interactive-comment-neutral-400"
+            id={`comment${data.id}-time`}
+          >
             {dayjs(data.createdAt).fromNow()}
           </p>
         </div>
@@ -274,10 +287,17 @@ function Card({
                 }
               }}
               type="button"
+              aria-pressed={vote[`id${data.id}`] === "up"}
+              aria-label="Upvote comment"
             >
               +
             </button>
-            <div className="text-center text-[17px] font-medium text-interactive-comment-primary-blue-200">
+            <div
+              className="text-center text-[17px] font-medium text-interactive-comment-primary-blue-200"
+              id={`comment${data.id}-votes`}
+              aria-live="polite"
+              aria-label={`${data.score} votes`}
+            >
               {data.score}
             </div>
             <button
@@ -302,6 +322,8 @@ function Card({
                 }
               }}
               type="button"
+              aria-pressed={vote[`id${data.id}`] === "down"}
+              aria-label="Downvote comment"
             >
               &mdash;
             </button>
@@ -316,6 +338,7 @@ function Card({
                     openDeleteModal();
                   }}
                   type="button"
+                  aria-label="Delete my comment"
                 >
                   <svg viewBox="0 0 12 14" className="w-3" aria-hidden="true">
                     <use href="/interactive-comments-section/images/icon-delete.svg#icon-delete" />
@@ -350,6 +373,7 @@ function Card({
                   setIsReplyOpen((p) => !p);
                 }}
                 type="button"
+                aria-label="Reply to comment"
               >
                 <span>
                   <svg
@@ -367,7 +391,7 @@ function Card({
             )}
           </div>
         </div>
-      </div>
+      </article>
       {isReplyOpen && (
         <NewEntryForm
           variant="reply"
