@@ -1,7 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import {
+  useForm,
+  type SubmitHandler,
+  type UseFormRegister,
+} from "react-hook-form";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { overpass } from "../utils/fonts/overpass";
 
@@ -64,6 +68,7 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
   } = useForm<Input>();
   const [main] = useAutoAnimate({ duration: 150 });
   const currentRating = watch("rating");
+  const onClick = () => clearErrors();
   return (
     <main
       className="relative mt-[5px] flex h-[416px] w-[calc(100vw-48px)] max-w-[413px] flex-col justify-center rounded-[32px] bg-[radial-gradient(circle_at_top,hsl(213,19%,18%)_0,_hsl(213,30%,12%)_100%)] pb-[31px] pl-7 pr-10 pt-8 text-rating-neutral-100 max-[375px]:mt-[2px] max-[375px]:h-[360px] max-[375px]:rounded-2xl max-[375px]:pb-[32px] max-[375px]:pl-5 max-[375px]:pr-[22px] max-[375px]:pt-[24px]"
@@ -95,101 +100,17 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
           id="inputs"
           className="flex w-full justify-between [&_label>input]:absolute [&_label>input]:opacity-0 [&_label>span]:ml-1 [&_label>span]:flex [&_label>span]:aspect-square [&_label>span]:h-[52px] [&_label>span]:items-center [&_label>span]:justify-center [&_label>span]:rounded-full [&_label>span]:bg-rating-neutral-400 [&_label>span]:text-center [&_label>span]:text-[16px] [&_label>span]:font-bold [&_label>span]:text-rating-neutral-200 [&_label>span]:hover:cursor-pointer max-[375px]:[&_label>span]:h-[41px] max-[375px]:[&_label>span]:text-[14px]"
         >
-          <label className="group" htmlFor="rate-1">
-            <input
-              onClick={() => clearErrors()}
-              id="rate-1"
-              type="radio"
-              className="peer"
-              {...register("rating", { required: true })}
-              value="1"
-              role="radio"
-              aria-checked={`${currentRating}` === "1"}
-              aria-labelledby="rating-label-1"
-            />
-            <span
-              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
-              id="rating-label-1"
-            >
-              1
-            </span>
-          </label>
-          <label className="group" htmlFor="rate-2">
-            <input
-              onClick={() => clearErrors()}
-              id="rate-2"
-              type="radio"
-              className="peer"
-              {...register("rating", { required: true })}
-              value="2"
-              role="radio"
-              aria-checked={`${currentRating}` === "2"}
-              aria-labelledby="rating-label-2"
-            />
-            <span
-              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
-              id="rating-label-2"
-            >
-              2
-            </span>
-          </label>
-          <label className="group" htmlFor="rate-3">
-            <input
-              onClick={() => clearErrors()}
-              id="rate-3"
-              type="radio"
-              className="peer"
-              {...register("rating", { required: true })}
-              value="3"
-              role="radio"
-              aria-checked={`${currentRating}` === "3"}
-              aria-labelledby="rating-label-3"
-            />
-            <span
-              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
-              id="rating-label-3"
-            >
-              3
-            </span>
-          </label>
-          <label className="group" htmlFor="rate-4">
-            <input
-              onClick={() => clearErrors()}
-              id="rate-4"
-              type="radio"
-              className="peer"
-              {...register("rating", { required: true })}
-              value="4"
-              role="radio"
-              aria-checked={`${currentRating}` === "4"}
-              aria-labelledby="rating-label-4"
-            />
-            <span
-              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
-              id="rating-label-4"
-            >
-              4
-            </span>
-          </label>
-          <label className="group" htmlFor="rate-5">
-            <input
-              onClick={() => clearErrors()}
-              id="rate-5"
-              type="radio"
-              className="peer"
-              {...register("rating", { required: true })}
-              value="5"
-              role="radio"
-              aria-checked={`${currentRating}` === "5"}
-              aria-labelledby="rating-label-5"
-            />
-            <span
-              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
-              id="rating-label-5"
-            >
-              5
-            </span>
-          </label>
+          {["1", "2", "3", "4", "5"].map((el) => {
+            return (
+              <RatingInput
+                key={`rating-${el}`}
+                ratingValue={el}
+                register={register}
+                onClick={onClick}
+                currentRating={`${currentRating}`}
+              />
+            );
+          })}
         </fieldset>
         <button
           id="submit"
@@ -209,6 +130,42 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
         </div>
       ) : null}
     </main>
+  );
+}
+
+interface RatingProps {
+  ratingValue: string;
+  register: UseFormRegister<Input>;
+  onClick: () => void;
+  currentRating: string;
+}
+
+function RatingInput({
+  ratingValue,
+  register,
+  onClick,
+  currentRating,
+}: RatingProps) {
+  return (
+    <label className="group" htmlFor={`rate-${ratingValue}`}>
+      <input
+        onClick={onClick}
+        id={`rate-${ratingValue}`}
+        type="radio"
+        className="peer"
+        {...register("rating", { required: true })}
+        value={ratingValue}
+        role="radio"
+        aria-checked={currentRating === ratingValue}
+        aria-labelledby={`rating-label-${ratingValue}`}
+      />
+      <span
+        className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
+        id={`rating-label-${ratingValue}`}
+      >
+        {ratingValue}
+      </span>
+    </label>
   );
 }
 
