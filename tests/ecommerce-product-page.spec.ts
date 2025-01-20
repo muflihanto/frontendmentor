@@ -44,7 +44,7 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     const nav = page.getByRole("navigation");
     for (const link of navlinks) {
       await expect(
-        nav.getByRole("link", { name: link, exact: true }),
+        nav.getByRole("menuitem", { name: link, exact: true }),
       ).toBeVisible();
     }
     const cartToggle = page.locator("#cart-toggle");
@@ -69,9 +69,11 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     await expect(section.getByLabel("Brand name")).toBeVisible();
     await expect(section.getByLabel("Product name")).toBeVisible();
     await expect(section.getByLabel("Product description")).toBeVisible();
-    await expect(section.getByLabel("Current Price")).toBeVisible();
-    await expect(section.getByLabel("Discount Value")).toBeVisible();
-    await expect(section.getByLabel("Original Price")).toBeVisible();
+    await expect(
+      section.getByLabel("Product Price", { exact: true }),
+    ).toBeVisible();
+    await expect(section.getByLabel("Product Discount")).toBeVisible();
+    await expect(section.getByLabel("Original Product Price")).toBeVisible();
     await expect(
       section.getByRole("button", { name: "Add to cart" }),
     ).toBeVisible();

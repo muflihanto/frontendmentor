@@ -329,26 +329,39 @@ function ProductDetail({ product }: { product: Product }) {
       >
         {product.description}
       </p>
-      <div className="mt-[21px] flex items-center lg:flex-col lg:items-start lg:gap-1">
+      <div
+        className="mt-[21px] flex items-center lg:flex-col lg:items-start lg:gap-1"
+        aria-labelledby="product-price product-discount product-original-price"
+      >
         <p className="flex items-center lg:px-[1px]">
           <span
             className="text-[28px] font-bold tracking-[1px] text-ecommerce-neutral-500"
-            aria-label="Current Price"
+            id="product-price"
+            role="text"
           >
-            ${product.price.toFixed(2)}
+            <span aria-hidden="true">$</span>
+            <span aria-label="Product Price">{product.price.toFixed(2)}</span>
           </span>
           <span
             className="ml-[16px] mt-[3px] flex h-[27px] w-[50px] justify-center rounded bg-ecommerce-primary-100 pt-[1px] font-bold tracking-[0.5px] text-ecommerce-primary-200"
-            aria-label="Discount Value"
+            id="product-discount"
+            aria-label="Product Discount"
+            role="text"
           >
-            {product.discount}%
+            <span>{product.discount}%</span>
+            <span aria-hidden="true" className="sr-only">
+              {" "}
+              off
+            </span>
           </span>
         </p>
-        <p
-          className="ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] text-ecommerce-neutral-300 line-through lg:ml-0"
-          aria-label="Original Price"
-        >
-          ${product.originalPrice.toFixed(2)}
+        <p className="ml-auto px-[2px] pb-[2px] font-bold tracking-[.25px] text-ecommerce-neutral-300 line-through lg:ml-0">
+          <span id="product-original-price" role="text">
+            <span aria-hidden="true">$</span>
+            <span aria-label="Original Product Price">
+              {product.originalPrice.toFixed(2)}
+            </span>
+          </span>
         </p>
       </div>
       <CartController product={product} />
