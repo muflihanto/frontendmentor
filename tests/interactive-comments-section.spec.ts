@@ -78,9 +78,43 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
 
   /** Test if the page has comments */
   test("has all comments", async ({ page }) => {
+    const currentUser = raw_data.currentUser.username;
     for (const comment of comments) {
+      const article = page.getByRole("article", {
+        name: `Comment by ${comment.user.username}`,
+      });
+      await expect(article).toBeVisible();
       await expect(
-        page.getByLabel(`Comment by ${comment.user.username}`),
+        article.getByRole("img", { name: `${comment.user.username}'s avatar` }),
+      ).toBeVisible();
+      await expect(
+        article.getByRole("heading", {
+          name: `Comment by ${comment.user.username}`,
+        }),
+      ).toBeVisible();
+      await expect(
+        article.locator(`id=comment${comment.id}-author`),
+      ).toBeVisible();
+      await expect(
+        article.locator(`id=comment${comment.id}-time`),
+      ).toBeVisible();
+      await expect(article.getByText(comment.content)).toBeVisible();
+      if (comment.user.username === currentUser) {
+        await expect(article.getByLabel("Delete my comment")).toBeVisible();
+        await expect(
+          article.getByRole("button", { name: "Edit" }),
+        ).toBeVisible();
+      } else {
+        await expect(
+          article.getByRole("button", { name: "Reply to comment" }),
+        ).toBeVisible();
+      }
+      await expect(
+        article.getByRole("button", { name: "Upvote comment" }),
+      ).toBeVisible();
+      await expect(article.getByLabel(`${comment.score} votes`)).toBeVisible();
+      await expect(
+        article.getByRole("button", { name: "Downvote comment" }),
       ).toBeVisible();
     }
   });
