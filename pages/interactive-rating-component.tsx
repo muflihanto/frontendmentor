@@ -60,15 +60,13 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
     handleSubmit,
     formState: { errors },
     clearErrors,
+    watch,
   } = useForm<Input>();
   const [main] = useAutoAnimate({ duration: 150 });
+  const currentRating = watch("rating");
   return (
     <main
-      className="relative mt-[5px] flex h-[416px]
-
-
-
-    w-[calc(100vw-48px)] max-w-[413px] flex-col justify-center rounded-[32px] bg-[radial-gradient(circle_at_top,hsl(213,19%,18%)_0,_hsl(213,30%,12%)_100%)] pb-[31px] pl-7 pr-10 pt-8 text-rating-neutral-100 max-[375px]:mt-[2px] max-[375px]:h-[360px] max-[375px]:rounded-2xl max-[375px]:pb-[32px] max-[375px]:pl-5 max-[375px]:pr-[22px] max-[375px]:pt-[24px]"
+      className="relative mt-[5px] flex h-[416px] w-[calc(100vw-48px)] max-w-[413px] flex-col justify-center rounded-[32px] bg-[radial-gradient(circle_at_top,hsl(213,19%,18%)_0,_hsl(213,30%,12%)_100%)] pb-[31px] pl-7 pr-10 pt-8 text-rating-neutral-100 max-[375px]:mt-[2px] max-[375px]:h-[360px] max-[375px]:rounded-2xl max-[375px]:pb-[32px] max-[375px]:pl-5 max-[375px]:pr-[22px] max-[375px]:pt-[24px]"
       ref={main}
     >
       <div className="ml-1 flex aspect-square w-12 items-center justify-center rounded-full bg-rating-neutral-400 max-[375px]:w-10">
@@ -102,11 +100,17 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
               onClick={() => clearErrors()}
               id="rate-1"
               type="radio"
-              className="peer [&:checked~span]:bg-rating-primary-orange [&:checked~span]:text-rating-neutral-100"
+              className="peer"
               {...register("rating", { required: true })}
               value="1"
+              role="radio"
+              aria-checked={`${currentRating}` === "1"}
+              aria-labelledby="rating-label-1"
             />
-            <span className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50">
+            <span
+              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
+              id="rating-label-1"
+            >
               1
             </span>
           </label>
@@ -115,11 +119,17 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
               onClick={() => clearErrors()}
               id="rate-2"
               type="radio"
-              className="peer [&:checked~span]:bg-rating-primary-orange [&:checked~span]:text-rating-neutral-100"
+              className="peer"
               {...register("rating", { required: true })}
               value="2"
+              role="radio"
+              aria-checked={`${currentRating}` === "2"}
+              aria-labelledby="rating-label-2"
             />
-            <span className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50">
+            <span
+              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
+              id="rating-label-2"
+            >
               2
             </span>
           </label>
@@ -128,11 +138,17 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
               onClick={() => clearErrors()}
               id="rate-3"
               type="radio"
-              className="peer [&:checked~span]:bg-rating-primary-orange [&:checked~span]:text-rating-neutral-100"
+              className="peer"
               {...register("rating", { required: true })}
               value="3"
+              role="radio"
+              aria-checked={`${currentRating}` === "3"}
+              aria-labelledby="rating-label-3"
             />
-            <span className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50">
+            <span
+              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
+              id="rating-label-3"
+            >
               3
             </span>
           </label>
@@ -141,11 +157,17 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
               onClick={() => clearErrors()}
               id="rate-4"
               type="radio"
-              className="peer [&:checked~span]:bg-rating-primary-orange [&:checked~span]:text-rating-neutral-100"
+              className="peer"
               {...register("rating", { required: true })}
               value="4"
+              role="radio"
+              aria-checked={`${currentRating}` === "4"}
+              aria-labelledby="rating-label-4"
             />
-            <span className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50">
+            <span
+              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
+              id="rating-label-4"
+            >
               4
             </span>
           </label>
@@ -154,11 +176,17 @@ function RatingState({ onSubmit }: { onSubmit: SubmitHandler<Input> }) {
               onClick={() => clearErrors()}
               id="rate-5"
               type="radio"
-              className="peer [&:checked~span]:bg-rating-primary-orange [&:checked~span]:text-rating-neutral-100"
+              className="peer"
               {...register("rating", { required: true })}
               value="5"
+              role="radio"
+              aria-checked={`${currentRating}` === "5"}
+              aria-labelledby="rating-label-5"
             />
-            <span className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50">
+            <span
+              className="group-hover:bg-rating-neutral-300 group-hover:text-rating-neutral-100 peer-checked:bg-rating-primary-orange peer-checked:text-rating-neutral-100 peer-checked:hover:bg-rating-primary-orange/50 peer-focus-visible:ring peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-1"
+              id="rating-label-5"
+            >
               5
             </span>
           </label>
@@ -188,11 +216,7 @@ function ThankYouState({ rating }: Input) {
   return (
     <main
       id="thank-you-modal"
-      className="relative mt-[5px] flex
-
-
-
-      h-[416px] w-[calc(100vw-48px)] max-w-[413px] flex-col items-center justify-center rounded-[32px] bg-[radial-gradient(circle_at_top,hsl(213,19%,18%)_0,_hsl(213,30%,12%)_100%)] pb-[47px] pl-8 pr-10 pt-[45.5px] text-center text-rating-neutral-100 max-[375px]:h-[360px] max-[375px]:rounded-2xl max-[375px]:px-6 max-[375px]:py-[33px]"
+      className="relative mt-[5px] flex h-[416px] w-[calc(100vw-48px)] max-w-[413px] flex-col items-center justify-center rounded-[32px] bg-[radial-gradient(circle_at_top,hsl(213,19%,18%)_0,_hsl(213,30%,12%)_100%)] pb-[47px] pl-8 pr-10 pt-[45.5px] text-center text-rating-neutral-100 max-[375px]:h-[360px] max-[375px]:rounded-2xl max-[375px]:px-6 max-[375px]:py-[33px]"
     >
       <div className="relative aspect-[162/108] h-[108px]">
         <Image
