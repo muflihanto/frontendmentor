@@ -29,7 +29,10 @@ export default function LaunchCountdownTimer() {
 function Main() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center pb-[193px] text-countdown-neutral-100 md:pb-[210px]">
-      <h1 className="px-8 text-center text-[18px] font-bold uppercase leading-[24px] tracking-[6.2px] md:text-[22px] md:tracking-[7.5px]">
+      <h1
+        id="countdown-title"
+        className="px-8 text-center text-[18px] font-bold uppercase leading-[24px] tracking-[6.2px] md:text-[22px] md:tracking-[7.5px]"
+      >
         We&lsquo;re launching soon
       </h1>
       <CountdownTimer />
@@ -41,10 +44,12 @@ function FlipCard({
   value,
   maxValue = Number.POSITIVE_INFINITY,
   duration = 1000,
+  label,
 }: {
   value: number;
   maxValue?: number;
   duration?: number;
+  label: string;
 }) {
   const [ref, flip] = useAnimate();
   const [init, setInit] = useState(true);
@@ -87,12 +92,23 @@ function FlipCard({
     <>
       <div
         className="flip-card relative flex flex-col items-center justify-center rounded bg-countdown-neutral-200 text-[32px] font-bold tracking-tight text-countdown-primary-red md:rounded-lg md:text-[78px]"
+        aria-live="polite"
+        aria-label={`${value} ${label}`}
+        id={label}
         ref={ref}
       >
-        <div className="top">{digit[0]}</div>
-        <div className="bottom">{digit[1]}</div>
-        <div className="top-flip">{digit[1]}</div>
-        <div className="bottom-flip">{digit[0]}</div>
+        <div aria-hidden="true" className="top">
+          {digit[0]}
+        </div>
+        <div aria-hidden="true" className="bottom">
+          {digit[1]}
+        </div>
+        <div aria-hidden="true" className="top-flip">
+          {digit[1]}
+        </div>
+        <div aria-hidden="true" className="bottom-flip">
+          {digit[0]}
+        </div>
       </div>
 
       <style jsx>{`
@@ -223,21 +239,52 @@ function CountdownTimer() {
             "--card-height": width < 768 ? "66px" : "140px",
           } as CSSProperties
         }
+        role="timer"
+        aria-live="assertive"
+        aria-labelledby="countdown-title"
+        aria-describedby="days hours minutes seconds"
       >
-        <FlipCard value={timeUnits.days} duration={duration} />
-        <FlipCard value={timeUnits.hours} duration={duration} maxValue={23} />
-        <FlipCard value={timeUnits.minutes} duration={duration} maxValue={59} />
-        <FlipCard value={timeUnits.seconds} duration={duration} maxValue={59} />
-        <div className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]">
+        <FlipCard label="days" value={timeUnits.days} duration={duration} />
+        <FlipCard
+          label="hours"
+          value={timeUnits.hours}
+          duration={duration}
+          maxValue={23}
+        />
+        <FlipCard
+          label="minutes"
+          value={timeUnits.minutes}
+          duration={duration}
+          maxValue={59}
+        />
+        <FlipCard
+          label="seconds"
+          value={timeUnits.seconds}
+          duration={duration}
+          maxValue={59}
+        />
+        <div
+          aria-hidden="true"
+          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
+        >
           Days
         </div>
-        <div className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]">
+        <div
+          aria-hidden="true"
+          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
+        >
           Hours
         </div>
-        <div className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]">
+        <div
+          aria-hidden="true"
+          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
+        >
           Minutes
         </div>
-        <div className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]">
+        <div
+          aria-hidden="true"
+          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
+        >
           Seconds
         </div>
       </div>
