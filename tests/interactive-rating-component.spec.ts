@@ -76,7 +76,9 @@ test.describe("FrontendMentor Challenge - Interactive rating component Page", ()
     test("can submit form", async () => {
       const inputs = await card.locator("fieldset input").all();
       for (const [index, input] of Object.entries(inputs)) {
+        await expect(input).toHaveAttribute("aria-checked", "false");
         await input.check();
+        await expect(input).toHaveAttribute("aria-checked", "true");
         await submit.click();
         await page.waitForTimeout(100);
         await expect(
