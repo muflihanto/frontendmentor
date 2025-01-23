@@ -87,7 +87,10 @@ function Header() {
 function Badge({
   children,
   variant,
-}: PropsWithChildren<{ variant: "new" | "featured" }>) {
+  ...props
+}: PropsWithChildren<
+  HTMLProps<HTMLDivElement> & { variant: "new" | "featured" }
+>) {
   return (
     <div
       className={`flex h-6 items-center justify-center rounded-full text-[14px] font-bold uppercase leading-none tracking-tight text-white ${
@@ -95,6 +98,7 @@ function Badge({
           ? "bg-job-listings-primary pl-2 pr-[9px] pt-[3px]"
           : "bg-job-listings-neutral-400 pl-[10px] pr-[9px] pt-[1px]"
       }`}
+      aria-label={props["aria-label"]}
     >
       {children}
     </div>
@@ -104,9 +108,11 @@ function Badge({
 function Category({
   children,
   onClick,
+  ...props
 }: PropsWithChildren<HTMLProps<HTMLButtonElement>>) {
   return (
     <button
+      {...props}
       className="flex h-[32px] items-center justify-center rounded bg-job-listings-neutral-200 pl-2 pr-[12px] pt-[2px] font-bold tracking-[-0.2px] text-job-listings-primary hover:bg-job-listings-primary hover:text-job-listings-neutral-100 lg:px-[9px]"
       onClick={onClick}
       type="button"
@@ -122,20 +128,24 @@ function FilterButton({
 }: PropsWithChildren<HTMLProps<HTMLButtonElement>>) {
   return (
     <div className="flex h-[32px] items-center rounded bg-job-listings-neutral-100 font-bold text-job-listings-primary">
-      <div className="px-2 lg:pr-[10px] lg:pt-[2px]">{children}</div>
+      <div className="px-2 lg:pr-[10px] lg:pt-[2px]" aria-hidden="true">
+        {children}
+      </div>
       <button
         onClick={onClick}
         className="ml-auto flex h-8 w-8 items-center justify-center rounded-r bg-job-listings-primary hover:bg-job-listings-neutral-400"
         type="button"
+        aria-label={`Remove filter: ${children as string}`}
+        title={`Remove filter: ${children as string}`}
       >
         <svg
           viewBox="0 0 14 14"
           className="pointer-events-none w-[14px]"
-          aria-label="Remove"
-          role="graphics-symbol"
+          aria-hidden="true"
         >
           <use href="/static-job-listings/images/icon-remove.svg#icon-remove" />
         </svg>
+        <span className="sr-only">{children}</span>
       </button>
     </div>
   );
@@ -151,6 +161,8 @@ function Card({ job }: { job: Job }) {
           ? "border-l-[5px] border-l-job-listings-primary pl-[19px] pt-8 lg:pl-[35px]"
           : "pl-[24px] pt-[32px]"
       }`}
+      role="listitem"
+      aria-labelledby={`job-${job.id}`}
     >
       <div
         className={`absolute top-0 aspect-square w-12 -translate-y-1/2 lg:relative lg:left-auto lg:w-[88px] lg:transform-none ${
@@ -165,20 +177,38 @@ function Card({ job }: { job: Job }) {
       </div>
       <div className="lg:ml-6">
         <div className="flex h-[24px] items-center gap-2 lg:mt-[1px]">
-          <div className="mr-4 pt-[1px] text-[15px] font-bold leading-none text-job-listings-primary lg:mr-2 lg:pb-[2px] lg:text-[18px]">
+          <div
+            className="mr-4 pt-[1px] text-[15px] font-bold leading-none text-job-listings-primary lg:mr-2 lg:pb-[2px] lg:text-[18px]"
+            id={`job-${job.id}`}
+          >
             {job.company}
           </div>
-          {job.new && <Badge variant="new">new!</Badge>}
-          {job.featured && <Badge variant="featured">featured</Badge>}
+          {job.new && (
+            <Badge variant="new" aria-label="New job posting">
+              new!
+            </Badge>
+          )}
+          {job.featured && (
+            <Badge variant="featured" aria-label="Featured job posting">
+              featured
+            </Badge>
+          )}
         </div>
-        <a className="mt-[13px] block cursor-pointer text-[15px] font-bold leading-none text-job-listings-neutral-400 hover:text-job-listings-primary lg:mt-[11px] lg:text-[22px]">
+        <a
+          className="mt-[13px] block cursor-pointer text-[15px] font-bold leading-none text-job-listings-neutral-400 hover:text-job-listings-primary lg:mt-[11px] lg:text-[22px]"
+          aria-label={`${job.position} at ${job.company}`}
+        >
           {job.position}
         </a>
-        <div className="mt-[13px] flex gap-[9px] text-job-listings-neutral-300 lg:mt-[6px] lg:gap-[15px] lg:text-[18px]">
+        <div
+          className="mt-[13px] flex gap-[9px] text-job-listings-neutral-300 lg:mt-[6px] lg:gap-[15px] lg:text-[18px]"
+          role="group"
+          aria-label="Job Details"
+        >
           <div>{job.postedAt}</div>
-          <div>&middot;</div>
+          <div aria-hidden="true">&middot;</div>
           <div>{job.contract}</div>
-          <div>&middot;</div>
+          <div aria-hidden="true">&middot;</div>
           <div>{job.location}</div>
         </div>
       </div>
@@ -190,6 +220,8 @@ function Card({ job }: { job: Job }) {
               return { ...filter, roles: filter.roles.add(job.role) };
             });
           }}
+          aria-label={`Filter by role: ${job.role}`}
+          title={`Filter by role: ${job.role}`}
         >
           {job.role}
         </Category>
@@ -199,6 +231,8 @@ function Card({ job }: { job: Job }) {
               return { ...filter, levels: filter.levels.add(job.level) };
             });
           }}
+          aria-label={`Filter by level: ${job.level}`}
+          title={`Filter by level: ${job.level}`}
         >
           {job.level}
         </Category>
@@ -212,6 +246,8 @@ function Card({ job }: { job: Job }) {
                     return { ...filter, languages: filter.languages.add(lang) };
                   });
                 }}
+                aria-label={`Filter by language: ${lang}`}
+                title={`Filter by language: ${lang}`}
               >
                 {lang}
               </Category>
@@ -227,6 +263,8 @@ function Card({ job }: { job: Job }) {
                     return { ...filter, tools: filter.tools.add(tool) };
                   });
                 }}
+                aria-label={`Filter by tool: ${tool}`}
+                title={`Filter by tool: ${tool}`}
               >
                 {tool}
               </Category>
@@ -284,8 +322,17 @@ function Main() {
 
   return (
     <div className="flex w-full flex-col items-center">
+      <h1 className="sr-only" id="job-list">
+        Static Job Listings
+      </h1>
       {!isFilterEmpty && (
-        <div className="flex min-h-[72px] w-[calc(100%-48px)] -translate-y-[36px] items-center justify-between rounded bg-white p-5 shadow-lg shadow-job-listings-primary/20 lg:w-[calc(100%-330px)] lg:px-10">
+        <fieldset
+          className="flex min-h-[72px] w-[calc(100%-48px)] -translate-y-[36px] items-center justify-between rounded bg-white p-5 shadow-lg shadow-job-listings-primary/20 lg:w-[calc(100%-330px)] lg:px-10"
+          aria-labelledby="filters-legend"
+        >
+          <legend id="filters-legend" className="sr-only">
+            Active Filters
+          </legend>
           <div className="flex flex-wrap gap-4 lg:gap-[15px]">
             {(Object.entries(filters) as FilterEntries).map((entry, index) => {
               if (entry[1].size === 0) return null;
@@ -326,15 +373,18 @@ function Main() {
             className="h-[24px] px-[6px] pt-[2px] font-bold leading-none text-job-listings-neutral-300"
             onClick={handleClear}
             type="button"
+            aria-label="Clear all filters"
           >
             Clear
           </button>
-        </div>
+        </fieldset>
       )}
       <div
         className={`flex w-full flex-col gap-10 px-6 pb-[34px] lg:gap-6 lg:px-10 lg:pb-[120px] xl:px-[165px] ${
           isFilterEmpty ? "pt-14 lg:pt-[75px]" : "pt-5 lg:pt-[3px]"
         }`}
+        role="list"
+        aria-labelledby="job-list"
       >
         {filteredJob.map((job, index) => {
           return <Card key={`${index}-${job.id}`} job={job} />;
