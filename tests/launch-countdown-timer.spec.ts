@@ -20,12 +20,22 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
 
   /** Test if the page has all flip cards */
   test("has all flip cards", async ({ page }) => {
-    const container = page.locator("div").nth(3);
-    const children = await container.locator(">div").all();
-    expect(children).toHaveLength(8);
     const units = ["Days", "Hours", "Minutes", "Seconds"];
+    const timer = page.getByRole("timer");
+    await expect(timer).toHaveAttribute("aria-live", "assertive");
+    await expect(timer).toHaveAttribute(
+      "aria-describedby",
+      units.map((el) => el.toLowerCase()).join(" "),
+    );
+    const children = await timer.locator(">div").all();
+    expect(children).toHaveLength(8);
+    await page.waitForTimeout(1000);
     for (const unit of units) {
-      await expect(container.getByText(unit)).toBeVisible();
+      await expect(timer.getByText(unit)).toBeVisible();
+      const flipCard = timer.locator(`id=${unit.toLowerCase()}`);
+      await expect(timer.locator(`id=${unit.toLowerCase()}`)).toBeVisible();
+      const label = await flipCard.getAttribute("aria-label");
+      expect(label).toMatch(/^\d+ \w+$/);
     }
   });
 
