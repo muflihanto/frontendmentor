@@ -28,11 +28,14 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
 
   /** Test if the page has correct initial cards */
   test("has correct initial cards", async ({ page }) => {
-    const container = page.locator("div").nth(3);
+    const heading = page.locator("h1#job-list");
+    const headingClasses = (await heading.getAttribute("class"))?.split(" ");
+    expect(headingClasses).toContain("sr-only");
+    const container = page.getByLabel("Static Job Listings");
     await expect(container).toBeVisible();
-    expect(await container.locator(">div").all()).toHaveLength(10);
+    expect(await container.getByRole("listitem").all()).toHaveLength(10);
     for (const job of jobs) {
-      const jobCard = container.locator(">div").nth(job.id - 1);
+      const jobCard = container.getByLabel(job.company, { exact: true });
       await expect(
         jobCard.getByRole("img", { name: `${job.company} ${job.position}` }),
       ).toBeVisible();
@@ -43,19 +46,29 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
       await expect(
         jobCard.getByText(job.position, { exact: true }),
       ).toBeVisible();
-      await expect(jobCard.getByText(job.postedAt)).toBeVisible();
-      await expect(jobCard.getByText(job.contract)).toBeVisible();
-      await expect(jobCard.getByText(job.location)).toBeVisible();
-      await expect(
-        jobCard.getByRole("button", { name: job.role }),
-      ).toBeVisible();
-      await expect(
-        jobCard.getByRole("button", { name: job.level }),
-      ).toBeVisible();
+      const jobDetails = jobCard.getByRole("group");
+      await expect(jobDetails).toHaveAccessibleName("Job Details");
+      await expect(jobDetails.getByText(job.postedAt)).toBeVisible();
+      await expect(jobDetails.getByText(job.contract)).toBeVisible();
+      await expect(jobDetails.getByText(job.location)).toBeVisible();
+      const role = jobCard.getByRole("button", { name: job.role });
+      await expect(role).toBeVisible();
+      await expect(role).toHaveAccessibleName(`Filter by role: ${job.role}`);
+      const level = jobCard.getByRole("button", { name: job.level });
+      await expect(level).toBeVisible();
+      await expect(level).toHaveAccessibleName(`Filter by level: ${job.level}`);
       for (const filter of [...job.languages, ...job.tools]) {
-        await expect(
-          jobCard.getByRole("button", { name: filter }),
-        ).toBeVisible();
+        const element = jobCard.getByRole("button", { name: filter });
+        await expect(element).toBeVisible();
+        if (job.languages.includes(filter)) {
+          await expect(element).toHaveAccessibleName(
+            `Filter by language: ${filter}`,
+          );
+        } else {
+          await expect(element).toHaveAccessibleName(
+            `Filter by tool: ${filter}`,
+          );
+        }
       }
     }
   });
@@ -90,7 +103,12 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
       }
       filtersContainer = page.getByLabel("Active Filters");
       await expect(filtersContainer).toBeVisible();
-      expect(await filtersContainer.locator(">div>div").all()).toHaveLength(2);
+      expect(
+        await filtersContainer.getByLabel("Remove filter").all(),
+      ).toHaveLength(2);
+      const legend = page.locator("legend#filters-legend");
+      const legendClasses = (await legend.getAttribute("class"))?.split(" ");
+      expect(legendClasses).toContain("sr-only");
       jobListContainer = page.getByLabel("Static Job Listings");
       await expect(jobListContainer).toBeVisible();
       expect(await jobListContainer.getByRole("listitem").all()).toHaveLength(
