@@ -88,12 +88,12 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
         await expect(button).toBeVisible();
         await button.click();
       }
-      filtersContainer = page.locator("div").nth(3);
+      filtersContainer = page.getByLabel("Active Filters");
       await expect(filtersContainer).toBeVisible();
       expect(await filtersContainer.locator(">div>div").all()).toHaveLength(2);
-      jobListContainer = page.locator("div:nth-child(2)").nth(2);
+      jobListContainer = page.getByLabel("Static Job Listings");
       await expect(jobListContainer).toBeVisible();
-      expect(await jobListContainer.locator(">div").all()).toHaveLength(
+      expect(await jobListContainer.getByRole("listitem").all()).toHaveLength(
         jobs.filter(
           (job) => job.role === "Frontend" && job.languages.includes("HTML"),
         ).length,
@@ -101,28 +101,27 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
     });
 
     test("can remove filter", async () => {
-      const removeHtmlFilterButton = filtersContainer
-        .locator(">div>div")
-        .nth(0)
-        .getByRole("button");
+      const removeHtmlFilterButton = filtersContainer.getByLabel(
+        "Remove filter: HTML",
+      );
       await expect(removeHtmlFilterButton).toBeVisible();
       await removeHtmlFilterButton.click();
-      expect(await filtersContainer.locator(">div>div").all()).toHaveLength(1);
-      jobListContainer = page.locator("div:nth-child(2)").nth(1);
-      expect(await jobListContainer.locator(">div").all()).toHaveLength(
+      expect(
+        await filtersContainer.getByLabel("Remove filter").all(),
+      ).toHaveLength(1);
+      expect(await jobListContainer.getByRole("listitem").all()).toHaveLength(
         jobs.filter((job) => job.role === "Frontend").length,
       );
     });
 
     test("can clear filter", async () => {
-      clearFilterButton = filtersContainer.getByRole("button", {
-        name: "Clear",
-      });
+      clearFilterButton = filtersContainer.getByLabel("Clear all filters");
       await expect(clearFilterButton).toBeVisible();
       await clearFilterButton.click();
-      jobListContainer = page.locator("div").nth(3);
       await expect(jobListContainer).toBeVisible();
-      expect(await jobListContainer.locator(">div").all()).toHaveLength(10);
+      expect(await jobListContainer.getByRole("listitem").all()).toHaveLength(
+        10,
+      );
     });
   });
 
