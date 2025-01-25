@@ -219,6 +219,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const icon = button.locator("svg");
       // not pressed
       await expect(button).toBeVisible();
+      await expect(button).toHaveAttribute("aria-pressed", "false");
       await expect(button).toHaveCSS(
         "background-color",
         "rgba(122, 122, 122, 0.1)",
@@ -228,6 +229,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(icon).toHaveCSS("fill", "rgb(47, 47, 47)");
       await button.click();
       // pressed
+      await expect(button).toHaveAttribute("aria-pressed", "true");
       await expect(button).toHaveCSS(
         "background-color",
         "rgba(60, 180, 172, 0.07)",
@@ -237,6 +239,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(icon).toHaveCSS("fill", "rgb(60, 180, 172)");
       await button.click();
       // not pressed
+      await expect(button).toHaveAttribute("aria-pressed", "false");
       await expect(button).toHaveCSS(
         "background-color",
         "rgba(122, 122, 122, 0.1)",
@@ -274,6 +277,18 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         await expect(card.getByRole("heading", { name: stat.h })).toBeVisible();
         await expect(card.getByText(stat.p)).toBeVisible();
       }
+      const progressBar = page.locator('[role="progressbar"]');
+      await expect(progressBar).toHaveAttribute("role", "progressbar");
+      await expect(progressBar).toHaveAttribute("aria-valuenow", "89914");
+      await expect(progressBar).toHaveAttribute("aria-valuemin", "0");
+      await expect(progressBar).toHaveAttribute("aria-valuemax", "100000");
+      await expect(progressBar).toHaveAttribute(
+        "aria-labelledby",
+        "progress-label",
+      );
+      const label = page.locator("#progress-label");
+      await expect(label).toHaveText("Crowdfunding progress: 89914 of 100000");
+      expect(await label.getAttribute("class")).toContain("sr-only");
     });
   });
 
