@@ -17,15 +17,13 @@ export default function Statistic() {
   ];
   return (
     <Card className="mt-[26px] py-[27px] lg:px-12 lg:pb-[36px] lg:pt-[43px]">
-      <div className="lg:flex lg:gap-12">
+      <ul className="lg:flex lg:gap-12" aria-label="Crowdfunding Statistics">
         {statisticData.map((el, index) => (
-          <Data
-            value={el}
-            key={`${el.h} ${el.p}`}
-            hr={index < statisticData.length - 1}
-          />
+          <li key={`${el.h} ${el.p}`} className="contents">
+            <Data value={el} hr={index < statisticData.length - 1} />
+          </li>
         ))}
-      </div>
+      </ul>
       <Progress value="89914" target="100000" />
     </Card>
   );
@@ -43,9 +41,9 @@ const Data = (props: DataProps) => {
   return (
     <div className="text-center lg:flex lg:flex-1 lg:justify-between lg:text-left">
       <div>
-        <h1 className="text-[32px] font-bold text-crowdfunding-neutral-200">
+        <h2 className="text-[32px] font-bold text-crowdfunding-neutral-200">
           {h}
-        </h1>
+        </h2>
         <p className="mt-[3px] text-[14px] font-medium text-crowdfunding-neutral-100/70 lg:mt-[2px] lg:text-[15px]">
           {p}
         </p>
@@ -59,14 +57,27 @@ const Data = (props: DataProps) => {
 
 type ProgressProps = { value: string; target: string };
 const Progress = (props: ProgressProps) => {
+  const progressValue = (Number(props.value) / Number(props.target)) * 100;
   return (
-    <div className="relative mx-auto mb-[12px] mt-[30px] h-[12px] w-[calc(100%-48px)] overflow-hidden rounded-full bg-crowdfunding-neutral-100/10 lg:mt-[34.5px] lg:w-full">
+    <>
+      <div id="progress-label" className="sr-only">
+        {`Crowdfunding progress: ${props.value} of ${props.target}`}
+      </div>
       <div
-        className="absolute top-0 h-full w-[200px] rounded-full bg-crowdfunding-primary-100"
-        style={{
-          width: `${(Number(props.value) / Number(props.target)) * 100}%`,
-        }}
-      />
-    </div>
+        className="relative mx-auto mb-[12px] mt-[30px] h-[12px] w-[calc(100%-48px)] overflow-hidden rounded-full bg-crowdfunding-neutral-100/10 lg:mt-[34.5px] lg:w-full"
+        role="progressbar"
+        aria-valuenow={Number(props.value)}
+        aria-valuemin={0}
+        aria-valuemax={Number(props.target)}
+        aria-labelledby="progress-label"
+      >
+        <div
+          className="absolute top-0 h-full w-[200px] rounded-full bg-crowdfunding-primary-100"
+          style={{
+            width: `${progressValue}%`,
+          }}
+        />
+      </div>
+    </>
   );
 };
