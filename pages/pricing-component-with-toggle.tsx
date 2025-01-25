@@ -53,11 +53,16 @@ function Header({ mode, toggle }: { mode: Payment; toggle: () => void }) {
           className="ml-1 mt-[1px] h-[32px] w-[56px] rounded-full bg-gradient-to-r from-pricing-toggle-primary-gradient-100 to-pricing-toggle-primary-gradient-200 px-[5px] hover:opacity-50"
           onClick={toggle}
           type="button"
+          aria-label={`Switch to ${
+            mode === "annually" ? "monthly" : "annually"
+          } billing`}
+          aria-pressed={mode === "monthly"}
         >
           <div
             className={`aspect-square w-6 rounded-full bg-pricing-toggle-neutral-100 transition-transform ${
               mode === "monthly" ? "translate-x-[22px]" : ""
             }`}
+            aria-hidden="true"
           />
         </button>
         <p className="ml-[3px] text-[15px] text-pricing-toggle-neutral-200">
@@ -125,14 +130,17 @@ function PriceCard({
   variant: "blue" | "white";
 }) {
   return (
-    <div
+    <section
       className={`flex h-[453px] flex-col items-center rounded-xl px-[29px] pt-[31px] shadow-2xl shadow-pricing-toggle-neutral-400/10 lg:w-[350px] lg:px-8 ${
         variant === "blue"
           ? "bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-pricing-toggle-primary-gradient-100 to-pricing-toggle-primary-gradient-200 text-pricing-toggle-neutral-100 lg:h-[500px] lg:justify-center lg:py-0"
           : "bg-white text-pricing-toggle-neutral-300 "
       } `}
+      aria-labelledby={`${plan}-heading`}
     >
-      <div className="text-[18px] capitalize">{plan}</div>
+      <h2 className="text-[18px] capitalize" id={`${plan}-heading`}>
+        {plan}
+      </h2>
       <div
         className={`mt-[5px] flex items-center gap-1 ${
           variant === "blue"
@@ -140,26 +148,28 @@ function PriceCard({
             : "text-pricing-toggle-neutral-400"
         }`}
       >
-        <span className="mt-[1px] text-[40px]">&#36;</span>
+        <span className="mt-[1px] text-[40px]" aria-hidden="true">
+          &#36;
+        </span>
         <span className="text-[72px] tracking-[-2px]">{features.price}</span>
       </div>
-      <div
+      <ul
         className={`mt-[14px] flex w-full flex-col items-center divide-y-[2px] border-y-[2px] pb-[1px] text-[15px] ${
           variant === "blue"
             ? "divide-pricing-toggle-primary-gradient-100 border-y-pricing-toggle-primary-gradient-100"
             : ""
         }`}
       >
-        <div className="flex h-[52px] w-full items-center justify-center pb-[2px] text-center">
+        <li className="flex h-[52px] w-full items-center justify-center pb-[2px] text-center">
           {features.storage} Storage
-        </div>
-        <div className="flex h-[52px] w-full items-center justify-center pb-[2px] text-center">
+        </li>
+        <li className="flex h-[52px] w-full items-center justify-center pb-[2px] text-center">
           {features.users} Users Allowed
-        </div>
-        <div className="flex h-[52px] w-full items-center justify-center text-center">
+        </li>
+        <li className="flex h-[52px] w-full items-center justify-center text-center">
           Send up to {features.bandwith}
-        </div>
-      </div>
+        </li>
+      </ul>
       <a
         href=""
         className={`mt-[32px] flex h-[44px] w-full items-center justify-center rounded-[6px] text-[13px] uppercase tracking-[1.5px] hover:border-2 ${
@@ -167,10 +177,11 @@ function PriceCard({
             ? "bg-gradient-to-r from-pricing-toggle-primary-gradient-100 to-pricing-toggle-primary-gradient-200 text-pricing-toggle-neutral-100 hover:border-pricing-toggle-primary-gradient-100 hover:from-transparent hover:to-transparent hover:text-pricing-toggle-primary-gradient-200"
             : "bg-white text-pricing-toggle-primary-gradient-200 hover:border-pricing-toggle-neutral-100/50 hover:bg-transparent hover:text-pricing-toggle-neutral-100 "
         }`}
+        aria-label={`Learn more about the ${plan} plan`}
       >
         Learn More
       </a>
-    </div>
+    </section>
   );
 }
 
