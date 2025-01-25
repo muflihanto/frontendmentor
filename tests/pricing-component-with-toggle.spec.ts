@@ -60,18 +60,19 @@ test.describe("FrontendMentor Challenge - Pricing component with toggle Page", (
 
   /** Test if the page has all cards */
   test.describe("has all cards", () => {
-    const cardIndexes = [5, 12, 19];
     const payments = ["annually", "monthly"] as const;
     for (const payment of payments) {
-      for (const [index, [plan, detail]] of Object.entries(
-        Object.entries(prices),
-      )) {
+      for (const [plan, detail] of Object.entries(prices)) {
         test(`has a ${payment} ${plan} card`, async ({ page }) => {
-          const toggle = page.getByText("AnnuallyMonthly").getByRole("button");
+          const toggle = page.getByRole("button", {
+            name: /Switch to (monthly|annually) billing/i,
+          });
+          await expect(toggle).toHaveAttribute("aria-pressed", "false");
           if (payment === "monthly") {
             await toggle.click();
+            await expect(toggle).toHaveAttribute("aria-pressed", "true");
           }
-          const card = page.locator("div").nth(cardIndexes[Number(index)]);
+          const card = page.getByLabel(plan, { exact: true });
           await expect(card).toBeVisible();
           await expect(card.getByText(plan, { exact: true })).toBeVisible();
           await expect(
@@ -86,8 +87,12 @@ test.describe("FrontendMentor Challenge - Pricing component with toggle Page", (
           await expect(
             card.getByText(`Send up to ${detail.bandwith}`),
           ).toBeVisible();
-          await expect(card.getByRole("link")).toBeVisible();
-          await expect(card.getByRole("link")).toHaveText("Learn More");
+
+          const learnMoreLink = card.getByRole("link", {
+            name: /Learn more about the .* plan/i,
+          });
+          await expect(learnMoreLink).toBeVisible();
+          await expect(learnMoreLink).toHaveText("Learn More");
         });
       }
     }
