@@ -4,7 +4,9 @@ import ObjectMessage from "./ObjectMessage";
 import ObjectPicture from "./ObjectPicture";
 import type { Notifications } from "./Main";
 
-export default function Notification(props: Notifications[number]) {
+export default function Notification(
+  props: Notifications[number] & { labelId: string },
+) {
   const { object } = props;
   return (
     <>
@@ -21,7 +23,10 @@ export default function Notification(props: Notifications[number]) {
           />
         </div>
         <div>
-          <p className="text-[14px] leading-[18px] md:text-[1rem] md:leading-[24px]">
+          <p
+            className="text-[14px] leading-[18px] md:text-[1rem] md:leading-[24px]"
+            id={`notification-${props.labelId}`}
+          >
             <a
               href={props.subjectUrl}
               className="font-extrabold text-notif-neutral-700 hover:text-notif-primary-blue"
@@ -40,7 +45,10 @@ export default function Notification(props: Notifications[number]) {
                 />
               )}{" "}
             {props.isNew && (
-              <span className="ml-1 inline-block h-2 w-2 rounded-full bg-notif-primary-red" />
+              <span
+                className="ml-1 inline-block h-2 w-2 rounded-full bg-notif-primary-red"
+                aria-hidden="true"
+              />
             )}
           </p>
           <p className="mt-[1px] text-[14px] text-notif-neutral-500 md:mt-[0px] md:text-[1rem]">

@@ -28,10 +28,16 @@ export default function Main() {
     if (notificationData) {
       return notificationData.map((notif, index) => {
         return (
-          <Notification
+          <li
             key={`${index}-${notif.subject}-${notif.actionType}`}
-            {...notif}
-          />
+            className="contents"
+            aria-describedby={`notification-${index}`}
+            aria-label={`${notif.isNew ? "New n" : "N"}otification from ${
+              notif.subject
+            }`}
+          >
+            <Notification {...notif} labelId={`${index}`} />
+          </li>
         );
       });
     }
@@ -41,7 +47,11 @@ export default function Main() {
     // <FontContext.Provider value={plusJakartaSans}>
     <main className="px-4 font-medium md:mx-auto md:max-w-[730px] md:rounded-xl md:bg-notif-neutral-100 md:px-[30px] md:py-[9px] md:shadow-[0px_0px_30px_2px_rgba(0,0,0,.03)]">
       <Header notifCount={count} markAsRead={markAsRead} />
-      <div className="notifications md:mt-5">{notificationElement}</div>
+      <section aria-labelledby="page-title">
+        <ul className="notifications md:mt-5" aria-label="Notifications list">
+          {notificationElement}
+        </ul>
+      </section>
     </main>
     // </FontContext.Provider>
   );
