@@ -25,11 +25,15 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
   /** Test if the page has unread notifications indicator */
   test.describe("has unread notifications indicator", () => {
     test("indicator is visible", async ({ page }) => {
-      await expect(page.locator("header div")).toBeVisible();
+      const count = page.locator("header div");
+      await expect(count).toBeVisible();
     });
 
-    test("indicator has correct text", async ({ page }) => {
+    test("indicator has correct text and aria-label", async ({ page }) => {
       await expect(page.locator("header div")).toContainText("3");
+      await expect(page.locator("header div")).toHaveAccessibleName(
+        "You have 3 new notifications",
+      );
     });
   });
 
@@ -43,14 +47,16 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
   /** Test if the page has all initial notifications */
   test.describe("has initial notifications", () => {
     test("has correct total notifications", async ({ page }) => {
-      const notificationContainer = page.locator("div.notifications");
+      const notificationContainer = page.getByLabel("Notifications list");
       await expect(notificationContainer).toBeVisible();
-      const allnotifications = page.locator("div.notifications>div");
-      await expect(allnotifications).toHaveCount(notifications.length);
+      const allnotifications = await notificationContainer
+        .getByRole("listitem")
+        .all();
+      expect(allnotifications).toHaveLength(notifications.length);
     });
 
     test("has new notification indicator", async ({ page }) => {
-      const allnotifications = page.locator("div.notifications>div");
+      const allnotifications = page.getByRole("listitem");
       const newnotifications = allnotifications.filter({
         has: page.locator("span.bg-notif-primary-red"),
       });
@@ -65,8 +71,14 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
     const button = page.getByRole("button", { name: "Mark all as read" });
     const indicator = page.locator("header div");
     await expect(indicator).toHaveText("3");
+    await expect(indicator).toHaveAccessibleName(
+      "You have 3 new notifications",
+    );
     await button.click();
     await expect(indicator).toHaveText("0");
+    await expect(indicator).toHaveAccessibleName(
+      "You have 0 new notifications",
+    );
   });
 
   /** Test if the page has correct footer */
