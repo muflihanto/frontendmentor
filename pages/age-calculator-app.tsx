@@ -124,16 +124,34 @@ function Main() {
     handleSubmit,
     formState: { errors },
   } = useForm<DateInput>({ resolver: zodResolver(dateInputsSchema) });
-  const [diff, setDiff] = useState({ year: "", month: "", day: "" });
+  const [diff, setDiff] = useState({ year: "- -", month: "- -", day: "- -" });
 
-  // FIXME: fix logic
   const onSubmit = handleSubmit((data) => {
-    const date = `${data.year}-${data.month}-${data.day}`;
-    const now = dayjs();
+    const { year, month, day } = data;
+
+    // Create a Date object for the input date
+    const inputDate = new Date(year, month - 1, day); // month is 0-indexed in JavaScript Date
+    const now = new Date();
+
+    // Calculate the difference in years, months, and days
+    let yearDiff = now.getFullYear() - inputDate.getFullYear();
+    let monthDiff = now.getMonth() - inputDate.getMonth();
+    let dayDiff = now.getDate() - inputDate.getDate();
+
+    // Adjust for negative month or day differences
+    if (dayDiff < 0) {
+      monthDiff -= 1;
+      dayDiff += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); // Days in the previous month
+    }
+    if (monthDiff < 0) {
+      yearDiff -= 1;
+      monthDiff += 12;
+    }
+
     setDiff({
-      day: (now.diff(date, "day") % 30).toString(),
-      month: (now.diff(date, "month") % 12).toString(),
-      year: now.diff(date, "year").toString(),
+      year: yearDiff.toString(),
+      month: monthDiff.toString(),
+      day: dayDiff.toString(),
     });
   });
 
