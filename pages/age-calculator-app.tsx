@@ -142,6 +142,7 @@ function Main() {
 
   return (
     <div
+      role="main"
       className={`h-[486px] w-[calc(100vw-32px)] max-w-md rounded-[24px] rounded-br-[100px] bg-age-calculator-neutral-100 px-6 pt-[47px] md:h-[540px] md:max-w-screen-sm md:rounded-br-[128px] lg:max-w-[840px] lg:rounded-br-[200px] lg:px-[56px] lg:pt-[55px] ${
         !!errors.day || !!errors.month || !!errors.year
           ? "h-[680px] translate-y-[31px]"
@@ -152,126 +153,171 @@ function Main() {
         onSubmit={onSubmit}
         className="flex w-full flex-col items-center lg:relative"
         noValidate
+        aria-labelledby="form-title"
       >
-        <div className="grid grid-cols-3 grid-rows-1 gap-4 lg:w-auto lg:gap-8 lg:self-start">
-          <label className="flex flex-col gap-[5px] lg:gap-[9px]" htmlFor="day">
-            <p
-              className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${
-                !!errors.day || !!errors.month || !!errors.year
-                  ? "text-age-calculator-primary-red"
-                  : "text-age-calculator-neutral-400"
-              }`}
+        <h1 id="form-title" className="sr-only">
+          Age Calculator App
+        </h1>
+        <div
+          role="group"
+          className="grid grid-cols-3 grid-rows-1 gap-4 lg:w-auto lg:gap-8 lg:self-start"
+          aria-labelledby="date-inputs-label"
+        >
+          <p id="date-inputs-label" className="sr-only">
+            Enter your birth date
+          </p>
+          <div className="contents">
+            <label
+              className="flex flex-col gap-[5px] lg:gap-[9px]"
+              htmlFor="day"
             >
-              Day
-            </p>
-            <input
-              placeholder="DD"
-              className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
-                !!errors.day || !!errors.month || !!errors.year
-                  ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
-                  : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
-              }`}
-              type="number"
-              {...register("day", {
-                required: true,
-                setValueAs,
-                min: 1,
-                minLength: 1,
-              })}
-            />
-            {!!errors.day && (
-              <p className="-mt-[2px] mb-[1px] w-full font-poppins text-[14px] italic text-age-calculator-primary-red lg:max-w-[160px]">
-                {errors.day.message}
+              <p
+                className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${
+                  !!errors.day || !!errors.month || !!errors.year
+                    ? "text-age-calculator-primary-red"
+                    : "text-age-calculator-neutral-400"
+                }`}
+              >
+                Day
               </p>
-            )}
-          </label>
-          <label
-            className="flex flex-col gap-[5px] lg:gap-[9px]"
-            htmlFor="month"
-          >
-            <p
-              className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${
-                !!errors.day || !!errors.month || !!errors.year
-                  ? "text-age-calculator-primary-red"
-                  : "text-age-calculator-neutral-400"
-              }`}
+              <input
+                id="day"
+                placeholder="DD"
+                className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+                  !!errors.day || !!errors.month || !!errors.year
+                    ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
+                    : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
+                }`}
+                type="number"
+                aria-invalid={!!errors.day}
+                aria-describedby="day-error"
+                {...register("day", {
+                  required: true,
+                  setValueAs,
+                  min: 1,
+                  minLength: 1,
+                })}
+              />
+              {!!errors.day && (
+                <p
+                  id="day-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="-mt-[2px] mb-[1px] w-full font-poppins text-[14px] italic text-age-calculator-primary-red lg:max-w-[160px]"
+                >
+                  {errors.day.message}
+                </p>
+              )}
+            </label>
+            <label
+              className="flex flex-col gap-[5px] lg:gap-[9px]"
+              htmlFor="month"
             >
-              Month
-            </p>
-            <input
-              placeholder="MM"
-              className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
-                !!errors.day || !!errors.month || !!errors.year
-                  ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
-                  : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
-              }`}
-              type="number"
-              {...register("month", {
-                required: true,
-                setValueAs,
-                min: 1,
-                minLength: 1,
-              })}
-            />
-            {!!errors.month && (
-              <p className="-mt-[2px] mb-[1px] w-full font-poppins text-[14px] italic text-age-calculator-primary-red lg:max-w-[160px]">
-                {errors.month.message}
+              <p
+                className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${
+                  !!errors.day || !!errors.month || !!errors.year
+                    ? "text-age-calculator-primary-red"
+                    : "text-age-calculator-neutral-400"
+                }`}
+              >
+                Month
               </p>
-            )}
-          </label>
-          <label
-            className="flex flex-col gap-[5px] lg:gap-[9px]"
-            htmlFor="year"
-          >
-            <p
-              className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${
-                !!errors.day || !!errors.month || !!errors.year
-                  ? "text-age-calculator-primary-red"
-                  : "text-age-calculator-neutral-400"
-              }`}
+              <input
+                id="month"
+                placeholder="MM"
+                className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+                  !!errors.day || !!errors.month || !!errors.year
+                    ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
+                    : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
+                }`}
+                type="number"
+                aria-invalid={!!errors.month}
+                aria-describedby="month-error"
+                {...register("month", {
+                  required: true,
+                  setValueAs,
+                  min: 1,
+                  minLength: 1,
+                })}
+              />
+              {!!errors.month && (
+                <p
+                  id="month-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="-mt-[2px] mb-[1px] w-full font-poppins text-[14px] italic text-age-calculator-primary-red lg:max-w-[160px]"
+                >
+                  {errors.month.message}
+                </p>
+              )}
+            </label>
+            <label
+              className="flex flex-col gap-[5px] lg:gap-[9px]"
+              htmlFor="year"
             >
-              Year
-            </p>
-            <input
-              placeholder="YYYY"
-              className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
-                !!errors.day || !!errors.month || !!errors.year
-                  ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
-                  : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
-              }`}
-              type="number"
-              min={1}
-              max={new Date().getFullYear()}
-              {...register("year", {
-                required: true,
-                setValueAs,
-                min: 1,
-                minLength: 1,
-              })}
-            />
-            {!!errors.year && (
-              <p className="-mt-[2px] mb-[1px] w-full font-poppins text-[14px] italic text-age-calculator-primary-red lg:max-w-[160px]">
-                {errors.year.message}
+              <p
+                className={`font-poppins text-[12px] font-bold uppercase tracking-[3px] lg:text-[14px] lg:tracking-[3.2px] ${
+                  !!errors.day || !!errors.month || !!errors.year
+                    ? "text-age-calculator-primary-red"
+                    : "text-age-calculator-neutral-400"
+                }`}
+              >
+                Year
               </p>
-            )}
-          </label>
+              <input
+                id="year"
+                placeholder="YYYY"
+                className={`h-[54px] w-full rounded-md border bg-white px-[15px] font-poppins text-[20px] font-extrabold text-age-calculator-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[72px] lg:w-[160px] lg:px-[23px] lg:pb-[1px] lg:text-[32px] lg:placeholder:font-bold ${
+                  !!errors.day || !!errors.month || !!errors.year
+                    ? "border-age-calculator-primary-red focus-visible:border-age-calculator-primary-red"
+                    : "border-age-calculator-neutral-300 focus-visible:border-age-calculator-primary-purple "
+                }`}
+                type="number"
+                min={1}
+                max={new Date().getFullYear()}
+                aria-invalid={!!errors.year}
+                aria-describedby="year-error"
+                {...register("year", {
+                  required: true,
+                  setValueAs,
+                  min: 1,
+                  minLength: 1,
+                })}
+              />
+              {!!errors.year && (
+                <p
+                  id="year-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="-mt-[2px] mb-[1px] w-full font-poppins text-[14px] italic text-age-calculator-primary-red lg:max-w-[160px]"
+                >
+                  {errors.year.message}
+                </p>
+              )}
+            </label>
+          </div>
         </div>
         <button
           className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 md:h-20 md:w-20 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]"
           type="submit"
+          aria-label="Calculate age"
         >
           <svg
             viewBox="0 0 46 44"
             className="h-11 stroke-[3px] lg:stroke-2"
-            role="graphics-symbol"
-            aria-label="Submit"
+            role="img"
+            aria-hidden="true"
           >
             <use href="/age-calculator-app/assets/images/icon-arrow.svg#icon-arrow" />
           </svg>
         </button>
         <hr className="w-full border-t-2 border-age-calculator-neutral-200 lg:mt-[47px]" />
       </form>
-      <div className="mt-[65px] flex flex-col gap-[6px] font-poppins text-[56px] font-extrabold italic leading-none tracking-[-1px] text-age-calculator-neutral-500 md:text-7xl lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]">
+      <div
+        className="mt-[65px] flex flex-col gap-[6px] font-poppins text-[56px] font-extrabold italic leading-none tracking-[-1px] text-age-calculator-neutral-500 md:text-7xl lg:mt-[51px] lg:gap-[9px] lg:text-[105px] lg:tracking-[-3px]"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         <p>
           <span className="text-age-calculator-primary-purple lg:tracking-[-3px]">
             {!Number.isNaN(Number.parseInt(diff.year)) ? (
