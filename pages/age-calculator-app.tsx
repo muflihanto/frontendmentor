@@ -12,7 +12,6 @@ import { poppins } from "../utils/fonts/poppins";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 // FIXME: optimize check for invalid date
-// FIXME: unexpected behaviour for year under "100"
 
 const dateInputsSchema = z
   .object({
@@ -35,7 +34,7 @@ const dateInputsSchema = z
         required_error: "This field is required",
         invalid_type_error: "Must be a valid year",
       })
-      .min(100, "Must be a valid year")
+      .min(0, "Must be a valid year")
       .max(new Date().getFullYear(), "Must be in the past"),
   })
   .required()
@@ -129,24 +128,24 @@ function Main() {
   const onSubmit = handleSubmit((data) => {
     const { year, month, day } = data;
 
-    // Create a Date object for the input date
-    const inputDate = new Date(year, month - 1, day); // month is 0-indexed in JavaScript Date
-    const now = new Date();
+    const paddedYear = String(year).padStart(4, "0");
+    const inputDate = dayjs(new Date(0, month - 1, day)).set(
+      "year",
+      Number(paddedYear),
+    );
+    const now = dayjs();
 
-    // Calculate the difference in years, months, and days
-    let yearDiff = now.getFullYear() - inputDate.getFullYear();
-    let monthDiff = now.getMonth() - inputDate.getMonth();
-    let dayDiff = now.getDate() - inputDate.getDate();
+    if (!inputDate.isValid() || inputDate.isAfter(now)) {
+      setDiff({ year: "- -", month: "- -", day: "- -" });
+      return;
+    }
 
-    // Adjust for negative month or day differences
-    if (dayDiff < 0) {
-      monthDiff -= 1;
-      dayDiff += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); // Days in the previous month
-    }
-    if (monthDiff < 0) {
-      yearDiff -= 1;
-      monthDiff += 12;
-    }
+    const yearDiff = now.diff(inputDate, "year");
+    const monthDiff = now.diff(inputDate.add(yearDiff, "year"), "month");
+    const dayDiff = now.diff(
+      inputDate.add(yearDiff, "year").add(monthDiff, "month"),
+      "day",
+    );
 
     setDiff({
       year: yearDiff.toString(),
