@@ -11,8 +11,6 @@ import { poppins } from "../utils/fonts/poppins";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-// FIXME: optimize check for invalid date
-
 const dateInputsSchema = z
   .object({
     day: z
@@ -39,9 +37,26 @@ const dateInputsSchema = z
   })
   .required()
   .superRefine((val, ctx) => {
-    const date = `${val.year}-${val.month}-${val.day}`;
     const now = dayjs();
-    if (now.diff(date) < 0) {
+    const inputDate = dayjs(new Date(0, val.month - 1, val.day)).set(
+      "year",
+      val.year,
+    );
+
+    if (
+      inputDate.year() !== val.year ||
+      inputDate.month() + 1 !== val.month ||
+      inputDate.date() !== val.day
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Must be a valid date",
+        path: ["day"],
+      });
+      return;
+    }
+
+    if (inputDate.isAfter(now)) {
       if (val.year > now.year()) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -62,35 +77,6 @@ const dateInputsSchema = z
             path: ["day"],
           });
         }
-      }
-    }
-    if ([1, 3, 5, 7, 8, 10, 12].includes(val.month) && val.day > 31) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Must be a valid day",
-        path: ["day"],
-      });
-    } else if ([4, 6, 9, 11].includes(val.month) && val.day > 30) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Must be a valid day",
-        path: ["day"],
-      });
-    } else if (val.month === 2) {
-      if (new Date(val.year, 1, 29).getMonth() === 1) {
-        if (val.day > 29) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Must be a valid day",
-            path: ["day"],
-          });
-        }
-      } else if (val.day > 28) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Must be a valid day",
-          path: ["day"],
-        });
       }
     }
   });
@@ -127,12 +113,7 @@ function Main() {
 
   const onSubmit = handleSubmit((data) => {
     const { year, month, day } = data;
-
-    const paddedYear = String(year).padStart(4, "0");
-    const inputDate = dayjs(new Date(0, month - 1, day)).set(
-      "year",
-      Number(paddedYear),
-    );
+    const inputDate = dayjs(new Date(0, month - 1, day)).set("year", year);
     const now = dayjs();
 
     if (!inputDate.isValid() || inputDate.isAfter(now)) {
