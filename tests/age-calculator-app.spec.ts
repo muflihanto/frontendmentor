@@ -136,6 +136,74 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
     });
   });
 
+  test.describe("has accessibility features", () => {
+    test("should allow keyboard navigation through the form", async ({
+      page,
+    }) => {
+      await page.keyboard.press("Tab");
+      await expect(page.locator('input[placeholder="DD"]')).toBeFocused();
+
+      await page.keyboard.press("Tab");
+      await expect(page.locator('input[placeholder="MM"]')).toBeFocused();
+
+      await page.keyboard.press("Tab");
+      await expect(page.locator('input[placeholder="YYYY"]')).toBeFocused();
+
+      await page.keyboard.press("Tab");
+      await expect(
+        page.locator('button[aria-label="Calculate age"]'),
+      ).toBeFocused();
+
+      await page.keyboard.press("Enter");
+      await expect(page.locator('p[id="day-error"]')).toBeVisible();
+      await expect(page.locator('p[id="month-error"]')).toBeVisible();
+      await expect(page.locator('p[id="year-error"]')).toBeVisible();
+    });
+
+    test("should announce error messages to screen readers", async ({
+      page,
+    }) => {
+      await page.fill('input[placeholder="DD"]', "30");
+      await page.fill('input[placeholder="MM"]', "02");
+      await page.fill('input[placeholder="YYYY"]', "2023");
+
+      await page.click('button[aria-label="Calculate age"]');
+
+      const dayError = page.locator('p[id="day-error"]');
+      await expect(dayError).toHaveAttribute("role", "alert");
+      await expect(dayError).toHaveAttribute("aria-live", "assertive");
+      await expect(dayError).toContainText("Must be a valid date");
+    });
+
+    test("should set aria-invalid and aria-describedby attributes on invalid inputs", async ({
+      page,
+    }) => {
+      await page.fill('input[placeholder="DD"]', "30");
+      await page.fill('input[placeholder="MM"]', "02");
+      await page.fill('input[placeholder="YYYY"]', "2023");
+
+      await page.click('button[aria-label="Calculate age"]');
+
+      const dayInput = page.locator('input[placeholder="DD"]');
+      await expect(dayInput).toHaveAttribute("aria-invalid", "true");
+      await expect(dayInput).toHaveAttribute("aria-describedby", "day-error");
+    });
+
+    test("should manage focus correctly after form submission", async ({
+      page,
+    }) => {
+      await page.fill('input[placeholder="DD"]', "15");
+      await page.fill('input[placeholder="MM"]', "05");
+      await page.fill('input[placeholder="YYYY"]', "1990");
+
+      await page.click('button[aria-label="Calculate age"]');
+
+      await expect(
+        page.locator('button[aria-label="Calculate age"]'),
+      ).toBeFocused();
+    });
+  });
+
   /** Test if the page has a correct footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByRole("contentinfo")).toBeVisible();
