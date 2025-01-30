@@ -60,7 +60,7 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       // case: invalid all input values
       await dayField.fill("35");
       await monthField.fill("15");
-      await yearField.fill("12");
+      await yearField.fill("-1");
       await submit.click();
       await expect(dayError).toBeVisible();
       await expect(monthError).toBeVisible();
@@ -78,7 +78,9 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await page.reload();
       await page.waitForLoadState("domcontentloaded");
       // case: future month value
-      await dayField.fill(`${date.getDate() - 1 ?? date.getDate()}`);
+      await dayField.fill(
+        `${date.getDate() - 3 > 0 ? date.getDate() - 3 : date.getDate()}`,
+      );
       await monthField.fill(`${date.getMonth() + 2}`);
       await yearField.fill(`${date.getFullYear()}`);
       await submit.click();
@@ -109,6 +111,20 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await dayField.fill("12");
       await monthField.fill("12");
       await yearField.fill("2012");
+      await expect(yearDiff).toBeVisible();
+      await expect(monthDiff).toBeVisible();
+      await expect(dayDiff).toBeVisible();
+      await submit.click();
+      await page.waitForTimeout(2000);
+      await expect(yearDiff).not.toBeVisible();
+      await expect(monthDiff).not.toBeVisible();
+      await expect(dayDiff).not.toBeVisible();
+      await page.reload();
+      await page.waitForLoadState("domcontentloaded");
+      // case: year < 100
+      await dayField.fill("12");
+      await monthField.fill("12");
+      await yearField.fill("12");
       await expect(yearDiff).toBeVisible();
       await expect(monthDiff).toBeVisible();
       await expect(dayDiff).toBeVisible();
