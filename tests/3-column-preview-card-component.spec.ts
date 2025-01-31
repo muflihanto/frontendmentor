@@ -15,6 +15,10 @@ test.describe("FrontendMentor Challenge - 3-column preview card component Page",
 
   /** Test if the page has correct headings */
   test("has headings", async ({ page }) => {
+    const h1 = page.locator("h1");
+    await expect(h1).toHaveText("3-column preview card component");
+    expect(await h1.getAttribute("class")).toContain("sr-only");
+
     await expect(
       page.getByRole("heading", {
         level: 2,
@@ -42,7 +46,7 @@ test.describe("FrontendMentor Challenge - 3-column preview card component Page",
       },
     ];
     for (const card of cards) {
-      const container = page.getByText(`${card.heading}${card.description}`);
+      const container = page.getByLabel(card.heading, { exact: true });
       await expect(
         container.getByRole("heading", {
           level: 2,
@@ -51,9 +55,33 @@ test.describe("FrontendMentor Challenge - 3-column preview card component Page",
       ).toBeVisible();
       await expect(container.getByText(card.description)).toBeVisible();
       await expect(
-        container.getByRole("link", { name: "Learn More" }).first(),
+        container
+          .getByRole("link", { name: `Learn more about ${card.heading}` })
+          .first(),
       ).toBeVisible();
     }
+  });
+
+  test("should have correct ARIA attributes", async ({ page }) => {
+    // Check aria-label for icons
+    const sedansIcon = page.locator('[aria-labelledby="sedans-title"]');
+    const suvsIcon = page.locator('[aria-labelledby="suvs-title"]');
+    const luxuryIcon = page.locator('[aria-labelledby="luxury-title"]');
+    await expect(sedansIcon).toBeVisible();
+    await expect(suvsIcon).toBeVisible();
+    await expect(luxuryIcon).toBeVisible();
+
+    // Check aria-labelledby for sections
+    const sedansSection = page.locator(
+      'section[aria-labelledby="sedans-heading"]',
+    );
+    const suvsSection = page.locator('section[aria-labelledby="suvs-heading"]');
+    const luxurySection = page.locator(
+      'section[aria-labelledby="luxury-heading"]',
+    );
+    await expect(sedansSection).toBeVisible();
+    await expect(suvsSection).toBeVisible();
+    await expect(luxurySection).toBeVisible();
   });
 
   /** Test if the page has correct footer */
