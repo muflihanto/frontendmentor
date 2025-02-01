@@ -1,4 +1,27 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
+
+/**
+ * Helper function to test hover effect on a given locator.
+ * @param {Locator} locator - The locator of the element to test.
+ * @param {string} initialColor - The expected initial color of the element (in RGB format).
+ * @param {string} hoverColor - The expected color of the element after hover (in RGB format).
+ */
+async function testHoverEffect(
+  locator: Locator,
+  initialColor: string,
+  hoverColor: string,
+): Promise<void> {
+  await locator.waitFor({ state: "visible", timeout: 5000 });
+  const computedInitialColor = await locator.evaluate((el) => {
+    return window.getComputedStyle(el).color;
+  });
+  expect(computedInitialColor).toBe(initialColor);
+  await locator.hover({ timeout: 5000 });
+  const computedHoverColor = await locator.evaluate((el) => {
+    return window.getComputedStyle(el).color;
+  });
+  expect(computedHoverColor).toBe(hoverColor);
+}
 
 test.describe("FrontendMentor Challenge - Intro section with dropdown navigation Page", () => {
   const listItems = [
@@ -48,17 +71,41 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
   /** Test if the dropdown menu works */
   test("dropdown menu works", async ({ page }) => {
     const nav = page.getByRole("banner").getByRole("navigation");
+    const baseColor = "rgb(105, 105, 105)";
+    const hoveredColor = "rgb(20, 20, 20)";
     for (const listItem of listItems) {
       if (listItem.children !== undefined) {
         const menu = nav
           .locator("summary")
           .filter({ hasText: listItem.parent });
         await expect(menu).toBeVisible();
+
+        // Test click on parent
+        const computedInitialColor = await menu
+          .locator("span")
+          .first()
+          .evaluate((el) => {
+            return window.getComputedStyle(el).color;
+          });
+        expect(computedInitialColor).toBe(baseColor);
         await menu.click();
-        // TODO: simulate hover
         await expect(page.getByText(listItem.children.join(""))).toBeVisible();
-        await menu.click();
-        await page.waitForTimeout(500);
+        const computedGroupOpenColor = await menu
+          .locator("span")
+          .first()
+          .evaluate((el) => {
+            return window.getComputedStyle(el).color;
+          });
+        expect(computedGroupOpenColor).toBe(hoveredColor);
+
+        // Test hover on children
+        for (const item of listItem.children) {
+          const itemLink = page.getByRole("menuitem", { name: item });
+          await testHoverEffect(itemLink, baseColor, hoveredColor);
+        }
+      } else {
+        const menu = nav.getByRole("menuitem", { name: listItem.parent });
+        await testHoverEffect(menu, baseColor, hoveredColor);
       }
     }
   });
