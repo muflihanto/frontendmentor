@@ -43,16 +43,16 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
 
   /** Test if the page has a bouncing arrow */
   test("has a bouncing arrow", async ({ page }) => {
-    await expect(page.getByRole("img", { name: "Arrow Down" })).toBeVisible();
+    await expect(page.getByAltText("Arrow Down")).toBeVisible();
   });
 
   /** Test if the page has 'Transform your brand' section */
   test.describe("has 'Transform your brand' section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").first()).toBeVisible();
+      await expect(page.getByLabel("Transform your brand")).toBeVisible();
     });
     test("has all section elements", async ({ page }) => {
-      const section = page.locator("section").first();
+      const section = page.getByLabel("Transform your brand");
       await section.scrollIntoViewIfNeeded();
       await expect(section.locator("header")).toBeVisible();
       await expect(
@@ -72,10 +72,12 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
   /** Test if the page has 'Stand out to the right audience' section */
   test.describe("has 'Stand out to the right audience' section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").nth(1)).toBeVisible();
+      await expect(
+        page.getByLabel("Stand out to the right audience"),
+      ).toBeVisible();
     });
     test("has all section elements", async ({ page }) => {
-      const section = page.locator("section").nth(1);
+      const section = page.getByLabel("Stand out to the right audience");
       await section.scrollIntoViewIfNeeded();
       await expect(section.locator("header")).toBeVisible();
       await expect(
@@ -97,8 +99,7 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
   /** Test if the page has 'Graphic Design' section */
   test.describe("has 'Graphic Design' section", () => {
     test("has all section elements", async ({ page }) => {
-      const heading = page.getByRole("heading", { name: "Graphic Design" });
-      const section = page.locator("div", { has: heading }).nth(3);
+      const section = page.getByLabel("Graphic Design");
       await section.scrollIntoViewIfNeeded();
       await expect(section).toBeVisible();
       await expect(
@@ -118,8 +119,7 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
   /** Test if the page has 'Photography' section */
   test.describe("has 'Photography' section", () => {
     test("has all section elements", async ({ page }) => {
-      const heading = page.getByRole("heading", { name: "Photography" });
-      const section = page.locator("div", { has: heading }).nth(3);
+      const section = page.getByLabel("Photography");
       await section.scrollIntoViewIfNeeded();
       await expect(section).toBeVisible();
       await expect(
@@ -162,10 +162,10 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       },
     ];
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").nth(2)).toBeVisible();
+      await expect(page.getByLabel("Client testimonials")).toBeVisible();
     });
     test("has all section elements", async ({ page }) => {
-      const section = page.locator("section").nth(2);
+      const section = page.getByLabel("Client testimonials");
       await section.scrollIntoViewIfNeeded();
       await expect(
         section.getByRole("heading", {
@@ -173,7 +173,7 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
           level: 3,
         }),
       ).toBeVisible();
-      const testimonies = await section.locator("div>div").all();
+      const testimonies = await section.getByRole("group").all();
       for (const [index, testimony] of Object.entries(testimonies)) {
         await expect(testimony).toBeVisible();
         await expect(
