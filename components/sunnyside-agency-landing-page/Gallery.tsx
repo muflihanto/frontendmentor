@@ -38,6 +38,7 @@ export default function Gallery() {
               }}
               className="object-cover"
               fill
+              role="presentation"
             />
           </div>
         );

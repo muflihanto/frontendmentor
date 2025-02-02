@@ -26,8 +26,14 @@ const testimonyData = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-sunny-primary-red/[0.03] pb-[86px] pt-[64px] text-center lg:pb-[162px] lg:pt-[158px]">
-      <h3 className="font-fraunces text-[16px] font-bold uppercase tracking-[4.5px] text-sunny-neutral-200 lg:text-[20px] lg:font-extrabold lg:tracking-[5.3px]">
+    <section
+      className="bg-sunny-primary-red/[0.03] pb-[86px] pt-[64px] text-center lg:pb-[162px] lg:pt-[158px]"
+      aria-labelledby="testimonials-heading"
+    >
+      <h3
+        className="font-fraunces text-[16px] font-bold uppercase tracking-[4.5px] text-sunny-neutral-200 lg:text-[20px] lg:font-extrabold lg:tracking-[5.3px]"
+        id="testimonials-heading"
+      >
         Client testimonials
       </h3>
       <div className="mt-[62px] flex flex-col gap-[65px] lg:mt-[78px] lg:flex-row lg:items-start lg:gap-8 lg:px-[164px]">
@@ -41,23 +47,35 @@ export default function Testimonials() {
 
 const Testimony = ({ data }: { data: (typeof testimonyData)[number] }) => {
   return (
-    <div className="flex flex-col items-center justify-center px-6 lg:flex-1 lg:px-0">
+    <figure
+      role="group"
+      className="flex flex-col items-center justify-center px-6 lg:flex-1 lg:px-0"
+    >
       <Image
         src={data.avatar}
         alt={`${data.name}'s Avatar`}
         width={72}
         height={72}
         className="rounded-full"
+        aria-hidden="true"
       />
-      <p className="mt-8 text-[18px] font-bold leading-[32px] -tracking-[0.1px] lg:mt-[58px] lg:h-24">
+      <blockquote
+        id={`testimony-text-${data.name}`}
+        className="mt-8 text-[18px] font-bold leading-[32px] -tracking-[0.1px] lg:mt-[58px] lg:h-24"
+      >
         {data.testimony}
-      </p>
-      <h4 className="mt-[31px] font-fraunces text-[18px] font-black text-sunny-neutral-500 lg:mt-[67px] lg:pr-[17px]">
-        {data.name}
-      </h4>
-      <p className="mt-2 text-[14px] font-medium text-sunny-neutral-200 lg:pr-[17px]">
-        {data.title}
-      </p>
-    </div>
+      </blockquote>
+      <figcaption className="contents" id={`testimony-name-${data.name}`}>
+        <h4 className="mt-[31px] font-fraunces text-[18px] font-black text-sunny-neutral-500 lg:mt-[67px] lg:pr-[17px]">
+          {data.name}
+        </h4>
+        <p
+          className="mt-2 text-[14px] font-medium text-sunny-neutral-200 lg:pr-[17px]"
+          role="text"
+        >
+          {data.title}
+        </p>
+      </figcaption>
+    </figure>
   );
 };

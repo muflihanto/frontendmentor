@@ -106,6 +106,7 @@ export default function Header() {
           width={36}
           height={114}
           className="animate-bounce"
+          aria-hidden="true"
         />
       </header>
     </>

@@ -74,7 +74,7 @@ function SocialLink({
       className="fill-[#2C7566] hover:fill-sunny-neutral-100"
     >
       <svg viewBox={viewBox} className="pointer-events-none w-5">
-        <title>{type}</title>
+        <title>{`Sunnyside agency on ${type}`}</title>
         <use
           href={`/sunnyside-agency-landing-page/images/icon-${type}.svg#icon-${type}`}
         />
