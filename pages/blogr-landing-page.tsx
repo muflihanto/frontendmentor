@@ -277,6 +277,9 @@ function CollapsibleNavItems({
   setIsPopUpOpen,
 }: CollapsibleNavItemsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const parentRef = useRef<HTMLAnchorElement>(null);
+  const firstChildAnchorRef = useRef<HTMLAnchorElement | null>(null);
+
   const closePopUp = () => {
     setIsPopUpOpen(false);
     setActivePopUp(null);
@@ -286,9 +289,16 @@ function CollapsibleNavItems({
     setIsPopUpOpen(true);
   };
 
+  useEffect(() => {
+    if (isPopUpOpen && activePopUp === id && firstChildAnchorRef.current) {
+      setTimeout(() => {
+        firstChildAnchorRef.current?.focus();
+      }, 0);
+    }
+  }, [isPopUpOpen, activePopUp, id]);
+
   const onParentKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
     const tgt = event.currentTarget;
-    const firstChildAnchor = tgt.nextElementSibling?.querySelector("a");
     const nextSiblingAnchor =
       tgt.parentElement?.nextElementSibling?.querySelector("a");
     const prevSiblingAnchor =
@@ -298,13 +308,6 @@ function CollapsibleNavItems({
     const lastSiblingAnchor =
       tgt.parentElement?.parentElement?.lastElementChild?.querySelector("a");
     const key = event.key;
-    const openAndFocusPopUp = () => {
-      openPopUp();
-      // FIXME fix logic -> avoid delay
-      setTimeout(() => {
-        firstChildAnchor?.focus();
-      }, 50);
-    };
     let flag = false;
 
     switch (key) {
@@ -318,7 +321,7 @@ function CollapsibleNavItems({
 
       case "ArrowDown":
       case "Down":
-        openAndFocusPopUp();
+        openPopUp();
         flag = true;
         break;
 
@@ -359,7 +362,7 @@ function CollapsibleNavItems({
         if (isPopUpOpen) {
           closePopUp();
         } else {
-          openAndFocusPopUp();
+          openPopUp();
         }
         flag = true;
         break;
@@ -426,17 +429,16 @@ function CollapsibleNavItems({
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setIsExpanded(activePopUp === id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activePopUp]);
+  }, [activePopUp, id]);
 
   return (
     <>
       <a
         className="group/menuparent peer flex list-none items-center justify-center gap-2 text-[18px] font-semibold text-blogr-primary-blue/90 hover:cursor-pointer focus-visible:rounded focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-white"
         href={`#${navParent.toLowerCase()}`}
+        ref={parentRef}
         role="menuitem"
         aria-haspopup={true}
         aria-expanded={isExpanded}
@@ -492,6 +494,7 @@ function CollapsibleNavItems({
                 href={`#${el.toLowerCase()}`}
                 role="menuitem"
                 onKeyDown={onItemKeyDown}
+                ref={index === 0 ? firstChildAnchorRef : undefined}
               >
                 {el}
               </a>
