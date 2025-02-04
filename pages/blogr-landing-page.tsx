@@ -505,6 +505,10 @@ function Header() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [activePopUp, setActivePopUp] = useState<string | null>(null);
   const menubarRef = useRef<HTMLUListElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Track whether the button has focus
+  const [isButtonFocused, setIsButtonFocused] = useState(false);
 
   useEffect(() => {
     const cur = menubarRef.current;
@@ -527,18 +531,27 @@ function Header() {
 
   return (
     <header className="relative flex aspect-[375/600] h-[600px] w-screen flex-col items-center justify-center gap-[49px] rounded-bl-[100px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-red-100 to-blogr-gradient-red-200 bg-auto bg-no-repeat before:absolute before:bottom-0 before:left-0 before:z-0 before:h-full before:w-full before:overflow-hidden before:rounded-bl-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-mobile.svg')] before:bg-[top_-244px_left_-335px] md:before:bg-[url('/blogr-landing-page/images/bg-pattern-intro-desktop.svg')] md:before:bg-[top_-1342px_right_-1295px] md:before:bg-no-repeat lg:justify-end lg:gap-[104px] lg:bg-[linear-gradient(110deg,_var(--tw-gradient-stops))] lg:bg-bottom lg:pb-[155px]">
-      <nav className="group absolute top-0 z-20 flex h-[9rem] w-full items-center justify-between bg-transparent px-6 lg:mt-[21px] lg:h-[7.8rem] lg:justify-start lg:gap-[54px] lg:px-40">
+      <nav
+        className="group absolute top-0 z-20 flex h-[9rem] w-full items-center justify-between bg-transparent px-6 lg:mt-[21px] lg:h-[7.8rem] lg:justify-start lg:gap-[54px] lg:px-40"
+        aria-label="Main navigation"
+      >
         <div className="relative aspect-[51/20] h-auto w-[82px] lg:mx-[6px] lg:min-w-[102px]">
           <Image
             src="/blogr-landing-page/images/logo.svg"
             alt="Blogr Logo"
             className="object-contain"
             fill
+            role="img"
           />
         </div>
         <button
           className="peer/menu group relative aspect-[4/3] h-fit w-8 focus-visible:outline-none lg:hidden"
           type="button"
+          aria-label="Toggle menu"
+          aria-expanded={isPopUpOpen || isButtonFocused}
+          ref={buttonRef}
+          onFocus={() => setIsButtonFocused(true)}
+          onBlur={() => setIsButtonFocused(false)}
           onTouchEnd={(e) => {
             const ctg = e.currentTarget;
             const itemsContainer = ctg.nextElementSibling;
@@ -563,10 +576,12 @@ function Header() {
             fill
           />
         </button>
+        {/* FIXME: mobile navigation not working properly */}
         <div className="lg:gap-[49px invisible absolute left-[calc(50%-2px)] top-[125px] flex w-[calc(100%-52px)] -translate-x-1/2 flex-col rounded-md bg-sunny-neutral-100 px-6 py-[31px] shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] focus-visible:outline-none group-focus-within:visible lg:visible lg:static lg:left-0 lg:mt-1 lg:w-full lg:translate-x-0 lg:flex-row lg:justify-between lg:bg-transparent lg:px-1 lg:shadow-none lg:before:hidden">
           <ul
             className="flex flex-col items-center justify-center gap-[25px] lg:flex-row lg:gap-[32px]"
             role="menubar"
+            aria-orientation="horizontal"
             ref={menubarRef}
           >
             {navItems.map((el, index) => {
@@ -574,6 +589,7 @@ function Header() {
                 <li
                   key={`${index}-${el.parent}`}
                   className="w-full text-center font-overpass lg:relative lg:h-[24px] lg:text-[18px] lg:font-medium"
+                  role="none"
                 >
                   <CollapsibleNavItems
                     navChildren={el.children}
@@ -591,39 +607,54 @@ function Header() {
             })}
           </ul>
           <div className="mt-[20px] block h-0 w-full border-t-2 border-t-blogr-neutral-200/50 lg:hidden" />
-          <div className="mt-[19px] flex flex-col items-center justify-center gap-[8px] lg:mt-0 lg:-translate-y-[2px] lg:flex-row lg:gap-[27px]">
+          <div
+            className="mt-[19px] flex flex-col items-center justify-center gap-[8px] lg:mt-0 lg:-translate-y-[2px] lg:flex-row lg:gap-[27px]"
+            role="group"
+          >
             <a
               href=""
               className="flex h-[48px] w-[137px] items-center justify-center font-overpass text-[18px] font-semibold text-blogr-neutral-300 hover:font-bold lg:w-fit lg:pt-1 lg:font-ubuntu lg:text-[16px] lg:font-medium lg:text-blogr-neutral-100/75"
+              aria-label="Login"
             >
               Login
             </a>
             <a
               href=""
               className="ml-[3px] flex h-[48px] w-[137px] items-center justify-center rounded-full bg-gradient-to-r from-blogr-gradient-red-100 to-blogr-gradient-red-200 font-ubuntu font-medium text-blogr-neutral-100 hover:bg-blogr-primary-red-100 hover:text-blogr-neutral-100 lg:translate-x-[4px] lg:bg-blogr-neutral-100 lg:bg-none lg:font-bold lg:text-blogr-primary-red-200"
+              aria-label="Sign Up"
             >
               Sign Up
             </a>
           </div>
         </div>
       </nav>
-      <div className="z-10 mx-auto px-9 pt-[43px] text-center text-blogr-neutral-100 lg:pt-[78px]">
+      <div
+        className="z-10 mx-auto px-9 pt-[43px] text-center text-blogr-neutral-100 lg:pt-[78px]"
+        role="region"
+        aria-label="Introduction"
+      >
         <h1 className="font-overpass text-[35px] font-medium leading-[45px] -tracking-[0.7px] lg:text-[64px] lg:-tracking-[2.2px]">
           A modern publishing platform
         </h1>
         <p className="mt-[15px] font-overpass text-[18px] font-light leading-[23px] -tracking-[0.1px] text-blogr-neutral-100/75 lg:mt-[31px] lg:text-[20px]">
           Grow your audience and build your online brand
         </p>
-        <div className="mt-[46px] grid h-12 grid-cols-2 gap-4 px-[6px] font-ubuntu font-bold tracking-[0.1px] lg:mx-auto lg:mt-[48px] lg:w-[302px]">
+        <div
+          className="mt-[46px] grid h-12 grid-cols-2 gap-4 px-[6px] font-ubuntu font-bold tracking-[0.1px] lg:mx-auto lg:mt-[48px] lg:w-[302px]"
+          role="group"
+          aria-label="Call to action"
+        >
           <a
             className="flex items-center justify-center rounded-full bg-blogr-neutral-100 text-blogr-primary-red-200 hover:bg-blogr-primary-red-100 hover:text-blogr-neutral-100"
             href=""
+            aria-label="Start for Free"
           >
             Start for Free
           </a>
           <a
             className="flex items-center justify-center rounded-full border bg-transparent hover:bg-blogr-neutral-100 hover:text-blogr-primary-red-100"
             href=""
+            aria-label="Learn More"
           >
             Learn More
           </a>
