@@ -314,5 +314,49 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(login).not.toBeVisible();
       await expect(signUp).not.toBeVisible();
     });
+
+    test.describe("Header Component Accessibility Tests", () => {
+      test("Toggle button has correct aria-expanded state", async ({
+        page,
+      }) => {
+        const toggleButton = page.getByRole("button", { name: "Toggle menu" });
+        await expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+        await toggleButton.tap();
+        await expect(toggleButton).toHaveAttribute("aria-expanded", "true");
+        await toggleButton.tap();
+        await expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+        // TODO: handle onClick
+      });
+
+      test("Toggle button aria-expanded is true when focused", async ({
+        page,
+      }) => {
+        const toggleButton = page.getByRole("button", { name: "Toggle menu" });
+        await toggleButton.focus();
+        await expect(toggleButton).toHaveAttribute("aria-expanded", "true");
+        await toggleButton.blur();
+        await expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+      });
+
+      test("Menu closes when clicking outside", async ({ page }) => {
+        const toggleButton = page.getByRole("button", { name: "Toggle menu" });
+        const menu = page.getByRole("menubar");
+        await toggleButton.tap();
+        await expect(menu).toBeVisible();
+        await page.locator("header").first().tap();
+        await expect(menu).toBeHidden();
+      });
+
+      test("Keyboard navigation works in the menu", async ({ page }) => {
+        const toggleButton = page.getByRole("button", { name: "Toggle menu" });
+        await toggleButton.tap();
+        await page.keyboard.press("Tab");
+        const firstMenuItem = page.getByRole("menuitem").first();
+        await expect(firstMenuItem).toBeFocused();
+        await page.keyboard.press("ArrowDown");
+        const secondMenuItem = page.getByRole("menuitem").nth(1);
+        await expect(secondMenuItem).toBeFocused();
+      });
+    });
   });
 });

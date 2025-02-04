@@ -562,6 +562,7 @@ function Header() {
               (active as HTMLElement | null)?.blur();
             }
           }}
+          // TODO: handle onClick
         >
           <Image
             src="/blogr-landing-page/images/icon-hamburger.svg"
