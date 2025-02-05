@@ -81,10 +81,19 @@ function OtherFeatures() {
     },
   ];
   return (
-    <section className="mt-[88.75px] flex flex-col text-center lg:mb-[193px] lg:mt-[232px] lg:h-[600px] lg:flex-row lg:items-center">
-      <h2 className="sr-only">Other Features</h2>
+    <section
+      className="mt-[88.75px] flex flex-col text-center lg:mb-[193px] lg:mt-[232px] lg:h-[600px] lg:flex-row lg:items-center"
+      aria-labelledby="other-features-heading"
+    >
+      <h2 id="other-features-heading" className="sr-only">
+        Other Features
+      </h2>
       <header className="relative h-[372px] w-full lg:h-full lg:w-1/2">
-        <div className="absolute left-[1px] top-0 aspect-[203/166] w-[375px] lg:w-[974px] lg:-translate-x-[280px] lg:-translate-y-[121px]">
+        <div
+          className="absolute left-[1px] top-0 aspect-[203/166] w-[375px] lg:w-[974px] lg:-translate-x-[280px] lg:-translate-y-[121px]"
+          role="img"
+          aria-label="Illustration of a laptop"
+        >
           <Image
             loader={({ width, src }) => {
               if (width > 1023) {
@@ -93,7 +102,7 @@ function OtherFeatures() {
               return `${src}illustration-laptop-mobile.svg`;
             }}
             src="/blogr-landing-page/images/"
-            alt="Illustration Laptop"
+            alt="Illustration of a laptop representing other features"
             className="scale-[calc(180/135.5)] object-contain lg:transform-none"
             fill
           />
@@ -101,7 +110,14 @@ function OtherFeatures() {
       </header>
       <div className="mt-0 flex flex-col gap-[44px] lg:-mt-9 lg:w-1/2 lg:gap-[77px] lg:pl-[15px] lg:pr-40">
         {articles.map((el, index) => {
-          return <Article type="other" key={`${index}-${el.h3}`} {...el} />;
+          return (
+            <Article
+              type="other"
+              key={`${index}-${el.h3}`}
+              id={`article-${index}`}
+              {...el}
+            />
+          );
         })}
       </div>
     </section>
@@ -110,19 +126,29 @@ function OtherFeatures() {
 
 function Infrastructure() {
   return (
-    <section className="relative mt-[267px] h-[625px] rounded-bl-[100px] rounded-tr-[100px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-blue-200 to-blogr-gradient-blue-100 pt-[225.25px] text-blogr-neutral-100 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-bl-[100px] before:rounded-tr-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-circles.svg')] before:bg-[length:600px_600px] before:bg-[top_-233px_left_50%] before:bg-no-repeat lg:mt-[57px] lg:flex lg:h-[400px] lg:items-center lg:bg-[linear-gradient(120deg,_var(--tw-gradient-stops))] lg:pt-0 lg:before:bg-[length:calc(169*6px)_calc(806/475*600px)] lg:before:bg-[top_-507px_left_-49.75%]">
+    <section
+      className="relative mt-[267px] h-[625px] rounded-bl-[100px] rounded-tr-[100px] bg-[linear-gradient(150deg,_var(--tw-gradient-stops))] from-blogr-gradient-blue-200 to-blogr-gradient-blue-100 pt-[225.25px] text-blogr-neutral-100 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-bl-[100px] before:rounded-tr-[100px] before:bg-[url('/blogr-landing-page/images/bg-pattern-circles.svg')] before:bg-[length:600px_600px] before:bg-[top_-233px_left_50%] before:bg-no-repeat lg:mt-[57px] lg:flex lg:h-[400px] lg:items-center lg:bg-[linear-gradient(120deg,_var(--tw-gradient-stops))] lg:pt-0 lg:before:bg-[length:calc(169*6px)_calc(806/475*600px)] lg:before:bg-[top_-507px_left_-49.75%]"
+      aria-labelledby="infrastructure-heading"
+    >
       <header className="lg:relative lg:h-full lg:w-1/2">
-        <div className="absolute top-0 mx-auto aspect-[276/290] w-[375px] -translate-y-[calc(50%-14px)] lg:right-0 lg:w-[calc(212/144*375px)] lg:-translate-x-[7.7%] lg:-translate-y-[calc(12%)]">
+        <div
+          className="absolute top-0 mx-auto aspect-[276/290] w-[375px] -translate-y-[calc(50%-14px)] lg:right-0 lg:w-[calc(212/144*375px)] lg:-translate-x-[7.7%] lg:-translate-y-[calc(12%)]"
+          role="img"
+          aria-label="Illustration of phones"
+        >
           <Image
             src="/blogr-landing-page/images/illustration-phones.svg"
-            alt="Illustration Phone"
+            alt="Illustration of phones representing state-of-the-art infrastructure"
             className="scale-[calc(301/295*100%)] object-contain lg:scale-100"
             fill
           />
         </div>
       </header>
       <div className="px-8 lg:w-1/2 lg:pl-4 lg:pr-40 lg:pt-[10px]">
-        <h2 className="relative z-10 text-center font-overpass text-[40px] font-medium leading-[50px] -tracking-[1.25px] lg:text-left">
+        <h2
+          className="relative z-10 text-center font-overpass text-[40px] font-medium leading-[50px] -tracking-[1.25px] lg:text-left"
+          id="infrastructure-heading"
+        >
           State of the Art Infrastructure
         </h2>
         <p className="relative z-10 mt-[18px] text-center font-overpass text-[17px] font-light leading-[28px] tracking-[0.03px] text-blogr-neutral-200 lg:text-left">
@@ -148,13 +174,23 @@ function Future() {
     },
   ];
   return (
-    <section className="pt-[99px] text-center lg:relative lg:pb-[195px] lg:pt-[149px]">
-      <h2 className="font-overpass text-[28px] font-medium -tracking-[0.8px] text-blogr-primary-blue lg:-translate-x-[2px] lg:text-[40px] lg:-tracking-[1.3px]">
+    <section
+      className="pt-[99px] text-center lg:relative lg:pb-[195px] lg:pt-[149px]"
+      aria-labelledby="future-heading"
+    >
+      <h2
+        className="font-overpass text-[28px] font-medium -tracking-[0.8px] text-blogr-primary-blue lg:-translate-x-[2px] lg:text-[40px] lg:-tracking-[1.3px]"
+        id="future-heading"
+      >
         Designed for the future
       </h2>
       <div className="flex flex-col pt-[52px] lg:mt-[104px] lg:flex-row-reverse lg:items-center lg:gap-[32px] lg:px-[164px] lg:pt-0">
         <div className="w-full lg:h-[428px] lg:w-1/2">
-          <div className="relative mx-auto aspect-[203/166] w-[375px] lg:absolute lg:top-[71px] lg:ml-[54px] lg:aspect-[925/882] lg:w-[925px]">
+          <div
+            className="relative mx-auto aspect-[203/166] w-[375px] lg:absolute lg:top-[71px] lg:ml-[54px] lg:aspect-[925/882] lg:w-[925px]"
+            role="img"
+            aria-label="Illustration of an editor"
+          >
             <Image
               loader={({ width, src }) => {
                 if (width > 1023) {
@@ -163,7 +199,7 @@ function Future() {
                 return `${src}illustration-editor-mobile.svg`;
               }}
               src="/blogr-landing-page/images/"
-              alt="Illustration Editor"
+              alt="Illustration of an editor representing future design"
               className="scale-[calc(331.5/306.65)] object-contain lg:scale-100"
               fill
             />
@@ -171,7 +207,14 @@ function Future() {
         </div>
         <div className="mt-[62px] flex flex-col gap-[43px] lg:mt-0 lg:w-1/2 lg:-translate-y-1 lg:gap-[77px]">
           {articles.map((el, index) => {
-            return <Article type="future" key={`${index}-${el.h3}`} {...el} />;
+            return (
+              <Article
+                type="future"
+                key={`${index}-${el.h3}`}
+                id={`future-article-${index}`}
+                {...el}
+              />
+            );
           })}
         </div>
       </div>
@@ -179,11 +222,23 @@ function Future() {
   );
 }
 
-type ArticleProps = { h3: string; type: "future" | "other"; p: string };
+type ArticleProps = {
+  h3: string;
+  type: "future" | "other";
+  p: string;
+  id: string;
+};
 function Article(props: ArticleProps) {
   return (
-    <article className="group pl-8 pr-6 lg:px-0 lg:text-left">
-      <h3 className="mx-auto px-2 font-overpass text-[28px] font-semibold leading-[32px] -tracking-[0.2px] text-blogr-primary-blue lg:px-0">
+    <article
+      className="group pl-8 pr-6 lg:px-0 lg:text-left"
+      aria-labelledby={`${props.id}-heading`}
+      aria-describedby={`${props.id}-description`}
+    >
+      <h3
+        className="mx-auto px-2 font-overpass text-[28px] font-semibold leading-[32px] -tracking-[0.2px] text-blogr-primary-blue lg:px-0"
+        id={`${props.id}-heading`}
+      >
         {props.h3}
       </h3>
       <p
@@ -192,6 +247,7 @@ function Article(props: ArticleProps) {
             ? "mt-[24px] group-first:mt-[15px] lg:group-first:mt-[26px]"
             : "mt-[25px] "
         }`}
+        id={`${props.id}-description`}
       >
         {props.p}
       </p>
@@ -201,8 +257,18 @@ function Article(props: ArticleProps) {
 
 function Footer() {
   return (
-    <footer className="relative mt-[95px] flex flex-col items-center justify-center rounded-tr-[100px] bg-blogr-neutral-400 pb-[76.95px] pt-[75px] text-[11px] lg:flex-row lg:items-start lg:justify-between lg:px-[164px] lg:pb-[75px] lg:pt-[70px]">
-      <div className="relative aspect-[51/20] w-[102px]">
+    <footer
+      className="relative mt-[95px] flex flex-col items-center justify-center rounded-tr-[100px] bg-blogr-neutral-400 pb-[76.95px] pt-[75px] text-[11px] lg:flex-row lg:items-start lg:justify-between lg:px-[164px] lg:pb-[75px] lg:pt-[70px]"
+      aria-labelledby="footer-heading"
+    >
+      <h2 id="footer-heading" className="sr-only">
+        Footer
+      </h2>
+      <div
+        className="relative aspect-[51/20] w-[102px]"
+        role="img"
+        aria-label="Blogr Logo"
+      >
         <Image
           alt="Blogr Logo"
           src="/blogr-landing-page/images/logo.svg"
@@ -213,8 +279,15 @@ function Footer() {
       <div className="mt-[76px] flex flex-col justify-start gap-[46px] lg:mt-0 lg:w-[74.25%] lg:flex-row lg:pr-[20px] lg:pt-1 lg:-tracking-[0.4px]">
         {navItems.map((el, index) => {
           return (
-            <nav key={`${index}-${el.parent}`} className="lg:w-1/3">
-              <h3 className="text-center font-ubuntu text-[18px] font-medium text-blogr-neutral-100/90 lg:text-left lg:text-[16px]">
+            <nav
+              key={`${index}-${el.parent}`}
+              className="lg:w-1/3"
+              aria-labelledby={`footer-nav-${index}-heading`}
+            >
+              <h3
+                className="text-center font-ubuntu text-[18px] font-medium text-blogr-neutral-100/90 lg:text-left lg:text-[16px]"
+                id={`footer-nav-${index}-heading`}
+              >
                 {el.parent}
               </h3>
               <ul className="mt-[27px] flex flex-col items-center justify-center gap-[6px] lg:mt-[30px] lg:items-start lg:gap-[9px]">
@@ -224,7 +297,9 @@ function Footer() {
                       key={`${index}-${el}`}
                       className="font-ubuntu text-[18px] font-normal text-blogr-neutral-200/80 hover:underline hover:decoration-2 lg:text-[16px] lg:text-blogr-neutral-200/90"
                     >
-                      <a href="">{el}</a>
+                      <a href="" aria-label={`Learn more about ${el}`}>
+                        {el}
+                      </a>
                     </li>
                   );
                 })}
