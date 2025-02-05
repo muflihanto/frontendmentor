@@ -166,7 +166,9 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       ).toBeVisible();
       // Has illustration
       await expect(
-        section.getByRole("img", { name: "Illustration Editor" }),
+        section.getByRole("img", {
+          name: "Illustration of an editor representing future design",
+        }),
       ).toBeVisible();
       // has articles
       const articles = [
@@ -203,7 +205,9 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       ).toBeVisible();
       // Has illustration
       await expect(
-        section.getByRole("img", { name: "Illustration Phone" }),
+        section.getByRole("img", {
+          name: "Illustration of phones representing state-of-the-art infrastructure",
+        }),
       ).toBeVisible();
       // has article;
       await expect(
@@ -224,7 +228,9 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await section.scrollIntoViewIfNeeded();
       // Has illustration
       await expect(
-        section.getByRole("img", { name: "Illustration Laptop" }),
+        section.getByRole("img", {
+          name: "Illustration of a laptop representing other features",
+        }),
       ).toBeVisible();
       // has articles
       const articles = [
@@ -252,7 +258,9 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
     await footer.scrollIntoViewIfNeeded();
     await expect(footer).toBeVisible();
     // has a blogr logo
-    await expect(footer.getByRole("img", { name: "Blogr Logo" })).toBeVisible();
+    await expect(
+      footer.getByLabel("Blogr Logo").getByRole("img", { name: "Blogr Logo" }),
+    ).toBeVisible();
     // has navigation links
     const navs = await footer.getByRole("navigation").all();
     for (const [index, nav] of Object.entries(navs)) {
@@ -261,7 +269,9 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
         nav.getByRole("heading", { name: navItems[Number(index)].parent }),
       ).toBeVisible();
       for (const name of navItems[Number(index)].children) {
-        await expect(nav.getByRole("link", { name })).toBeVisible();
+        await expect(
+          nav.getByRole("link", { name: `Learn more about ${name}` }),
+        ).toBeVisible();
       }
     }
     // has attribution
@@ -357,6 +367,95 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
         const secondMenuItem = page.getByRole("menuitem").nth(1);
         await expect(secondMenuItem).toBeFocused();
       });
+    });
+  });
+
+  test.describe("Accessibility Test", () => {
+    test("Infrastructure component should have no accessibility violations", async ({
+      page,
+    }) => {
+      await expect(
+        page.locator('section[aria-labelledby="infrastructure-heading"]'),
+      ).toBeVisible();
+      await expect(
+        page.locator('h2[id="infrastructure-heading"]'),
+      ).toBeVisible();
+      await expect(
+        page.locator('div[role="img"][aria-label="Illustration of phones"]'),
+      ).toBeVisible();
+    });
+
+    test("OtherFeatures component should have no accessibility violations", async ({
+      page,
+    }) => {
+      const section = page.locator(
+        'section[aria-labelledby="other-features-heading"]',
+      );
+      await expect(section).toBeVisible();
+      await expect(
+        section.locator('h2[id="other-features-heading"]'),
+      ).toBeVisible();
+      await expect(
+        section.locator(
+          'div[role="img"][aria-label="Illustration of a laptop"]',
+        ),
+      ).toBeVisible();
+
+      const articles = await section.locator("article").all();
+      for (let i = 0; i < articles.length; i++) {
+        await expect(articles[i]).toHaveAttribute(
+          "aria-labelledby",
+          `article-${i}-heading`,
+        );
+        await expect(articles[i]).toHaveAttribute(
+          "aria-describedby",
+          `article-${i}-description`,
+        );
+      }
+    });
+
+    test("Future component should have no accessibility violations", async ({
+      page,
+    }) => {
+      const section = page.locator('section[aria-labelledby="future-heading"]');
+      await expect(section).toBeVisible();
+      await expect(section.locator('h2[id="future-heading"]')).toBeVisible();
+      await expect(
+        section.locator(
+          'div[role="img"][aria-label="Illustration of an editor"]',
+        ),
+      ).toBeVisible();
+
+      const articles = await section.locator("article").all();
+      for (let i = 0; i < articles.length; i++) {
+        await expect(articles[i]).toHaveAttribute(
+          "aria-labelledby",
+          `future-article-${i}-heading`,
+        );
+        await expect(articles[i]).toHaveAttribute(
+          "aria-describedby",
+          `future-article-${i}-description`,
+        );
+      }
+    });
+
+    test("Footer component should have no accessibility violations", async ({
+      page,
+    }) => {
+      const footer = page.locator('footer[aria-labelledby="footer-heading"]');
+      await expect(footer).toBeVisible();
+      await expect(footer.locator('h2[id="footer-heading"]')).toBeVisible();
+      await expect(
+        footer.locator('div[role="img"][aria-label="Blogr Logo"]'),
+      ).toBeVisible();
+
+      const navItems = await footer.locator("nav").all();
+      for (let i = 0; i < navItems.length; i++) {
+        await expect(navItems[i]).toHaveAttribute(
+          "aria-labelledby",
+          `footer-nav-${i}-heading`,
+        );
+      }
     });
   });
 });
