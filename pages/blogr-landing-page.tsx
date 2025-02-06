@@ -40,11 +40,14 @@ export default function Blogr() {
 
 function Main() {
   return (
-    <div>
+    <main aria-labelledby="main-heading">
+      <h1 className="sr-only" id="main-heading">
+        Blogr, A modern publishing platform
+      </h1>
       <Future />
       <Infrastructure />
       <OtherFeatures />
-    </div>
+    </main>
   );
 }
 
