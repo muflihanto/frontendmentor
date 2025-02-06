@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
   const navItems = [
@@ -456,6 +457,16 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
           `footer-nav-${i}-heading`,
         );
       }
+    });
+
+    test("should not have any automatically detectable accessibility issues", async ({
+      page,
+    }) => {
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
+      // console.log({ violations: accessibilityScanResults.violations });
+      expect(accessibilityScanResults.violations).toEqual([]);
     });
   });
 });
