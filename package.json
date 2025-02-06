@@ -57,6 +57,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@biomejs/biome": "1.7.3",
     "@playwright/test": "^1.44.1",
     "@tanstack/eslint-plugin-query": "^4.38.0",
