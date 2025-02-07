@@ -29,7 +29,7 @@ export default function Gallery() {
           >
             <Image
               src="/sunnyside-agency-landing-page/images"
-              alt={el.alt}
+              alt=""
               loader={({ src, width }) => {
                 if (width > 1023) {
                   return `${src}/desktop/image-gallery-${el.src}`;
@@ -38,7 +38,6 @@ export default function Gallery() {
               }}
               className="object-cover"
               fill
-              role="presentation"
             />
           </div>
         );

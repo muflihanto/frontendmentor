@@ -7,7 +7,10 @@ import Transform from "./Transform";
 
 export default function Main() {
   return (
-    <>
+    <main aria-labelledby="main-heading" className="contents">
+      <h1 id="main-heading" className="sr-only">
+        Sunnyside Landing Page
+      </h1>
       <Transform />
       <StandOut />
       <div className="lg:flex">
@@ -16,6 +19,6 @@ export default function Main() {
       </div>
       <Testimonials />
       <Gallery />
-    </>
+    </main>
   );
 }
