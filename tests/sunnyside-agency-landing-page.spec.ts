@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { test, expect } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => {
@@ -274,5 +275,15 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
       await expect(navContainer).not.toBeVisible();
       await expect(menuButton).toHaveAttribute("aria-expanded", "false");
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
