@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - 3-column preview card component Page", () => {
   /** Go to 3-column preview card component page before each test */
@@ -89,5 +90,14 @@ test.describe("FrontendMentor Challenge - 3-column preview card component Page",
     await expect(
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
