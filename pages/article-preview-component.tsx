@@ -36,7 +36,7 @@ function Main() {
         shareMenu ? "max-lg:mb-2 max-lg:h-[504px]" : "h-[512px]"
       }`}
     >
-      <div className="relative aspect-[327/200] w-full overflow-hidden rounded-t-[10px] lg:aspect-[285/280] lg:rounded-l-[10px] lg:rounded-t-none">
+      <header className="relative aspect-[327/200] w-full overflow-hidden rounded-t-[10px] lg:aspect-[285/280] lg:rounded-l-[10px] lg:rounded-t-none">
         <div className="absolute left-0 top-0 z-10 h-full w-full bg-white/[.175] mix-blend-overlay" />
         <Image
           alt="Drawer"
@@ -44,7 +44,7 @@ function Main() {
           fill
           className="object-cover object-[center_25%] lg:object-[0%_25%]"
         />
-      </div>
+      </header>
       <main
         className={`relative flex h-full flex-col rounded-b-[10px] px-8 pt-[min(36px,calc(8px+(24/375*100vw)))] max-lg:overflow-hidden lg:rounded-b-none lg:rounded-r-[10px] lg:px-10 lg:pb-8 lg:pt-8 ${
           shareMenu ? "pb-3" : "pb-5"
