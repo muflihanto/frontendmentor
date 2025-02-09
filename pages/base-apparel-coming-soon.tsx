@@ -112,7 +112,7 @@ function Main() {
           } h-full w-full rounded-full border bg-transparent px-6 text-base-apparel-neutral placeholder:text-[14px] placeholder:text-base-apparel-primary-100/50 focus-visible:outline focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-transparent lg:px-8 lg:pt-[1px] lg:placeholder:text-[16px]`}
         />
         <button
-          className="absolute right-0 top-0 flex h-full w-[64px] items-center justify-center rounded-full bg-[linear-gradient(135deg,_var(--tw-gradient-stops))] from-base-apparel-gradient-red-100 to-base-apparel-gradient-red-200 shadow-xl shadow-base-apparel-neutral/10 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-full before:transition-colors before:content-[''] before:duration-75 hover:shadow-[hsl(358,47%,83%)]/90 hover:before:bg-white/50 focus-visible:outline focus-visible:outline-transparent lg:w-[100px]"
+          className="absolute right-0 top-0 flex h-full w-[64px] items-center justify-center rounded-full bg-[linear-gradient(135deg,_var(--tw-gradient-stops))] from-base-apparel-gradient-red-100 to-base-apparel-gradient-red-200 shadow-xl shadow-base-apparel-neutral/10 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-full before:transition-colors before:duration-75 before:content-[''] hover:shadow-[hsl(358,47%,83%)]/90 hover:before:bg-white/50 focus-visible:outline focus-visible:outline-transparent lg:w-[100px]"
           type="submit"
         >
           <svg viewBox="0 0 12 20" className="h-5">
@@ -132,7 +132,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] lg:px-[min(calc(165/1440*100vw),165px)] lg:text-left [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-base-apparel-neutral lg:px-[min(calc(165/1440*100vw),165px)] lg:text-left [&_a]:font-bold [&_a]:text-base-apparel-primary-200 [&_a]:underline [&_a]:decoration-base-apparel-primary-100 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
