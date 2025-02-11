@@ -92,10 +92,7 @@ test.describe("FrontendMentor Challenge - Base Apparel coming soon Page", () => 
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .disableRules(["color-contrast"])
-      .analyze();
-    // console.log({ violations: accessibilityScanResults.violations });
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
