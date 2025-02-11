@@ -24,12 +24,13 @@ export default function BentoGrid() {
 
 function Main() {
   return (
-    <div className="grid h-full w-full grid-cols-[repeat(1,minmax(0,400px))] place-content-center gap-8 bg-bento-purple-100/25 px-4 pb-[41px] pt-[32px] md:grid-cols-[repeat(2,minmax(0,400px))] md:py-16 lg:grid-cols-[repeat(4,minmax(0,256px))] lg:grid-rows-[324px,247px,247px] lg:pb-[64px] lg:pt-[83px]">
+    <main className="grid h-full w-full grid-cols-[repeat(1,minmax(0,400px))] place-content-center gap-8 bg-bento-purple-100/25 px-4 pb-[41px] pt-[32px] md:grid-cols-[repeat(2,minmax(0,400px))] md:py-16 lg:grid-cols-[repeat(4,minmax(0,256px))] lg:grid-rows-[324px,247px,247px] lg:pb-[64px] lg:pt-[83px]">
+      <h1 className="sr-only">Bento Grid Page</h1>
       <section className="flex h-[290px] w-full flex-col items-center justify-center rounded-[10px] bg-bento-purple-500 p-6 pt-[28px] md:col-span-2 lg:col-start-2 lg:h-full">
-        <h1 className="text-center text-[45px] font-medium leading-[42px] -tracking-[1.25px] text-bento-white lg:text-[62px] lg:leading-[58px] lg:-tracking-[3px]">
+        <h2 className="text-center text-[45px] font-medium leading-[42px] -tracking-[1.25px] text-bento-white lg:text-[62px] lg:leading-[58px] lg:-tracking-[3px]">
           Social Media <span className="text-bento-yellow-500">10x</span>{" "}
           <span className="italic">Faster</span> with AI
-        </h1>
+        </h2>
         <div className="relative mt-6 aspect-[384/64] w-[192px]">
           <Image
             src="/bento-grid/assets/images/illustration-five-stars.webp"
@@ -140,7 +141,7 @@ function Main() {
           </div>
         </section>
       </div>
-    </div>
+    </main>
   );
 }
 
