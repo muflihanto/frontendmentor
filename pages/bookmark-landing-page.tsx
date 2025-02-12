@@ -287,7 +287,10 @@ function Header() {
 
 function Hero() {
   return (
-    <div className="lg:mt-[60.5px] lg:grid lg:h-[522.5px] lg:grid-cols-2 lg:grid-rows-1 lg:items-center">
+    <main
+      className="lg:mt-[60.5px] lg:grid lg:h-[522.5px] lg:grid-cols-2 lg:grid-rows-1 lg:items-center"
+      aria-labelledby="hero-heading"
+    >
       <div className="relative mt-[27px] flex h-[268px] items-center justify-center pb-[1px] lg:col-start-2 lg:row-start-1 lg:mt-0 lg:h-full lg:justify-start">
         <div className="relative z-10 aspect-[657/466] h-auto w-[353px] lg:ml-[11px] lg:w-[657px]">
           <Image
@@ -301,7 +304,10 @@ function Hero() {
       </div>
 
       <div className="mt-12 flex flex-col items-center px-8 lg:col-start-1 lg:row-start-1 lg:mt-0 lg:items-start lg:self-start lg:pl-[165px] lg:pt-[107px]">
-        <h1 className="text-center text-[30px] font-medium leading-[40px] text-bookmark-neutral-200 lg:text-left lg:text-[48px] lg:leading-[52px] lg:tracking-[-.2px]">
+        <h1
+          className="text-center text-[30px] font-medium leading-[40px] text-bookmark-neutral-200 lg:text-left lg:text-[48px] lg:leading-[52px] lg:tracking-[-.2px]"
+          id="hero-heading"
+        >
           A Simple Bookmark Manager
         </h1>
         <p className="mt-[16px] text-center text-[15px] leading-[25px] text-bookmark-neutral-100 lg:mt-[24px] lg:text-left lg:text-[18px] lg:leading-[28px]">
@@ -323,7 +329,7 @@ function Hero() {
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -477,7 +483,7 @@ function Feature() {
   ];
 
   return (
-    <div className="mt-[150px] lg:mt-[90px]">
+    <section className="mt-[150px] lg:mt-[90px]" aria-labelledby="features">
       <div className="flex flex-col items-center px-8">
         <h2
           className="text-[24px] font-medium leading-[32px] text-bookmark-neutral-200 lg:text-[32px]"
@@ -499,7 +505,7 @@ function Feature() {
         >
           {features.map((feature, index) => {
             return (
-              <li key={feature.name} className="w-full">
+              <li key={feature.name} className="w-full" role="none">
                 <TabButton
                   active={tab === index}
                   onClick={() => {
@@ -546,7 +552,7 @@ function Feature() {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -565,11 +571,12 @@ function DownloadCard({
   ...props
 }: ComponentProps<"div"> & { data: Browser }) {
   return (
-    <div
+    <article
       className={cn([
         "flex h-[370px] w-[280px] flex-col items-center pt-12 shadow-lg shadow-bookmark-neutral-100/20", //
         className,
       ])}
+      aria-labelledby={`download-${data.name.toLowerCase()}`}
       {...props}
     >
       <div className={`relative h-[100px] ${data.image.size}`}>
@@ -581,7 +588,10 @@ function DownloadCard({
         />
       </div>
 
-      <h3 className="mt-7 text-[20px] font-medium leading-[32px] tracking-[.25px] text-bookmark-neutral-200">
+      <h3
+        className="mt-7 text-[20px] font-medium leading-[32px] tracking-[.25px] text-bookmark-neutral-200"
+        id={`download-${data.name.toLowerCase()}`}
+      >
         Add to {data.name}
       </h3>
       <p className="mt-[4px] text-center text-[15px] leading-[25px] text-bookmark-neutral-100">
@@ -602,7 +612,7 @@ function DownloadCard({
       >
         Add & Install Extension
       </button>
-    </div>
+    </article>
   );
 }
 
@@ -635,8 +645,14 @@ function DownloadExtension() {
   ];
 
   return (
-    <div className="mt-[149px] flex flex-col items-center px-8 lg:mt-[160px]">
-      <h2 className="text-[24px] font-medium leading-[32px] text-bookmark-neutral-200 lg:text-[32px]">
+    <section
+      className="mt-[149px] flex flex-col items-center px-8 lg:mt-[160px]"
+      aria-labelledby="download-extension"
+    >
+      <h2
+        className="text-[24px] font-medium leading-[32px] text-bookmark-neutral-200 lg:text-[32px]"
+        id="download-extension"
+      >
         Download the extension
       </h2>
       <p className="mt-[10px] text-center text-[15px] leading-[25px] text-bookmark-neutral-100 lg:mt-[25px] lg:w-[540px] lg:text-[18px] lg:leading-[28px]">
@@ -659,7 +675,7 @@ function DownloadExtension() {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -688,8 +704,14 @@ function FAQ() {
   ];
 
   return (
-    <div className="mt-[141px] flex flex-col items-center px-8 lg:mt-[160px]">
-      <h2 className="text-center text-[24px] font-medium leading-[30px] text-bookmark-neutral-200 lg:text-[32px]">
+    <section
+      className="mt-[141px] flex flex-col items-center px-8 lg:mt-[160px]"
+      aria-labelledby="faqs"
+    >
+      <h2
+        className="text-center text-[24px] font-medium leading-[30px] text-bookmark-neutral-200 lg:text-[32px]"
+        id="faqs"
+      >
         Frequently Asked Questions
       </h2>
       <p className="mt-[16px] max-w-[540px] text-center text-[15px] leading-[25px] text-bookmark-neutral-100 lg:mt-[27px] lg:w-[540px] lg:text-[18px] lg:leading-[28px]">
@@ -739,7 +761,7 @@ function FAQ() {
       >
         More Info
       </button>
-    </div>
+    </section>
   );
 }
 
@@ -771,11 +793,17 @@ function ContactUs() {
   }, [reset, isSubmitSuccessful]);
 
   return (
-    <div className="mt-[123px] flex h-[360px] w-full flex-col items-center bg-bookmark-primary-blue px-8 pt-[74px] text-white lg:mt-[149px] lg:pt-[72px]">
-      <h3 className="text-center text-[12.5px] font-medium uppercase leading-none tracking-[4.25px] lg:text-[13.25px] lg:tracking-[4.55px]">
+    <section
+      className="mt-[123px] flex h-[360px] w-full flex-col items-center bg-bookmark-primary-blue px-8 pt-[74px] text-white lg:mt-[149px] lg:pt-[72px]"
+      aria-labelledby="stay-update"
+    >
+      <p className="text-center text-[12.5px] font-medium uppercase leading-none tracking-[4.25px] lg:text-[13.25px] lg:tracking-[4.55px]">
         35,000+ already joined
-      </h3>
-      <h2 className="mt-3 max-w-[420px] text-center text-[24px] font-medium leading-[29px] lg:mt-[37px] lg:text-[32px] lg:leading-[40px]">
+      </p>
+      <h2
+        className="mt-3 max-w-[420px] text-center text-[24px] font-medium leading-[29px] lg:mt-[37px] lg:text-[32px] lg:leading-[40px]"
+        id="stay-update"
+      >
         Stay up-to-date with what we’re doing
       </h2>
       <form
@@ -823,7 +851,7 @@ function ContactUs() {
           Contact Us
         </button>
       </form>
-    </div>
+    </section>
   );
 }
 
@@ -839,11 +867,17 @@ function Footer() {
         <use href="/bookmark-landing-page/images/logo-bookmark.svg#logo-bookmark" />
       </svg>
 
-      <nav className="mt-[41px] flex flex-col items-center space-y-[34px] text-[15px] uppercase leading-none tracking-[1.75px] lg:ml-[64px] lg:mt-0 lg:flex-row lg:gap-11 lg:space-y-0 lg:text-[13px] lg:tracking-[1.5px] [&>a:hover]:text-bookmark-primary-red">
-        <a href="">Features</a>
-        <a href="">Pricing</a>
-        <a href="">Contact</a>
-      </nav>
+      <ul className="mt-[41px] flex flex-col items-center space-y-[34px] text-[15px] uppercase leading-none tracking-[1.75px] lg:ml-[64px] lg:mt-0 lg:flex-row lg:gap-11 lg:space-y-0 lg:text-[13px] lg:tracking-[1.5px] [&>a:hover]:text-bookmark-primary-red">
+        <li>
+          <a href="">Pricing</a>
+        </li>
+        <li>
+          <a href="">Contact</a>
+        </li>
+        <li>
+          <a href="">Features</a>
+        </li>
+      </ul>
 
       <div className="mt-[48px] flex items-center justify-center gap-x-10 lg:ml-auto lg:mt-0">
         <a href="" className="text-white hover:text-bookmark-primary-red">
