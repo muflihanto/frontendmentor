@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
   /** Go to Blog preview card page before each test */
@@ -42,5 +43,15 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByText("Challenge by Frontend Mentor")).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
