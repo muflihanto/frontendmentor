@@ -28,7 +28,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
 
   /** Test if the page has an Intro section */
   test("has an Intro section", async ({ page }) => {
-    const section = page.locator("div").nth(4);
+    const section = page.getByLabel("A Simple Bookmark Manager");
     await expect(section).toBeVisible();
     await expect(section).toBeInViewport();
     await expect(
@@ -76,7 +76,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       },
     ];
     test("has all initial elements", async ({ page }) => {
-      const section = page.locator("div").nth(10);
+      const section = page.getByRole("region", { name: "Features" });
       await section.scrollIntoViewIfNeeded();
       await expect(section).toBeVisible();
       await expect(section).toBeInViewport();
@@ -107,7 +107,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       ).toBeVisible();
     });
     test("can change active feature tab", async ({ page }) => {
-      const section = page.locator("div").nth(10);
+      const section = page.getByRole("region", { name: "Features" });
       await section.scrollIntoViewIfNeeded();
       await expect(section).toBeVisible();
       await expect(section).toBeInViewport();
@@ -224,7 +224,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
 
   /** Test if the page has a 'Download the extension' section */
   test("has a 'Download the extension' section", async ({ page }) => {
-    const section = page.locator("div").nth(19);
+    const section = page.getByLabel("Download the extension");
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(section).toBeInViewport();
@@ -263,7 +263,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       },
     ];
     const linksContainer = section.locator(">div");
-    const links = await linksContainer.locator(">div").all();
+    const links = await linksContainer.locator("article").all();
     expect(links).toHaveLength(3);
     for (const [idx, browser] of Object.entries(browsers)) {
       const index = Number(idx);
@@ -306,7 +306,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       },
     ];
     test("has all initial elements", async ({ page }) => {
-      const section = page.locator("div").nth(27);
+      const section = page.getByLabel("Frequently Asked Questions");
       await section.scrollIntoViewIfNeeded();
       await expect(section).toBeVisible();
       await expect(section).toBeInViewport();
@@ -330,7 +330,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       ).toBeVisible();
     });
     test("can expand and collapse all faqs", async ({ page }) => {
-      const section = page.locator("div").nth(27);
+      const section = page.getByLabel("Frequently Asked Questions");
       await section.scrollIntoViewIfNeeded();
       const accordion = section.locator("div").nth(0);
       for (const faq of faqs) {
@@ -347,15 +347,11 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
 
   /** Test if the page has a 'Stay up-to-date' section */
   test("has a 'Stay up-to-date' section", async ({ page }) => {
-    const section = page.getByText(
-      "35,000+ already joinedStay up-to-date with what we’re doingContact Us",
-    );
+    const section = page.getByLabel("Stay up-to-date with what we’re doing");
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(section).toBeInViewport();
-    await expect(
-      section.getByRole("heading", { name: "35,000+ already joined" }),
-    ).toBeVisible();
+    await expect(section.getByText("35,000+ already joined")).toBeVisible();
     await expect(
       section.getByRole("heading", {
         name: "Stay up-to-date with what we’re doing",
@@ -380,7 +376,7 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     });
 
     test("has initial elements", async () => {
-      section = page.locator("div").nth(37);
+      section = page.getByLabel("Stay up-to-date with what we’re doing");
       await section.scrollIntoViewIfNeeded();
       form = section.locator("form");
       input = form.getByPlaceholder("Enter your email address");
