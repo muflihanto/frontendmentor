@@ -1,4 +1,5 @@
 import { test, expect, type Locator, type Page } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 const navLinks = ["Features", "Pricing", "Contact", "Login"] as const;
 const pageUrl = "/bookmark-landing-page";
@@ -479,5 +480,15 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         ).not.toBeVisible();
       }
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
