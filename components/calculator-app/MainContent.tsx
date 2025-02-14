@@ -93,15 +93,19 @@ export default function MainContent() {
 
   return (
     <>
-      <div
+      <main
         className={`flex min-h-[100svh] w-screen justify-center text-calculator-th1-text-100 lg:items-center [&_*]:font-league-spartan [&_*]:font-bold ${classes[theme].bg1} px-6 py-[28px]`}
+        aria-labelledby="main-heading"
       >
+        <h1 className="sr-only" id="main-heading">
+          Calculator App
+        </h1>
         <div className="w-full min-w-[calc(360px-48px)] max-w-[540px]">
           <Header />
           <Screen />
           <Keyboard />
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );
@@ -126,7 +130,7 @@ function Header() {
 
   return (
     <>
-      <div
+      <header
         className={`flex items-center justify-between ${
           theme === 1 ? classes[theme].text1 : classes[theme].text2
         }`}
@@ -171,7 +175,7 @@ function Header() {
             </button>
           </div>
         </div>
-      </div>
+      </header>
     </>
   );
 }
