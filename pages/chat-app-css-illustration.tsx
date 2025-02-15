@@ -40,7 +40,10 @@ function Main() {
     ]);
   }, []);
   return (
-    <div className="relative z-10 flex w-full flex-col items-center lg:h-[100dvh] lg:min-h-[540px] lg:flex-row lg:justify-center lg:gap-[124px] lg:pl-[100px]">
+    <main
+      className="relative z-10 flex w-full flex-col items-center lg:h-[100dvh] lg:min-h-[540px] lg:flex-row lg:justify-center lg:gap-[124px] lg:pl-[100px]"
+      aria-labelledby="main-heading"
+    >
       <div
         className="absolute -left-[calc((2*var(--width))-50vw)] top-0 -z-10 h-[510px] w-[calc(2*var(--width))] rounded-b-full bg-gradient-to-b from-chat-app-primary-gradients-magenta from-[-70%] to-chat-app-primary-gradients-violet lg:left-[-90px] lg:h-[calc(700/800*100vh)] lg:w-[510px] lg:rounded-b-[255px] lg:bg-[linear-gradient(200deg,var(--tw-gradient-stops))] lg:from-[-40%]"
         style={
@@ -112,7 +115,10 @@ function Main() {
         </div>
       </div>
       <div className="flex flex-col items-center px-9 lg:w-[442px] lg:items-start lg:px-0">
-        <h1 className="text-center text-[40px] font-medium leading-[46px] text-chat-app-primary-text-mainhead lg:text-left">
+        <h1
+          className="text-center text-[40px] font-medium leading-[46px] text-chat-app-primary-text-mainhead lg:text-left"
+          id="main-heading"
+        >
           Simple booking
         </h1>
         <p className="mt-6 text-center leading-[28px] text-chat-app-primary-text-paragraph max-lg:max-w-screen-sm lg:text-left">
@@ -122,7 +128,7 @@ function Main() {
           the chat.
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 
