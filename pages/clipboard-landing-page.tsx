@@ -49,7 +49,7 @@ function CTA({ className = "" }: { className?: string }) {
 
 function HeroSection() {
   return (
-    <main className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat px-8 py-[123px] lg:bg-[url('/clipboard-landing-page/images/bg-header-desktop.png')] lg:py-[131px]">
+    <section className="flex flex-col items-center bg-[url('/clipboard-landing-page/images/bg-header-mobile.png')] bg-[length:100%_auto] bg-no-repeat px-8 py-[123px] lg:bg-[url('/clipboard-landing-page/images/bg-header-desktop.png')] lg:py-[131px]">
       <svg
         className="w-[125px]"
         viewBox="0 0 125 125"
@@ -58,7 +58,10 @@ function HeroSection() {
         <title id="clipboard-logo-title">Clipboard Logo</title>
         <use href="/clipboard-landing-page/images/logo.svg#clipboard-logo" />
       </svg>
-      <h1 className="mt-[64px] text-center text-[32px] font-semibold leading-[40px] tracking-[-.5px] text-clipboard-neutral-200 lg:mt-[65px] lg:text-[46px] lg:tracking-[-.75px]">
+      <h1
+        className="mt-[64px] text-center text-[32px] font-semibold leading-[40px] tracking-[-.5px] text-clipboard-neutral-200 lg:mt-[65px] lg:text-[46px] lg:tracking-[-.75px]"
+        id="main-heading"
+      >
         A history of everything you copy
       </h1>
       <p className="mt-4 text-center leading-[26px] tracking-[.1px] text-clipboard-neutral-100 lg:mt-[25px] lg:max-w-[720px] lg:text-[20px] lg:leading-[30px]">
@@ -66,7 +69,7 @@ function HeroSection() {
         Instantly access your clipboard on all your devices.
       </p>
       <CTA className="mt-12" />
-    </main>
+    </section>
   );
 }
 
@@ -218,7 +221,8 @@ function SuperchargeWorkflow() {
 
 function Clients() {
   return (
-    <div className="flex flex-col items-center justify-between py-4 lg:mx-auto lg:mt-[27px] lg:h-auto lg:flex-row lg:flex-wrap lg:justify-center lg:gap-12 xl:w-[calc(100vw-330px)] xl:justify-between">
+    <section className="flex flex-col items-center justify-between py-4 lg:mx-auto lg:mt-[27px] lg:h-auto lg:flex-row lg:flex-wrap lg:justify-center lg:gap-12 xl:w-[calc(100vw-330px)] xl:justify-between">
+      <h2 className="sr-only">Clipboard Clients</h2>
       <div className="relative aspect-[165/49] h-[41px] lg:h-[49px]">
         <Image
           src="/clipboard-landing-page/images/logo-google.png"
@@ -254,7 +258,7 @@ function Clients() {
           fill
         />
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -275,14 +279,17 @@ function Available() {
 
 function Main() {
   return (
-    <div className="w-full max-w-screen-sm lg:max-w-none">
+    <main
+      className="w-full max-w-screen-sm lg:max-w-none"
+      aria-labelledby="main-heading"
+    >
       <HeroSection />
       <SnippetSection />
       <AccessAnywhereSection />
       <SuperchargeWorkflow />
       <Clients />
       <Available />
-    </div>
+    </main>
   );
 }
 
