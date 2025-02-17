@@ -1,5 +1,6 @@
 import { test, expect, type Locator } from "@playwright/test";
 import supportType from "../components/crowdfunding-product-page/supportType.json";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   /** Go to Crowdfunding product page before each test */
@@ -410,5 +411,15 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         ).not.toBeVisible();
       }
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
