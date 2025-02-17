@@ -14,9 +14,13 @@ const CodingBootcamp = () => {
       <Head>
         <title>Frontend Mentor | Coding Bootcamp Testimonials Slider</title>
       </Head>
-      <div
+      <main
         className={`App relative min-h-screen bg-white bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-bg.svg')] bg-[length:calc(375px-48px),auto] bg-[center_top_24px] bg-no-repeat font-inter lg:bg-[length:auto,660px] lg:bg-[right_73px_top_calc(50%-22px)] ${inter.variable}`}
+        aria-labelledby="main-heading"
       >
+        <h1 className="sr-only" id="main-heading">
+          Coding Bootcamp Testimonials
+        </h1>
         <Main />
         <Footer />
         <svg
@@ -32,7 +36,7 @@ const CodingBootcamp = () => {
           absolutePath="/coding-bootcamp-testimonials-slider/design/mobile-design-slide-1.jpg"
           // absolutePath="/coding-bootcamp-testimonials-slider/design/desktop-design-slide-1.jpg"
         /> */}
-      </div>
+      </main>
     </>
   );
 };
@@ -192,7 +196,7 @@ function Main() {
       className="flex flex-col items-center justify-center pt-[54px] lg:flex-row-reverse lg:justify-between lg:px-[165px] lg:pt-[113px]"
       id="testimonials-slider"
       aria-roledescription="carousel"
-      aria-label="Coding bootcamp testimonials"
+      aria-labelledby="main-heading"
     >
       <div className="flex flex-col max-md:items-center" id="slider-items">
         <Avatar
