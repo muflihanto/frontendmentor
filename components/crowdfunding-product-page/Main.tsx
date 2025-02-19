@@ -43,7 +43,10 @@ export default function Main() {
 
   return (
     <SuppporContext.Provider value={{ selectedOption, setSelectedOption }}>
-      <div className="relative -top-14 lg:-top-[92px] lg:pb-[33px]">
+      <main
+        className="relative -top-14 lg:-top-[92px] lg:pb-[33px]"
+        aria-labelledby="main-heading"
+      >
         <Overview openSelectionModal={openSelectionModal} />
         <Statistic />
         <About openSelectionModal={openSelectionModal} />
@@ -63,7 +66,7 @@ export default function Main() {
             setIsOpen={setIsSuccessModalOpen}
           />
         </Modals>
-      </div>
+      </main>
     </SuppporContext.Provider>
   );
 }
