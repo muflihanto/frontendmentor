@@ -45,11 +45,11 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   /** Test if the page has an 'Overview' card */
   test.describe("has an 'Overview' card", () => {
     test("card is visible", async ({ page }) => {
-      const card = page.locator("div").nth(6);
+      const card = page.locator("div").nth(5);
       await expect(card).toBeVisible();
     });
     test("card has all elements", async ({ page }) => {
-      const card = page.locator("div").nth(6);
+      const card = page.locator("div").nth(5);
       await expect(
         card.getByRole("img", { name: "Mastercraft Brand Logo" }),
       ).toBeVisible();
@@ -213,7 +213,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(thankYouCard).not.toBeVisible();
     });
     test("'Bookmark' button works", async ({ page }) => {
-      const card = page.locator("div").nth(6);
+      const card = page.locator("div").nth(5);
       const button = card.getByLabel("Toggle Bookmark");
       await page.waitForLoadState("load");
       const text = button.locator("span");
@@ -254,7 +254,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   /** Test if the page has a 'Statistic' card */
   test.describe("has a 'Statistic' card", () => {
     test("card is visible", async ({ page }) => {
-      const card = page.locator("div").nth(10);
+      const card = page.locator("div").nth(9);
       await expect(card).toBeVisible();
     });
     test("card has all elements", async ({ page }) => {
@@ -272,7 +272,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           p: "days left",
         },
       ];
-      const card = page.locator("div").nth(10);
+      const card = page.locator("div").nth(9);
       await card.scrollIntoViewIfNeeded();
       for (const stat of statisticData) {
         await expect(card.getByRole("heading", { name: stat.h })).toBeVisible();
@@ -296,11 +296,11 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   /** Test if the page has an 'About' card */
   test.describe("has an 'About' card", () => {
     test("card is visible", async ({ page }) => {
-      const card = page.locator("div").nth(20);
+      const card = page.locator("div").nth(19);
       await expect(card).toBeVisible();
     });
     test("card has all elements", async ({ page }) => {
-      const card = page.locator("div").nth(20);
+      const card = page.locator("div").nth(19);
       await card.scrollIntoViewIfNeeded();
       await expect(
         card.getByRole("heading", { name: "About this project" }),
@@ -338,7 +338,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       }
     });
     test("'Select Reward' buttons work", async ({ page }) => {
-      const card = page.locator("div").nth(20);
+      const card = page.locator("div").nth(19);
       await card.scrollIntoViewIfNeeded();
       const buttons = card.getByRole("button", { name: "Select Reward" });
       const closeModalButton = page.getByLabel("Close 'Back this project'");
