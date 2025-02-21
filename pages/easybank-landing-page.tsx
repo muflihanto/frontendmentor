@@ -132,7 +132,10 @@ function Intro() {
         </div>
       </div>
       <div className="mt-[-28px] flex w-full flex-col items-center pb-[88px] lg:ml-[165px] lg:mt-0 lg:w-[440px] lg:min-w-[440px] lg:items-start lg:self-center lg:py-0">
-        <h1 className="text-center text-[39px] font-light leading-[47px] -tracking-[0.1px] text-easybank-primary-blue lg:text-left lg:text-[56px] lg:leading-[64px] lg:tracking-[-.75px]">
+        <h1
+          className="text-center text-[39px] font-light leading-[47px] -tracking-[0.1px] text-easybank-primary-blue lg:text-left lg:text-[56px] lg:leading-[64px] lg:tracking-[-.75px]"
+          id="main-heading"
+        >
           Next generation digital banking
         </h1>
         <p className="mt-[16px] max-w-[320px] text-center text-[15px] leading-[25px] tracking-[-.2px] text-easybank-neutral-400 lg:mt-6 lg:max-w-none lg:text-left lg:text-[18px] lg:leading-[28px] lg:tracking-[-.3px]">
@@ -307,11 +310,11 @@ function Article({
 
 function Main() {
   return (
-    <div className="bg-easybank-neutral-200">
+    <main className="bg-easybank-neutral-200" aria-labelledby="main-heading">
       <Intro />
       <Features />
       <LatestArticles />
-    </div>
+    </main>
   );
 }
 
