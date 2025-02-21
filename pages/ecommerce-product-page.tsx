@@ -103,11 +103,14 @@ function Main() {
   const currentProduct = useAtomValue(productAtom);
 
   return (
-    <div className="pb-[88px] lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-[28px] lg:px-[165px] lg:pt-[91px]">
+    <main
+      className="pb-[88px] lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-[28px] lg:px-[165px] lg:pt-[91px]"
+      aria-labelledby="main-heading"
+    >
       <PhotoSlide product={currentProduct} />
       <ProductDetail product={currentProduct} />
       <Lightbox product={currentProduct} />
-    </div>
+    </main>
   );
 }
 
@@ -200,7 +203,7 @@ function Header() {
 
 function PhotoSlide({ product }: { product: Product }) {
   const [leftPos, setLeftPos] = useState(0);
-  const setOpen = useSetAtom(lightboxOpenAtom);
+  const [open, setOpen] = useAtom(lightboxOpenAtom);
 
   return (
     <div>
@@ -251,8 +254,11 @@ function PhotoSlide({ product }: { product: Product }) {
                     setOpen({ open: true, position: index });
                   }}
                   type="button"
-                  aria-controls="product-lightbox"
-                />
+                  aria-controls={open.open ? "product-lightbox" : undefined}
+                  aria-label={`View image ${index + 1}`}
+                >
+                  <span className="sr-only">View image {index + 1}</span>
+                </button>
                 <Image
                   src={img}
                   alt={`Product ${index + 1}`}
@@ -320,6 +326,7 @@ function ProductDetail({ product }: { product: Product }) {
       <h1
         className="mt-[13px] text-[28px] font-bold leading-[32px] text-ecommerce-neutral-500 lg:mt-[17px] lg:text-[44px] lg:leading-[48px]"
         aria-label="Product name"
+        id="main-heading"
       >
         {product.name}
       </h1>
