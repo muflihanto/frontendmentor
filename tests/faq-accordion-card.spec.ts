@@ -31,7 +31,7 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
 
   /** Test if the page has all faqs */
   test("has faqs", async ({ page }) => {
-    const faqs = await page.locator("main>div>div:not(:last-child)").all();
+    const faqs = await page.locator("main>div>div>div:not(:last-child)").all();
     expect(faqs).toHaveLength(5);
     for (const faq of faqs) {
       await expect(faq).toBeAttached();

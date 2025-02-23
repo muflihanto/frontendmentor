@@ -59,7 +59,10 @@ export default function FaqAccordionCard() {
 function Main() {
   const faqs = useAtomValue(faqsAtom);
   return (
-    <div className="relative flex w-[920px] flex-col items-center rounded-[22px] bg-white pb-[48px] pt-[134px] shadow-2xl shadow-faq-accordion-primary-text-blue/60 max-lg:w-[calc(min(100vw,375px)-48px)] lg:relative lg:mb-[2px] lg:ml-10 lg:grid lg:h-[510px] lg:grid-cols-[476px,auto] lg:grid-rows-1 lg:rounded-l-[24px] lg:py-0">
+    <main
+      className="relative flex w-[920px] flex-col items-center rounded-[22px] bg-white pb-[48px] pt-[134px] shadow-2xl shadow-faq-accordion-primary-text-blue/60 max-lg:w-[calc(min(100vw,375px)-48px)] lg:relative lg:mb-[2px] lg:ml-10 lg:grid lg:h-[510px] lg:grid-cols-[476px,auto] lg:grid-rows-1 lg:rounded-l-[24px] lg:py-0"
+      aria-labelledby="main-heading"
+    >
       <div className="absolute left-1/2 top-0 h-[215px] w-[240px] -translate-x-1/2 -translate-y-1/2 lg:relative lg:left-0 lg:grid lg:h-full lg:w-full lg:-translate-x-[85px] lg:translate-y-0">
         <div className="h-full w-full lg:relative lg:w-[391px] lg:place-self-end lg:overflow-hidden">
           <Image
@@ -88,8 +91,11 @@ function Main() {
           />
         </div>
       </div>
-      <main className="w-full px-6 lg:w-[366px] lg:self-start lg:px-0 lg:pt-[68px]">
-        <h1 className="text-[32px] font-bold leading-none text-faq-accordion-primary-text-blue max-lg:text-center">
+      <div className="w-full px-6 lg:w-[366px] lg:self-start lg:px-0 lg:pt-[68px]">
+        <h1
+          className="text-[32px] font-bold leading-none text-faq-accordion-primary-text-blue max-lg:text-center"
+          id="main-heading"
+        >
           FAQ
         </h1>
         <div className="divide mt-[19px] flex w-full flex-col divide-y divide-faq-accordion-neutral-text-100/20 border-b border-b-faq-accordion-neutral-text-100/20 text-[13px] leading-none text-faq-accordion-neutral-text-200 lg:mt-[25px] lg:max-h-[350px] lg:overflow-y-scroll lg:pr-4">
@@ -111,8 +117,8 @@ function Main() {
             />
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
 
