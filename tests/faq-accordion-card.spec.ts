@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
   /** Go to FAQ Accordion Card page before each test */
@@ -68,5 +69,15 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
         await expect(controlledElem).not.toBeVisible();
       }
     }
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });

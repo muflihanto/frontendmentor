@@ -18,7 +18,7 @@ test.describe("FrontendMentor Challenge - Expenses chart component Page", () => 
 
   /** Test if the page has a header */
   test("has a header", async ({ page }) => {
-    const header = page.getByRole("banner");
+    const header = page.locator("header");
     await expect(
       header.getByRole("heading", {
         level: 2,
