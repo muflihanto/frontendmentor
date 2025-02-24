@@ -55,9 +55,18 @@ function Main() {
     <>
       <header className="h-[232px] w-full bg-[url('/faq-accordion/assets/images/background-pattern-mobile.svg')] bg-cover bg-no-repeat lg:h-[320px] lg:bg-[url('/faq-accordion/assets/images/background-pattern-desktop.svg')]" />
       <div className="relative flex w-full -translate-y-[90px] flex-col items-center px-6 lg:-translate-y-[152px]">
-        <section className="w-full max-w-[600px] rounded-lg bg-faq-100 px-6 py-[28px] shadow-xl shadow-faq-300/10 lg:rounded-2xl lg:px-10 lg:py-[44px] lg:shadow-2xl lg:shadow-faq-300/[25%]">
-          <h1 className="flex items-center gap-[23px] text-[32px] font-bold leading-none text-faq-400 lg:text-[56px]">
-            <span className="relative inline-block aspect-[40/41] w-[25px] lg:w-10">
+        <main
+          className="w-full max-w-[600px] rounded-lg bg-faq-100 px-6 py-[28px] shadow-xl shadow-faq-300/10 lg:rounded-2xl lg:px-10 lg:py-[44px] lg:shadow-2xl lg:shadow-faq-300/[25%]"
+          aria-labelledby="main-heading"
+        >
+          <h1
+            className="flex items-center gap-[23px] text-[32px] font-bold leading-none text-faq-400 lg:text-[56px]"
+            id="main-heading"
+          >
+            <span
+              className="relative inline-block aspect-[40/41] w-[25px] lg:w-10"
+              aria-hidden="true"
+            >
               <Image
                 src={"/faq-accordion/assets/images/icon-star.svg"}
                 fill
@@ -77,7 +86,7 @@ function Main() {
               );
             })}
           </div>
-        </section>
+        </main>
       </div>
     </>
   );
