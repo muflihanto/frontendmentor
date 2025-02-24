@@ -1,4 +1,5 @@
 import { test, expect, type Locator } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 // TODO: add keyboard accessibility test case
 
@@ -156,5 +157,15 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
       await page.keyboard.press("PageDown");
       await expect(faqs[faqs.length - 1]).toBeFocused();
     }
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
