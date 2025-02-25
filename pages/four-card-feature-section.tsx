@@ -52,9 +52,15 @@ function Main() {
   };
 
   return (
-    <div className="flex max-w-[375px] flex-col items-center px-8 lg:max-w-none">
+    <main
+      className="flex max-w-[375px] flex-col items-center px-8 lg:max-w-none"
+      aria-labelledby="main-heading"
+    >
       <div className="text-four-card-neutral-200 lg:max-w-[520px]">
-        <h1 className="text-center text-[24px] font-extralight tracking-[0.2px] text-four-card-neutral-300 lg:text-[36px] lg:leading-[51px]">
+        <h1
+          className="text-center text-[24px] font-extralight tracking-[0.2px] text-four-card-neutral-300 lg:text-[36px] lg:leading-[51px]"
+          id="main-heading"
+        >
           Reliable, efficient delivery
           <span className="font-semibold"> Powered by Technology</span>
         </h1>
@@ -78,7 +84,7 @@ function Main() {
           );
         })}
       </div>
-    </div>
+    </main>
   );
 }
 
