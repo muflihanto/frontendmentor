@@ -134,10 +134,11 @@ function Status() {
 
 function Main() {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-4 pl-[25px] pr-[24px] lg:relative lg:mr-[1px] lg:grid lg:w-fit lg:grid-cols-[350px,538px] lg:grid-rows-1 lg:items-end lg:gap-[30px] lg:px-0">
+    <main className="flex w-full flex-col items-center justify-center gap-4 pl-[25px] pr-[24px] lg:relative lg:mr-[1px] lg:grid lg:w-fit lg:grid-cols-[350px,538px] lg:grid-rows-1 lg:items-end lg:gap-[30px] lg:px-0">
+      <h1 className="sr-only">Data Storage Status</h1>
       <Navigation />
       <Status />
-    </div>
+    </main>
   );
 }
 
