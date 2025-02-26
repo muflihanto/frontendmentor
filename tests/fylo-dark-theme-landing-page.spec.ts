@@ -29,7 +29,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
 
   /** Test if the page has an intro section */
   test("has an intro section", async ({ page }) => {
-    const section = page.locator("div").nth(2);
+    const section = page.locator("header>div").nth(1);
     await expect(section).toBeVisible();
     await expect(section).toBeInViewport();
     await expect(
@@ -53,7 +53,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
 
   /** Test if the page has a 'Features' section */
   test("has a 'Features' section", async ({ page }) => {
-    const section = page.locator("div").nth(8);
+    const section = page.locator("main>div").nth(0);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     const features = [
@@ -88,7 +88,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
 
   /** Test if the page has a 'Productive' section */
   test("has a 'Productive' section", async ({ page }) => {
-    const section = page.locator("div").nth(13);
+    const section = page.locator("main>div").nth(1);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
@@ -116,17 +116,13 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
 
   /** Test if the page has a 'Testimonials' section */
   test("has a 'Testimonials' section", async ({ page }) => {
-    const section = page.locator("div").nth(16);
+    const section = page.locator("main>div").nth(2);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
       section.getByRole("img", { name: "Quote Background" }),
     ).toBeVisible();
-    const testimonialContainers = await page
-      .locator("div")
-      .nth(16)
-      .locator(">div>div")
-      .all();
+    const testimonialContainers = await section.locator(">div>div").all();
     const testimonials = [
       {
         body: "Fylo has improved our team productivity by an order of magnitude. Since making the switch our team has become a well-oiled collaboration machine.",
@@ -169,7 +165,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
   /** Test if the page has a 'Get Early Access' section */
   test.describe("has a 'Get Early Access' section", () => {
     test("has all elements", async ({ page }) => {
-      const section = page.locator("div").nth(28);
+      const section = page.locator("main>div").nth(3);
       await section.scrollIntoViewIfNeeded();
       await expect(section).toBeVisible();
       await expect(
@@ -186,7 +182,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
       ).toBeVisible();
     });
     test("form works", async ({ page }) => {
-      const section = page.locator("div").nth(28);
+      const section = page.locator("main>div").nth(3);
       await section.scrollIntoViewIfNeeded();
       const input = section.getByPlaceholder("email@example.com");
       const submit = section.getByRole("button", {
@@ -229,14 +225,17 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
       ["About Us", "Jobs", "Press", "Blog"],
       ["Contact Us", "Terms", "Privacy"],
     ];
-    const navs = await footer.getByRole("navigation").all();
-    for (const [index, nav] of Object.entries(navs)) {
+    const lists = await footer.locator("ul").all();
+    for (const [index, list] of Object.entries(lists)) {
       const indexNum = Number(index);
       for (const link of navlinks[indexNum]) {
-        await expect(nav.getByRole("link", { name: link })).toBeVisible();
+        await expect(list.getByRole("link", { name: link })).toBeVisible();
       }
     }
-    const socials = await footer.locator("div").nth(3).getByRole("link").all();
+    const socials = await footer
+      .getByLabel("Social Media Links")
+      .getByRole("link")
+      .all();
     expect(socials).toHaveLength(3);
     for (const social of socials) {
       await expect(social).toBeVisible();

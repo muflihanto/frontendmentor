@@ -55,7 +55,7 @@ function FyloLogo({ className }: { className: string }) {
 
 function IntroSection() {
   return (
-    <div
+    <header
       className="h-[700px] bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-mobile.svg'),linear-gradient(180deg,theme(colors.fylo-dark.primary.intro),theme(colors.fylo-dark.primary.intro)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main)_var(--bg-color-stop),theme(colors.fylo-dark.primary.main))] bg-[position:top_280px_center,center_center] bg-no-repeat lg:h-[1266px] lg:bg-fylo-dark-primary-intro lg:bg-[url('/fylo-dark-theme-landing-page/images/bg-curvy-desktop.svg')] lg:bg-[length:100%_auto] lg:bg-[bottom_-30px_center]"
       style={
         {
@@ -65,7 +65,7 @@ function IntroSection() {
     >
       <Header />
       <Hero />
-    </div>
+    </header>
   );
 }
 
@@ -102,7 +102,7 @@ function Hero() {
 
 function Header() {
   return (
-    <header className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] sm:h-[96px] md:h-[128px] lg:h-[198px]">
+    <div className="flex h-[72px] items-center justify-between px-20 max-lg:px-[max(calc(50vw-320px),24px)] sm:h-[96px] md:h-[128px] lg:h-[198px]">
       <FyloLogo className="-ml-1 w-20 lg:ml-0 lg:w-[176px]" />
       <nav>
         <ul className="flex items-center gap-[25px] font-raleway text-[12px] leading-none text-fylo-dark-neutral lg:gap-[58px] lg:text-[16px]">
@@ -117,7 +117,7 @@ function Header() {
           </li>
         </ul>
       </nav>
-    </header>
+    </div>
   );
 }
 
@@ -372,12 +372,15 @@ function GetEarlyAccess() {
 
 function Main() {
   return (
-    <div className="[2790px] h-auto bg-fylo-dark-primary-main lg:pb-[102px]">
+    <main
+      className="[2790px] h-auto bg-fylo-dark-primary-main lg:pb-[102px]"
+      aria-label="Fylo Landing Page"
+    >
       <Features />
       <Productive />
       <Testimonials />
       <GetEarlyAccess />
-    </div>
+    </main>
   );
 }
 
@@ -391,6 +394,7 @@ function SocialIcon() {
           "--icon-diameter-desktop": "32px",
         } as CSSProperties
       }
+      aria-label="Social Media Links"
     >
       <a
         href=""
@@ -456,7 +460,7 @@ function Footer() {
             <span className="text-[14px]">example@fylo.com</span>
           </p>
         </div>
-        <nav className="mt-[82px] lg:-mt-[1px] lg:ml-[min(calc(314/1440*100vw),314px)]">
+        <div className="mt-[82px] lg:-mt-[1px] lg:ml-[min(calc(314/1440*100vw),314px)]">
           <ul className="flex flex-col gap-[14px]">
             <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">About Us</a>
@@ -471,8 +475,8 @@ function Footer() {
               <a href="">Blog</a>
             </li>
           </ul>
-        </nav>
-        <nav className="mr-8 mt-[46px] lg:-mt-[1px] lg:ml-[min(calc(80/1440*100vw),80px)]">
+        </div>
+        <div className="mr-8 mt-[46px] lg:-mt-[1px] lg:ml-[min(calc(80/1440*100vw),80px)]">
           <ul className="flex flex-col gap-[14px]">
             <li className="w-fit hover:font-bold hover:tracking-[-.6px] hover:text-fylo-dark-neutral">
               <a href="">Contact Us</a>
@@ -484,7 +488,7 @@ function Footer() {
               <a href="">Privacy</a>
             </li>
           </ul>
-        </nav>
+        </div>
         <SocialIcon />
       </div>
       <p className="absolute bottom-3 left-0 w-full text-center text-[11px] text-fylo-dark-neutral [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
