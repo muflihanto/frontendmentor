@@ -321,11 +321,11 @@ function EarlyAccessSection() {
 
 function Main() {
   return (
-    <>
+    <main>
       <Hero />
       <ProductiveSection />
       <EarlyAccessSection />
-    </>
+    </main>
   );
 }
 
@@ -343,6 +343,7 @@ function SocialIcon() {
       <a
         href=""
         className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-landing-accent-blue lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        aria-label="Fylo on Facebook"
       >
         <FontAwesomeIcon
           icon={faFacebookF}
@@ -352,6 +353,7 @@ function SocialIcon() {
       <a
         href=""
         className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-landing-accent-blue lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        aria-label="Fylo on Twitter"
       >
         <FontAwesomeIcon
           icon={faTwitter}
@@ -361,6 +363,7 @@ function SocialIcon() {
       <a
         href=""
         className="group flex h-[--icon-diameter-mobile] w-[--icon-diameter-mobile] items-center justify-center rounded-full border border-fylo-landing-neutral-200 p-[6px] hover:border-fylo-landing-accent-blue lg:h-[--icon-diameter-desktop] lg:w-[--icon-diameter-desktop] lg:p-2"
+        aria-label="Fylo on Instagram"
       >
         <FontAwesomeIcon
           icon={faInstagram}
@@ -406,8 +409,11 @@ function Footer() {
             <span>example@fylo.com</span>
           </p>
         </div>
-        <nav className="mt-[55px] w-full lg:ml-[calc(220/1440*100vw)] lg:mt-0 lg:w-auto">
-          <ul className="flex flex-col gap-[14px]">
+        <div className="mt-[55px] w-full lg:ml-[calc(220/1440*100vw)] lg:mt-0 lg:w-auto">
+          <ul
+            className="flex flex-col gap-[14px]"
+            aria-label="External links 1"
+          >
             <li>
               <a href="">About Us</a>
             </li>
@@ -421,9 +427,12 @@ function Footer() {
               <a href="">Blog</a>
             </li>
           </ul>
-        </nav>
-        <nav className="mt-[46px] w-full lg:ml-[calc(200/1440*100vw)] lg:mt-0 lg:w-auto">
-          <ul className="flex flex-col gap-[14px]">
+        </div>
+        <div className="mt-[46px] w-full lg:ml-[calc(200/1440*100vw)] lg:mt-0 lg:w-auto">
+          <ul
+            className="flex flex-col gap-[14px]"
+            aria-label="External links 2"
+          >
             <li>
               <a href="">Contact Us</a>
             </li>
@@ -434,7 +443,7 @@ function Footer() {
               <a href="">Privacy</a>
             </li>
           </ul>
-        </nav>
+        </div>
         <SocialIcon />
       </div>
       <p className="absolute bottom-3 left-0 w-full text-center text-[11px] [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
