@@ -19,61 +19,83 @@ const HuddleAlternate = () => {
         className={`App relative font-open-sans ${openSans.variable} ${poppins.variable} bg-white`}
       >
         <Header />
-        <Hero />
-        <div className="flex flex-col gap-[40px] bg-white px-[20px] pb-[53px] pt-[59px] lg:px-[103px] lg:pb-[65px] lg:pt-[160px]">
-          <Card className="pt-[23.5px] lg:pt-1" reverse>
-            <GrowIllustration className="w-[236px] lg:mr-[7px] lg:w-[406px] lg:pb-1" />
-            <div className="lg:w-[480px]">
-              <h2 className="mt-[56px] text-center font-poppins text-[20px] font-semibold text-huddle-alternate-neutral-300 lg:mt-0 lg:text-left lg:text-[28px]">
-                Grow Together
-              </h2>
-              <p className="mt-[14px] px-[28px] text-center text-[14px] text-huddle-alternate-neutral-200 lg:mt-[12px] lg:px-0 lg:text-left lg:text-[18px]">
-                Generate meaningful discussions with your audience and build a
-                strong, loyal community. Think of the insightful conversations
-                you miss out on with a feedback form.
-              </p>
-            </div>
-          </Card>
-          <Card className="pt-[12px] lg:pt-1">
-            <FlowIllustration className="w-[242px] lg:w-[417px] lg:pb-[3.75px]" />
-            <div className="lg:w-[495px]">
-              <h2 className="mt-[68px] text-center font-poppins text-[20px] font-semibold text-huddle-alternate-neutral-300 lg:mt-0 lg:text-left lg:text-[28px]">
-                Flowing Conversations
-              </h2>
-              <p className="mt-[14px] px-[40px] text-center text-[14px] text-huddle-alternate-neutral-200 lg:mt-[12px] lg:px-0 lg:text-left lg:text-[18px]">
-                You wouldn&lsquo;t paginate a conversation in real life, so why
-                do it online? Our threads have just-in-time loading for a more
-                natural flow.
-              </p>
-            </div>
-          </Card>
-          <Card className="pt-[26px] lg:pt-1" reverse>
-            <UsersIllustration className="w-[245px] lg:w-[420px] lg:pb-[2px]" />
-            <div className="lg:w-[480px]">
-              <h2 className="mt-[61.5px] text-center font-poppins text-[20px] font-semibold text-huddle-alternate-neutral-300 lg:mt-0 lg:text-left lg:text-[28px]">
-                Your Users
-              </h2>
-              <p className="mt-[14px] px-[44px] text-center text-[14px] text-huddle-alternate-neutral-200 lg:mt-[12px] lg:px-0 lg:text-left lg:text-[18px]">
-                It takes no time at all to integrate Huddle with your
-                app&lsquo;s authentication solution. This means, once signed in
-                to your app, your users can start chatting immediately.
-              </p>
-            </div>
-          </Card>
-        </div>
-        <div className="relative top-[67px] z-[2] mx-auto flex h-[176px] w-[calc(375px-24px)] flex-col items-center justify-center gap-[24px] rounded-[16px] bg-white pt-[3px] font-semibold shadow-[0px_0px_15px_5px_rgba(0,0,0,.05)] lg:top-[96px] lg:h-[280px] lg:w-[800px] lg:gap-[35.5px] lg:pt-[12.5px]">
-          <h2 className="text-center font-poppins text-[18px] font-semibold text-huddle-alternate-neutral-300 lg:text-[32px] lg:tracking-[-0.2px]">
-            Ready To Build Your Community?
-          </h2>
-          <a
-            href=""
-            className="flex h-[40px] w-[200px] items-center justify-center rounded-full bg-huddle-alternate-primary text-[10.25px] text-huddle-alternate-neutral-100 shadow-[0px_5px_5px_rgba(0,0,0,.1)] hover:bg-huddle-curve-primary-pink-100 lg:h-[80px] lg:w-[400px] lg:shadow-[0px_10px_10px_rgba(0,0,0,.15)]"
+        <main className="contents" aria-label="Huddle landing page">
+          <Hero />
+          <div className="flex flex-col gap-[40px] bg-white px-[20px] pb-[53px] pt-[59px] lg:px-[103px] lg:pb-[65px] lg:pt-[160px]">
+            <Card
+              className="pt-[23.5px] lg:pt-1"
+              labelId="grow-together"
+              reverse
+            >
+              <GrowIllustration className="w-[236px] lg:mr-[7px] lg:w-[406px] lg:pb-1" />
+              <div className="lg:w-[480px]">
+                <h2
+                  className="mt-[56px] text-center font-poppins text-[20px] font-semibold text-huddle-alternate-neutral-300 lg:mt-0 lg:text-left lg:text-[28px]"
+                  id="grow-together"
+                >
+                  Grow Together
+                </h2>
+                <p className="mt-[14px] px-[28px] text-center text-[14px] text-huddle-alternate-neutral-200 lg:mt-[12px] lg:px-0 lg:text-left lg:text-[18px]">
+                  Generate meaningful discussions with your audience and build a
+                  strong, loyal community. Think of the insightful conversations
+                  you miss out on with a feedback form.
+                </p>
+              </div>
+            </Card>
+            <Card className="pt-[12px] lg:pt-1" labelId="flowing-conversations">
+              <FlowIllustration className="w-[242px] lg:w-[417px] lg:pb-[3.75px]" />
+              <div className="lg:w-[495px]">
+                <h2
+                  className="mt-[68px] text-center font-poppins text-[20px] font-semibold text-huddle-alternate-neutral-300 lg:mt-0 lg:text-left lg:text-[28px]"
+                  id="flowing-conversations"
+                >
+                  Flowing Conversations
+                </h2>
+                <p className="mt-[14px] px-[40px] text-center text-[14px] text-huddle-alternate-neutral-200 lg:mt-[12px] lg:px-0 lg:text-left lg:text-[18px]">
+                  You wouldn&lsquo;t paginate a conversation in real life, so
+                  why do it online? Our threads have just-in-time loading for a
+                  more natural flow.
+                </p>
+              </div>
+            </Card>
+            <Card className="pt-[26px] lg:pt-1" labelId="your-users" reverse>
+              <UsersIllustration className="w-[245px] lg:w-[420px] lg:pb-[2px]" />
+              <div className="lg:w-[480px]">
+                <h2
+                  className="mt-[61.5px] text-center font-poppins text-[20px] font-semibold text-huddle-alternate-neutral-300 lg:mt-0 lg:text-left lg:text-[28px]"
+                  id="your-users"
+                >
+                  Your Users
+                </h2>
+                <p className="mt-[14px] px-[44px] text-center text-[14px] text-huddle-alternate-neutral-200 lg:mt-[12px] lg:px-0 lg:text-left lg:text-[18px]">
+                  It takes no time at all to integrate Huddle with your
+                  app&lsquo;s authentication solution. This means, once signed
+                  in to your app, your users can start chatting immediately.
+                </p>
+              </div>
+            </Card>
+          </div>
+          <div
+            className="relative top-[67px] z-[2] mx-auto flex h-[176px] w-[calc(375px-24px)] flex-col items-center justify-center gap-[24px] rounded-[16px] bg-white pt-[3px] font-semibold shadow-[0px_0px_15px_5px_rgba(0,0,0,.05)] lg:top-[96px] lg:h-[280px] lg:w-[800px] lg:gap-[35.5px] lg:pt-[12.5px]"
+            role="region"
+            aria-labelledby="build-community"
           >
-            <span className="text-center lg:text-[20.5px]">
-              Get Started For Free
-            </span>
-          </a>
-        </div>
+            <h2
+              className="text-center font-poppins text-[18px] font-semibold text-huddle-alternate-neutral-300 lg:text-[32px] lg:tracking-[-0.2px]"
+              id="build-community"
+            >
+              Ready To Build Your Community?
+            </h2>
+            <a
+              href=""
+              className="flex h-[40px] w-[200px] items-center justify-center rounded-full bg-huddle-alternate-primary text-[10.25px] text-huddle-alternate-neutral-100 shadow-[0px_5px_5px_rgba(0,0,0,.1)] hover:bg-huddle-curve-primary-pink-100 lg:h-[80px] lg:w-[400px] lg:shadow-[0px_10px_10px_rgba(0,0,0,.15)]"
+            >
+              <span className="text-center lg:text-[20.5px]">
+                Get Started For Free
+              </span>
+            </a>
+          </div>
+        </main>
         <Footer />
         {/* <Slider
           basePath="/huddle-landing-page-with-alternating-feature-blocks/design/"
@@ -104,9 +126,16 @@ function Header() {
 
 function Hero() {
   return (
-    <div className="flex h-[718px] flex-col items-center justify-center bg-[hsl(191,89%,96%)] bg-no-repeat px-[26px] pt-[96px] max-md:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-mobile.svg')] lg:grid lg:h-[721px] lg:grid-cols-[minmax(0,auto),calc(693/1440*100vw)] lg:grid-rows-1 lg:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-desktop.svg')] lg:pl-20 lg:pr-[84px] lg:pt-[107px]">
+    <div
+      className="flex h-[718px] flex-col items-center justify-center bg-[hsl(191,89%,96%)] bg-no-repeat px-[26px] pt-[96px] max-md:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-mobile.svg')] lg:grid lg:h-[721px] lg:grid-cols-[minmax(0,auto),calc(693/1440*100vw)] lg:grid-rows-1 lg:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-desktop.svg')] lg:pl-20 lg:pr-[84px] lg:pt-[107px]"
+      role="region"
+      aria-labelledby="hero-heading"
+    >
       <div className="lg:mt-[5px] lg:pr-[68px]">
-        <h1 className="text-center font-poppins text-[24px] font-semibold leading-[36px] text-huddle-alternate-neutral-300 lg:text-left lg:text-[40px] lg:leading-normal lg:-tracking-[0.2px]">
+        <h1
+          className="text-center font-poppins text-[24px] font-semibold leading-[36px] text-huddle-alternate-neutral-300 lg:text-left lg:text-[40px] lg:leading-normal lg:-tracking-[0.2px]"
+          id="hero-heading"
+        >
           Build The Community Your Fans Will Love
         </h1>
         <p className="mt-[21px] px-2 text-center font-open-sans text-[16px] text-huddle-curve-neutral-700 lg:mt-[28px] lg:p-0 lg:text-left lg:text-[18px]">
@@ -305,10 +334,12 @@ function Card({
   children,
   className,
   reverse,
+  labelId,
 }: {
   children: ReactElement | ReactElement[];
   className?: string;
   reverse?: boolean;
+  labelId: string;
 }) {
   return (
     <div
@@ -319,6 +350,8 @@ function Card({
           : "lg:flex-row lg:pl-[122px] lg:pr-[33px]",
         className,
       ])}
+      aria-labelledby={labelId}
+      role="region"
     >
       {children}
     </div>
