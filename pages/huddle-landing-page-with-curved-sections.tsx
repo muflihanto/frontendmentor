@@ -19,13 +19,17 @@ export default function HuddleCurved() {
         </title>
       </Head>
       <Header />
-      <Hero />
-      <HeroImage />
-      <Statistics />
-      <GrowSection />
-      <FlowSection />
-      <UsersSection />
-      <CtaSection />
+      <main aria-label="Huddle landing page" className="contents">
+        <div className="contents" role="region" aria-labelledby="hero-heading">
+          <Hero />
+          <HeroImage />
+          <Statistics />
+        </div>
+        <GrowSection />
+        <FlowSection />
+        <UsersSection />
+        <CtaSection />
+      </main>
       <Footer />
       {/* <Slider
         basePath="/huddle-landing-page-with-curved-sections/design/"
@@ -81,7 +85,10 @@ const Header = () => {
 const Hero = () => {
   return (
     <div className="flex h-[446px] flex-col items-center justify-center px-6 lg:h-[564px] lg:justify-start lg:pt-[170px]">
-      <h1 className="text-center font-poppins text-[24px] font-bold leading-[36px] text-huddle-curve-neutral-700 lg:text-[48px]">
+      <h1
+        className="text-center font-poppins text-[24px] font-bold leading-[36px] text-huddle-curve-neutral-700 lg:text-[48px]"
+        id="hero-heading"
+      >
         Build The Community Your Fans Will Love
       </h1>
       <p className="mt-[22px] px-2 text-center font-open-sans text-[14px] text-huddle-curve-neutral-700 lg:mt-[40px] lg:w-[640px] lg:text-[20px]">
@@ -121,10 +128,10 @@ const Statistics = () => {
         <div className="relative aspect-[47/41] w-[30px] lg:ml-[4px] lg:w-[47px]">
           <Image
             src="/huddle-landing-page-with-curved-sections/images/icon-communities.svg"
-            role="graphics-symbol"
             alt="Icon Communities"
             fill
             className="object-contain"
+            aria-hidden
           />
         </div>
         <p className="text-[60px] font-bold leading-[82px] text-huddle-curve-neutral-700 lg:mt-[14px] lg:text-[97px] lg:leading-none">
@@ -139,9 +146,9 @@ const Statistics = () => {
           <Image
             src="/huddle-landing-page-with-curved-sections/images/icon-messages.svg"
             alt="Icon Messages"
-            role="graphics-symbol"
             fill
             className="object-contain"
+            aria-hidden
           />
         </div>
         <p className="text-[53px] font-bold leading-[74px] text-huddle-curve-neutral-700 lg:mt-[18px] lg:text-[97px] lg:leading-none">
@@ -157,7 +164,11 @@ const Statistics = () => {
 
 const GrowSection = () => {
   return (
-    <div className="relative pb-[calc(100vw*52/375)] pt-[calc(100vw*112/375)] lg:mt-[116px] lg:pb-[calc(100vw*104/1080)] lg:pt-[calc(100vw*124/1080)]">
+    <div
+      className="relative pb-[calc(100vw*52/375)] pt-[calc(100vw*112/375)] lg:mt-[116px] lg:pb-[calc(100vw*104/1080)] lg:pt-[calc(100vw*124/1080)]"
+      role="region"
+      aria-labelledby="grow-heading"
+    >
       <div className="absolute left-0 top-0 -z-10 aspect-[375/112] w-full lg:aspect-[1080/124]">
         <Image
           className="object-contain"
@@ -170,12 +181,16 @@ const GrowSection = () => {
             return `${src}bg-section-top-mobile-1.svg`;
           }}
           alt="Section Curved Background"
+          aria-hidden
         />
       </div>
       <section className="flex h-[550px] flex-col items-center justify-start bg-huddle-curve-neutral-100 px-[27px] pt-[82px] lg:grid lg:h-[535px] lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[60px] lg:px-[130px] lg:pt-[24px]">
         <GrowIllustration className="w-[258px] lg:col-start-2 lg:w-[517px]" />
         <div className="lg:col-start-1 lg:row-start-1">
-          <h2 className="mt-[76px] text-center font-poppins text-[20px] font-bold text-huddle-curve-neutral-700 lg:mt-0 lg:text-left lg:text-[40px]">
+          <h2
+            className="mt-[76px] text-center font-poppins text-[20px] font-bold text-huddle-curve-neutral-700 lg:mt-0 lg:text-left lg:text-[40px]"
+            id="grow-heading"
+          >
             Grow Together
           </h2>
           <p className="mt-[15px] text-center font-open-sans text-[14px] text-huddle-curve-neutral-700 lg:mt-[22px] lg:pr-[50px] lg:text-left lg:text-[16px]">
@@ -197,6 +212,7 @@ const GrowSection = () => {
             return `${src}bg-section-bottom-mobile-1.svg`;
           }}
           alt="Section Curved Background"
+          aria-hidden
         />
       </div>
     </div>
@@ -205,10 +221,16 @@ const GrowSection = () => {
 
 const FlowSection = () => {
   return (
-    <section className="flex h-[644px] flex-col items-center justify-center px-[28px] pt-[20px] lg:mt-[85px] lg:grid lg:h-[599px] lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[102px] lg:px-[130px] lg:pt-[0px]">
+    <section
+      className="flex h-[644px] flex-col items-center justify-center px-[28px] pt-[20px] lg:mt-[85px] lg:grid lg:h-[599px] lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[102px] lg:px-[130px] lg:pt-[0px]"
+      aria-labelledby="flow-heading"
+    >
       <FlowIllustration className="w-[264px] lg:w-[530px]" />
       <div className="lg:ml-7 lg:mt-[2px]">
-        <h2 className="mt-[88.5px] text-center font-poppins text-[20px] font-bold text-huddle-curve-neutral-700 lg:mt-0 lg:text-left lg:text-[40px]">
+        <h2
+          className="mt-[88.5px] text-center font-poppins text-[20px] font-bold text-huddle-curve-neutral-700 lg:mt-0 lg:text-left lg:text-[40px]"
+          id="flow-heading"
+        >
           Flowing Conversations
         </h2>
         <p className="mt-[14px] text-center font-open-sans text-[14px] text-huddle-curve-neutral-700 lg:mt-[22px] lg:text-left lg:text-[16px]">
@@ -222,7 +244,11 @@ const FlowSection = () => {
 
 const UsersSection = () => {
   return (
-    <div className="relative pb-[calc(100vw*101/375)] pt-[calc(100vw*103/375)] lg:pb-[calc(100vw*139/1440)] lg:pt-[calc(100vw*156/1440)]">
+    <div
+      className="relative pb-[calc(100vw*101/375)] pt-[calc(100vw*103/375)] lg:pb-[calc(100vw*139/1440)] lg:pt-[calc(100vw*156/1440)]"
+      role="region"
+      aria-labelledby="users-heading"
+    >
       <div className="absolute left-0 top-0 -z-10 aspect-[375/103] w-full lg:aspect-[1440/156]">
         <Image
           className="object-contain"
@@ -235,12 +261,16 @@ const UsersSection = () => {
             return `${src}bg-section-top-mobile-2.svg`;
           }}
           alt="Section Curved Background"
+          aria-hidden
         />
       </div>
       <section className="flex h-[542px] flex-col items-center justify-center bg-huddle-curve-neutral-100 px-[27px] pb-[100px] lg:grid lg:h-fit lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[80px] lg:px-[120px] lg:pb-[40px] lg:pt-[44px]">
         <UsersIllustration className="w-[268px] lg:col-start-2 lg:w-[534px] " />
         <div className="lg:col-start-1 lg:row-start-1">
-          <h2 className="mt-[81px] text-center font-poppins text-[20px] font-bold text-huddle-curve-neutral-700 lg:mt-0 lg:text-left lg:text-[40px]">
+          <h2
+            className="mt-[81px] text-center font-poppins text-[20px] font-bold text-huddle-curve-neutral-700 lg:mt-0 lg:text-left lg:text-[40px]"
+            id="users-heading"
+          >
             Your Users
           </h2>
           <p className="mt-[13px] text-center font-open-sans text-[14px] text-huddle-curve-neutral-700 lg:mt-[22px] lg:pr-[30px] lg:text-left lg:text-[16px]">
@@ -262,6 +292,7 @@ const UsersSection = () => {
             return `${src}bg-section-bottom-mobile-2.svg`;
           }}
           alt="Section Curved Background"
+          aria-hidden
         />
       </div>
     </div>
@@ -270,8 +301,14 @@ const UsersSection = () => {
 
 const CtaSection = () => {
   return (
-    <section className="flex h-[467px] flex-col items-center justify-start px-[24px] pt-[67px] lg:mb-[50px] lg:pt-[160px]">
-      <h2 className="text-center font-poppins text-[24px] font-bold text-huddle-curve-neutral-700 lg:ml-4 lg:text-[40px] lg:leading-[62px] lg:tracking-[-0.15px]">
+    <section
+      className="flex h-[467px] flex-col items-center justify-start px-[24px] pt-[67px] lg:mb-[50px] lg:pt-[160px]"
+      aria-labelledby="cta-heading"
+    >
+      <h2
+        className="text-center font-poppins text-[24px] font-bold text-huddle-curve-neutral-700 lg:ml-4 lg:text-[40px] lg:leading-[62px] lg:tracking-[-0.15px]"
+        id="cta-heading"
+      >
         Ready To Build Your Community?
       </h2>
       <a

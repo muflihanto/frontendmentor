@@ -44,7 +44,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a Hero image */
   test("has a Hero image", async ({ page }) => {
-    const container = page.locator("div").nth(3);
+    const container = page.locator("div").nth(4);
     await container.scrollIntoViewIfNeeded();
     await expect(container).toBeVisible();
     await expect(container.getByRole("img")).toBeVisible();
@@ -52,13 +52,10 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a 'Stats' section */
   test("has a 'Stats' section", async ({ page }) => {
-    const section = page.locator("div").nth(4);
+    const section = page.locator("div").nth(5);
     await section.scrollIntoViewIfNeeded();
     await expect(
-      section
-        .locator(">div")
-        .first()
-        .getByRole("img", { name: "Icon Communities" }),
+      section.locator(">div").first().getByAltText("Icon Communities"),
     ).toBeVisible();
     await expect(
       section.locator(">div").first().getByText("1.4k+"),
@@ -67,10 +64,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       section.locator(">div").first().getByText("Communities Formed"),
     ).toBeVisible();
     await expect(
-      section
-        .locator(">div")
-        .nth(1)
-        .getByRole("img", { name: "Icon Messages" }),
+      section.locator(">div").nth(1).getByAltText("Icon Messages"),
     ).toBeVisible();
     await expect(
       section.locator(">div").nth(1).getByText("2.7m+"),

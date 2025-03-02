@@ -146,18 +146,29 @@ function SubscribeNewsletter({ className }: ComponentProps<"div">) {
         className="mt-[32px] grid grid-cols-2 grid-rows-2 gap-x-0 gap-y-4 lg:mt-[40px] lg:grid-cols-[minmax(0px,auto),160px] lg:grid-rows-1 lg:gap-x-[40px]"
         onSubmit={onSubmit}
         noValidate
+        aria-label="Subscription form"
       >
         <div className="col-span-2 h-12 lg:col-span-1">
+          <label htmlFor="email" className="sr-only">
+            Email Address
+          </label>
           <input
+            id="email"
             type="email"
             className={cn([
               "h-full w-full rounded-md bg-white px-4 text-left text-huddle-curve-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-huddle-curve-primary-pink-200", //
               !!errors.email && "text-red-500 focus-visible:outline-red-500",
             ])}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "email-error" : undefined}
             {...register("email")}
           />
           {errors.email ? (
-            <p className="mt-[5px] text-[12.5px] text-red-400">
+            <p
+              id="email-error"
+              role="alert"
+              className="mt-[5px] text-[12.5px] text-red-400"
+            >
               {errors.email.message}
             </p>
           ) : null}
