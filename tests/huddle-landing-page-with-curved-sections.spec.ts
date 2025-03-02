@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Huddle landing page with curved sections Page", () => {
   /** Go to Huddle landing page with curved sections page before each test */
@@ -194,5 +195,15 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       await expect(invalidMessage).not.toBeVisible();
       await expect(textbox).toHaveValue("");
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
