@@ -30,12 +30,18 @@ export default function HuddleLandingPageWithSingleIntroductorySection() {
 
 function Main() {
   return (
-    <div className="w-[calc(100vw-72px)] max-w-[calc(375px-72px)] lg:w-[calc(100vw-160px)] lg:max-w-[calc(1440px-160px)]">
+    <main
+      className="w-[calc(100vw-72px)] max-w-[calc(375px-72px)] lg:w-[calc(100vw-160px)] lg:max-w-[calc(1440px-160px)]"
+      aria-labelledby="main-heading"
+    >
       <Logo />
       <div className="flex flex-col items-center lg:mt-[92px] lg:grid lg:grid-cols-[calc(696/1440*100vw),auto] lg:grid-rows-1">
         <Mockup />
-        <main className="lg:ml-[min(calc(58/1440*100vw),58px)] lg:self-start lg:pr-1 lg:pt-[39px]">
-          <h1 className="text-center font-poppins text-[24px] font-semibold text-white lg:text-left lg:text-[40px]">
+        <div className="lg:ml-[min(calc(58/1440*100vw),58px)] lg:self-start lg:pr-1 lg:pt-[39px]">
+          <h1
+            className="text-center font-poppins text-[24px] font-semibold text-white lg:text-left lg:text-[40px]"
+            id="main-heading"
+          >
             Build The Community Your Fans Will Love
           </h1>
           <p className="mt-[13px] text-center text-white/75 lg:mt-[20px] lg:text-left lg:text-[18px]">
@@ -49,16 +55,16 @@ function Main() {
           >
             Register
           </a>
-        </main>
+        </div>
       </div>
       <SocialMedia />
-    </div>
+    </main>
   );
 }
 
 function Footer() {
   return (
-    <p className="absolute bottom-3 z-20 w-full text-center text-[11px] text-white lg:bottom-10 lg:px-20 lg:text-left lg:text-[13px] [&_a:hover]:text-white [&_a:hover]:decoration-white [&_a]:font-bold [&_a]:text-huddle-intro-primary-magenta [&_a]:underline [&_a]:decoration-white/50 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 z-20 w-full text-center text-[11px] text-white lg:bottom-10 lg:px-20 lg:text-left lg:text-[13px] [&_a:hover]:text-white [&_a:hover]:decoration-white [&_a]:font-bold [&_a]:text-huddle-intro-primary-magenta [&_a]:underline [&_a]:decoration-white/50 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -72,7 +78,7 @@ function Footer() {
         Muflihanto
       </a>
       .
-    </p>
+    </footer>
   );
 }
 
