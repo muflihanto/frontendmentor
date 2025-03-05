@@ -17,10 +17,10 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
   /** Test if the page has a front card preview */
   test.describe("has a front card preview", () => {
     test("card is visible", async ({ page }) => {
-      await expect(page.locator("div").nth(5)).toBeVisible();
+      await expect(page.locator("div").nth(4)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const card = page.locator("div").nth(5);
+      const card = page.locator("div").nth(4);
       // has an initial card number
       await expect(card.getByText("0000 0000 0000 0000")).toBeVisible();
       // has an initial cardholder name
@@ -33,10 +33,10 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
   /** Test if the page has a back card preview */
   test.describe("has a back card preview", () => {
     test("card is visible", async ({ page }) => {
-      await expect(page.locator("div").nth(4)).toBeVisible();
+      await expect(page.locator("div").nth(3)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const card = page.locator("div").nth(4);
+      const card = page.locator("div").nth(3);
       // has an initial cvc number
       await expect(card.getByText("000", { exact: true })).toBeVisible();
     });

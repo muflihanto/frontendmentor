@@ -94,7 +94,10 @@ function CardPreview() {
   const inputval = useAtomValue(inputAtom);
 
   return (
-    <div className="flex h-[240px] w-full flex-col items-center bg-[url('/interactive-card-details-form/images/bg-main-mobile.png')] bg-cover bg-no-repeat lg:h-full lg:w-[min(calc(483/1440*100vw),483px)] lg:items-start lg:justify-center lg:bg-[url('/interactive-card-details-form/images/bg-main-desktop.png')] lg:py-10">
+    <header
+      className="flex h-[240px] w-full flex-col items-center bg-[url('/interactive-card-details-form/images/bg-main-mobile.png')] bg-cover bg-no-repeat lg:h-full lg:w-[min(calc(483/1440*100vw),483px)] lg:items-start lg:justify-center lg:bg-[url('/interactive-card-details-form/images/bg-main-desktop.png')] lg:py-10"
+      aria-label="Interactive card"
+    >
       <div className="relative h-full w-full max-w-[calc(375px-32px)] translate-y-8 lg:h-[527px] lg:w-[541px] lg:max-w-none lg:translate-x-[222px] lg:translate-y-0 lg:self-end">
         <div className="absolute right-0 top-0 z-[1] aspect-[447/245] w-[286px] rounded bg-[url('/interactive-card-details-form/images/bg-card-back.png')] bg-contain shadow-2xl shadow-interactive-card-neutral-400/25 lg:bottom-0 lg:right-0 lg:top-auto lg:z-0 lg:w-[447px]">
           <p className="absolute right-[calc(26/286*100%)] top-[calc(64/156.75*100%)] flex h-6 w-11 items-center justify-end pr-[12px] text-[10px] tracking-[.12px] text-interactive-card-neutral-100 lg:top-[101px] lg:h-[38px] lg:w-[360px] lg:px-[17px] lg:text-[14px] lg:tracking-[1.75px]">
@@ -126,7 +129,7 @@ function CardPreview() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 
@@ -146,7 +149,10 @@ function CompleteModal({ reset }: { reset: UseFormReset<InputSchema> }) {
         width={80}
         height={80}
       />
-      <h1 className="mt-[32px] text-[28px] uppercase tracking-[3.5px] text-interactive-card-neutral-400">
+      <h1
+        className="mt-[32px] text-[28px] uppercase tracking-[3.5px] text-interactive-card-neutral-400"
+        id="main-heading"
+      >
         Thank you!
       </h1>
       <p className="mt-[11px] text-[18px] text-interactive-card-neutral-300">
@@ -196,14 +202,21 @@ function Main() {
   }, [isSubmitSuccessful, setModalOpen]);
 
   return (
-    <div className="mx-auto mt-[90px] w-full max-w-[429px] px-6 lg:mt-0 lg:translate-x-[calc(61/1440*100vw)] lg:self-center lg:pt-[71px]">
+    <main
+      className="mx-auto mt-[90px] w-full max-w-[429px] px-6 lg:mt-0 lg:translate-x-[calc(61/1440*100vw)] lg:self-center lg:pt-[71px]"
+      aria-labelledby="main-heading"
+    >
       {modalOpen ? (
         <CompleteModal reset={reset} />
       ) : (
         <form
           onSubmit={onSubmit}
           className="grid w-full grid-cols-2 grid-rows-[repeat(4,auto)] gap-y-[19px] lg:h-[423.5px] lg:place-content-start lg:gap-y-[25px] [&_input::placeholder]:text-interactive-card-neutral-300/50 [&_input:focus-visible]:border-interactive-card-neutral-400 [&_input:focus-visible]:outline [&_input:focus-visible]:outline-1 [&_input:focus-visible]:outline-transparent [&_input]:h-[45px] [&_input]:rounded-lg [&_input]:border [&_input]:bg-white [&_input]:px-[15px] [&_input]:text-[18px] [&_input]:text-interactive-card-neutral-400 [&_span]:text-[12px] [&_span]:uppercase [&_span]:tracking-[2px] [&_span]:text-interactive-card-neutral-400"
+          aria-labelledby="main-heading"
         >
+          <h1 id="main-heading" className="sr-only">
+            Card details form
+          </h1>
           <label
             className="col-span-2 flex w-full flex-col gap-[7px]"
             htmlFor="cardholderName"
@@ -336,7 +349,7 @@ function Main() {
           </button>
         </form>
       )}
-    </div>
+    </main>
   );
 }
 
