@@ -80,7 +80,7 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
           "Jane Appleseed",
           "1234 5678 9123 0000",
           "12",
-          "24",
+          "28",
           "123",
         ];
         for (const [index, input] of Object.entries(inputs)) {
