@@ -16,8 +16,10 @@ const InteractivePricing: NextPage = () => {
       <Head>
         <title>Frontend Mentor | Interactive pricing component</title>
       </Head>
-      <Header />
-      <Main />
+      <main className="contents" aria-labelledby="main-heading">
+        <Header />
+        <Main />
+      </main>
       <Footer />
       {/* <Slider basePath={"/interactive-pricing-component/design/"} /> */}
     </div>
