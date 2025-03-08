@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Intro component with sign up form Page", () => {
   /** Go to Intro component with sign up form page before each test */
@@ -142,5 +143,15 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
     await expect(
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
