@@ -17,10 +17,13 @@ export default function IntroDropdown() {
         <title>Frontend Mentor | Intro section with dropdown navigation</title>
       </Head>
       <Header />
-      <div className="flex flex-col lg:flex-row-reverse lg:gap-32 lg:py-[46px] lg:pl-[164px] lg:pr-[130px]">
+      <main
+        className="flex flex-col lg:flex-row-reverse lg:gap-32 lg:py-[46px] lg:pl-[164px] lg:pr-[130px]"
+        aria-labelledby="main-heading"
+      >
         <Hero />
         <Main />
-      </div>
+      </main>
       <Footer />
       {/* <Slider
           basePath="/intro-section-with-dropdown-navigation/design"

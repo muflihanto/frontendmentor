@@ -2,9 +2,12 @@ import Clients from "./Clients";
 
 export default function Main() {
   return (
-    <main className="mt-[41px] px-4 lg:flex lg:flex-col lg:justify-between lg:px-0">
+    <div className="mt-[41px] px-4 lg:flex lg:flex-col lg:justify-between lg:px-0">
       <div className="lg:flex lg:h-full lg:flex-col lg:items-start lg:justify-center lg:gap-[47px]">
-        <h1 className="text-center text-[36px] font-bold -tracking-[0.4px] text-introdrop-neutral-300 lg:pr-4 lg:text-left lg:text-[80px] lg:leading-[82px] lg:-tracking-[1px]">
+        <h1
+          className="text-center text-[36px] font-bold -tracking-[0.4px] text-introdrop-neutral-300 lg:pr-4 lg:text-left lg:text-[80px] lg:leading-[82px] lg:-tracking-[1px]"
+          id="main-heading"
+        >
           Make remote work
         </h1>
         <p className="mt-[9px] text-center font-medium leading-[26px] tracking-[0.05px] text-introdrop-neutral-200 lg:m-0 lg:max-w-[480px] lg:text-left lg:text-[18px] lg:leading-[28px]">
@@ -21,6 +24,6 @@ export default function Main() {
         </button>
       </div>
       <Clients />
-    </main>
+    </div>
   );
 }

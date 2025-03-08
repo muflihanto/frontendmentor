@@ -101,11 +101,11 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
 
         // Test hover on children
         for (const item of listItem.children) {
-          const itemLink = page.getByRole("menuitem", { name: item });
+          const itemLink = page.getByRole("link", { name: item });
           await testHoverEffect(itemLink, baseColor, hoveredColor);
         }
       } else {
-        const menu = nav.getByRole("menuitem", { name: listItem.parent });
+        const menu = nav.getByRole("link", { name: listItem.parent });
         await testHoverEffect(menu, baseColor, hoveredColor);
       }
     }
@@ -173,12 +173,12 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
       for (const link of listItems) {
         if (!link.children) {
           await expect(
-            header.getByRole("menuitem", { name: link.parent }),
+            header.getByRole("link", { name: link.parent }),
           ).not.toBeVisible();
         } else {
           for (const child of link.children) {
             await expect(
-              header.getByRole("menuitem", { name: child }),
+              header.getByRole("link", { name: child }),
             ).not.toBeVisible();
           }
         }
@@ -189,20 +189,20 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
       for (const link of listItems) {
         if (!link.children) {
           await expect(
-            navContainer.getByRole("menuitem", { name: link.parent }),
+            navContainer.getByRole("link", { name: link.parent }),
           ).toBeVisible();
         } else {
           const parent = navContainer.locator("summary", {
             hasText: link.parent,
           });
-          const submenu = navContainer.getByRole("menu", { name: link.parent });
+          const submenu = navContainer.getByRole("list", { name: link.parent });
           await expect(parent).toBeVisible();
           await expect(submenu).not.toBeVisible();
           await parent.click();
           await expect(submenu).toBeVisible();
           for (const child of link.children) {
             await expect(
-              submenu.getByRole("menuitem", { name: child }),
+              submenu.getByRole("link", { name: child }),
             ).toBeVisible();
           }
         }

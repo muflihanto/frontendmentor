@@ -6,32 +6,28 @@ export default function NavItems({ menuid }: { menuid: string }) {
       <ul
         className="flex flex-col gap-[18px] font-semibold text-introdrop-neutral-200/90 lg:h-fit lg:flex-row lg:gap-[40px] lg:text-[14px] lg:font-medium lg:text-introdrop-neutral-200"
         id={menuid}
-        role="menu"
+        // role="menu"
         aria-label="Snap"
       >
-        <li role="none">
+        <li>
           <Collapsible
             label="Features"
             items={<FeatureItems />}
             addClass="lg:right-0 pl-[20px] pt-[26px] pl-[21px] "
           />
         </li>
-        <li role="none">
+        <li>
           <Collapsible
             label="Company"
             items={<CompanyItems />}
             addClass="lg:left-0 lg:py-[20px] lg:leading-[24px] pt-[20px] pl-[24px] "
           />
         </li>
-        <li role="none" className="lg:hover:text-introdrop-neutral-300">
-          <a role="menuitem" href="">
-            Careers
-          </a>
+        <li className="lg:hover:text-introdrop-neutral-300">
+          <a href="">Careers</a>
         </li>
-        <li role="none" className="lg:hover:text-introdrop-neutral-300">
-          <a role="menuitem" href="">
-            About
-          </a>
+        <li className="lg:hover:text-introdrop-neutral-300">
+          <a href="">About</a>
         </li>
       </ul>
       <div className="mt-[22px] flex w-full flex-col items-center gap-1 text-[14px] font-medium text-introdrop-neutral-200 lg:ml-auto lg:mt-0 lg:w-fit lg:flex-row lg:gap-[10px] lg:text-[14px]">
@@ -64,12 +60,10 @@ const FeatureItems = () => {
       {items.map((item, index) => {
         return (
           <li
-            role="none"
             key={`${index}-${item.label}`}
             className="lg:hover:text-introdrop-neutral-300"
           >
             <a
-              role="menuitem"
               href=""
               className="flex items-start gap-3 lg:items-center lg:gap-[11px]"
             >
@@ -77,8 +71,7 @@ const FeatureItems = () => {
                 <svg
                   viewBox={`0 0 ${item.width} ${item.height}`}
                   className="h-4"
-                  role="graphics-symbol"
-                  aria-label={item.label}
+                  role="none"
                 >
                   <use
                     href={`/intro-section-with-dropdown-navigation/images/icon-${item.icon}.svg#icon-${item.icon}`}
@@ -105,13 +98,10 @@ const CompanyItems = () => {
       {items.map((item, index) => {
         return (
           <li
-            role="none"
             key={`${index}-${item.label}`}
             className="lg:hover:text-introdrop-neutral-300"
           >
-            <a role="menuitem" href="">
-              {item.label}
-            </a>
+            <a href="">{item.label}</a>
           </li>
         );
       })}
