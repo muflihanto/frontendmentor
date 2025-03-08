@@ -1,4 +1,5 @@
 import { test, expect, type Locator } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 /**
  * Helper function to test hover effect on a given locator.
@@ -210,5 +211,15 @@ test.describe("FrontendMentor Challenge - Intro section with dropdown navigation
       await expect(menuButton).toHaveAttribute("aria-expanded", "false");
       await expect(navContainer).not.toBeVisible();
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
