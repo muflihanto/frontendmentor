@@ -60,10 +60,10 @@ export default function IpAddressTracker({
 function Main() {
   const geoData = useAtomValue(coordAtom);
   return (
-    <>
+    <main className="contents" aria-labelledby="main-heading">
       <Intro />
       <GeoMap geoData={geoData} />
-    </>
+    </main>
   );
 }
 
@@ -118,7 +118,10 @@ function Intro() {
   return (
     <div className="relative flex min-h-[300px] w-full flex-col items-center bg-[url('/ip-address-tracker/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat lg:min-h-[280px] lg:bg-[url('/ip-address-tracker/images/pattern-bg-desktop.png')]">
       <div className="absolute left-1/2 top-0 z-10 flex w-[calc(100vw-48px)] max-w-[calc(640px-48px)] -translate-x-1/2 flex-col items-center pt-[28px] lg:max-w-[calc(100vw-330px)] lg:pt-[32px]">
-        <h1 className="w-full text-center text-[26px] leading-none tracking-[-.25px] text-white lg:text-[32px] lg:tracking-[-.4px]">
+        <h1
+          className="w-full text-center text-[26px] leading-none tracking-[-.25px] text-white lg:text-[32px] lg:tracking-[-.4px]"
+          id="main-heading"
+        >
           IP Address Tracker
         </h1>
         <form
