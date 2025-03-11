@@ -18,7 +18,6 @@ export default function LaunchCountdownTimer() {
         className={`App relative flex min-h-[100dvh] flex-col items-center justify-center bg-countdown-neutral-300 bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-130px),#2F2439_calc(100vh-130px),#2F2439_100%)] bg-[length:920px_auto,auto_auto,100%_100%] bg-[position:bottom_43px_right_-67.5px,top_center,center] bg-no-repeat font-red-hat-text md:bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-90px),#2F2439_calc(100vh-90px),#2F2439_100%)] md:bg-[length:100vw_auto,auto_auto,100%_100%] md:bg-[position:bottom_center,top_3px_center,center] ${redHatText.variable}`}
       >
         <Main />
-        <SocialIcons />
         <Footer />
         {/* <Slider basePath="/launch-countdown-timer/design" /> */}
       </div>
@@ -28,7 +27,10 @@ export default function LaunchCountdownTimer() {
 
 function Main() {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center pb-[193px] text-countdown-neutral-100 md:pb-[210px]">
+    <main
+      className="flex h-full w-full flex-col items-center justify-center pb-[193px] text-countdown-neutral-100 md:pb-[210px]"
+      aria-labelledby="countdown-title"
+    >
       <h1
         id="countdown-title"
         className="px-8 text-center text-[18px] font-bold uppercase leading-[24px] tracking-[6.2px] md:text-[22px] md:tracking-[7.5px]"
@@ -36,7 +38,7 @@ function Main() {
         We&lsquo;re launching soon
       </h1>
       <CountdownTimer />
-    </div>
+    </main>
   );
 }
 
@@ -92,6 +94,7 @@ function FlipCard({
     <>
       <div
         className="flip-card relative flex flex-col items-center justify-center rounded bg-countdown-neutral-200 text-[32px] font-bold tracking-tight text-countdown-primary-red md:rounded-lg md:text-[78px]"
+        role="status"
         aria-live="polite"
         aria-label={`${value} ${label}`}
         id={label}
@@ -321,26 +324,29 @@ function SocialIcons() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] text-countdown-primary-blue [&_a]:font-bold">
-      Challenge by{" "}
-      <a
-        className="hover:text-countdown-primary-red"
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Frontend Mentor
-      </a>
-      . Coded by{" "}
-      <a
-        className="hover:text-countdown-primary-red"
-        href="https://github.com/muflihanto"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Muflihanto
-      </a>
-      .
+    <footer className="contents">
+      <SocialIcons />
+      <p className="absolute bottom-3 w-full text-center text-[11px] text-countdown-primary-blue [&_a]:font-bold">
+        Challenge by{" "}
+        <a
+          className="hover:text-countdown-primary-red"
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by{" "}
+        <a
+          className="hover:text-countdown-primary-red"
+          href="https://github.com/muflihanto"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Muflihanto
+        </a>
+        .
+      </p>
     </footer>
   );
 }
