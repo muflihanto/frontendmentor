@@ -33,7 +33,7 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
       const nav = header.getByText(links.join(""));
       await expect(nav).toBeVisible();
       for (const link of links) {
-        await expect(nav.getByRole("link", { name: link })).toBeVisible();
+        await expect(nav.getByRole("menuitem", { name: link })).toBeVisible();
       }
     });
   });

@@ -90,9 +90,11 @@ const Loopstudios: NextPage<PageProps> = ({ creations }: PageProps) => {
         <title>Frontend Mentor | Loopstudios landing page</title>
       </Head>
       <Header />
-      <Hero />
-      <Interactive />
-      <Creations creations={creations} />
+      <main className="contents" aria-labelledby="main-heading">
+        <Hero />
+        <Interactive />
+        <Creations creations={creations} />
+      </main>
       <Footer />
       {/* <Slider
         basePath="/loopstudios-landing-page/design/"
