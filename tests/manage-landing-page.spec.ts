@@ -19,7 +19,7 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
   test("has a header", async ({ page }) => {
     const header = page.getByRole("banner");
     await expect(header.getByRole("img")).toBeVisible();
-    const navEl = header.locator("div").first();
+    const navEl = header.getByRole("navigation");
     for (const nav of headerNavs) {
       await expect(navEl.getByRole("link", { name: nav })).toBeVisible();
     }
@@ -30,7 +30,7 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
 
   /** Test if the page has an intro section */
   test("has an intro section", async ({ page }) => {
-    const section = page.locator("div").nth(7);
+    const section = page.locator("div").nth(5);
     const grid1 = section.locator(">div").first();
     const grid2 = section.locator(">div").nth(1);
     await expect(section).toBeVisible();
@@ -71,7 +71,7 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
         desc: "Stop jumping from one service to another to communicate, store files, track tasks and share documents. Manage offers an all-in-one team productivity solution.",
       },
     ];
-    const section = page.locator("div").nth(10);
+    const section = page.locator("div").nth(8);
     const grid1 = section.locator(">div").first();
     const grid2 = section.locator(">div").nth(1);
     await section.scrollIntoViewIfNeeded();
@@ -95,7 +95,7 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
 
   /** Test if the page has a 'What they’ve said' section */
   test("has a 'What they’ve said' section", async ({ page }) => {
-    const section = page.locator("div").nth(16);
+    const section = page.locator("div").nth(14);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
@@ -112,7 +112,7 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
 
   /** Test if the page has a 'Simplify' section */
   test("has a 'Simplify' section", async ({ page }) => {
-    const section = page.locator("div").nth(28);
+    const section = page.locator("div").nth(26);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
@@ -140,9 +140,9 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     await footer.scrollIntoViewIfNeeded();
     await expect(footer).toBeVisible();
     await expect(footer.locator(">div>svg")).toBeVisible();
-    const snsContainer = footer.locator(">div").first();
+    const snsContainer = footer.locator("div").nth(1);
     expect(await snsContainer.getByRole("link").all()).toHaveLength(5);
-    const nav = footer.getByRole("navigation");
+    const nav = footer.locator("ul");
     for (const link of navLinks) {
       await expect(nav.getByRole("link", { name: link })).toBeVisible();
     }
