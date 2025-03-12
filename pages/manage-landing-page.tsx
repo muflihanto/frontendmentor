@@ -237,7 +237,10 @@ function Intro() {
         />
       </div>
       <div className="mt-[2px] flex flex-col items-center px-[15.5px] max-lg:max-w-screen-sm lg:col-start-1 lg:row-start-1 lg:items-start lg:px-0 lg:pr-8">
-        <h1 className="text-center text-[40px] font-bold leading-[1.25] tracking-[-.025em] text-manage-primary-blue lg:text-left lg:text-[56px] lg:leading-[1.14] lg:tracking-[-.02em]">
+        <h1
+          className="text-center text-[40px] font-bold leading-[1.25] tracking-[-.025em] text-manage-primary-blue lg:text-left lg:text-[56px] lg:leading-[1.14] lg:tracking-[-.02em]"
+          id="main-heading"
+        >
           Bring everyone together to build better products.
         </h1>
         <p className="mt-[8px] text-center font-light leading-[1.75] text-manage-neutral-300 lg:mt-[34px] lg:max-w-[340px] lg:text-left lg:leading-[1.6]">
@@ -405,6 +408,7 @@ function Testimonials() {
           onScroll={() => {
             setActive(Math.floor(scrollXProgress.get() * 4));
           }}
+          tabIndex={0}
         >
           {testimonials.map((testi) => {
             return <Testimonial testimony={testi} key={testi.name} />;
@@ -487,12 +491,12 @@ function Simplify() {
 
 function Main() {
   return (
-    <div>
+    <main aria-labelledby="main-heading">
       <Intro />
       <USP />
       <Testimonials />
       <Simplify />
-    </div>
+    </main>
   );
 }
 
