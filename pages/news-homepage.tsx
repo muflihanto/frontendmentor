@@ -238,17 +238,23 @@ function MobileMenu() {
 
 function Sections() {
   return (
-    <div className="px-4 lg:grid lg:grid-cols-3 lg:grid-rows-[fit-content(512px),auto] lg:gap-x-[30px] lg:gap-y-[71px] lg:px-[min(calc(50vw-472px),165px)]">
+    <main
+      className="px-4 lg:grid lg:grid-cols-3 lg:grid-rows-[fit-content(512px),auto] lg:gap-x-[30px] lg:gap-y-[71px] lg:px-[min(calc(50vw-472px),165px)]"
+      aria-label="News homepage"
+    >
       <MainSection />
       <NewPostSection />
       <PopularPostSection />
-    </div>
+    </main>
   );
 }
 
 function MainSection() {
   return (
-    <div className="lg:col-span-2 lg:grid lg:grid-cols-1 lg:grid-rows-[auto_182px] lg:gap-[30px]">
+    <section
+      className="lg:col-span-2 lg:grid lg:grid-cols-1 lg:grid-rows-[auto_182px] lg:gap-[30px]"
+      aria-labelledby="headline"
+    >
       <header className="relative aspect-[686/600] w-full lg:aspect-auto lg:h-full">
         <Image
           src="/news-homepage/assets/images"
@@ -262,8 +268,11 @@ function MainSection() {
           className="lg:object-cover"
         />
       </header>
-      <main className="lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto] lg:gap-x-7">
-        <h1 className="mt-6 text-[40px] font-extrabold leading-none text-news-homepage-neutral-400 lg:row-span-2 lg:m-0 lg:self-center lg:pb-[4px] lg:text-[56px]">
+      <div className="lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto] lg:gap-x-7">
+        <h1
+          className="mt-6 text-[40px] font-extrabold leading-none text-news-homepage-neutral-400 lg:row-span-2 lg:m-0 lg:self-center lg:pb-[4px] lg:text-[56px]"
+          id="headline"
+        >
           The Bright Future of Web 3.0?
         </h1>
         <p className="mt-4 text-[15px] leading-[26px] text-news-homepage-neutral-300 lg:mt-0 lg:leading-[24px] lg:tracking-[.05px]">
@@ -277,15 +286,18 @@ function MainSection() {
         >
           Read more
         </a>
-      </main>
-    </div>
+      </div>
+    </section>
   );
 }
 
 function NewPostSection() {
   const newPosts = useAtomValue(newPostAtom);
   return (
-    <section className="mt-16 w-full bg-news-homepage-neutral-400 px-[21px] py-[25px] lg:mt-0 lg:px-[24px] lg:pb-[33px] lg:pt-[32px]">
+    <section
+      className="mt-16 w-full bg-news-homepage-neutral-400 px-[21px] py-[25px] lg:mt-0 lg:px-[24px] lg:pb-[33px] lg:pt-[32px]"
+      aria-label="New posts"
+    >
       <h2 className="text-[32px] font-bold leading-none text-news-homepage-primary-orange lg:text-[40px]">
         New
       </h2>
@@ -307,7 +319,10 @@ function NewPostSection() {
                 </p>
               </li>
               {index !== newPosts.length - 1 ? (
-                <hr className="mb-[28px] mt-[30px] w-full border-t-news-homepage-neutral-300 lg:mb-[27px]" />
+                <li
+                  aria-hidden="true"
+                  className="mb-[28px] mt-[30px] w-full border-t border-t-news-homepage-neutral-300 lg:mb-[27px]"
+                />
               ) : null}
             </Fragment>
           );
@@ -320,8 +335,10 @@ function NewPostSection() {
 function PopularPostSection() {
   const popularPosts = useAtomValue(popularPostAtom);
   return (
-    <section className="lg:col-span-3">
-      <h2 className="sr-only">Popular</h2>
+    <section className="lg:col-span-3" aria-labelledby="popular-title">
+      <h2 className="sr-only" id="popular-title">
+        Popular posts
+      </h2>
       <ul className="mt-16 grid grid-cols-1 grid-rows-3 gap-[32px] lg:mt-0 lg:grid-cols-3 lg:grid-rows-1 lg:gap-[30px]">
         {popularPosts.map(({ body, title, href, image }, index) => {
           return (

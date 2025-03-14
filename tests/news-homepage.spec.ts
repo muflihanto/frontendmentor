@@ -35,10 +35,10 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
   /** Test if the page has a main news */
   test.describe("has a main news", () => {
     test("news is visible", async ({ page }) => {
-      await expect(page.locator("div").nth(4)).toBeVisible();
+      await expect(page.locator("section").first()).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const container = page.locator("div").nth(4);
+      const container = page.locator("section").first();
       // has an illustration
       await expect(
         container.getByRole("img", { name: "Web 3.0 Illustration" }),
@@ -66,10 +66,10 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
   /** Test if the page has a 'New' section */
   test.describe("has a 'New' section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").first()).toBeVisible();
+      await expect(page.locator("section").nth(1)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const section = page.locator("section").first();
+      const section = page.locator("section").nth(1);
       const posts = [
         {
           title: "Hydrogen VS Electric Cars",
@@ -102,10 +102,10 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
   /** Test if the page has a 'Popular' section */
   test.describe("has a 'Popular' section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").nth(1)).toBeVisible();
+      await expect(page.locator("section").nth(2)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const section = page.locator("section").nth(1);
+      const section = page.locator("section").nth(2);
       await section.scrollIntoViewIfNeeded();
       const posts = [
         {
