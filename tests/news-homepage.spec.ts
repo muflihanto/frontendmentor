@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - News homepage Page", () => {
   /** Go to News homepage page before each test */
@@ -203,5 +204,15 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       await expect(nav).not.toBeVisible();
       await expect(nav).not.toBeInViewport();
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
