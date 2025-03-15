@@ -92,8 +92,14 @@ function Main() {
 
   return (
     <div className="w-full lg:flex lg:flex-1 lg:items-center lg:justify-center">
-      <div className="px-6 pb-10 pt-[30px] lg:pl-[39px] lg:pt-[24px]">
-        <h1 className="text-[40px] font-bold text-newsletter-neutral-400 lg:text-[56px]">
+      <main
+        className="px-6 pb-10 pt-[30px] lg:pl-[39px] lg:pt-[24px]"
+        aria-labelledby="stay-updated"
+      >
+        <h1
+          className="text-[40px] font-bold text-newsletter-neutral-400 lg:text-[56px]"
+          id="stay-updated"
+        >
           Stay updated!
         </h1>
         <p className="mt-[13px] text-newsletter-neutral-300 lg:mt-[10px]">
@@ -148,7 +154,7 @@ function Main() {
             </button>
           </label>
         </form>
-      </div>
+      </main>
     </div>
   );
 }
@@ -178,6 +184,7 @@ function IllustrationSignUp() {
           className="w-full sm:max-lg:rounded-t-[36px] sm:max-lg:p-6 sm:max-lg:pb-0"
           viewBox="0 0 375 284"
           aria-labelledby="illustration-sign-up-mobile-title"
+          role="banner"
         >
           <title id="illustration-sign-up-mobile-title">
             Illustration Sign Up Mobile
@@ -189,6 +196,7 @@ function IllustrationSignUp() {
           className="w-full flex-1 translate-x-5"
           viewBox="0 0 400 593"
           aria-labelledby="illustration-desktop-title"
+          role="banner"
         >
           <title id="illustration-desktop-title">Illustration Desktop</title>
           <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-desktop.svg#illustration-desktop" />
@@ -208,7 +216,10 @@ function SuccessScreen() {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll bg-news-homepage-neutral-100 px-6 py-10 sm:static sm:h-[520px] sm:w-[505px] sm:gap-0 sm:rounded-[36px] sm:p-16 sm:pt-[48px] sm:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]">
+    <main
+      className="fixed left-0 top-0 z-50 grid h-screen w-screen grid-cols-1 grid-rows-[auto,56px] gap-[155px] overflow-scroll bg-news-homepage-neutral-100 px-6 py-10 sm:static sm:h-[520px] sm:w-[505px] sm:gap-0 sm:rounded-[36px] sm:p-16 sm:pt-[48px] sm:shadow-[0px_20px_10px_theme(colors.newsletter.neutral.400/50%),0px_20px_20px_30px_theme(colors.newsletter.neutral.400/25%)]"
+      aria-labelledby="thank-you"
+    >
       <div className="flex flex-col place-self-center sm:place-self-start">
         <svg
           className="w-16"
@@ -218,7 +229,10 @@ function SuccessScreen() {
         >
           <use href="/newsletter-sign-up-with-success-message/assets/images/icon-success.svg#icon-success" />
         </svg>
-        <h1 className="mt-10 text-[40px] font-bold leading-none text-newsletter-neutral-400 sm:-translate-y-[1px] sm:text-[56px]">
+        <h1
+          className="mt-10 text-[40px] font-bold leading-none text-newsletter-neutral-400 sm:-translate-y-[1px] sm:text-[56px]"
+          id="thank-you"
+        >
           Thanks for subscribing!
         </h1>
         <p className="mt-[23px] text-newsletter-neutral-300">
@@ -235,7 +249,7 @@ function SuccessScreen() {
       >
         Dismiss message
       </button>
-    </div>
+    </main>
   );
 }
 
