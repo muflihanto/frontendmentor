@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { notifications } from "../components/notifications-page/Main";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Notifications Page", () => {
   /** Go to notifications page before each test */
@@ -99,5 +100,15 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
         await expect(links.getByText(text)).toHaveAttribute("href", href);
       }
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
