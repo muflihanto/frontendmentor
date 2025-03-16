@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - NFT preview card component Page", () => {
   /** Go to NFT preview card component page before each test */
@@ -61,5 +62,15 @@ test.describe("FrontendMentor Challenge - NFT preview card component Page", () =
       // Test hover state
       await expect(name).toHaveCSS("color", "rgb(0, 255, 247)");
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
