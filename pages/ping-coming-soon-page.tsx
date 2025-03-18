@@ -134,6 +134,7 @@ function SocialIcons() {
       <a
         href=""
         className="group flex aspect-square w-[31px] items-center justify-center rounded-full border border-ping-coming-soon-neutral-gray/10 hover:bg-ping-coming-soon-primary-blue"
+        aria-label="Ping on facebook"
       >
         <FontAwesomeIcon
           icon={faFacebookF}
@@ -143,6 +144,7 @@ function SocialIcons() {
       <a
         href=""
         className="group flex aspect-square w-[31px] items-center justify-center rounded-full border border-ping-coming-soon-neutral-gray/10 hover:bg-ping-coming-soon-primary-blue"
+        aria-label="Ping on twitter"
       >
         <FontAwesomeIcon
           icon={faTwitter}
@@ -152,6 +154,7 @@ function SocialIcons() {
       <a
         href=""
         className="group flex aspect-square w-[31px] items-center justify-center rounded-full border border-ping-coming-soon-neutral-gray/10 hover:bg-ping-coming-soon-primary-blue"
+        aria-label="Ping on instagram"
       >
         <FontAwesomeIcon
           icon={faInstagram}
