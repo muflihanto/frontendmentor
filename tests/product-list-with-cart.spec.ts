@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import _products from "../public/product-list-with-cart/data.json";
 import type { Product } from "../pages/product-list-with-cart";
+import AxeBuilder from "@axe-core/playwright";
 const products = _products as Product[];
 
 test.describe("FrontendMentor Challenge - Product list with cart page", () => {
@@ -245,5 +246,15 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     await expect(
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
