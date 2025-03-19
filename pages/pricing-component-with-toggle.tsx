@@ -44,7 +44,10 @@ const PricingComponent = () => {
 function Header({ mode, toggle }: { mode: Payment; toggle: () => void }) {
   return (
     <header className="flex flex-col items-center pb-[80px] lg:pb-[65px]">
-      <h1 className="text-[32px] text-pricing-toggle-neutral-300">
+      <h1
+        className="text-[32px] text-pricing-toggle-neutral-300"
+        id="main-heading"
+      >
         Our Pricing
       </h1>
       <div className="mt-[35px] grid grid-cols-3 grid-rows-1 items-center justify-items-center gap-x-[15px]">
@@ -113,10 +116,10 @@ function Main() {
     };
   }, [mode]);
   return (
-    <>
+    <main className="contents" aria-labelledby="main-heading">
       <Header mode={mode} toggle={toggle} />
       <PriceListSection features={features} />
-    </>
+    </main>
   );
 }
 
@@ -205,7 +208,7 @@ function PriceListSection({ features }: { features: Features }) {
 
 function Footer() {
   return (
-    <div className="absolute bottom-2 w-full text-center text-[11px] text-pricing-toggle-neutral-400 [&_a]:text-pricing-toggle-primary-gradient-200">
+    <footer className="absolute bottom-2 w-full text-center text-[11px] text-pricing-toggle-neutral-400 [&_a]:text-pricing-toggle-primary-gradient-200">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -219,7 +222,7 @@ function Footer() {
         Muflihanto
       </a>
       .
-    </div>
+    </footer>
   );
 }
 
