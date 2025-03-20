@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Profile card component Page", () => {
   /** Go to Profile card component page before each test */
@@ -49,5 +50,15 @@ test.describe("FrontendMentor Challenge - Profile card component Page", () => {
   /** Test if the page has correct user's photos info */
   test("has user's photos info", async ({ page }) => {
     await expect(page.getByText("1.4K Photos")).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
