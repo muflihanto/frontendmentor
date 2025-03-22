@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 const navLinks = ["Product", "Features", "Pricing", "Login"];
 
@@ -91,5 +92,15 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
         await expect(nav.getByRole("link", { name: link })).not.toBeVisible();
       }
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
