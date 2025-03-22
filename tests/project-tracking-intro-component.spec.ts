@@ -30,7 +30,7 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
-    const section = page.locator("div").nth(5);
+    const section = page.locator("main");
     await expect(section.getByText("NewMonograph Dashboard")).toBeVisible();
     await expect(
       section.getByRole("heading", {

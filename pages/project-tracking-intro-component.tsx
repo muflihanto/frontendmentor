@@ -150,8 +150,14 @@ function NavigationMenu() {
         <li>
           <NavAnchor variant="darkgrey">Pricing</NavAnchor>
         </li>
-        <span className="mr-1 block h-[5px] w-[5px] rounded-full bg-project-tracking-neutral-200/50 max-md:hidden" />
-        <hr className="mb-[3px] mt-[1.5px] w-full border-t-[1.5px] border-t-project-tracking-neutral-200/50 md:hidden" />
+        <li
+          aria-hidden="true"
+          className="mr-1 block h-[5px] w-[5px] rounded-full bg-project-tracking-neutral-200/50 max-md:hidden"
+        />
+        <li
+          aria-hidden="true"
+          className="mb-[3px] mt-[1.5px] w-full border-t-[1.5px] border-t-project-tracking-neutral-200/50 md:hidden"
+        />
         <li>
           <NavAnchor variant="gray">Login</NavAnchor>
         </li>
@@ -186,7 +192,10 @@ function Main() {
   return (
     <>
       <Header toggle={toggle} isMenuOpen={isMenuOpen} />
-      <div className="relative flex flex-col max-lg:gap-[87px] lg:mt-[51px] lg:flex-row-reverse lg:items-center lg:gap-7">
+      <main
+        className="relative flex flex-col max-lg:gap-[87px] lg:mt-[51px] lg:flex-row-reverse lg:items-center lg:gap-7"
+        aria-labelledby="main-heading"
+      >
         <Hero />
         <div className="px-8 lg:w-1/2 lg:px-0 lg:pb-1 lg:pl-[165px] lg:pr-10">
           <p className="flex items-center gap-4">
@@ -197,7 +206,10 @@ function Main() {
               Monograph Dashboard
             </span>
           </p>
-          <h1 className="mt-4 font-barlow-condensed text-[40px] font-bold uppercase leading-none text-project-tracking-neutral-400 lg:text-[64px]">
+          <h1
+            className="mt-4 font-barlow-condensed text-[40px] font-bold uppercase leading-none text-project-tracking-neutral-400 lg:text-[64px]"
+            id="main-heading"
+          >
             Powerful insights into your team
           </h1>
           <p className="mt-[16px] pr-7 text-[18px] leading-[26px] text-project-tracking-neutral-300 lg:mt-[30px] lg:w-3/5 lg:leading-[27px] ">
@@ -215,7 +227,7 @@ function Main() {
             </span>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
