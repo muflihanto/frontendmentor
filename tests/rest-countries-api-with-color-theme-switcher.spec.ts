@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
+import AxeBuilder from "@axe-core/playwright";
 
 const RegionName = ["Africa", "Americas", "Asia", "Europe", "Oceania"] as const;
 type RegionName = (typeof RegionName)[number];
@@ -221,5 +222,15 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     await expect(back).toHaveCSS("background-color", "rgb(43, 57, 69)");
     await expect(back).toHaveCSS("color", "rgb(255, 255, 255)");
     // TODO: add more theme related assertions
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
