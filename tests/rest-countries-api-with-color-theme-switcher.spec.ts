@@ -36,7 +36,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
   /** Test if the page has countries filters */
   test.describe("has countries filters", () => {
     test("elements visible", async ({ page }) => {
-      const container = page.locator("div").nth(3);
+      const container = page.locator("div").nth(2);
       await expect(
         container.getByPlaceholder("Search for a country..."),
       ).toBeVisible();
@@ -45,13 +45,15 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       ).toBeVisible();
     });
     test("region filter works", async ({ page }) => {
-      const container = page.locator("div").nth(3);
+      const container = page.locator("div").nth(2);
       let currentRegion = "Filter by Region";
       const initialRegionFilterButton = page.getByRole("button", {
         name: currentRegion,
       });
-      const initialRegionSelectors = container.getByLabel(currentRegion);
-      const linksContainer = page.locator("div").nth(5);
+      const initialRegionSelectors = container.getByLabel(currentRegion, {
+        exact: true,
+      });
+      const linksContainer = page.getByRole("list");
       await expect(initialRegionFilterButton).toBeVisible();
       await initialRegionFilterButton.click();
       await expect(initialRegionSelectors).toBeVisible();
@@ -79,7 +81,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     });
     test("keyword filter works", async ({ page }) => {
       const input = page.getByPlaceholder("Search for a country...");
-      const linksContainer = page.locator("div").nth(5);
+      const linksContainer = page.getByRole("list");
       await expect(input).toBeVisible();
       await expect(linksContainer).toBeVisible();
       const getCountries = async () =>
@@ -94,7 +96,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
   /** Test if the page has countries links */
   test.describe("has countries links", () => {
     test("elements visible", async ({ page }) => {
-      const container = page.locator("div").nth(5);
+      const container = page.getByRole("list");
       const countries = await container.getByRole("link").all();
       expect(countries).toHaveLength(data.length);
     });
@@ -163,7 +165,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       await back.click();
       await page.waitForURL(`**${pageUrl}`);
       await page.waitForTimeout(2000);
-      const container = page.locator("div").nth(5);
+      const container = page.getByRole("list");
       const countries = await container.getByRole("link").all();
       expect(countries).toHaveLength(data.length);
     });
