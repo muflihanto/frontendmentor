@@ -42,9 +42,9 @@ function Header() {
 function Preparation() {
   return (
     <section className="mt-[33px] rounded-lg bg-recipe-neutral-200 px-6 pb-[22px] pt-5 md:px-7 md:pb-[26px] md:pt-6">
-      <h3 className="text-xl font-semibold text-recipe-primary-dark-raspberry">
+      <h2 className="text-xl font-semibold text-recipe-primary-dark-raspberry">
         Preparation time
-      </h3>
+      </h2>
 
       <ul
         className={cn(
