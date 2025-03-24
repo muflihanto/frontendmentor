@@ -123,7 +123,10 @@ function InputField() {
   }, [debouncedValue, setKeywordFilter]);
 
   return (
-    <form className="relative h-12 w-full md:h-[56px] md:w-[50vw] md:min-w-[360px] md:max-w-[480px]">
+    <form
+      className="relative h-12 w-full md:h-[56px] md:w-[50vw] md:min-w-[360px] md:max-w-[480px]"
+      aria-label="Filter by keyword"
+    >
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
         className="absolute left-8 top-1/2 w-[15px] -translate-y-1/2 text-rest-countries-gray-300/60 dark:text-rest-countries-gray-100 lg:w-4 lg:text-rest-countries-darkblue-100/80"
@@ -145,7 +148,10 @@ function RegionFilter() {
   const [selectedFilter, setSelectedFilter] = useAtom(regionFilterAtom);
 
   return (
-    <div className="relative z-10 mt-10 max-lg:self-start md:mt-0">
+    <form
+      className="relative z-10 mt-10 max-lg:self-start md:mt-0"
+      aria-label="Filter by region"
+    >
       <Listbox value={selectedFilter} onChange={setSelectedFilter}>
         <Listbox.Button className="group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] text-rest-countries-darkblue-100 shadow-sm dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 md:h-[56px] md:text-[14px]">
           <span>{selectedFilter?.name ?? "Filter by Region"}</span>
@@ -167,7 +173,7 @@ function RegionFilter() {
           ))}
         </Listbox.Options>
       </Listbox>
-    </div>
+    </form>
   );
 }
 
@@ -229,12 +235,22 @@ function Main() {
   };
 
   return (
-    <div className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-4 py-6 dark:bg-rest-countries-darkblue-200 md:px-20 md:py-12">
+    <main
+      className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-4 py-6 dark:bg-rest-countries-darkblue-200 md:px-20 md:py-12"
+      aria-label="List of Countries"
+    >
       <div className="flex w-full flex-col items-center md:flex-row md:justify-between">
         <InputField />
         <RegionFilter />
       </div>
-      <div className="mt-[32px] flex flex-col gap-10 md:grid md:w-full md:grid-cols-[repeat(2,265px)] md:justify-evenly lg:mt-[48px] lg:grid-cols-[repeat(3,265px)] lg:gap-x-0 lg:gap-y-[74px] min-[1280px]:grid-cols-[repeat(4,265px)] min-[1280px]:justify-between">
+      <ul
+        className="mt-[32px] flex flex-col gap-10 md:grid md:w-full md:grid-cols-[repeat(2,265px)] md:justify-evenly lg:mt-[48px] lg:grid-cols-[repeat(3,265px)] lg:gap-x-0 lg:gap-y-[74px] min-[1280px]:grid-cols-[repeat(4,265px)] min-[1280px]:justify-between"
+        aria-label={
+          selectedFilter !== null || keywordFilter !== ""
+            ? "Filtered countries"
+            : "All countries"
+        }
+      >
         {(selectedFilter === null
           ? keywordFilter === ""
             ? data
@@ -250,10 +266,14 @@ function Main() {
                 keywordFilterOptions,
               )
         ).map((ctr) => {
-          return <CountryCard key={ctr.name.common} country={ctr as Country} />;
+          return (
+            <li key={ctr.name.common} className="contents">
+              <CountryCard country={ctr as Country} />
+            </li>
+          );
         })}
-      </div>
-    </div>
+      </ul>
+    </main>
   );
 }
 
