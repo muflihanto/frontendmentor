@@ -28,8 +28,11 @@ export default function ResultsSummaryComponent() {
 
 function Main() {
   return (
-    <div className="w-full md:grid md:h-[512px] md:max-w-[735px] md:grid-cols-2 md:grid-rows-1 md:rounded-[32px] md:bg-result-summary-neutral-100 md:shadow-[0px_20px_50px_theme(colors.result-summary.neutral.300_/_60%)]">
-      <div className="flex h-[356px] w-full flex-col items-center rounded-b-[32px] bg-gradient-to-b from-result-summary-gradients-background-100 from-[-40%] to-result-summary-gradients-background-200 py-[22px] text-result-summary-neutral-100 md:h-full md:rounded-[32px] md:py-[35px]">
+    <main
+      className="w-full md:grid md:h-[512px] md:max-w-[735px] md:grid-cols-2 md:grid-rows-1 md:rounded-[32px] md:bg-result-summary-neutral-100 md:shadow-[0px_20px_50px_theme(colors.result-summary.neutral.300_/_60%)]"
+      aria-label="Results summary component"
+    >
+      <section className="flex h-[356px] w-full flex-col items-center rounded-b-[32px] bg-gradient-to-b from-result-summary-gradients-background-100 from-[-40%] to-result-summary-gradients-background-200 py-[22px] text-result-summary-neutral-100 md:h-full md:rounded-[32px] md:py-[35px]">
         <h1 className="text-[18px] font-bold text-result-summary-neutral-300 md:pr-2 md:text-[24px]">
           Your Result
         </h1>
@@ -47,8 +50,8 @@ function Main() {
         <div className="mt-[5px] w-[280px] text-center leading-[22px] text-result-summary-neutral-300 md:mt-[11px] md:w-[260px] md:text-[18px] md:leading-[23px]">
           You scored higher than 65% of the people who have taken these tests.
         </div>
-      </div>
-      <div className="pb-[30px] pt-[22px] max-md:px-[max(30px,calc(50vw-240px))] md:px-10 md:pt-[35px]">
+      </section>
+      <section className="pb-[30px] pt-[22px] max-md:px-[max(30px,calc(50vw-240px))] md:px-10 md:pt-[35px]">
         <h2 className="px-[2px] text-[18px] font-bold text-result-summary-neutral-400 md:px-0 md:text-[24px]">
           Summary
         </h2>
@@ -100,8 +103,8 @@ function Main() {
         >
           Continue
         </button>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
