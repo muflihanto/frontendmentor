@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Page", () => {
   /** Go to Rock, Paper, Scissors page before each test */
@@ -16,5 +17,15 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Page", () => {
     await expect(
       page.getByRole("img", { name: "Rock Paper Scissors Logo" }),
     ).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
