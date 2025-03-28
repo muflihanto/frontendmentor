@@ -64,7 +64,7 @@ function RulesModal() {
   }, [open]);
 
   return (
-    <>
+    <section className="contents" aria-label="Rules modal">
       <button
         className="absolute mt-auto h-[42px] w-[130px] rounded-[10px] border-2 border-white/50 uppercase tracking-[2.5px] text-white hover:border-white max-lg:bottom-[55px] max-lg:left-1/2 max-lg:-translate-x-1/2 lg:bottom-[31px] lg:right-[31px]"
         onClick={() => {
@@ -78,9 +78,9 @@ function RulesModal() {
       {open ? (
         <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-transparent md:bg-black/50">
           <div className="absolute flex h-full w-full flex-col items-center bg-white pb-[64px] pt-[88px] md:left-1/2 md:top-1/2 md:h-[415px] md:w-[400px] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-xl md:p-8 md:pt-[33px]">
-            <h1 className="text-[31px] font-bold uppercase tracking-[.5px] text-rock-paper-scissor-neutral-dark md:self-start md:leading-none">
+            <h2 className="text-[31px] font-bold uppercase tracking-[.5px] text-rock-paper-scissor-neutral-dark md:self-start md:leading-none">
               rules
-            </h1>
+            </h2>
             <svg
               className="mt-[105px] w-[304px] md:mt-12"
               viewBox="0 0 304 270"
@@ -104,7 +104,7 @@ function RulesModal() {
           </div>
         </div>
       ) : null}
-    </>
+    </section>
   );
 }
 
@@ -112,7 +112,7 @@ function Header() {
   const score = useAtomValue(scoreAtom);
 
   return (
-    <div className="flex h-[99px] w-full max-w-[702px] items-center justify-between rounded border-[3px] border-rock-paper-scissor-neutral-header pl-[21px] pr-[10px] lg:h-[152px] lg:rounded-[16px] lg:pl-[28px] lg:pr-[22px]">
+    <header className="flex h-[99px] w-full max-w-[702px] items-center justify-between rounded border-[3px] border-rock-paper-scissor-neutral-header pl-[21px] pr-[10px] lg:h-[152px] lg:rounded-[16px] lg:pl-[28px] lg:pr-[22px]">
       <div className="relative mt-1 aspect-[162/99] h-[51px] lg:mt-[3px] lg:h-[99px]">
         <Image
           src="/rock-paper-scissors/images/logo.svg"
@@ -120,15 +120,15 @@ function Header() {
           fill
         />
       </div>
-      <div className="flex h-[72px] w-[80px] flex-col items-center rounded bg-white pt-[11px] shadow lg:h-[114px] lg:w-[150px] lg:justify-center lg:rounded-lg lg:pt-[2px]">
-        <h4 className="text-[10px] uppercase leading-none tracking-[1.5px] text-rock-paper-scissor-neutral-score lg:text-[16px] lg:tracking-[2.5px]">
+      <h2 className="flex h-[72px] w-[80px] flex-col items-center rounded bg-white pt-[11px] shadow lg:h-[114px] lg:w-[150px] lg:justify-center lg:rounded-lg lg:pt-[2px]">
+        <p className="text-[10px] uppercase leading-none tracking-[1.5px] text-rock-paper-scissor-neutral-score lg:text-[16px] lg:tracking-[2.5px]">
           score
-        </h4>
-        <h2 className="mt-px w-min text-center text-[40px] font-bold uppercase leading-none text-[hsl(246,11%,37%)] lg:mt-[2px] lg:text-[64px]">
+        </p>
+        <p className="mt-px w-min text-center text-[40px] font-bold uppercase leading-none text-[hsl(246,11%,37%)] lg:mt-[2px] lg:text-[64px]">
           {score}
-        </h2>
-      </div>
-    </div>
+        </p>
+      </h2>
+    </header>
   );
 }
 
@@ -231,7 +231,7 @@ function Choices() {
   };
 
   return (
-    <div className="relative mt-[100px] w-[311px] lg:mt-[60px] lg:w-[477px]">
+    <form className="relative mt-[100px] w-[311px] lg:mt-[60px] lg:w-[477px]">
       <div className="relative z-10 flex flex-col items-center gap-4 pt-[3px] lg:gap-6">
         <div className="flex w-full items-center justify-between">
           <ChoiceButton variant="Paper" onClick={() => handleClick("Paper")} />
@@ -257,7 +257,7 @@ function Choices() {
       >
         <use href="/rock-paper-scissors/images/bg-triangle.svg#bg-triangle" />
       </svg>
-    </div>
+    </form>
   );
 }
 
@@ -369,13 +369,19 @@ function Main() {
   const step = useAtomValue(stepsAtom);
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-[31px] pt-[30.5px] lg:pb-[75px] lg:pt-[47px]">
+    <main
+      className="flex min-h-screen flex-col items-center px-[31px] pt-[30.5px] lg:pb-[75px] lg:pt-[47px]"
+      aria-labelledby="title"
+    >
+      <h1 className="sr-only" id="title">
+        Rock, Paper, Scissors Game
+      </h1>
       <ClientOnly>
         <Header />
       </ClientOnly>
       {step === 1 ? <Choices /> : <WaitForHouse />}
       <RulesModal />
-    </div>
+    </main>
   );
 }
 
