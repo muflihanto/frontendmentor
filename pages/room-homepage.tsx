@@ -206,6 +206,7 @@ function Header() {
             transition={{ duration: 0.2 }}
             exit={{ opacity: 0.5 }}
             className="absolute left-0 top-0 z-10 h-screen w-screen bg-room-primary-400/50"
+            role="none"
           />
         )}
       </AnimatePresence>
@@ -231,7 +232,7 @@ function Slide() {
   });
 
   return (
-    <div
+    <section
       className="relative grid h-full grid-cols-1 grid-rows-[var(--height)_auto] lg:h-[calc(534/800*100dvh)] lg:grid-cols-[calc(840/1440*100%)_auto] lg:grid-rows-1"
       style={
         {
@@ -341,13 +342,16 @@ function Slide() {
           </svg>
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 
 function About() {
   return (
-    <div className="lg:flex lg:h-[calc(266/800*100dvh)] lg:w-screen lg:items-center">
+    <section
+      className="lg:flex lg:h-[calc(266/800*100dvh)] lg:w-screen lg:items-center"
+      aria-labelledby="furniture"
+    >
       <div className="relative aspect-[210/133] w-full lg:h-full lg:w-auto">
         <Image
           src="/room-homepage/images/image-about-dark.jpg"
@@ -357,7 +361,10 @@ function About() {
         />
       </div>
       <div className="flex h-[303.8px] flex-col justify-center p-8 pt-10 lg:h-full lg:p-12 lg:pt-[54px]">
-        <h2 className="text-[15px] font-bold uppercase tracking-[5.2px] text-room-primary-400 lg:text-[clamp(15px,calc(16/800*100vh),16px)] lg:tracking-[6.7px]">
+        <h2
+          className="text-[15px] font-bold uppercase tracking-[5.2px] text-room-primary-400 lg:text-[clamp(15px,calc(16/800*100vh),16px)] lg:tracking-[6.7px]"
+          id="furniture"
+        >
           About our furniture
         </h2>
         <p className="mt-4 leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[11px] lg:text-[clamp(15px,calc(16/800*100vh),16px)] ">
@@ -377,16 +384,19 @@ function About() {
           className="object-cover"
         />
       </div>
-    </div>
+    </section>
   );
 }
 
 function Main() {
   return (
-    <div className="grid grid-cols-1 grid-rows-[auto,auto] lg:h-screen">
+    <main
+      className="grid grid-cols-1 grid-rows-[auto,auto] lg:h-screen"
+      aria-label="Room homepage"
+    >
       <Slide />
       <About />
-    </div>
+    </main>
   );
 }
 
