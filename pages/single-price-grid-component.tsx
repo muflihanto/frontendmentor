@@ -24,9 +24,18 @@ export default function SinglePriceGrid() {
 
 function Main() {
   return (
-    <div className="grid w-[calc(100vw-64px)] max-w-[calc(375px-64px)] grid-cols-1 grid-rows-[repeat(3,auto)] overflow-hidden rounded shadow-xl shadow-single-price-primary-cyan/20 lg:h-[475px] lg:w-[635px] lg:max-w-none lg:grid-cols-2 lg:grid-rows-[216px,auto] lg:rounded-[8px]">
-      <div className="h-[267px] bg-white px-6 pt-[29px] leading-none tracking-[-0.2px] lg:col-span-2 lg:h-auto lg:px-[40px] lg:pt-[42px]">
-        <h1 className="text-[20px] font-bold text-single-price-primary-cyan lg:text-[24px]">
+    <main
+      className="grid w-[calc(100vw-64px)] max-w-[calc(375px-64px)] grid-cols-1 grid-rows-[repeat(3,auto)] overflow-hidden rounded shadow-xl shadow-single-price-primary-cyan/20 lg:h-[475px] lg:w-[635px] lg:max-w-none lg:grid-cols-2 lg:grid-rows-[216px,auto] lg:rounded-[8px]"
+      aria-labelledby="title"
+    >
+      <section
+        className="h-[267px] bg-white px-6 pt-[29px] leading-none tracking-[-0.2px] lg:col-span-2 lg:h-auto lg:px-[40px] lg:pt-[42px]"
+        aria-labelledby="title"
+      >
+        <h1
+          className="text-[20px] font-bold text-single-price-primary-cyan lg:text-[24px]"
+          id="title"
+        >
           Join our community
         </h1>
         <p className="mt-[26px] text-[15px] font-bold leading-[20px] text-single-price-primary-yellow lg:mt-[27px] lg:text-[18px]">
@@ -37,9 +46,12 @@ function Main() {
           reviews. Perfect for any developers who are serious about honing their
           skills.
         </p>
-      </div>
-      <div className="flex h-[228px] flex-col bg-single-price-primary-cyan px-6 pb-6 pt-[26px] leading-none tracking-[-0.2px] lg:h-auto lg:px-[40px] lg:pb-[39px] lg:pt-[42px]">
-        <h2 className="text-[18px] font-bold text-white">
+      </section>
+      <section
+        className="flex h-[228px] flex-col bg-single-price-primary-cyan px-6 pb-6 pt-[26px] leading-none tracking-[-0.2px] lg:h-auto lg:px-[40px] lg:pb-[39px] lg:pt-[42px]"
+        aria-labelledby="subs"
+      >
+        <h2 className="text-[18px] font-bold text-white" id="subs">
           Monthly Subscription
         </h2>
         <p className="mt-[21px] flex items-center gap-3 lg:mt-[22px]">
@@ -55,9 +67,14 @@ function Main() {
         >
           Sign Up
         </a>
-      </div>
-      <div className="flex h-[227px] flex-col bg-single-price-primary-cyan/80 px-6 pb-[27px] pt-[26px] leading-none tracking-[-0.2px] lg:h-auto lg:px-[40px] lg:py-[42px]">
-        <h2 className="text-[18px] font-bold text-white">Why Us</h2>
+      </section>
+      <section
+        className="flex h-[227px] flex-col bg-single-price-primary-cyan/80 px-6 pb-[27px] pt-[26px] leading-none tracking-[-0.2px] lg:h-auto lg:px-[40px] lg:py-[42px]"
+        aria-labelledby="why-us"
+      >
+        <h2 className="text-[18px] font-bold text-white" id="why-us">
+          Why Us
+        </h2>
         <ul className="mt-auto flex flex-col gap-[6px] [&>li]:text-[14px] [&>li]:text-white/60">
           <li>Tutorials by industry experts</li>
           <li>Peer &amp; expert code review</li>
@@ -67,8 +84,8 @@ function Main() {
           <li>Flashcard decks</li>
           <li>New videos every week</li>
         </ul>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
