@@ -229,10 +229,16 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
-    const accessibilityScanResults = await new AxeBuilder({ page })
+    let accessibilityScanResults = await new AxeBuilder({ page })
       .disableRules(["color-contrast"])
       .analyze();
     // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
+    // test for "Country details page"
+    await page.goto(`${pageUrl}/indonesia`);
+    accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
