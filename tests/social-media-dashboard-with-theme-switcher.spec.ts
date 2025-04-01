@@ -94,7 +94,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
 
   /** Test if the page has a 'Followers' section */
   test("has a 'Followers' section", async ({ page }) => {
-    const container = page.locator("div").nth(6);
+    const container = page.getByLabel("Total Followers/Subsibers");
     await expect(container).toBeVisible();
     const cards = await container.locator(">div").all();
     const dataArr = Object.entries(data);
@@ -136,7 +136,7 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
   /** Test if the page has a 'Overview' section */
   test("has a 'Overview' section", async ({ page }) => {
     const heading = page.getByRole("heading", { name: "Overview - Today" });
-    const container = page.locator("div").nth(36);
+    const container = page.getByLabel("Overview - Today").locator(">div");
     await expect(heading).toBeVisible();
     await expect(container).toBeVisible();
     const cards = await container.locator(">div").all();
