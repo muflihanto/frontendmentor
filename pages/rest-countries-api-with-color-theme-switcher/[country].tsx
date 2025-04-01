@@ -33,9 +33,12 @@ export default function Page() {
 
   if (!data)
     return (
-      <div className="mt-[62px] text-[24px] font-bold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:mt-20">
+      <h1
+        className="mt-[62px] text-[24px] font-bold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:mt-20"
+        id="country"
+      >
         Country not found
-      </div>
+      </h1>
     );
 
   return (
@@ -50,7 +53,10 @@ export default function Page() {
       />
 
       <div className="mt-[43px] lg:mt-[36px] lg:w-full lg:max-w-[600px]">
-        <h1 className="text-[21px] font-extrabold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:text-[32px]">
+        <h1
+          className="text-[21px] font-extrabold text-rest-countries-darkblue-300 dark:text-rest-countries-gray-100 lg:text-[32px]"
+          id="country"
+        >
           {data[0].name.common}
         </h1>
 
@@ -159,7 +165,10 @@ function Layout({ children }: PropsWithChildren) {
 
       <Header />
 
-      <div className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-7 pb-16 pt-[39px] dark:bg-rest-countries-darkblue-200 md:bg-rest-countries-gray-100 md:px-20 md:pt-[79px]">
+      <main
+        className="flex min-h-52 flex-col items-center bg-rest-countries-gray-200 px-7 pb-16 pt-[39px] dark:bg-rest-countries-darkblue-200 md:bg-rest-countries-gray-100 md:px-20 md:pt-[79px]"
+        aria-labelledby="country"
+      >
         <button
           className="flex h-[34px] w-[105px] items-center justify-center gap-3 self-start rounded-sm border bg-white px-3 py-0.5 text-[14px] text-rest-countries-darkblue-300 shadow-md dark:border-rest-countries-darkblue-200 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-100  dark:shadow-rest-countries-darkblue-300/50 md:-ml-0.5 md:h-[42px] md:w-[137px] md:gap-[14px] md:rounded-lg md:text-base"
           onClick={() =>
@@ -172,7 +181,7 @@ function Layout({ children }: PropsWithChildren) {
         </button>
 
         {children}
-      </div>
+      </main>
 
       <Footer />
     </div>
