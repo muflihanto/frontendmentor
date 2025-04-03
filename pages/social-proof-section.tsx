@@ -121,7 +121,10 @@ function TestimonyCard({
 
 function Main() {
   return (
-    <div className="w-[calc(100vw-48px)] max-w-[calc(375px-48px)] lg:grid lg:w-full lg:max-w-[calc(1440px-330px)] lg:grid-cols-2 lg:grid-rows-2 lg:items-center lg:gap-y-[61px] ">
+    <main
+      className="w-[calc(100vw-48px)] max-w-[calc(375px-48px)] lg:grid lg:w-full lg:max-w-[calc(1440px-330px)] lg:grid-cols-2 lg:grid-rows-2 lg:items-center lg:gap-y-[61px]"
+      aria-label="Social proof section"
+    >
       <div className="lg:w-[420px]">
         <h1 className="text-center text-[40px] font-bold leading-[32px] tracking-[-1.35px] text-social-proof-primary-magenta lg:text-left lg:text-[56px] lg:leading-[48px] lg:tracking-[-2px]">
           10,000+ of our users love our products.
@@ -144,13 +147,13 @@ function Main() {
           return <TestimonyCard key={`${index}-${el.name}`} {...el} />;
         })}
       </div>
-    </div>
+    </main>
   );
 }
 
 function Footer() {
   return (
-    <div className="absolute bottom-3 z-20 w-full text-center text-[11px] text-social-proof-primary-magenta lg:text-[13px] [&_a]:font-bold [&_a]:text-social-proof-primary-magenta [&_a]:underline [&_a]:decoration-social-proof-primary-pink [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 z-20 w-full text-center text-[11px] text-social-proof-primary-magenta lg:text-[13px] [&_a]:font-bold [&_a]:text-social-proof-primary-magenta [&_a]:underline [&_a]:decoration-social-proof-primary-pink [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -164,6 +167,6 @@ function Footer() {
         Muflihanto
       </a>
       .
-    </div>
+    </footer>
   );
 }
