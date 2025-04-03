@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import _data from "../components/space-tourism-website/data.json";
+import AxeBuilder from "@axe-core/playwright";
 
 const pages = ["home", "destination", "crew", "technology"] as const;
 
@@ -15,6 +16,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Home Page", () =
   });
 
   testHeader("home");
+  testA11y();
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -48,6 +50,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Destination Page
   });
 
   testHeader("destination");
+  testA11y();
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -202,6 +205,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () =
   });
 
   testHeader("crew");
+  testA11y();
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -261,6 +265,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
   });
 
   testHeader("technology");
+  testA11y();
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
@@ -530,5 +535,18 @@ function testHeader(pageName: (typeof pages)[number]) {
       }
       await expect(closeButton).not.toBeVisible();
     });
+  });
+}
+
+/** Test if the page has detectable accessibility issues */
+function testA11y() {
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 }
