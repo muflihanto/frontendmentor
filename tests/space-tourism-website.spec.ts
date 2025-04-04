@@ -20,7 +20,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Home Page", () =
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
-    const section = page.locator("div").nth(8);
+    const section = page.locator("main");
     await expect(section).toBeVisible();
     await expect(section).toBeInViewport();
     await expect(

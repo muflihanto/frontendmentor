@@ -24,7 +24,10 @@ export default function Index() {
 
 function Main() {
   return (
-    <div className="flex flex-col items-center font-barlow lg:flex-row lg:items-end lg:justify-between lg:px-[min(12vw,165px)]">
+    <main
+      className="flex flex-col items-center font-barlow lg:flex-row lg:items-end lg:justify-between lg:px-[min(12vw,165px)]"
+      aria-label="Homepage"
+    >
       <div className="flex flex-col items-center space-y-4 md:space-y-6 lg:items-start lg:space-y-6 lg:[&>*]:text-left">
         <h5 className="text-center font-barlow-condensed uppercase leading-[19px] tracking-[2.7px] text-space-tourism-lightblue md:ml-1 md:text-xl md:leading-6 md:tracking-[3.38px] lg:ml-0 lg:text-[28px] lg:leading-[34px] lg:tracking-[4.72px]">
           So, you want to travel to
@@ -48,7 +51,7 @@ function Main() {
           Explore
         </p>
       </Link>
-    </div>
+    </main>
   );
 }
 
