@@ -267,15 +267,14 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { name: "03Space launch 101" }),
-    ).toBeVisible();
-    const section = page.locator("div").nth(7);
+    const section = page.locator("main");
     const selector = section.locator("ul");
     expect(await selector.getByRole("tab").all()).toHaveLength(3);
     const firstTech = techs[0];
     await expect(section).toBeVisible();
-    await expect(section).toBeInViewport();
+    await expect(
+      section.getByRole("heading", { name: "03Space launch 101" }),
+    ).toBeVisible();
     await expect(
       section.getByRole("heading", { name: "THE TERMINOLOGY…" }),
     ).toBeVisible();
@@ -290,7 +289,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
 
   /** Test if the tech selector button works */
   test("tech selector button works", async ({ page }) => {
-    const section = page.locator("div").nth(7);
+    const section = page.locator("main");
     const tabpanel = page.getByRole("tabpanel");
     const tabs = await section.getByRole("tab").all();
     for (const [index, tab] of Object.entries(tabs)) {
