@@ -212,7 +212,7 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () =
     await expect(
       page.getByRole("heading", { name: "02Meet your crew" }),
     ).toBeVisible();
-    const section = page.locator("div").nth(7);
+    const section = page.locator("main");
     const selector = section.locator(">div").nth(1);
     expect(await selector.getByRole("button").all()).toHaveLength(4);
     const firstCrew = crews[0];
@@ -232,11 +232,9 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () =
 
   /** Test if the crew selector button works */
   test("crew selector button works", async ({ page }) => {
-    const section = page.locator("div").nth(7);
+    const section = page.locator("main");
     const buttons = await section
-      .locator(">div")
-      .nth(1)
-      .getByRole("button")
+      .getByRole("button", { name: "Switch to slide" })
       .all();
     for (const [index, button] of Object.entries(buttons)) {
       const indexNum = Number(index);
