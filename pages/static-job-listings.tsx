@@ -321,7 +321,10 @@ function Main() {
   // const handleDelete = <T,>(set: Set<T>, e: T) => {};
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <main
+      className="flex w-full flex-col items-center"
+      aria-labelledby="job-list"
+    >
       <h1 className="sr-only" id="job-list">
         Static Job Listings
       </h1>
@@ -390,7 +393,7 @@ function Main() {
           return <Card key={`${index}-${job.id}`} job={job} />;
         })}
       </div>
-    </div>
+    </main>
   );
 }
 
