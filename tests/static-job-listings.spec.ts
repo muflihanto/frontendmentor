@@ -32,7 +32,7 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
     const heading = page.locator("h1#job-list");
     const headingClasses = (await heading.getAttribute("class"))?.split(" ");
     expect(headingClasses).toContain("sr-only");
-    const container = page.getByLabel("Static Job Listings");
+    const container = page.getByRole("list", { name: "Static Job Listings" });
     await expect(container).toBeVisible();
     expect(await container.getByRole("listitem").all()).toHaveLength(10);
     for (const job of jobs) {
@@ -110,7 +110,9 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
       const legend = page.locator("legend#filters-legend");
       const legendClasses = (await legend.getAttribute("class"))?.split(" ");
       expect(legendClasses).toContain("sr-only");
-      jobListContainer = page.getByLabel("Static Job Listings");
+      jobListContainer = page.getByRole("list", {
+        name: "Static Job Listings",
+      });
       await expect(jobListContainer).toBeVisible();
       expect(await jobListContainer.getByRole("listitem").all()).toHaveLength(
         jobs.filter(
