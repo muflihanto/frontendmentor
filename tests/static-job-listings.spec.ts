@@ -1,6 +1,7 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
 
 import jobs from "../public/static-job-listings/data.json";
+import AxeBuilder from "@axe-core/playwright";
 
 const pageUrl = "/static-job-listings";
 
@@ -148,5 +149,15 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
     await expect(
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
