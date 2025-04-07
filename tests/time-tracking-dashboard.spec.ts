@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import data from "../components/time-tracking-dashboard/data.json";
+import AxeBuilder from "@axe-core/playwright";
 // const activities = [
 //   "Work",
 //   "Play",
@@ -178,5 +179,15 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
         }
       });
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
