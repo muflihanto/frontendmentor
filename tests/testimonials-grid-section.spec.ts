@@ -59,18 +59,23 @@ test.describe("FrontendMentor Challenge - Testimonials Grid Section Page", () =>
     );
   });
 
-  /** Test if the page has a main section */
-  test.describe("has a main section", () => {
-    test("section is visible", async ({ page }) => {
-      await expect(page.locator("section")).toBeVisible();
-      await expect(page.locator("section")).toBeInViewport();
+  /** Test if the page has a main element */
+  test.describe("has a main element", () => {
+    test("main element is visible", async ({ page }) => {
+      await expect(page.locator("main")).toBeVisible();
+      await expect(page.locator("main")).toBeInViewport();
     });
     test("has all elements", async ({ page }) => {
-      const section = page.locator("section");
+      const main = page.locator("main");
+      const mainHeading = main.getByRole("heading", {
+        name: "Testimonials grid section",
+      });
+      await expect(mainHeading).toBeVisible();
+      expect(await mainHeading.getAttribute("class")).toContain("sr-only");
       for (const { name, title, highlight, testimony } of testimonials) {
         const heading = page.getByRole("heading", { name });
         await expect(heading).toBeVisible();
-        const article = section.getByRole("article").filter({ has: heading });
+        const article = main.getByRole("article").filter({ has: heading });
         await expect(article).toBeVisible();
         await expect(
           article.getByRole("img", { name: `${name}\'s Avatar` }),
