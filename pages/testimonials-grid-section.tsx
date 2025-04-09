@@ -95,7 +95,13 @@ const cardStyles = [
 
 function Main() {
   return (
-    <section className="flex flex-col gap-6 lg:grid lg:grid-cols-4 lg:grid-rows-[minmax(0,_282)_minmax(0,_266px)] lg:gap-x-[30px]">
+    <main
+      className="flex flex-col gap-6 lg:grid lg:grid-cols-4 lg:grid-rows-[minmax(0,_282)_minmax(0,_266px)] lg:gap-x-[30px]"
+      aria-labelledby="title"
+    >
+      <h1 className="sr-only" id="title">
+        Testimonials grid section
+      </h1>
       {testimonials.map((testimony, index) => {
         return (
           <TestmimoyCard
@@ -107,7 +113,7 @@ function Main() {
           />
         );
       })}
-    </section>
+    </main>
   );
 }
 
@@ -186,7 +192,7 @@ function TestmimoyCard(props: TestimonyCardProps) {
 
 function Footer() {
   return (
-    <div className="absolute bottom-3 w-full text-center text-[11px] text-testimonials-primary-dark-blue">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-testimonials-primary-dark-blue">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -206,6 +212,6 @@ function Footer() {
         Muflihanto
       </a>
       .
-    </div>
+    </footer>
   );
 }
