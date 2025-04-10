@@ -34,7 +34,7 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
   test("has correct initial tip values", async ({ page }) => {
     const container = page
       .locator("div", { has: page.getByRole("button", { name: "Reset" }) })
-      .nth(3);
+      .nth(2);
     await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
     await expect(container.getByText("Total/ person$0.00")).toBeVisible();
   });
@@ -42,7 +42,7 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
   /** Test if valid input produce correct output */
   test("valid input should produce correct output", async ({ page }) => {
     const resetButton = page.getByRole("button", { name: "Reset" });
-    const container = page.locator("div", { has: resetButton }).nth(3);
+    const container = page.locator("div", { has: resetButton }).nth(2);
     await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
     await expect(container.getByText("Total/ person$0.00")).toBeVisible();
     const bill = page.getByLabel("Bill");
