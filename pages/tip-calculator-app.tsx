@@ -17,7 +17,9 @@ const Main = dynamic(() => import("../components/tip-calculator-app/Main"), {
   ssr: false,
   loading: () => {
     return (
-      <div className="mt-[40px] h-full animate-pulse rounded-t-[25px] bg-tip-neutral-100 lg:mx-auto lg:mt-[calc(87/1024*100vh)] lg:h-[480px] lg:max-w-screen-md lg:rounded-[25px] xl:max-w-[calc(23/36*100vw)]" />
+      <main className="contents" aria-label="Loading main content">
+        <div className="mt-[40px] h-full animate-pulse rounded-t-[25px] bg-tip-neutral-100 lg:mx-auto lg:mt-[calc(87/1024*100vh)] lg:h-[480px] lg:max-w-screen-md lg:rounded-[25px] xl:max-w-[calc(23/36*100vw)]" />
+      </main>
     );
   },
 });

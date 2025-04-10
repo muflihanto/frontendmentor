@@ -69,7 +69,13 @@ export default function Main() {
   };
 
   return (
-    <div className="mt-[40px] flex flex-col gap-7 rounded-t-[25px] bg-tip-neutral-100 px-6 pb-8 pt-8 text-tip-neutral-500 lg:mx-auto lg:mt-[calc(87/1024*100vh)] lg:max-w-screen-md lg:flex-row lg:justify-between lg:rounded-[25px] lg:px-8 xl:max-w-[calc(23/36*100vw)]">
+    <main
+      className="mt-[40px] flex flex-col gap-7 rounded-t-[25px] bg-tip-neutral-100 px-6 pb-8 pt-8 text-tip-neutral-500 lg:mx-auto lg:mt-[calc(87/1024*100vh)] lg:max-w-screen-md lg:flex-row lg:justify-between lg:rounded-[25px] lg:px-8 xl:max-w-[calc(23/36*100vw)]"
+      aria-labelledby="title"
+    >
+      <h1 className="sr-only" id="title">
+        Splitter | Tip calculator app
+      </h1>
       <form className="flex flex-col gap-[34px] px-2 py-1 lg:w-[calc(411/1440*100vw)] lg:gap-[42px] lg:px-4 lg:pb-[16px] lg:pt-[17px]">
         <NumberField
           label="Bill"
@@ -137,7 +143,7 @@ export default function Main() {
         />
       </form>
       <ResultCard result={result} reset={reset} />
-    </div>
+    </main>
   );
 }
 
