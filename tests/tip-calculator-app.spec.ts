@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
   /** Go to Tip calculator app page before each test */
@@ -61,5 +62,15 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(people).toHaveValue("");
     await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
     await expect(container.getByText("Total/ person$0.00")).toBeVisible();
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
