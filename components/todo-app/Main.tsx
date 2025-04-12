@@ -226,30 +226,34 @@ function Todo() {
             placeholder="Create a new todo..."
           />
         </label>
-        <Reorder.Group
-          axis="y"
-          values={data}
-          onReorder={(newOrder) => {
-            if (filterType === "all") {
-              setData(newOrder);
-            }
-          }}
-          className="relative mt-4 w-full max-w-[540px] rounded-md bg-white shadow-lg shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 dark:shadow-black/50 lg:mt-6 lg:shadow-[0px_40px_10px_-20px_var(--tw-shadow-colored),0px_25px_25px_20px_var(--tw-shadow-colored)] lg:shadow-black/[.025] lg:dark:shadow-black/[.15]"
+        <div
           role="tabpanel"
           id="tabpanel"
           aria-labelledby={`tab-${filterType}${width <= 1023 ? "-mobile" : ""}`}
+          className="relative mt-4 w-full max-w-[540px] rounded-md bg-white shadow-lg shadow-todo-neutral-light-300/75 dark:bg-todo-neutral-dark-600 dark:shadow-black/50 lg:mt-6 lg:shadow-[0px_40px_10px_-20px_var(--tw-shadow-colored),0px_25px_25px_20px_var(--tw-shadow-colored)] lg:shadow-black/[.025] lg:dark:shadow-black/[.15]"
         >
-          {data.filter(filter).map((d, index) => {
-            return (
-              <Item
-                key={d.id}
-                index={index}
-                d={d}
-                toggleCompleted={toggleCompleted}
-                deleteItem={deleteItem}
-              />
-            );
-          })}
+          <Reorder.Group
+            axis="y"
+            values={data}
+            onReorder={(newOrder) => {
+              if (filterType === "all") {
+                setData(newOrder);
+              }
+            }}
+            className="contents"
+          >
+            {data.filter(filter).map((d, index) => {
+              return (
+                <Item
+                  key={d.id}
+                  index={index}
+                  d={d}
+                  toggleCompleted={toggleCompleted}
+                  deleteItem={deleteItem}
+                />
+              );
+            })}
+          </Reorder.Group>
           <div className="flex h-[50px] items-center justify-between px-5 pb-[2px] text-[12px] tracking-[-.2px] text-todo-neutral-light-400 dark:text-todo-neutral-dark-400 lg:grid lg:grid-cols-3 lg:px-6 lg:pt-[5px] lg:text-[14px]">
             <p className="lg:text-left">{`${
               data.filter((d) => !d.completed).length
@@ -330,7 +334,7 @@ function Todo() {
               Clear Completed
             </button>
           </div>
-        </Reorder.Group>
+        </div>
         <ul
           className="mt-4 flex h-[48px] w-full max-w-[540px] items-center justify-center gap-[20px] rounded-md bg-white pt-1 shadow-lg shadow-todo-neutral-light-300/25 dark:bg-todo-neutral-dark-600 dark:shadow-[0px_5px_10px_rgba(0,0,0,.2),0px_50px_15px_-10px_rgba(0,0,0,.125)] lg:hidden"
           role="tablist"
