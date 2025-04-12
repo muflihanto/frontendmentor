@@ -432,9 +432,11 @@ function Item({
       style={{ y }}
       dragListener={false}
       dragControls={controls}
+      aria-labelledby={`activity-${index}`}
     >
       <button
         type="button"
+        aria-label={`Mark as ${d.completed ? "Active" : "Completed"}`}
         className={`flex h-5 w-5 items-center justify-center rounded-full lg:h-6 lg:w-6 ${
           d.completed
             ? "bg-gradient-to-br from-todo-primary-green to-todo-primary-violet"
@@ -445,8 +447,7 @@ function Item({
         }}
       >
         {d.completed ? (
-          <svg viewBox="0 0 11 9" className="h-2 lg:h-[9px]">
-            <title>Check</title>
+          <svg viewBox="0 0 11 9" className="h-2 lg:h-[9px]" role="none">
             <use href="/todo-app/images/icon-check.svg#icon-check" />
           </svg>
         ) : null}
@@ -458,6 +459,7 @@ function Item({
             ? "text-todo-neutral-light-300 line-through dark:text-todo-neutral-dark-400"
             : "text-todo-neutral-light-500 dark:text-todo-neutral-dark-200"
         }`}
+        id={`activity-${index}`}
       >
         {d.activity}
       </p>
@@ -472,7 +474,7 @@ function Item({
           viewBox="0 0 18 18"
           className="w-[12px] fill-[#494C6B] hover:fill-todo-neutral-light-400 dark:hover:fill-todo-neutral-dark-200 lg:w-[18px]"
         >
-          <title>Cross</title>
+          <title>Delete activity</title>
           <use href="/todo-app/images/icon-cross.svg#icon-cross" />
         </svg>
       </button>
