@@ -1,4 +1,5 @@
 import { test, expect, type Locator, type Page } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 const headerNavs = ["Features", "Pricing", "Resources", "Login", "Sign Up"];
 
@@ -208,5 +209,15 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
         ).not.toBeVisible();
       }
     });
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
