@@ -463,14 +463,14 @@ function BoostLinks() {
 
 function Main() {
   return (
-    <div>
+    <main aria-label="Shortly URL shortening API">
       <Intro />
       <div className="mt-[167.25px] bg-url-shortening-neutral-100/20 lg:mt-[152px]">
         <Shorten />
         <Features />
         <BoostLinks />
       </div>
-    </div>
+    </main>
   );
 }
 
