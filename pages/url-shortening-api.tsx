@@ -564,24 +564,48 @@ function Footer() {
     <footer className="relative flex h-[776px] w-full flex-col items-center bg-url-shortening-neutral-400 pt-[54px] sm:h-auto sm:pb-[55px] lg:h-[310px] lg:flex-row lg:items-start lg:px-[165px] lg:pt-[71px]">
       <Logo className="text-white lg:-ml-[2px]" />
       <div className="mt-[48px] flex flex-col gap-[38.5px] sm:grid sm:grid-cols-3 sm:grid-rows-1 sm:gap-14 lg:ml-auto lg:mr-[72px] lg:mt-0 lg:gap-[79px]">
-        <nav className="flex flex-col items-center sm:items-start">
-          <h4 className="font-bold tracking-[-.2px] text-white">Features</h4>
+        <nav
+          className="flex flex-col items-center sm:items-start"
+          aria-labelledby="features-title"
+        >
+          <h4
+            className="font-bold tracking-[-.2px] text-white"
+            id="features-title"
+          >
+            Features
+          </h4>
           <FooterLinks>
             <FooterLink href="">Link Shortening</FooterLink>
             <FooterLink href="">Branded Links</FooterLink>
             <FooterLink href="">Analytics</FooterLink>
           </FooterLinks>
         </nav>
-        <nav className="flex flex-col items-center sm:items-start">
-          <h4 className="font-bold tracking-[-.2px] text-white">Resources</h4>
+        <nav
+          className="flex flex-col items-center sm:items-start"
+          aria-labelledby="resources-title"
+        >
+          <h4
+            className="font-bold tracking-[-.2px] text-white"
+            id="resources-title"
+          >
+            Resources
+          </h4>
           <FooterLinks>
             <FooterLink href="">Blog</FooterLink>
             <FooterLink href="">Developers</FooterLink>
             <FooterLink href="">Support</FooterLink>
           </FooterLinks>
         </nav>
-        <nav className="flex flex-col items-center sm:items-start">
-          <h4 className="font-bold tracking-[-.2px] text-white">Company</h4>
+        <nav
+          className="flex flex-col items-center sm:items-start"
+          aria-labelledby="company-title"
+        >
+          <h4
+            className="font-bold tracking-[-.2px] text-white"
+            id="company-title"
+          >
+            Company
+          </h4>
           <FooterLinks>
             <FooterLink href="">About</FooterLink>
             <FooterLink href="">Our Team</FooterLink>
