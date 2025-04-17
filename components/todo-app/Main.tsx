@@ -85,7 +85,7 @@ const zInputSchema = z.object({
   input: z.string().min(1),
 });
 type InputScheme = z.infer<typeof zInputSchema>;
-
+// FIXME: unexepected behaviour on deleteItem at completed tab
 function Todo() {
   const [data, setData] = useAtom(dataAtom);
   const [filterType, setFilterType] = useState<"all" | "active" | "completed">(

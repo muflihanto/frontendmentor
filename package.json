@@ -34,7 +34,7 @@
     "leaflet": "^1.9.4",
     "match-sorter": "^6.3.4",
     "math-expression-evaluator": "^2.0.5",
-    "nanoid": "^4.0.2",
+    "nanoid": "5.1.5",
     "next": "14.2.25",
     "next-themes": "^0.2.1",
     "react": "^18.3.1",
