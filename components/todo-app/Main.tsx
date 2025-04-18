@@ -85,7 +85,7 @@ const zInputSchema = z.object({
   input: z.string().min(1),
 });
 type InputScheme = z.infer<typeof zInputSchema>;
-// FIXME: unexepected behaviour on check as complete at Active tab
+
 function Todo() {
   const [data, setData] = useAtom(dataAtom);
   const [filterType, setFilterType] = useState<"all" | "active" | "completed">(
@@ -139,14 +139,14 @@ function Todo() {
   };
 
   const toggleCompleted = (itemIndex: number) => {
-    setData((prev) => {
-      return prev.filter(filter).map((d, index) => {
-        if (index === itemIndex) {
-          return { ...d, completed: !d.completed };
-        }
-        return d;
-      });
-    });
+    const filtered = data.filter(filter);
+    const item = filtered[itemIndex];
+    if (!item) return;
+    setData(
+      data.map((d) =>
+        d.id === item.id ? { ...d, completed: !d.completed } : d,
+      ),
+    );
   };
 
   const clearCompleted = () => {
