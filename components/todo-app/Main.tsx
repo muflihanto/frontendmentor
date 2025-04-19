@@ -131,20 +131,14 @@ function Todo() {
     [filterType],
   );
 
-  const deleteItem = (itemIndex: number) => {
-    const filtered = data.filter(filter);
-    const itemId = filtered[itemIndex]?.id;
-    if (!itemId) return;
+  const deleteItem = (itemId: string) => {
     setData(data.filter((d) => d.id !== itemId));
   };
 
-  const toggleCompleted = (itemIndex: number) => {
-    const filtered = data.filter(filter);
-    const item = filtered[itemIndex];
-    if (!item) return;
+  const toggleCompleted = (itemId: string) => {
     setData(
       data.map((d) =>
-        d.id === item.id ? { ...d, completed: !d.completed } : d,
+        d.id === itemId ? { ...d, completed: !d.completed } : d,
       ),
     );
   };
@@ -417,8 +411,8 @@ function Item({
 }: {
   index: number;
   d: Data;
-  toggleCompleted: (itemIndex: number) => void;
-  deleteItem: (itemIndex: number) => void;
+  toggleCompleted: (itemId: string) => void;
+  deleteItem: (itemId: string) => void;
 }) {
   const y = useMotionValue(0);
   const controls = useDragControls();
@@ -432,7 +426,7 @@ function Item({
       style={{ y }}
       dragListener={false}
       dragControls={controls}
-      aria-labelledby={`activity-${index}`}
+      aria-labelledby={`activity-${d.id}`}
     >
       <button
         type="button"
@@ -443,7 +437,7 @@ function Item({
             : "border border-todo-neutral-light-200 hover:border-transparent hover:[background:linear-gradient(white,white)_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box] dark:border-todo-neutral-dark-500 dark:hover:border-transparent dark:hover:[background:linear-gradient(theme(colors.todo.neutral.dark.600),theme(colors.todo.neutral.dark.600))_padding-box,linear-gradient(135deg,theme(colors.todo.primary.green),theme(colors.todo.primary.violet))_border-box]"
         }`}
         onClick={() => {
-          toggleCompleted(index);
+          toggleCompleted(d.id);
         }}
       >
         {d.completed ? (
@@ -467,7 +461,7 @@ function Item({
         type="button"
         className="ml-auto flex items-center justify-center rounded-full transition-all lg:invisible lg:group-hover:visible"
         onClick={() => {
-          deleteItem(index);
+          deleteItem(d.id);
         }}
       >
         <svg
