@@ -82,7 +82,10 @@ function Header() {
 }
 
 const zInputSchema = z.object({
-  input: z.string().min(1),
+  input: z
+    .string()
+    .trim()
+    .min(1, { message: "Input cannot be empty or whitespace" }),
 });
 type InputScheme = z.infer<typeof zInputSchema>;
 
@@ -104,7 +107,7 @@ function Todo() {
       return [
         ...prev,
         {
-          activity: dat.input,
+          activity: dat.input.trim(),
           completed: false,
           id: nanoid(),
         },
