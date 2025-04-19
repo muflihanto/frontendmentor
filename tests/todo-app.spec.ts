@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const data = [
@@ -105,6 +105,44 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
         "text-decoration-line",
         "line-through",
       );
+      // Verify items count updated
+      const items = await getTodoItems(page);
+      expect(items).toHaveLength(7);
+      const itemsLeftText = await page
+        .locator("text=/[0-9]+ items left/")
+        .first()
+        .textContent();
+      expect(itemsLeftText).toMatch(/6 items left/);
+    });
+    test("should add multiple todo items", async ({ page }) => {
+      const itemsToAdd = ["Task 1", "Task 2", "Task 3"];
+      for (const text of itemsToAdd) {
+        await addTodoItem(page, text);
+      }
+
+      const items = await getTodoItems(page);
+      expect(items).toHaveLength(6 + itemsToAdd.length); // Initial 6 + 3 new items
+
+      // Verify all items were added correctly
+      for (let i = 0; i < itemsToAdd.length; i++) {
+        await expect(items[6 + i]).toContainText(itemsToAdd[i]);
+      }
+    });
+
+    test("should trim whitespace from new items", async ({ page }) => {
+      await addTodoItem(page, "   Meeting with team   ");
+      const items = await getTodoItems(page);
+      await expect(items[6]).toContainText("Meeting with team"); // 7th item (index 6)
+    });
+
+    test("should not add empty items", async ({ page }) => {
+      const input = page.locator('input[placeholder="Create a new todo..."]');
+      await input.fill("   ");
+      await input.press("Enter");
+
+      // Should still only have initial 6 items
+      const items = await getTodoItems(page);
+      expect(items).toHaveLength(6);
     });
     test("can mark todo as completed", async ({ page }) => {
       const form = page.locator("form");
@@ -286,3 +324,16 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
+
+async function getTodoItems(page: Page): Promise<Locator[]> {
+  const count = await page.locator('[aria-labelledby^="activity-"]').count();
+  return Array.from({ length: count }, (_, i) =>
+    page.locator('[aria-labelledby^="activity-"]').nth(i),
+  );
+}
+
+async function addTodoItem(page: Page, text: string): Promise<void> {
+  const input = page.locator('input[placeholder="Create a new todo..."]');
+  await input.fill(text);
+  await input.press("Enter");
+}
