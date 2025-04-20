@@ -456,7 +456,7 @@ function Item({
             ? "text-todo-neutral-light-300 line-through dark:text-todo-neutral-dark-400"
             : "text-todo-neutral-light-500 dark:text-todo-neutral-dark-200"
         }`}
-        id={`activity-${index}`}
+        id={`activity-${d.id}`}
       >
         {d.activity}
       </p>
