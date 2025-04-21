@@ -93,78 +93,120 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
 
   /** Test if the todo functionalities work */
   test.describe("todo works", () => {
-    test("can add todo", async ({ page }) => {
-      const form = page.locator("form");
-      const input = form.getByPlaceholder("Create a new todo...");
-      await input.fill("new todo");
-      await input.focus();
-      await page.keyboard.press("Enter");
-      const listitem = form.locator("li").filter({ hasText: "new todo" });
-      await expect(listitem).toBeVisible();
-      await expect(listitem.locator("p")).not.toHaveCSS(
-        "text-decoration-line",
-        "line-through",
-      );
-      // Verify items count updated
-      const items = await getTodoItems(page);
-      expect(items).toHaveLength(7);
-      const itemsLeftText = await page
-        .locator("text=/[0-9]+ items left/")
-        .first()
-        .textContent();
-      expect(itemsLeftText).toMatch(/6 items left/);
+    test.describe("Add New Item", () => {
+      test("should add single todo item", async ({ page }) => {
+        const form = page.locator("form");
+        const input = form.getByPlaceholder("Create a new todo...");
+        await input.fill("new todo");
+        await input.focus();
+        await page.keyboard.press("Enter");
+        const listitem = form.locator("li").filter({ hasText: "new todo" });
+        await expect(listitem).toBeVisible();
+        await expect(listitem.locator("p")).not.toHaveCSS(
+          "text-decoration-line",
+          "line-through",
+        );
+        // Verify items count updated
+        const items = await getTodoItems(page);
+        expect(items).toHaveLength(7);
+        const itemsLeftText = await page
+          .locator("text=/[0-9]+ items left/")
+          .first()
+          .textContent();
+        expect(itemsLeftText).toMatch(/6 items left/);
+      });
+      test("should add multiple todo items", async ({ page }) => {
+        const itemsToAdd = ["Task 1", "Task 2", "Task 3"];
+        for (const text of itemsToAdd) {
+          await addTodoItem(page, text);
+        }
+
+        const items = await getTodoItems(page);
+        expect(items).toHaveLength(6 + itemsToAdd.length); // Initial 6 + 3 new items
+
+        // Verify all items were added correctly
+        for (let i = 0; i < itemsToAdd.length; i++) {
+          await expect(items[6 + i]).toContainText(itemsToAdd[i]);
+        }
+      });
+      test("should trim whitespace from new items", async ({ page }) => {
+        await addTodoItem(page, "   Meeting with team   ");
+        const items = await getTodoItems(page);
+        await expect(items[6]).toContainText("Meeting with team"); // 7th item (index 6)
+      });
+      test("should not add empty items", async ({ page }) => {
+        const input = page.locator('input[placeholder="Create a new todo..."]');
+        await input.fill("   ");
+        await input.press("Enter");
+
+        // Should still only have initial 6 items
+        const items = await getTodoItems(page);
+        expect(items).toHaveLength(6);
+      });
     });
-    test("should add multiple todo items", async ({ page }) => {
-      const itemsToAdd = ["Task 1", "Task 2", "Task 3"];
-      for (const text of itemsToAdd) {
-        await addTodoItem(page, text);
-      }
+    test.describe("Toggle Completed", () => {
+      test('should toggle item completion status in "All" tab', async ({
+        page,
+      }) => {
+        const firstItem = getFirstTodoItem(page);
 
-      const items = await getTodoItems(page);
-      expect(items).toHaveLength(6 + itemsToAdd.length); // Initial 6 + 3 new items
+        // Verify it's completed
+        await expect(firstItem.locator("p")).toHaveCSS(
+          "text-decoration-line",
+          "line-through",
+        );
 
-      // Verify all items were added correctly
-      for (let i = 0; i < itemsToAdd.length; i++) {
-        await expect(items[6 + i]).toContainText(itemsToAdd[i]);
-      }
-    });
+        const toggleButton = firstItem.locator('button[aria-label^="Mark as"]');
+        await toggleButton.click();
 
-    test("should trim whitespace from new items", async ({ page }) => {
-      await addTodoItem(page, "   Meeting with team   ");
-      const items = await getTodoItems(page);
-      await expect(items[6]).toContainText("Meeting with team"); // 7th item (index 6)
-    });
+        // Verify it's not completed
+        await expect(firstItem.locator("p")).not.toHaveCSS(
+          "text-decoration-line",
+          "line-through",
+        );
 
-    test("should not add empty items", async ({ page }) => {
-      const input = page.locator('input[placeholder="Create a new todo..."]');
-      await input.fill("   ");
-      await input.press("Enter");
+        // Check in all tabs
+        await verifyTogglePersists(page, firstItem.locator("p"));
+      });
+      test('should toggle item completion status in "Active" tab', async ({
+        page,
+      }) => {
+        await page.click('button[id="tab-active"]');
+        const activeItems = await getTodoItems(page);
+        const firstActiveItem = activeItems[0];
 
-      // Should still only have initial 6 items
-      const items = await getTodoItems(page);
-      expect(items).toHaveLength(6);
-    });
-    test("can mark todo as completed", async ({ page }) => {
-      const form = page.locator("form");
-      const listitem = form
-        .locator("li")
-        .filter({ hasText: "Read for 1 hour" });
-      await expect(listitem).toBeVisible();
-      await expect(listitem.locator("p")).not.toHaveCSS(
-        "text-decoration-line",
-        "line-through",
-      );
-      const button = listitem.getByRole("button").first();
-      await button.click();
-      await expect(listitem.locator("p")).toHaveCSS(
-        "text-decoration-line",
-        "line-through",
-      );
-      await button.click();
-      await expect(listitem.locator("p")).not.toHaveCSS(
-        "text-decoration-line",
-        "line-through",
-      );
+        const itemId =
+          (await firstActiveItem.locator("p").getAttribute("id")) ?? "";
+
+        await toggleTodoItem(firstActiveItem);
+
+        // Item should disappear from Active tab
+        await expect(page.locator(`p[id=${itemId}]`)).not.toBeVisible();
+
+        // Check in other tabs
+        await verifyTogglePersists(page, page.locator(`p[id=${itemId}]`));
+      });
+      test('should toggle item completion status in "Completed" tab', async ({
+        page,
+      }) => {
+        // Add completed item
+        const item = page.locator('[aria-labelledby^="activity-"]').nth(1);
+        await toggleTodoItem(item);
+
+        await page.click('button[id="tab-completed"]');
+        const completedItems = await getTodoItems(page);
+        const firstCompletedItem = completedItems[0];
+        const itemId =
+          (await firstCompletedItem.locator("p").getAttribute("id")) ?? "";
+
+        await toggleTodoItem(firstCompletedItem);
+
+        // Item should disappear from Completed tab
+        await expect(page.locator(`p[id=${itemId}]`)).not.toBeVisible();
+
+        // Check in other tabs
+        await verifyTogglePersists(page, page.locator(`p[id=${itemId}]`));
+      });
     });
     test("can delete a todo", async ({ page }) => {
       const form = page.locator("form");
@@ -336,4 +378,40 @@ async function addTodoItem(page: Page, text: string): Promise<void> {
   const input = page.locator('input[placeholder="Create a new todo..."]');
   await input.fill(text);
   await input.press("Enter");
+}
+
+function getFirstTodoItem(page: Page): Locator {
+  return page.locator('[aria-labelledby^="activity-"]').first();
+}
+
+async function verifyTogglePersists(page: Page, item: Locator): Promise<void> {
+  // Check in All tab
+  await page.click('button[id="tab-all"]');
+  await expect(item).toBeVisible();
+
+  const isCompleted = await item
+    .evaluate((el) => {
+      return window.getComputedStyle(el).textDecorationLine;
+    })
+    .then((c) => c === "line-through");
+
+  // Check in Active tab
+  await page.click('button[id="tab-active"]');
+  if (isCompleted) {
+    await expect(item).not.toBeVisible();
+  } else {
+    await expect(item).toBeVisible();
+  }
+
+  // Check in Completed tab
+  await page.click('button[id="tab-completed"]');
+  if (isCompleted) {
+    await expect(item).toBeVisible();
+  } else {
+    await expect(item).not.toBeVisible();
+  }
+}
+
+async function toggleTodoItem(item: Locator): Promise<void> {
+  await item.locator('button[aria-label^="Mark as"]').click();
 }
