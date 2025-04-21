@@ -208,22 +208,45 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
         await verifyTogglePersists(page, page.locator(`p[id=${itemId}]`));
       });
     });
-    test("can delete a todo", async ({ page }) => {
-      const form = page.locator("form");
-      const listitem = form
-        .locator("li")
-        .filter({ hasText: "Read for 1 hour" });
-      await expect(listitem).toBeVisible();
-      await expect(listitem.locator("p")).not.toHaveCSS(
-        "text-decoration-line",
-        "line-through",
-      );
-      await listitem.hover();
-      const button = listitem.getByRole("button").nth(1);
-      await button.click();
-      await page.waitForTimeout(500);
-      await expect(listitem).not.toBeVisible();
-      await expect(listitem).not.toBeInViewport();
+    test.describe("Delete Item", () => {
+      test('should delete item in "All" tab', async ({ page }) => {
+        const initialItems = await getTodoItems(page);
+        const initialCount = initialItems.length;
+
+        const firstItem = initialItems[0];
+        const firstItemId = await firstItem.locator("p").getAttribute("id");
+        await deleteTodoItem(firstItem);
+
+        const itemsAfterDelete = await getTodoItems(page);
+        expect(itemsAfterDelete).toHaveLength(initialCount - 1);
+        await expect(page.locator(`p[id=${firstItemId}]`)).not.toBeVisible();
+      });
+      test('should delete item in "Active" tab', async ({ page }) => {
+        await page.click('button[id="tab-active"]');
+        const initialItems = await getTodoItems(page);
+        const initialCount = initialItems.length;
+
+        const firstItem = initialItems[0];
+        const firstItemId = await firstItem.locator("p").getAttribute("id");
+        await deleteTodoItem(firstItem);
+
+        const itemsAfterDelete = await getTodoItems(page);
+        expect(itemsAfterDelete).toHaveLength(initialCount - 1);
+        await expect(page.locator(`p[id=${firstItemId}]`)).not.toBeVisible();
+      });
+      test('should delete item in "Completed" tab', async ({ page }) => {
+        await page.click('button[id="tab-completed"]');
+        const completedItems = await getTodoItems(page);
+        const firstCompletedItem = completedItems[0];
+        const firstCompletedItemId = await firstCompletedItem
+          .locator("p")
+          .getAttribute("id");
+        await deleteTodoItem(firstCompletedItem);
+
+        await expect(
+          page.locator(`p[id=${firstCompletedItemId}]`),
+        ).not.toBeVisible();
+      });
     });
     test("form footer buttons work", async ({ page }) => {
       const form = page.locator("form");
@@ -414,4 +437,9 @@ async function verifyTogglePersists(page: Page, item: Locator): Promise<void> {
 
 async function toggleTodoItem(item: Locator): Promise<void> {
   await item.locator('button[aria-label^="Mark as"]').click();
+}
+
+async function deleteTodoItem(item: Locator): Promise<void> {
+  await item.hover();
+  await item.getByRole("button", { name: "Delete activity" }).click();
 }
