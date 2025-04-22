@@ -9,13 +9,62 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () 
 
   /** Test if the page has a correct title */
   test("has title", async ({ page }) => {
-    await expect(page).toHaveTitle("Frontend Mentor | Rock, Paper, Scissors");
+    await expect(page).toHaveTitle(
+      "Frontend Mentor | Rock, Paper, Scissors, Lizard, Spock",
+    );
   });
 
-  /** Test if the page has a logo */
-  test("has a logo", async ({ page }) => {
+  /** Test if the page has a header with logo and score */
+  test("should display header with logo and score", async ({ page }) => {
+    const header = page.locator("header");
+    await expect(header).toBeVisible();
+
+    const logo = header.locator(
+      'img[alt="Rock Paper Scissors Lizard Spock Logo"]',
+    );
+    await expect(logo).toBeVisible();
+
+    const scoreContainer = header.locator("h2");
+    await expect(scoreContainer).toContainText("score");
+
+    const scoreValue = scoreContainer.locator("p:last-child");
+    await expect(scoreValue).toHaveText("12"); // Default score
+  });
+
+  test("should display game choices (rock, paper, scissors)", async ({
+    page,
+  }) => {
+    const choicesForm = page.locator("form");
+    await expect(choicesForm).toBeVisible();
+
+    const paperButton = choicesForm.getByRole("button", { name: "Paper" });
+    const scissorsButton = choicesForm.getByRole("button", {
+      name: "Scissors",
+    });
+    const rockButton = choicesForm.getByRole("button", { name: "Rock" });
+    const lizardButton = choicesForm.getByRole("button", { name: "Lizard" });
+    const spockButton = choicesForm.getByRole("button", { name: "Spock" });
+
+    await expect(paperButton).toBeVisible();
+    await expect(scissorsButton).toBeVisible();
+    await expect(rockButton).toBeVisible();
+    await expect(lizardButton).toBeVisible();
+    await expect(spockButton).toBeVisible();
+
+    // Verify icons are loaded
+    await expect(paperButton.locator('img[alt="Paper Icon"]')).toBeVisible();
     await expect(
-      page.getByRole("img", { name: "Rock Paper Scissors Logo" }),
+      scissorsButton.locator('img[alt="Scissors Icon"]'),
+    ).toBeVisible();
+    await expect(rockButton.locator('img[alt="Rock Icon"]')).toBeVisible();
+    await expect(lizardButton.locator('img[alt="Lizard Icon"]')).toBeVisible();
+    await expect(spockButton.locator('img[alt="Spock Icon"]')).toBeVisible();
+  });
+
+  /** Test if the page has a footer */
+  test("has a footer", async ({ page }) => {
+    await expect(
+      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
 

@@ -33,7 +33,7 @@ export default function RockPaperScissors() {
   return (
     <>
       <Head>
-        <title>Frontend Mentor | Rock, Paper, Scissors</title>
+        <title>Frontend Mentor | Rock, Paper, Scissors, Lizard, Spock</title>
       </Head>
       <div
         className={`App relative min-h-[750px] bg-gradient-to-b from-rock-paper-scissor-background-100 to-rock-paper-scissor-background-200 to-[130%] font-barlow-semi-condensed font-semibold lg:min-h-[100svh] lg:bg-[radial-gradient(circle_at_top,var(--tw-gradient-from),var(--tw-gradient-to))] lg:to-[100%] ${barlowSemiCondensed.variable}`}
@@ -114,7 +114,7 @@ function Header() {
       <div className="relative mt-[3px] aspect-[115/114] h-[51px] lg:mt-[7.5px] lg:h-[114px]">
         <Image
           src="/rock-paper-scissors/images/logo-bonus.svg"
-          alt="Rock Paper Scissors Logo"
+          alt="Rock Paper Scissors Lizard Spock Logo"
           fill
         />
       </div>
