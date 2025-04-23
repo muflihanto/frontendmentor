@@ -51,6 +51,31 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Page", () => {
     await expect(rockButton.locator('img[alt="Rock Icon"]')).toBeVisible();
   });
 
+  test("should show rules modal when rules button is clicked", async ({
+    page,
+  }) => {
+    const rulesButton = page.locator('button:has-text("rules")');
+    await rulesButton.click();
+
+    const rulesModal = page.locator('section[aria-label="Rules modal"]>div');
+    await expect(rulesModal).toBeVisible();
+
+    const rulesTitle = rulesModal.locator('h2:has-text("RULES")');
+    await expect(rulesTitle).toBeVisible();
+
+    const rulesImage = rulesModal.getByRole("img", { name: "Rules" });
+    await expect(rulesImage).toBeVisible();
+
+    const closeButton = rulesModal.locator(
+      'button:has(img[alt="Close Button"])',
+    );
+    await expect(closeButton).toBeVisible();
+
+    // Test closing the modal
+    await closeButton.click();
+    await expect(rulesModal).not.toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
