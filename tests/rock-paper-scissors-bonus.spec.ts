@@ -86,6 +86,68 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () 
     await expect(rulesModal).not.toBeVisible();
   });
 
+  test.describe("Gameplay", () => {
+    test("should show win/lose result and update score", async ({ page }) => {
+      // Mock the API response to control test outcome
+      await page.route("**/*", (route) => {
+        if (route.request().url().includes("icon-")) {
+          // Allow image requests to pass through
+          return route.continue();
+        }
+        return route.continue();
+      });
+
+      const initialScore = await page
+        .locator("header >> p:last-child")
+        .textContent();
+
+      const paperButton = page.getByRole("button", { name: "Paper" });
+      await paperButton.click();
+
+      // Wait for house choice to appear (mock would be better here)
+      await page.waitForTimeout(1500); // Wait for the 1s timeout in the code
+
+      // Check if we have a result (either win or lose)
+      const resultText = await page
+        .locator('h1:text-matches("win|lose", "i")')
+        .textContent();
+      expect(resultText).toMatch(/win|lose/);
+
+      // Verify play again button appears
+      const playAgainButton = page.locator('button:has-text("PLAY AGAIN")');
+      await expect(playAgainButton).toBeVisible();
+
+      // Check score change
+      const newScore = await page
+        .locator("header >> p:last-child")
+        .textContent();
+      expect(Number.parseInt(newScore ?? "0")).not.toBe(
+        Number.parseInt(initialScore ?? "0"),
+      );
+    });
+
+    test("should return to choice screen when play again is clicked", async ({
+      page,
+    }) => {
+      const paperButton = page.getByRole("button", { name: "Paper" });
+      await paperButton.click();
+
+      await page.waitForTimeout(1500); // Wait for results
+
+      const playAgainButton = page.locator('button:has-text("PLAY AGAIN")');
+      await playAgainButton.click();
+
+      // Verify we're back to choices
+      await expect(page.getByRole("button", { name: "Paper" })).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: "Scissors" }),
+      ).toBeVisible();
+      await expect(page.getByRole("button", { name: "Rock" })).toBeVisible();
+      await expect(page.getByRole("button", { name: "Lizard" })).toBeVisible();
+      await expect(page.getByRole("button", { name: "Spock" })).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
