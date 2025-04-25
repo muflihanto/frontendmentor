@@ -136,6 +136,27 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Page", () => {
     });
   });
 
+  test("should persist score between page reloads", async ({ page }) => {
+    // Make a choice to change the score
+    const paperButton = page.getByRole("button", { name: "Paper" });
+    await paperButton.click();
+
+    await page.waitForTimeout(1500); // Wait for results
+
+    // Get the new score
+    const scoreAfterPlay = await page
+      .locator("header >> p:last-child")
+      .textContent();
+
+    // Reload the page
+    await page.reload();
+
+    // Verify score is the same
+    await expect(page.locator("header >> p:last-child")).toHaveText(
+      scoreAfterPlay ?? "",
+    );
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
