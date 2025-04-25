@@ -248,6 +248,29 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
         ).not.toBeVisible();
       });
     });
+    test("should persist todo items after page reload", async ({ page }) => {
+      const newItemText = "Persistent todo";
+      await addTodoItem(page, newItemText);
+
+      let items = await getTodoItems(page);
+      await expect(items[6]).toContainText(newItemText);
+
+      await page.reload();
+
+      // Verify the item still exists after reload
+      items = await getTodoItems(page);
+      await expect(items[6]).toContainText(newItemText);
+
+      // Verify items count remains the same
+      expect(items).toHaveLength(7);
+
+      // Verify items left count persists
+      const itemsLeftText = await page
+        .locator("text=/[0-9]+ items left/")
+        .first()
+        .textContent();
+      expect(itemsLeftText).toMatch(/6 items left/);
+    });
     test("form footer buttons work", async ({ page }) => {
       const form = page.locator("form");
       for (const label of formFooterButtonLabels) {
