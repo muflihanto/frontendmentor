@@ -33,6 +33,7 @@ export default function Main() {
   );
 }
 
+// TODO: add dark mode persistence
 function Header() {
   const { isDarkMode, toggle } = useDarkMode();
 

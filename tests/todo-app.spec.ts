@@ -339,6 +339,56 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     await expect(button).toHaveAttribute("aria-checked", "true");
   });
 
+  /** Test if dark mode preference persists after page reload */
+  test("dark mode preference persists after reload", async ({ page }) => {
+    const button = page.getByRole("banner").getByRole("switch");
+    const container = page.locator("div").nth(1);
+    const html = page.locator("html");
+    const getBgImage = async () =>
+      await container.evaluate(
+        (el) => window.getComputedStyle(el, "::before").backgroundImage,
+      );
+
+    // Initial state (light mode)
+    await expect(button).toHaveAttribute("aria-checked", "false");
+    expect(await getBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
+    );
+
+    // Switch to dark mode
+    await button.click();
+    await expect(button).toHaveAttribute("aria-checked", "true");
+    await expect(html).toHaveClass("dark");
+    expect(await getBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-dark.jpg")',
+    );
+
+    // Reload and verify dark mode persists
+    await page.reload();
+    await page.waitForTimeout(1500);
+    await expect(button).toHaveAttribute("aria-checked", "true");
+    await expect(html).toHaveClass("dark");
+    expect(await getBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-dark.jpg")',
+    );
+
+    // Switch back to light mode
+    await button.click();
+    await expect(button).toHaveAttribute("aria-checked", "false");
+    await expect(html).not.toHaveClass("dark");
+    expect(await getBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
+    );
+
+    // Reload and verify light mode persists
+    await page.reload();
+    await expect(button).toHaveAttribute("aria-checked", "false");
+    await expect(html).not.toHaveClass("dark");
+    expect(await getBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
+    );
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByText("Drag and drop to reorder list")).toBeVisible();
