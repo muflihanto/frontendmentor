@@ -24,6 +24,11 @@ const dataAtom = atomWithStorage<Data[]>(
   }),
 );
 
+const darkModeAtom = atomWithStorage<boolean | null>(
+  "todo-app-dark-mode",
+  null,
+);
+
 export default function Main() {
   return (
     <>
@@ -33,9 +38,16 @@ export default function Main() {
   );
 }
 
-// TODO: add dark mode persistence
 function Header() {
-  const { isDarkMode, toggle } = useDarkMode();
+  const { isDarkMode: systemDarkMode, toggle } = useDarkMode();
+  const [darkMode, setDarkMode] = useAtom(darkModeAtom);
+  const isDarkMode = darkMode ?? systemDarkMode;
+
+  useEffect(() => {
+    if (darkMode !== null && darkMode !== systemDarkMode) {
+      toggle();
+    }
+  }, [darkMode, systemDarkMode, toggle]);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -45,6 +57,10 @@ function Header() {
     }
   }, [isDarkMode]);
 
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => !(prev ?? systemDarkMode));
+  };
+
   return (
     <header className="relative flex items-center justify-center px-[24px]">
       <div className="flex w-full max-w-[540px] items-center justify-between">
@@ -53,7 +69,7 @@ function Header() {
         </h1>
         <motion.button
           onClick={() => {
-            toggle();
+            toggleDarkMode();
           }}
           role="switch"
           aria-checked={isDarkMode}
