@@ -226,6 +226,42 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     // TODO: add more theme related assertions
   });
 
+  /** Test if the theme preference persists after page reload */
+  test("theme preference persists on reload", async ({ page }) => {
+    const header = page.getByRole("banner");
+    const themeSwitcher = header.getByRole("switch", {
+      name: "Dark Mode",
+    });
+
+    // Initial state should be light
+    await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "false");
+
+    // Switch to dark mode
+    await themeSwitcher.click();
+    await expect(header).toHaveCSS("background-color", "rgb(43, 57, 69)");
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "true");
+
+    // Reload the page
+    await page.reload();
+
+    // Verify theme is still dark after reload
+    await expect(header).toHaveCSS("background-color", "rgb(43, 57, 69)");
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "true");
+
+    // Switch back to light mode
+    await themeSwitcher.click();
+    await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "false");
+
+    // Reload again
+    await page.reload();
+
+    // Verify theme is still light after reload
+    await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(themeSwitcher).toHaveAttribute("aria-checked", "false");
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
