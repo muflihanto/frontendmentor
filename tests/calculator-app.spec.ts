@@ -1,8 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-// TODO: add theme switcher test case
-
 const keys = [
   { key: "7", type: "number" },
   { key: "8", type: "number" },
@@ -69,6 +67,35 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         calckeys.getByRole("button", { name: key.key === "*" ? "x" : key.key }),
       ).toBeVisible();
     }
+  });
+
+  test.describe("Theme Switching", () => {
+    test("should switch between themes when theme toggle is clicked", async ({
+      page,
+    }) => {
+      // Get initial theme class
+      const main = page.locator("main");
+      const initialThemeClass = await main.getAttribute("class");
+
+      // Click the theme toggle button
+      const themeToggle = page.locator('button[aria-label^="Switch to"]');
+      await themeToggle.click();
+
+      // Verify theme has changed
+      const newThemeClass = await main.getAttribute("class");
+      expect(newThemeClass).not.toBe(initialThemeClass);
+
+      // Click again to cycle through themes
+      await themeToggle.click();
+      const thirdThemeClass = await main.getAttribute("class");
+      expect(thirdThemeClass).not.toBe(newThemeClass);
+      expect(thirdThemeClass).not.toBe(initialThemeClass);
+
+      // One more click should cycle back to first theme
+      await themeToggle.click();
+      const finalThemeClass = await main.getAttribute("class");
+      expect(finalThemeClass).toBe(initialThemeClass);
+    });
   });
 
   /** Test if the page has a footer */
