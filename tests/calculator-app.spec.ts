@@ -96,6 +96,33 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const finalThemeClass = await main.getAttribute("class");
       expect(finalThemeClass).toBe(initialThemeClass);
     });
+
+    test("should update the theme indicator position when switching themes", async ({
+      page,
+    }) => {
+      const themeToggle = page.locator('button[aria-label^="Switch to"]');
+      const themeIndicator = themeToggle.locator('div[class*="bg-calculator"]');
+
+      // Get initial position
+      const initialPosition = await themeIndicator.evaluate((el) => {
+        return window.getComputedStyle(el).left;
+      });
+
+      // Click and verify new position
+      await themeToggle.click();
+      const secondPosition = await themeIndicator.evaluate((el) => {
+        return window.getComputedStyle(el).left;
+      });
+      expect(secondPosition).not.toBe(initialPosition);
+
+      // Click again and verify third position
+      await themeToggle.click();
+      const thirdPosition = await themeIndicator.evaluate((el) => {
+        return window.getComputedStyle(el).left;
+      });
+      expect(thirdPosition).not.toBe(initialPosition);
+      expect(thirdPosition).not.toBe(secondPosition);
+    });
   });
 
   /** Test if the page has a footer */
