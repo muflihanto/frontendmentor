@@ -125,6 +125,40 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
     });
   });
 
+  test.describe("Theme Preference Persistence", () => {
+    test("should persist theme preference in localStorage", async ({
+      page,
+    }) => {
+      // Initial localStorage should be empty
+      const initialTheme = await page.evaluate(() => {
+        return localStorage.getItem("calc-theme");
+      });
+      expect(initialTheme).toBeNull();
+
+      // Click theme toggle to change theme (this should create the localStorage entry)
+      const themeToggle = page.locator('button[aria-label^="Switch to"]');
+      await themeToggle.click();
+
+      // Verify localStorage was created and has a value
+      const newTheme = await page.evaluate(() => {
+        return localStorage.getItem("calc-theme");
+      });
+      expect(newTheme).toMatch(/^[1-3]$/); // Should be 1, 2, or 3
+
+      // Reload page and verify theme persists
+      await page.reload();
+      const persistedTheme = await page.evaluate(() => {
+        return localStorage.getItem("calc-theme");
+      });
+      expect(persistedTheme).toBe(newTheme);
+
+      // Verify UI reflects persisted theme
+      const main = page.locator("main");
+      const persistedThemeClass = await main.getAttribute("class");
+      expect(persistedThemeClass).toContain(`th${persistedTheme}`);
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
