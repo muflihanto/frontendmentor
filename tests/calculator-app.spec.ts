@@ -157,6 +157,35 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const persistedThemeClass = await main.getAttribute("class");
       expect(persistedThemeClass).toContain(`th${persistedTheme}`);
     });
+
+    test("should maintain theme preference across sessions", async ({
+      context,
+      page,
+    }) => {
+      // Set the theme by clicking the toggle
+      const themeToggle = page.locator('button[aria-label^="Switch to"]');
+      await themeToggle.click();
+
+      // Get the selected theme
+      const selectedTheme = await page.evaluate(() => {
+        return localStorage.getItem("calc-theme");
+      });
+
+      // Create a new page in the same context (simulating a new session with same storage)
+      const newPage = await context.newPage();
+      await newPage.goto("/calculator-app");
+
+      // Verify the theme persists
+      const persistedTheme = await newPage.evaluate(() => {
+        return localStorage.getItem("calc-theme");
+      });
+      expect(persistedTheme).toBe(selectedTheme);
+
+      // Verify UI reflects persisted theme
+      const main = newPage.locator("main");
+      const persistedThemeClass = await main.getAttribute("class");
+      expect(persistedThemeClass).toContain(`th${persistedTheme}`);
+    });
   });
 
   /** Test if the page has a footer */
