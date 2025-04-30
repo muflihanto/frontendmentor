@@ -389,6 +389,76 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
     );
   });
 
+  /** Test if theme preference is maintained across sessions */
+  test("should maintain theme preference across sessions", async ({
+    page,
+    context,
+  }) => {
+    const button = page.getByRole("banner").getByRole("switch");
+    const html = page.locator("html");
+    const getBgImage = async () =>
+      await page
+        .locator("div")
+        .nth(1)
+        .evaluate(
+          (el) => window.getComputedStyle(el, "::before").backgroundImage,
+        );
+    const getDarkMode = async () =>
+      await page.evaluate(() => localStorage.getItem("todo-app-dark-mode"));
+
+    // Initial state (light mode)
+    await expect(button).toHaveAttribute("aria-checked", "false");
+    await expect(html).not.toHaveClass("dark");
+    expect(await getBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
+    );
+    expect(await getDarkMode()).toBeNull();
+
+    // Switch to dark mode and verify localStorage
+    await button.click();
+    await expect(button).toHaveAttribute("aria-checked", "true");
+    await expect(html).toHaveClass("dark");
+    expect(await getBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-dark.jpg")',
+    );
+    expect(await getDarkMode()).toBe("true");
+
+    // Create new page to simulate new session
+    const newPage = await context.newPage();
+    await newPage.goto("/todo-app");
+    const newButton = newPage.getByRole("banner").getByRole("switch");
+    const newHtml = newPage.locator("html");
+    const newGetBgImage = async () =>
+      await newPage
+        .locator("div")
+        .nth(1)
+        .evaluate(
+          (el) => window.getComputedStyle(el, "::before").backgroundImage,
+        );
+    const newGetDarkMode = async () =>
+      await page.evaluate(() => localStorage.getItem("todo-app-dark-mode"));
+
+    // Verify dark mode persists in new session
+    await expect(newButton).toHaveAttribute("aria-checked", "true");
+    await expect(newHtml).toHaveClass("dark");
+    expect(await newGetBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-dark.jpg")',
+    );
+    expect(await newGetDarkMode()).toBe("true");
+
+    // Switch back to light mode and verify localStorage
+    await newButton.click();
+    await expect(newButton).toHaveAttribute("aria-checked", "false");
+    await expect(newHtml).not.toHaveClass("dark");
+    expect(await newGetBgImage()).toStrictEqual(
+      'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
+    );
+    expect(await newGetDarkMode()).toBe("false");
+
+    // Clean up
+    await newPage.close();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByText("Drag and drop to reorder list")).toBeVisible();
