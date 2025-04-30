@@ -186,6 +186,47 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const persistedThemeClass = await main.getAttribute("class");
       expect(persistedThemeClass).toContain(`th${persistedTheme}`);
     });
+
+    test("should respect system preference on initial load", async ({
+      browser,
+    }) => {
+      // Create context with dark mode preference
+      const darkContext = await browser.newContext({
+        colorScheme: "dark",
+      });
+      const darkPage = await darkContext.newPage();
+      await darkPage.goto("/calculator-app");
+
+      // Verify dark theme (theme 3) is applied initially (even before localStorage is set)
+      const initialDarkTheme = await darkPage.evaluate(() => {
+        return localStorage.getItem("calc-theme");
+      });
+      expect(initialDarkTheme).toBeNull();
+
+      const mainDark = darkPage.locator("main");
+      const darkThemeClass = await mainDark.getAttribute("class");
+      expect(darkThemeClass).toContain("th3");
+
+      // Create context with light mode preference
+      const lightContext = await browser.newContext({
+        colorScheme: "light",
+      });
+      const lightPage = await lightContext.newPage();
+      await lightPage.goto("/calculator-app");
+
+      // Verify light theme (theme 2) is applied initially
+      const initialLightTheme = await lightPage.evaluate(() => {
+        return localStorage.getItem("calc-theme");
+      });
+      expect(initialLightTheme).toBeNull();
+
+      const mainLight = lightPage.locator("main");
+      const lightThemeClass = await mainLight.getAttribute("class");
+      expect(lightThemeClass).toContain("th2");
+
+      await darkContext.close();
+      await lightContext.close();
+    });
   });
 
   /** Test if the page has a footer */
