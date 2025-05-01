@@ -186,7 +186,7 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
 
   /** Test if the page has 'Product Details' section */
   test("has 'Product Details' section", async ({ page }) => {
-    const section = page.locator("div").nth(11);
+    const section = page.locator("div").nth(10);
     await expect(section.getByLabel("Brand name")).toBeVisible();
     await expect(section.getByLabel("Product name")).toBeVisible();
     await expect(section.getByLabel("Product description")).toBeVisible();
@@ -202,7 +202,7 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
 
   /** Test if the page has 'Photo slide' section */
   test("has 'Photo slide' section", async ({ page }) => {
-    const section = page.locator("div").nth(3);
+    const section = page.locator("div").nth(2);
     const display = section.locator(">div").first();
     const selector = section.locator(">div").nth(1);
     await expect(section).toBeVisible();
@@ -297,7 +297,7 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       viewport: { width: 375, height: 667 },
     });
     test("'Photo slide' section works on mobile", async ({ page }) => {
-      const section = page.locator("div").nth(3);
+      const section = page.locator("div").nth(2);
       const slideContainer = section.locator(">div>div").first();
       const prevButton = section.getByRole("button").first();
       const nextButton = section.getByRole("button").nth(1);
