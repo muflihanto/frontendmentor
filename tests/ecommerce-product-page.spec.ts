@@ -64,6 +64,30 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     ).toBeVisible();
   });
 
+  test.describe("Cart Controller", () => {
+    test("should initialize with empty cart", async ({ page }) => {
+      // Check that cart count indicator is not visible initially
+      const cartCount = page.locator('[aria-label="Cart"] >> .absolute');
+      await expect(cartCount).not.toBeVisible();
+    });
+
+    test("should show empty cart message when no items are added", async ({
+      page,
+    }) => {
+      const cartButton = page.getByRole("button", {
+        name: "Cart",
+        exact: true,
+      });
+
+      // Open cart dropdown
+      await cartButton.click();
+
+      // Verify empty cart message
+      const emptyMessage = page.locator("text=Your cart is empty.");
+      await expect(emptyMessage).toBeVisible();
+    });
+  });
+
   /** Test if the page has 'Product Details' section */
   test("has 'Product Details' section", async ({ page }) => {
     const section = page.locator("div").nth(11);
