@@ -67,7 +67,9 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   test.describe("Cart Controller", () => {
     test("should initialize with empty cart", async ({ page }) => {
       // Check that cart count indicator is not visible initially
-      const cartCount = page.locator('[aria-label="Cart"] >> .absolute');
+      const cartCount = page.locator(
+        'button[id="cart-toggle"] >> div.absolute',
+      );
       await expect(cartCount).not.toBeVisible();
     });
 
@@ -135,6 +137,50 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       );
       await expect(cartItems.first()).toContainText("$125.00 x 2");
       await expect(cartItems.first()).toContainText("$250.00");
+    });
+
+    test("should allow removing items from cart", async ({ page }) => {
+      const increaseBtn = page.getByRole("button", { name: "Increase" });
+      const addToCartBtn = page.getByRole("button", { name: "Add to cart" });
+      const cartButton = page.locator('button[id="cart-toggle"]');
+
+      // Add item to cart
+      await increaseBtn.click();
+      await addToCartBtn.click();
+
+      // Open cart dropdown
+      await cartButton.click();
+
+      // Remove item
+      const deleteButton = page.getByRole("button", { name: "Delete" }).first();
+      await deleteButton.click();
+
+      // Verify cart is empty
+      const emptyMessage = page.locator("text=Your cart is empty.");
+      await expect(emptyMessage).toBeVisible();
+      await expect(
+        page.locator('button[id="cart-toggle"] >> div.absolute'),
+      ).not.toBeVisible();
+    });
+
+    test("should close cart when clicking outside", async ({ page }) => {
+      const increaseBtn = page.getByRole("button", { name: "Increase" });
+      const addToCartBtn = page.getByRole("button", { name: "Add to cart" });
+      const cartButton = page.locator('button[id="cart-toggle"]');
+
+      // Add item to cart
+      await increaseBtn.click();
+      await addToCartBtn.click();
+
+      // Open cart dropdown
+      await cartButton.click();
+
+      // Click outside
+      await page.locator("#main-heading").click({ position: { x: 2, y: 2 } });
+
+      // Verify cart is closed
+      const cartPopup = page.getByRole("heading", { name: "Cart", level: 2 });
+      await expect(cartPopup).not.toBeVisible();
     });
   });
 
