@@ -139,10 +139,10 @@ function CartPopup() {
       >
         {cartItem.length > 0 ? (
           <div className="w-full px-6">
-            <div className="flex flex-col gap-6">
+            <ul className="flex flex-col gap-6" id="cart-items">
               {cartItem.map((c, index) => {
                 return (
-                  <div key={c.name} className="flex w-full items-center">
+                  <li key={c.name} className="flex w-full items-center">
                     <div className="relative h-[50px] w-[50px] overflow-hidden rounded">
                       <Image
                         src={c.thumbnails[0]}
@@ -181,10 +181,10 @@ function CartPopup() {
                         <use href="/ecommerce-product-page/images/icon-delete.svg#icon-delete" />
                       </svg>
                     </button>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
             <button
               className="mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] bg-ecommerce-primary-200 font-bold text-ecommerce-neutral-100 hover:bg-ecommerce-primary-200/70"
               // biome-ignore lint/a11y/noPositiveTabindex: <explanation>

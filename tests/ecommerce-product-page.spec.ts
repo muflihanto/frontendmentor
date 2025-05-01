@@ -86,6 +86,56 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       const emptyMessage = page.locator("text=Your cart is empty.");
       await expect(emptyMessage).toBeVisible();
     });
+
+    /** Test if the product quantity counter works */
+    test("product quantity counter works", async ({ page }) => {
+      const quantity = page.getByLabel("Quantity");
+      const decrease = page.getByRole("button", { name: "Decrease" });
+      const increase = page.getByRole("button", { name: "Increase" });
+      await expect(quantity).toBeVisible();
+      await expect(decrease).toBeVisible();
+      await expect(decrease).toBeDisabled();
+      await expect(increase).toBeVisible();
+      await expect(quantity).toHaveText("0");
+      await increase.click();
+      await expect(quantity).toHaveText("1");
+      await increase.click();
+      await expect(quantity).toHaveText("2");
+      await decrease.click();
+      await expect(quantity).toHaveText("1");
+      await decrease.click();
+      await expect(quantity).toHaveText("0");
+    });
+
+    test('should add items to cart when "Add to cart" is clicked', async ({
+      page,
+    }) => {
+      const increaseBtn = page.getByRole("button", { name: "Increase" });
+      const addToCartBtn = page.getByRole("button", { name: "Add to cart" });
+      const cartButton = page.locator('button[id="cart-toggle"]');
+
+      // Add 2 items to cart
+      await increaseBtn.click();
+      await increaseBtn.click();
+      await addToCartBtn.click();
+
+      // Cart count should show 1 (1 product added, not quantity)
+      const cartCount = cartButton.locator(".absolute");
+      await expect(cartCount).toBeVisible();
+      await expect(cartCount).toHaveText("1");
+
+      // Open cart dropdown
+      await cartButton.click();
+
+      // Verify cart contents
+      const cartItems = page.locator('ul[id="cart-items"]  >> li');
+      await expect(cartItems).toHaveCount(1);
+      await expect(cartItems.first()).toContainText(
+        "Fall Limited Edition Sneakers",
+      );
+      await expect(cartItems.first()).toContainText("$125.00 x 2");
+      await expect(cartItems.first()).toContainText("$250.00");
+    });
   });
 
   /** Test if the page has 'Product Details' section */
@@ -193,26 +243,6 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       currentImage = overlay.getByRole("img", { name: `Product ${index}` });
       await expect(currentImage).toBeVisible();
     }
-  });
-
-  /** Test if the product quantity counter works */
-  test("product quantity counter works", async ({ page }) => {
-    const quantity = page.getByLabel("Quantity");
-    const decrease = page.getByRole("button", { name: "Decrease" });
-    const increase = page.getByRole("button", { name: "Increase" });
-    await expect(quantity).toBeVisible();
-    await expect(decrease).toBeVisible();
-    await expect(decrease).toBeDisabled();
-    await expect(increase).toBeVisible();
-    await expect(quantity).toHaveText("0");
-    await increase.click();
-    await expect(quantity).toHaveText("1");
-    await increase.click();
-    await expect(quantity).toHaveText("2");
-    await decrease.click();
-    await expect(quantity).toHaveText("1");
-    await decrease.click();
-    await expect(quantity).toHaveText("0");
   });
 
   /** Test if the page is responsive */
