@@ -68,7 +68,7 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     test("should initialize with empty cart", async ({ page }) => {
       // Check that cart count indicator is not visible initially
       const cartCount = page.locator(
-        'button[id="cart-toggle"] >> div.absolute',
+        'button[id="cart-toggle"] >> span.absolute',
       );
       await expect(cartCount).not.toBeVisible();
     });
@@ -159,7 +159,7 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       const emptyMessage = page.locator("text=Your cart is empty.");
       await expect(emptyMessage).toBeVisible();
       await expect(
-        page.locator('button[id="cart-toggle"] >> div.absolute'),
+        page.locator('button[id="cart-toggle"] >> span.absolute'),
       ).not.toBeVisible();
     });
 
@@ -220,6 +220,25 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       const cartItem = page.locator('ul[id="cart-items"]  >> li').first();
       await expect(cartItem).toContainText("$125.00 x 3");
       await expect(cartItem).toContainText("$375.00");
+    });
+
+    test("should persist cart items between page reloads", async ({ page }) => {
+      const increaseBtn = page.getByRole("button", { name: "Increase" });
+      const addToCartBtn = page.getByRole("button", { name: "Add to cart" });
+
+      // Add item to cart
+      await increaseBtn.click();
+      await addToCartBtn.click();
+
+      // Reload page
+      await page.reload();
+
+      // Verify cart count is still there
+      const cartCount = page.locator(
+        'button[id="cart-toggle"] >> span.absolute',
+      );
+      await expect(cartCount).toBeVisible();
+      await expect(cartCount).toHaveText("1");
     });
   });
 
