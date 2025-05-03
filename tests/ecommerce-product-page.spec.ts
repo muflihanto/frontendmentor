@@ -182,6 +182,45 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       const cartPopup = page.getByRole("heading", { name: "Cart", level: 2 });
       await expect(cartPopup).not.toBeVisible();
     });
+
+    test("should not add items to cart when quantity is zero", async ({
+      page,
+    }) => {
+      const addToCartBtn = page.getByRole("button", { name: "Add to cart" });
+      const cartButton = page.locator('button[id="cart-toggle"]');
+
+      // Try to add with quantity 0
+      await addToCartBtn.click();
+
+      // Open cart dropdown
+      await cartButton.click();
+
+      // Verify cart is still empty
+      const emptyMessage = page.locator("text=Your cart is empty.");
+      await expect(emptyMessage).toBeVisible();
+    });
+
+    test("should display correct total price for cart items", async ({
+      page,
+    }) => {
+      const increaseBtn = page.getByRole("button", { name: "Increase" });
+      const addToCartBtn = page.getByRole("button", { name: "Add to cart" });
+      const cartButton = page.locator('button[id="cart-toggle"]');
+
+      // Add 3 items to cart (quantity 3)
+      await increaseBtn.click();
+      await increaseBtn.click();
+      await increaseBtn.click();
+      await addToCartBtn.click();
+
+      // Open cart dropdown
+      await cartButton.click();
+
+      // Verify total price
+      const cartItem = page.locator('ul[id="cart-items"]  >> li').first();
+      await expect(cartItem).toContainText("$125.00 x 3");
+      await expect(cartItem).toContainText("$375.00");
+    });
   });
 
   /** Test if the page has 'Product Details' section */
