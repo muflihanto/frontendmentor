@@ -93,6 +93,25 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(button).toHaveCSS("justify-content", "flex-end");
   });
 
+  /** Test theme respects system preference */
+  test("theme respects system preference", async ({ page }) => {
+    const button = page.getByRole("switch", { name: "Dark Mode" });
+
+    // Set system preference to dark
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.reload();
+
+    // Should automatically switch to dark mode
+    await expect(button).toHaveAttribute("aria-checked", "true");
+
+    // Set system preference back to light
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.reload();
+
+    // Should automatically switch to light mode
+    await expect(button).toHaveAttribute("aria-checked", "false");
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     const heading = page.getByRole("heading", {
