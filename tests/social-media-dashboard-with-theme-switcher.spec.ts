@@ -72,6 +72,27 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(button).toBeVisible();
   });
 
+  /** Test theme switching functionality */
+  test("theme switcher toggles between light and dark modes", async ({
+    page,
+  }) => {
+    const button = page.getByRole("switch", { name: "Dark Mode" });
+
+    // Initial state should be light (justify-end)
+    await expect(button).toHaveAttribute("aria-checked", "false");
+    await expect(button).toHaveCSS("justify-content", "flex-end");
+
+    // Toggle to dark (should switch to justify-start)
+    await button.click();
+    await expect(button).toHaveAttribute("aria-checked", "true");
+    await expect(button).toHaveCSS("justify-content", "flex-start");
+
+    // Toggle back to light (should return to justify-end)
+    await button.click();
+    await expect(button).toHaveAttribute("aria-checked", "false");
+    await expect(button).toHaveCSS("justify-content", "flex-end");
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     const heading = page.getByRole("heading", {
