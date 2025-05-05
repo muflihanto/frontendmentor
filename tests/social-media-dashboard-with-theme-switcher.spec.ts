@@ -127,6 +127,25 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(button).toHaveAttribute("aria-checked", "false");
   });
 
+  test("theme preference is stored in localStorage", async ({ page }) => {
+    const button = page.getByRole("switch", { name: "Dark Mode" });
+
+    // Check initial state
+    expect(await page.evaluate(() => localStorage.getItem("theme"))).toBeNull();
+
+    // Set to dark and verify storage
+    await button.click();
+    expect(await page.evaluate(() => localStorage.getItem("theme"))).toBe(
+      "dark",
+    );
+
+    // Set to light and verify storage
+    await button.click();
+    expect(await page.evaluate(() => localStorage.getItem("theme"))).toBe(
+      "light",
+    );
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     const heading = page.getByRole("heading", {
