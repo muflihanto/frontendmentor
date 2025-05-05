@@ -112,6 +112,21 @@ test.describe("FrontendMentor Challenge - Social media dashboard with theme swit
     await expect(button).toHaveAttribute("aria-checked", "false");
   });
 
+  /** Test theme persistence */
+  test("theme preference persists after page reload", async ({ page }) => {
+    const button = page.getByRole("switch", { name: "Dark Mode" });
+
+    // Toggle to dark and reload
+    await button.click();
+    await page.reload();
+    await expect(button).toHaveAttribute("aria-checked", "true");
+
+    // Toggle back to light and reload
+    await button.click();
+    await page.reload();
+    await expect(button).toHaveAttribute("aria-checked", "false");
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     const heading = page.getByRole("heading", {
