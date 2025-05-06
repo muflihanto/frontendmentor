@@ -67,6 +67,29 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
     );
   });
 
+  test("displays correct divider image based on viewport", async ({ page }) => {
+    // Check mobile view first
+    await page.setViewportSize({ width: 375, height: 667 });
+    const mobileDivider = page.getByAltText("Line Divider");
+    await expect(mobileDivider).toBeVisible();
+
+    // Get the currentSrc property value
+    const mobileSrc = await mobileDivider.evaluate(
+      (el) => (el as HTMLImageElement).currentSrc,
+    );
+    expect(mobileSrc).toContain("pattern-divider-mobile.svg");
+
+    // Check desktop view
+    await page.setViewportSize({ width: 1440, height: 800 });
+    await page.waitForTimeout(300);
+
+    // Get the updated currentSrc property value
+    const desktopSrc = await mobileDivider.evaluate(
+      (el) => (el as HTMLImageElement).currentSrc,
+    );
+    expect(desktopSrc).toContain("pattern-divider-desktop.svg");
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
