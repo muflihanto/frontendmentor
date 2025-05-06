@@ -18,6 +18,28 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
       await expect(page.getByText("Advice #...")).toBeVisible();
       await expect(page.getByRole("status")).toBeVisible();
     });
+    test("spinner component has proper accessibility attributes", async ({
+      page,
+    }) => {
+      // Force loading state to see the spinner
+      await page.evaluate(() => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        window.fetch = () => new Promise(() => {});
+      });
+      await page.getByLabel("Generate new advice").click();
+
+      const spinner = page.getByRole("status");
+      await expect(spinner).toBeVisible();
+
+      // Verify SVG has proper aria attributes
+      const svg = spinner.locator("svg");
+      await expect(svg).toHaveAttribute("aria-hidden", "true");
+
+      // Verify loading text is properly hidden
+      const loadingText = spinner.locator(".sr-only");
+      await expect(loadingText).toHaveText("Loading...");
+      await expect(loadingText).toHaveClass(/sr-only/);
+    });
     test("dice button works", async ({ page }) => {
       const button = page.getByLabel("Generate new advice");
       await expect(button).toBeVisible();
