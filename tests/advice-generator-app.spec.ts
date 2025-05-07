@@ -90,6 +90,28 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
     expect(desktopSrc).toContain("pattern-divider-desktop.svg");
   });
 
+  test("has proper ARIA attributes for accessibility", async ({ page }) => {
+    // Verify main section has proper labeling
+    await expect(page.locator("main")).toHaveAttribute(
+      "aria-labelledby",
+      "advice-section-title",
+    );
+
+    // Verify title is properly set for screen readers
+    const title = page.locator("#advice-section-title");
+    await expect(title).toHaveClass(/sr-only/);
+    await expect(title).toHaveText("Advice Generator App");
+
+    // Verify live regions for dynamic content
+    const adviceIdElement = page.locator('p[aria-live="polite"]');
+    await expect(adviceIdElement).toHaveAttribute("aria-live", "polite");
+    await expect(adviceIdElement).toHaveAttribute("aria-atomic", "true");
+
+    const adviceContentElement = page.locator("#advice-content");
+    await expect(adviceContentElement).toHaveAttribute("aria-live", "polite");
+    await expect(adviceContentElement).toHaveAttribute("aria-atomic", "true");
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
