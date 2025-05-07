@@ -56,6 +56,19 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
       await expect(advice).toHaveText(/^\".*\"$/);
       await expect(advice).not.toHaveText(adviceText);
     });
+    test("dice button has correct states", async ({ page }) => {
+      const button = page.getByLabel("Generate new advice");
+
+      // Verify initial state (after loading)
+      await expect(button).not.toHaveClass(/animate-spin/);
+
+      // Click and verify loading state
+      await button.click();
+      await expect(button).toHaveClass(/animate-spin/);
+
+      // Wait for loading to complete
+      await expect(button).not.toHaveClass(/animate-spin/);
+    });
   });
 
   /** Test if the page has a divider */
