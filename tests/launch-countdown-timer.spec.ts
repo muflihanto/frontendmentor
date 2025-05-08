@@ -40,6 +40,27 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
     }
   });
 
+  /** Test if the countdown timer is decreasing over time */
+  test("countdown timer decreases over time", async ({ page }) => {
+    const timer = page.getByRole("timer");
+
+    // Get initial values
+    const initialSeconds = await timer
+      .locator("id=seconds")
+      .getAttribute("aria-label");
+
+    // Wait for 2 seconds
+    await page.waitForTimeout(2000);
+
+    // Get new values
+    const newSeconds = await timer
+      .locator("id=seconds")
+      .getAttribute("aria-label");
+
+    // Verify at least seconds have changed (other units might not change in 2 seconds)
+    expect(initialSeconds).not.toBe(newSeconds);
+  });
+
   /** Test if flip cards have correct styling on mobile and desktop */
   test("flip cards have responsive styling", async ({ page }) => {
     // Check mobile view first
