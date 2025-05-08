@@ -40,6 +40,26 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
     }
   });
 
+  /** Test if flip cards have correct styling on mobile and desktop */
+  test("flip cards have responsive styling", async ({ page }) => {
+    // Check mobile view first
+    await page.setViewportSize({ width: 375, height: 667 });
+    const flipCard = page.locator("id=days");
+    await expect(flipCard).toHaveCSS("font-size", "32px");
+
+    // Check desktop view
+    await page.setViewportSize({ width: 1440, height: 800 });
+    await expect(flipCard).toHaveCSS("font-size", "78px");
+  });
+
+  /** Test if the page has correct background styling */
+  test("has correct background styling", async ({ page }) => {
+    const appContainer = page.locator(".App");
+    await expect(appContainer).toHaveCSS("background-image", /pattern-hills/);
+    await expect(appContainer).toHaveCSS("background-image", /bg-stars/);
+    await expect(appContainer).toHaveCSS("background-image", /linear-gradient/);
+  });
+
   /** Test if the page has social media links */
   test("has social media links", async ({ page }) => {
     const links = await page.getByRole("navigation").getByRole("link").all();
