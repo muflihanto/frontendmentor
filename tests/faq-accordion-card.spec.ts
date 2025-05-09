@@ -79,6 +79,21 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
     }
   });
 
+  // Test for hover state on FAQ items
+  test("faq items change color on hover", async ({ page }) => {
+    const firstFaqButton = page.getByRole("button").first();
+    const initialColor = await firstFaqButton.evaluate(
+      (el) => window.getComputedStyle(el).color,
+    );
+
+    await firstFaqButton.hover();
+
+    const hoverColor = await firstFaqButton.evaluate(
+      (el) => window.getComputedStyle(el).color,
+    );
+    expect(hoverColor).not.toBe(initialColor);
+  });
+
   // Test for footer content and links
   test("has correct footer content and links", async ({ page }) => {
     const footer = page.locator("footer");
