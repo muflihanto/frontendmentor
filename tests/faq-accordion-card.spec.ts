@@ -38,6 +38,14 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
     }
   });
 
+  // Test for the box illustration visibility in desktop view
+  test("has box illustration in desktop view", async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await expect(
+      page.getByRole("img", { name: "Box Illustration" }),
+    ).toBeVisible();
+  });
+
   /** Test if the accordion works */
   test("accordion should works", async ({ page }) => {
     const faqs = await page.locator("main>div>div:not(:last-child)").all();
@@ -69,6 +77,27 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
         await expect(controlledElem).not.toBeVisible();
       }
     }
+  });
+
+  // Test for footer content and links
+  test("has correct footer content and links", async ({ page }) => {
+    const footer = page.locator("footer");
+    await expect(footer).toContainText("Challenge by Frontend Mentor");
+    await expect(footer).toContainText("Coded by Muflihanto");
+
+    const frontendMentorLink = footer.getByRole("link", {
+      name: "Frontend Mentor",
+    });
+    await expect(frontendMentorLink).toHaveAttribute(
+      "href",
+      "https://www.frontendmentor.io?ref=challenge",
+    );
+
+    const githubLink = footer.getByRole("link", { name: "Muflihanto" });
+    await expect(githubLink).toHaveAttribute(
+      "href",
+      "https://github.com/muflihanto",
+    );
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
