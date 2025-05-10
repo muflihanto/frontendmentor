@@ -94,6 +94,46 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
     expect(hoverColor).not.toBe(initialColor);
   });
 
+  // Test for mobile view illustration
+  test("shows mobile illustration in mobile view", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+
+    // Verify the illustration is visible
+    const illustration = page.getByRole("img", {
+      name: "Illustration Woman Online",
+    });
+    await expect(illustration).toBeVisible();
+
+    // Verify it's using the mobile version by checking the rendered image dimensions
+    // since we can't directly check the src with Next.js Image component
+    const illustrationBox = await illustration.boundingBox();
+    expect(illustrationBox?.width).toBeLessThanOrEqual(240);
+    expect(illustrationBox?.height).toBeLessThanOrEqual(215);
+  });
+
+  // Alternative test for mobile view illustration checking the loader logic
+  test("uses mobile image source in mobile view", async ({ page }) => {
+    // Get all image requests and check if mobile version was requested
+    const imageRequests: string[] = [];
+    page.on("request", (request) => {
+      if (request.url().includes("illustration-woman-online")) {
+        imageRequests.push(request.url());
+      }
+    });
+
+    await page.setViewportSize({ width: 375, height: 667 });
+
+    // Trigger image loading if needed
+    await page
+      .getByRole("img", { name: "Illustration Woman Online" })
+      .isVisible();
+
+    // Verify mobile image was requested
+    expect(
+      imageRequests.some((url) => url.includes("mobile.svg")),
+    ).toBeTruthy();
+  });
+
   // Test for footer content and links
   test("has correct footer content and links", async ({ page }) => {
     const footer = page.locator("footer");
