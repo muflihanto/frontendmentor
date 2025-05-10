@@ -66,6 +66,44 @@ test.describe("FrontendMentor Challenge - Article preview component Page", () =>
     await expect(share).not.toBeVisible();
   });
 
+  /** Test share button state changes */
+  test("share button changes state when clicked", async ({ page }) => {
+    const shareButton = page.getByRole("button", { name: "Share" });
+    const shareIcon = shareButton.locator("svg");
+
+    // Initial state
+    await expect(shareButton).toHaveClass(/bg-article-preview-100/);
+    await expect(shareIcon).toHaveClass(/fill-\[#6E8098\]/);
+
+    // Clicked state
+    await shareButton.click();
+    await expect(shareButton).toHaveClass(/bg-\[#6E8098\]/);
+    await expect(shareIcon).toHaveClass(/fill-article-preview-100/);
+
+    // Back to initial state
+    await shareButton.click();
+    await expect(shareButton).toHaveClass(/bg-article-preview-100/);
+    await expect(shareIcon).toHaveClass(/fill-\[#6E8098\]/);
+  });
+
+  /** Test ARIA attributes for accessibility */
+  test("has correct ARIA attributes", async ({ page }) => {
+    const shareButton = page.getByRole("button", { name: "Share" });
+    await expect(shareButton).toHaveAttribute("aria-haspopup", "true");
+    await expect(shareButton).toHaveAttribute("aria-controls", "sharemenu");
+    await expect(shareButton).toHaveAttribute("aria-expanded", "false");
+
+    await shareButton.click();
+    await expect(shareButton).toHaveAttribute("aria-expanded", "true");
+
+    const shareMenu = page.locator('[id="sharemenu"]');
+    await expect(shareMenu).toHaveAttribute("role", "menu");
+    await expect(shareMenu).toHaveAttribute(
+      "aria-labelledby",
+      "sharemenubutton",
+    );
+  });
+
   /** Test if the page has a correct footer */
   test("has a footer", async ({ page }) => {
     await expect(
