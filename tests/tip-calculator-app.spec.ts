@@ -56,6 +56,21 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(customTipInput).toHaveValue("");
   });
 
+  /** Test error handling for zero people input */
+  test("should show error when people is zero", async ({ page }) => {
+    const peopleInput = page.getByLabel("Number of People");
+    await peopleInput.fill("0");
+    await peopleInput.blur();
+
+    // Verify error message appears
+    await expect(page.getByText("Can't be zero")).toBeVisible();
+
+    // Verify error state clears when fixed
+    await peopleInput.fill("2");
+    await peopleInput.blur();
+    await expect(page.getByText("Can't be zero")).not.toBeVisible();
+  });
+
   /** Test if valid input produce correct output */
   test("valid input should produce correct output", async ({ page }) => {
     const resetButton = page.getByRole("button", { name: "Reset" });
