@@ -39,6 +39,23 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(container.getByText("Total/ person$0.00")).toBeVisible();
   });
 
+  /** Test custom tip input functionality */
+  test("custom tip input should work correctly", async ({ page }) => {
+    const customTipInput = page.getByPlaceholder("Custom");
+    await expect(customTipInput).toBeVisible();
+
+    // Enter custom tip
+    await customTipInput.fill("12");
+    await customTipInput.blur();
+
+    // Verify custom tip is selected
+    await expect(customTipInput).toHaveValue("12");
+
+    // Select a preset tip should clear custom input
+    await page.getByText("10%").click();
+    await expect(customTipInput).toHaveValue("");
+  });
+
   /** Test if valid input produce correct output */
   test("valid input should produce correct output", async ({ page }) => {
     const resetButton = page.getByRole("button", { name: "Reset" });
