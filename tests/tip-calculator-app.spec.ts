@@ -71,6 +71,20 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(page.getByText("Can't be zero")).not.toBeVisible();
   });
 
+  /** Test input validation for negative numbers */
+  test("should prevent negative numbers in inputs", async ({ page }) => {
+    const bill = page.getByLabel("Bill");
+    const people = page.getByLabel("Number of People");
+
+    await bill.fill("-10");
+    await bill.blur();
+    await expect(bill).toHaveValue("");
+
+    await people.fill("-2");
+    await people.blur();
+    await expect(people).toHaveValue("");
+  });
+
   /** Test reset button disabled state */
   test("reset button should be disabled initially and when no inputs", async ({
     page,
