@@ -71,6 +71,27 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(page.getByText("Can't be zero")).not.toBeVisible();
   });
 
+  /** Test reset button disabled state */
+  test("reset button should be disabled initially and when no inputs", async ({
+    page,
+  }) => {
+    const resetButton = page.getByRole("button", { name: "Reset" });
+
+    // Initially disabled
+    await expect(resetButton).toBeDisabled();
+
+    // Fill some inputs
+    await page.getByLabel("Bill").fill("10");
+    await page.getByText("10%").click();
+    await page.getByLabel("Number of People").fill("1");
+    await page.getByLabel("Number of People").blur();
+    await expect(resetButton).toBeEnabled();
+
+    // Clear inputs
+    await resetButton.click();
+    await expect(resetButton).toBeDisabled();
+  });
+
   /** Test if valid input produce correct output */
   test("valid input should produce correct output", async ({ page }) => {
     const resetButton = page.getByRole("button", { name: "Reset" });
