@@ -83,6 +83,22 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
     await expect(page.getByText(data[0].name)).toBeVisible();
   });
 
+  /** Test ARIA attributes */
+  test("has proper ARIA attributes", async ({ page }) => {
+    const slider = page.locator("#testimonials-slider");
+    await expect(slider).toHaveAttribute("aria-roledescription", "carousel");
+
+    const slides = page.locator("[aria-roledescription='slide']");
+    await expect(slides).toHaveCount(1); // Only one slide visible at a time
+    await expect(slides.first()).toHaveAttribute("aria-label", /1 of 2/);
+
+    const buttons = page.getByRole("button", { name: /Slide/ });
+    await expect(buttons).toHaveCount(2);
+    for (const button of await buttons.all()) {
+      await expect(button).toHaveAttribute("aria-controls", "slider-items");
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
