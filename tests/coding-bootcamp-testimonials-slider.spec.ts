@@ -68,6 +68,21 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
     await testData(data[0]);
   });
 
+  /** Test keyboard navigation */
+  test("can navigate with keyboard arrows", async ({ page }) => {
+    await expect(page.getByText(data[0].name)).toBeVisible();
+
+    // Press right arrow
+    await page.keyboard.press("ArrowRight");
+    await page.waitForTimeout(100);
+    await expect(page.getByText(data[1].name)).toBeVisible();
+
+    // Press left arrow
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForTimeout(100);
+    await expect(page.getByText(data[0].name)).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
