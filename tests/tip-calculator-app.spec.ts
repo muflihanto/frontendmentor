@@ -104,6 +104,8 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     // Clear inputs
     await resetButton.click();
     await expect(resetButton).toBeDisabled();
+    await expect(page.getByLabel("Bill")).toHaveValue("");
+    await expect(page.getByLabel("Number of People")).toHaveValue("");
   });
 
   /** Test if valid input produce correct output */
@@ -129,6 +131,24 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(people).toHaveValue("");
     await expect(container.getByText("Tip Amount/ person$0.00")).toBeVisible();
     await expect(container.getByText("Total/ person$0.00")).toBeVisible();
+  });
+
+  /** Test calculation with custom tip */
+  test("should calculate correctly with custom tip", async ({ page }) => {
+    const container = page
+      .locator("div", { has: page.getByRole("button", { name: "Reset" }) })
+      .nth(2);
+    const bill = page.getByLabel("Bill");
+    const customTip = page.getByPlaceholder("Custom");
+    const people = page.getByLabel("Number of People");
+
+    await bill.fill("100");
+    await customTip.fill("12.5");
+    await people.fill("4");
+    await people.blur();
+
+    await expect(container.getByText("Tip Amount/ person$3.13")).toBeVisible();
+    await expect(container.getByText("Total/ person$28.13")).toBeVisible();
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
