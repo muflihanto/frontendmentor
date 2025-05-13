@@ -77,13 +77,17 @@ test.describe("FrontendMentor Challenge - Base Apparel coming soon Page", () => 
       await expect(errorWarning).toBeVisible();
     });
 
-    test("valid input should not trigger a warning", async ({ page }) => {
+    test("valid input should clears input and not trigger a warning", async ({
+      page,
+    }) => {
       const input = page.getByPlaceholder("Email Address");
       const submit = page.getByRole("button");
       await expect(input).toBeEditable();
       await input.fill("janeappleseed@email.com");
       await expect(submit).toBeVisible();
       await submit.click();
+      // Make sure the input is cleared
+      await expect(input).toHaveValue("");
       const errorWarning = page.getByText("Please provide a valid email");
       await expect(errorWarning).not.toBeVisible();
     });
