@@ -54,6 +54,25 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     ).toBeVisible();
   });
 
+  /** Test if the map displays the correct initial position */
+  test("map displays correct initial position", async ({ page }) => {
+    await page.waitForTimeout(2000);
+    const map = page.locator(".leaflet-map-pane");
+    const style = await map.getAttribute("style");
+    expect(style).toContain("translate3d");
+  });
+
+  /** Test if the marker icon is displayed on the map */
+  test("displays marker icon on map", async ({ page }) => {
+    await page.waitForTimeout(2000);
+    const marker = page.locator(".leaflet-marker-icon");
+    await expect(marker).toBeVisible();
+    await expect(marker).toHaveAttribute(
+      "src",
+      "/ip-address-tracker/images/icon-location.svg",
+    );
+  });
+
   /** Test if the form works */
   test("form works", async ({ page }) => {
     await page.waitForTimeout(2000);
