@@ -100,6 +100,20 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(card.getByText("ISPGoogle LLC")).toBeVisible();
   });
 
+  /** Test responsive layout for mobile */
+  test("has correct mobile layout", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await expect(page.locator("h1")).toHaveCSS("font-size", "26px");
+    await expect(page.locator("form")).toHaveCSS("width", "327px");
+  });
+
+  /** Test responsive layout for desktop */
+  test("has correct desktop layout", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 800 });
+    await expect(page.locator("h1")).toHaveCSS("font-size", "32px");
+    await expect(page.locator("form")).toHaveCSS("width", "555px");
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
