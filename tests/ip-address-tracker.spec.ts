@@ -125,6 +125,23 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(page.getByText("IP Address-")).toBeVisible();
   });
 
+  /** Test form validation with invalid IP address */
+  test("form validation rejects invalid IP address", async ({ page }) => {
+    const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
+    await expect(initialAddress).toBeVisible();
+
+    const form = page.locator("form");
+    const input = form.getByPlaceholder("Search for any IP address or domain");
+    await input.fill("invalid.ip.address");
+    await form.getByRole("button").click();
+    await page.waitForTimeout(500);
+
+    await expect(input).toHaveValue("invalid.ip.address");
+
+    // TODO: the input should show visual feedback for invalid input
+    await expect(initialAddress).toBeVisible();
+  });
+
   /** Test responsive layout for mobile */
   test("has correct mobile layout", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
