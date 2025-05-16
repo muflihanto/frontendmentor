@@ -30,6 +30,7 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 });
 
 // TODO: View the optimal layout for each page depending on their device's screen size
+// TODO: Add API error UI state
 
 export const getServerSideProps: GetServerSideProps<{
   detail: IpInfoResponse;

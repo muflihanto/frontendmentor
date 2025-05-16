@@ -100,6 +100,31 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(card.getByText("ISPGoogle LLC")).toBeVisible();
   });
 
+  /** Test if the page handles API errors gracefully */
+  test("handles API errors gracefully", async ({ page }) => {
+    // Mock the API response
+    await page.route("/api/getIpInfo*", async (route) => {
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "Server error" }),
+      });
+    });
+
+    const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
+    await expect(initialAddress).toBeVisible();
+
+    const form = page.locator("form");
+    const input = form.getByPlaceholder("Search for any IP address or domain");
+    await input.fill("8.8.8.8");
+    await form.getByRole("button").click();
+    await page.waitForTimeout(1000);
+
+    // Check if the UI shows appropriate error state
+    await expect(initialAddress).not.toBeVisible();
+    await expect(page.getByText("IP Address-")).toBeVisible();
+  });
+
   /** Test responsive layout for mobile */
   test("has correct mobile layout", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
