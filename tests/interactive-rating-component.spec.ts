@@ -143,6 +143,35 @@ test.describe("FrontendMentor Challenge - Interactive rating component Page", ()
         await page.reload();
       }
     });
+
+    /** Test keyboard navigation */
+    test("can navigate and select ratings with keyboard", async () => {
+      await page.keyboard.press("Tab"); // Focus first rating
+
+      for (let i = 1; i <= 5; i++) {
+        // Verify focus
+        const currentInput = page.locator(`input[value="${i}"]`);
+        await expect(currentInput).toBeFocused();
+
+        // Select with space
+        await page.keyboard.press("Space");
+        await expect(currentInput).toHaveAttribute("aria-checked", "true");
+
+        // Move to next rating
+        if (i < 5) await page.keyboard.press("ArrowRight");
+      }
+
+      // Submit with Enter
+      await page.keyboard.press("Tab"); // Focus submit button
+      await page.keyboard.press("Enter");
+
+      await page.waitForTimeout(100);
+
+      // Verify thank you state
+      await expect(
+        page.getByRole("heading", { name: "Thank you!" }),
+      ).toBeVisible();
+    });
   });
 
   /** Test if the page has a footer */
