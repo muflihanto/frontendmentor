@@ -49,6 +49,50 @@ test.describe("FrontendMentor Challenge - Interactive rating component Page", ()
     ).toBeVisible();
   });
 
+  /** Test rating input selection - checks sibling span styles */
+  test("rating inputs can be selected and show visual feedback on sibling span", async ({
+    page,
+  }) => {
+    const inputs = await page.locator("fieldset input").all();
+
+    for (const [index, input] of Object.entries(inputs)) {
+      const span = input.locator("+ span"); // Get adjacent sibling span
+
+      // Check initial state
+      await expect(input).toHaveAttribute("aria-checked", "false");
+      await expect(span).toHaveCSS("background-color", "rgb(37, 45, 55)"); // bg-rating-neutral-400
+      await expect(span).toHaveCSS("color", "rgb(149, 158, 172)"); // text-rating-neutral-200
+
+      // Select the rating
+      await input.check();
+
+      // Verify selected state
+      await expect(input).toHaveAttribute("aria-checked", "true");
+      await expect(span).toHaveCSS("background-color", "rgb(251, 116, 19)"); // bg-rating-primary-orange
+      await expect(span).toHaveCSS("color", "rgb(255, 255, 255)"); // text-rating-neutral-100
+
+      // Verify hover state (simulate hover)
+      await span.hover();
+      await expect(span).toHaveCSS(
+        "background-color",
+        "rgba(251, 116, 19, 0.5)",
+      ); // bg-rating-primary-orange/50
+
+      // Verify only one rating is selected at a time
+      for (const otherInput of inputs.filter((_, i) => i !== Number(index))) {
+        const otherSpan = otherInput.locator("+ span");
+        await expect(otherInput).toHaveAttribute("aria-checked", "false");
+        await expect(otherSpan).toHaveCSS(
+          "background-color",
+          "rgb(37, 45, 55)",
+        );
+      }
+
+      // Reset hover state
+      await page.mouse.move(0, 0);
+    }
+  });
+
   /** Test if the form works */
   test.describe("form works", () => {
     test.describe.configure({ mode: "serial" });
