@@ -24,7 +24,31 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
     // has a navigation
     const nav = header.getByRole("navigation");
     for (const link of navLinks) {
-      await expect(nav.getByRole("link", { name: link })).toBeVisible();
+      const navLink = nav.getByRole("link", { name: link });
+      await expect(navLink).toBeVisible();
+
+      // Get initial text color
+      const initialColor = await navLink.evaluate(
+        (el) => window.getComputedStyle(el).color,
+      );
+
+      // Hover over the link
+      await navLink.hover();
+
+      // Verify hover state changes
+      await expect(navLink).toHaveCSS("text-decoration-line", "underline");
+      await expect(navLink).toHaveCSS("text-decoration-thickness", "2px");
+
+      // For the "Login" link which has different styling
+      if (link === "Login") {
+        await expect(navLink).toHaveCSS("color", "rgb(160, 161, 172)"); // project-tracking-neutral-200
+      } else {
+        await expect(navLink).toHaveCSS("color", "rgb(36, 41, 66)"); // project-tracking-neutral-400
+      }
+
+      // Remove hover and verify it returns to normal
+      await page.mouse.move(0, 0);
+      await expect(navLink).toHaveCSS("color", initialColor);
     }
   });
 
@@ -41,9 +65,14 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
     await expect(
       section.getByText("Project planning and time tracking for agile teams"),
     ).toBeVisible();
-    await expect(
-      section.getByRole("link", { name: "Schedule a demo" }),
-    ).toBeVisible();
+    const demoLink = page.getByRole("link", { name: "Schedule a demo" });
+    await expect(demoLink).toBeVisible();
+    await expect(demoLink).toHaveCSS("background-color", "rgb(255, 92, 92)");
+    await demoLink.hover();
+    await expect(demoLink).toHaveCSS(
+      "background-color",
+      "rgba(255, 92, 92, 0.75)",
+    );
     await expect(section.getByText("to see a preview")).toBeVisible();
   });
 
