@@ -92,6 +92,20 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
         await expect(nav.getByRole("link", { name: link })).not.toBeVisible();
       }
     });
+
+    test("hero image is responsive", async ({ page }) => {
+      // Test desktop view
+      await page.setViewportSize({ width: 1440, height: 800 });
+      const hero = page.getByRole("img", { name: "Illustration Devices" });
+      await expect(hero).toBeVisible();
+      const desktopSize = await hero.boundingBox();
+
+      // Test mobile view
+      await page.setViewportSize({ width: 375, height: 667 });
+      const mobileSize = await hero.boundingBox();
+
+      expect(desktopSize?.width).toBeGreaterThan(mobileSize?.width ?? 0);
+    });
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
