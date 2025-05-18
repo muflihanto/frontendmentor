@@ -87,6 +87,21 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
     expect(links).toHaveLength(3);
     for (const link of links) {
       await expect(link).toBeVisible();
+
+      const icon = link.locator("svg");
+      await expect(icon).toBeVisible();
+
+      await expect(link).toHaveAttribute("href", ""); // Check href exists
+      await expect(icon).toHaveCSS("fill", "rgb(131, 133, 169)"); // Initial color
+
+      // Hover test
+      await link.hover();
+      await page.waitForTimeout(500);
+      await expect(icon).toHaveCSS("fill", "rgb(251, 96, 135)"); // Hover color
+
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(500);
+      await expect(icon).toHaveCSS("fill", "rgb(131, 133, 169)"); // Initial color
     }
   });
 
