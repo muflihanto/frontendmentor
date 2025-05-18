@@ -122,6 +122,15 @@ test.describe("FrontendMentor Challenge - Project tracking intro component Page"
       }
     });
 
+    test("can navigate through menu with keyboard", async ({ page }) => {
+      await page.keyboard.press("Tab");
+      await expect(page.getByRole("button")).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(page.getByRole("navigation")).toBeVisible();
+      await page.keyboard.press("Tab");
+      await expect(page.getByRole("link", { name: "Product" })).toBeFocused();
+    });
+
     test("hero image is responsive", async ({ page }) => {
       // Test desktop view
       await page.setViewportSize({ width: 1440, height: 800 });
