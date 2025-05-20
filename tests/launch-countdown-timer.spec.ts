@@ -40,6 +40,24 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
     }
   });
 
+  /** Test if the flip cards have correct initial values */
+  test("flip cards have correct initial values", async ({ page }) => {
+    const timer = page.getByRole("timer");
+    const days = await timer.locator("id=days").getAttribute("aria-label");
+    const hours = await timer.locator("id=hours").getAttribute("aria-label");
+    const minutes = await timer
+      .locator("id=minutes")
+      .getAttribute("aria-label");
+    const seconds = await timer
+      .locator("id=seconds")
+      .getAttribute("aria-label");
+
+    expect(days).toMatch(/^\d+ days$/);
+    expect(hours).toMatch(/^\d+ hours$/);
+    expect(minutes).toMatch(/^\d+ minutes$/);
+    expect(seconds).toMatch(/^\d+ seconds$/);
+  });
+
   /** Test if the countdown timer is decreasing over time */
   test("countdown timer decreases over time", async ({ page }) => {
     const timer = page.getByRole("timer");
