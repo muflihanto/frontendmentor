@@ -234,7 +234,10 @@ function Main() {
               }`}
             />
             {errors.cardholderName !== undefined && (
-              <p className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red">
+              <p
+                role="alert"
+                className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red"
+              >
                 {errors.cardholderName.message}
               </p>
             )}
@@ -257,7 +260,10 @@ function Main() {
               }`}
             />
             {errors.cardNumber !== undefined && (
-              <p className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red">
+              <p
+                role="alert"
+                className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red"
+              >
                 {errors.cardNumber.message}
               </p>
             )}
@@ -301,7 +307,10 @@ function Main() {
               </div>
             </fieldset>
             {(!!errors.expYear || !!errors.expMonth) && (
-              <p className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red">
+              <p
+                role="alert"
+                className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red"
+              >
                 {errors.expMonth?.message === errors.expYear?.message
                   ? errors.expMonth?.message
                   : `${
@@ -330,7 +339,10 @@ function Main() {
               }`}
             />
             {!!errors.cvc && (
-              <p className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red">
+              <p
+                role="alert"
+                className="translate-y-[1px] text-[12px] leading-[16.5px] text-interactive-card-primary-red"
+              >
                 {errors.cvc.message}
               </p>
             )}

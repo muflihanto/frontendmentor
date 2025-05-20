@@ -113,13 +113,28 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
     );
   });
 
-  test("should not have any automatically detectable accessibility issues", async ({
-    page,
-  }) => {
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .disableRules(["color-contrast"])
-      .analyze();
-    // console.log({ violations: accessibilityScanResults.violations });
-    expect(accessibilityScanResults.violations).toEqual([]);
+  /** Test accessibility of error messages */
+  test.describe("accessibility", () => {
+    test("error messages are announced to screen readers", async ({ page }) => {
+      const form = page.locator("form");
+      await form.getByPlaceholder("e.g. Jane Appleseed").fill("");
+      await form.getByRole("button", { name: "Confirm" }).click();
+
+      const errorMessages = await form.getByText("Can't be blank").all();
+      for (const msg of errorMessages) {
+        await expect(msg).toHaveAttribute("role", "alert");
+        await expect(msg).toBeVisible();
+      }
+    });
+
+    test("should not have any automatically detectable accessibility issues", async ({
+      page,
+    }) => {
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
+      // console.log({ violations: accessibilityScanResults.violations });
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
   });
 });
