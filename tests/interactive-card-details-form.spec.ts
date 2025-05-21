@@ -86,6 +86,37 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
           form.getByText("Wrong format, numbers only"),
         ).toBeVisible();
       });
+
+      test("shows error for invalid expiration month", async ({ page }) => {
+        const form = page.locator("form");
+        await form.getByPlaceholder("MM").fill("13");
+        await form.getByPlaceholder("YY").fill("28");
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(form.getByText("Invalid month")).toBeVisible();
+      });
+
+      test("shows error for past expiration date", async ({ page }) => {
+        const form = page.locator("form");
+        const currentMonth = new Date().getMonth() + 1;
+        const currentYear = new Date().getFullYear() % 100;
+
+        // Test with previous month in current year
+        await form
+          .getByPlaceholder("MM")
+          .fill(String(currentMonth - 1).padStart(2, "0"));
+        await form.getByPlaceholder("YY").fill(String(currentYear));
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(form.getByText("Invalid month")).toBeVisible();
+      });
+
+      test("shows error for invalid CVC", async ({ page }) => {
+        const form = page.locator("form");
+        await form.getByPlaceholder("e.g. 123", { exact: true }).fill("string");
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(
+          form.getByText("Wrong format, numbers only"),
+        ).toBeVisible();
+      });
     });
     test.describe("form is working", () => {
       test("valid input works", async ({ page }) => {
