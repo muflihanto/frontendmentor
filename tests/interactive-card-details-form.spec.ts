@@ -66,6 +66,27 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
       // has a submit button
       await expect(form.getByRole("button", { name: "Confirm" })).toBeVisible();
     });
+    /** Test form validation and error messages */
+    test.describe("form validation", () => {
+      test("shows error for empty cardholder name", async ({ page }) => {
+        const form = page.locator("form");
+        await form.getByPlaceholder("e.g. Jane Appleseed").fill("");
+        await form.getByRole("button", { name: "Confirm" }).click();
+        const field = page.getByText("Cardholder NameCan't be blank");
+        await expect(field.getByText("Can't be blank")).toBeVisible();
+      });
+
+      test("shows error for invalid card number format", async ({ page }) => {
+        const form = page.locator("form");
+        await form
+          .getByPlaceholder("e.g. 1234 5678 9123 0000")
+          .fill("1234 5678 9123");
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(
+          form.getByText("Wrong format, numbers only"),
+        ).toBeVisible();
+      });
+    });
     test.describe("form is working", () => {
       test("valid input works", async ({ page }) => {
         const form = page.locator("form");
