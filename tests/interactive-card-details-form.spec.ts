@@ -155,6 +155,22 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         ).not.toBeVisible();
       });
     });
+    /** Test input formatting */
+    test.describe("input formatting", () => {
+      test("limits card number to 16 digits + 3 spaces", async ({ page }) => {
+        const form = page.locator("form");
+        const input = form.getByPlaceholder("e.g. 1234 5678 9123 0000");
+        await input.fill("4111 1111 1111 1111");
+        await expect(input).toHaveValue("4111 1111 1111 1111");
+      });
+
+      test("limits month to 2 digits", async ({ page }) => {
+        const form = page.locator("form");
+        const input = form.getByPlaceholder("MM");
+        await input.fill("123");
+        await expect(input).toHaveValue("12");
+      });
+    });
   });
 
   /** Test if the page has a correct footer */
