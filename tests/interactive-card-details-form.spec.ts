@@ -170,6 +170,21 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         await input.fill("123");
         await expect(input).toHaveValue("12");
       });
+
+      test("limits year to 2 digits", async ({ page }) => {
+        const form = page.locator("form");
+        const input = form.getByPlaceholder("YY");
+        await input.fill("2023");
+        // TODO: format 20xx input to have value xx
+        await expect(input).toHaveValue("20");
+      });
+
+      test("limits CVC to 3 digits", async ({ page }) => {
+        const form = page.locator("form");
+        const input = form.getByPlaceholder("e.g. 123", { exact: true });
+        await input.fill("1234");
+        await expect(input).toHaveValue("123");
+      });
     });
   });
 
