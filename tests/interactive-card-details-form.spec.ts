@@ -203,6 +203,21 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
           .fill("4111 1111 1111 1111");
         await expect(card.getByText("4111 1111 1111 1111")).toBeVisible();
       });
+
+      test("updates expiration date in real-time", async ({ page }) => {
+        const form = page.locator("form");
+        const card = page.locator("div").nth(4);
+        await form.getByPlaceholder("MM").fill("12");
+        await form.getByPlaceholder("YY").fill("30");
+        await expect(card.getByText("12/30")).toBeVisible();
+      });
+
+      test("updates CVC in real-time", async ({ page }) => {
+        const form = page.locator("form");
+        const card = page.locator("div").nth(3);
+        await form.getByPlaceholder("e.g. 123", { exact: true }).fill("456");
+        await expect(card.getByText("456", { exact: true })).toBeVisible();
+      });
     });
   });
 
