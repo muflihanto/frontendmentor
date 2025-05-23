@@ -186,6 +186,24 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         await expect(input).toHaveValue("123");
       });
     });
+    /** Test card preview updates */
+    test.describe("card preview updates", () => {
+      test("updates cardholder name in real-time", async ({ page }) => {
+        const form = page.locator("form");
+        const card = page.locator("div").nth(4);
+        await form.getByPlaceholder("e.g. Jane Appleseed").fill("John Doe");
+        await expect(card.getByText("John Doe")).toBeVisible();
+      });
+
+      test("updates card number in real-time", async ({ page }) => {
+        const form = page.locator("form");
+        const card = page.locator("div").nth(4);
+        await form
+          .getByPlaceholder("e.g. 1234 5678 9123 0000")
+          .fill("4111 1111 1111 1111");
+        await expect(card.getByText("4111 1111 1111 1111")).toBeVisible();
+      });
+    });
   });
 
   /** Test if the page has a correct footer */
