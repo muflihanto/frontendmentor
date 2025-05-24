@@ -102,6 +102,24 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
     });
   });
 
+  /** Test if the page has responsive layout */
+  test.describe("has responsive layout", () => {
+    /** Test if the page layout is correct on mobile view */
+    test("page layout is correct on mobile view", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+      await expect(page.locator("main")).toHaveCSS("padding-left", "16px");
+      await expect(page.locator("main")).toHaveCSS("padding-right", "16px");
+    });
+
+    /** Test if the page layout is correct on desktop view */
+    test("page layout is correct on desktop view", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 800 });
+      await expect(page.locator("main")).toHaveCSS("max-width", "730px");
+      await expect(page.locator("main")).toHaveCSS("margin-left", "355px");
+      await expect(page.locator("main")).toHaveCSS("margin-right", "355px");
+    });
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
