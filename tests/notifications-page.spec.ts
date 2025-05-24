@@ -82,6 +82,34 @@ test.describe("FrontendMentor Challenge - Notifications Page", () => {
     );
   });
 
+  /** Test if links change color on hover */
+  test("links change color on hover", async ({ page }) => {
+    const links = page.getByRole("listitem").getByRole("link");
+
+    for (const link of await links.all()) {
+      // Get initial color
+      const initialColor = await link.evaluate(
+        (el) => window.getComputedStyle(el).color,
+      );
+
+      // Hover over the link
+      await link.hover();
+
+      // Get hover color
+      const hoverColor = await link.evaluate(
+        (el) => window.getComputedStyle(el).color,
+      );
+
+      // Verify color changed (except for group links which shouldn't change)
+      const textContent = await link.textContent();
+      if (textContent !== "" && !textContent?.includes("Chess Club")) {
+        expect(initialColor).not.toBe(hoverColor);
+      } else {
+        expect(initialColor).toBe(hoverColor);
+      }
+    }
+  });
+
   /** Test if the page has correct footer */
   test.describe("has correct footer", () => {
     test("footer is visible", async ({ page }) => {
