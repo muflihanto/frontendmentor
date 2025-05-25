@@ -145,6 +145,22 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     });
   });
 
+  /** Test comment submission */
+  test.describe("comment submission", () => {
+    test("can submit a new comment", async ({ page }) => {
+      const form = page.locator("form");
+      const textarea = form.getByPlaceholder("Add a comment...");
+      const submitButton = form.getByRole("button", { name: "Send" });
+
+      await textarea.fill("This is a test comment");
+      await submitButton.click();
+
+      await expect(
+        page.getByText("This is a test comment").first(),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
