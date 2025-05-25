@@ -120,6 +120,31 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     }
   });
 
+  /** Test comment voting functionality */
+  test.describe("comment voting", () => {
+    test("can upvote a comment", async ({ page }) => {
+      const comment = comments[0];
+      const voteButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Upvote comment" });
+
+      await voteButton.click();
+      const scoreElement = page.locator(`id=comment${comment.id}-votes`);
+      await expect(scoreElement).toHaveText(String(comment.score + 1));
+    });
+
+    test("can downvote a comment", async ({ page }) => {
+      const comment = comments[0];
+      const voteButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Downvote comment" });
+
+      await voteButton.click();
+      const scoreElement = page.locator(`id=comment${comment.id}-votes`);
+      await expect(scoreElement).toHaveText(String(comment.score - 1));
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
