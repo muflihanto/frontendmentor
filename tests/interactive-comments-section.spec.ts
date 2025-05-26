@@ -161,6 +161,25 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     });
   });
 
+  /** Test reply functionality */
+  test.describe("reply functionality", () => {
+    test("can open reply form", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username !== raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const replyButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Reply to comment" });
+
+      await replyButton.click();
+      await expect(
+        page.getByPlaceholder("Add a comment...").nth(1),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
