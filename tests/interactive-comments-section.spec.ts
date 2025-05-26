@@ -178,6 +178,33 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
         page.getByPlaceholder("Add a comment...").nth(1),
       ).toBeVisible();
     });
+
+    test("can submit a reply", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username !== raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const replyButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Reply to comment" });
+
+      await replyButton.click();
+
+      const replyForm = page.locator("form").filter({ hasText: "Reply" });
+      const textarea = replyForm.getByPlaceholder("Add a comment...");
+      const submitButton = replyForm.getByRole("button", {
+        name: "Reply",
+        exact: true,
+      });
+
+      await textarea.fill(`@${comment.user.username} This is a test reply`);
+      await submitButton.click();
+
+      await expect(
+        page.getByText(`@${comment.user.username} This is a test reply`),
+      ).toBeVisible();
+    });
   });
 
   /** Test if the page has a footer */
