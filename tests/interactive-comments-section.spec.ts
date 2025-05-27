@@ -234,6 +234,33 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     });
   });
 
+  /** Test comment deletion */
+  test.describe("comment deletion", () => {
+    test("can delete own comment", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username === raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const deleteButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByLabel("Delete my comment");
+
+      await deleteButton.click();
+
+      await expect(page.getByText("Delete comment")).toBeVisible();
+
+      const confirmButton = page.getByRole("button", { name: "Yes, delete" });
+      await confirmButton.click();
+
+      await expect(
+        page.getByRole("article", {
+          name: `Comment by ${comment.user.username}`,
+        }),
+      ).not.toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
