@@ -207,6 +207,33 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     });
   });
 
+  /** Test comment editing */
+  test.describe("comment editing", () => {
+    test("can edit own comment", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username === raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const editButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Edit" });
+
+      await editButton.click();
+
+      const editForm = page.locator("form").first();
+      const textarea = editForm.getByPlaceholder("Add a comment...");
+      const submitButton = editForm.getByRole("button", { name: "Update" });
+
+      await textarea.fill("@ramsesmiron This is an edited comment");
+      await submitButton.click();
+
+      await expect(
+        page.getByText("@ramsesmiron This is an edited comment"),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
