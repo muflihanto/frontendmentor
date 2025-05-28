@@ -147,6 +147,26 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
     ).toBeVisible();
   });
 
+  test.describe("responsive layout", () => {
+    /** Test responsive behavior - mobile view */
+    test("shows mobile illustration on small screens", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+      const mobileIllustration = page.locator(
+        'svg[aria-labelledby="illustration-sign-up-mobile-title"]',
+      );
+      await expect(mobileIllustration).toBeVisible();
+    });
+
+    /** Test responsive behavior - desktop view */
+    test("shows desktop illustration on large screens", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 800 });
+      const desktopIllustration = page.locator(
+        'svg[aria-labelledby="illustration-desktop-title"]',
+      );
+      await expect(desktopIllustration).toBeVisible();
+    });
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
