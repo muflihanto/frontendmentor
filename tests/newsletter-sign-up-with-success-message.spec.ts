@@ -50,10 +50,12 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
     test.describe.configure({ mode: "serial" });
 
     let page: Page;
+    let body: Locator;
     let form: Locator;
     let input: Locator;
     let errorMessage: Locator;
     let button: Locator;
+    let dismiss: Locator;
     const validEmail = "validemail@example.com";
 
     test.beforeAll(async ({ browser }) => {
@@ -114,7 +116,8 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
     });
 
     test("has 'success message' card", async () => {
-      const dismiss = page.getByRole("button", { name: "Dismiss message" });
+      dismiss = page.getByRole("button", { name: "Dismiss message" });
+      await expect(page.getByRole("img", { name: "Success" })).toBeVisible();
       await expect(
         page.getByRole("heading", { name: "Thanks for subscribing!" }),
       ).toBeVisible();
@@ -122,7 +125,15 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
         page.getByText(`A confirmation email has been sent to ${validEmail}`),
       ).toBeVisible();
       await expect(dismiss).toBeVisible();
+    });
+
+    /** Test body overflow is hidden when success screen is open */
+    test("disables body scroll when success screen is open", async () => {
+      body = page.locator("body");
+      await expect(body).toHaveCSS("overflow", "hidden");
+
       await dismiss.click();
+      await expect(body).toHaveCSS("overflow", "auto");
       await expect(
         page.getByRole("heading", { name: "Stay updated!" }),
       ).toBeVisible();
