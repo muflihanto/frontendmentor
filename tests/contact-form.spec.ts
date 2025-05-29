@@ -69,6 +69,19 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
       // Verify toast disappears after delay
       await expect(alertElement).not.toBeVisible({ timeout: 6000 });
     });
+
+    /** Test if form resets after successful submission */
+    test("form resets after submission", async () => {
+      await expect(page.getByLabel("First Name*")).toHaveValue("");
+      await expect(page.getByLabel("Last Name*")).toHaveValue("");
+      await expect(page.getByLabel("Email Address*")).toHaveValue("");
+      await expect(page.getByLabel("General Enquiry")).not.toBeChecked();
+      await expect(page.getByLabel("Support Request")).not.toBeChecked();
+      await expect(page.getByLabel("Message*")).toHaveValue("");
+      await expect(
+        page.getByLabel("I consent to being contacted"),
+      ).not.toBeChecked();
+    });
   });
 
   /** Test if user can handle empty input submit */
