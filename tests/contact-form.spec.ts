@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Contact form", () => {
   /** Go to Contact form before each test */
@@ -24,27 +24,51 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
   });
 
-  /** Test if user can submit valid inputs */
-  test("can submit valid inputs", async ({ page }) => {
-    const firstName = page.getByLabel("First Name*");
-    await firstName.fill("John");
-    const lastName = page.getByLabel("Last Name*");
-    await lastName.fill("Doe");
-    const email = page.getByLabel("Email Address*");
-    await email.fill("mail@example.com");
-    const generalEnquiry = page.getByLabel("General Enquiry");
-    await generalEnquiry.click();
-    const message = page.getByLabel("Message*");
-    await message.fill(
-      "Hello, I would like to know if you're able to build Shopify e-commerce sites. We're starting a business and we're going to use Shopify. But it would be great to work with an agency who specialises in working with it.",
-    );
-    const consent = page.getByLabel("I consent to being contacted");
-    await consent.click();
-    const submit = page.getByRole("button", { name: "Submit" });
-    await submit.click();
-    await expect(
-      page.getByRole("heading", { name: "Message Sent!" }),
-    ).toBeVisible();
+  test.describe("valid form submission", () => {
+    test.describe.configure({ mode: "serial" });
+
+    let page: Page;
+
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto("/contact-form");
+    });
+
+    /** Test if user can submit valid inputs */
+    test("can submit valid inputs", async () => {
+      const firstName = page.getByLabel("First Name*");
+      await firstName.fill("John");
+      const lastName = page.getByLabel("Last Name*");
+      await lastName.fill("Doe");
+      const email = page.getByLabel("Email Address*");
+      await email.fill("mail@example.com");
+      const generalEnquiry = page.getByLabel("General Enquiry");
+      await generalEnquiry.click();
+      const message = page.getByLabel("Message*");
+      await message.fill(
+        "Hello, I would like to know if you're able to build Shopify e-commerce sites. We're starting a business and we're going to use Shopify. But it would be great to work with an agency who specialises in working with it.",
+      );
+      const consent = page.getByLabel("I consent to being contacted");
+      await consent.click();
+      const submit = page.getByRole("button", { name: "Submit" });
+      await submit.click();
+      await expect(
+        page.getByRole("heading", { name: "Message Sent!" }),
+      ).toBeVisible();
+    });
+
+    /** Test if the success toast appears and disappears automatically */
+    test("success toast appears and disappears", async () => {
+      const alertElement = page.locator("div").getByRole("alert");
+      // Verify toast appears
+      await expect(alertElement).toBeVisible();
+      await expect(
+        page.getByRole("heading", { name: "Message Sent!" }),
+      ).toBeVisible();
+
+      // Verify toast disappears after delay
+      await expect(alertElement).not.toBeVisible({ timeout: 6000 });
+    });
   });
 
   /** Test if user can handle empty input submit */
