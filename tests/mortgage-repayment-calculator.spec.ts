@@ -93,6 +93,26 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     await expect(results.getByText("£539,322.94")).toBeVisible();
   });
 
+  /** Test if the page can handle interest-only calculation */
+  test("can handle interest-only calculation", async ({ page }) => {
+    const form = page.locator("form");
+    await expect(form).toBeVisible();
+    const amount = form.getByLabel("Mortgage Amount£");
+    const term = form.getByLabel("Mortgage Termyears");
+    const rate = form.getByLabel("Interest Rate%");
+    const interestOnly = form.getByText("Interest Only");
+
+    await amount.fill("300000");
+    await term.fill("25");
+    await rate.fill("5.25");
+    await interestOnly.click();
+    await form.getByRole("button", { name: "Calculate Repayments" }).click();
+
+    const results = page.getByText("Your resultsYour results are");
+    await expect(results.getByText("£797.74")).toBeVisible();
+    await expect(results.getByText("£239,322.94")).toBeVisible();
+  });
+
   /** Test if the page can reset all fields */
   test("can reset all fields", async ({ page }) => {
     const form = page.locator("form");
