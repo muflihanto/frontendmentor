@@ -41,6 +41,18 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     ).toBeVisible();
   });
 
+  /** Test if the page shows correct formatted values in inputs */
+  test("shows formatted values in inputs", async ({ page }) => {
+    const form = page.locator("form");
+    const amount = form.getByLabel("Mortgage Amount£");
+
+    await amount.fill("300000");
+    await expect(amount).toHaveValue("300,000");
+
+    await amount.fill("1234567");
+    await expect(amount).toHaveValue("1,234,567");
+  });
+
   /** Test if the page has empty result components */
   test("has empty result components", async ({ page }) => {
     const results = page.getByText("Results shown hereComplete");
