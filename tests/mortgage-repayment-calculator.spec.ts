@@ -141,6 +141,31 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     await expect(results.getByText("£239,322.94")).toBeVisible();
   });
 
+  /** Test if the results section shows correct values for edge cases */
+  test("handles edge cases correctly", async ({ page }) => {
+    const form = page.locator("form");
+    const amount = form.getByLabel("Mortgage Amount£");
+    const term = form.getByLabel("Mortgage Termyears");
+    const rate = form.getByLabel("Interest Rate%");
+    const repayment = form.getByText("Repayment", { exact: true });
+
+    // Very high interest rate
+    await amount.fill("100000");
+    await term.fill("30");
+    await rate.fill("99");
+    await repayment.click();
+    await form.getByRole("button", { name: "Calculate Repayments" }).click();
+    await expect(page.getByText("£8,250")).toBeVisible();
+
+    // Very short term
+    await amount.fill("100000");
+    await term.fill("1");
+    await rate.fill("5");
+    await repayment.click();
+    await form.getByRole("button", { name: "Calculate Repayments" }).click();
+    await expect(page.getByText("£8,560.75")).toBeVisible();
+  });
+
   /** Test if the page can reset all fields */
   test("can reset all fields", async ({ page }) => {
     const form = page.locator("form");
