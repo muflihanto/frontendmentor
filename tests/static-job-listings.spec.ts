@@ -166,6 +166,23 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
     ).toBeVisible();
   });
 
+  /** Test responsive layout */
+  test("layout is correct", async ({ page }) => {
+    const jobCards = page.getByRole("listitem");
+    const header = page.getByRole("banner");
+    await expect(header).toHaveCSS(
+      "background-image",
+      'url("http://localhost:3000/static-job-listings/images/bg-header-desktop.svg")',
+    );
+    await expect(jobCards.first()).toHaveCSS("display", "flex");
+    await page.setViewportSize({ width: 375, height: 667 });
+    await expect(header).toHaveCSS(
+      "background-image",
+      'url("http://localhost:3000/static-job-listings/images/bg-header-mobile.svg")',
+    );
+    await expect(jobCards.first()).not.toHaveCSS("display", "flex");
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
