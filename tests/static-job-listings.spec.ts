@@ -41,9 +41,22 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
         jobCard.getByRole("img", { name: `${job.company} ${job.position}` }),
       ).toBeVisible();
       await expect(jobCard.getByText(job.company)).toBeVisible();
-      if (job.new) await expect(jobCard.getByText("new!")).toBeVisible();
-      if (job.featured)
+      if (job.new) {
+        const newBadge = jobCard.getByText("new!");
+        await expect(newBadge).toBeVisible();
+        await expect(newBadge).toHaveCSS(
+          "background-color",
+          "rgb(91, 164, 164)",
+        );
+        await expect(newBadge).toHaveText("new!");
+      }
+      if (job.featured) {
         await expect(jobCard.getByText("featured").first()).toBeVisible();
+        await expect(jobCard).toHaveCSS(
+          "border-left",
+          "5px solid rgb(91, 164, 164)",
+        );
+      }
       await expect(
         jobCard.getByText(job.position, { exact: true }),
       ).toBeVisible();
