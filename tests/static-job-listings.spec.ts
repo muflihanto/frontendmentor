@@ -157,6 +157,42 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
         10,
       );
     });
+
+    /** Test if all filter categories work independently */
+    test("all filter categories work independently", async () => {
+      const testFilters = [
+        { type: "role", value: "Backend" },
+        { type: "level", value: "Senior" },
+        { type: "language", value: "CSS" },
+        { type: "tool", value: "React" },
+      ];
+
+      for (const filter of testFilters) {
+        const filterButton = page
+          .getByRole("button", { name: filter.value })
+          .first();
+        await filterButton.click();
+
+        const filteredCount = jobs.filter((job) => {
+          if (filter.type === "role") return job.role === filter.value;
+          if (filter.type === "level") return job.level === filter.value;
+          if (filter.type === "language")
+            return job.languages.includes(filter.value);
+          if (filter.type === "tool") return job.tools.includes(filter.value);
+          return false;
+        }).length;
+
+        const jobListContainer = page.getByRole("list", {
+          name: "Static Job Listings",
+        });
+        expect(await jobListContainer.getByRole("listitem").all()).toHaveLength(
+          filteredCount,
+        );
+
+        // Clear filters for next test
+        await page.getByLabel("Clear all filters").click();
+      }
+    });
   });
 
   /** Test if the page has a footer */
