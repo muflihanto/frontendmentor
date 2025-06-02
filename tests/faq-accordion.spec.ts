@@ -106,6 +106,11 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
 
   /** Test if the accordion keyboard navigation works */
   test("accordion keyboard navigation works", async ({ page }) => {
+    // Test for initial focus state
+    await page.keyboard.press("Tab");
+    const firstFaq = page.locator("summary").first();
+    await expect(firstFaq).toBeFocused();
+
     const faqs = await page.locator("summary").all();
     let faq: Locator;
     let nextFaq: Locator;
