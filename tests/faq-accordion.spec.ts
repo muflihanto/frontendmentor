@@ -61,6 +61,26 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
     }
   });
 
+  /** Test for proper ARIA attributes */
+  test("faqs have correct ARIA attributes", async ({ page }) => {
+    const faqs = await page.locator("details").all();
+    for (const [index, faq] of Object.entries(faqs)) {
+      const id = (await faq.getAttribute("id")) ?? "";
+      const summary = faq.locator("summary");
+      const answerId = id?.replace("question", "answer") ?? "";
+
+      await expect(summary).toHaveAttribute(
+        "aria-expanded",
+        index === "0" ? "true" : "false",
+      );
+      await expect(faq).toHaveAttribute("aria-controls", answerId);
+      await expect(page.locator(`id=${answerId}`)).toHaveAttribute(
+        "aria-labelledby",
+        id,
+      );
+    }
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     await expect(
