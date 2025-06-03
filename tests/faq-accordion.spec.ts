@@ -81,6 +81,22 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
     }
   });
 
+  /** Test for hover states */
+  test("faqs have correct hover states", async ({ page }) => {
+    const faqs = await page.locator("summary").all();
+    for (const faq of faqs) {
+      const question = faq.locator("h2");
+
+      // Hover and check color change
+      await question.hover();
+      await expect(question).toHaveCSS("color", "rgb(173, 40, 235)");
+
+      // Move mouse away and check color returns to normal
+      await page.mouse.move(0, 0);
+      await expect(question).not.toHaveCSS("color", "rgb(173, 40, 235)");
+    }
+  });
+
   /** Test if the page has a heading */
   test("has a heading", async ({ page }) => {
     await expect(
