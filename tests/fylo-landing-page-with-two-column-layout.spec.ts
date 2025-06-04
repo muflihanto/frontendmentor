@@ -28,28 +28,46 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
   });
 
   /** Test if the page has a hero section */
-  test("has a hero section", async ({ page }) => {
-    const section = page.locator("div").nth(2);
-    await expect(section).toBeVisible();
-    await expect(section).toBeInViewport();
-    await expect(section.getByRole("img")).toBeVisible();
-    await expect(
-      section.getByRole("heading", {
-        name: "All your files in one secure location, accessible anywhere.",
-      }),
-    ).toBeVisible();
-    await expect(
-      section.getByText(
-        "Fylo stores your most important files in one secure location. Access them wherever you need, share and collaborate with friends, family, and co-workers.",
-      ),
-    ).toBeVisible();
-    await expect(section.getByPlaceholder("Enter your email...")).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Get Started", exact: true }),
-    ).toBeVisible();
-    await expect(
-      section.getByRole("img", { name: "Hero Image Illustration" }),
-    ).toBeVisible();
+  test.describe("has a hero section", () => {
+    test("has all elements", async ({ page }) => {
+      const section = page.locator("div").nth(2);
+      await expect(section).toBeVisible();
+      await expect(section).toBeInViewport();
+      await expect(section.getByRole("img")).toBeVisible();
+      await expect(
+        section.getByRole("heading", {
+          name: "All your files in one secure location, accessible anywhere.",
+        }),
+      ).toBeVisible();
+      await expect(
+        section.getByText(
+          "Fylo stores your most important files in one secure location. Access them wherever you need, share and collaborate with friends, family, and co-workers.",
+        ),
+      ).toBeVisible();
+      await expect(
+        section.getByPlaceholder("Enter your email..."),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("button", { name: "Get Started", exact: true }),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("img", { name: "Hero Image Illustration" }),
+      ).toBeVisible();
+    });
+
+    /** Test form validation in hero section */
+    test.describe("Hero section form validation", () => {
+      test("shows error for invalid email", async ({ page }) => {
+        const heroSection = page.locator("div").nth(2);
+        const input = heroSection.getByPlaceholder("Enter your email...");
+        const button = heroSection.getByRole("button", { name: "Get Started" });
+        const errorMessage = heroSection.getByText("Please check your email");
+
+        await input.fill("invalid-email");
+        await button.click();
+        await expect(errorMessage).toBeVisible();
+      });
+    });
   });
 
   /** Test if the page has a 'Productive' section */
