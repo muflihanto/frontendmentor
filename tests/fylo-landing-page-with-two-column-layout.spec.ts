@@ -67,6 +67,16 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         await button.click();
         await expect(errorMessage).toBeVisible();
       });
+
+      test("clears input after successful submission", async ({ page }) => {
+        const heroSection = page.locator("div").nth(2);
+        const input = heroSection.getByPlaceholder("Enter your email...");
+        const button = heroSection.getByRole("button", { name: "Get Started" });
+
+        await input.fill("valid@example.com");
+        await button.click();
+        await expect(input).toHaveValue("");
+      });
     });
   });
 
