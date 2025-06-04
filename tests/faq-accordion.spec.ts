@@ -200,6 +200,23 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
     }
   });
 
+  /** Test for mobile/desktop responsive behavior */
+  test("responsive design works correctly", async ({ page }) => {
+    // Test desktop view
+    await page.setViewportSize({ width: 1440, height: 800 });
+    await expect(page.locator("header")).toHaveCSS(
+      "background-image",
+      /background-pattern-desktop/,
+    );
+
+    // Test mobile view
+    await page.setViewportSize({ width: 375, height: 667 });
+    await expect(page.locator("header")).toHaveCSS(
+      "background-image",
+      /background-pattern-mobile/,
+    );
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
