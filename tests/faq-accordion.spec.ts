@@ -140,6 +140,31 @@ test.describe("FrontendMentor Challenge - FAQ Accordion Page", () => {
     }
   });
 
+  /** Test for proper icon toggling */
+  test("icons toggle correctly when accordion opens/closes", async ({
+    page,
+  }) => {
+    const faqs = await page.locator("details").all();
+    for (const [index, faq] of Object.entries(faqs)) {
+      const plusIcon = faq.locator("img[alt='Icon Plus']");
+      const minusIcon = faq.locator("img[alt='Icon Minus']");
+
+      if (index === "0") {
+        await expect(minusIcon).toBeVisible();
+        await expect(plusIcon).not.toBeVisible();
+        await faq.click();
+        await expect(minusIcon).not.toBeVisible();
+        await expect(plusIcon).toBeVisible();
+      } else {
+        await expect(plusIcon).toBeVisible();
+        await expect(minusIcon).not.toBeVisible();
+        await faq.click();
+        await expect(plusIcon).not.toBeVisible();
+        await expect(minusIcon).toBeVisible();
+      }
+    }
+  });
+
   /** Test if the accordion keyboard navigation works */
   test("accordion keyboard navigation works", async ({ page }) => {
     // Test for initial focus state
