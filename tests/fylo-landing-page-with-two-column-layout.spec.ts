@@ -198,6 +198,62 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
     ).toBeVisible();
   });
 
+  /** Test hover states for interactive elements */
+  test.describe("Hover states", () => {
+    test("'Get Started' buttons have hover effect", async ({ page }) => {
+      const heroButton = page.getByRole("button", {
+        name: "Get Started",
+        exact: true,
+      });
+      await expect(heroButton).toHaveCSS(
+        "background-color",
+        "rgb(48, 101, 248)",
+      );
+      await heroButton.hover();
+      await expect(heroButton).toHaveCSS(
+        "background-color",
+        "rgb(107, 154, 255)",
+      );
+
+      const earlyAccessButton = page.getByRole("button", {
+        name: "Get Started For Free",
+      });
+      await earlyAccessButton.scrollIntoViewIfNeeded();
+      await expect(earlyAccessButton).toHaveCSS(
+        "background-color",
+        "rgb(48, 101, 248)",
+      );
+      await earlyAccessButton.hover();
+      await expect(earlyAccessButton).toHaveCSS(
+        "background-color",
+        "rgb(107, 154, 255)",
+      );
+    });
+
+    test("'See how Fylo works' link has hover effect", async ({ page }) => {
+      const productiveSection = page.locator("div").nth(5);
+      await productiveSection.scrollIntoViewIfNeeded();
+      const fyloWorksLink = productiveSection.getByRole("link", {
+        name: "See how Fylo works",
+      });
+      const arrowIcon = fyloWorksLink.locator("svg");
+
+      await expect(fyloWorksLink).toHaveCSS("color", "rgb(60, 159, 143)");
+      await expect(fyloWorksLink).toHaveCSS(
+        "border-bottom-color",
+        "rgb(60, 159, 143)",
+      );
+      await expect(arrowIcon).toHaveCSS("color", "rgb(61, 160, 143)");
+      await fyloWorksLink.hover();
+      await expect(fyloWorksLink).toHaveCSS("color", "rgb(120, 217, 197)");
+      await expect(fyloWorksLink).toHaveCSS(
+        "border-bottom-color",
+        "rgb(120, 217, 197)",
+      );
+      await expect(arrowIcon).toHaveCSS("color", "rgb(120, 217, 197)");
+    });
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
