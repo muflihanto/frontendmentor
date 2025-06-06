@@ -181,8 +181,18 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         await expect(list.getByRole("link", { name: link })).toBeVisible();
       }
     }
-    const socials = await footer.locator("div").nth(4).getByRole("link").all();
+    const socialsContainer = footer.locator("div").nth(4);
+    const socials = await socialsContainer.getByRole("link").all();
     expect(socials).toHaveLength(3);
+    const socialLinks = [
+      "Fylo on Facebook",
+      "Fylo on Twitter",
+      "Fylo on Instagram",
+    ];
+    for (const link of socialLinks) {
+      const socialLink = socialsContainer.getByRole("link", { name: link });
+      await expect(socialLink).toBeVisible();
+    }
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
