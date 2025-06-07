@@ -260,12 +260,29 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
       await page.setViewportSize({ width: 1440, height: 800 });
       await expect(page.getByAltText("Curve Bg").nth(0)).not.toBeVisible();
       await expect(page.getByAltText("Curve Bg").nth(1)).toBeVisible();
+
+      const heroSection = page.locator("div").nth(2);
+      await expect(heroSection).toHaveCSS(
+        "grid-template-columns",
+        "640px 640px",
+      );
+      await expect(heroSection.getByRole("heading")).toHaveCSS(
+        "text-align",
+        "left",
+      );
     });
 
     test("mobile view shows correct layout", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 667 });
       await expect(page.getByAltText("Curve Bg").nth(0)).toBeVisible();
       await expect(page.getByAltText("Curve Bg").nth(1)).not.toBeVisible();
+
+      const heroSection = page.locator("div").nth(2);
+      await expect(heroSection).toHaveCSS("grid-template-columns", "none");
+      await expect(heroSection.getByRole("heading")).toHaveCSS(
+        "text-align",
+        "center",
+      );
     });
   });
 
