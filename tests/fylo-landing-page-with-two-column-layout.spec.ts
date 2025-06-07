@@ -254,6 +254,21 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
     });
   });
 
+  /** Test responsive behavior */
+  test.describe("responsive behavior", () => {
+    test("desktop view shows correct layout", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 800 });
+      await expect(page.getByAltText("Curve Bg").nth(0)).not.toBeVisible();
+      await expect(page.getByAltText("Curve Bg").nth(1)).toBeVisible();
+    });
+
+    test("mobile view shows correct layout", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+      await expect(page.getByAltText("Curve Bg").nth(0)).toBeVisible();
+      await expect(page.getByAltText("Curve Bg").nth(1)).not.toBeVisible();
+    });
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
