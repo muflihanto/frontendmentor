@@ -270,6 +270,14 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "text-align",
         "left",
       );
+
+      const productiveSection = page.locator("div").nth(7);
+      await productiveSection.scrollIntoViewIfNeeded();
+      await expect(productiveSection).toHaveCSS("display", "grid");
+      await expect(productiveSection.locator("div").first()).toHaveCSS(
+        "grid-column-start",
+        "2",
+      );
     });
 
     test("mobile view shows correct layout", async ({ page }) => {
@@ -282,6 +290,14 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
       await expect(heroSection.getByRole("heading")).toHaveCSS(
         "text-align",
         "center",
+      );
+
+      const productiveSection = page.locator("div").nth(7);
+      await productiveSection.scrollIntoViewIfNeeded();
+      await expect(productiveSection).toHaveCSS("display", "flex");
+      await expect(productiveSection.locator("div").first()).not.toHaveCSS(
+        "grid-column-start",
+        "2",
       );
     });
   });
