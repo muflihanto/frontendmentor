@@ -261,6 +261,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
       await expect(page.getByAltText("Curve Bg").nth(0)).not.toBeVisible();
       await expect(page.getByAltText("Curve Bg").nth(1)).toBeVisible();
 
+      // Hero section
       const heroSection = page.locator("div").nth(2);
       await expect(heroSection).toHaveCSS(
         "grid-template-columns",
@@ -271,6 +272,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "left",
       );
 
+      // Productive section
       const productiveSection = page.locator("div").nth(7);
       await productiveSection.scrollIntoViewIfNeeded();
       await expect(productiveSection).toHaveCSS("display", "grid");
@@ -279,6 +281,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "2",
       );
 
+      // Early access section
       const earlyAccessSection = page.locator("div").nth(14);
       await earlyAccessSection.scrollIntoViewIfNeeded();
       await expect(earlyAccessSection).toHaveCSS("display", "grid");
@@ -287,6 +290,14 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "520px 520px",
       );
       await expect(earlyAccessSection).toHaveCSS("height", "322px");
+
+      // Footer section
+      const footer = page.getByRole("contentinfo");
+      await expect(footer).toHaveCSS("height", "390.967px");
+      await expect(footer.locator("div").nth(4)).toHaveCSS(
+        "align-self",
+        "flex-start",
+      );
     });
 
     test("mobile view shows correct layout", async ({ page }) => {
@@ -294,6 +305,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
       await expect(page.getByAltText("Curve Bg").nth(0)).toBeVisible();
       await expect(page.getByAltText("Curve Bg").nth(1)).not.toBeVisible();
 
+      // Hero section
       const heroSection = page.locator("div").nth(2);
       await expect(heroSection).toHaveCSS("grid-template-columns", "none");
       await expect(heroSection.getByRole("heading")).toHaveCSS(
@@ -301,6 +313,7 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "center",
       );
 
+      // Productive section
       const productiveSection = page.locator("div").nth(7);
       await productiveSection.scrollIntoViewIfNeeded();
       await expect(productiveSection).toHaveCSS("display", "flex");
@@ -309,11 +322,20 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "2",
       );
 
+      // Early access section
       const earlyAccessSection = page.locator("div").nth(14);
       await earlyAccessSection.scrollIntoViewIfNeeded();
       await expect(earlyAccessSection).toHaveCSS("display", "flex");
       await expect(earlyAccessSection).toHaveCSS("flex-direction", "column");
       await expect(earlyAccessSection).toHaveCSS("height", "345px");
+
+      // Footer section
+      const footer = page.getByRole("contentinfo");
+      await expect(footer).toHaveCSS("height", "682.967px");
+      await expect(footer.locator("div").nth(4)).toHaveCSS(
+        "align-self",
+        "center",
+      );
     });
   });
 
