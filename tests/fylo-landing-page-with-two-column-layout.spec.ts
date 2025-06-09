@@ -272,6 +272,10 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "left",
       );
 
+      // Hero form
+      const heroForm = page.locator("form").first();
+      await expect(heroForm).toHaveCSS("grid-template-columns", "320px 200px");
+
       // Productive section
       const productiveSection = page.locator("div").nth(7);
       await productiveSection.scrollIntoViewIfNeeded();
@@ -312,6 +316,10 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "text-align",
         "center",
       );
+
+      // Hero form
+      const heroForm = page.locator("form").first();
+      await expect(heroForm).toHaveCSS("grid-template-columns", "304px");
 
       // Productive section
       const productiveSection = page.locator("div").nth(7);
