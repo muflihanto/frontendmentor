@@ -14,7 +14,7 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
 
   /** Test if the page has a main section */
   test("has a main section", async ({ page }) => {
-    const main = page.getByRole("main");
+    const main = page.locator("section").first();
     await expect(main).toBeVisible();
     await expect(main).toBeInViewport();
     await expect(main.getByRole("img")).toBeVisible();
@@ -33,13 +33,19 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       main.getByRole("link", { name: "Download for iOS" }),
     ).toBeVisible();
     await expect(
+      main.getByRole("link", { name: "Download for iOS" }),
+    ).toBeEnabled();
+    await expect(
       main.getByRole("link", { name: "Download for Mac" }),
     ).toBeVisible();
+    await expect(
+      main.getByRole("link", { name: "Download for Mac" }),
+    ).toBeEnabled();
   });
 
   /** Test if the page has a 'Snippet' section */
   test("has a 'Snippet' section", async ({ page }) => {
-    const section = page.locator("section").first();
+    const section = page.locator("section").nth(1);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Keep track of your snippets" }),
@@ -80,7 +86,7 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
 
   /** Test if the page has an 'Access Anywhere' section */
   test("has an 'Access Anywhere' section", async ({ page }) => {
-    const section = page.locator("section").nth(1);
+    const section = page.locator("section").nth(2);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Access Clipboard Anywhere" }),
@@ -97,7 +103,7 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
 
   /** Test if the page has a 'Supercharge' section */
   test("has a 'Supercharge' section", async ({ page }) => {
-    const section = page.locator("section").nth(2);
+    const section = page.locator("section").nth(3);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Supercharge your workflow" }),
@@ -133,7 +139,7 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
 
   /** Test if the page has a 'Clients' section */
   test("has a 'Clients' section", async ({ page }) => {
-    const section = page.locator("div").nth(12);
+    const section = page.locator("section").nth(4);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     const clients = ["Google", "IBM", "Microsoft", "HP", "Vector Graphics"];
@@ -146,7 +152,7 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
 
   /** Test if the page has an 'Available on' section */
   test("has an 'Available on' section", async ({ page }) => {
-    const section = page.locator("section").nth(3);
+    const section = page.locator("section").nth(5);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Clipboard for iOS and Mac OS" }),
@@ -160,8 +166,14 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       section.getByRole("link", { name: "Download for iOS" }),
     ).toBeVisible();
     await expect(
+      section.getByRole("link", { name: "Download for iOS" }),
+    ).toBeEnabled();
+    await expect(
       section.getByRole("link", { name: "Download for Mac" }),
     ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "Download for Mac" }),
+    ).toBeEnabled();
   });
 
   /** Test if the page has a footer */
