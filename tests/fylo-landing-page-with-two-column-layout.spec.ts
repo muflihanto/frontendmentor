@@ -285,6 +285,11 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "2",
       );
 
+      // Testimonial cards
+      const testimonialCard = page.locator("div").nth(5).locator("div").nth(4);
+      await expect(testimonialCard).toHaveCSS("width", "356px");
+      await expect(testimonialCard).toHaveCSS("height", "216px");
+
       // Early access section
       const earlyAccessSection = page.locator("div").nth(14);
       await earlyAccessSection.scrollIntoViewIfNeeded();
@@ -329,6 +334,11 @@ test.describe("FrontendMentor Challenge - Fylo landing page with two column layo
         "grid-column-start",
         "2",
       );
+
+      // Testimonial cards
+      const testimonialCard = page.locator("div").nth(5).locator("div").nth(4);
+      await expect(testimonialCard).toHaveCSS("width", "280px");
+      await expect(testimonialCard).toHaveCSS("height", "170px");
 
       // Early access section
       const earlyAccessSection = page.locator("div").nth(14);
