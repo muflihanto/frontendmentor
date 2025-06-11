@@ -200,16 +200,43 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
     ).toBeVisible();
   });
 
-  /** Test responsive behavior - mobile view */
-  test("mobile view displays correctly", async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
+  /** Test responsive behavior */
+  test.describe("Responsive behavior", () => {
+    /** Test responsive behavior - mobile view */
+    test("mobile view displays correctly", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
 
-    // Test if mobile background image is shown
-    const heroSection = page.locator("section").first();
-    const backgroundImage = await heroSection.evaluate((el) => {
-      return window.getComputedStyle(el).backgroundImage;
+      // Test if mobile background image is shown
+      const heroSection = page.locator("section").first();
+      const backgroundImage = await heroSection.evaluate((el) => {
+        return window.getComputedStyle(el).backgroundImage;
+      });
+      expect(backgroundImage).toContain("bg-header-mobile.png");
+
+      // Test if Snippet section has mobile layout
+      const snippetSection = page.locator("section").nth(1);
+      await snippetSection.scrollIntoViewIfNeeded();
+      const gridLayout = snippetSection.locator("div").first();
+      await expect(gridLayout).toHaveCSS("display", "block");
     });
-    expect(backgroundImage).toContain("bg-header-mobile.png");
+
+    /** Test responsive behavior - desktop view */
+    test("desktop view displays correctly", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 800 });
+
+      // Test if desktop background image is shown
+      const heroSection = page.locator("section").first();
+      const backgroundImage = await heroSection.evaluate((el) => {
+        return window.getComputedStyle(el).backgroundImage;
+      });
+      expect(backgroundImage).toContain("bg-header-desktop.png");
+
+      // Test if Snippet section has desktop layout
+      const snippetSection = page.locator("section").nth(1);
+      await snippetSection.scrollIntoViewIfNeeded();
+      const gridLayout = snippetSection.locator("div").first();
+      await expect(gridLayout).toHaveCSS("display", "grid");
+    });
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
