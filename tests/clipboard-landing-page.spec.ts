@@ -200,6 +200,18 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
     ).toBeVisible();
   });
 
+  /** Test responsive behavior - mobile view */
+  test("mobile view displays correctly", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+
+    // Test if mobile background image is shown
+    const heroSection = page.locator("section").first();
+    const backgroundImage = await heroSection.evaluate((el) => {
+      return window.getComputedStyle(el).backgroundImage;
+    });
+    expect(backgroundImage).toContain("bg-header-mobile.png");
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
