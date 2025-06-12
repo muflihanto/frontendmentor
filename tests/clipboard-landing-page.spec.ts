@@ -237,6 +237,25 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       const gridLayout = snippetSection.locator("div").first();
       await expect(gridLayout).toHaveCSS("display", "grid");
     });
+
+    test("hover states work on desktop", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 800 });
+      const iosButton = page
+        .getByRole("link", { name: "Download for iOS" })
+        .first();
+
+      // Get initial background color
+      const initialColor = await iosButton.evaluate(
+        (el) => window.getComputedStyle(el).backgroundColor,
+      );
+
+      // Hover and verify color change
+      await iosButton.hover();
+      const hoverColor = await iosButton.evaluate(
+        (el) => window.getComputedStyle(el).backgroundColor,
+      );
+      expect(hoverColor).not.toBe(initialColor);
+    });
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
