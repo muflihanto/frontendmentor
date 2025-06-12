@@ -237,24 +237,36 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       const gridLayout = snippetSection.locator("div").first();
       await expect(gridLayout).toHaveCSS("display", "grid");
     });
+  });
 
-    test("hover states work on desktop", async ({ page }) => {
+  test.describe("hover states work on desktop", () => {
+    test.beforeEach(async ({ page }) => {
       await page.setViewportSize({ width: 1440, height: 800 });
-      const iosButton = page
-        .getByRole("link", { name: "Download for iOS" })
-        .first();
+    });
 
-      // Get initial background color
-      const initialColor = await iosButton.evaluate(
-        (el) => window.getComputedStyle(el).backgroundColor,
-      );
+    test("primary CTA buttons have hover effects", async ({ page }) => {
+      const buttons = [
+        { name: "Download for iOS", expectedColor: "rgba(38, 186, 164, 0.75)" }, // cyan with 75% opacity
+        { name: "Download for Mac", expectedColor: "rgba(97, 115, 255, 0.75)" }, // blue with 75% opacity
+      ];
 
-      // Hover and verify color change
-      await iosButton.hover();
-      const hoverColor = await iosButton.evaluate(
-        (el) => window.getComputedStyle(el).backgroundColor,
-      );
-      expect(hoverColor).not.toBe(initialColor);
+      for (const { name, expectedColor } of buttons) {
+        const button = page.getByRole("link", { name }).first();
+
+        // Initial state
+        await expect(button).toHaveCSS("background-color", /^rgb\(.+\)$/);
+
+        // Hover state
+        await button.hover();
+        await expect(button).toHaveCSS("background-color", expectedColor);
+        await expect(button).toHaveCSS("border-bottom-color", /^rgba\(.+\)$/);
+
+        // Verify shadow remains visible
+        const boxShadow = await button.evaluate(
+          (el) => window.getComputedStyle(el).boxShadow,
+        );
+        expect(boxShadow).not.toBe("none");
+      }
     });
   });
 
