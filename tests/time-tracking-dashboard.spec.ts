@@ -94,6 +94,33 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
     }
   });
 
+  /** Test for activity card hover states and interactive elements */
+  test("activity cards have correct hover states and interactive elements", async ({
+    page,
+  }) => {
+    const activities = data.map((item) => item.title);
+
+    for (const activity of activities) {
+      const card = page.locator(`div:has-text("${activity}")`).nth(5);
+
+      await expect(card).toHaveCSS("background-color", "rgb(28, 31, 74)");
+
+      // Test hover state
+      await card.hover();
+      await expect(card).toHaveCSS("background-color", "rgb(52, 57, 123)");
+
+      // Test ellipsis button presence
+      const ellipsisButton = card.getByRole("button");
+      await expect(ellipsisButton).toBeVisible();
+
+      // Test ellipsis icon hover state
+      const svg = ellipsisButton.locator("svg");
+      await expect(svg).toHaveCSS("fill", "rgb(187, 192, 255)");
+      await ellipsisButton.hover();
+      await expect(svg).toHaveCSS("fill", "rgb(255, 255, 255)");
+    }
+  });
+
   /** Test if the tab keyboard navigation works  */
   test.describe("tab keyboard navigation works", () => {
     const units = ["Daily", "Weekly", "Monthly"];
