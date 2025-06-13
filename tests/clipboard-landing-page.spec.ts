@@ -269,6 +269,30 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
       }
     });
 
+    test("footer navigation links have hover effects", async ({ page }) => {
+      const navLinks = [
+        "FAQs",
+        "Contact Us",
+        "Privacy Policy",
+        "Press Kit",
+        "Install Guide",
+      ];
+
+      const footer = page.getByRole("contentinfo");
+      await footer.scrollIntoViewIfNeeded();
+
+      for (const linkText of navLinks) {
+        const link = footer.getByRole("link", { name: linkText });
+
+        // Initial state
+        await expect(link).toHaveCSS("color", "rgb(76, 84, 93)");
+
+        // Hover state
+        await link.hover();
+        await expect(link).toHaveCSS("color", "rgb(38, 186, 164)");
+      }
+    });
+
     test("social media icons have hover effects", async ({ page }) => {
       const socialIcons = [
         { name: "Facebook", expectedColor: "rgb(38, 186, 164)" },
