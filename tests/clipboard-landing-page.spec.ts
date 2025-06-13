@@ -268,6 +268,27 @@ test.describe("FrontendMentor Challenge - Clipboard landing Page", () => {
         expect(boxShadow).not.toBe("none");
       }
     });
+
+    test("social media icons have hover effects", async ({ page }) => {
+      const socialIcons = [
+        { name: "Facebook", expectedColor: "rgb(38, 186, 164)" },
+        { name: "Twitter", expectedColor: "rgb(38, 186, 164)" },
+        { name: "Instagram", expectedColor: "rgb(38, 186, 164)" },
+      ];
+      const container = page.getByRole("contentinfo").locator("div").nth(1);
+      await container.scrollIntoViewIfNeeded();
+
+      for (const { name, expectedColor } of socialIcons) {
+        const icon = container.getByRole("img", { name });
+
+        // Initial state
+        await expect(icon).toHaveCSS("color", "rgb(76, 84, 93)");
+
+        // Hover state
+        await icon.hover();
+        await expect(icon).toHaveCSS("color", expectedColor);
+      }
+    });
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
