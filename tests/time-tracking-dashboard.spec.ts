@@ -73,6 +73,12 @@ test.describe("FrontendMentor Challenge - Time tracking dashboard Page", () => {
           .locator("div")
           .filter({ hasText: activity.title })
           .nth(4);
+        const icon = container.locator(`svg[aria-label="${activity.title}"]`);
+        await expect(icon).toBeVisible();
+        await expect(icon).toHaveAttribute(
+          "viewBox",
+          expect.stringContaining("0 0"),
+        );
         await expect(container.getByText(activity.title)).toBeVisible();
         await expect(
           container.getByText(
