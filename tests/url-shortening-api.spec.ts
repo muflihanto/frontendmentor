@@ -59,6 +59,27 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
         form.getByRole("button", { name: "Shorten It!" }),
       ).toBeVisible();
     });
+    /** Test if the form validation works correctly */
+    test("form validation works", async ({ page }) => {
+      const form = page.locator("form");
+      await form.scrollIntoViewIfNeeded();
+
+      // Test empty submission
+      await form.getByRole("button", { name: "Shorten It!" }).click();
+      await expect(form.getByText("Please add a link")).toBeVisible();
+
+      // Test invalid URL submission
+      await form.getByPlaceholder("Shorten a link here...").fill("invalid-url");
+      await form.getByRole("button", { name: "Shorten It!" }).click();
+      await expect(form.getByText("Please add a link")).toBeVisible();
+
+      // Test valid URL submission
+      await form
+        .getByPlaceholder("Shorten a link here...")
+        .fill("https://example.com");
+      await form.getByRole("button", { name: "Shorten It!" }).click();
+      await expect(form.getByText("Please add a link")).not.toBeVisible();
+    });
   });
 
   /** Test if the page has an 'Advanced Statistics' section */
