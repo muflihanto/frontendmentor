@@ -258,6 +258,39 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     );
   });
 
+  /** Test if URL shortening and copy functionality works */
+  test("URL shortening and copy works", async ({ page }) => {
+    const form = page.locator("form");
+    await form.scrollIntoViewIfNeeded();
+
+    // Mock API response
+    await page.route("/api/getShortenUrl", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          url: "https://example.com",
+          result_url: "https://shrt.co/abc123",
+        }),
+      });
+    });
+
+    await form
+      .getByPlaceholder("Shorten a link here...")
+      .fill("https://example.com");
+    await form.getByRole("button", { name: "Shorten It!" }).click();
+
+    // Verify shortened URL appears
+    const shortenedLink = page.getByText("https://shrt.co/abc123");
+    await expect(shortenedLink).toBeVisible();
+
+    // Test copy functionality
+    const copyButton = page.getByRole("button", { name: "Copy" }).first();
+    await copyButton.click();
+    await expect(copyButton).not.toBeVisible();
+    await expect(page.getByRole("button", { name: "Copied!" })).toBeVisible();
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
