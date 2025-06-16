@@ -23,6 +23,22 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     for (const nav of headerNavs) {
       await expect(header.getByRole("link", { name: nav })).toBeVisible();
     }
+
+    const loginButton = header.getByRole("link", { name: "Login" });
+    await expect(loginButton).toHaveCSS("color", "rgb(158, 154, 167)");
+    await loginButton.hover();
+    await expect(loginButton).toHaveCSS("color", "rgb(35, 33, 39)");
+
+    const signUpButton = header.getByRole("link", { name: "Sign Up" });
+    await expect(signUpButton).toHaveCSS(
+      "background-color",
+      "rgb(42, 207, 207)",
+    );
+    await signUpButton.hover();
+    await expect(signUpButton).toHaveCSS(
+      "background-color",
+      "rgb(156, 227, 226)",
+    );
   });
 
   /** Test if the page has an Intro section */
