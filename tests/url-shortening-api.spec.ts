@@ -211,7 +211,11 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
         footer.getByRole("heading", { name: group.name }),
       ).toBeVisible();
       for (const link of group.links) {
-        await expect(footer.getByRole("link", { name: link })).toBeVisible();
+        const linkElem = footer.getByRole("link", { name: link });
+        await expect(linkElem).toBeVisible();
+        await expect(linkElem).toHaveCSS("color", "rgb(191, 191, 191)");
+        await linkElem.hover();
+        await expect(linkElem).toHaveCSS("color", "rgb(42, 207, 207)");
       }
     }
     const snsLinks = await footer.locator(">nav>a").all();
