@@ -52,9 +52,19 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
         "Build your brand’s recognition and get detailed insights on how your links are performing.",
       ),
     ).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Get Started" }),
-    ).toBeVisible();
+    const getStartedButton = section.getByRole("button", {
+      name: "Get Started",
+    });
+    await expect(getStartedButton).toBeVisible();
+    await expect(getStartedButton).toHaveCSS(
+      "background-color",
+      "rgb(42, 207, 207)",
+    );
+    await getStartedButton.hover();
+    await expect(getStartedButton).toHaveCSS(
+      "background-color",
+      "rgb(156, 227, 226)",
+    );
     await expect(
       section.getByRole("img", { name: "Illustration Working" }),
     ).toBeVisible();
@@ -153,9 +163,19 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     await expect(
       section.getByRole("heading", { name: "Boost your links today" }),
     ).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Get Started" }),
-    ).toBeVisible();
+    const getStartedButton = section.getByRole("button", {
+      name: "Get Started",
+    });
+    await expect(getStartedButton).toBeVisible();
+    await expect(getStartedButton).toHaveCSS(
+      "background-color",
+      "rgb(42, 207, 207)",
+    );
+    await getStartedButton.hover();
+    await expect(getStartedButton).toHaveCSS(
+      "background-color",
+      "rgb(156, 227, 226)",
+    );
   });
 
   /** Test if the page has a footer */
