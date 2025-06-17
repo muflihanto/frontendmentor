@@ -81,9 +81,17 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
       await expect(
         form.getByPlaceholder("Shorten a link here..."),
       ).toBeVisible();
-      await expect(
-        form.getByRole("button", { name: "Shorten It!" }),
-      ).toBeVisible();
+
+      const shortenButton = form.getByRole("button", { name: "Shorten It!" });
+      await expect(shortenButton).toHaveCSS(
+        "background-color",
+        "rgb(42, 207, 207)",
+      );
+      await shortenButton.hover();
+      await expect(shortenButton).toHaveCSS(
+        "background-color",
+        "rgb(156, 227, 226)",
+      );
     });
     /** Test if the form validation works correctly */
     test("form validation works", async ({ page }) => {
@@ -210,6 +218,9 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     expect(snsLinks).toHaveLength(4);
     for (const sns of snsLinks) {
       await expect(sns).toBeVisible();
+      await expect(sns).toHaveCSS("color", "rgb(255, 255, 255)");
+      await sns.hover();
+      await expect(sns).toHaveCSS("color", "rgb(42, 207, 207)");
     }
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
