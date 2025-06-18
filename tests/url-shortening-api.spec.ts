@@ -337,9 +337,22 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
 
     // Test copy functionality
     const copyButton = page.getByRole("button", { name: "Copy" }).first();
+    const copiedButton = page.getByRole("button", { name: "Copied" }).first();
+    await expect(copyButton).toBeVisible();
+    await expect(copiedButton).not.toBeVisible();
+    await expect(copyButton).toHaveCSS("background-color", "rgb(42, 207, 207)");
+    await copyButton.hover();
+    await expect(copyButton).toHaveCSS(
+      "background-color",
+      "rgb(156, 227, 226)",
+    );
     await copyButton.click();
     await expect(copyButton).not.toBeVisible();
-    await expect(page.getByRole("button", { name: "Copied!" })).toBeVisible();
+    await expect(copiedButton).toBeVisible();
+    await expect(copiedButton).toHaveCSS(
+      "background-color",
+      "rgb(118, 106, 149)",
+    );
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
