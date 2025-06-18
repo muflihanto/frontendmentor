@@ -281,6 +281,31 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
         ).not.toBeVisible();
       }
     });
+
+    /** Test if the page has correct responsive layout on mobile */
+    test("has correct mobile layout", async () => {
+      // Header should show mobile navigation
+      await expect(
+        page.getByRole("button", { name: /Open Menu|Close Menu/ }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole("navigation", { name: "Main menu" }),
+      ).not.toBeVisible();
+
+      // Intro section should not have flex display
+      const introSection = page.locator("div").nth(9);
+      await introSection.scrollIntoViewIfNeeded();
+      await expect(introSection).toHaveCSS("display", "block");
+      await expect(introSection).not.toHaveCSS("flex-direction", "row-reverse");
+
+      // Features should be in column layout
+      const featuresSection = page.locator("div").nth(14);
+      await featuresSection.scrollIntoViewIfNeeded();
+      await expect(featuresSection.locator(">div").nth(1)).toHaveCSS(
+        "flex-direction",
+        "column",
+      );
+    });
   });
 
   /** Test if the page has correct responsive layout on desktop */
@@ -295,7 +320,7 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
       page.getByRole("navigation", { name: "Main menu" }),
     ).toBeVisible();
 
-    // Intro section should be in row layout
+    // Intro section should be in row-reverse layout
     const introSection = page.locator("div").nth(9);
     await introSection.scrollIntoViewIfNeeded();
     await expect(introSection).toHaveCSS("flex-direction", "row-reverse");
