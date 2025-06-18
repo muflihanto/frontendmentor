@@ -380,6 +380,75 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     );
   });
 
+  /** Test multiple URL shortening entries and their display */
+  test("handles multiple URL shortening entries correctly", async ({
+    page,
+  }) => {
+    const form = page.locator("form");
+    await form.scrollIntoViewIfNeeded();
+
+    // Mock API responses for different URLs
+    await page.route("/api/getShortenUrl", async (route) => {
+      const postData = route.request().postData();
+      const requestData = postData
+        ? (JSON.parse(postData) as { url?: string })
+        : {};
+      const url = requestData.url;
+
+      let resultUrl = "";
+      if (url?.includes("example1.com")) resultUrl = "https://shrt.co/abc123";
+      if (url?.includes("example2.com")) resultUrl = "https://shrt.co/xyz456";
+      if (url?.includes("example3.com")) resultUrl = "https://shrt.co/789mno";
+
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          url,
+          result_url: resultUrl,
+        }),
+      });
+    });
+
+    // Shorten first URL
+    await form
+      .getByPlaceholder("Shorten a link here...")
+      .fill("https://example1.com");
+    await form.getByRole("button", { name: "Shorten It!" }).click();
+    await expect(page.getByText("https://shrt.co/abc123")).toBeVisible();
+
+    // Shorten second URL
+    await form
+      .getByPlaceholder("Shorten a link here...")
+      .fill("https://example2.com");
+    await form.getByRole("button", { name: "Shorten It!" }).click();
+    await expect(page.getByText("https://shrt.co/xyz456")).toBeVisible();
+
+    // Shorten third URL
+    await form
+      .getByPlaceholder("Shorten a link here...")
+      .fill("https://example3.com");
+    await form.getByRole("button", { name: "Shorten It!" }).click();
+    await expect(page.getByText("https://shrt.co/789mno")).toBeVisible();
+
+    // Verify all shortened URLs are displayed in order (newest first)
+    const shortenedLinks = await page
+      .getByRole("link", { name: "https://shrt.co/" })
+      .all();
+    expect(shortenedLinks).toHaveLength(3);
+
+    // Verify the original URLs are preserved
+    await expect(
+      page.getByText("https://example1.com", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("https://example2.com", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("https://example3.com", { exact: true }),
+    ).toBeVisible();
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
