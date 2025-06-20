@@ -23,7 +23,11 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
     const nav = header.getByRole("navigation");
     const navlinks = ["Features", "Team", "Sign In"];
     for (const link of navlinks) {
-      await expect(nav.getByRole("link", { name: link })).toBeVisible();
+      const linkElement = nav.getByRole("link", { name: link });
+      await expect(linkElement).toBeVisible();
+      await expect(linkElement).toHaveCSS("text-decoration-line", "none");
+      await linkElement.hover();
+      await expect(linkElement).toHaveCSS("text-decoration-line", "underline");
     }
   });
 
@@ -46,9 +50,17 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
         "Fylo stores all your most important files in one secure location. Access them wherever you need, share and collaborate with friends family, and co-workers.",
       ),
     ).toBeVisible();
-    await expect(
-      section.getByRole("link", { name: "Get Started" }),
-    ).toBeVisible();
+    const getStartedButton = section.getByRole("link", { name: "Get Started" });
+    await expect(getStartedButton).toBeVisible();
+    await expect(getStartedButton).toHaveCSS(
+      "background-image",
+      "linear-gradient(to right bottom, rgb(101, 226, 217), rgb(51, 158, 204))",
+    );
+    await getStartedButton.hover();
+    await expect(getStartedButton).toHaveCSS(
+      "background-image",
+      "linear-gradient(to right bottom, rgb(101, 226, 217), rgb(101, 226, 217))",
+    );
   });
 
   /** Test if the page has a 'Features' section */
