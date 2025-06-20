@@ -114,6 +114,17 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
     ).toBeVisible();
   });
 
+  /** Test if 'See how Fylo works' link has correct hover state */
+  test("'See how Fylo works' link hover state", async ({ page }) => {
+    const section = page.locator("main>div").nth(1);
+    await section.scrollIntoViewIfNeeded();
+
+    const link = section.getByRole("link", { name: "See how Fylo works" });
+    await link.hover();
+    await expect(link).toHaveCSS("border-bottom-color", "rgb(255, 255, 255)"); // Should change to white on hover
+    await expect(link.locator("span")).toHaveCSS("color", "rgb(255, 255, 255)"); // Text should change to white
+  });
+
   /** Test if the page has a 'Testimonials' section */
   test("has a 'Testimonials' section", async ({ page }) => {
     const section = page.locator("main>div").nth(2);
