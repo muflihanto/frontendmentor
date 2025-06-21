@@ -262,7 +262,11 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
     for (const [index, list] of Object.entries(lists)) {
       const indexNum = Number(index);
       for (const link of navlinks[indexNum]) {
-        await expect(list.getByRole("link", { name: link })).toBeVisible();
+        const linkElement = list.getByRole("link", { name: link });
+        await expect(linkElement).toBeVisible();
+        await expect(linkElement).toHaveCSS("font-weight", "400");
+        await linkElement.hover();
+        await expect(linkElement).toHaveCSS("font-weight", "700");
       }
     }
     const socials = await footer
@@ -272,6 +276,18 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
     expect(socials).toHaveLength(3);
     for (const social of socials) {
       await expect(social).toBeVisible();
+      const svg = social.locator("svg");
+      await expect(social).toHaveCSS(
+        "border-bottom-color",
+        "rgb(191, 191, 191)",
+      );
+      await expect(svg).toHaveCSS("color", "rgba(255, 255, 255, 0.8)");
+      await social.hover();
+      await expect(social).toHaveCSS(
+        "border-bottom-color",
+        "rgb(101, 226, 217)",
+      );
+      await expect(svg).toHaveCSS("color", "rgb(101, 226, 217)");
     }
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
