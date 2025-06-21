@@ -200,9 +200,19 @@ test.describe("FrontendMentor Challenge - Fylo landing page with dark theme and 
         ),
       ).toBeVisible();
       await expect(section.getByPlaceholder("email@example.com")).toBeVisible();
-      await expect(
-        section.getByRole("button", { name: "Get Started For Free" }),
-      ).toBeVisible();
+      const getStartedButton = section.getByRole("button", {
+        name: "Get Started For Free",
+      });
+      await expect(getStartedButton).toBeVisible();
+      await expect(getStartedButton).toHaveCSS(
+        "background-image",
+        "linear-gradient(to right bottom, rgb(101, 226, 217), rgb(51, 158, 204))",
+      );
+      await getStartedButton.hover();
+      await expect(getStartedButton).toHaveCSS(
+        "background-image",
+        "linear-gradient(to right bottom, rgb(101, 226, 217), rgb(101, 226, 217))",
+      );
     });
     test("form works", async ({ page }) => {
       const section = page.locator("main>div").nth(3);
