@@ -21,11 +21,26 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     await expect(header.getByRole("img")).toBeVisible();
     const navEl = header.getByRole("navigation");
     for (const nav of headerNavs) {
-      await expect(navEl.getByRole("link", { name: nav })).toBeVisible();
+      const linkEl = navEl.getByRole("link", { name: nav });
+      await expect(linkEl).toBeVisible();
+      await expect(linkEl).toHaveCSS("color", "rgb(36, 45, 82)");
+      await expect(linkEl).toHaveCSS("opacity", "1");
+      await linkEl.hover();
+      await expect(linkEl).toHaveCSS("opacity", "0.5");
     }
-    await expect(
-      header.getByRole("button", { name: "Get Started" }),
-    ).toBeVisible();
+    const getStartedButton = header.getByRole("button", {
+      name: "Get Started",
+    });
+    await expect(getStartedButton).toBeVisible();
+    // Check if before element overlay exists
+    const getHasBefore = async () =>
+      await getStartedButton.evaluate((el) => {
+        const beforeStyle = window.getComputedStyle(el, "::before");
+        return beforeStyle.content !== "none" && beforeStyle.content !== "";
+      });
+    expect(await getHasBefore()).toBeFalsy();
+    await getStartedButton.hover();
+    expect(await getHasBefore()).toBeTruthy();
   });
 
   /** Test if the page has an intro section */
