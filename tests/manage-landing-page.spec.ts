@@ -156,10 +156,21 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     await expect(footer).toBeVisible();
     await expect(footer.locator(">div>svg")).toBeVisible();
     const snsContainer = footer.locator("div").nth(1);
-    expect(await snsContainer.getByRole("link").all()).toHaveLength(5);
+    const snsLinks = await snsContainer.getByRole("link").all();
+    expect(snsLinks).toHaveLength(5);
+    for (const link of snsLinks) {
+      await expect(link).toBeVisible();
+      await expect(link).toHaveCSS("color", "rgb(250, 250, 250)");
+      await link.hover();
+      await expect(link).toHaveCSS("color", "rgb(242, 95, 58)");
+    }
     const nav = footer.locator("ul");
     for (const link of navLinks) {
-      await expect(nav.getByRole("link", { name: link })).toBeVisible();
+      const linkEl = nav.getByRole("link", { name: link });
+      await expect(linkEl).toBeVisible();
+      await expect(linkEl).toHaveCSS("color", "rgb(255, 239, 235)");
+      await linkEl.hover();
+      await expect(linkEl).toHaveCSS("color", "rgb(242, 95, 58)");
     }
     const form = footer.locator("form");
     await expect(form.getByPlaceholder("Updates in your inbox…")).toBeVisible();
