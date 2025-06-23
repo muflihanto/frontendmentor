@@ -132,6 +132,50 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     expect(await getHasBefore(getStartedButton)).toBeTruthy();
   });
 
+  test.describe("Testimonials Carousel", () => {
+    // Common variables
+    const testimonialItems = 4; // Number of testimonials
+
+    test.describe("Desktop Behavior (>=1024px)", () => {
+      test.use({ viewport: { width: 1200, height: 800 } });
+
+      test("should display all testimonials in a horizontal layout", async ({
+        page,
+      }) => {
+        const carousel = page.locator("div").nth(15);
+        await carousel.scrollIntoViewIfNeeded();
+        const items = carousel.locator("> div");
+
+        await expect(items).toHaveCount(testimonialItems);
+
+        // Verify horizontal scroll container
+        await expect(carousel).toHaveCSS("overflow-x", "auto");
+        await expect(carousel).toHaveCSS("flex-direction", "row");
+
+        // Check if all items are visible (some items are overflowed)
+        for (let i = 0; i < testimonialItems; i++) {
+          await expect(items.nth(i)).toBeVisible();
+        }
+      });
+
+      test("should allow horizontal scrolling", async ({ page }) => {
+        const carousel = page.locator("div").nth(15);
+        await carousel.scrollIntoViewIfNeeded();
+        const firstItem = carousel.locator("> div").first();
+        const lastItem = carousel.locator("> div").last();
+
+        // Scroll to end
+        await lastItem.scrollIntoViewIfNeeded();
+        await expect(lastItem).toBeInViewport();
+        await expect(firstItem).not.toBeInViewport();
+
+        // Scroll back to start
+        await firstItem.scrollIntoViewIfNeeded();
+        await expect(firstItem).toBeInViewport();
+      });
+    });
+  });
+
   /** Test if the page has a 'Simplify' section */
   test("has a 'Simplify' section", async ({ page }) => {
     const section = page.locator("div").nth(25);
