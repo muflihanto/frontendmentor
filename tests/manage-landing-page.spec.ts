@@ -199,6 +199,30 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
           await expect(activeItem).toBeInViewport({ ratio: 0.95 });
         }
       });
+
+      test("should swipe between testimonials", async ({ page }) => {
+        const carousel = page.locator("div").nth(15);
+        const firstItem = carousel.locator("> div").first();
+        await carousel.scrollIntoViewIfNeeded();
+
+        // Get initial position
+        const initialScroll = await carousel.evaluate((el) => el.scrollLeft);
+
+        // Simulate swipe
+        const boundingBox = await firstItem.boundingBox();
+        // Move cursor to first item
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        await page.mouse.move(boundingBox!.x + 10, boundingBox!.y + 10);
+        await page.mouse.down();
+        // Swipe left 100px
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        await page.mouse.move(boundingBox!.x - 100, boundingBox!.y + 10);
+        await page.mouse.up();
+
+        // Verify scroll changed
+        const newScroll = await carousel.evaluate((el) => el.scrollLeft);
+        expect(newScroll).toBeGreaterThan(initialScroll);
+      });
     });
   });
 
