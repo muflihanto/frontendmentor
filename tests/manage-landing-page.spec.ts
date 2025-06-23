@@ -4,6 +4,13 @@ import AxeBuilder from "@axe-core/playwright";
 const pageUrl = "/manage-landing-page";
 const headerNavs = ["Pricing", "Product", "About Us", "Careers", "Community"];
 
+// Check if an element has a ::before pseude-element
+const getHasBefore = async (locator: Locator) =>
+  await locator.evaluate((el) => {
+    const beforeStyle = window.getComputedStyle(el, "::before");
+    return beforeStyle.content !== "none" && beforeStyle.content !== "";
+  });
+
 test.describe("FrontendMentor Challenge - Manage landing Page", () => {
   /** Go to Manage landing page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -32,15 +39,9 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
       name: "Get Started",
     });
     await expect(getStartedButton).toBeVisible();
-    // Check if before element overlay exists
-    const getHasBefore = async () =>
-      await getStartedButton.evaluate((el) => {
-        const beforeStyle = window.getComputedStyle(el, "::before");
-        return beforeStyle.content !== "none" && beforeStyle.content !== "";
-      });
-    expect(await getHasBefore()).toBeFalsy();
+    expect(await getHasBefore(getStartedButton)).toBeFalsy();
     await getStartedButton.hover();
-    expect(await getHasBefore()).toBeTruthy();
+    expect(await getHasBefore(getStartedButton)).toBeTruthy();
   });
 
   /** Test if the page has an intro section */
@@ -62,9 +63,11 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
         "Manage makes it simple for software teams to plan day-to-day tasks while keeping the larger team goals in view.",
       ),
     ).toBeVisible();
-    await expect(
-      grid2.getByRole("button", { name: "Get Started" }),
-    ).toBeVisible();
+    const getStartedButton = grid2.getByRole("button", { name: "Get Started" });
+    await expect(getStartedButton).toBeVisible();
+    expect(await getHasBefore(getStartedButton)).toBeFalsy();
+    await getStartedButton.hover();
+    expect(await getHasBefore(getStartedButton)).toBeTruthy();
   });
 
   /** Test if the page has a 'Selling Point' section */
@@ -120,9 +123,13 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
     expect(await testimonialsContainer.locator(">div>div").all()).toHaveLength(
       4,
     );
-    await expect(
-      section.getByRole("button", { name: "Get Started" }),
-    ).toBeVisible();
+    const getStartedButton = section.getByRole("button", {
+      name: "Get Started",
+    });
+    await expect(getStartedButton).toBeVisible();
+    expect(await getHasBefore(getStartedButton)).toBeFalsy();
+    await getStartedButton.hover();
+    expect(await getHasBefore(getStartedButton)).toBeTruthy();
   });
 
   /** Test if the page has a 'Simplify' section */
@@ -135,9 +142,13 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
         name: "Simplify how your team works today.",
       }),
     ).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Get Started" }),
-    ).toBeVisible();
+    const getStartedButton = section.getByRole("button", {
+      name: "Get Started",
+    });
+    await expect(getStartedButton).toBeVisible();
+    await expect(getStartedButton).toHaveCSS("color", "rgb(242, 95, 58)");
+    await getStartedButton.hover();
+    await expect(getStartedButton).toHaveCSS("color", "rgba(242, 95, 58, 0.5)");
   });
 
   /** Test if the page has a footer */
