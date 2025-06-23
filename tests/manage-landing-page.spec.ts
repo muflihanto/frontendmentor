@@ -174,6 +174,32 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
         await expect(firstItem).toBeInViewport();
       });
     });
+
+    test.describe("Mobile Behavior (<768px)", () => {
+      test.use({ viewport: { width: 375, height: 667 } });
+
+      test("should show navigation dots", async ({ page }) => {
+        const dots = page.locator("div").nth(24).getByRole("button");
+        await expect(dots).toHaveCount(testimonialItems);
+      });
+
+      test("should snap to testimonial when dot clicked", async ({ page }) => {
+        const dots = page.locator("div").nth(24).getByRole("button");
+        const carousel = page.locator("div").nth(15);
+        await carousel.scrollIntoViewIfNeeded();
+
+        // Click each dot and verify at least 95% of element intersects viewport.
+        for (let i = 0; i < testimonialItems; i++) {
+          await dots.nth(i).click();
+
+          // Verify active dot
+          await expect(dots.nth(i)).toHaveClass(/bg-manage-primary-red/);
+
+          const activeItem = carousel.locator("> div").nth(i);
+          await expect(activeItem).toBeInViewport({ ratio: 0.95 });
+        }
+      });
+    });
   });
 
   /** Test if the page has a 'Simplify' section */
