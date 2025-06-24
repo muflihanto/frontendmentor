@@ -179,12 +179,22 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
       test.use({ viewport: { width: 375, height: 667 } });
 
       test("should show navigation dots", async ({ page }) => {
-        const dots = page.locator("div").nth(24).getByRole("button");
+        const dots = page
+          .locator("div")
+          .nth(14)
+          .locator("> div")
+          .nth(1)
+          .getByRole("button");
         await expect(dots).toHaveCount(testimonialItems);
       });
 
       test("should snap to testimonial when dot clicked", async ({ page }) => {
-        const dots = page.locator("div").nth(24).getByRole("button");
+        const dots = page
+          .locator("div")
+          .nth(14)
+          .locator("> div")
+          .nth(1)
+          .getByRole("button");
         const carousel = page.locator("div").nth(15);
         await carousel.scrollIntoViewIfNeeded();
 
@@ -222,6 +232,35 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
         // Verify scroll changed
         const newScroll = await carousel.evaluate((el) => el.scrollLeft);
         expect(newScroll).toBeGreaterThan(initialScroll);
+      });
+    });
+
+    test.describe("Responsive Behavior", () => {
+      test("should change layout between breakpoints", async ({ page }) => {
+        // Start at mobile size
+        await page.setViewportSize({ width: 375, height: 667 });
+
+        const carouselContainer = page.locator("div").nth(14);
+        await carouselContainer.scrollIntoViewIfNeeded();
+
+        // Verify dots appear on mobile
+        const dotsContainer = page
+          .locator("div")
+          .nth(14)
+          .locator("> div")
+          .nth(1);
+        await expect(dotsContainer).toBeVisible();
+        await expect(dotsContainer.getByRole("button")).toHaveCount(
+          testimonialItems,
+        );
+
+        // Resize to desktop
+        await page.setViewportSize({ width: 1200, height: 800 });
+        await page.waitForTimeout(500); // Allow layout to adjust
+
+        // Verify dots disappear on desktop
+        await expect(dotsContainer).not.toBeVisible();
+        await expect(dotsContainer.getByRole("button")).toHaveCount(0);
       });
     });
   });
