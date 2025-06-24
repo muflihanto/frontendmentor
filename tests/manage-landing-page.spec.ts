@@ -262,6 +262,34 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
         await expect(dotsContainer).not.toBeVisible();
         await expect(dotsContainer.getByRole("button")).toHaveCount(0);
       });
+
+      test("should maintain testimonial content across all sizes", async ({
+        page,
+      }) => {
+        const testSizes = [
+          { width: 375, height: 667 }, // Mobile
+          { width: 768, height: 1024 }, // Tablet
+          { width: 1200, height: 800 }, // Desktop
+        ];
+
+        for (const size of testSizes) {
+          await page.setViewportSize(size);
+          await page.goto(pageUrl);
+
+          const carousel = page.locator("div").nth(15);
+          const items = carousel.locator("> div");
+
+          await carousel.scrollIntoViewIfNeeded();
+
+          // Verify all testimonials have required content
+          for (let i = 0; i < testimonialItems; i++) {
+            const item = items.nth(i);
+            await expect(item.locator("img")).toBeVisible();
+            await expect(item.locator("h3")).not.toBeEmpty();
+            await expect(item.locator("p")).not.toBeEmpty();
+          }
+        }
+      });
     });
   });
 
