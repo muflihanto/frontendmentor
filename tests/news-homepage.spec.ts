@@ -27,7 +27,11 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       // has all navlinks
       const links = ["Home", "New", "Popular", "Trending", "Categories"];
       for (const link of links) {
-        await expect(header.getByRole("link", { name: link })).toBeVisible();
+        const linkElement = header.getByRole("link", { name: link });
+        await expect(linkElement).toBeVisible();
+        await expect(linkElement).toHaveCSS("color", "rgb(93, 95, 121)");
+        await linkElement.hover();
+        await expect(linkElement).toHaveCSS("color", "rgb(241, 94, 80)");
       }
     });
   });
@@ -56,10 +60,12 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
           "We dive into the next evolution of the web that claims to put the power of the platforms back into the hands of the people. But is it really fulfilling its promise?",
         ),
       ).toBeVisible();
+      const readMore = container.getByRole("link", { name: "Read more" });
       // has a read more link
-      await expect(
-        container.getByRole("link", { name: "Read more" }),
-      ).toBeVisible();
+      await expect(readMore).toBeVisible();
+      await expect(readMore).toHaveCSS("background-color", "rgb(241, 94, 80)");
+      await readMore.hover();
+      await expect(readMore).toHaveCSS("background-color", "rgb(0, 0, 26)");
     });
   });
 
@@ -91,9 +97,11 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       await expect(section.getByRole("heading", { name: "New" })).toBeVisible();
       // has all posts
       for (const post of posts) {
-        await expect(
-          section.getByRole("link", { name: post.title }),
-        ).toBeVisible();
+        const title = section.getByRole("link", { name: post.title });
+        await expect(title).toBeVisible();
+        await expect(title).toHaveCSS("color", "rgb(255, 253, 250)");
+        await title.hover();
+        await expect(title).toHaveCSS("color", "rgb(233, 171, 83)");
         await expect(section.getByText(post.body)).toBeVisible();
       }
     });
@@ -152,10 +160,12 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
         await expect(
           postElem.getByRole("heading", { name: `0${idx + 1}`, exact: true }),
         ).toBeVisible();
+        const title = postElem.getByRole("link", { name: post.title });
         // has a link
-        await expect(
-          postElem.getByRole("link", { name: post.title }),
-        ).toBeVisible();
+        await expect(title).toBeVisible();
+        await expect(title).toHaveCSS("color", "rgb(0, 0, 26)");
+        await title.hover();
+        await expect(title).toHaveCSS("color", "rgb(241, 94, 80)");
         // has a summary
         await expect(postElem.getByText(post.body)).toBeVisible();
       }
