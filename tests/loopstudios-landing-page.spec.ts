@@ -1,5 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+
+const hasBefore = async (element: Locator) =>
+  await element.evaluate((el) => {
+    const beforeStyle = window.getComputedStyle(el, "::before");
+    return beforeStyle.content !== "none" && beforeStyle.content !== "";
+  });
 
 test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
   /** Go to Loopstudios landing page before each test */
@@ -33,7 +39,11 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
       const nav = header.getByText(links.join(""));
       await expect(nav).toBeVisible();
       for (const link of links) {
-        await expect(nav.getByRole("menuitem", { name: link })).toBeVisible();
+        const linkElement = nav.getByRole("menuitem", { name: link });
+        await expect(linkElement).toBeVisible();
+        expect(await hasBefore(linkElement.locator(".."))).toBeFalsy();
+        await linkElement.hover();
+        expect(await hasBefore(linkElement.locator(".."))).toBeTruthy();
       }
     });
   });
@@ -127,7 +137,11 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
       const navLinks = ["About", "Careers", "Events", "Products", "Support"];
       const nav = footer.locator("ul").nth(0);
       for (const name of navLinks) {
-        await expect(nav.getByRole("link", { name })).toBeVisible();
+        const linkElement = nav.getByRole("link", { name });
+        await expect(linkElement).toBeVisible();
+        expect(await hasBefore(linkElement.locator(".."))).toBeFalsy();
+        await linkElement.hover();
+        expect(await hasBefore(linkElement.locator(".."))).toBeTruthy();
       }
       // has sns links
       const socials = [
