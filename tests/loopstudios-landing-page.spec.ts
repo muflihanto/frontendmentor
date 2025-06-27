@@ -170,10 +170,14 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
         "pinterest",
         "instagram",
       ] as const;
-      const snss = await footer.locator("ul").nth(1).locator("a svg").all();
+      const snss = await footer.locator("ul").nth(1).locator("a").all();
       expect(snss).toHaveLength(socials.length);
       for (const sns of snss) {
         await expect(sns).toBeVisible();
+        await expect(sns.locator("svg")).toBeVisible();
+        expect(await hasBefore(sns.locator(".."))).toBeFalsy();
+        await sns.hover();
+        expect(await hasBefore(sns.locator(".."))).toBeTruthy();
       }
       // has attribution
       await expect(
