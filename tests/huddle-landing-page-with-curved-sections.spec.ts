@@ -206,18 +206,37 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
       "rgb(255, 143, 216)",
     );
 
-    const getStartedLink = page
+    const getStartedLinks = await page
       .getByRole("link", { name: "Get Started For Free" })
-      .first();
-    await expect(getStartedLink).toHaveCSS(
-      "background-color",
-      "rgb(255, 82, 191)",
-    );
-    await getStartedLink.hover();
-    await expect(getStartedLink).toHaveCSS(
-      "background-color",
-      "rgb(255, 143, 216)",
-    );
+      .all();
+    for (const getStartedLink of getStartedLinks) {
+      await expect(getStartedLink).toHaveCSS(
+        "background-color",
+        "rgb(255, 82, 191)",
+      );
+      await getStartedLink.hover();
+      await expect(getStartedLink).toHaveCSS(
+        "background-color",
+        "rgb(255, 143, 216)",
+      );
+    }
+
+    const subscribe = page.getByRole("button", { name: "Subscribe" });
+    await expect(subscribe).toHaveCSS("background-color", "rgb(255, 82, 191)");
+    await subscribe.hover();
+    await expect(subscribe).toHaveCSS("background-color", "rgb(255, 143, 216)");
+
+    const snss = await page
+      .getByRole("contentinfo")
+      .locator("div")
+      .nth(3)
+      .getByRole("link")
+      .all();
+    for (const sns of snss) {
+      await expect(sns).toHaveCSS("color", "rgb(255, 255, 255)");
+      await sns.hover();
+      await expect(sns).toHaveCSS("color", "rgb(1, 199, 249)");
+    }
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
