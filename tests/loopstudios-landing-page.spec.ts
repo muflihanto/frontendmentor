@@ -108,15 +108,35 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
         section.getByRole("heading", { name: "Our creations" }),
       ).toBeVisible();
       // has a 'See All' link
-      await expect(
-        section.getByRole("link", { name: "See All" }),
-      ).toBeVisible();
+      const seeAllButton = section.getByRole("link", { name: "See All" });
+      await expect(seeAllButton).toBeVisible();
+      await expect(seeAllButton).toHaveCSS(
+        "background-color",
+        "rgba(0, 0, 0, 0)",
+      );
+      await expect(seeAllButton).toHaveCSS("color", "rgb(0, 0, 0)");
+      await seeAllButton.hover();
+      await expect(seeAllButton).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(seeAllButton).toHaveCSS("background-color", "rgb(0, 0, 0)");
       expect(await section.getByRole("link").all()).toHaveLength(
         creations.length + 1,
       );
       // has all creation images
       for (const name of creations) {
-        await expect(section.getByRole("link", { name })).toBeVisible();
+        const link = section.getByRole("link", { name });
+        await expect(link).toBeVisible();
+        await expect(link).toHaveCSS(
+          "background-image",
+          "linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))",
+        );
+        await expect(link).toHaveCSS("color", "rgba(255, 255, 255, 0.75)");
+        await link.hover();
+        await page.waitForTimeout(1000);
+        await expect(link).toHaveCSS(
+          "background-image",
+          "linear-gradient(to top, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75))",
+        );
+        await expect(link).toHaveCSS("color", "rgb(0, 0, 0)");
       }
     });
   });
