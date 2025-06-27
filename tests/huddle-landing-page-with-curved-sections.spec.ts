@@ -191,6 +191,35 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
     });
   });
 
+  /** Test if all interactive elements have proper hover/focus states */
+  test("interactive elements have hover states", async ({ page }) => {
+    const tryItFreeButton = page.getByRole("button", { name: "Try it Free" });
+    await expect(tryItFreeButton).toHaveCSS("color", "rgb(255, 82, 191)");
+    await expect(tryItFreeButton).toHaveCSS(
+      "border-color",
+      "rgb(255, 82, 191)",
+    );
+    await tryItFreeButton.hover();
+    await expect(tryItFreeButton).toHaveCSS("color", "rgb(255, 143, 216)");
+    await expect(tryItFreeButton).toHaveCSS(
+      "border-color",
+      "rgb(255, 143, 216)",
+    );
+
+    const getStartedLink = page
+      .getByRole("link", { name: "Get Started For Free" })
+      .first();
+    await expect(getStartedLink).toHaveCSS(
+      "background-color",
+      "rgb(255, 82, 191)",
+    );
+    await getStartedLink.hover();
+    await expect(getStartedLink).toHaveCSS(
+      "background-color",
+      "rgb(255, 143, 216)",
+    );
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
