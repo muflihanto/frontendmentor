@@ -35,9 +35,28 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
 
     test("has navigation links", async ({ page }) => {
       const nav = page.getByRole("navigation");
-      const links = await nav.getByRole("link").all();
+      const links = await nav.getByRole("menuitem").all();
       for (const link of links) {
         await expect(link).toBeVisible();
+        if ((await link.textContent())?.toLowerCase() === "contact") {
+          await expect(link.locator("..")).toHaveCSS(
+            "background-color",
+            "rgb(255, 255, 255)",
+          );
+          await expect(link).toHaveCSS("color", "rgb(35, 48, 62)");
+        } else {
+          await expect(link).toHaveCSS("color", "rgb(255, 255, 255)");
+        }
+        await link.hover();
+        if ((await link.textContent()) === "Contact") {
+          await expect(link.locator("..")).toHaveCSS(
+            "background-color",
+            "rgba(255, 255, 255, 0.5)",
+          );
+          await expect(link).toHaveCSS("color", "rgb(255, 255, 255)");
+        } else {
+          await expect(link).toHaveCSS("color", "rgb(25, 83, 107)");
+        }
       }
     });
   });
@@ -236,13 +255,20 @@ test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => 
     // has bottom navigation links
     const navlinks = await footer.locator("ul").getByRole("link").all();
     for (const [index, link] of Object.entries(navlinks)) {
-      await expect(link.getByText(links[Number(index)])).toBeVisible();
+      const linkElement = link.getByText(links[Number(index)]);
+      await expect(linkElement).toBeVisible();
+      await expect(linkElement).toHaveCSS("color", "rgba(44, 117, 102, 0.75)");
+      await linkElement.hover();
+      await expect(linkElement).toHaveCSS("color", "rgb(255, 255, 255)");
     }
     // has social media links
     const snss = await footer.locator("a>svg").all();
     expect(snss).toHaveLength(4);
     for (const sns of snss) {
       await expect(sns).toBeVisible();
+      await expect(sns).toHaveCSS("fill", "rgb(44, 117, 102)");
+      await sns.hover();
+      await expect(sns).toHaveCSS("fill", "rgb(255, 255, 255)");
     }
     // has attribution
     await expect(
