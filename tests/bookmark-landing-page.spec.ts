@@ -399,9 +399,11 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       ).toBeVisible();
       const accordion = section.locator("div").nth(0);
       for (const faq of faqs) {
-        await expect(
-          accordion.getByRole("button", { name: faq.question }),
-        ).toBeVisible();
+        const question = accordion.getByRole("button", { name: faq.question });
+        await expect(question).toBeVisible();
+        await expect(question).toHaveCSS("color", "rgb(37, 43, 70)");
+        await question.hover();
+        await expect(question).toHaveCSS("color", "rgb(250, 87, 87)");
         await expect(accordion.getByText(faq.answer)).not.toBeVisible();
       }
       const moreInfo = section.getByRole("button", { name: "More Info" });
@@ -472,6 +474,13 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       await expect(form).toBeVisible();
       await expect(input).toBeVisible();
       await expect(submit).toBeVisible();
+      await expect(submit).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(submit).toHaveCSS("background-color", "rgb(250, 87, 87)");
+      await expect(submit).toHaveCSS("border-color", "rgba(0, 0, 0, 0)");
+      await submit.hover();
+      await expect(submit).toHaveCSS("color", "rgb(250, 87, 87)");
+      await expect(submit).toHaveCSS("background-color", "rgb(255, 255, 255)");
+      await expect(submit).toHaveCSS("border-color", "rgb(250, 87, 87)");
     });
 
     test("can handle empty input", async () => {
