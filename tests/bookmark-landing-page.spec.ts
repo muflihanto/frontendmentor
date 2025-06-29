@@ -22,7 +22,11 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     await expect(header).toBeInViewport();
     await expect(header.getByRole("img")).toBeVisible();
     for (const link of navLinks) {
-      await expect(header.getByRole("link", { name: link })).toBeVisible();
+      const linkElement = header.getByRole("link", { name: link });
+      await expect(linkElement).toBeVisible();
+      await expect(linkElement).toHaveCSS("color", "rgb(37, 43, 70)");
+      await linkElement.hover();
+      await expect(linkElement).toHaveCSS("color", "rgb(250, 87, 87)");
     }
   });
 
@@ -45,12 +49,34 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         "A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.",
       ),
     ).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Get it on Chrome" }),
-    ).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Get it on Firefox" }),
-    ).toBeVisible();
+    const getOnChrome = section.getByRole("button", {
+      name: "Get it on Chrome",
+    });
+    await expect(getOnChrome).toBeVisible();
+    await expect(getOnChrome).toHaveCSS("color", "rgb(255, 255, 255)");
+    await expect(getOnChrome).toHaveCSS(
+      "background-color",
+      "rgb(83, 104, 223)",
+    );
+    await expect(getOnChrome).toHaveCSS("border-color", "rgba(0, 0, 0, 0)");
+    await getOnChrome.hover();
+    await expect(getOnChrome).toHaveCSS("color", "rgb(83, 104, 223)");
+    await expect(getOnChrome).toHaveCSS(
+      "background-color",
+      "rgb(255, 255, 255)",
+    );
+    await expect(getOnChrome).toHaveCSS("border-color", "rgb(83, 104, 223)");
+    const getOnFirefox = section.getByRole("button", {
+      name: "Get it on Firefox",
+    });
+    await expect(getOnFirefox).toBeVisible();
+    await expect(getOnFirefox).toBeVisible();
+    await expect(getOnFirefox).toHaveCSS("border-color", "rgba(0, 0, 0, 0)");
+    await getOnFirefox.hover();
+    await expect(getOnFirefox).toHaveCSS(
+      "border-color",
+      "rgba(37, 43, 70, 0.75)",
+    );
   });
 
   /** Test if the page has a Features section */
@@ -275,9 +301,23 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       await expect(
         link.getByText(`Minimum version ${browser.minimum}`),
       ).toBeVisible();
-      await expect(
-        link.getByRole("button", { name: "Add & Install Extension" }),
-      ).toBeVisible();
+      const addInstall = link.getByRole("button", {
+        name: "Add & Install Extension",
+      });
+      await expect(addInstall).toBeVisible();
+      await expect(addInstall).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(addInstall).toHaveCSS(
+        "background-color",
+        "rgb(83, 104, 223)",
+      );
+      await expect(addInstall).toHaveCSS("border-color", "rgba(0, 0, 0, 0)");
+      await addInstall.hover();
+      await expect(addInstall).toHaveCSS("color", "rgb(83, 104, 223)");
+      await expect(addInstall).toHaveCSS(
+        "background-color",
+        "rgb(255, 255, 255)",
+      );
+      await expect(addInstall).toHaveCSS("border-color", "rgb(83, 104, 223)");
     }
   });
 
@@ -325,9 +365,18 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         ).toBeVisible();
         await expect(accordion.getByText(faq.answer)).not.toBeVisible();
       }
-      await expect(
-        section.getByRole("button", { name: "More Info" }),
-      ).toBeVisible();
+      const moreInfo = section.getByRole("button", { name: "More Info" });
+      await expect(moreInfo).toBeVisible();
+      await expect(moreInfo).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(moreInfo).toHaveCSS("background-color", "rgb(83, 104, 223)");
+      await expect(moreInfo).toHaveCSS("border-color", "rgba(0, 0, 0, 0)");
+      await moreInfo.hover();
+      await expect(moreInfo).toHaveCSS("color", "rgb(83, 104, 223)");
+      await expect(moreInfo).toHaveCSS(
+        "background-color",
+        "rgb(255, 255, 255)",
+      );
+      await expect(moreInfo).toHaveCSS("border-color", "rgb(83, 104, 223)");
     });
     test("can expand and collapse all faqs", async ({ page }) => {
       const section = page.getByLabel("Frequently Asked Questions");
@@ -444,6 +493,12 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     }
     const sns = await footer.locator("div").getByRole("link").all();
     expect(sns).toHaveLength(2);
+    for (const link of sns) {
+      await expect(link).toBeVisible();
+      await expect(link).toHaveCSS("color", "rgb(255, 255, 255)");
+      await link.hover();
+      await expect(link).toHaveCSS("color", "rgb(250, 87, 87)");
+    }
     await expect(
       footer.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
