@@ -24,8 +24,27 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
     for (const link of navLinks) {
       const linkElement = header.getByRole("link", { name: link });
       await expect(linkElement).toBeVisible();
-      await expect(linkElement).toHaveCSS("color", "rgb(37, 43, 70)");
+      if (link === "Login") {
+        await expect(linkElement).toHaveCSS(
+          "background-color",
+          "rgb(250, 87, 87)",
+        );
+        await expect(linkElement).toHaveCSS("color", "rgb(255, 255, 255)");
+        await expect(linkElement).toHaveCSS(
+          "border-color",
+          "rgb(229, 231, 235)",
+        );
+      } else {
+        await expect(linkElement).toHaveCSS("color", "rgb(37, 43, 70)");
+      }
       await linkElement.hover();
+      if (link === "Login") {
+        await expect(linkElement).toHaveCSS(
+          "background-color",
+          "rgb(255, 255, 255)",
+        );
+        await expect(linkElement).toHaveCSS("border-color", "rgb(250, 87, 87)");
+      }
       await expect(linkElement).toHaveCSS("color", "rgb(250, 87, 87)");
     }
   });
@@ -137,13 +156,21 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
       await section.scrollIntoViewIfNeeded();
       await expect(section).toBeVisible();
       await expect(section).toBeInViewport();
-      const tabs = section.locator("div").nth(1);
-      for (const [idx, tab] of Object.entries(
-        await tabs.getByRole("button").all(),
-      )) {
+      const tabs = section.getByRole("tablist");
+      const tabButtons = await tabs.getByRole("tab").all();
+      for (const [idx, tab] of Object.entries(tabButtons)) {
         const index = Number(idx);
         const activeFeature = features[index];
         await tab.click();
+        for (const button of tabButtons) {
+          if ((await button.textContent()) === activeFeature.name) {
+            await expect(button).toHaveCSS("color", "rgb(37, 43, 70)");
+          } else {
+            await expect(button).toHaveCSS("color", "rgba(37, 43, 70, 0.75)");
+            await button.hover();
+            await expect(button).toHaveCSS("color", "rgb(250, 87, 87)");
+          }
+        }
         await expect(
           section.getByRole("img", {
             name: `Illustration Features Tab ${index + 1}`,
@@ -155,9 +182,21 @@ test.describe("FrontendMentor Challenge - Bookmark landing Page", () => {
         await expect(
           section.getByText(activeFeature.description),
         ).toBeVisible();
-        await expect(
-          section.getByRole("button", { name: "More Info" }),
-        ).toBeVisible();
+        const moreInfo = section.getByRole("button", { name: "More Info" });
+        await expect(moreInfo).toBeVisible();
+        await expect(moreInfo).toHaveCSS("color", "rgb(255, 255, 255)");
+        await expect(moreInfo).toHaveCSS(
+          "background-color",
+          "rgb(83, 104, 223)",
+        );
+        await expect(moreInfo).toHaveCSS("border-color", "rgba(0, 0, 0, 0)");
+        await moreInfo.hover();
+        await expect(moreInfo).toHaveCSS("color", "rgb(83, 104, 223)");
+        await expect(moreInfo).toHaveCSS(
+          "background-color",
+          "rgb(255, 255, 255)",
+        );
+        await expect(moreInfo).toHaveCSS("border-color", "rgb(83, 104, 223)");
       }
     });
 
