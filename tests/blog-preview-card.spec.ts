@@ -34,10 +34,28 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
       name: "HTML & CSS foundations",
     });
     await expect(heading).toBeVisible();
-    const headingLink = heading.getByRole("link");
+  });
+
+  /** Test hover states for interactive elements */
+  test("hover states", async ({ page }) => {
+    const main = page.getByRole("main");
+    const headingLink = page
+      .getByRole("heading", {
+        level: 1,
+        name: "HTML & CSS foundations",
+      })
+      .getByRole("link");
     await expect(headingLink).toHaveCSS("color", "rgb(18, 18, 18)");
-    await heading.hover();
+    await expect(main).toHaveCSS(
+      "filter",
+      "drop-shadow(rgb(0, 0, 0) 8.5px 8.5px 0px)",
+    );
+    await headingLink.hover();
     await expect(headingLink).toHaveCSS("color", "rgb(244, 208, 78)");
+    await expect(main).toHaveCSS(
+      "filter",
+      "drop-shadow(rgb(0, 0, 0) 16px 16px 0px)",
+    );
   });
 
   /** Test if the page has a footer */
