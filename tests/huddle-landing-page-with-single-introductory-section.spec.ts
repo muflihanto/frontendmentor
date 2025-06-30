@@ -50,6 +50,23 @@ test.describe("FrontendMentor Challenge - Huddle landing page with single introd
     ).toBeVisible();
   });
 
+  /** Test if the page has social media links */
+  test("has social media links", async ({ page }) => {
+    const names = ["Facebook", "Twitter", "Instagram"];
+    const container = page.locator("div").nth(6);
+    expect(await container.getByRole("link").all()).toHaveLength(3);
+    for (const name of names) {
+      const link = container.getByRole("link", { name });
+      await expect(link).toBeVisible();
+      const svg = link.locator("svg");
+      await expect(svg).toBeVisible();
+      const box = await svg.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box?.width).toBeGreaterThan(0);
+      expect(box?.height).toBeGreaterThan(0);
+    }
+  });
+
   /** Test if the page has a correct footer */
   test("has a footer", async ({ page }) => {
     await expect(
