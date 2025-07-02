@@ -40,7 +40,13 @@ test.describe("FrontendMentor Challenge - Huddle landing page with single introd
 
   /** Test if the page has a correct register link */
   test("has a register link", async ({ page }) => {
-    await expect(page.getByRole("link", { name: "Register" })).toBeVisible();
+    const register = page.getByRole("link", { name: "Register" });
+    await expect(register).toBeVisible();
+    await expect(register).toHaveCSS("color", "rgb(103, 75, 175)");
+    await expect(register).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await register.hover();
+    await expect(register).toHaveCSS("color", "rgb(255, 255, 255)");
+    await expect(register).toHaveCSS("background-color", "rgb(232, 130, 232)");
   });
 
   /** Test if the page has a correct mockup illustration */
