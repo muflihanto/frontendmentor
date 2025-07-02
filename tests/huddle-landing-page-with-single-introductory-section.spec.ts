@@ -70,6 +70,11 @@ test.describe("FrontendMentor Challenge - Huddle landing page with single introd
       expect(box).not.toBeNull();
       expect(box?.width).toBeGreaterThan(0);
       expect(box?.height).toBeGreaterThan(0);
+      await expect(link).toHaveCSS("border-color", "rgb(229, 231, 235)");
+      await expect(svg).toHaveCSS("color", "rgb(255, 255, 255)");
+      await link.hover();
+      await expect(link).toHaveCSS("border-color", "rgb(232, 130, 232)");
+      await expect(svg).toHaveCSS("color", "rgb(232, 130, 232)");
     }
   });
 
@@ -78,6 +83,16 @@ test.describe("FrontendMentor Challenge - Huddle landing page with single introd
     await expect(
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
+    const frontend = page.getByRole("link", { name: "Frontend Mentor" });
+    await expect(frontend).toBeVisible();
+    await expect(frontend).toHaveCSS("color", "rgb(232, 130, 232)");
+    await frontend.hover();
+    await expect(frontend).toHaveCSS("color", "rgb(255, 255, 255)");
+    const github = page.getByRole("link", { name: "Muflihanto" });
+    await expect(github).toBeVisible();
+    await expect(github).toHaveCSS("color", "rgb(232, 130, 232)");
+    await github.hover();
+    await expect(github).toHaveCSS("color", "rgb(255, 255, 255)");
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
