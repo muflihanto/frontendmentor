@@ -57,6 +57,31 @@ test.describe("FrontendMentor Challenge - Base Apparel coming soon Page", () => 
     ).toBeVisible();
   });
 
+  test("submit button should have hover effect", async ({ page }) => {
+    const submitButton = page.getByRole("button");
+
+    // Get initial box-shadow
+    const initialShadow = await submitButton.evaluate(
+      (el) => window.getComputedStyle(el).boxShadow,
+    );
+
+    // Hover over the button
+    await submitButton.hover();
+
+    // Check shadow color changed
+    await expect(submitButton).not.toHaveCSS(
+      "box-shadow",
+      new RegExp(initialShadow),
+    );
+
+    // Check pseudo-element opacity changed
+    const hoverOpacity = await submitButton.evaluate((el) => {
+      const pseudo = window.getComputedStyle(el, "::before");
+      return pseudo.getPropertyValue("opacity");
+    });
+    expect(Number.parseFloat(hoverOpacity)).toBeGreaterThan(0);
+  });
+
   test.describe("form should works", () => {
     test("empty input should trigger a warning", async ({ page }) => {
       const submit = page.getByRole("button");
