@@ -82,6 +82,34 @@ test.describe("FrontendMentor Challenge - Base Apparel coming soon Page", () => 
     expect(Number.parseFloat(hoverOpacity)).toBeGreaterThan(0);
   });
 
+  test.describe("Responsive behavior", () => {
+    test("should display mobile layout on small screens", async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+
+      const heading = page.getByRole("heading", { level: 1 });
+      await expect(heading).toHaveCSS("text-align", "center");
+
+      await expect(page.getByRole("img", { name: "Hero Image" })).toBeVisible();
+
+      const heroContainer = page.locator("main > div:first-child");
+      await expect(heroContainer).toHaveCSS("position", "relative");
+    });
+
+    test("should display desktop layout on large screens", async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 800 });
+
+      const heading = page.getByRole("heading", { level: 1 });
+      await expect(heading).toHaveCSS("text-align", "left");
+
+      await expect(page.getByRole("img", { name: "Hero Image" })).toBeVisible();
+
+      const heroContainer = page.locator("main > div:first-child");
+      await expect(heroContainer).toHaveCSS("position", "absolute");
+      await expect(heroContainer).toHaveCSS("right", "0px");
+      await expect(heroContainer).toHaveCSS("top", "0px");
+    });
+  });
+
   test.describe("form should works", () => {
     test("empty input should trigger a warning", async ({ page }) => {
       const submit = page.getByRole("button");
