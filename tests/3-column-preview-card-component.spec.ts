@@ -55,11 +55,30 @@ test.describe("FrontendMentor Challenge - 3-column preview card component Page",
         }),
       ).toBeVisible();
       await expect(container.getByText(card.description)).toBeVisible();
-      await expect(
-        container
-          .getByRole("link", { name: `Learn more about ${card.heading}` })
-          .first(),
-      ).toBeVisible();
+      const learnMore = container
+        .getByRole("link", { name: `Learn more about ${card.heading}` })
+        .first();
+      const learnMoreSpan = learnMore.locator("span");
+      await expect(learnMore).toBeVisible();
+      await expect(learnMore).toHaveCSS("outline-width", "0px");
+      await expect(learnMore).toHaveCSS("outline-style", "none");
+      await expect(learnMore).toHaveCSS("outline-color", "rgb(0, 0, 0)");
+      await expect(learnMore).toHaveCSS("outline-offset", "0px");
+      await expect(learnMoreSpan).toHaveCSS(
+        "background-color",
+        "rgb(242, 242, 242)",
+      );
+      await expect(learnMoreSpan).toHaveCSS("color", "rgb(0, 0, 0)");
+      await learnMore.hover();
+      await expect(learnMore).toHaveCSS("outline-width", "2px");
+      await expect(learnMore).toHaveCSS("outline-style", "solid");
+      await expect(learnMore).toHaveCSS("outline-color", "rgb(255, 255, 255)");
+      await expect(learnMore).toHaveCSS("outline-offset", "-2px");
+      await expect(learnMoreSpan).toHaveCSS(
+        "background-color",
+        "rgba(0, 0, 0, 0)",
+      );
+      await expect(learnMoreSpan).toHaveCSS("color", "rgb(255, 255, 255)");
     }
   });
 
