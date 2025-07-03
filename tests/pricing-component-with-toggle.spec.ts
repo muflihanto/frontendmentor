@@ -55,7 +55,11 @@ test.describe("FrontendMentor Challenge - Pricing component with toggle Page", (
   test("has a toggle group", async ({ page }) => {
     const container = page.getByText("AnnuallyMonthly");
     await expect(container.getByText("Annually")).toBeVisible();
-    await expect(container.getByRole("button")).toBeVisible();
+    const toggle = container.getByRole("button");
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveCSS("opacity", "1");
+    await toggle.hover();
+    await expect(toggle).toHaveCSS("opacity", "0.5");
     await expect(container.getByText("Monthly")).toBeVisible();
   });
 
@@ -94,6 +98,64 @@ test.describe("FrontendMentor Challenge - Pricing component with toggle Page", (
           });
           await expect(learnMoreLink).toBeVisible();
           await expect(learnMoreLink).toHaveText("Learn More");
+          // Hover states
+          if (plan === "professional") {
+            await expect(learnMoreLink).toHaveCSS(
+              "background-color",
+              "rgb(255, 255, 255)",
+            );
+            await expect(learnMoreLink).toHaveCSS(
+              "border-color",
+              "rgb(229, 231, 235)",
+            );
+            await expect(learnMoreLink).toHaveCSS(
+              "color",
+              "rgb(105, 111, 221)",
+            );
+          } else {
+            await expect(learnMoreLink).toHaveCSS(
+              "background-image",
+              "linear-gradient(to right, rgb(163, 168, 240), rgb(105, 111, 221))",
+            );
+            await expect(learnMoreLink).toHaveCSS("border-width", "0px");
+            await expect(learnMoreLink).toHaveCSS(
+              "border-color",
+              "rgb(229, 231, 235)",
+            );
+            await expect(learnMoreLink).toHaveCSS(
+              "color",
+              "rgb(246, 246, 254)",
+            );
+          }
+          await learnMoreLink.hover();
+          if (plan === "professional") {
+            await expect(learnMoreLink).toHaveCSS(
+              "background-color",
+              "rgba(0, 0, 0, 0)",
+            );
+            await expect(learnMoreLink).toHaveCSS(
+              "border-color",
+              "rgba(246, 246, 254, 0.5)",
+            );
+            await expect(learnMoreLink).toHaveCSS(
+              "color",
+              "rgb(246, 246, 254)",
+            );
+          } else {
+            await expect(learnMoreLink).toHaveCSS(
+              "background-image",
+              "linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))",
+            );
+            await expect(learnMoreLink).toHaveCSS("border-width", "2px");
+            await expect(learnMoreLink).toHaveCSS(
+              "border-color",
+              "rgb(163, 168, 240)",
+            );
+            await expect(learnMoreLink).toHaveCSS(
+              "color",
+              "rgb(105, 111, 221)",
+            );
+          }
         });
       }
     }
