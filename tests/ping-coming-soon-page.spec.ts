@@ -42,7 +42,13 @@ test.describe("FrontendMentor Challenge - Ping coming soon Page", () => {
     await expect(form).toBeVisible();
     await expect(input).toBeVisible();
     await expect(input).toBeEmpty();
+    await expect(input).toHaveCSS("outline-color", "rgb(21, 31, 41)");
+    await input.focus();
+    await expect(input).toHaveCSS("outline-color", "rgb(79, 125, 243)");
     await expect(submit).toBeVisible();
+    await expect(submit).toHaveCSS("opacity", "1");
+    await submit.hover();
+    await expect(submit).toHaveCSS("opacity", "0.8");
   });
 
   /** Test if the form works */
@@ -127,6 +133,14 @@ test.describe("FrontendMentor Challenge - Ping coming soon Page", () => {
     const links = await container.locator("a").all();
     for (const link of links) {
       await expect(link).toBeVisible();
+      await expect(link).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await expect(link.locator("svg")).toHaveCSS("color", "rgb(79, 125, 243)");
+      await link.hover();
+      await expect(link).toHaveCSS("background-color", "rgb(79, 125, 243)");
+      await expect(link.locator("svg")).toHaveCSS(
+        "color",
+        "rgb(255, 255, 255)",
+      );
     }
   });
 
