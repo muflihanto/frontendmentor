@@ -45,6 +45,18 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
     await expect(page.getByRole("img", { name: img.alt })).toBeVisible();
   });
 
+  /** Test if the page has hover effects on interactive elements */
+  test("has hover effects on interactive elements", async ({ page }) => {
+    const prev = page.getByRole("button", { name: "Previous" });
+    const next = page.getByRole("button", { name: "Next" });
+    await expect(prev.locator("svg")).toHaveCSS("color", "rgb(133, 133, 172)");
+    await prev.hover();
+    await expect(prev.locator("svg")).toHaveCSS("color", "rgb(74, 63, 219)");
+    await expect(next.locator("svg")).toHaveCSS("color", "rgb(133, 133, 172)");
+    await next.hover();
+    await expect(next.locator("svg")).toHaveCSS("color", "rgb(74, 63, 219)");
+  });
+
   /** Test if the testimonial slider works */
   test("testimonial slider works", async ({ page }) => {
     const prev = page.getByRole("button", { name: "Previous" });
