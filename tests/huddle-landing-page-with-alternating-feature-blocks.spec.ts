@@ -18,9 +18,19 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
   test("has a header", async ({ page }) => {
     const header = page.getByRole("banner");
     await expect(header.getByRole("img")).toBeVisible();
-    await expect(
-      header.getByRole("link", { name: "Try it Free" }),
-    ).toBeVisible();
+    const tryIt = header.getByRole("link", { name: "Try it Free" });
+    await expect(tryIt).toBeVisible();
+    await expect(tryIt).toHaveCSS("color", "rgb(0, 37, 46)");
+    await expect(tryIt).toHaveCSS(
+      "box-shadow",
+      "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.15) 0px 0px 10px 0px",
+    );
+    await tryIt.hover();
+    await expect(tryIt).toHaveCSS("color", "rgba(0, 37, 46, 0.5)");
+    await expect(tryIt).toHaveCSS(
+      "box-shadow",
+      "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 0px 10px 0px",
+    );
   });
 
   /** Test if the page has a hero section */
@@ -37,9 +47,16 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
         "Huddle re-imagines the way we build communities. You have a voice, but so does your audience. Create connections with your users as you engage in genuine discussion.",
       ),
     ).toBeVisible();
-    await expect(
-      section.getByRole("link", { name: "Get Started For Free" }),
-    ).toBeVisible();
+    const getStarted = section.getByRole("link", {
+      name: "Get Started For Free",
+    });
+    await expect(getStarted).toBeVisible();
+    await expect(getStarted).toHaveCSS("background-color", "rgb(255, 82, 191)");
+    await getStarted.hover();
+    await expect(getStarted).toHaveCSS(
+      "background-color",
+      "rgb(255, 143, 216)",
+    );
   });
 
   /** Test if the page has all cards */
@@ -82,9 +99,16 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
     await expect(
       section.getByRole("heading", { name: "Ready To Build Your Community?" }),
     ).toBeVisible();
-    await expect(
-      section.getByRole("link", { name: "Get Started For Free" }),
-    ).toBeVisible();
+    const getStarted = section.getByRole("link", {
+      name: "Get Started For Free",
+    });
+    await expect(getStarted).toBeVisible();
+    await expect(getStarted).toHaveCSS("background-color", "rgb(255, 82, 191)");
+    await getStarted.hover();
+    await expect(getStarted).toHaveCSS(
+      "background-color",
+      "rgb(255, 143, 216)",
+    );
   });
 
   /** Test if the page has a footer */
