@@ -60,6 +60,44 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
         await expect(input).toHaveCSS("outline", "rgba(0, 0, 0, 0) solid 3px");
       }
     });
+
+    test("submit button should have proper hover and focus states", async ({
+      page,
+    }) => {
+      const submit = page.getByRole("button", {
+        name: "Claim your free trial",
+      });
+
+      // Test hover state
+      await expect(submit).toHaveCSS("opacity", "1");
+      await submit.hover();
+      await expect(submit).toHaveCSS("opacity", "0.75");
+
+      await page.mouse.move(0, 0);
+
+      // Test focus state
+      await expect(submit).toHaveCSS("opacity", "1");
+      await submit.focus();
+      await expect(submit).toHaveCSS("opacity", "0.8");
+      await expect(submit).toHaveCSS("outline", /rgba\(0, 0, 0, 0\)/);
+    });
+
+    test("error inputs should have different focus states", async ({
+      page,
+    }) => {
+      const submit = page.getByRole("button", {
+        name: "Claim your free trial",
+      });
+      await submit.click(); // Trigger errors
+
+      await page.waitForTimeout(500);
+
+      const inputs = await page.locator("form input").all();
+      for (const input of inputs) {
+        await input.focus();
+        await expect(input).toHaveCSS("border-color", "rgb(252, 165, 165)");
+      }
+    });
   });
 
   test.describe("form should works", () => {
