@@ -45,6 +45,23 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
     await expect(page.locator("form")).toBeVisible();
   });
 
+  test.describe("Interactive element states", () => {
+    test("form inputs should have proper focus states", async ({ page }) => {
+      const inputs = await page.locator("form input").all();
+
+      for (const input of inputs) {
+        await expect(input).toHaveCSS(
+          "border-color",
+          "rgba(105, 105, 105, 0.3)",
+        );
+        await expect(input).toHaveCSS("outline", "rgb(20, 20, 20) 0px");
+        await input.focus();
+        await expect(input).toHaveCSS("border-color", "rgb(105, 105, 105)");
+        await expect(input).toHaveCSS("outline", "rgba(0, 0, 0, 0) solid 3px");
+      }
+    });
+  });
+
   test.describe("form should works", () => {
     const names = ["firstName", "lastName", "email", "password"];
 
