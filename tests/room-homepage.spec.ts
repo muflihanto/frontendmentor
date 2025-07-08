@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { type Locator, test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const links = [
@@ -53,6 +53,16 @@ const products = [
   },
 ] as const;
 
+const hasBefore = async (element: Locator) =>
+  await element.evaluate((el) => {
+    const beforeStyle = window.getComputedStyle(el, "::before");
+    return (
+      beforeStyle.content !== "none" &&
+      beforeStyle.content !== "" &&
+      beforeStyle.borderColor === "rgb(229, 231, 235)"
+    );
+  });
+
 test.describe("FrontendMentor Challenge - Room homepage Page", () => {
   /** Go to Room homepage page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -71,17 +81,27 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
     await expect(header).toBeInViewport();
     await expect(header.getByRole("img")).toBeVisible();
     for (const link of links) {
-      await expect(
-        header.getByRole("link", { name: link.display }),
-      ).toBeVisible();
+      const linkElement = header.getByRole("link", { name: link.display });
+      expect(await hasBefore(linkElement)).toBeFalsy();
+      await expect(linkElement).toBeVisible();
+      await linkElement.hover();
+      expect(await hasBefore(linkElement)).toBeTruthy();
     }
   });
 
   /** Test if the page has a hero section */
   test("has a hero section", async ({ page }) => {
     const section = page.locator("section").nth(0);
-    await expect(section.getByRole("button").first()).toBeVisible();
-    await expect(section.getByRole("button").nth(1)).toBeVisible();
+    const prevButton = section.getByRole("button").first();
+    await expect(prevButton).toBeVisible();
+    await expect(prevButton).toHaveCSS("background-color", "rgb(0, 0, 0)");
+    await prevButton.hover();
+    await expect(prevButton).toHaveCSS("background-color", "rgb(69, 69, 69)");
+    const nextButton = section.getByRole("button").nth(1);
+    await expect(nextButton).toBeVisible();
+    await expect(nextButton).toHaveCSS("background-color", "rgb(0, 0, 0)");
+    await nextButton.hover();
+    await expect(nextButton).toHaveCSS("background-color", "rgb(69, 69, 69)");
     const grid1 = section.locator(">div").first();
     const grid2 = section.locator(">div").nth(1);
     await expect(
@@ -91,7 +111,11 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
       grid2.getByRole("heading", { name: products[0].title }),
     ).toBeVisible();
     await expect(grid2.getByText(products[0].description)).toBeVisible();
-    await expect(grid2.getByRole("link", { name: "Shop Now" })).toBeVisible();
+    const shopNow = grid2.getByRole("link", { name: "Shop Now" });
+    await expect(shopNow).toBeVisible();
+    await expect(shopNow).toHaveCSS("color", "rgb(0, 0, 0)");
+    await shopNow.hover();
+    await expect(shopNow).toHaveCSS("color", "rgb(161, 161, 161)");
   });
 
   /** Test if the hero slider works */
