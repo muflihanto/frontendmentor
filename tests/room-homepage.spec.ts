@@ -79,7 +79,7 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
 
   /** Test if the page has a hero section */
   test("has a hero section", async ({ page }) => {
-    const section = page.locator("div").nth(3);
+    const section = page.locator("section").nth(0);
     await expect(section.getByRole("button").first()).toBeVisible();
     await expect(section.getByRole("button").nth(1)).toBeVisible();
     const grid1 = section.locator(">div").first();
@@ -96,7 +96,7 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
 
   /** Test if the hero slider works */
   test("hero slider works", async ({ page }) => {
-    const section = page.locator("div").nth(3);
+    const section = page.locator("section").nth(0);
     const prevImage = section.getByRole("button", { name: "Previous slide" });
     const nextImage = section.getByRole("button", { name: "Next slide" });
     const heroImage = section.locator(">div").first();
@@ -137,7 +137,7 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
 
   /** Test if the page has an about section */
   test("has an about section", async ({ page }) => {
-    const section = page.locator("div").nth(7);
+    const section = page.locator("section").nth(1);
     await expect(
       section.getByRole("img", { name: "About Dark Image" }),
     ).toBeVisible();
