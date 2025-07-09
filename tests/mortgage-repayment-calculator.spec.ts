@@ -95,6 +95,22 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     expect(errorMessages).toHaveLength(4);
   });
 
+  /** Test if the page handles negative values correctly */
+  test("shows errors for negative inputs", async ({ page }) => {
+    const form = page.locator("form");
+    const amount = form.getByLabel("Mortgage Amount£");
+    const term = form.getByLabel("Mortgage Termyears");
+    const rate = form.getByLabel("Interest Rate%");
+
+    await amount.fill("-100000");
+    await term.fill("-5");
+    await rate.fill("-2.5");
+    await form.getByRole("button", { name: "Calculate Repayments" }).click();
+
+    const errorMessages = await page.getByText("This field is required").all();
+    expect(errorMessages).toHaveLength(4);
+  });
+
   /** Test if the page can handle valid inputs */
   test("can handle valid inputs", async ({ page }) => {
     const form = page.locator("form");
