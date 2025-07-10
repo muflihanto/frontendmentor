@@ -41,6 +41,27 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     ).toBeVisible();
   });
 
+  /** Test hover states for interactive elements */
+  test("has proper hover states for interactive elements", async ({ page }) => {
+    const form = page.locator("form");
+    const amount = form.getByLabel("Mortgage Amount£");
+    const term = form.getByLabel("Mortgage Termyears");
+    const rate = form.getByLabel("Interest Rate%");
+
+    // Test input hover states
+    await expect(amount).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await amount.hover();
+    await expect(amount).toHaveCSS("border-color", "rgb(18, 47, 63)");
+
+    await expect(term).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await term.hover();
+    await expect(term).toHaveCSS("border-color", "rgb(18, 47, 63)");
+
+    await expect(rate).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await rate.hover();
+    await expect(rate).toHaveCSS("border-color", "rgb(18, 47, 63)");
+  });
+
   /** Test if the page shows correct formatted values in inputs */
   test("shows formatted values in inputs", async ({ page }) => {
     const form = page.locator("form");
