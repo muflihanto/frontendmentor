@@ -47,6 +47,11 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     const amount = form.getByLabel("Mortgage Amount£");
     const term = form.getByLabel("Mortgage Termyears");
     const rate = form.getByLabel("Interest Rate%");
+    const repayment = form.getByText("Repayment", { exact: true });
+    const interestOnly = form.getByText("Interest Only");
+    const calculateBtn = form.getByRole("button", {
+      name: "Calculate Repayments",
+    });
 
     // Test input hover states
     await expect(amount).toHaveCSS("border-color", "rgb(107, 148, 168)");
@@ -60,6 +65,28 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     await expect(rate).toHaveCSS("border-color", "rgb(107, 148, 168)");
     await rate.hover();
     await expect(rate).toHaveCSS("border-color", "rgb(18, 47, 63)");
+
+    // Test radio button hover states
+    await expect(repayment).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await repayment.hover();
+    await expect(repayment).toHaveCSS("border-color", "rgb(215, 218, 47)");
+
+    await expect(interestOnly).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await interestOnly.hover();
+    await expect(interestOnly).toHaveCSS("border-color", "rgb(215, 218, 47)");
+
+    // Test button hover states
+    await expect(calculateBtn).toHaveCSS(
+      "background-color",
+      "rgb(215, 218, 47)",
+    );
+    await expect(calculateBtn).toHaveCSS("color", "rgb(18, 47, 63)");
+    await calculateBtn.hover();
+    await expect(calculateBtn).toHaveCSS(
+      "background-color",
+      "rgba(215, 218, 47, 0.5)",
+    );
+    await expect(calculateBtn).toHaveCSS("color", "rgba(18, 47, 63, 0.9)");
   });
 
   /** Test if the page shows correct formatted values in inputs */
