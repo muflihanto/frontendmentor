@@ -95,6 +95,12 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     const amount = form.getByLabel("Mortgage Amount£");
     const term = form.getByLabel("Mortgage Termyears");
     const rate = form.getByLabel("Interest Rate%");
+    const repayment = form.getByText("Repayment", { exact: true });
+    const interestOnly = form.getByText("Interest Only");
+    const calculateBtn = form.getByRole("button", {
+      name: "Calculate Repayments",
+    });
+    const clearBtn = form.getByRole("button", { name: "Clear All" });
 
     // Test input focus states
     await expect(amount).toHaveCSS("border-color", "rgb(107, 148, 168)");
@@ -108,6 +114,28 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     await expect(rate).toHaveCSS("border-color", "rgb(107, 148, 168)");
     await rate.focus();
     await expect(rate).toHaveCSS("border-color", "rgb(215, 218, 47)");
+
+    // Test radio button focus states
+    await expect(repayment).toHaveCSS("outline-width", "0px");
+    await repayment.focus();
+    await expect(page.locator("#repayment")).toBeFocused();
+    await expect(repayment).toHaveCSS("outline-width", "2px");
+    await expect(repayment).toHaveCSS("outline-color", "rgb(215, 218, 47)");
+
+    await expect(interestOnly).toHaveCSS("outline-width", "0px");
+    await interestOnly.focus();
+    await expect(page.locator("#interest-only")).toBeFocused();
+    await expect(interestOnly).toHaveCSS("outline-width", "2px");
+    await expect(interestOnly).toHaveCSS("outline-color", "rgb(215, 218, 47)");
+
+    // Test button focus states
+    await expect(calculateBtn).toHaveCSS("outline-width", "0px");
+    await calculateBtn.focus();
+    await expect(calculateBtn).toHaveCSS("outline-width", "3px");
+
+    await expect(clearBtn).toHaveCSS("outline-width", "0px");
+    await clearBtn.focus();
+    await expect(clearBtn).toHaveCSS("outline-width", "3px");
   });
 
   /** Test if the page shows correct formatted values in inputs */
