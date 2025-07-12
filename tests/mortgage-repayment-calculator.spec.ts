@@ -138,6 +138,39 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     await expect(clearBtn).toHaveCSS("outline-width", "3px");
   });
 
+  /** Test focus-visible states for keyboard navigation */
+  test("has proper focus-visible states for keyboard users", async ({
+    page,
+  }) => {
+    // Enable keyboard navigation mode
+    await page.keyboard.press("Tab");
+
+    const form = page.locator("form");
+
+    // Check first focusable form element
+    const clearBtn = form.getByRole("button", { name: "Clear All" });
+    await expect(clearBtn).toBeFocused();
+
+    // Continue tabbing through elements
+    const amount = form.getByLabel("Mortgage Amount£");
+    await expect(amount).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await page.keyboard.press("Tab");
+    await expect(amount).toBeFocused();
+    await expect(amount).toHaveCSS("border-color", "rgb(215, 218, 47)");
+
+    const term = form.getByLabel("Mortgage Termyears");
+    await expect(term).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await page.keyboard.press("Tab");
+    await expect(term).toBeFocused();
+    await expect(term).toHaveCSS("border-color", "rgb(215, 218, 47)");
+
+    const rate = form.getByLabel("Interest Rate%");
+    await expect(rate).toHaveCSS("border-color", "rgb(107, 148, 168)");
+    await page.keyboard.press("Tab");
+    await expect(rate).toBeFocused();
+    await expect(rate).toHaveCSS("border-color", "rgb(215, 218, 47)");
+  });
+
   /** Test if the page shows correct formatted values in inputs */
   test("shows formatted values in inputs", async ({ page }) => {
     const form = page.locator("form");
