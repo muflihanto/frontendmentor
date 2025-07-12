@@ -169,6 +169,29 @@ test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", (
     await page.keyboard.press("Tab");
     await expect(rate).toBeFocused();
     await expect(rate).toHaveCSS("border-color", "rgb(215, 218, 47)");
+
+    const repaymentInput = page.locator("#repayment");
+    const repayment = form.getByText("Repayment", { exact: true });
+    await expect(repayment).toHaveCSS("outline-width", "0px");
+    await page.keyboard.press("Tab");
+    await expect(repaymentInput).toBeFocused();
+    await expect(repayment).toHaveCSS("outline-width", "2px");
+    await expect(repayment).toHaveCSS("outline-color", "rgb(215, 218, 47)");
+
+    const interestOnlyInput = page.locator("#interest-only");
+    const interestOnly = form.getByText("Interest Only");
+    await expect(interestOnly).toHaveCSS("outline-width", "0px");
+    await page.keyboard.press("ArrowDown");
+    await expect(interestOnlyInput).toBeFocused();
+    await expect(interestOnly).toHaveCSS("outline-width", "2px");
+    await expect(interestOnly).toHaveCSS("outline-color", "rgb(215, 218, 47)");
+
+    const calculateBtn = form.getByRole("button", {
+      name: "Calculate Repayments",
+    });
+    await page.keyboard.press("Tab");
+    await expect(calculateBtn).toBeFocused();
+    await expect(calculateBtn).toHaveCSS("outline-width", "3px");
   });
 
   /** Test if the page shows correct formatted values in inputs */
