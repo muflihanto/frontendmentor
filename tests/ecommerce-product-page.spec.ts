@@ -262,6 +262,28 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       await expect(cartCount).toBeVisible();
       await expect(cartCount).toHaveText("1");
     });
+
+    test("should have correct hover states behavior", async ({ page }) => {
+      const increaseBtn = page.getByRole("button", { name: "Increase" });
+      const decreaseBtn = page.getByRole("button", { name: "Decrease" });
+
+      // Hover on increase button
+      await expect(increaseBtn).toHaveCSS("opacity", "1");
+      await increaseBtn.hover();
+      await expect(increaseBtn).toHaveCSS("opacity", "0.5");
+
+      // Hover on disabled decrease button
+      await expect(decreaseBtn).toHaveCSS("opacity", "1");
+      await decreaseBtn.hover();
+      await expect(decreaseBtn).toHaveCSS("opacity", "1");
+
+      await increaseBtn.click();
+
+      // Hover on enabled decrease button
+      await expect(decreaseBtn).toHaveCSS("opacity", "1");
+      await decreaseBtn.hover();
+      await expect(decreaseBtn).toHaveCSS("opacity", "0.5");
+    });
   });
 
   /** Test if the page has 'Product Details' section */
@@ -275,9 +297,14 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     ).toBeVisible();
     await expect(section.getByLabel("Product Discount")).toBeVisible();
     await expect(section.getByLabel("Original Product Price")).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Add to cart" }),
-    ).toBeVisible();
+    const addToCart = section.getByRole("button", { name: "Add to cart" });
+    await expect(addToCart).toBeVisible();
+    await expect(addToCart).toHaveCSS("background-color", "rgb(255, 125, 26)");
+    await addToCart.hover();
+    await expect(addToCart).toHaveCSS(
+      "background-color",
+      "rgba(255, 125, 26, 0.7)",
+    );
   });
 
   /** Test if the page has 'Photo slide' section */
@@ -294,6 +321,9 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     for (const [btnIndex, button] of Object.entries(selectorButtons)) {
       await expect(button).toBeVisible();
       await expect(displayImages[Number(btnIndex)]).toBeVisible();
+      if (btnIndex !== "0") expect(await hasBefore(button)).toBeFalsy();
+      await button.hover();
+      expect(await hasBefore(button)).toBeTruthy();
       await button.click();
       for (const [imgIndex, image] of Object.entries(displayImages)) {
         if (imgIndex === btnIndex) {
