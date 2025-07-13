@@ -25,6 +25,12 @@ const product = {
 
 const navlinks = ["Collections", "Men", "Women", "About", "Contact"];
 
+const hasBefore = async (element: Locator) =>
+  await element.evaluate((el) => {
+    const beforeStyle = window.getComputedStyle(el, "::before");
+    return beforeStyle.content !== "none" && beforeStyle.content !== "";
+  });
+
 test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   /** Go to E-commerce product page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -42,26 +48,42 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     await expect(header).toBeVisible();
     await expect(header).toBeInViewport();
     await expect(header.getByRole("img").first()).toBeVisible();
+    // Header links
     const nav = page.getByRole("navigation");
     for (const link of navlinks) {
-      await expect(
-        nav.getByRole("menuitem", { name: link, exact: true }),
-      ).toBeVisible();
+      const linkElement = nav.getByRole("menuitem", {
+        name: link,
+        exact: true,
+      });
+      await expect(linkElement).toBeVisible();
+      expect(await hasBefore(linkElement.locator(".."))).toBeFalsy();
+      await linkElement.hover();
+      expect(await hasBefore(linkElement.locator(".."))).toBeTruthy();
     }
+    // Header cart button
     const cartToggle = page.locator("#cart-toggle");
     const cartPopup = page
       .locator("div")
       .filter({ has: page.getByRole("heading", { name: "Cart" }) })
       .nth(1);
     await expect(cartToggle).toBeVisible();
+    await expect(cartToggle.locator("svg")).toHaveCSS(
+      "fill",
+      "rgb(105, 112, 125)",
+    );
+    await cartToggle.hover();
+    await expect(cartToggle.locator("svg")).toHaveCSS("fill", "rgb(0, 0, 0)");
     await expect(cartPopup).not.toBeVisible();
     await cartToggle.click();
     await expect(cartPopup).toBeVisible();
     await cartToggle.click();
     await expect(cartPopup).not.toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "User's avatar" }),
-    ).toBeVisible();
+    // Header avatar
+    const avatar = page.getByRole("button", { name: "User's avatar" });
+    await expect(avatar).toBeVisible();
+    await expect(avatar).toHaveCSS("box-shadow", "none");
+    await avatar.hover();
+    await expect(avatar).not.toHaveCSS("box-shadow", "none");
   });
 
   test.describe("Cart Controller", () => {
