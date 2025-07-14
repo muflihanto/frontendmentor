@@ -175,6 +175,30 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     }
   });
 
+  /** Test focus states for input fields */
+  test("input fields should have correct focus state", async ({ page }) => {
+    await page.waitForTimeout(500);
+
+    const billInput = page.getByLabel("Bill");
+    const peopleInput = page.getByLabel("Number of People");
+    const customTipInput = page.getByPlaceholder("Custom");
+
+    // Test bill input focus
+    await expect(billInput).toHaveCSS("box-shadow", "none");
+    await billInput.focus();
+    await expect(billInput).not.toHaveCSS("box-shadow", "none");
+
+    // Test people input focus
+    await expect(peopleInput).toHaveCSS("box-shadow", "none");
+    await peopleInput.focus();
+    await expect(peopleInput).not.toHaveCSS("box-shadow", "none");
+
+    // Test custom tip input focus
+    await expect(customTipInput).toHaveCSS("box-shadow", "none");
+    await customTipInput.focus();
+    await expect(customTipInput).not.toHaveCSS("box-shadow", "none");
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
