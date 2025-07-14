@@ -199,6 +199,29 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(customTipInput).not.toHaveCSS("box-shadow", "none");
   });
 
+  /** Test selected tip button state */
+  test("selected tip button should have correct state", async ({ page }) => {
+    await page.waitForTimeout(500);
+
+    const tipButton = page.locator('label[for="10%"]');
+    const input = page.locator('input[value="10"]');
+
+    // Select the tip
+    await tipButton.click();
+
+    // Check selected state
+    await expect(input).toBeChecked();
+    await expect(tipButton).toHaveCSS("background-color", "rgb(38, 192, 171)");
+    await expect(tipButton).toHaveCSS("color", "rgb(0, 73, 77)");
+
+    // Click again to deselect
+    await tipButton.click();
+    await page.mouse.move(0, 0);
+    await expect(input).not.toBeChecked();
+    await expect(tipButton).toHaveCSS("background-color", "rgb(0, 73, 77)");
+    await expect(tipButton).toHaveCSS("color", "rgb(244, 250, 250)");
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
