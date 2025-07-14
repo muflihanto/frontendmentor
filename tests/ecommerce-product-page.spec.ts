@@ -159,6 +159,15 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       );
       await expect(cartItems.first()).toContainText("$125.00 x 2");
       await expect(cartItems.first()).toContainText("$250.00");
+
+      const checkout = page.getByRole("button", { name: "Checkout" });
+      await expect(checkout).toBeVisible();
+      await expect(checkout).toHaveCSS("background-color", "rgb(255, 125, 26)");
+      await checkout.hover();
+      await expect(checkout).toHaveCSS(
+        "background-color",
+        "rgba(255, 125, 26, 0.7)",
+      );
     });
 
     test("should allow removing items from cart", async ({ page }) => {
@@ -175,6 +184,16 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
 
       // Remove item
       const deleteButton = page.getByRole("button", { name: "Delete" }).first();
+      await expect(deleteButton).toBeVisible();
+      await expect(deleteButton.locator("svg")).toHaveCSS(
+        "fill",
+        "rgb(195, 202, 217)",
+      );
+      await deleteButton.hover();
+      await expect(deleteButton.locator("svg")).toHaveCSS(
+        "fill",
+        "rgb(0, 0, 0)",
+      );
       await deleteButton.click();
 
       // Verify cart is empty
@@ -352,9 +371,23 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
     await expect(overlay).toBeVisible();
     await expect(overlay.getByRole("img", { name: "Product 1" })).toBeVisible();
     await expect(closeButton).toBeVisible();
+    await expect(closeButton.locator("svg")).toHaveCSS(
+      "fill",
+      "rgb(105, 112, 125)",
+    );
+    await closeButton.hover();
+    await expect(closeButton.locator("svg")).toHaveCSS(
+      "fill",
+      "rgb(255, 125, 26)",
+    );
     await expect(prevButton).toBeVisible();
     await expect(nextButton).toBeVisible();
     expect(selectorButtons).toHaveLength(4);
+    for (const [index, button] of Object.entries(selectorButtons)) {
+      if (index !== "0") expect(await hasBefore(button)).toBeFalsy();
+      await button.hover();
+      expect(await hasBefore(button)).toBeTruthy();
+    }
     await closeButton.click();
     await expect(overlay).not.toBeVisible();
   });
