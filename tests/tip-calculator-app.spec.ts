@@ -151,6 +151,30 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
     await expect(container.getByText("Total/ person$28.13")).toBeVisible();
   });
 
+  /** Test hover states for tip percentage buttons */
+  test("tip percentage buttons should have correct hover state", async ({
+    page,
+  }) => {
+    await page.waitForTimeout(500);
+
+    const tipButtons = await page.getByText(/\d+\%/).all();
+    expect(tipButtons).toHaveLength(5);
+
+    for (const button of tipButtons) {
+      // Check initial state
+      await expect(button).toHaveCSS("background-color", "rgb(0, 73, 77)");
+      await expect(button).toHaveCSS("color", "rgb(244, 250, 250)");
+
+      // Hover and check state
+      await button.hover();
+      await expect(button).toHaveCSS(
+        "background-color",
+        "rgba(38, 192, 171, 0.4)",
+      );
+      await expect(button).toHaveCSS("color", "rgb(0, 73, 77)");
+    }
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
