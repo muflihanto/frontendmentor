@@ -51,6 +51,24 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
     await expect(subscribe).not.toHaveCSS("box-shadow", "none");
   });
 
+  /** Test focus states */
+  test("has proper focus states", async ({ page }) => {
+    const input = page.getByPlaceholder("email@company.com");
+    const button = page.getByRole("button", {
+      name: "Subscribe to monthly newsletter",
+    });
+
+    // Test input focus state
+    await expect(input).toHaveCSS("border-color", "rgba(146, 148, 160, 0.75)");
+    await input.focus();
+    await expect(input).toHaveCSS("border-color", "rgb(54, 56, 78)");
+
+    // Test button focus state
+    await expect(button).toHaveCSS("outline-width", "0px");
+    await button.focus();
+    await expect(button).toHaveCSS("outline-width", "3px");
+  });
+
   /** Test if the form works */
   test.describe("form works", () => {
     test.describe.configure({ mode: "serial" });
