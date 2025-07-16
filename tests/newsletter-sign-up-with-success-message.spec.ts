@@ -39,10 +39,16 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
     await expect(form.getByText("Email address")).toBeVisible();
     // Input visible
     await expect(form.getByPlaceholder("email@company.com")).toBeVisible();
+    const subscribe = form.getByRole("button", {
+      name: "Subscribe to monthly newsletter",
+    });
     // Subscribe button visible
-    await expect(
-      form.getByRole("button", { name: "Subscribe to monthly newsletter" }),
-    ).toBeVisible();
+    await expect(subscribe).toBeVisible();
+    await expect(subscribe).toHaveCSS("background-image", "none");
+    await expect(subscribe).toHaveCSS("box-shadow", "none");
+    await subscribe.hover();
+    await expect(subscribe).not.toHaveCSS("background-image", "none");
+    await expect(subscribe).not.toHaveCSS("box-shadow", "none");
   });
 
   /** Test if the form works */
@@ -125,6 +131,12 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
         page.getByText(`A confirmation email has been sent to ${validEmail}`),
       ).toBeVisible();
       await expect(dismiss).toBeVisible();
+      await expect(dismiss).toBeVisible();
+      await expect(dismiss).toHaveCSS("background-image", "none");
+      await expect(dismiss).toHaveCSS("box-shadow", "none");
+      await dismiss.hover();
+      await expect(dismiss).not.toHaveCSS("background-image", "none");
+      await expect(dismiss).not.toHaveCSS("box-shadow", "none");
     });
 
     /** Test body overflow is hidden when success screen is open */
