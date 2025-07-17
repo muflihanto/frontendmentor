@@ -24,6 +24,49 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
   });
 
+  /** Test hover states for interactive elements */
+  test("interactive elements have proper hover states", async ({ page }) => {
+    const firstName = page.getByLabel("First Name*");
+    const message = page.getByLabel("Message*");
+    const consent = page.getByLabel("I consent to being contacted");
+    const submit = page.getByRole("button", { name: "Submit" });
+
+    // Test hover on text inputs
+    await firstName.hover();
+    await expect(firstName).toHaveCSS("border-color", "rgb(12, 125, 105)");
+
+    await expect(message).toHaveCSS("border-color", "rgb(135, 163, 166)");
+    await message.hover();
+    await expect(message).toHaveCSS("border-color", "rgb(12, 125, 105)");
+
+    // Test hover on radio button
+    // FIXME: no visual feedback on raido input element hover
+    const generalEnquiryLabel = page.getByText("General Enquiry");
+    await expect(generalEnquiryLabel).toHaveCSS(
+      "border-color",
+      "rgb(135, 163, 166)",
+    );
+    await generalEnquiryLabel.hover();
+    await expect(generalEnquiryLabel).toHaveCSS(
+      "border-color",
+      "rgb(12, 125, 105)",
+    );
+
+    // Test hover on checkbox
+    const checkbox = page.locator('input[type="checkbox"]');
+    await expect(checkbox).toHaveCSS(
+      "border-color",
+      "rgba(135, 163, 166, 0.75)",
+    );
+    await consent.hover();
+    await expect(checkbox).toHaveCSS("border-color", "rgb(135, 163, 166)");
+
+    // Test hover on submit button
+    await expect(submit).toHaveCSS("background-color", "rgb(12, 125, 105)");
+    await submit.hover();
+    await expect(submit).toHaveCSS("background-color", "rgb(6, 65, 56)");
+  });
+
   test.describe("valid form submission", () => {
     test.describe.configure({ mode: "serial" });
 
