@@ -69,6 +69,45 @@ test.describe("FrontendMentor Challenge - Newsletter sign-up form with success m
     await expect(button).toHaveCSS("outline-width", "3px");
   });
 
+  /** Test keyboard navigation */
+  test("supports keyboard navigation", async ({ page }) => {
+    const input = page.getByPlaceholder("email@company.com");
+    const button = page.getByRole("button", {
+      name: "Subscribe to monthly newsletter",
+    });
+
+    // Tab to input and verify focus
+    await page.keyboard.press("Tab");
+    await expect(input).toBeFocused();
+
+    // Tab to button and verify focus
+    await page.keyboard.press("Tab");
+    await expect(button).toBeFocused();
+
+    // Submit form with keyboard
+    await page.keyboard.press("Enter");
+    await expect(page.getByText("Email required")).toBeVisible();
+
+    // Fill valid email and submit with keyboard
+    await page.keyboard.press("Tab"); // Back to input
+    await input.fill("test@example.com");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Enter");
+    await expect(
+      page.getByRole("heading", { name: "Thanks for subscribing!" }),
+    ).toBeVisible();
+
+    // Test dismiss with keyboard
+    const dismissButton = page.getByRole("button", { name: "Dismiss message" });
+    // TODO: Should be auto-focused
+    await page.keyboard.press("Tab");
+    await expect(dismissButton).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(
+      page.getByRole("heading", { name: "Stay updated!" }),
+    ).toBeVisible();
+  });
+
   /** Test if the form works */
   test.describe("form works", () => {
     test.describe.configure({ mode: "serial" });
