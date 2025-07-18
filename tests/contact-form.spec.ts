@@ -72,6 +72,10 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     const firstName = page.getByLabel("First Name*");
     const lastName = page.getByLabel("Last Name*");
     const email = page.getByLabel("Email Address*");
+    const message = page.getByLabel("Message*");
+    const consent = page.getByLabel("I consent to being contacted");
+    const submit = page.getByRole("button", { name: "Submit" });
+    const generalEnquiry = page.getByLabel("General Enquiry");
 
     // Test focus on each field
     await firstName.focus();
@@ -87,6 +91,22 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await email.focus();
     await expect(email).toBeFocused();
     await expect(email).toHaveCSS("border-color", "rgb(12, 125, 105)");
+
+    await generalEnquiry.focus();
+    await expect(generalEnquiry).toBeFocused();
+
+    await expect(message).toHaveCSS("border-color", "rgb(135, 163, 166)");
+    await message.focus();
+    await expect(message).toBeFocused();
+    await expect(message).toHaveCSS("border-color", "rgb(12, 125, 105)");
+
+    await consent.focus();
+    await expect(consent).toBeFocused();
+
+    await expect(submit).toHaveCSS("outline-width", "0px");
+    await submit.focus();
+    await expect(submit).toBeFocused();
+    await expect(submit).toHaveCSS("outline-width", "3px");
   });
 
   test.describe("valid form submission", () => {
