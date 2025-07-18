@@ -28,7 +28,25 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       const nav = header.getByRole("navigation");
       const links = ["How we work", "Blog", "Account", "View plans"];
       for (const link of links) {
-        await expect(nav.getByRole("link", { name: link })).toBeVisible();
+        const linkElement = nav.getByRole("link", { name: link });
+        await expect(linkElement).toBeVisible();
+        if (link === "View plans") {
+          await expect(linkElement).toHaveCSS("color", "rgb(43, 39, 47)");
+          await expect(linkElement).toHaveCSS(
+            "background-color",
+            "rgba(0, 0, 0, 0)",
+          );
+          await linkElement.hover();
+          await expect(linkElement).toHaveCSS("color", "rgb(250, 250, 250)");
+          await expect(linkElement).toHaveCSS(
+            "background-color",
+            "rgb(43, 39, 47)",
+          );
+        } else {
+          await expect(linkElement).toHaveCSS("color", "rgb(131, 125, 135)");
+          await linkElement.hover();
+          await expect(linkElement).toHaveCSS("color", "rgb(43, 39, 47)");
+        }
       }
     });
   });
@@ -55,10 +73,17 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
           "Get your life insurance coverage easier and faster. We blend our expertise and technology to help you find the plan that’s right for you. Ensure you and your loved ones are protected.",
         ),
       ).toBeVisible();
+      const viewPlans = section.getByRole("link", { name: "View plans" });
       // has a "View Plans" link
-      await expect(
-        section.getByRole("link", { name: "View plans" }),
-      ).toBeVisible();
+      await expect(viewPlans).toBeVisible();
+      await expect(viewPlans).toHaveCSS("color", "rgba(250, 250, 250, 0.75)");
+      await expect(viewPlans).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await viewPlans.hover();
+      await expect(viewPlans).toHaveCSS("color", "rgb(45, 38, 64)");
+      await expect(viewPlans).toHaveCSS(
+        "background-color",
+        "rgb(250, 250, 250)",
+      );
       // has a hero image
       await expect(
         section.getByRole("img", {
