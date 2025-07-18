@@ -67,6 +67,28 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await expect(submit).toHaveCSS("background-color", "rgb(6, 65, 56)");
   });
 
+  /** Test focus states for form fields */
+  test("form fields have proper focus states", async ({ page }) => {
+    const firstName = page.getByLabel("First Name*");
+    const lastName = page.getByLabel("Last Name*");
+    const email = page.getByLabel("Email Address*");
+
+    // Test focus on each field
+    await firstName.focus();
+    await expect(firstName).toBeFocused();
+    await expect(firstName).toHaveCSS("border-color", "rgb(12, 125, 105)");
+
+    await expect(lastName).toHaveCSS("border-color", "rgb(135, 163, 166)");
+    await lastName.focus();
+    await expect(lastName).toBeFocused();
+    await expect(lastName).toHaveCSS("border-color", "rgb(12, 125, 105)");
+
+    await expect(email).toHaveCSS("border-color", "rgb(135, 163, 166)");
+    await email.focus();
+    await expect(email).toBeFocused();
+    await expect(email).toHaveCSS("border-color", "rgb(12, 125, 105)");
+  });
+
   test.describe("valid form submission", () => {
     test.describe.configure({ mode: "serial" });
 
