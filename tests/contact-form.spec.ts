@@ -214,11 +214,19 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await message.fill("Hello");
     const consent = page.getByLabel("I consent to being contacted");
     await consent.click();
+    await expect(firstName).toHaveCSS("border-color", "rgb(135, 163, 166)");
+    await expect(lastName).toHaveCSS("border-color", "rgb(135, 163, 166)");
+    await expect(email).toHaveCSS("border-color", "rgb(135, 163, 166)");
+    await expect(message).toHaveCSS("border-color", "rgb(135, 163, 166)");
     await submit.click();
     await expect(firstNameError).toBeVisible();
+    await expect(firstName).toHaveCSS("border-color", "rgb(220, 38, 38)");
     await expect(lastNameError).toBeVisible();
+    await expect(lastName).toHaveCSS("border-color", "rgb(220, 38, 38)");
     await expect(emailError).toBeVisible();
+    await expect(email).toHaveCSS("border-color", "rgb(220, 38, 38)");
     await expect(messageError).toBeVisible();
+    await expect(message).toHaveCSS("border-color", "rgb(220, 38, 38)");
     await expect(
       page.getByRole("heading", { name: "Message Sent!" }),
     ).not.toBeVisible();
