@@ -73,8 +73,8 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
           "Get your life insurance coverage easier and faster. We blend our expertise and technology to help you find the plan that’s right for you. Ensure you and your loved ones are protected.",
         ),
       ).toBeVisible();
-      const viewPlans = section.getByRole("link", { name: "View plans" });
       // has a "View Plans" link
+      const viewPlans = section.getByRole("link", { name: "View plans" });
       await expect(viewPlans).toBeVisible();
       await expect(viewPlans).toHaveCSS("color", "rgba(250, 250, 250, 0.75)");
       await expect(viewPlans).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
@@ -148,10 +148,17 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
           name: "Find out more about how we work",
         }),
       ).toBeVisible();
-      // has a link
-      await expect(
-        section.getByRole("link", { name: "How we work" }),
-      ).toBeVisible();
+      // has a how we work link
+      const howWeWork = section.getByRole("link", { name: "How we work" });
+      await expect(howWeWork).toBeVisible();
+      await expect(howWeWork).toHaveCSS("color", "rgb(250, 250, 250)");
+      await expect(howWeWork).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await howWeWork.hover();
+      await expect(howWeWork).toHaveCSS("color", "rgb(45, 38, 64)");
+      await expect(howWeWork).toHaveCSS(
+        "background-color",
+        "rgb(250, 250, 250)",
+      );
     });
   });
 
@@ -169,7 +176,8 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       ).toBeVisible();
       // has navigation links
       const navigations = await footer
-        .getByRole("navigation")
+        .locator("div")
+        .nth(2)
         .locator(">div")
         .all();
       const links = [
@@ -195,7 +203,14 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
           nav.getByRole("heading", { name: links[Number(index)].parent }),
         ).toBeVisible();
         for (const link of links[Number(index)].links) {
-          await expect(nav.getByRole("link", { name: link })).toBeVisible();
+          const linkElement = nav.getByRole("link", { name: link });
+          await expect(linkElement).toBeVisible();
+          await expect(linkElement).toHaveCSS("text-decoration-line", "none");
+          await linkElement.hover();
+          await expect(linkElement).toHaveCSS(
+            "text-decoration-line",
+            "underline",
+          );
         }
       }
       // has attribution
