@@ -174,6 +174,18 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       await expect(
         footer.getByRole("img", { name: "insure logo" }),
       ).toBeVisible();
+      // has social media links
+      const container = page.getByRole("contentinfo").locator("ul").first();
+      const snss = await container.getByRole("link").all();
+      expect(snss).toHaveLength(4);
+      for (const sns of snss) {
+        await expect(sns.locator("svg")).toHaveCSS(
+          "fill",
+          "rgb(131, 125, 136)",
+        );
+        await sns.hover();
+        await expect(sns.locator("svg")).toHaveCSS("fill", "rgb(45, 38, 64)");
+      }
       // has navigation links
       const navigations = await footer
         .locator("div")
