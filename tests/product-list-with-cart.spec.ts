@@ -31,9 +31,15 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
         has: page.getByRole("img", { name: product.name }),
       });
       await expect(card).toBeVisible();
-      await expect(
-        card.getByRole("button", { name: `Add ${product.name} to Cart` }),
-      ).toBeVisible();
+      const addToCart = card.getByRole("button", {
+        name: `Add ${product.name} to Cart`,
+      });
+      await expect(addToCart).toBeVisible();
+      await expect(addToCart).toHaveCSS("border-color", "rgb(201, 174, 166)");
+      await expect(addToCart).toHaveCSS("color", "rgb(38, 15, 8)");
+      await addToCart.hover();
+      await expect(addToCart).toHaveCSS("border-color", "rgb(199, 58, 15)");
+      await expect(addToCart).toHaveCSS("color", "rgb(199, 58, 15)");
       await expect(
         card.getByText(product.category, { exact: true }),
       ).toBeVisible();
@@ -163,6 +169,15 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
       .locator("aside")
       .getByRole("button", { name: "Confirm Order" });
     await expect(confirmOrderButton).toBeVisible();
+    await expect(confirmOrderButton).toHaveCSS(
+      "background-color",
+      "rgb(199, 58, 15)",
+    );
+    await confirmOrderButton.hover();
+    await expect(confirmOrderButton).toHaveCSS(
+      "background-color",
+      "rgb(152, 44, 11)",
+    );
 
     await confirmOrderButton.click();
     await page.waitForTimeout(1500);
