@@ -57,9 +57,11 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
           "5px solid rgb(91, 164, 164)",
         );
       }
-      await expect(
-        jobCard.getByText(job.position, { exact: true }),
-      ).toBeVisible();
+      const jobPosition = jobCard.getByText(job.position, { exact: true });
+      await expect(jobPosition).toBeVisible();
+      await expect(jobPosition).toHaveCSS("color", "rgb(44, 58, 58)");
+      await jobPosition.hover();
+      await expect(jobPosition).toHaveCSS("color", "rgb(91, 164, 164)");
       const jobDetails = jobCard.getByRole("group");
       await expect(jobDetails).toHaveAccessibleName("Job Details");
       await expect(jobDetails.getByText(job.postedAt)).toBeVisible();
@@ -68,12 +70,28 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
       const role = jobCard.getByRole("button", { name: job.role });
       await expect(role).toBeVisible();
       await expect(role).toHaveAccessibleName(`Filter by role: ${job.role}`);
+      await expect(role).toHaveCSS("color", "rgb(91, 164, 164)");
+      await expect(role).toHaveCSS("background-color", "rgb(238, 246, 246)");
+      await role.hover();
+      await expect(role).toHaveCSS("color", "rgb(239, 250, 250)");
+      await expect(role).toHaveCSS("background-color", "rgb(91, 164, 164)");
       const level = jobCard.getByRole("button", { name: job.level });
       await expect(level).toBeVisible();
       await expect(level).toHaveAccessibleName(`Filter by level: ${job.level}`);
       for (const filter of [...job.languages, ...job.tools]) {
         const element = jobCard.getByRole("button", { name: filter });
         await expect(element).toBeVisible();
+        await expect(element).toHaveCSS("color", "rgb(91, 164, 164)");
+        await expect(element).toHaveCSS(
+          "background-color",
+          "rgb(238, 246, 246)",
+        );
+        await element.hover();
+        await expect(element).toHaveCSS("color", "rgb(239, 250, 250)");
+        await expect(element).toHaveCSS(
+          "background-color",
+          "rgb(91, 164, 164)",
+        );
         if (job.languages.includes(filter)) {
           await expect(element).toHaveAccessibleName(
             `Filter by language: ${filter}`,
@@ -139,6 +157,15 @@ test.describe("FrontendMentor Challenge - Job Listings Page", () => {
         "Remove filter: HTML",
       );
       await expect(removeHtmlFilterButton).toBeVisible();
+      await expect(removeHtmlFilterButton).toHaveCSS(
+        "background-color",
+        "rgb(91, 164, 164)",
+      );
+      await removeHtmlFilterButton.hover();
+      await expect(removeHtmlFilterButton).toHaveCSS(
+        "background-color",
+        "rgb(44, 58, 58)",
+      );
       await removeHtmlFilterButton.click();
       expect(
         await filtersContainer.getByLabel("Remove filter").all(),
