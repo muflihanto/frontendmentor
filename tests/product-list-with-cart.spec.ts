@@ -141,9 +141,25 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
       const cartItem = cart.locator("li").filter({ hasText: name });
 
       await expect(decrement).toBeVisible();
+      await expect(decrement).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(decrement).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await decrement.hover();
+      await expect(decrement).toHaveCSS("color", "rgb(199, 58, 15)");
+      await expect(decrement).toHaveCSS(
+        "background-color",
+        "rgb(255, 255, 255)",
+      );
       await expect(group.locator("span", { hasText: "1" })).toBeVisible();
       await expect(cartItem.locator("span", { hasText: "1x" })).toBeVisible();
       await expect(increment).toBeVisible();
+      await expect(increment).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(increment).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await increment.hover();
+      await expect(increment).toHaveCSS("color", "rgb(199, 58, 15)");
+      await expect(increment).toHaveCSS(
+        "background-color",
+        "rgb(255, 255, 255)",
+      );
 
       await increment.click();
       await increment.click();
