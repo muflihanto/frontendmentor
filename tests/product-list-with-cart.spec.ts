@@ -105,6 +105,12 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
       ] as const;
     });
     for (const [name, button] of removeItemButtons) {
+      await page.mouse.move(0, 0);
+      await expect(button).toHaveCSS("border-color", "rgb(202, 175, 167)");
+      await expect(button).toHaveCSS("color", "rgb(202, 175, 167)");
+      await button.hover();
+      await expect(button).toHaveCSS("border-color", "rgb(38, 15, 8)");
+      await expect(button).toHaveCSS("color", "rgb(38, 15, 8)");
       await button.click();
       await expect(button).not.toBeVisible();
       await expect(cart.getByRole("heading", { name })).not.toBeVisible();
@@ -231,9 +237,17 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
             .toFixed(2)}`,
         ),
     ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Start New Order" }),
-    ).toBeVisible();
+    const startNewOrder = page.getByRole("button", { name: "Start New Order" });
+    await expect(startNewOrder).toBeVisible();
+    await expect(startNewOrder).toHaveCSS(
+      "background-color",
+      "rgb(199, 58, 15)",
+    );
+    await startNewOrder.hover();
+    await expect(startNewOrder).toHaveCSS(
+      "background-color",
+      "rgb(152, 44, 11)",
+    );
   });
 
   /** Test if the user can reset their selections when they click 'Start New Order' */
