@@ -153,6 +153,11 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         await expect(
           page.getByText("Thank you!We've added your card detailsContinue"),
         ).not.toBeVisible();
+        for (const field of fields) {
+          await expect(
+            form.getByPlaceholder(field, { exact: true }),
+          ).toHaveValue("");
+        }
       });
     });
     /** Test input formatting */
@@ -219,25 +224,47 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         await expect(card.getByText("456", { exact: true })).toBeVisible();
       });
     });
-  });
 
-  /** Test focus and hover states */
-  test.describe("focus and hover states", () => {
-    test("input fields have proper focus styling", async ({ page }) => {
-      const form = page.locator("form");
-      const inputs = [
-        form.getByPlaceholder("e.g. Jane Appleseed"),
-        form.getByPlaceholder("e.g. 1234 5678 9123 0000"),
-        form.getByPlaceholder("MM"),
-        form.getByPlaceholder("YY"),
-        form.getByPlaceholder("e.g. 123", { exact: true }),
-      ];
+    /** Test focus and hover states */
+    test.describe("focus and hover states", () => {
+      test("input fields have proper focus styling", async ({ page }) => {
+        const form = page.locator("form");
+        const inputs = [
+          form.getByPlaceholder("e.g. Jane Appleseed"),
+          form.getByPlaceholder("e.g. 1234 5678 9123 0000"),
+          form.getByPlaceholder("MM"),
+          form.getByPlaceholder("YY"),
+          form.getByPlaceholder("e.g. 123", { exact: true }),
+        ];
 
-      for (const input of inputs) {
-        await expect(input).toHaveCSS("border-color", "rgb(222, 221, 223)");
-        await input.focus();
-        await expect(input).toHaveCSS("border-color", "rgb(33, 9, 47)");
-      }
+        for (const input of inputs) {
+          await expect(input).toHaveCSS("border-color", "rgb(222, 221, 223)");
+          await input.focus();
+          await expect(input).toHaveCSS("border-color", "rgb(33, 9, 47)");
+        }
+      });
+    });
+
+    /** Test keyboard navigation */
+    test.describe("keyboard navigation", () => {
+      test("tab moves focus through form fields in correct order", async ({
+        page,
+      }) => {
+        const form = page.locator("form");
+        const fields = [
+          form.getByPlaceholder("e.g. Jane Appleseed"),
+          form.getByPlaceholder("e.g. 1234 5678 9123 0000"),
+          form.getByPlaceholder("MM"),
+          form.getByPlaceholder("YY"),
+          form.getByPlaceholder("e.g. 123", { exact: true }),
+          form.getByRole("button", { name: "Confirm" }),
+        ];
+
+        for (const field of fields) {
+          await page.keyboard.press("Tab");
+          await expect(field).toBeFocused();
+        }
+      });
     });
   });
 
