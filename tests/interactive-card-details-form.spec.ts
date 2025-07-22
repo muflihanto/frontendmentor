@@ -221,6 +221,26 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
     });
   });
 
+  /** Test focus and hover states */
+  test.describe("focus and hover states", () => {
+    test("input fields have proper focus styling", async ({ page }) => {
+      const form = page.locator("form");
+      const inputs = [
+        form.getByPlaceholder("e.g. Jane Appleseed"),
+        form.getByPlaceholder("e.g. 1234 5678 9123 0000"),
+        form.getByPlaceholder("MM"),
+        form.getByPlaceholder("YY"),
+        form.getByPlaceholder("e.g. 123", { exact: true }),
+      ];
+
+      for (const input of inputs) {
+        await expect(input).toHaveCSS("border-color", "rgb(222, 221, 223)");
+        await input.focus();
+        await expect(input).toHaveCSS("border-color", "rgb(33, 9, 47)");
+      }
+    });
+  });
+
   /** Test if the page has a correct footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByRole("contentinfo")).toBeVisible();
