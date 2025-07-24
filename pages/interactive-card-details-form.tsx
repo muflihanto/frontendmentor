@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type UseFormReset, useForm } from "react-hook-form";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { type ChangeEvent, useEffect } from "react";
 import { spaceGrotesk } from "../utils/fonts/spaceGrotesk";
 import Image from "next/image";
 
@@ -250,7 +250,17 @@ function Main() {
             <input
               id="cardNumber"
               type="text"
-              {...register("cardNumber")}
+              {...register("cardNumber", {
+                onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                  // Auto-format with spaces every 4 digits
+                  const value = e.target.value
+                    .replace(/\s/g, "")
+                    .replace(/(\d{4})/g, "$1 ")
+                    .trim();
+                  e.target.value = value.slice(0, 19); // Limit to 16 digits + 3 spaces
+                  return value;
+                },
+              })}
               placeholder="e.g. 1234 5678 9123 0000"
               maxLength={19}
               className={`${
