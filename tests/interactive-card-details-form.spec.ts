@@ -265,6 +265,25 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
           await expect(field).toBeFocused();
         }
       });
+
+      test("enter submits form when focused on submit button", async ({
+        page,
+      }) => {
+        const form = page.locator("form");
+        await form.getByPlaceholder("e.g. Jane Appleseed").fill("Test Name");
+        await form
+          .getByPlaceholder("e.g. 1234 5678 9123 0000")
+          .fill("4111 1111 1111 1111");
+        await form.getByPlaceholder("MM").fill("12");
+        await form.getByPlaceholder("YY").fill("30");
+        await form.getByPlaceholder("e.g. 123", { exact: true }).fill("123");
+
+        // Focus submit button
+        await page.keyboard.press("Tab");
+
+        await page.keyboard.press("Enter");
+        await expect(page.getByText("Thank you!")).toBeVisible();
+      });
     });
   });
 
