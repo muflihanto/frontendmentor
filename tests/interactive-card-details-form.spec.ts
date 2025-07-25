@@ -285,6 +285,26 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         await expect(page.getByText("Thank you!")).toBeVisible();
       });
     });
+
+    test.describe("edge case validation", () => {
+      test("rejects card number with letters", async ({ page }) => {
+        const form = page.locator("form");
+        await form
+          .getByPlaceholder("e.g. 1234 5678 9123 0000")
+          .fill("4111 abc1 1111 1111");
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(
+          form.getByText("Wrong format, numbers only"),
+        ).toBeVisible();
+      });
+
+      test("rejects expiration month '00'", async ({ page }) => {
+        const form = page.locator("form");
+        await form.getByPlaceholder("MM").fill("00");
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(form.getByText("Invalid month")).toBeVisible();
+      });
+    });
   });
 
   /** Test if the page has a correct footer */
