@@ -13,18 +13,24 @@ import Image from "next/image";
 // TODO: Fix validation rules
 const inputSchema = z
   .object({
-    cardholderName: z.string().min(1, "Can't be blank"),
+    cardholderName: z
+      .string()
+      .min(1, "Can't be blank")
+      .refine((val) => val.trim().length > 0, {
+        message: "Can't be blank",
+      }),
     cardNumber: z
       .string()
       .min(1, "Can't be blank")
       .regex(
         new RegExp(/^([0-9]{4}\s){3}[0-9]{4}$/, "i"),
         "Wrong format, numbers only",
-      ),
+      )
+      .transform((val) => val.replace(/(\d{4})(?=\d)/g, "$1 ")),
     expMonth: z
       .string()
       .min(1, "Can't be blank")
-      .regex(/[0-9]{2}/, "Wrong format, numbers only")
+      .regex(/^\d{0,2}$/, "Wrong format, numbers only")
       .refine(
         (value) => Number.parseInt(value) <= 12 && Number.parseInt(value) >= 1,
         "Invalid month",
@@ -32,11 +38,11 @@ const inputSchema = z
     expYear: z
       .string()
       .min(1, "Can't be blank")
-      .regex(/[0-9]{2}/, "Wrong format, numbers only"),
+      .regex(/^\d{0,2}$/, "Wrong format, numbers only"),
     cvc: z
       .string()
       .min(1, "Can't be blank")
-      .regex(/[0-9]{3}/, "Wrong format, numbers only"),
+      .regex(/^\d{0,3}$/, "Wrong format, numbers only"),
   })
   .superRefine((val, ctx) => {
     const today = new Date();
@@ -293,7 +299,16 @@ function Main() {
                   } w-full`}
                   id="expMonth"
                   type="text"
-                  {...register("expMonth", { required: true })}
+                  {...register("expMonth", {
+                    required: true,
+                    onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                      // Auto-pad single digit months
+                      if (e.target.value.length === 1 && e.target.value > "1") {
+                        e.target.value = `0${e.target.value}`;
+                      }
+                      return e.target.value.slice(0, 2);
+                    },
+                  })}
                   placeholder="MM"
                   minLength={2}
                   maxLength={2}

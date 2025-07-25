@@ -287,6 +287,15 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
     });
 
     test.describe("edge case validation", () => {
+      test("handles single space in cardholder name", async ({ page }) => {
+        const form = page.locator("form");
+        await form.getByPlaceholder("e.g. Jane Appleseed").fill(" ");
+        await form.getByRole("button", { name: "Confirm" }).click();
+        await expect(
+          form.getByText("Cardholder NameCan't be blank"),
+        ).toBeVisible();
+      });
+
       test("rejects card number with letters", async ({ page }) => {
         const form = page.locator("form");
         await form
