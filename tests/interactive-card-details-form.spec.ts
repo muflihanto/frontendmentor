@@ -332,6 +332,17 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
     });
   });
 
+  test.describe("card preview edge cases", () => {
+    test("shows truncated cardholder name if too long", async ({ page }) => {
+      const form = page.locator("form");
+      const longName = "A".repeat(50);
+      await form.getByPlaceholder("e.g. Jane Appleseed").fill(longName);
+      const card = page.locator("div").nth(4);
+      const box = await card.getByText(longName)?.boundingBox();
+      expect(box?.width).toBeLessThanOrEqual(240);
+    });
+  });
+
   /** Test if the page has a correct footer */
   test("has a footer", async ({ page }) => {
     await expect(page.getByRole("contentinfo")).toBeVisible();

@@ -122,7 +122,7 @@ function CardPreview() {
                 : "0000 0000 0000 0000"}
             </p>
             <div className="mt-[13px] flex justify-between text-[10px] uppercase text-interactive-card-neutral-100 lg:mt-[21.5px] lg:text-[14px]">
-              <p className="tracking-[0.7px] lg:tracking-[2px]">
+              <p className="max-w-[240px] truncate tracking-[0.7px] lg:tracking-[2px]">
                 {inputval?.cardholderName !== undefined
                   ? inputval.cardholderName
                   : "Jane Appleseed"}
