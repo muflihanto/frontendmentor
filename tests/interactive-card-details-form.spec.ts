@@ -190,7 +190,23 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         await input.fill("1234");
         await expect(input).toHaveValue("123");
       });
+
+      test("auto-inserts spaces in card number", async ({ page }) => {
+        const form = page.locator("form");
+        const input = form.getByPlaceholder("e.g. 1234 5678 9123 0000");
+        await input.fill("4111111111111111");
+        await expect(input).toHaveValue("4111 1111 1111 1111");
+      });
+
+      test("pads single-digit month with leading zero", async ({ page }) => {
+        const form = page.locator("form");
+        const input = form.getByPlaceholder("MM");
+        await input.fill("3");
+        await input.blur(); // Trigger formatting
+        await expect(input).toHaveValue("03");
+      });
     });
+
     /** Test card preview updates */
     test.describe("card preview updates", () => {
       test("updates cardholder name in real-time", async ({ page }) => {
