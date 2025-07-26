@@ -197,9 +197,23 @@ function Main() {
     return () => subs.unsubscribe();
   }, [watch, setInputVal]);
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-  });
+  const onSubmit = handleSubmit(
+    (data) => {
+      console.log(data);
+    },
+    (errors) => {
+      // Focus first error field
+      if (errors.cardholderName) {
+        document.getElementById("cardholderName")?.focus();
+      } else if (errors.cardNumber) {
+        document.getElementById("cardNumber")?.focus();
+      } else if (errors.expMonth ?? errors.expYear) {
+        document.getElementById("expMonth")?.focus();
+      } else if (errors.cvc) {
+        document.getElementById("cvc")?.focus();
+      }
+    },
+  );
 
   useEffect(() => {
     if (isSubmitSuccessful) {
