@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type UseFormReset, useForm } from "react-hook-form";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { type ChangeEvent, useEffect } from "react";
+import { type ChangeEvent, useEffect, useRef } from "react";
 import { spaceGrotesk } from "../utils/fonts/spaceGrotesk";
 import Image from "next/image";
 
@@ -141,10 +141,16 @@ function CardPreview() {
 
 function CompleteModal({ reset }: { reset: UseFormReset<InputSchema> }) {
   const setOpen = useSetAtom(modalAtom);
+  const continueRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    continueRef.current?.focus();
+  }, []);
 
   const handleClick = () => {
     reset();
     setOpen(false);
+    document.getElementById("cardholderName")?.focus();
   };
 
   return (
@@ -165,8 +171,9 @@ function CompleteModal({ reset }: { reset: UseFormReset<InputSchema> }) {
         We&apos;ve added your card details
       </p>
       <button
+        ref={continueRef}
         onClick={handleClick}
-        className="mt-[46.5px] flex h-[53px] w-full items-center justify-center rounded-lg bg-interactive-card-neutral-400 text-[18px] text-interactive-card-neutral-100"
+        className="mt-[46.5px] flex h-[53px] w-full items-center justify-center rounded-lg bg-interactive-card-neutral-400 text-[18px] text-interactive-card-neutral-100 hover:bg-opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-interactive-card-neutral-400"
         type="button"
       >
         Continue
@@ -387,7 +394,7 @@ function Main() {
             )}
           </label>
           <button
-            className={`col-span-2 mt-[9px] flex h-[53px] items-center justify-center rounded-lg bg-interactive-card-neutral-400 text-[18px] text-white ${
+            className={`col-span-2 mt-[9px] flex h-[53px] items-center justify-center rounded-lg bg-interactive-card-neutral-400 text-[18px] text-white hover:bg-opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-interactive-card-neutral-400 ${
               errors.cvc !== undefined ||
               errors.expMonth !== undefined ||
               errors.expYear !== undefined
