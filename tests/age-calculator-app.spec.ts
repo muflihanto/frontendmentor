@@ -29,20 +29,11 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
     test("can handle empty inputs", async ({ page }) => {
       const form = page.locator("form");
       const submit = form.getByRole("button");
-      const dayLabel = page.getByText("Day", { exact: true });
-      const monthLabel = page.getByText("Month", { exact: true });
-      const yearLabel = page.getByText("Year", { exact: true });
       const getErrorWarnings = async () =>
         await page.getByText("This field is required").all();
       expect(await getErrorWarnings()).toHaveLength(0);
-      await expect(dayLabel).toHaveCSS("color", "rgb(113, 111, 111)");
-      await expect(monthLabel).toHaveCSS("color", "rgb(113, 111, 111)");
-      await expect(yearLabel).toHaveCSS("color", "rgb(113, 111, 111)");
       await submit.click();
       expect(await getErrorWarnings()).toHaveLength(3);
-      await expect(dayLabel).toHaveCSS("color", "rgb(255, 87, 87)");
-      await expect(monthLabel).toHaveCSS("color", "rgb(255, 87, 87)");
-      await expect(yearLabel).toHaveCSS("color", "rgb(255, 87, 87)");
     });
     test("can handle invalid inputs", async ({ page }) => {
       const form = page.locator("form");
@@ -102,6 +93,35 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
         .locator("label", { hasText: "Month", has: pastError })
         .isVisible();
       expect(dayErrorVisible || monthErrorVisible).toBeTruthy();
+    });
+    /** Test error state styling */
+    test("should show correct styling for error states", async ({ page }) => {
+      const form = page.locator("form");
+      const submit = form.getByRole("button");
+      const dayLabel = page.getByText("Day", { exact: true });
+      const monthLabel = page.getByText("Month", { exact: true });
+      const yearLabel = page.getByText("Year", { exact: true });
+      const dayField = page.getByPlaceholder("DD");
+      const monthField = page.getByPlaceholder("MM");
+      const yearField = page.getByPlaceholder("YYYY");
+
+      await expect(dayLabel).toHaveCSS("color", "rgb(113, 111, 111)");
+      await expect(monthLabel).toHaveCSS("color", "rgb(113, 111, 111)");
+      await expect(yearLabel).toHaveCSS("color", "rgb(113, 111, 111)");
+      await expect(dayField).toHaveCSS("border-color", "rgb(219, 219, 219)");
+      await expect(monthField).toHaveCSS("border-color", "rgb(219, 219, 219)");
+      await expect(yearField).toHaveCSS("border-color", "rgb(219, 219, 219)");
+
+      // Trigger error
+      await submit.click();
+
+      // Verify error styling
+      await expect(dayLabel).toHaveCSS("color", "rgb(255, 87, 87)");
+      await expect(monthLabel).toHaveCSS("color", "rgb(255, 87, 87)");
+      await expect(yearLabel).toHaveCSS("color", "rgb(255, 87, 87)");
+      await expect(dayField).toHaveCSS("border-color", "rgb(255, 87, 87)");
+      await expect(monthField).toHaveCSS("border-color", "rgb(255, 87, 87)");
+      await expect(yearField).toHaveCSS("border-color", "rgb(255, 87, 87)");
     });
     test("can handle valid inputs", async ({ page }) => {
       const form = page.locator("form");
