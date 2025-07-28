@@ -140,6 +140,24 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
     });
   });
 
+  test.describe("Additional tests for Age calculator app", () => {
+    /** Test hover states */
+    test("should have correct hover states", async ({ page }) => {
+      const submitButton = page.locator('button[aria-label="Calculate age"]');
+
+      // Test submit button hover
+      await expect(submitButton).toHaveCSS(
+        "background-color",
+        "rgb(133, 76, 255)", // bg-age-calculator-primary-purple
+      );
+      await submitButton.hover();
+      await expect(submitButton).toHaveCSS(
+        "background-color",
+        "rgb(20, 20, 20)", // bg-age-calculator-neutral-500
+      );
+    });
+  });
+
   test.describe("has accessibility features", () => {
     test("should allow keyboard navigation through the form", async ({
       page,
