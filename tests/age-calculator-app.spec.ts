@@ -158,6 +158,23 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await expect(monthDiff).not.toBeVisible();
       await expect(dayDiff).not.toBeVisible();
     });
+    /** Test form submission with keyboard */
+    test("should submit form with keyboard", async ({ page }) => {
+      const dayField = page.getByPlaceholder("DD");
+      const monthField = page.getByPlaceholder("MM");
+      const yearField = page.getByPlaceholder("YYYY");
+
+      await dayField.fill("15");
+      await monthField.fill("5");
+      await yearField.fill("1990");
+
+      // Submit form by pressing Enter on year field
+      await yearField.press("Enter");
+
+      await expect(page.getByText("- -years")).not.toBeVisible();
+      await expect(page.getByText("- -months")).not.toBeVisible();
+      await expect(page.getByText("- -days")).not.toBeVisible();
+    });
   });
 
   test.describe("Additional tests for Age calculator app", () => {
