@@ -148,13 +148,41 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       // Test submit button hover
       await expect(submitButton).toHaveCSS(
         "background-color",
-        "rgb(133, 76, 255)", // bg-age-calculator-primary-purple
+        "rgb(133, 76, 255)", // age-calculator-primary-purple
       );
       await submitButton.hover();
       await expect(submitButton).toHaveCSS(
         "background-color",
-        "rgb(20, 20, 20)", // bg-age-calculator-neutral-500
+        "rgb(20, 20, 20)", // age-calculator-neutral-500
       );
+    });
+
+    /** Test focus states */
+    test("should have correct focus states", async ({ page }) => {
+      const dayInput = page.getByPlaceholder("DD");
+      const monthInput = page.getByPlaceholder("MM");
+      const yearInput = page.getByPlaceholder("YYYY");
+
+      // Focus day input
+      await expect(dayInput).toHaveCSS(
+        "border-color",
+        "rgb(219, 219, 219)", // age-calculator-neutral-300
+      );
+      await dayInput.focus();
+      await expect(dayInput).toHaveCSS(
+        "border-color",
+        "rgb(133, 76, 255)", // age-calculator-primary-purple
+      );
+
+      // Focus month input
+      await expect(monthInput).toHaveCSS("border-color", "rgb(219, 219, 219)");
+      await monthInput.focus();
+      await expect(monthInput).toHaveCSS("border-color", "rgb(133, 76, 255)");
+
+      // Focus year input
+      await expect(yearInput).toHaveCSS("border-color", "rgb(219, 219, 219)");
+      await yearInput.focus();
+      await expect(yearInput).toHaveCSS("border-color", "rgb(133, 76, 255)");
     });
   });
 
