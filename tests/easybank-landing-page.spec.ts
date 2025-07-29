@@ -1,7 +1,17 @@
-import { test, expect } from "@playwright/test";
+import { type Locator, test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const navs = ["Home", "About", "Contact", "Blog", "Careers"] as const;
+
+const hasBefore = async (element: Locator) =>
+  await element.evaluate((el) => {
+    const beforeStyle = window.getComputedStyle(el, "::before");
+    return (
+      beforeStyle.content !== "none" &&
+      beforeStyle.content !== "" &&
+      beforeStyle.backgroundColor === "rgba(255, 255, 255, 0.4)"
+    );
+  });
 
 test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
   /** Go to Easybank landing page before each test */
@@ -21,14 +31,18 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
     for (const nav of navs) {
       await expect(header.getByRole("link", { name: nav })).toBeVisible();
     }
-    await expect(
-      header.getByRole("button", { name: "Request Invite" }),
-    ).toBeVisible();
+    const requestInvite = header.getByRole("button", {
+      name: "Request Invite",
+    });
+    await expect(requestInvite).toBeVisible();
+    expect(await hasBefore(requestInvite)).toBeFalsy();
+    await requestInvite.hover();
+    expect(await hasBefore(requestInvite)).toBeTruthy();
   });
 
   /** Test if the page has an intro section */
   test("has an intro section", async ({ page }) => {
-    const section = page.locator("div").nth(4);
+    const section = page.locator("div").nth(3);
     await expect(section).toBeVisible();
     await expect(
       section.getByRole("heading", {
@@ -41,9 +55,13 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
         "Take your financial life online. Your Easybank account will be a one-stop-shop for spending, saving, budgeting, investing, and much more.",
       ),
     ).toBeVisible();
-    await expect(
-      section.getByRole("button", { name: "Request Invite" }),
-    ).toBeVisible();
+    const requestInvite = section.getByRole("button", {
+      name: "Request Invite",
+    });
+    await expect(requestInvite).toBeVisible();
+    expect(await hasBefore(requestInvite)).toBeFalsy();
+    await requestInvite.hover();
+    expect(await hasBefore(requestInvite)).toBeTruthy();
     await expect(section.getByRole("img", { name: "Mockup" })).toBeVisible();
   });
 
@@ -75,7 +93,7 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
           "Manage your savings, investments, pension, and much more from one account. Tracking your money has never been easier.",
       },
     ] as const;
-    const section = page.locator("div").nth(8);
+    const section = page.locator("div").nth(7);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
@@ -131,7 +149,7 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
         cover: "/easybank-landing-page/images/image-confetti.jpg",
       },
     ] as const;
-    const section = page.locator("div").nth(14);
+    const section = page.locator("div").nth(13);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     await expect(
@@ -186,9 +204,13 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
         linksContainer.getByRole("link", { name: link }),
       ).toBeVisible();
     }
-    await expect(
-      footer.getByRole("button", { name: "Request Invite" }),
-    ).toBeVisible();
+    const requestInvite = footer.getByRole("button", {
+      name: "Request Invite",
+    });
+    await expect(requestInvite).toBeVisible();
+    expect(await hasBefore(requestInvite)).toBeFalsy();
+    await requestInvite.hover();
+    expect(await hasBefore(requestInvite)).toBeTruthy();
     await expect(
       footer.getByText("© Easybank. All Rights Reserved"),
     ).toBeVisible();
