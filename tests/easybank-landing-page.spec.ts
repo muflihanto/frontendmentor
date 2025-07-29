@@ -164,9 +164,13 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
         locator.getByRole("img", { name: article.title }),
       ).toBeVisible();
       await expect(locator.getByText(`By ${article.author}`)).toBeVisible();
-      await expect(
-        locator.getByRole("heading", { name: article.title }),
-      ).toBeVisible();
+      const articleHeading = locator.getByRole("heading", {
+        name: article.title,
+      });
+      await expect(articleHeading).toBeVisible();
+      await expect(articleHeading).toHaveCSS("color", "rgb(45, 49, 77)");
+      await articleHeading.hover();
+      await expect(articleHeading).toHaveCSS("color", "rgb(49, 211, 92)");
       await expect(locator.getByText(article.summary)).toBeVisible();
     }
   });
@@ -194,15 +198,27 @@ test.describe("FrontendMentor Challenge - Easybank landing Page", () => {
     await expect(footer.locator("div>svg")).toBeVisible();
     const snsContainer = footer.getByRole("list");
     for (const sns of snss) {
-      await expect(
-        snsContainer.getByRole("link", { name: `Easybank on ${sns}` }),
-      ).toBeVisible();
+      const snsElement = snsContainer.getByRole("link", {
+        name: `Easybank on ${sns}`,
+      });
+      await expect(snsElement).toBeVisible();
+      await expect(snsElement.locator("svg")).toHaveCSS(
+        "color",
+        "rgb(255, 255, 255)",
+      );
+      await snsElement.hover();
+      await expect(snsElement.locator("svg")).toHaveCSS(
+        "color",
+        "rgb(49, 211, 92)",
+      );
     }
     const linksContainer = footer.getByRole("list").nth(1);
     for (const link of footerLinks) {
-      await expect(
-        linksContainer.getByRole("link", { name: link }),
-      ).toBeVisible();
+      const linkElement = linksContainer.getByRole("link", { name: link });
+      await expect(linkElement).toBeVisible();
+      await expect(linkElement).toHaveCSS("color", "rgb(243, 244, 246)");
+      await linkElement.hover();
+      await expect(linkElement).toHaveCSS("color", "rgb(49, 211, 92)");
     }
     const requestInvite = footer.getByRole("button", {
       name: "Request Invite",
