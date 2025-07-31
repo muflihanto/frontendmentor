@@ -207,6 +207,13 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     await expect(filterByRegion).toHaveCSS("outline-style", "none");
     await filterByRegion.focus();
     await expect(filterByRegion).not.toHaveCSS("outline-style", "none");
+
+    const countries = await page.getByRole("list").getByRole("link").all();
+    for (const country of countries.slice(0, 8)) {
+      await expect(country).toHaveCSS("outline-style", "none");
+      await country.focus();
+      await expect(country).not.toHaveCSS("outline-style", "none");
+    }
   });
 
   /** Test if the theme switcher works */
