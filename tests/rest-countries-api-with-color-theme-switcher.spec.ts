@@ -188,6 +188,27 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     });
   });
 
+  test("interactive elements focus states behavior", async ({ page }) => {
+    const themeSwitcher = page.getByRole("switch", {
+      name: "Dark Mode",
+    });
+    await expect(themeSwitcher).toHaveCSS("outline-style", "none");
+    await themeSwitcher.focus();
+    await expect(themeSwitcher).not.toHaveCSS("outline-style", "none");
+
+    const input = page.getByPlaceholder("Search for a country...");
+    await expect(input).toHaveCSS("outline-style", "none");
+    await input.focus();
+    await expect(input).not.toHaveCSS("outline-style", "none");
+
+    const filterByRegion = page.getByRole("button", {
+      name: "Filter by Region",
+    });
+    await expect(filterByRegion).toHaveCSS("outline-style", "none");
+    await filterByRegion.focus();
+    await expect(filterByRegion).not.toHaveCSS("outline-style", "none");
+  });
+
   /** Test if the theme switcher works */
   test("theme switcher works", async ({ page }) => {
     const header = page.getByRole("banner");
