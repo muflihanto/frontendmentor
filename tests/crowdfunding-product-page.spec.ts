@@ -16,7 +16,7 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   });
 
   /** Test if the page has a top navigation bar inside a header */
-  test.describe("has a page header header", () => {
+  test.describe("has a page header", () => {
     test("header is visible and in viewport", async ({ page }) => {
       const header = page.locator("header");
       await expect(header).toBeVisible();
@@ -35,9 +35,22 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(navbar).toBeInViewport();
       const links = ["About", "Discover", "Get Started"];
       for (const link of links) {
-        await expect(
-          navbar.getByRole("menuitem", { name: link }),
-        ).toBeVisible();
+        const linkElement = navbar.getByRole("menuitem", { name: link });
+        await expect(linkElement).toBeVisible();
+        await expect(linkElement).toHaveCSS("text-decoration-line", "none");
+        await expect(linkElement).toHaveCSS(
+          "text-decoration-color",
+          "rgb(255, 255, 255)",
+        );
+        await linkElement.hover();
+        await expect(linkElement).toHaveCSS(
+          "text-decoration-line",
+          "underline",
+        );
+        await expect(linkElement).toHaveCSS(
+          "text-decoration-color",
+          "rgba(255, 255, 255, 0.2)",
+        );
       }
     });
   });
@@ -64,10 +77,30 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           "A beautifully & handcrafted monitor stand to reduce neck and eye strain.",
         ),
       ).toBeVisible();
-      await expect(
-        card.getByRole("button", { name: "Back this project" }),
-      ).toBeVisible();
-      await expect(card.getByLabel("Toggle Bookmark")).toBeVisible();
+      const backProject = card.getByRole("button", {
+        name: "Back this project",
+      });
+      await expect(backProject).toBeVisible();
+      await expect(backProject).toHaveCSS(
+        "background-color",
+        "rgb(60, 180, 172)",
+      );
+      await backProject.hover();
+      await expect(backProject).toHaveCSS(
+        "background-color",
+        "rgb(20, 123, 116)",
+      );
+      const toggleBookmark = card.getByLabel("Toggle Bookmark");
+      await expect(toggleBookmark).toBeVisible();
+      await expect(toggleBookmark.locator("svg")).toHaveCSS(
+        "fill",
+        "rgb(47, 47, 47)",
+      );
+      await toggleBookmark.hover();
+      await expect(toggleBookmark.locator("svg")).toHaveCSS(
+        "fill",
+        "rgb(122, 122, 122)",
+      );
     });
     test("'Back this project' button works", async ({ page }) => {
       const button = page.getByRole("button", { name: "Back this project" });
