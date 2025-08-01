@@ -358,9 +358,19 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         await expect(container).toBeVisible();
         await expect(container.getByText(`${stock}left`)).toBeVisible();
         if (stock !== 0) {
-          await expect(
-            container.getByRole("button", { name: "Select Reward" }),
-          ).toBeVisible();
+          const selectReward = container.getByRole("button", {
+            name: "Select Reward",
+          });
+          await expect(selectReward).toBeVisible();
+          await expect(selectReward).toHaveCSS(
+            "background-color",
+            "rgb(60, 180, 172)",
+          );
+          await selectReward.hover();
+          await expect(selectReward).toHaveCSS(
+            "background-color",
+            "rgb(20, 123, 116)",
+          );
         } else {
           const button = container.getByRole("button", {
             name: "Out of Stock",
