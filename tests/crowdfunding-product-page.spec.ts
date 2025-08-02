@@ -210,10 +210,26 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         if (option.stock === undefined || option.stock > 0) {
           const input = elem.locator(`input#reward${index}`);
           await expect(input).not.toBeChecked();
+          await expect(elem).toHaveCSS("outline-style", "none");
+          await expect(elem).not.toHaveCSS(
+            "outline-color",
+            "rgb(60, 180, 172)",
+          );
           await heading.click();
           await expect(input).toBeChecked();
+          await expect(elem).toHaveCSS("outline-style", "solid");
+          await expect(elem).toHaveCSS("outline-color", "rgb(60, 180, 172)");
           // pledge assertions
           const pledge = elem.locator("id=pledge");
+          await expect(pledge.locator("..")).not.toHaveCSS(
+            "box-shadow",
+            /rgba\(60, 180, 172, 0.5\)/,
+          );
+          await pledge.focus();
+          await expect(pledge.locator("..")).toHaveCSS(
+            "box-shadow",
+            /rgba\(60, 180, 172, 0.5\)/,
+          );
           const newVal = option.startsFrom - 5;
           await expect(elem.getByText("Enter your pledge")).toBeVisible();
           await expect(pledge).toBeVisible();
@@ -224,6 +240,15 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
           await expect(pledge).toHaveValue(`${newVal}`);
           const continueButton = elem.getByRole("button", { name: "Continue" });
           await expect(continueButton).toBeVisible();
+          await expect(continueButton).toHaveCSS(
+            "background-color",
+            "rgb(60, 180, 172)",
+          );
+          await continueButton.hover();
+          await expect(continueButton).toHaveCSS(
+            "background-color",
+            "rgb(20, 123, 116)",
+          );
           await continueButton.click();
           await expect(elem.locator("#pledge:invalid")).toBeVisible();
         }
