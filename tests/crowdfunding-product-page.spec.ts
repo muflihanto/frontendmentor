@@ -159,6 +159,28 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       ).toBeVisible();
       const form = modal.locator("form");
       expect(await form.locator(">div").all()).toHaveLength(supportType.length);
+
+      for (const option of supportType) {
+        if (option.stock !== 0) {
+          const heading = form.getByRole("heading", { name: option.name });
+          await heading.scrollIntoViewIfNeeded();
+          await expect(heading).toBeVisible();
+          await expect(heading).toHaveCSS("color", "rgb(0, 0, 0)");
+          await heading.hover();
+          await expect(heading).toHaveCSS("color", "rgb(60, 180, 172)");
+
+          if (option.startsFrom !== 0) {
+            await page.mouse.move(0, 0);
+            const price = form.getByText(
+              `Pledge $${option.startsFrom} or more`,
+            );
+            await expect(price).toBeVisible();
+            await expect(price).toHaveCSS("color", "rgba(60, 180, 172, 0.75)");
+            await heading.hover();
+            await expect(price).toHaveCSS("color", "rgb(60, 180, 172)");
+          }
+        }
+      }
     });
     test("Modal form works", async ({ page }) => {
       await page.getByRole("button", { name: "Back this project" }).click();
