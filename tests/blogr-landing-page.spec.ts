@@ -70,6 +70,12 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(menu).toHaveAttribute("aria-haspopup", "true");
       await expect(menu).toHaveAttribute("aria-expanded", "false");
       await expect(menu).toBeVisible();
+      const menuText = menu.locator("span");
+      await expect(menuText).toHaveCSS("font-weight", "500");
+      await expect(menuText).toHaveCSS("text-decoration-line", "none");
+      await menu.hover();
+      await expect(menuText).toHaveCSS("font-weight", "700");
+      await expect(menuText).toHaveCSS("text-decoration-line", "underline");
       await menu.click();
       await page.waitForTimeout(100);
       // collapsible menu works
@@ -83,9 +89,19 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(menu).toHaveAttribute("aria-expanded", "false");
     }
     // has login link
-    await expect(nav.getByRole("link", { name: "Login" })).toBeVisible();
+    const login = nav.getByRole("link", { name: "Login" });
+    await expect(login).toBeVisible();
+    await expect(login).toHaveCSS("font-weight", "500");
+    await login.hover();
+    await expect(login).toHaveCSS("font-weight", "700");
     // has sign up link
-    await expect(nav.getByRole("link", { name: "Sign Up" })).toBeVisible();
+    const signUp = nav.getByRole("link", { name: "Sign Up" });
+    await expect(signUp).toBeVisible();
+    await expect(signUp).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(signUp).toHaveCSS("color", "rgb(255, 82, 93)");
+    await signUp.hover();
+    await expect(signUp).toHaveCSS("background-color", "rgb(255, 122, 133)");
+    await expect(signUp).toHaveCSS("color", "rgb(255, 255, 255)");
   });
 
   /** Test if can navigate navbar using keyboard */
