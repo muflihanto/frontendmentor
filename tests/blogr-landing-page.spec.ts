@@ -45,12 +45,26 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
     await expect(
       banner.getByText("Grow your audience and build your online brand"),
     ).toBeVisible();
-    await expect(
-      banner.getByRole("link", { name: "Start for Free" }),
-    ).toBeVisible();
-    await expect(
-      banner.getByRole("link", { name: "Learn More" }),
-    ).toBeVisible();
+    const startForFree = banner.getByRole("link", { name: "Start for Free" });
+    await expect(startForFree).toBeVisible();
+    await expect(startForFree).toHaveCSS(
+      "background-color",
+      "rgb(255, 255, 255)",
+    );
+    await expect(startForFree).toHaveCSS("color", "rgb(255, 82, 93)");
+    await startForFree.hover();
+    await expect(startForFree).toHaveCSS(
+      "background-color",
+      "rgb(255, 122, 133)",
+    );
+    await expect(startForFree).toHaveCSS("color", "rgb(255, 255, 255)");
+    const learnMore = banner.getByRole("link", { name: "Learn More" });
+    await expect(learnMore).toBeVisible();
+    await expect(learnMore).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await expect(learnMore).toHaveCSS("color", "rgb(255, 255, 255)");
+    await learnMore.hover();
+    await expect(learnMore).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(learnMore).toHaveCSS("color", "rgb(255, 122, 133)");
   });
 
   /** Test if the page has top navigation bar */
@@ -83,7 +97,11 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(menu).toHaveAttribute("aria-expanded", "true");
       await expect(popup).toBeVisible();
       for (const item of navItems[Number(index)].children) {
-        await expect(popup.getByRole("menuitem", { name: item })).toBeVisible();
+        const childItem = popup.getByRole("menuitem", { name: item });
+        await expect(childItem).toBeVisible();
+        await expect(childItem).toHaveCSS("font-weight", "500");
+        await childItem.hover();
+        await expect(childItem).toHaveCSS("font-weight", "700");
       }
       await menu.click();
       await expect(menu).toHaveAttribute("aria-expanded", "false");
