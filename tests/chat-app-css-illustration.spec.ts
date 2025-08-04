@@ -41,6 +41,19 @@ test.describe("FrontendMentor Challenge - Chat app CSS illustration Page", () =>
     ).toBeVisible();
   });
 
+  /** Test if the page has non animated screen section elements */
+  test("has non animated screen section elements", async ({ page }) => {
+    const container = page.locator("div").nth(6);
+    await expect(
+      container.getByRole("img", { name: "Samuel Green Avatar" }),
+    ).toBeVisible();
+    await expect(
+      container.getByRole("heading", { name: "Samuel Green" }),
+    ).toBeVisible();
+    await expect(container.getByText("Available to Walk")).toBeVisible();
+    await expect(container.getByText("Type a message…")).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
