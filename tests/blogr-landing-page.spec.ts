@@ -304,9 +304,15 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
         nav.getByRole("heading", { name: navItems[Number(index)].parent }),
       ).toBeVisible();
       for (const name of navItems[Number(index)].children) {
-        await expect(
-          nav.getByRole("link", { name: `Learn more about ${name}` }),
-        ).toBeVisible();
+        const childItem = nav.getByRole("link", {
+          name: `Learn more about ${name}`,
+        });
+        await expect(childItem).toBeVisible();
+        await expect(childItem).toHaveCSS("text-decoration-line", "none");
+        await expect(childItem).toHaveCSS("text-decoration-thickness", "auto");
+        await childItem.hover();
+        await expect(childItem).toHaveCSS("text-decoration-line", "underline");
+        await expect(childItem).toHaveCSS("text-decoration-thickness", "2px");
       }
     }
     // has attribution
