@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 import data from "../public/expenses-chart-component/data.json";
@@ -50,19 +50,50 @@ test.describe("FrontendMentor Challenge - Expenses chart component Page", () => 
     const heading = page.getByRole("heading", {
       name: "Spending - Last 7 days",
     });
+    const expectInitialColor = async (element: Locator, day: string) => {
+      if (day === "wed") {
+        await expect(element).toHaveCSS(
+          "background-color",
+          "rgb(118, 181, 188)",
+        );
+      } else {
+        await expect(element).toHaveCSS(
+          "background-color",
+          "rgb(236, 119, 95)",
+        );
+      }
+    };
+    const expectNewColor = async (element: Locator, day: string) => {
+      if (day === "wed") {
+        await expect(element).toHaveCSS(
+          "background-color",
+          "rgb(180, 223, 229)",
+        );
+      } else {
+        await expect(element).toHaveCSS(
+          "background-color",
+          "rgb(255, 155, 135)",
+        );
+      }
+    };
     for (const d of data) {
       const id = `tooltip-${d.day}`;
       const trigger = page.locator(`[aria-describedby=${id}]`);
       const tooltip = page.locator(`id=${id}`);
       await expect(tooltip).not.toBeVisible();
+      await expectInitialColor(trigger, d.day);
       await trigger.hover();
       await expect(tooltip).toBeVisible();
+      await expectNewColor(trigger, d.day);
       await heading.hover();
       await expect(tooltip).not.toBeVisible();
+      await expectInitialColor(trigger, d.day);
       await trigger.focus();
       await expect(tooltip).toBeVisible();
+      await expectNewColor(trigger, d.day);
       await trigger.blur();
       await expect(tooltip).not.toBeVisible();
+      await expectInitialColor(trigger, d.day);
     }
   });
 
