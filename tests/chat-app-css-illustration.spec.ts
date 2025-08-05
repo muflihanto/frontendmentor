@@ -54,6 +54,21 @@ test.describe("FrontendMentor Challenge - Chat app CSS illustration Page", () =>
     await expect(container.getByText("Type a message…")).toBeVisible();
   });
 
+  /** Test if the page has animated screen section elements */
+  test("has animated screen section elements", async ({ page }) => {
+    const container = page.locator("div").nth(6);
+    const firstChat = container.getByText(
+      "That sounds great. I’d be happy with that.",
+    );
+    await expect(firstChat).toBeVisible();
+    const lastChat = container.getByText(
+      "She looks so happy! The time we discussed works. How long",
+    );
+    await expect(lastChat).not.toBeVisible({ timeout: 1000 });
+    await page.waitForTimeout(12000);
+    await expect(lastChat).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
