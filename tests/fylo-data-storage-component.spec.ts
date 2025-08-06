@@ -17,11 +17,11 @@ test.describe("FrontendMentor Challenge - Fylo data storage component Page", () 
   /** Test if the page has a header */
   test.describe("has a header", () => {
     test("header is visible", async ({ page }) => {
-      await expect(page.getByRole("banner")).toBeVisible();
-      await expect(page.getByRole("banner")).toBeInViewport();
+      await expect(page.locator("header")).toBeVisible();
+      await expect(page.locator("header")).toBeInViewport();
     });
     test("has all elements", async ({ page }) => {
-      const header = page.getByRole("banner");
+      const header = page.locator("header");
       await expect(
         header.getByRole("img", { name: "Fylo Company Logo" }),
       ).toBeVisible();
@@ -36,11 +36,11 @@ test.describe("FrontendMentor Challenge - Fylo data storage component Page", () 
   /** Test if the page has a status section */
   test.describe("has a status section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("div").nth(4)).toBeVisible();
+      await expect(page.locator("main > div")).toBeVisible();
       await expect(page.getByText("185 GB Left")).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const section = page.locator("div").nth(4);
+      const section = page.locator("main > div");
       await expect(
         section.getByText("You‘ve used 815 GB of your storage"),
       ).toBeVisible();
