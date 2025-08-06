@@ -44,8 +44,25 @@ test.describe("FrontendMentor Challenge - Fylo data storage component Page", () 
       await expect(
         section.getByText("You‘ve used 815 GB of your storage"),
       ).toBeVisible();
+      // sr-only heading
+      const heading = section.getByRole("heading", {
+        name: "Data Storage Status",
+      });
+      await expect(heading).toBeHidden();
+      // other elements
       await expect(section.getByText("0 GB", { exact: true })).toBeVisible();
       await expect(section.getByText("1000 GB")).toBeVisible();
+    });
+    test("shows correct percentage filled", async ({ page }) => {
+      const storageBar = page.locator("main > div > div").first();
+      const fillWidth = await storageBar.evaluate((el) => {
+        const containerWidth = el.clientWidth;
+        const fillWidth = el.firstElementChild?.clientWidth ?? 0;
+        return (fillWidth / containerWidth) * 100;
+      });
+      // padding/margin might affect the calculation
+      // -0.5 to make < 1.58 tolerance
+      expect(fillWidth).toBeCloseTo(81.5, -0.5);
     });
   });
 
