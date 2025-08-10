@@ -57,6 +57,11 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
       await expect(card).toBeVisible();
     });
     test("all initial states visible", async ({ page }) => {
+      const features = [
+        "Unlimited websites",
+        "100% data ownership",
+        "Email reports",
+      ];
       const card = page.locator("div").nth(3);
       await expect(
         card.getByRole("heading", { name: "100K Pageviews" }),
@@ -83,11 +88,13 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
       await expect(
         switchGroup.getByLabel("Yearly Billing with 25 percent discount"),
       ).toBeVisible();
-      await expect(
-        card.getByText(
-          "CheckUnlimited websitesCheck100% data ownershipCheckEmail reports",
-        ),
-      ).toBeVisible();
+      for (const feature of features) {
+        const item = page.getByText(feature);
+        await expect(item).toBeVisible();
+        await expect(
+          item.locator("xpath=preceding-sibling::span/*[name()='svg']"),
+        ).toBeVisible();
+      }
       await expect(
         card.getByRole("button", { name: "Start my trial" }),
       ).toBeVisible();
@@ -176,6 +183,14 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         await expect(toggle).toHaveCSS("outline-style", "none");
         await toggle.focus();
         await expect(toggle).toHaveCSS("outline-style", "auto");
+      });
+
+      test("keyboard navigation works for toggle", async ({ page }) => {
+        const toggle = page.getByRole("switch");
+        await toggle.focus();
+        await expect(toggle).toHaveAttribute("aria-checked", "false");
+        await page.keyboard.press("Space");
+        await expect(toggle).toHaveAttribute("aria-checked", "true");
       });
 
       test("button has hover state", async ({ page }) => {
