@@ -184,6 +184,31 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         await button.hover();
         await expect(button).toHaveCSS("color", "rgb(250, 251, 255)");
       });
+
+      test("slider background updates correctly when moved", async ({
+        page,
+      }) => {
+        const slider = page.getByRole("slider");
+        const initialBgSize = await slider.evaluate(
+          (el) => getComputedStyle(el).backgroundSize,
+        );
+
+        await slider.fill("2");
+        const updatedBgSize = await slider.evaluate(
+          (el) => getComputedStyle(el).backgroundSize,
+        );
+
+        expect(initialBgSize).not.toEqual(updatedBgSize);
+      });
+
+      test("keyboard navigation works for slider", async ({ page }) => {
+        const slider = page.getByRole("slider");
+        await slider.focus();
+        await page.keyboard.press("ArrowRight");
+        await expect(slider).toHaveAttribute("aria-valuenow", "500000");
+        await page.keyboard.press("ArrowLeft");
+        await expect(slider).toHaveAttribute("aria-valuenow", "100000");
+      });
     });
   });
 
