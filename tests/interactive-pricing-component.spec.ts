@@ -170,6 +170,20 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
           "rgb(165, 243, 235)",
         );
       });
+
+      test("toggle switch has focus state", async ({ page }) => {
+        const toggle = page.getByRole("switch");
+        await expect(toggle).toHaveCSS("outline-style", "none");
+        await toggle.focus();
+        await expect(toggle).toHaveCSS("outline-style", "auto");
+      });
+
+      test("button has hover state", async ({ page }) => {
+        const button = page.getByRole("button", { name: "Start my trial" });
+        await expect(button).toHaveCSS("color", "rgba(205, 215, 238, 0.9)");
+        await button.hover();
+        await expect(button).toHaveCSS("color", "rgb(250, 251, 255)");
+      });
     });
   });
 
