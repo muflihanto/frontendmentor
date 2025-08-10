@@ -147,6 +147,30 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         );
       }
     });
+    /** Test pointer interactions and other missing cases */
+    test.describe("Pointer interactions and other tests", () => {
+      test("toggle switch has hover state", async ({ page }) => {
+        const toggle = page.getByRole("switch");
+        await expect(toggle).toHaveCSS(
+          "background-color",
+          "rgb(205, 215, 238)",
+        );
+        await toggle.hover();
+        await expect(toggle).toHaveCSS(
+          "background-color",
+          "rgb(165, 243, 235)",
+        );
+        // Switch to Yearly
+        await toggle.click();
+        await page.mouse.move(0, 0);
+        await expect(toggle).toHaveCSS("background-color", "rgb(16, 213, 194)");
+        await toggle.hover();
+        await expect(toggle).toHaveCSS(
+          "background-color",
+          "rgb(165, 243, 235)",
+        );
+      });
+    });
   });
 
   /** Test if the page has a correct footer */
