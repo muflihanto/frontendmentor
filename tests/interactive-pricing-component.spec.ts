@@ -224,6 +224,20 @@ test.describe("FrontendMentor Challenge - Interactive pricing component Page", (
         await page.keyboard.press("ArrowLeft");
         await expect(slider).toHaveAttribute("aria-valuenow", "100000");
       });
+
+      test("discount badge shows correct text in mobile and desktop", async ({
+        page,
+      }) => {
+        // Test mobile view
+        await page.setViewportSize({ width: 375, height: 667 });
+        const mobileBadge = page.getByText("-25%");
+        await expect(mobileBadge).toBeVisible();
+
+        // Test desktop view
+        await page.setViewportSize({ width: 1440, height: 800 });
+        const desktopBadge = page.getByText("25% discount");
+        await expect(desktopBadge).toBeVisible();
+      });
     });
   });
 
