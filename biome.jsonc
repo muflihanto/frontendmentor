@@ -1,7 +1,21 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
   "files": {
-    "includes": ["**", "!**/node_modules/**"]
+    "includes": [
+      "**",
+      "!**/.next/**", // Next.js build cache
+      "!**/out/**", // Static export outputs
+      "!**/node_modules/**", // Dependencies
+      "!**/public/**", // Static assets served at runtime
+      "!**/dist/**", // Other build outputs
+      "!**/*.generated.*", // Generated files
+      "!**/coverage/**", // Test coverage reports
+      "!**/test-results/**", // Playwright test run outputs
+      "!**/playwright-report/**", // HTML reports
+      "!**/*.png", // Screenshots
+      "!**/*.webm", // Videos
+      "!**/*.zip" // Traces
+    ]
   },
   "formatter": {
     "enabled": true,
