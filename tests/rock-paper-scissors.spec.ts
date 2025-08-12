@@ -43,6 +43,27 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Page", () => {
     await expect(scissorsButton).toBeVisible();
     await expect(rockButton).toBeVisible();
 
+    await expect(paperButton.locator("div").nth(1)).toHaveCSS("opacity", "1");
+    await paperButton.hover();
+    await expect(paperButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "0.75",
+    );
+
+    await expect(scissorsButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "1",
+    );
+    await scissorsButton.hover();
+    await expect(scissorsButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "0.75",
+    );
+
+    await expect(rockButton.locator("div").nth(1)).toHaveCSS("opacity", "1");
+    await rockButton.hover();
+    await expect(rockButton.locator("div").nth(1)).toHaveCSS("opacity", "0.75");
+
     // Verify icons are loaded
     await expect(paperButton.locator('img[alt="Paper Icon"]')).toBeVisible();
     await expect(
@@ -55,6 +76,14 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Page", () => {
     page,
   }) => {
     const rulesButton = page.locator('button:has-text("rules")');
+    await expect(rulesButton).toBeVisible();
+    await expect(rulesButton).toHaveCSS(
+      "border-color",
+      "rgba(255, 255, 255, 0.5)",
+    );
+    await rulesButton.hover();
+    await expect(rulesButton).toHaveCSS("border-color", "rgb(255, 255, 255)");
+
     await rulesButton.click();
 
     const rulesModal = page.locator('section[aria-label="Rules modal"]>div');
