@@ -1,8 +1,10 @@
+/** biome-ignore-all lint/a11y/useAriaPropsSupportedByRole: // TODO: restructure the DOM */
+
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { type CSSProperties, useState } from "react";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useState, type CSSProperties } from "react";
 import { cartAtom } from "../components/ecommerce-product-page/CartController";
 import { kumbhSans } from "../utils/fonts/kumbhSans";
 
@@ -143,6 +145,7 @@ function Header() {
         className="ml-14 text-[15px] text-ecommerce-neutral-400 max-lg:hidden"
         aria-label="Sneakers Product Page"
       >
+        {/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Custom navigation pattern requires menubar semantics */}
         <ul role="menubar" className="flex gap-[32.75px] tracking-[.1px]">
           {navs.map((nav, index) => {
             const { text, href } = nav;
@@ -241,6 +244,7 @@ function PhotoSlide({ product }: { product: Product }) {
         >
           {product.images.map((img, index) => {
             return (
+              // biome-ignore lint/a11y/useSemanticElements: Custom carousel slide requires non-semantic container
               <div
                 className="relative h-full w-[100%]"
                 key={img}

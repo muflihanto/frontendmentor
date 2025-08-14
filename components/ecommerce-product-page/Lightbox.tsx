@@ -1,13 +1,13 @@
-import { type CSSProperties, useState } from "react";
-import {
-  type Product,
-  lightboxOpenAtom,
-} from "../../pages/ecommerce-product-page";
-import Image from "next/image";
 import { Transition } from "@headlessui/react";
-import { createPortal } from "react-dom";
 import { useAtomValue, useSetAtom } from "jotai";
+import Image from "next/image";
+import { useState, type CSSProperties } from "react";
+import { createPortal } from "react-dom";
 import { useEffectOnce } from "usehooks-ts";
+import {
+  lightboxOpenAtom,
+  type Product,
+} from "../../pages/ecommerce-product-page";
 
 export default function Lightbox({ product }: { product: Product }) {
   const open = useAtomValue(lightboxOpenAtom);
@@ -48,6 +48,7 @@ function LightboxContent({
   });
 
   return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: Custom lightbox pattern requires non-standard ARIA
     <div
       className="relative"
       aria-roledescription="lightbox"
@@ -101,6 +102,7 @@ function LightboxContent({
           >
             {product.images.map((img, index) => {
               return (
+                // biome-ignore lint/a11y/useSemanticElements: Custom carousel slide requires non-semantic container
                 <div
                   className="relative h-full w-[100%]"
                   key={`${index}-${img}`}

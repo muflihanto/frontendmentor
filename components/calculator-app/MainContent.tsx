@@ -3,8 +3,8 @@ import { atom, useAtom, useAtomValue } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import Mexp from "math-expression-evaluator";
 import { useEffect, useRef, useState } from "react";
-import { getMaxIndex } from "../../utils/indexesOf";
 import { useMediaQuery } from "usehooks-ts";
+import { getMaxIndex } from "../../utils/indexesOf";
 
 const MEDIA_QUERY = "(prefers-color-scheme: dark)";
 
@@ -129,54 +129,52 @@ function Header() {
   }, [matches, setTheme]);
 
   return (
-    <>
-      <header
-        className={`flex items-center justify-between ${
-          theme === 1 ? classes[theme].text1 : classes[theme].text2
-        }`}
-      >
-        <p className="pl-[7px] text-[32px] tracking-[-0.5px] lg:pt-1 lg:leading-none">
-          calc
+    <header
+      className={`flex items-center justify-between ${
+        theme === 1 ? classes[theme].text1 : classes[theme].text2
+      }`}
+    >
+      <p className="pl-[7px] text-[32px] tracking-[-0.5px] lg:pt-1 lg:leading-none">
+        calc
+      </p>
+      <div className="flex flex-col items-end gap-[5px] pb-[2px] lg:pb-[8px]">
+        <p className="grid w-[70px] grid-cols-3 grid-rows-1 items-center px-[10px] text-[12px] leading-none lg:text-[14px]">
+          <span className="text-left">1</span>
+          <span className="text-center">2</span>
+          <span className="text-right">3</span>
         </p>
-        <div className="flex flex-col items-end gap-[5px] pb-[2px] lg:pb-[8px]">
-          <p className="grid w-[70px] grid-cols-3 grid-rows-1 items-center px-[10px] text-[12px] leading-none lg:text-[14px]">
-            <span className="text-left">1</span>
-            <span className="text-center">2</span>
-            <span className="text-right">3</span>
+        <div className="flex items-center gap-[26px]">
+          <p className="pt-[4px] text-[12px] uppercase tracking-[1px] lg:pt-[2px] lg:leading-none">
+            theme
           </p>
-          <div className="flex items-center gap-[26px]">
-            <p className="pt-[4px] text-[12px] uppercase tracking-[1px] lg:pt-[2px] lg:leading-none">
-              theme
-            </p>
-            <button
-              className={`group relative flex h-[26px] w-[71px] items-center rounded-full px-[5px] ${classes[theme].bg2}`}
-              onClick={() => {
-                setTheme((t) => {
-                  prevThemeRef.current = t;
-                  return t === 3 ? 1 : ((t + 1) as calculatorTheme);
-                });
+          <button
+            className={`group relative flex h-[26px] w-[71px] items-center rounded-full px-[5px] ${classes[theme].bg2}`}
+            onClick={() => {
+              setTheme((t) => {
+                prevThemeRef.current = t;
+                return t === 3 ? 1 : ((t + 1) as calculatorTheme);
+              });
+            }}
+            type="button"
+            aria-pressed={theme !== 2}
+            aria-label={`Switch to ${(theme % 3) + 1}`}
+          >
+            <span className="sr-only">Switch Theme</span>
+            <motion.div
+              animate={{
+                left:
+                  theme === 1
+                    ? "5px"
+                    : theme === 2
+                      ? "calc(50% - 8px)"
+                      : "calc(100% - 21px)",
               }}
-              type="button"
-              aria-pressed={theme !== 2}
-              aria-label={`Switch to ${(theme % 3) + 1}`}
-            >
-              <span className="sr-only">Switch Theme</span>
-              <motion.div
-                animate={{
-                  left:
-                    theme === 1
-                      ? "5px"
-                      : theme === 2
-                        ? "calc(50% - 8px)"
-                        : "calc(100% - 21px)",
-                }}
-                className={`${classes[theme].key3} absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full group-hover:brightness-125`}
-              />
-            </button>
-          </div>
+              className={`${classes[theme].key3} absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full group-hover:brightness-125`}
+            />
+          </button>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }
 
@@ -211,7 +209,7 @@ function Keyboard() {
     const ch = keys.find((c) => {
       return c.key === char;
     });
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    // biome-ignore lint/style/noNonNullAssertion: Character guaranteed to exist in keys array
     return ch!.type;
   };
 
@@ -245,9 +243,9 @@ function Keyboard() {
     }
 
     if (currentInputType.current === "operator" && !isFloat) {
-      const dotIndex = getMaxIndex(display, /[\.]/g);
+      const dotIndex = getMaxIndex(display, /[.]/g);
       if (dotIndex !== undefined) {
-        const oprIndex = getMaxIndex(display.slice(0, -1), /\+|\-|\/|\*/g);
+        const oprIndex = getMaxIndex(display.slice(0, -1), /[+\-/*]/g);
         if (!oprIndex || dotIndex > oprIndex) setIsFloat(true);
       }
     }

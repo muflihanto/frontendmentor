@@ -1,16 +1,18 @@
+/** biome-ignore-all lint/a11y/noPositiveTabindex: Positive tabIndex required for modal focus management */
+
+import { Transition } from "@headlessui/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+import Image from "next/image";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
+import { useEffectOnce, useOnClickOutside } from "usehooks-ts";
 import {
   cartOpenAtom,
   productCountAtom,
-  type Product,
   type CartItem,
+  type Product,
 } from "../../pages/ecommerce-product-page";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useRef } from "react";
-import { useEffectOnce, useOnClickOutside } from "usehooks-ts";
-import Image from "next/image";
-import { atomWithStorage } from "jotai/utils";
-import { Transition } from "@headlessui/react";
 
 export const cartAtom = atomWithStorage<CartItem[]>("cartItem", []);
 
@@ -35,6 +37,7 @@ export default function CartController({ product }: { product: Product }) {
             <use href="/ecommerce-product-page/images/icon-minus.svg#icon-minus" />
           </svg>
         </button>
+        {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: // TODO: restructure the element */}
         <div
           className="font-bold text-ecommerce-neutral-600"
           aria-label="Quantity"
@@ -122,7 +125,6 @@ function CartPopup() {
         cartItem.length === 0 ? "h-[256px]" : "min-h-[256px]"
       }`}
       ref={ref}
-      // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
       tabIndex={1}
     >
       <h2
@@ -164,12 +166,11 @@ function CartPopup() {
                       className="group ml-auto"
                       onClick={() => {
                         setCartItem((prev) => {
-                          return prev.filter((item, idx) => {
+                          return prev.filter((_, idx) => {
                             return idx !== index;
                           });
                         });
                       }}
-                      // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
                       tabIndex={1}
                       type="button"
                     >
@@ -187,7 +188,6 @@ function CartPopup() {
             </ul>
             <button
               className="mt-[26px] flex h-[56px] w-full items-center justify-center rounded-[10px] bg-ecommerce-primary-200 font-bold text-ecommerce-neutral-100 hover:bg-ecommerce-primary-200/70"
-              // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
               tabIndex={1}
               type="button"
             >

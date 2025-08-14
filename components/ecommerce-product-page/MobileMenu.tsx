@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/a11y/noPositiveTabindex: Positive tabIndex required for modal focus management */
+
 import { useAtomValue, useSetAtom } from "jotai";
 import { type Nav, menuOpenAtom } from "../../pages/ecommerce-product-page";
 import { createPortal } from "react-dom";
@@ -67,7 +69,6 @@ function MenuContent({ navs }: { navs: Nav[] }) {
       leaveTo="-translate-x-10"
       className="absolute left-0 top-0 h-full w-[66.75%] bg-white px-4 py-[15px]"
       ref={ref}
-      // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
       tabIndex={1}
     >
       <button
@@ -75,7 +76,6 @@ function MenuContent({ navs }: { navs: Nav[] }) {
         onClick={() => {
           setMenuOpen(false);
         }}
-        // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
         tabIndex={2}
         type="button"
         aria-controls="mobilenavmenu"
@@ -88,6 +88,7 @@ function MenuContent({ navs }: { navs: Nav[] }) {
       <nav className="mt-[42px]">
         <ul
           className="flex flex-col gap-[19px]"
+          // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Custom navigation pattern requires menu semantics
           role="menu"
           aria-labelledby="menubutton"
         >
@@ -99,7 +100,6 @@ function MenuContent({ navs }: { navs: Nav[] }) {
                   role="menuitem"
                   className="w-full rounded px-[9px] py-2 font-kumbh-sans text-[18px] font-bold text-ecommerce-neutral-500"
                   href={href ?? ""}
-                  // biome-ignore lint/a11y/noPositiveTabindex: <explanation>
                   tabIndex={1}
                 >
                   {text}
