@@ -15,7 +15,7 @@ const NavItem = ({ text, hr }: NavItemProps) => {
           {text}
         </a>
       </li>
-      {/* biome-ignore lint/a11y/noAriaHiddenOnFocusable: <explanation> */}
+      {/* biome-ignore lint/a11y/noAriaHiddenOnFocusable: Decorative HR only visible in mobile view */}
       {hr && <hr className="mb-[1px] lg:hidden" aria-hidden="true" />}
     </>
   );
@@ -87,6 +87,7 @@ export default function Header() {
             <ul
               className="flex flex-col gap-[21px] rounded-lg bg-white pb-[22px] pt-[22px] lg:flex-row lg:gap-[33.5px] lg:bg-transparent lg:p-0"
               id="mobilenavmenu"
+              // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Custom navigation pattern requires menu semantics
               role="menu"
               aria-labelledby="menubutton"
             >

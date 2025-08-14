@@ -36,7 +36,8 @@ export default function SelectionModal(props: SelectionModalProps) {
   const modalRef = useFocusTrap(isOpen, setIsOpen);
 
   return isOpen ? (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+    // biome-ignore lint/a11y/useKeyWithClickEvents: Modal overlay requires click-to-close but handles keyboard via escape key separately
+    // biome-ignore lint/a11y/noStaticElementInteractions: Modal backdrop requires click handler
     <div
       className={`fixed left-0 top-0 flex h-full w-screen justify-center overflow-scroll bg-black/50 pb-[120px] pt-[121px] font-commissioner lg:py-[min(184px,calc(184/800*100vh))] ${commissioner.variable}`}
       onClick={(e) => {
@@ -163,7 +164,7 @@ const RadioInput = ({ el, index, checked, onChange }: RadioInputProps) => {
         name="reward"
         id={`reward${index}`}
         checked={checked}
-        // biome-ignore lint/a11y/noAutofocus: <explanation>
+        // biome-ignore lint/a11y/noAutofocus: Intentional auto-focus the selected reward when the modal opens
         autoFocus={checked}
         className="peer/reward sr-only"
         onChange={onChange}

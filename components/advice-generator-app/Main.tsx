@@ -24,7 +24,7 @@ export default function Main() {
       });
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Initial fetch only on mount
   useEffect(() => {
     void fetchNewQuote();
     // setData({
@@ -100,6 +100,7 @@ const dividerImageLoader = ({ width, src }: { width: number; src: string }) => {
 const Divider = () => {
   return (
     <div className="relative mt-6 h-4 w-full lg:mt-10" role="none">
+      {/** biome-ignore lint/a11y/useSemanticElements: The semantic meaning is still conveyed through ARIA attributes */}
       <Image
         loader={dividerImageLoader}
         alt="Line Divider"
@@ -115,6 +116,7 @@ const Divider = () => {
 
 const Spinner = () => {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: Loading status requires live region announcement
     <div role="status">
       <svg
         aria-hidden="true"

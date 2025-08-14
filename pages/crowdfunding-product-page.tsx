@@ -1,8 +1,8 @@
 import Head from "next/head";
+import { useEffect } from "react";
 import Header from "../components/crowdfunding-product-page/Header";
 import Main from "../components/crowdfunding-product-page/Main";
 import { commissioner } from "../utils/fonts/commissioner";
-import { useEffect } from "react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });

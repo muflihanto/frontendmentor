@@ -1,7 +1,7 @@
-import { commissioner } from "../../utils/fonts/commissioner";
-import Card from "./Card";
 import type { Dispatch, SetStateAction } from "react";
+import { commissioner } from "../../utils/fonts/commissioner";
 import useFocusTrap from "../../utils/useFocusTrap";
+import Card from "./Card";
 
 type SuccessModalProps = {
   isOpen: boolean;
