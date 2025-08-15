@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () => {
   /** Go to Rock, Paper, Scissors Bonus page before each test */
@@ -51,6 +51,41 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () 
     await expect(lizardButton).toBeVisible();
     await expect(spockButton).toBeVisible();
 
+    await expect(paperButton.locator("div").nth(1)).toHaveCSS("opacity", "1");
+    await paperButton.hover();
+    await expect(paperButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "0.75",
+    );
+
+    await expect(scissorsButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "1",
+    );
+    await scissorsButton.hover();
+    await expect(scissorsButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "0.75",
+    );
+
+    await expect(rockButton.locator("div").nth(1)).toHaveCSS("opacity", "1");
+    await rockButton.hover();
+    await expect(rockButton.locator("div").nth(1)).toHaveCSS("opacity", "0.75");
+
+    await expect(lizardButton.locator("div").nth(1)).toHaveCSS("opacity", "1");
+    await lizardButton.hover();
+    await expect(lizardButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "0.75",
+    );
+
+    await expect(spockButton.locator("div").nth(1)).toHaveCSS("opacity", "1");
+    await spockButton.hover();
+    await expect(spockButton.locator("div").nth(1)).toHaveCSS(
+      "opacity",
+      "0.75",
+    );
+
     // Verify icons are loaded
     await expect(paperButton.locator('img[alt="Paper Icon"]')).toBeVisible();
     await expect(
@@ -65,6 +100,14 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () 
     page,
   }) => {
     const rulesButton = page.locator('button:has-text("rules")');
+    await expect(rulesButton).toBeVisible();
+    await expect(rulesButton).toHaveCSS(
+      "border-color",
+      "rgba(255, 255, 255, 0.5)",
+    );
+    await rulesButton.hover();
+    await expect(rulesButton).toHaveCSS("border-color", "rgb(255, 255, 255)");
+
     await rulesButton.click();
 
     const rulesModal = page.locator('section[aria-label="Rules modal"]>div');
