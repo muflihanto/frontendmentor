@@ -136,6 +136,10 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Page", () => {
       const playAgainButton = page.locator('button:has-text("PLAY AGAIN")');
       await expect(playAgainButton).toBeVisible();
 
+      await expect(playAgainButton).toHaveCSS("color", "rgb(59, 67, 99)");
+      await playAgainButton.hover();
+      await expect(playAgainButton).toHaveCSS("color", "rgb(220, 46, 78)");
+
       // Check score change
       const newScore = await page
         .locator("header >> p:last-child")
