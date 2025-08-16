@@ -9,6 +9,7 @@ export default function Header(props: HeaderProps) {
         Notifications
       </h1>
       {props.notifCount >= 0 && (
+        // biome-ignore lint/a11y/useAriaPropsSupportedByRole: Dynamic notification count needs live announcement
         <div
           className="mb-[1px] ml-[10px] rounded-md bg-notif-primary-blue px-[11px] pb-[2px] text-[16px] font-extrabold leading-[23px] text-white md:ml-3 md:translate-y-[2px]"
           aria-label={`You have ${props.notifCount} new notifications`}

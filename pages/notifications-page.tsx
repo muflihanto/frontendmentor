@@ -1,7 +1,7 @@
-import Head from "next/head";
-import Main from "../components/notifications-page/Main";
-import Footer from "../components/notifications-page/Footer";
 import localFont from "next/font/local";
+import Head from "next/head";
+import Footer from "../components/notifications-page/Footer";
+import Main from "../components/notifications-page/Main";
 
 const _plusJakartaSans = localFont({
   src: "../public/notifications-page/assets/fonts/PlusJakartaSans-VariableFont_wght.ttf",
