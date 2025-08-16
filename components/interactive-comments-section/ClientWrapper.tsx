@@ -1,21 +1,21 @@
-import rawData from "../../public/interactive-comments-section/data.json";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useOnClickOutside } from "usehooks-ts";
+import type { z } from "zod";
 import {
-  type User,
-  type Comment,
-  type Reply,
+  zEdit,
   zNewComment,
   zNewReply,
-  zEdit,
+  type Comment,
+  type Reply,
+  type User,
 } from "../../pages/interactive-comments-section";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { z } from "zod";
+import rawData from "../../public/interactive-comments-section/data.json";
 import dayjs from "../../utils/dayjs";
-import { useOnClickOutside } from "usehooks-ts";
 
 const unit = ["month", "week", "day"] as const;
 
@@ -292,14 +292,14 @@ function Card({
             >
               +
             </button>
-            <div
+            <output
               className="text-center text-[17px] font-medium text-interactive-comment-primary-blue-200"
               id={`comment${data.id}-votes`}
               aria-live="polite"
               aria-label={`${data.score} votes`}
             >
               {data.score}
-            </div>
+            </output>
             <button
               className={`text-[16px] font-medium hover:text-interactive-comment-primary-blue-200 ${
                 vote[`id${data.id}`] === "down"
@@ -458,7 +458,7 @@ function NewEntryForm({
       id: latestId + 1,
       score: 0,
       user: data.currentUser,
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      // biome-ignore lint/style/noNonNullAssertion: replyingTo is guaranteed by parent component validation
       replyingTo: replyingTo!,
       replies: [],
     };
@@ -479,7 +479,7 @@ function NewEntryForm({
           }
         }
       };
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      // biome-ignore lint/style/noNonNullAssertion: parentId guaranteed by reply action flow
       searchById(comments, parentId!);
       return { ...prev, comments };
     });

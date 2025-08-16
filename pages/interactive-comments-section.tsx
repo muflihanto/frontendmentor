@@ -1,5 +1,5 @@
-import Head from "next/head";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import { z } from "zod";
 import { rubik } from "../utils/fonts/rubik";
 
