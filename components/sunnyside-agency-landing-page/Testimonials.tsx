@@ -47,6 +47,7 @@ export default function Testimonials() {
 
 const Testimony = ({ data }: { data: (typeof testimonyData)[number] }) => {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: Using role="group" to associate image with caption
     <figure
       role="group"
       className="flex flex-col items-center justify-center px-6 lg:flex-1 lg:px-0"
