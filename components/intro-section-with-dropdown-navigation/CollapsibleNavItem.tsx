@@ -1,5 +1,5 @@
+import type { MouseEventHandler, MutableRefObject, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ReactNode, MouseEventHandler, MutableRefObject } from "react";
 
 type CollapsibleProps = {
   label: string;
@@ -141,7 +141,8 @@ export default function Collapsible(props: CollapsibleProps) {
 
   return (
     <details ref={detailsRef} className="group lg:relative">
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+      {/** biome-ignore lint/a11y/noStaticElementInteractions: <summary> element requires click handlers for native disclosure pattern */}
+      {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: <summary> needs ARIA attributes for enhanced accessibility */}
       <summary
         ref={summaryRef}
         onClick={handleSummaryClick}

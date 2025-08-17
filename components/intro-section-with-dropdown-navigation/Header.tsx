@@ -22,7 +22,8 @@ export default function Header() {
         <NavItems menuid="menu" />
       </nav>
       {isMenuOpen && (
-        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+        // biome-ignore lint/a11y/useKeyWithClickEvents: Modal overlay click-to-close is paired with Escape key handler elsewhere
+        // biome-ignore lint/a11y/noStaticElementInteractions: Modal backdrop requires click handler but has proper ARIA semantics
         <div
           onClick={(e) => {
             if (e.target === e.currentTarget) setIsMenuOpen(false);
