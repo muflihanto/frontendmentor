@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-config.autoAddCss = false;
 import { Provider } from "jotai";
 import "../styles/globals.css";
+config.autoAddCss = false;
 // import "../styles/fontface.css";
 import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { type ReactElement, type ReactNode, useState } from "react";
-import type { AppProps } from "next/app";
 import type { NextPage } from "next";
+import type { AppProps } from "next/app";
+import { useState, type ReactElement, type ReactNode } from "react";
 
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
+// biome-ignore lint/complexity/noBannedTypes: Next.js page type requires empty object types for proper typing
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
