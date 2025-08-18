@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 export default function getPath() {
   const pagesDir = path.join(process.cwd(), "pages");
@@ -21,9 +21,7 @@ export default function getPath() {
     return str
       .toLowerCase()
       .split(" ")
-      .map(function (word) {
-        return word.replace(word[0], word[0].toUpperCase());
-      })
+      .map((word) => word.replace(word[0], word[0].toUpperCase()))
       .join(" ");
   };
 
