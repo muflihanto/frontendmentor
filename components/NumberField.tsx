@@ -1,10 +1,10 @@
-import { useNumberFieldState } from "react-stately";
+import { useRef } from "react";
 import {
-  type AriaNumberFieldProps,
   useLocale,
   useNumberField,
+  type AriaNumberFieldProps,
 } from "react-aria";
-import { useRef } from "react";
+import { useNumberFieldState } from "react-stately";
 
 export function NumberField(
   props: AriaNumberFieldProps & {
@@ -23,6 +23,7 @@ export function NumberField(
 
   return (
     <>
+      {/** biome-ignore lint/a11y/noLabelWithoutControl: Label is programmatically associated via useNumberField */}
       <label {...labelProps}>{props.label}</label>
       <div {...groupProps} className="flex h-full gap-2 p-2">
         <input {...inputProps} ref={inputRef} className="rounded px-2" />
