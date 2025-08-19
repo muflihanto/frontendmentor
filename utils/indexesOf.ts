@@ -4,26 +4,34 @@ export default function indexesOf(
   string: string,
   reg: string | RegExp,
 ): IndexResult {
-  let match;
+  let match: ReturnType<RegExp["exec"]>;
   const indexes: IndexResult = {};
 
   const regex = new RegExp(reg);
 
-  while ((match = regex.exec(string))) {
+  match = regex.exec(string);
+  while (match) {
     if (!indexes[match[0]]) {
       indexes[match[0]] = [];
     }
     indexes[match[0]].push(match.index);
+    match = regex.exec(string);
   }
 
   return indexes;
 }
 
 export function getMaxIndex(string: string, reg: string | RegExp) {
-  return Object.values(indexesOf(string, reg))
-    .reduce((acc, curr) => {
-      return [...curr, ...acc];
-    }, [])
-    .sort((a, b) => a - b)
-    .pop();
+  const indexArrays = Object.values(indexesOf(string, reg));
+  const allIndexes: number[] = [];
+
+  for (const arr of indexArrays) {
+    allIndexes.push(...arr);
+  }
+
+  if (allIndexes.length === 0) {
+    return undefined;
+  }
+
+  return Math.max(...allIndexes);
 }
