@@ -1,14 +1,17 @@
-import type { InferGetStaticPropsType, GetStaticPropsContext } from "next";
-import type { NextPage } from "next";
+import type {
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+  NextPage,
+} from "next";
 
+import Head from "next/head";
 import Creations from "../components/loopstudios-landing-page/Creations";
 import Footer from "../components/loopstudios-landing-page/Footer";
-import Head from "next/head";
 import Header from "../components/loopstudios-landing-page/Header";
 import Hero from "../components/loopstudios-landing-page/Hero";
 import Interactive from "../components/loopstudios-landing-page/Interactive";
-import { josefin } from "../utils/fonts/josefin";
 import { alata } from "../utils/fonts/alata";
+import { josefin } from "../utils/fonts/josefin";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });

@@ -64,6 +64,7 @@ const Header: NextPage = () => {
 const links = ["About", "Careers", "Events", "Products", "Support"];
 const NavItems = ({ className }: { className: string }) => {
   return (
+    // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Custom navigation pattern requires menu semantics
     <ul className={className} id="menu" role="menu" aria-label="loopstudios">
       {links.map((el) => {
         return (
