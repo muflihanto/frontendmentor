@@ -81,6 +81,7 @@ const Main: React.FC = () => {
           </span>
         </div>
       </div>
+      {/** biome-ignore lint/a11y/useSemanticElements: Custom switch component requires non-semantic container for layout */}
       <div
         className="grid-row-1 mt-[39px] grid grid-cols-[minmax(0,1fr),44px,minmax(0,1fr)] gap-x-3 lg:mt-[14px] [&_p]:self-center [&_p]:text-[12px] [&_p]:text-pricing-neutral-400"
         aria-label="Billing option switch"
@@ -106,6 +107,7 @@ const Main: React.FC = () => {
             billing === "monthly" ? "yearly" : "monthly"
           } billing`}
         />
+        {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: Paragraph requires aria-label for screen reader context */}
         <p
           className="relative flex items-center place-self-start"
           aria-label="Yearly Billing with 25 percent discount"
