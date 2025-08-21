@@ -1,5 +1,5 @@
-import { type Dispatch, type SetStateAction, useMemo, useState } from "react";
 import Image from "next/image";
+import { useMemo, useState, type Dispatch, type SetStateAction } from "react";
 import { NumberField } from "./NumberField";
 
 type Error = {

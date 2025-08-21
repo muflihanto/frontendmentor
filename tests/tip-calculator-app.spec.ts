@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
   /** Go to Tip calculator app page before each test */
@@ -157,7 +157,7 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
   }) => {
     await page.waitForTimeout(500);
 
-    const tipButtons = await page.getByText(/\d+\%/).all();
+    const tipButtons = await page.getByText(/\d+%/).all();
     expect(tipButtons).toHaveLength(5);
 
     for (const button of tipButtons) {

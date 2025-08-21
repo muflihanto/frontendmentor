@@ -1,10 +1,10 @@
-import { useNumberFieldState } from "react-stately";
+import { useRef, type ReactNode } from "react";
 import {
-  type AriaNumberFieldProps,
   useLocale,
   useNumberField,
+  type AriaNumberFieldProps,
 } from "react-aria";
-import { type ReactNode, useRef } from "react";
+import { useNumberFieldState } from "react-stately";
 import { cn } from "../../utils/cn";
 
 export function NumberField(

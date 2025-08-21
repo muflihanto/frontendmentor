@@ -1,8 +1,8 @@
+import dynamic from "next/dynamic";
+import localFont from "next/font/local";
 import Head from "next/head";
 import Footer from "../components/tip-calculator-app/Footer";
 import Header from "../components/tip-calculator-app/Header";
-import localFont from "next/font/local";
-import dynamic from "next/dynamic";
 
 const _spaceMono = localFont({
   src: "../public/tip-calculator-app/fonts/SpaceMono-Bold.ttf",
