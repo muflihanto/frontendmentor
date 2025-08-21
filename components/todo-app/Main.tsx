@@ -1,15 +1,19 @@
-import { motion, useDragControls, useMotionValue } from "framer-motion";
 // import Image from "next/image";
-import { type KeyboardEvent, useCallback, useEffect, useState } from "react";
-import { useDarkMode, useWindowSize } from "usehooks-ts";
-import _data from "./data.json";
-import { atomWithStorage } from "jotai/utils";
-import { useAtom } from "jotai";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Reorder } from "framer-motion";
+import {
+  Reorder,
+  motion,
+  useDragControls,
+  useMotionValue,
+} from "framer-motion";
+import { useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 import { nanoid } from "nanoid";
+import { useCallback, useEffect, useState, type KeyboardEvent } from "react";
+import { useForm } from "react-hook-form";
+import { useDarkMode, useWindowSize } from "usehooks-ts";
+import { z } from "zod";
+import _data from "./data.json";
 
 export type Data = {
   activity: string;
@@ -274,6 +278,7 @@ function Todo() {
             } items left`}</p>
             <ul
               className="flex gap-5 max-lg:hidden"
+              // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <ul> requires role="tablist" for proper ARIA tab pattern
               role="tablist"
               aria-label="Filter"
             >
@@ -351,6 +356,7 @@ function Todo() {
         </div>
         <ul
           className="mt-4 flex h-[48px] w-full max-w-[540px] items-center justify-center gap-[20px] rounded-md bg-white pt-1 shadow-lg shadow-todo-neutral-light-300/25 dark:bg-todo-neutral-dark-600 dark:shadow-[0px_5px_10px_rgba(0,0,0,.2),0px_50px_15px_-10px_rgba(0,0,0,.125)] lg:hidden"
+          // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <ul> requires role="tablist" for proper ARIA tab pattern
           role="tablist"
           aria-label="Filter"
         >
