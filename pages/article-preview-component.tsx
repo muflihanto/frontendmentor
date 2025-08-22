@@ -1,7 +1,7 @@
+import { Transition } from "@headlessui/react";
+import { atom, useAtom } from "jotai";
 import Head from "next/head";
 import Image from "next/image";
-import { atom, useAtom } from "jotai";
-import { Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { cn } from "../utils/cn";
 
@@ -128,6 +128,7 @@ function SocialIcons() {
     <ul
       className="flex items-center gap-4"
       id="sharemenu"
+      // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Custom navigation pattern requires menu semantics
       role="menu"
       aria-labelledby="sharemenubutton"
     >
