@@ -1,11 +1,11 @@
 import Head from "next/head";
 // import Image from "next/image";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
-import dayjs from "../utils/dayjs";
+import { useForm } from "react-hook-form";
 import { CountUp } from "use-count-up";
+import { z } from "zod";
+import dayjs from "../utils/dayjs";
 import { poppins } from "../utils/fonts/poppins";
 
 // import dynamic from "next/dynamic";
@@ -139,8 +139,7 @@ function Main() {
     value === "" ? undefined : Number.parseInt(value);
 
   return (
-    <div
-      role="main"
+    <main
       className={`h-[486px] w-[calc(100vw-32px)] max-w-md rounded-[24px] rounded-br-[100px] bg-age-calculator-neutral-100 px-6 pt-[47px] md:h-[540px] md:max-w-screen-sm md:rounded-br-[128px] lg:max-w-[840px] lg:rounded-br-[200px] lg:px-[56px] lg:pt-[55px] ${
         !!errors.day || !!errors.month || !!errors.year
           ? "h-[680px] translate-y-[31px]"
@@ -156,8 +155,7 @@ function Main() {
         <h1 id="form-title" className="sr-only">
           Age Calculator App
         </h1>
-        <div
-          role="group"
+        <fieldset
           className="grid grid-cols-3 grid-rows-1 gap-4 lg:w-auto lg:gap-8 lg:self-start"
           aria-labelledby="date-inputs-label"
         >
@@ -294,7 +292,7 @@ function Main() {
               )}
             </label>
           </div>
-        </div>
+        </fieldset>
         <button
           className="flex h-16 w-16 translate-y-[calc(50%-1px)] items-center justify-center rounded-full bg-age-calculator-primary-purple p-5 hover:bg-age-calculator-neutral-500 md:h-20 md:w-20 lg:absolute lg:bottom-0 lg:right-0 lg:h-[96px] lg:w-[96px]"
           type="submit"
@@ -362,7 +360,7 @@ function Main() {
           <span className="lg:ml-[12px]">days</span>
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -11,6 +11,7 @@
       "!**/*.generated.*", // Generated files
       "!**/coverage/**", // Test coverage reports
       "!**/test-results/**", // Playwright test run outputs
+      "!**/tests-examples/**", // Playwright tests examples
       "!**/playwright-report/**", // HTML reports
       "!**/*.png", // Screenshots
       "!**/*.webm", // Videos
