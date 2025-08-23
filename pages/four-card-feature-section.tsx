@@ -1,6 +1,6 @@
 import Head from "next/head";
 // import Image from "next/image";
-import type { ReactNode, FC } from "react";
+import type { FC, ReactNode } from "react";
 import { poppins } from "../utils/fonts/poppins";
 
 // import dynamic from "next/dynamic";
@@ -134,27 +134,21 @@ const Icon: FC<{ variant: CardVariant }> = ({ variant }) => {
 
 function Footer() {
   return (
-    <>
-      <footer className="absolute bottom-3 w-full text-center text-[11px] font-medium text-four-card-neutral-300 [&_a]:font-semibold [&_a]:text-indigo-600 [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
-        Challenge by{" "}
-        <a
-          href="https://www.frontendmentor.io?ref=challenge"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Frontend Mentor
-        </a>
-        . Coded by{" "}
-        <a
-          href="https://github.com/muflihanto"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Muflihanto
-        </a>
-        .
-      </footer>
-    </>
+    <footer className="absolute bottom-3 w-full text-center text-[11px] font-medium text-four-card-neutral-300 [&_a]:font-semibold [&_a]:text-indigo-600 [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+      Challenge by{" "}
+      <a
+        href="https://www.frontendmentor.io?ref=challenge"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Frontend Mentor
+      </a>
+      . Coded by{" "}
+      <a href="https://github.com/muflihanto" rel="noreferrer" target="_blank">
+        Muflihanto
+      </a>
+      .
+    </footer>
   );
 }
 
