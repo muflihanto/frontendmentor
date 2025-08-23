@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { karla } from "../utils/fonts/karla";
 import { dmSerifDisplay } from "../utils/fonts/dmSerifDisplay";
+import { karla } from "../utils/fonts/karla";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -182,60 +182,58 @@ function MobileNavButton({
 
 function IntroSection() {
   return (
-    <>
-      <div className="relative flex h-[951px] flex-col items-center justify-center bg-insure-primary-200 px-5 text-insure-neutral-100 max-md:pt-[451px] lg:h-[600px] lg:items-start lg:px-[165px]">
-        <div className="absolute left-0 top-0 aspect-[168/165] w-[168px] max-md:translate-y-[451px] lg:bottom-0 lg:top-auto lg:aspect-[195/504] lg:w-[195px] lg:translate-y-[333px]">
-          <Image
-            src="/insure-landing-page/images/"
-            alt="Left Background Intro Section"
-            loader={({ src, width }) => {
-              return `${src}bg-pattern-intro-left-${getScreenType(width)}.svg`;
-            }}
-            className="object-contain"
-            fill
-          />
-        </div>
-        <div className="absolute left-0 top-0 aspect-[375/451] w-[375px] lg:left-auto lg:right-[165px] lg:top-[105.5px] lg:z-10 lg:aspect-[540/650] lg:w-[540px]">
-          <Image
-            src="/insure-landing-page/images/"
-            loader={({ src, width }) => {
-              return `${src}image-intro-${getScreenType(width)}.jpg`;
-            }}
-            alt="Happy Family of 4 Holding Each Other's Hands"
-            className="object-contain"
-            fill
-          />
-        </div>
-        <div className="relative flex flex-col items-center justify-start lg:w-[calc(100%-540px)] lg:items-start lg:pb-[22px] lg:pr-4">
-          <hr className="block w-[150px] border-t border-t-insure-neutral-100 max-md:hidden" />
-          <h1 className="text-center font-dm-serif-display text-[48px] leading-none tracking-[-0.75px] lg:mt-[62px] lg:pr-8 lg:text-left lg:text-[72px] lg:leading-[64px] lg:tracking-[-1px]">
-            Humanizing your insurance.
-          </h1>
-          <p className="mt-[15px] px-2 text-center leading-[26px] text-insure-neutral-100/75 lg:mt-[28px] lg:pl-0 lg:pr-2 lg:text-left lg:tracking-[0.05px]">
-            Get your life insurance coverage easier and faster. We blend our
-            expertise and technology to help you find the plan that’s right for
-            you. Ensure you and your loved ones are protected.
-          </p>
-          <a
-            href=""
-            className="mt-[33px] flex h-[40px] w-[146px] items-center justify-center border-2 border-insure-neutral-100/75 pt-[1px] font-karla text-[14px] font-bold uppercase tracking-[1px] text-insure-neutral-100/75 hover:bg-insure-neutral-100 hover:text-insure-primary-200 lg:mt-[31px]"
-          >
-            View plans
-          </a>
-        </div>
-        <div className="absolute bottom-0 right-0 aspect-[124/330] w-[124px] translate-y-[176px] lg:bottom-auto lg:top-0 lg:z-10 lg:aspect-[436/593] lg:w-[436px] lg:-translate-y-[80px]">
-          <Image
-            src="/insure-landing-page/images/"
-            alt="Lower Background Intro Section"
-            loader={({ src, width }) => {
-              return `${src}bg-pattern-intro-right-${getScreenType(width)}.svg`;
-            }}
-            className="object-contain"
-            fill
-          />
-        </div>
+    <div className="relative flex h-[951px] flex-col items-center justify-center bg-insure-primary-200 px-5 text-insure-neutral-100 max-md:pt-[451px] lg:h-[600px] lg:items-start lg:px-[165px]">
+      <div className="absolute left-0 top-0 aspect-[168/165] w-[168px] max-md:translate-y-[451px] lg:bottom-0 lg:top-auto lg:aspect-[195/504] lg:w-[195px] lg:translate-y-[333px]">
+        <Image
+          src="/insure-landing-page/images/"
+          alt="Left Background Intro Section"
+          loader={({ src, width }) => {
+            return `${src}bg-pattern-intro-left-${getScreenType(width)}.svg`;
+          }}
+          className="object-contain"
+          fill
+        />
       </div>
-    </>
+      <div className="absolute left-0 top-0 aspect-[375/451] w-[375px] lg:left-auto lg:right-[165px] lg:top-[105.5px] lg:z-10 lg:aspect-[540/650] lg:w-[540px]">
+        <Image
+          src="/insure-landing-page/images/"
+          loader={({ src, width }) => {
+            return `${src}image-intro-${getScreenType(width)}.jpg`;
+          }}
+          alt="Happy Family of 4 Holding Each Other's Hands"
+          className="object-contain"
+          fill
+        />
+      </div>
+      <div className="relative flex flex-col items-center justify-start lg:w-[calc(100%-540px)] lg:items-start lg:pb-[22px] lg:pr-4">
+        <hr className="block w-[150px] border-t border-t-insure-neutral-100 max-md:hidden" />
+        <h1 className="text-center font-dm-serif-display text-[48px] leading-none tracking-[-0.75px] lg:mt-[62px] lg:pr-8 lg:text-left lg:text-[72px] lg:leading-[64px] lg:tracking-[-1px]">
+          Humanizing your insurance.
+        </h1>
+        <p className="mt-[15px] px-2 text-center leading-[26px] text-insure-neutral-100/75 lg:mt-[28px] lg:pl-0 lg:pr-2 lg:text-left lg:tracking-[0.05px]">
+          Get your life insurance coverage easier and faster. We blend our
+          expertise and technology to help you find the plan that’s right for
+          you. Ensure you and your loved ones are protected.
+        </p>
+        <a
+          href=""
+          className="mt-[33px] flex h-[40px] w-[146px] items-center justify-center border-2 border-insure-neutral-100/75 pt-[1px] font-karla text-[14px] font-bold uppercase tracking-[1px] text-insure-neutral-100/75 hover:bg-insure-neutral-100 hover:text-insure-primary-200 lg:mt-[31px]"
+        >
+          View plans
+        </a>
+      </div>
+      <div className="absolute bottom-0 right-0 aspect-[124/330] w-[124px] translate-y-[176px] lg:bottom-auto lg:top-0 lg:z-10 lg:aspect-[436/593] lg:w-[436px] lg:-translate-y-[80px]">
+        <Image
+          src="/insure-landing-page/images/"
+          alt="Lower Background Intro Section"
+          loader={({ src, width }) => {
+            return `${src}bg-pattern-intro-right-${getScreenType(width)}.svg`;
+          }}
+          className="object-contain"
+          fill
+        />
+      </div>
+    </div>
   );
 }
 
