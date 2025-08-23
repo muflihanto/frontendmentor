@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
   /** Go to Advice generator app page before each test */
@@ -47,13 +47,13 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
       const advice = page.locator("id=advice-content");
       const adviceText = await advice.innerText();
       await expect(page.getByRole("status")).not.toBeVisible();
-      await expect(advice).toHaveText(/^\".*\"$/);
+      await expect(advice).toHaveText(/^".*"$/);
       await button.click();
       await expect(page.getByText("Advice #...")).toBeVisible();
       await expect(page.getByRole("status")).toBeVisible();
       await page.waitForTimeout(1000);
       await expect(page.getByRole("status")).not.toBeVisible();
-      await expect(advice).toHaveText(/^\".*\"$/);
+      await expect(advice).toHaveText(/^".*"$/);
       await expect(advice).not.toHaveText(adviceText);
     });
     test("dice button has correct states", async ({ page }) => {
