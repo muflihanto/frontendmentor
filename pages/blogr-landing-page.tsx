@@ -1,15 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
-import { ubuntu } from "../utils/fonts/ubuntu";
-import { overpass } from "../utils/fonts/overpass";
 import {
-  type Dispatch,
-  type SetStateAction,
-  useState,
   useEffect,
   useRef,
+  useState,
+  type Dispatch,
   type KeyboardEvent,
+  type SetStateAction,
 } from "react";
+import { overpass } from "../utils/fonts/overpass";
+import { ubuntu } from "../utils/fonts/ubuntu";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -260,6 +260,7 @@ function Article(props: ArticleProps) {
 
 function Footer() {
   return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: Footer requires aria-labelledby for screen reader navigation context
     <footer
       className="relative mt-[95px] flex flex-col items-center justify-center rounded-tr-[100px] bg-blogr-neutral-400 pb-[76.95px] pt-[75px] text-[11px] lg:flex-row lg:items-start lg:justify-between lg:px-[164px] lg:pb-[75px] lg:pt-[70px]"
       aria-labelledby="footer-heading"
@@ -557,6 +558,7 @@ function CollapsibleNavItems({
       </a>
       <ul
         className="mb-[4px] mt-[18px] flex w-full flex-col items-center gap-[16px] rounded-md bg-blogr-neutral-200/25 pb-[21px] pt-[25px] text-[16px] font-semibold text-blogr-primary-blue/75 peer-aria-[expanded=false]:hidden lg:absolute lg:-left-6 lg:top-[30.5px] lg:w-[166px] lg:items-start lg:gap-[10.5px] lg:rounded-[4px] lg:bg-blogr-neutral-100 lg:px-6 lg:pb-[29px] lg:pt-[29px] lg:font-ubuntu lg:text-[15px] lg:font-medium lg:text-blogr-primary-blue lg:shadow-[0px_20px_25px_15px_rgba(0,0,0,.125)]"
+        // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Custom navigation pattern requires menu semantics
         role="menu"
         aria-label={navParent}
       >
@@ -659,6 +661,7 @@ function Header() {
         <div className="lg:gap-[49px invisible absolute left-[calc(50%-2px)] top-[125px] flex w-[calc(100%-52px)] -translate-x-1/2 flex-col rounded-md bg-sunny-neutral-100 px-6 py-[31px] shadow-[0px_10px_50px_7px_rgba(0,0,0,.25)] focus-visible:outline-none group-focus-within:visible lg:visible lg:static lg:left-0 lg:mt-1 lg:w-full lg:translate-x-0 lg:flex-row lg:justify-between lg:bg-transparent lg:px-1 lg:shadow-none lg:before:hidden">
           <ul
             className="flex flex-col items-center justify-center gap-[25px] lg:flex-row lg:gap-[32px]"
+            // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: Custom navigation pattern requires menubar semantics
             role="menubar"
             aria-orientation="horizontal"
             ref={menubarRef}
@@ -686,6 +689,7 @@ function Header() {
             })}
           </ul>
           <div className="mt-[20px] block h-0 w-full border-t-2 border-t-blogr-neutral-200/50 lg:hidden" />
+          {/** biome-ignore lint/a11y/useSemanticElements: Button group requires non-semantic container for specific layout styling */}
           <div
             className="mt-[19px] flex flex-col items-center justify-center gap-[8px] lg:mt-0 lg:-translate-y-[2px] lg:flex-row lg:gap-[27px]"
             role="group"
@@ -707,9 +711,8 @@ function Header() {
           </div>
         </div>
       </nav>
-      <div
+      <section
         className="z-10 mx-auto px-9 pt-[43px] text-center text-blogr-neutral-100 lg:pt-[78px]"
-        role="region"
         aria-label="Introduction"
       >
         <h1 className="font-overpass text-[35px] font-medium leading-[45px] -tracking-[0.7px] lg:text-[64px] lg:-tracking-[2.2px]">
@@ -718,6 +721,7 @@ function Header() {
         <p className="mt-[15px] font-overpass text-[18px] font-light leading-[23px] -tracking-[0.1px] text-blogr-neutral-100/75 lg:mt-[31px] lg:text-[20px]">
           Grow your audience and build your online brand
         </p>
+        {/** biome-ignore lint/a11y/useSemanticElements: Button group requires non-semantic container for specific layout styling */}
         <div
           className="mt-[46px] grid h-12 grid-cols-2 gap-4 px-[6px] font-ubuntu font-bold tracking-[0.1px] lg:mx-auto lg:mt-[48px] lg:w-[302px]"
           role="group"
@@ -738,7 +742,7 @@ function Header() {
             Learn More
           </a>
         </div>
-      </div>
+      </section>
     </header>
   );
 }

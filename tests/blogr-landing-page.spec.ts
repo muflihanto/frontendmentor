@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
   const navItems = [
@@ -191,10 +191,10 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
   /** Test if the page has 'Designed for the future' section */
   test.describe("has 'Designed for the future' section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").first()).toBeVisible();
+      await expect(page.locator("section").nth(1)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const section = page.locator("section").first();
+      const section = page.locator("section").nth(1);
       await section.scrollIntoViewIfNeeded();
       await expect(
         section.getByRole("heading", { name: "Designed for the future" }),
@@ -228,10 +228,10 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
   /** Test if the page has 'State of the Art Infrastructure' section */
   test.describe("has 'State of the Art Infrastructure' section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").nth(1)).toBeVisible();
+      await expect(page.locator("section").nth(2)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const section = page.locator("section").nth(1);
+      const section = page.locator("section").nth(2);
       await section.scrollIntoViewIfNeeded();
       await expect(
         section.getByRole("heading", {
@@ -256,10 +256,10 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
   /** Test if the page has 'Other features' section */
   test.describe("has 'Other features' section", () => {
     test("section is visible", async ({ page }) => {
-      await expect(page.locator("section").nth(2)).toBeVisible();
+      await expect(page.locator("section").nth(3)).toBeVisible();
     });
     test("has all elements", async ({ page }) => {
-      const section = page.locator("section").nth(2);
+      const section = page.locator("section").nth(3);
       await section.scrollIntoViewIfNeeded();
       // Has illustration
       await expect(
