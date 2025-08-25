@@ -1,7 +1,7 @@
 import Head from "next/head";
 // import Image from "next/image";
-import { type SubmitHandler, type FieldError, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, type FieldError, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { poppins } from "../utils/fonts/poppins";
 
@@ -144,13 +144,16 @@ function Main() {
 }
 
 function ErrorMessage({ field }: { field?: FieldError }) {
-  if (field)
-    return (
-      <p className="-mt-[14.5px] text-right text-[11px] font-medium italic text-red-500/75">
-        {field.message}
-      </p>
-    );
-  return <></>;
+  if (!field) return null;
+  return (
+    <p
+      role="alert"
+      aria-live="polite"
+      className="-mt-[14.5px] text-right text-[11px] font-medium italic text-red-500/75"
+    >
+      {field.message}
+    </p>
+  );
 }
 
 function Footer() {
