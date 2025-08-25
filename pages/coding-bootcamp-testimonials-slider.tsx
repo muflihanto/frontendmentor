@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/useAriaPropsSupportedByRole: Custom slide pattern requires non-standard ARIA */
 import Head from "next/head";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
