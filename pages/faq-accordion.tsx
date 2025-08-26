@@ -1,7 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
+import type { KeyboardEvent } from "react";
+import { useState } from "react";
 import { workSans } from "../utils/fonts/workSans";
-import { useState, type KeyboardEvent } from "react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -167,6 +168,8 @@ function Accordion({
         aria-controls={`answer-${id}`}
         id={`question-${id}`}
       >
+        {/** biome-ignore lint/a11y/noStaticElementInteractions: <summary> element requires keyboard handlers for native disclosure pattern */}
+        {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: <summary> benefits from ARIA attributes despite native semantics */}
         <summary
           className="group/summary block cursor-pointer list-none focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[6px] focus-visible:outline-[#AD28EB]"
           onKeyDown={onItemKeyDown}
@@ -191,6 +194,7 @@ function Accordion({
           </h2>
         </summary>
       </details>
+      {/** biome-ignore lint/a11y/useSemanticElements: Custom accordion animation requires non-semantic container //TODO: find alternatives */}
       <div
         role="region"
         className="mt-0 max-h-0 overflow-hidden text-faq-300 [transition:_max-height_200ms_ease-out,_margin_200ms_200ms_ease-out] peer-open:mb-[21px] peer-open:mt-0.5 peer-open:max-h-80 peer-open:[transition:_max-height_500ms_ease-out] group-last/faqs:peer-open:mb-0 lg:text-base/[24px] lg:peer-open:mb-[23px] lg:peer-open:mt-[-1px]"
