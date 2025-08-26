@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
   /** Go to Launch countdown timer page before each test */

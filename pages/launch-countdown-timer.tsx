@@ -1,7 +1,7 @@
+import { useAnimate } from "framer-motion";
 import Head from "next/head";
 // import Image from "next/image";
-import { type CSSProperties, useEffect, useMemo, useState } from "react";
-import { useAnimate } from "framer-motion";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useEffectOnce, useInterval, useWindowSize } from "usehooks-ts";
 import { redHatText } from "../utils/fonts/redHatText";
 
@@ -76,7 +76,7 @@ function FlipCard({
     };
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Animation effects should only run when value changes, not all dependencies
   useEffect(() => {
     void flip(
       ".top-flip",
@@ -92,6 +92,7 @@ function FlipCard({
 
   return (
     <>
+      {/** biome-ignore lint/a11y/useSemanticElements: Countdown status requires live region announcement */}
       <div
         className="flip-card relative flex flex-col items-center justify-center rounded bg-countdown-neutral-200 text-[32px] font-bold tracking-tight text-countdown-primary-red md:rounded-lg md:text-[78px]"
         role="status"
@@ -234,64 +235,62 @@ function CountdownTimer() {
   useInterval(handleTime, duration);
 
   return (
-    <>
+    <div
+      className="mt-14 grid w-full grid-cols-[repeat(4,70px)] grid-rows-[var(--card-height),auto] justify-center gap-x-[16px] gap-y-3 md:mt-[106px] md:grid-cols-[repeat(4,147px)] md:gap-x-[33px] md:gap-y-[24px]"
+      style={
+        {
+          "--card-height": width < 768 ? "66px" : "140px",
+        } as CSSProperties
+      }
+      role="timer"
+      aria-live="assertive"
+      aria-labelledby="countdown-title"
+      aria-describedby="days hours minutes seconds"
+    >
+      <FlipCard label="days" value={timeUnits.days} duration={duration} />
+      <FlipCard
+        label="hours"
+        value={timeUnits.hours}
+        duration={duration}
+        maxValue={23}
+      />
+      <FlipCard
+        label="minutes"
+        value={timeUnits.minutes}
+        duration={duration}
+        maxValue={59}
+      />
+      <FlipCard
+        label="seconds"
+        value={timeUnits.seconds}
+        duration={duration}
+        maxValue={59}
+      />
       <div
-        className="mt-14 grid w-full grid-cols-[repeat(4,70px)] grid-rows-[var(--card-height),auto] justify-center gap-x-[16px] gap-y-3 md:mt-[106px] md:grid-cols-[repeat(4,147px)] md:gap-x-[33px] md:gap-y-[24px]"
-        style={
-          {
-            "--card-height": width < 768 ? "66px" : "140px",
-          } as CSSProperties
-        }
-        role="timer"
-        aria-live="assertive"
-        aria-labelledby="countdown-title"
-        aria-describedby="days hours minutes seconds"
+        aria-hidden="true"
+        className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
       >
-        <FlipCard label="days" value={timeUnits.days} duration={duration} />
-        <FlipCard
-          label="hours"
-          value={timeUnits.hours}
-          duration={duration}
-          maxValue={23}
-        />
-        <FlipCard
-          label="minutes"
-          value={timeUnits.minutes}
-          duration={duration}
-          maxValue={59}
-        />
-        <FlipCard
-          label="seconds"
-          value={timeUnits.seconds}
-          duration={duration}
-          maxValue={59}
-        />
-        <div
-          aria-hidden="true"
-          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
-        >
-          Days
-        </div>
-        <div
-          aria-hidden="true"
-          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
-        >
-          Hours
-        </div>
-        <div
-          aria-hidden="true"
-          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
-        >
-          Minutes
-        </div>
-        <div
-          aria-hidden="true"
-          className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
-        >
-          Seconds
-        </div>
+        Days
       </div>
-    </>
+      <div
+        aria-hidden="true"
+        className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
+      >
+        Hours
+      </div>
+      <div
+        aria-hidden="true"
+        className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
+      >
+        Minutes
+      </div>
+      <div
+        aria-hidden="true"
+        className="text-center text-[8px] font-bold uppercase tracking-[2.2px] text-countdown-primary-blue md:text-[14px] md:tracking-[6px]"
+      >
+        Seconds
+      </div>
+    </div>
   );
 }
 
