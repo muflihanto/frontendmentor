@@ -1,37 +1,37 @@
+import { Disclosure } from "@headlessui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
 import Image from "next/image";
 import {
-  type CSSProperties,
-  type ComponentProps,
-  type KeyboardEvent,
-  type PropsWithChildren,
   cloneElement,
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
+  type ComponentProps,
+  type KeyboardEvent,
+  type PropsWithChildren,
 } from "react";
-import { cn } from "../utils/cn";
-import { Disclosure } from "@headlessui/react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
-  type AriaButtonProps,
-  type AriaDialogProps,
-  type AriaModalOverlayProps,
   Overlay,
   useButton,
   useDialog,
   useModalOverlay,
   useOverlayTrigger,
+  type AriaButtonProps,
+  type AriaDialogProps,
+  type AriaModalOverlayProps,
 } from "react-aria";
+import { useForm } from "react-hook-form";
 import {
+  useOverlayTriggerState,
   type OverlayTriggerProps,
   type OverlayTriggerState,
-  useOverlayTriggerState,
 } from "react-stately";
-import { rubik } from "../utils/fonts/rubik";
 import { useWindowSize } from "usehooks-ts";
+import { z } from "zod";
+import { cn } from "../utils/cn";
+import { rubik } from "../utils/fonts/rubik";
 
 interface DialogProps extends AriaDialogProps {
   children: React.ReactNode;
@@ -160,6 +160,7 @@ function Dialog({ children, ...props }: DialogProps) {
   const { dialogProps } = useDialog(props, ref);
 
   return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: needs ARIA attributes for enhanced accessibility
     <div
       className="relative flex h-full w-full flex-col items-center px-8 pb-12"
       {...dialogProps}
@@ -499,6 +500,7 @@ function Feature() {
 
         <ul
           className="mt-[39px] flex w-full flex-col items-center divide-y border-y text-bookmark-neutral-100 lg:mt-10 lg:grid lg:w-[730px] lg:grid-cols-3 lg:grid-rows-1 lg:divide-none lg:border-b lg:border-t-0"
+          // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <ul> requires role="tablist" for proper ARIA tab pattern
           role="tablist"
           aria-labelledby="features"
           aria-orientation={width > 1023 ? "horizontal" : "vertical"}
