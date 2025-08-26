@@ -33,12 +33,10 @@ const ProductPreview = () => {
 
 function Main() {
   return (
-    <>
-      <div className="grid aspect-[4/3] h-[56.25vh] min-h-[450px] min-w-[570px] grid-cols-2 grid-rows-1 rounded-[1rem] bg-product-review-neutral-100 shadow-[0_4px_4px_-12px] shadow-product-review-neutral-300 max-[750px]:aspect-[343/611] max-[750px]:h-auto max-[750px]:w-[343px] max-[750px]:min-w-0 max-[750px]:grid-cols-1 max-[750px]:grid-rows-[min(240px,_calc(240/343*(100vw-30px))),auto]">
-        <ProductImage />
-        <ProductDescription />
-      </div>
-    </>
+    <div className="grid aspect-[4/3] h-[56.25vh] min-h-[450px] min-w-[570px] grid-cols-2 grid-rows-1 rounded-[1rem] bg-product-review-neutral-100 shadow-[0_4px_4px_-12px] shadow-product-review-neutral-300 max-[750px]:aspect-[343/611] max-[750px]:h-auto max-[750px]:w-[343px] max-[750px]:min-w-0 max-[750px]:grid-cols-1 max-[750px]:grid-rows-[min(240px,_calc(240/343*(100vw-30px))),auto]">
+      <ProductImage />
+      <ProductDescription />
+    </div>
   );
 }
 
