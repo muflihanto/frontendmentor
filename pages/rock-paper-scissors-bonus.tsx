@@ -1,12 +1,13 @@
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { type ComponentProps, useEffect, useRef } from "react";
-import { cn } from "../utils/cn";
+import type { ComponentProps } from "react";
+import { useEffect, useRef } from "react";
 import { twJoin } from "tailwind-merge";
 import { useEffectOnce } from "usehooks-ts";
 import ClientOnly from "../components/ClientOnly";
-import { atomWithStorage } from "jotai/utils";
+import { cn } from "../utils/cn";
 import { barlowSemiCondensed } from "../utils/fonts/barlowSemiCondensed";
 
 // import dynamic from "next/dynamic";
@@ -323,78 +324,76 @@ function WaitForHouse() {
   });
 
   return (
-    <>
-      <div
-        className={cn(
-          [
-            "relative mt-[97.5px] flex w-[316px] items-center justify-between text-white lg:mt-[69px] lg:items-start",
-          ], //
-          win === undefined ? "lg:w-[675px]" : "lg:-ml-[28px] lg:w-[932px]",
+    <div
+      className={cn(
+        [
+          "relative mt-[97.5px] flex w-[316px] items-center justify-between text-white lg:mt-[69px] lg:items-start",
+        ], //
+        win === undefined ? "lg:w-[675px]" : "lg:-ml-[28px] lg:w-[932px]",
+      )}
+    >
+      <div className="flex flex-col items-center lg:flex-col-reverse">
+        {choice !== null ? (
+          <div
+            className={cn([
+              "animate-in fade-in-5 lg:mt-[61px]", //
+              win ? winStyle : "relative z-10",
+            ])}
+          >
+            <ChoiceButton variant={choice} disabled />
+          </div>
+        ) : (
+          <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:mt-[98px] lg:w-[224px]" />
         )}
+        <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">
+          you picked
+        </p>
+      </div>
+      {win !== undefined ? (
+        <div className="absolute -bottom-[72px] left-1/2 flex -translate-x-1/2 translate-y-full flex-col items-center lg:static lg:w-[220px] lg:translate-x-[14px] lg:translate-y-0 lg:self-center lg:pt-[63px]">
+          <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white drop-shadow-md">
+            you {win ? "win" : "lose"}
+          </h1>
+          <button
+            className="mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] text-rock-paper-scissor-neutral-dark shadow hover:text-rock-paper-scissor-primary-rock-100"
+            onClick={() => {
+              optRef.current = undefined; // debug only
+              setChoice(null);
+              setWin(undefined);
+              setHouse(null);
+              setStep(1);
+            }}
+            type="button"
+          >
+            play again
+          </button>
+        </div>
+      ) : null}
+      <div
+        className={cn([
+          "-mr-[14px] flex w-[50%] flex-col items-center lg:mr-[16px] lg:w-[294px] lg:flex-col-reverse", //
+          win !== undefined && "lg:mr-0 lg:translate-x-[7px]",
+        ])}
       >
-        <div className="flex flex-col items-center lg:flex-col-reverse">
-          {choice !== null ? (
+        <div className="flex h-[133px] items-center justify-center lg:mt-[61px] lg:h-[300px]">
+          {house !== null ? (
             <div
               className={cn([
-                "animate-in fade-in-5 lg:mt-[61px]", //
-                win ? winStyle : "relative z-10",
+                "animate-in fade-in-5", //
+                win === false ? winStyle : "relative z-10",
               ])}
             >
-              <ChoiceButton variant={choice} disabled />
+              <ChoiceButton variant={house} disabled />
             </div>
           ) : (
-            <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:mt-[98px] lg:w-[224px]" />
+            <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:-mt-1 lg:w-[224px]" />
           )}
-          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">
-            you picked
-          </p>
         </div>
-        {win !== undefined ? (
-          <div className="absolute -bottom-[72px] left-1/2 flex -translate-x-1/2 translate-y-full flex-col items-center lg:static lg:w-[220px] lg:translate-x-[14px] lg:translate-y-0 lg:self-center lg:pt-[63px]">
-            <h1 className="text-[56px] font-bold uppercase leading-none tracking-[.01px] text-white drop-shadow-md">
-              you {win ? "win" : "lose"}
-            </h1>
-            <button
-              className="mt-[22px] flex h-12 w-[220px] items-center justify-center rounded-lg bg-white uppercase tracking-[2.5px] text-rock-paper-scissor-neutral-dark shadow hover:text-rock-paper-scissor-primary-rock-100"
-              onClick={() => {
-                optRef.current = undefined; // debug only
-                setChoice(null);
-                setWin(undefined);
-                setHouse(null);
-                setStep(1);
-              }}
-              type="button"
-            >
-              play again
-            </button>
-          </div>
-        ) : null}
-        <div
-          className={cn([
-            "-mr-[14px] flex w-[50%] flex-col items-center lg:mr-[16px] lg:w-[294px] lg:flex-col-reverse", //
-            win !== undefined && "lg:mr-0 lg:translate-x-[7px]",
-          ])}
-        >
-          <div className="flex h-[133px] items-center justify-center lg:mt-[61px] lg:h-[300px]">
-            {house !== null ? (
-              <div
-                className={cn([
-                  "animate-in fade-in-5", //
-                  win === false ? winStyle : "relative z-10",
-                ])}
-              >
-                <ChoiceButton variant={house} disabled />
-              </div>
-            ) : (
-              <div className="aspect-square w-[110px] animate-pulse rounded-full bg-black/10 lg:-mt-1 lg:w-[224px]" />
-            )}
-          </div>
-          <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">
-            the house picked
-          </p>
-        </div>
+        <p className="mt-5 font-bold uppercase tracking-[1.5px] lg:mt-0 lg:text-[24px] lg:tracking-[3px]">
+          the house picked
+        </p>
       </div>
-    </>
+    </div>
   );
 }
 
