@@ -1,5 +1,5 @@
 import Head from "next/head";
-import type { CSSProperties, ComponentProps, ReactElement } from "react";
+import type { ComponentProps, CSSProperties, ReactElement } from "react";
 import { cn } from "../utils/cn";
 import { openSans } from "../utils/fonts/openSans";
 import { poppins } from "../utils/fonts/poppins";
@@ -75,9 +75,8 @@ const HuddleAlternate = () => {
               </div>
             </Card>
           </div>
-          <div
+          <section
             className="relative top-[67px] z-[2] mx-auto flex h-[176px] w-[calc(375px-24px)] flex-col items-center justify-center gap-[24px] rounded-[16px] bg-white pt-[3px] font-semibold shadow-[0px_0px_15px_5px_rgba(0,0,0,.05)] lg:top-[96px] lg:h-[280px] lg:w-[800px] lg:gap-[35.5px] lg:pt-[12.5px]"
-            role="region"
             aria-labelledby="build-community"
           >
             <h2
@@ -94,7 +93,7 @@ const HuddleAlternate = () => {
                 Get Started For Free
               </span>
             </a>
-          </div>
+          </section>
         </main>
         <Footer />
         {/* <Slider
@@ -126,9 +125,8 @@ function Header() {
 
 function Hero() {
   return (
-    <div
+    <section
       className="flex h-[718px] flex-col items-center justify-center bg-[hsl(191,89%,96%)] bg-no-repeat px-[26px] pt-[96px] max-md:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-mobile.svg')] lg:grid lg:h-[721px] lg:grid-cols-[minmax(0,auto),calc(693/1440*100vw)] lg:grid-rows-1 lg:bg-[url('/huddle-landing-page-with-alternating-feature-blocks/images/bg-hero-desktop.svg')] lg:pl-20 lg:pr-[84px] lg:pt-[107px]"
-      role="region"
       aria-labelledby="hero-heading"
     >
       <div className="lg:mt-[5px] lg:pr-[68px]">
@@ -151,7 +149,7 @@ function Hero() {
         </a>
       </div>
       <HeroImage className="mt-[53px] lg:self-start" />
-    </div>
+    </section>
   );
 }
 
@@ -342,7 +340,7 @@ function Card({
   labelId: string;
 }) {
   return (
-    <div
+    <section
       className={cn([
         "flex h-[488px] w-full flex-col items-center justify-center rounded-[16px] bg-white shadow-[0px_0px_15px_5px_rgba(0,0,0,.05)] lg:h-[440px] lg:justify-between", //
         reverse
@@ -351,10 +349,9 @@ function Card({
         className,
       ])}
       aria-labelledby={labelId}
-      role="region"
     >
       {children}
-    </div>
+    </section>
   );
 }
 

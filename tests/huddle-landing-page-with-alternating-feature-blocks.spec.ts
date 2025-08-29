@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Huddle landing page with alternating feature blocks Page", () => {
   /** Go to Huddle landing page with alternating feature blocks page before each test */
@@ -35,7 +35,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
 
   /** Test if the page has a hero section */
   test("has a hero section", async ({ page }) => {
-    const section = page.locator("div").nth(2);
+    const section = page.locator("section").first();
     await expect(section.getByRole("img")).toBeVisible();
     await expect(
       section.getByRole("heading", {
@@ -66,24 +66,21 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
         name: "Grow Together",
         description:
           "Generate meaningful discussions with your audience and build a strong, loyal community. Think of the insightful conversations you miss out on with a feedback form.",
-        location: 6,
       },
       {
         name: "Flowing Conversations",
         description:
           "You wouldn‘t paginate a conversation in real life, so why do it online? Our threads have just-in-time loading for a more natural flow.",
-        location: 8,
       },
       {
         name: "Your Users",
         description:
           "It takes no time at all to integrate Huddle with your app‘s authentication solution. This means, once signed in to your app, your users can start chatting immediately.",
-        location: 10,
       },
     ];
-    for (const { description, location, name } of features) {
+    for (const [index, { description, name }] of Object.entries(features)) {
       test(`has a '${name}' card`, async ({ page }) => {
-        const card = page.locator("div").nth(location);
+        const card = page.locator("section").nth(Number.parseInt(index) + 1);
         await card.scrollIntoViewIfNeeded();
         await expect(card.getByRole("img")).toBeVisible();
         await expect(card.getByRole("heading", { name })).toBeVisible();
@@ -94,7 +91,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with alternating f
 
   /** Test if the page has a 'Ready To Build Your Community?' section */
   test("has a 'Ready To Build Your Community?' section", async ({ page }) => {
-    const section = page.locator("div").nth(12);
+    const section = page.locator("section").nth(4);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Ready To Build Your Community?" }),
