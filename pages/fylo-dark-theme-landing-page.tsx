@@ -1,18 +1,19 @@
-import Head from "next/head";
-import Image from "next/image";
-import { type CSSProperties, type ComponentProps, useEffect } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebookF,
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Head from "next/head";
+import Image from "next/image";
+import type { ComponentProps, CSSProperties } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { cn } from "../utils/cn";
 import { openSans } from "../utils/fonts/openSans";
 import { raleway } from "../utils/fonts/raleway";
-import { cn } from "../utils/cn";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -386,6 +387,7 @@ function Main() {
 
 function SocialIcon() {
   return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: Social media links container requires aria-label for screen reader context
     <div
       className="mt-[79px] flex gap-[11px] self-center lg:ml-auto lg:mt-0 lg:self-start"
       style={
