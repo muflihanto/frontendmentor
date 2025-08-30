@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Huddle landing page with curved sections Page", () => {
   /** Go to Huddle landing page with curved sections page before each test */
@@ -25,7 +25,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has an 'Intro' section */
   test("has an 'Intro' section", async ({ page }) => {
-    const section = page.locator("div").nth(2);
+    const section = page.locator("section").nth(0);
     await expect(
       section.getByRole("heading", {
         level: 1,
@@ -44,7 +44,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a Hero image */
   test("has a Hero image", async ({ page }) => {
-    const container = page.locator("div").nth(4);
+    const container = page.locator("section").nth(0);
     await container.scrollIntoViewIfNeeded();
     await expect(container).toBeVisible();
     await expect(container.getByRole("img")).toBeVisible();
@@ -52,7 +52,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a 'Stats' section */
   test("has a 'Stats' section", async ({ page }) => {
-    const section = page.locator("div").nth(5);
+    const section = page.locator("section").nth(0).locator("> div").last();
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.locator(">div").first().getByAltText("Icon Communities"),
@@ -76,7 +76,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a 'Grow Together' section */
   test("has a 'Grow Together' section", async ({ page }) => {
-    const section = page.locator("section").first();
+    const section = page.locator("section").nth(1);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Grow Together" }),
@@ -91,7 +91,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a 'Flowing Conversations' section */
   test("has a 'Flowing Conversations' section", async ({ page }) => {
-    const section = page.locator("section").nth(1);
+    const section = page.locator("section").nth(2);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Flowing Conversations" }),
@@ -106,7 +106,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a 'Your Users' section */
   test("has a 'Your Users' section", async ({ page }) => {
-    const section = page.locator("section").nth(2);
+    const section = page.locator("section").nth(3);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Your Users" }),
@@ -121,7 +121,7 @@ test.describe("FrontendMentor Challenge - Huddle landing page with curved sectio
 
   /** Test if the page has a 'Ready to build' section */
   test("has a 'Ready to build' section", async ({ page }) => {
-    const section = page.locator("section").nth(3);
+    const section = page.locator("section").nth(4);
     await section.scrollIntoViewIfNeeded();
     await expect(
       section.getByRole("heading", { name: "Ready To Build Your Community?" }),

@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Footer from "../components/huddle-landing-page-with-curved-sections/Footer";
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import Footer from "../components/huddle-landing-page-with-curved-sections/Footer";
 import { openSans } from "../utils/fonts/openSans";
 import { poppins } from "../utils/fonts/poppins";
 
@@ -20,11 +20,11 @@ export default function HuddleCurved() {
       </Head>
       <Header />
       <main aria-label="Huddle landing page" className="contents">
-        <div className="contents" role="region" aria-labelledby="hero-heading">
+        <section className="contents" aria-labelledby="hero-heading">
           <Hero />
           <HeroImage />
           <Statistics />
-        </div>
+        </section>
         <GrowSection />
         <FlowSection />
         <UsersSection />
@@ -164,9 +164,8 @@ const Statistics = () => {
 
 const GrowSection = () => {
   return (
-    <div
+    <section
       className="relative pb-[calc(100vw*52/375)] pt-[calc(100vw*112/375)] lg:mt-[116px] lg:pb-[calc(100vw*104/1080)] lg:pt-[calc(100vw*124/1080)]"
-      role="region"
       aria-labelledby="grow-heading"
     >
       <div className="absolute left-0 top-0 -z-10 aspect-[375/112] w-full lg:aspect-[1080/124]">
@@ -184,7 +183,7 @@ const GrowSection = () => {
           aria-hidden
         />
       </div>
-      <section className="flex h-[550px] flex-col items-center justify-start bg-huddle-curve-neutral-100 px-[27px] pt-[82px] lg:grid lg:h-[535px] lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[60px] lg:px-[130px] lg:pt-[24px]">
+      <div className="flex h-[550px] flex-col items-center justify-start bg-huddle-curve-neutral-100 px-[27px] pt-[82px] lg:grid lg:h-[535px] lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[60px] lg:px-[130px] lg:pt-[24px]">
         <GrowIllustration className="w-[258px] lg:col-start-2 lg:w-[517px]" />
         <div className="lg:col-start-1 lg:row-start-1">
           <h2
@@ -199,7 +198,7 @@ const GrowSection = () => {
             miss out on with a feedback form.
           </p>
         </div>
-      </section>
+      </div>
       <div className="absolute bottom-0 left-0 aspect-[375/52] w-full lg:aspect-[1080/104]">
         <Image
           className="object-contain"
@@ -215,7 +214,7 @@ const GrowSection = () => {
           aria-hidden
         />
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -244,9 +243,8 @@ const FlowSection = () => {
 
 const UsersSection = () => {
   return (
-    <div
+    <section
       className="relative pb-[calc(100vw*101/375)] pt-[calc(100vw*103/375)] lg:pb-[calc(100vw*139/1440)] lg:pt-[calc(100vw*156/1440)]"
-      role="region"
       aria-labelledby="users-heading"
     >
       <div className="absolute left-0 top-0 -z-10 aspect-[375/103] w-full lg:aspect-[1440/156]">
@@ -264,7 +262,7 @@ const UsersSection = () => {
           aria-hidden
         />
       </div>
-      <section className="flex h-[542px] flex-col items-center justify-center bg-huddle-curve-neutral-100 px-[27px] pb-[100px] lg:grid lg:h-fit lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[80px] lg:px-[120px] lg:pb-[40px] lg:pt-[44px]">
+      <div className="flex h-[542px] flex-col items-center justify-center bg-huddle-curve-neutral-100 px-[27px] pb-[100px] lg:grid lg:h-fit lg:grid-cols-2 lg:grid-rows-1 lg:place-items-center lg:gap-x-[80px] lg:px-[120px] lg:pb-[40px] lg:pt-[44px]">
         <UsersIllustration className="w-[268px] lg:col-start-2 lg:w-[534px] " />
         <div className="lg:col-start-1 lg:row-start-1">
           <h2
@@ -279,7 +277,7 @@ const UsersSection = () => {
             your users can start chatting immediately.
           </p>
         </div>
-      </section>
+      </div>
       <div className="absolute bottom-0 left-0 aspect-[375/101] w-full lg:aspect-[1440/139]">
         <Image
           className="object-contain"
@@ -295,7 +293,7 @@ const UsersSection = () => {
           aria-hidden
         />
       </div>
-    </div>
+    </section>
   );
 };
 
