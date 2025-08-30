@@ -1,11 +1,13 @@
-import Head from "next/head";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type UseFormReset, useForm } from "react-hook-form";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { type ChangeEvent, useEffect, useRef } from "react";
-import { spaceGrotesk } from "../utils/fonts/spaceGrotesk";
+import Head from "next/head";
 import Image from "next/image";
+import type { ChangeEvent } from "react";
+import { useEffect, useRef } from "react";
+import type { UseFormReset } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { spaceGrotesk } from "../utils/fonts/spaceGrotesk";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -100,6 +102,7 @@ function CardPreview() {
   const inputval = useAtomValue(inputAtom);
 
   return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: header requires aria-label for screen reader context despite semantic role
     <header
       className="flex h-[240px] w-full flex-col items-center bg-[url('/interactive-card-details-form/images/bg-main-mobile.png')] bg-cover bg-no-repeat lg:h-full lg:w-[min(calc(483/1440*100vw),483px)] lg:items-start lg:justify-center lg:bg-[url('/interactive-card-details-form/images/bg-main-desktop.png')] lg:py-10"
       aria-label="Interactive card"
