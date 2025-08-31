@@ -1,13 +1,13 @@
-import Head from "next/head";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { twMerge } from "tailwind-merge";
-import { useEffect } from "react";
-import { useWindowSize } from "usehooks-ts";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { roboto } from "../utils/fonts/roboto";
+import Head from "next/head";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
+import { useWindowSize } from "usehooks-ts";
+import { z } from "zod";
 import { cn } from "../utils/cn";
+import { roboto } from "../utils/fonts/roboto";
 
 // import Image from "next/image";
 // import dynamic from "next/dynamic";
@@ -178,13 +178,12 @@ function IllustrationSignUp() {
   console.log({ width });
 
   return (
-    <>
+    <header className="contents">
       {width < 1024 ? (
         <svg
           className="w-full sm:max-lg:rounded-t-[36px] sm:max-lg:p-6 sm:max-lg:pb-0"
           viewBox="0 0 375 284"
           aria-labelledby="illustration-sign-up-mobile-title"
-          role="banner"
         >
           <title id="illustration-sign-up-mobile-title">
             Illustration Sign Up Mobile
@@ -196,13 +195,12 @@ function IllustrationSignUp() {
           className="w-full flex-1 translate-x-5"
           viewBox="0 0 400 593"
           aria-labelledby="illustration-desktop-title"
-          role="banner"
         >
           <title id="illustration-desktop-title">Illustration Desktop</title>
           <use href="/newsletter-sign-up-with-success-message/assets/images/illustration-sign-up-desktop.svg#illustration-desktop" />
         </svg>
       )}
-    </>
+    </header>
   );
 }
 
