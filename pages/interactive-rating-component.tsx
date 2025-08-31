@@ -1,12 +1,9 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import {
-  useForm,
-  type SubmitHandler,
-  type UseFormRegister,
-} from "react-hook-form";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+import type { SubmitHandler, UseFormRegister } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { overpass } from "../utils/fonts/overpass";
 
 // import dynamic from "next/dynamic";
@@ -155,7 +152,6 @@ function RatingInput({
         className="peer"
         {...register("rating", { required: true })}
         value={ratingValue}
-        role="radio"
         aria-checked={currentRating === ratingValue}
         aria-labelledby={`rating-label-${ratingValue}`}
       />
