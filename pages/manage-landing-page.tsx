@@ -1,23 +1,20 @@
-import Head from "next/head";
-import Image from "next/image";
-import {
-  type ButtonHTMLAttributes,
-  type CSSProperties,
-  type DetailedHTMLProps,
-  type HTMLProps,
-  type SVGProps,
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from "react";
-import { cn } from "../utils/cn";
+import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { motion, useScroll } from "framer-motion";
-import { useWindowSize } from "usehooks-ts";
+import Head from "next/head";
+import Image from "next/image";
+import type {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  DetailedHTMLProps,
+  HTMLProps,
+  SVGProps,
+} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useWindowSize } from "usehooks-ts";
 import { z } from "zod";
+import { cn } from "../utils/cn";
 import { beVietnam } from "../utils/fonts/beVietnam";
 
 // import dynamic from "next/dynamic";

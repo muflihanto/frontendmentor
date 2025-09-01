@@ -1,5 +1,6 @@
-import { test, expect, type Page, type Locator } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 const pageUrl = "/manage-landing-page";
 const headerNavs = ["Pricing", "Product", "About Us", "Careers", "Community"];
@@ -220,13 +221,14 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
 
         // Simulate swipe
         const boundingBox = await firstItem.boundingBox();
+        const startX = (boundingBox?.x ?? 0) + 10;
+        const y = (boundingBox?.y ?? 0) + 10;
+        const endX = (boundingBox?.x ?? 0) - 100;
         // Move cursor to first item
-        // biome-ignore lint/style/noNonNullAssertion: <explanation>
-        await page.mouse.move(boundingBox!.x + 10, boundingBox!.y + 10);
+        await page.mouse.move(startX, y);
         await page.mouse.down();
         // Swipe left 100px
-        // biome-ignore lint/style/noNonNullAssertion: <explanation>
-        await page.mouse.move(boundingBox!.x - 100, boundingBox!.y + 10);
+        await page.mouse.move(endX, y);
         await page.mouse.up();
 
         // Verify scroll changed
