@@ -1,5 +1,6 @@
-import { type Locator, test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import type { Locator } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 const links = [
   {

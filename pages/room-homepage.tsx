@@ -1,13 +1,8 @@
+import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
-import {
-  type CSSProperties,
-  type ComponentProps,
-  type PropsWithChildren,
-  useEffect,
-  useState,
-} from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import type { ComponentProps, CSSProperties, PropsWithChildren } from "react";
+import { useEffect, useState } from "react";
 import { useEventListener, useWindowSize } from "usehooks-ts";
 import { cn } from "../utils/cn";
 import { leagueSpartan } from "../utils/fonts/leagueSpartan";
@@ -243,6 +238,7 @@ function Slide() {
       aria-roledescription="carousel"
       aria-label="Room product features"
     >
+      {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: Carousel slide requires custom ARIA attributes for accessibility */}
       <div
         className="relative aspect-[375/360] w-full lg:aspect-auto lg:h-full lg:w-[calc(840/1440*100vw)]"
         aria-roledescription="slide"
@@ -265,6 +261,7 @@ function Slide() {
           aria-label={`Product image ${activeProduct + 1} of ${product.length}`}
         />
       </div>
+      {/** biome-ignore lint/a11y/useSemanticElements: Carousel slide requires specific layout that conflicts with fieldset semantics */}
       <div
         className="h-[410px] w-full px-8 py-[61px] lg:flex lg:h-full lg:w-auto lg:flex-col lg:justify-center lg:px-[clamp(80px,calc(100/1440*100vw),100px)] lg:py-0 lg:pb-[34px]"
         role="group"
