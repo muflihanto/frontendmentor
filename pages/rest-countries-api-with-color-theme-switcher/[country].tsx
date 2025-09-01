@@ -4,10 +4,10 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCountry, useBorders } from "../../utils/useCountries";
 import type { PropsWithChildren, ReactElement } from "react";
-import { Footer, Header } from "./index";
 import { nunitoSans } from "../../utils/fonts/nunitoSans";
+import { useBorders, useCountry } from "../../utils/useCountries";
+import { Footer, Header } from "./index";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
@@ -20,7 +20,7 @@ export default function Page() {
       : "",
   );
   const { data: borders, isLoading: isBorderLoading } = useBorders(
-    data ? data[0].borders ?? [] : [],
+    data ? (data[0].borders ?? []) : [],
   );
 
   // useEffect(() => {

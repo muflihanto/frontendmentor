@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Listbox } from "@headlessui/react";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { matchSorter, type MatchSorterOptions } from "match-sorter";
+import type { MatchSorterOptions } from "match-sorter";
+import { matchSorter } from "match-sorter";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +16,6 @@ import { useDebounce } from "usehooks-ts";
 import data from "../../public/rest-countries-api-with-color-theme-switcher/all.json";
 import { nunitoSans } from "../../utils/fonts/nunitoSans";
 import type { Country } from "../../utils/types";
-// import { useRouter } from "next/router";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -106,7 +106,7 @@ export function Header() {
             aria-hidden="true"
           />
         </span>
-        <label id="darkSwitchLabel">Dark Mode</label>
+        <span id="darkSwitchLabel">Dark Mode</span>
       </button>
     </header>
   );

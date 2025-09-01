@@ -1,9 +1,9 @@
-import { test, expect, type Page } from "@playwright/test";
-import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
 import AxeBuilder from "@axe-core/playwright";
+import type { Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import data from "../public/rest-countries-api-with-color-theme-switcher/all.json";
 
 const RegionName = ["Africa", "Americas", "Asia", "Europe", "Oceania"] as const;
-type RegionName = (typeof RegionName)[number];
 const pageUrl = "/rest-countries-api-with-color-theme-switcher";
 
 test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Switcher Page", () => {
