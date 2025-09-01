@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 import raw_data from "../public/interactive-comments-section/data.json";
 
@@ -22,7 +22,7 @@ function flattenComments(rootComment: Comment[]): Comment[] {
   const flattened: Comment[] = [];
 
   while (stack.length > 0) {
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    // biome-ignore lint/style/noNonNullAssertion: Stack length check guarantees pop() will not return undefined
     const comment = stack.pop()!;
     flattened.push({
       id: comment.id,
