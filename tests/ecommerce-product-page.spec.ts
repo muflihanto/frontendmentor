@@ -1,7 +1,8 @@
-import { test, expect, type Locator } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import type { Locator } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-const product = {
+const _product = {
   discount: 50,
   images: [
     "/ecommerce-product-page/images/image-product-1.jpg",

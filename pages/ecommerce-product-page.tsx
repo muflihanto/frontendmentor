@@ -4,7 +4,8 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
+import { useState } from "react";
 import { cartAtom } from "../components/ecommerce-product-page/CartController";
 import { kumbhSans } from "../utils/fonts/kumbhSans";
 
