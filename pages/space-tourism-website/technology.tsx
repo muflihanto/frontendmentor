@@ -1,12 +1,15 @@
-import Head from "next/head";
-import { getLayout } from "../../components/space-tourism-website/Layout";
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
-import _data from "../../components/space-tourism-website/data.json";
-import { type KeyboardEvent, useState } from "react";
+import Head from "next/head";
 import Image from "next/image";
-import { cn } from "../../utils/cn";
+import type { KeyboardEvent } from "react";
+import { useState } from "react";
 import { useWindowSize } from "usehooks-ts";
+
+import _data from "../../components/space-tourism-website/data.json";
+import { getLayout } from "../../components/space-tourism-website/Layout";
+import { cn } from "../../utils/cn";
+
+// const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
 const data = _data.technology;
 
 export default function Tech() {
@@ -137,6 +140,7 @@ export default function Tech() {
 
           <ul
             className="mt-[34px] flex items-center gap-4 font-bellefair md:mt-14 lg:col-start-1 lg:row-start-2 lg:mt-[111px] lg:flex-col lg:gap-8"
+            // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <ul> requires role="tablist" for proper ARIA tab pattern
             role="tablist"
             aria-labelledby="technology"
             aria-orientation={width > 1023 ? "vertical" : "horizontal"}

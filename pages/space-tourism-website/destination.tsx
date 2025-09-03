@@ -1,11 +1,14 @@
-import Head from "next/head";
-import { getLayout } from "../../components/space-tourism-website/Layout";
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
-import _data from "../../components/space-tourism-website/data.json";
-import { type KeyboardEvent, useState } from "react";
+import Head from "next/head";
 import Image from "next/image";
+import type { KeyboardEvent } from "react";
+import { useState } from "react";
+
+import _data from "../../components/space-tourism-website/data.json";
+import { getLayout } from "../../components/space-tourism-website/Layout";
 import { cn } from "../../utils/cn";
+
+// const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
 const data = _data.destinations;
 
 const tabType = ["Moon", "Mars", "Europa", "Titan"] as const;
@@ -103,6 +106,7 @@ export default function Tech() {
           <div className="flex flex-col items-center lg:w-[445px] lg:items-start lg:self-start">
             <ul
               className="mt-[26px] flex h-[28px] items-start gap-[26px] md:mt-[53px] md:h-[34px] md:gap-[33px] lg:mt-0"
+              // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <ul> requires role="tablist" for proper ARIA tab pattern
               role="tablist"
               aria-labelledby="destination"
             >

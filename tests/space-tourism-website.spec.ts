@@ -1,6 +1,6 @@
-import { test, expect } from "@playwright/test";
-import _data from "../components/space-tourism-website/data.json";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+import _data from "../components/space-tourism-website/data.json";
 
 const pages = ["home", "destination", "crew", "technology"] as const;
 

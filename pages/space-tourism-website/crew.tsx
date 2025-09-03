@@ -1,11 +1,13 @@
-import Head from "next/head";
-import { getLayout } from "../../components/space-tourism-website/Layout";
 // import dynamic from "next/dynamic";
-// const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
-import _data from "../../components/space-tourism-website/data.json";
-import { useState } from "react";
+import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
+
+import _data from "../../components/space-tourism-website/data.json";
+import { getLayout } from "../../components/space-tourism-website/Layout";
 import { cn } from "../../utils/cn";
+
+// const Slider = dynamic(() => import("../../components/SliderTs"), { ssr: false });
 const data = _data.crew;
 
 export default function Crew() {

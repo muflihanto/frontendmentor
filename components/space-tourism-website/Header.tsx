@@ -1,30 +1,26 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  cloneElement,
-  useRef,
-  type HTMLProps,
-  type PropsWithChildren,
-} from "react";
+import type { HTMLProps, PropsWithChildren } from "react";
+import { cloneElement, useRef } from "react";
+import type {
+  AriaButtonProps,
+  AriaDialogProps,
+  AriaModalOverlayProps,
+} from "react-aria";
 import {
   Overlay,
   useButton,
   useDialog,
   useModalOverlay,
   useOverlayTrigger,
-  type AriaButtonProps,
-  type AriaDialogProps,
-  type AriaModalOverlayProps,
 } from "react-aria";
-import {
-  useOverlayTriggerState,
-  type OverlayTriggerProps,
-  type OverlayTriggerState,
-} from "react-stately";
+import type { OverlayTriggerProps, OverlayTriggerState } from "react-stately";
+import { useOverlayTriggerState } from "react-stately";
 import { useOnClickOutside } from "usehooks-ts";
 import { cn } from "../../utils/cn";
-import { pages, type Page } from "./Layout";
+import type { Page } from "./Layout";
+import { pages } from "./Layout";
 
 function Button(
   props: PropsWithChildren<AriaButtonProps & HTMLProps<HTMLButtonElement>>,
@@ -119,6 +115,7 @@ function Dialog({ children, ...props }: DialogProps) {
   const { dialogProps } = useDialog(props, ref);
 
   return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: needs ARIA attributes for enhanced accessibility
     <div
       className="flex h-full w-full flex-col py-[33px] pl-8 pr-[26.45px]"
       {...dialogProps}
