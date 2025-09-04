@@ -1,9 +1,10 @@
 import { matchSorter } from "match-sorter";
-import { ThemeProvider, useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, type ChangeEvent } from "react";
+import { ThemeProvider, useTheme } from "next-themes";
+import type { ChangeEvent } from "react";
+import { useMemo, useState } from "react";
 import { BsGithub } from "react-icons/bs";
 import { useIsClient } from "usehooks-ts";
 import pages from "../docs/data.json";

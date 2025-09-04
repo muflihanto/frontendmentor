@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import pages from "../docs/data.json";
 
 test.describe("FrontendMentor index page", () => {
@@ -17,7 +17,7 @@ test.describe("FrontendMentor index page", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: /muf\'s frontendmentor challenge solution/i,
+        name: /muf's frontendmentor challenge solution/i,
       }),
     ).toBeVisible();
   });
