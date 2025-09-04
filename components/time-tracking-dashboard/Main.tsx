@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
+import ActivityCard from "./ActivityCard";
 import data from "./data.json";
 import User from "./User";
-import ActivityCard from "./ActivityCard";
 
 const activities = [
   "Work",

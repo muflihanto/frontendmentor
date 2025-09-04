@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Main from "../components/time-tracking-dashboard/Main";
 import Footer from "../components/time-tracking-dashboard/Footer";
+import Main from "../components/time-tracking-dashboard/Main";
 import { rubik } from "../utils/fonts/rubik";
 
 // import dynamic from "next/dynamic";

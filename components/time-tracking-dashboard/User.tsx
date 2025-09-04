@@ -1,7 +1,7 @@
 import Image from "next/image";
-import type { TimeUnit } from "./Main";
 import type { Dispatch, KeyboardEvent, SetStateAction } from "react";
 import { useWindowSize } from "usehooks-ts";
+import type { TimeUnit } from "./Main";
 
 type UserProps = {
   activeTab: TimeUnit;
@@ -114,6 +114,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
       </div>
       <ul
         className="grid w-full grid-cols-3 pb-[22px] pt-[21px] lg:grid-cols-1 lg:grid-rows-3 lg:gap-[15px] lg:px-8 lg:pt-[23px]"
+        // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <ul> requires role="tablist" for proper ARIA tab pattern
         role="tablist"
         aria-labelledby="title"
         aria-orientation={width > 1023 ? "vertical" : "horizontal"}

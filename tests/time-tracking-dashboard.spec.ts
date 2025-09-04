@@ -1,6 +1,7 @@
-import { test, expect } from "@playwright/test";
-import data from "../components/time-tracking-dashboard/data.json";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+import data from "../components/time-tracking-dashboard/data.json";
+
 // const activities = [
 //   "Work",
 //   "Play",
