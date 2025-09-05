@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Base Apparel coming soon Page", () => {
   /** Go to Base Apparel coming soon page before each test */

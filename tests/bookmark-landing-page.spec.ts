@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Locator, type Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 const navLinks = ["Features", "Pricing", "Contact", "Login"] as const;
 const pageUrl = "/bookmark-landing-page";

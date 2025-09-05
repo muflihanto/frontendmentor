@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
   /** Go to Age calculator app page before each test */

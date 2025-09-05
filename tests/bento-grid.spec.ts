@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Bento grid page", () => {
   /** Go to Bento grid page before each test */
