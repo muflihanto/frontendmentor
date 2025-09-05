@@ -1,7 +1,8 @@
-import { test, expect, type Page, type Locator } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 import jobs from "../public/static-job-listings/data.json";
-import AxeBuilder from "@axe-core/playwright";
 
 const pageUrl = "/static-job-listings";
 

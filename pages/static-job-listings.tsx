@@ -1,14 +1,11 @@
+import { atom, useAtom, useSetAtom } from "jotai";
 import Head from "next/head";
 import Image from "next/image";
-import _data from "../public/static-job-listings/data.json";
-import {
-  Fragment,
-  type HTMLProps,
-  type PropsWithChildren,
-  useMemo,
-} from "react";
-import { atom, useAtom, useSetAtom } from "jotai";
+import type { HTMLProps, PropsWithChildren } from "react";
+import { Fragment, useMemo } from "react";
+
 import { match } from "ts-pattern";
+import _data from "../public/static-job-listings/data.json";
 import { leagueSpartan } from "../utils/fonts/leagueSpartan";
 
 // import dynamic from "next/dynamic";
@@ -92,6 +89,7 @@ function Badge({
   HTMLProps<HTMLDivElement> & { variant: "new" | "featured" }
 >) {
   return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: <div> needs ARIA attributes for enhanced accessibility
     <div
       className={`flex h-6 items-center justify-center rounded-full text-[14px] font-bold uppercase leading-none tracking-tight text-white ${
         variant === "new"
@@ -155,13 +153,12 @@ function Card({ job }: { job: Job }) {
   const setFilters = useSetAtom(filterAtom);
 
   return (
-    <div
+    <li
       className={`relative rounded-[5px] bg-white pb-6 pr-[23px] shadow-lg shadow-job-listings-primary/20 lg:flex lg:h-[152px] lg:items-center lg:px-8 lg:py-8 xl:px-10 ${
         job.featured
           ? "border-l-[5px] border-l-job-listings-primary pl-[19px] pt-8 lg:pl-[35px]"
           : "pl-[24px] pt-[32px]"
       }`}
-      role="listitem"
       aria-labelledby={`job-${job.id}`}
     >
       <div
@@ -194,12 +191,14 @@ function Card({ job }: { job: Job }) {
             </Badge>
           )}
         </div>
+        {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: <div> needs ARIA attributes for enhanced accessibility */}
         <a
           className="mt-[13px] block cursor-pointer text-[15px] font-bold leading-none text-job-listings-neutral-400 hover:text-job-listings-primary lg:mt-[11px] lg:text-[22px]"
           aria-label={`${job.position} at ${job.company}`}
         >
           {job.position}
         </a>
+        {/** biome-ignore lint/a11y/useSemanticElements: requires specific layout that conflicts with fieldset semantics*/}
         <div
           className="mt-[13px] flex gap-[9px] text-job-listings-neutral-300 lg:mt-[6px] lg:gap-[15px] lg:text-[18px]"
           role="group"
@@ -271,7 +270,7 @@ function Card({ job }: { job: Job }) {
             );
           })}
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -382,17 +381,16 @@ function Main() {
           </button>
         </fieldset>
       )}
-      <div
+      <ul
         className={`flex w-full flex-col gap-10 px-6 pb-[34px] lg:gap-6 lg:px-10 lg:pb-[120px] xl:px-[165px] ${
           isFilterEmpty ? "pt-14 lg:pt-[75px]" : "pt-5 lg:pt-[3px]"
         }`}
-        role="list"
         aria-labelledby="job-list"
       >
         {filteredJob.map((job, index) => {
           return <Card key={`${index}-${job.id}`} job={job} />;
         })}
-      </div>
+      </ul>
     </main>
   );
 }
