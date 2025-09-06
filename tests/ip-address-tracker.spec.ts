@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
   /** Go to IP Address Tracker page before each test */

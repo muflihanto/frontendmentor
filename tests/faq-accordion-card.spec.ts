@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - FAQ Accordion Card Page", () => {
   /** Go to FAQ Accordion Card page before each test */

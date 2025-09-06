@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Fylo landing page with two column layout Page", () => {
   /** Go to Fylo landing page with two column layout page before each test */

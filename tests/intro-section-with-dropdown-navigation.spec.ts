@@ -1,5 +1,6 @@
-import { test, expect, type Locator } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import type { Locator } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 /**
  * Helper function to test hover effect on a given locator.
