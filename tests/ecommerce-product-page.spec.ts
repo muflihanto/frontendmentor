@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { Locator } from "@playwright/test";
 import { expect, test } from "@playwright/test";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _product = {
   discount: 50,
   images: [

@@ -1,6 +1,7 @@
-import { test, expect, type Locator } from "@playwright/test";
-import supportType from "../components/crowdfunding-product-page/supportType.json";
 import AxeBuilder from "@axe-core/playwright";
+import type { Locator } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import supportType from "../components/crowdfunding-product-page/supportType.json";
 
 test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
   /** Go to Crowdfunding product page before each test */
