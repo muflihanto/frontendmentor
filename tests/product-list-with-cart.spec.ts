@@ -1,7 +1,9 @@
-import { test, expect } from "@playwright/test";
-import _products from "../public/product-list-with-cart/data.json";
-import type { Product } from "../pages/product-list-with-cart";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+
+import type { Product } from "../pages/product-list-with-cart";
+import _products from "../public/product-list-with-cart/data.json";
+
 const products = _products as Product[];
 
 test.describe("FrontendMentor Challenge - Product list with cart page", () => {
