@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Mortgage Repayment Calculator Page", () => {
   /** Go to Mortgage Repayment Calculator page before each test */

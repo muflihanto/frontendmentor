@@ -1,6 +1,6 @@
-import { test, expect } from "@playwright/test";
-import { notifications } from "../components/notifications-page/Main";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+import { notifications } from "../components/notifications-page/Main";
 
 test.describe("FrontendMentor Challenge - Notifications Page", () => {
   /** Go to notifications page before each test */
