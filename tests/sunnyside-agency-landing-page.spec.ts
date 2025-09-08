@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Sunnyside agency landing Page", () => {
   /** Go to Sunnyside agency landing page before each test */

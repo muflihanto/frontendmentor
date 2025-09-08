@@ -1,5 +1,6 @@
-import { test, expect, type Locator, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 const headerNavs = ["Features", "Pricing", "Resources", "Login", "Sign Up"];
 
