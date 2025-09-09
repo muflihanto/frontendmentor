@@ -8,10 +8,10 @@ import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { useEffectOnce, useOnClickOutside } from "usehooks-ts";
 import {
-  cartOpenAtom,
-  productCountAtom,
   type CartItem,
+  cartOpenAtom,
   type Product,
+  productCountAtom,
 } from "../../pages/ecommerce-product-page";
 
 export const cartAtom = atomWithStorage<CartItem[]>("cartItem", []);

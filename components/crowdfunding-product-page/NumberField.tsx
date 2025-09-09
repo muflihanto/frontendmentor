@@ -1,10 +1,10 @@
-import { useNumberFieldState } from "react-stately";
+import { useRef } from "react";
 import {
   type AriaNumberFieldProps,
   useLocale,
   useNumberField,
 } from "react-aria";
-import { useRef } from "react";
+import { useNumberFieldState } from "react-stately";
 
 export function NumberField(props: AriaNumberFieldProps) {
   const { locale } = useLocale();

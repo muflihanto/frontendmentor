@@ -1,5 +1,5 @@
-import Chart from "./Chart";
 import data from "../../public/expenses-chart-component/data.json";
+import Chart from "./Chart";
 
 export type ChartData = typeof data;
 

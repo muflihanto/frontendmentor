@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import {
+  type AriaNumberFieldProps,
   useLocale,
   useNumberField,
-  type AriaNumberFieldProps,
 } from "react-aria";
 import { useNumberFieldState } from "react-stately";
 

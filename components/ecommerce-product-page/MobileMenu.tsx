@@ -1,11 +1,11 @@
 /** biome-ignore-all lint/a11y/noPositiveTabindex: Positive tabIndex required for modal focus management */
 
+import { Transition } from "@headlessui/react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { type Nav, menuOpenAtom } from "../../pages/ecommerce-product-page";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { useEffectOnce, useOnClickOutside } from "usehooks-ts";
-import { useRef } from "react";
-import { Transition } from "@headlessui/react";
+import { menuOpenAtom, type Nav } from "../../pages/ecommerce-product-page";
 
 export default function MobileMenu({ navs }: { navs: Nav[] }) {
   const menuOpen = useAtomValue(menuOpenAtom);

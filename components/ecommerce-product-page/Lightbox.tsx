@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import { type CSSProperties, useState } from "react";
 import { createPortal } from "react-dom";
 import { useEffectOnce } from "usehooks-ts";
 import {
