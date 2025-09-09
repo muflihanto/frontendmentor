@@ -1,6 +1,6 @@
-import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { type LatLngExpression, icon } from "leaflet";
+import { icon, type LatLngExpression } from "leaflet";
 import { useMemo } from "react";
 
 const markerIcon = icon({

@@ -1,10 +1,10 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { Logo } from "../../pages/huddle-landing-page-with-curved-sections";
 import { type ComponentProps, useEffect } from "react";
-import { cn } from "../../utils/cn";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Logo } from "../../pages/huddle-landing-page-with-curved-sections";
+import { cn } from "../../utils/cn";
 
 const Footer = () => {
   return (
