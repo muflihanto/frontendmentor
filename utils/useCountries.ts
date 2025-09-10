@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import ky from "ky-universal";
 import type { Countries } from "./types";
+
 type Country = Countries[number];
 const filterKeys = [
   "name",
