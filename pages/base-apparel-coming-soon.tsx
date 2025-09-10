@@ -1,9 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
 import Image from "next/image";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { josefin } from "../utils/fonts/josefin";
 
 // import dynamic from "next/dynamic";

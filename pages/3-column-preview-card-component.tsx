@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { lexendDeca } from "../utils/fonts/lexendDeca";
 import { bigShouldersDisplay } from "../utils/fonts/bigShouldersDisplay";
+import { lexendDeca } from "../utils/fonts/lexendDeca";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });

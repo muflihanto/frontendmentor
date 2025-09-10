@@ -1,6 +1,6 @@
-import Head from "next/head";
 // import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Head from "next/head";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CountUp } from "use-count-up";
