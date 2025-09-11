@@ -1,22 +1,22 @@
+import { Transition } from "@headlessui/react";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
+import { useForm, type ValidationError } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import { atom, useAtom } from "jotai";
 import Head from "next/head";
 // import Image from "next/image";
 import {
+  type ComponentProps,
   cloneElement,
   isValidElement,
+  type PropsWithChildren,
   useCallback,
   useEffect,
   useRef,
-  type ComponentProps,
-  type PropsWithChildren,
 } from "react";
+import { z } from "zod";
 import { cn } from "../utils/cn";
 import { karla } from "../utils/fonts/karla";
-import { type ValidationError, useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import { z } from "zod";
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { atom, useAtom } from "jotai";
-import { Transition } from "@headlessui/react";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });

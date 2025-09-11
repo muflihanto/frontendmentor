@@ -1,19 +1,19 @@
-import Head from "next/head";
-import Image from "next/image";
-import { type CSSProperties, type ComponentProps, useEffect } from "react";
 import {
   faFacebookF,
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Head from "next/head";
+import Image from "next/image";
+import { type ComponentProps, type CSSProperties, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { cn } from "../utils/cn";
+import { manrope } from "../utils/fonts/manrope";
 import { openSans } from "../utils/fonts/openSans";
 import { raleway } from "../utils/fonts/raleway";
-import { manrope } from "../utils/fonts/manrope";
-import { cn } from "../utils/cn";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });

@@ -3,8 +3,8 @@ import Head from "next/head";
 import Image from "next/image";
 import type { ComponentProps } from "react";
 import { useWindowSize } from "usehooks-ts";
-import { publicSans } from "../utils/fonts/publicSans";
 import { cn } from "../utils/cn";
+import { publicSans } from "../utils/fonts/publicSans";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });

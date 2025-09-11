@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { type CSSProperties, type ComponentProps, useState } from "react";
+import { type ComponentProps, type CSSProperties, useState } from "react";
 import { raleway } from "../utils/fonts/raleway";
 
 // import dynamic from "next/dynamic";

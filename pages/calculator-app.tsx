@@ -1,6 +1,6 @@
-import Head from "next/head";
 // import Image from "next/image";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import { leagueSpartan } from "../utils/fonts/leagueSpartan";
 
 const MainContent = dynamic(

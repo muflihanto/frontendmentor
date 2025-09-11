@@ -1,7 +1,7 @@
 import { animate, stagger } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, type CSSProperties, type PropsWithChildren } from "react";
+import { type CSSProperties, type PropsWithChildren, useEffect } from "react";
 import {
   BsChevronCompactLeft,
   BsChevronRight,
