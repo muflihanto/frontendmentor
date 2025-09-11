@@ -1,6 +1,6 @@
-import { atom, useAtom, Provider, useAtomValue } from "jotai";
-import type { ChangeEventHandler } from "react";
+import { atom, Provider, useAtom, useAtomValue } from "jotai";
 import Head from "next/head";
+import type { ChangeEventHandler } from "react";
 
 // Create your atoms and derivatives
 const textAtom = atom("hello");

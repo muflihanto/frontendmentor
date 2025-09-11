@@ -1,7 +1,7 @@
 import { useAnimate } from "framer-motion";
 import Head from "next/head";
 // import Image from "next/image";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import { useEffectOnce, useInterval, useWindowSize } from "usehooks-ts";
 import { redHatText } from "../utils/fonts/redHatText";
 

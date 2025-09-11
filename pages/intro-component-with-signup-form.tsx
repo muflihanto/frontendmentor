@@ -1,7 +1,7 @@
-import Head from "next/head";
 // import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type FieldError, type SubmitHandler } from "react-hook-form";
+import Head from "next/head";
+import { type FieldError, type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { poppins } from "../utils/fonts/poppins";
 

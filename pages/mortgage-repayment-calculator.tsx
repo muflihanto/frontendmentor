@@ -1,16 +1,16 @@
+import { useForm, type ValidationError } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import { atom, useAtom } from "jotai";
 import Head from "next/head";
+import { type ComponentProps, useMemo } from "react";
+import { NumericFormat } from "react-number-format";
+import { z } from "zod";
+import { cn } from "../utils/cn";
 // import Image from "next/image";
 import {
   PlusJakartaSans,
   // PlusJakartaSansItalic,
 } from "../utils/fonts/plusJakartaSans";
-import { cn } from "../utils/cn";
-import { type ValidationError, useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import { z } from "zod";
-import { atom, useAtom } from "jotai";
-import { type ComponentProps, useMemo } from "react";
-import { NumericFormat } from "react-number-format";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
