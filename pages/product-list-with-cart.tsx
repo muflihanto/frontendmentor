@@ -5,13 +5,13 @@ import Head from "next/head";
 import Image, { type ImageLoaderProps } from "next/image";
 import {
   createContext,
+  type Dispatch,
+  type SetStateAction,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
-  type Dispatch,
-  type SetStateAction,
 } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import _products from "../public/product-list-with-cart/data.json";

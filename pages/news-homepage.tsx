@@ -1,8 +1,8 @@
+import { Transition } from "@headlessui/react";
+import { atom, useAtom, useAtomValue } from "jotai";
 import Head from "next/head";
 import Image from "next/image";
-import { atom, useAtom, useAtomValue } from "jotai";
 import { Fragment, useEffect } from "react";
-import { Transition } from "@headlessui/react";
 import { inter } from "../utils/fonts/inter";
 
 // import dynamic from "next/dynamic";

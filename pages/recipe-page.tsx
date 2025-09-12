@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
-import { youngSerif } from "../utils/fonts/youngSerif";
-import { outfit } from "../utils/fonts/outfit";
 import { cn } from "../utils/cn";
+import { outfit } from "../utils/fonts/outfit";
+import { youngSerif } from "../utils/fonts/youngSerif";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });

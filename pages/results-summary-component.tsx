@@ -1,7 +1,7 @@
 import Head from "next/head";
-import { hankenGrotesk } from "../utils/fonts/hankenGrotesk";
 import type { ComponentProps } from "react";
 import { cn } from "../utils/cn";
+import { hankenGrotesk } from "../utils/fonts/hankenGrotesk";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
