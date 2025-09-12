@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { cn } from "../utils/cn";
 import { josefin } from "../utils/fonts/josefin";
+
 const Main = dynamic(() => import("../components/todo-app/Main"), {
   ssr: false,
 });

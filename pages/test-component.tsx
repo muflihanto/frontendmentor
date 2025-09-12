@@ -18,8 +18,8 @@ function ToggleButton(props: AriaButtonProps) {
             ? "darkgreen"
             : "gray"
           : state.isSelected
-          ? "green"
-          : "lightgray",
+            ? "green"
+            : "lightgray",
         color: state.isSelected ? "white" : "black",
         padding: 10,
         fontSize: 16,

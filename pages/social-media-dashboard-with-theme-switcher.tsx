@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { createContext, useContext, useEffect, useState } from "react";
 import Image from "next/image";
+import { createContext, useContext, useEffect, useState } from "react";
 import { inter } from "../utils/fonts/inter";
 
 // import dynamic from "next/dynamic";

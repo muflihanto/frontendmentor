@@ -1,3 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import copy from "copy-to-clipboard";
+import { motion } from "framer-motion";
+import { useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 import Head from "next/head";
 import Image from "next/image";
 import {
@@ -6,15 +11,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { cn } from "../utils/cn";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
 import { useWindowSize } from "usehooks-ts";
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
-import copy from "copy-to-clipboard";
+import { z } from "zod";
+import { cn } from "../utils/cn";
 import { poppins } from "../utils/fonts/poppins";
 import { ShortenApiResponse } from "./api/getShortenUrl";
 
