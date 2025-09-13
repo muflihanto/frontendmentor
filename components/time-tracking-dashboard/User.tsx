@@ -135,7 +135,7 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
                 role="tab"
                 id={`tab-${button.toLowerCase()}`}
                 aria-selected={activeTab === button.toLowerCase()}
-                aria-controls="tabpanel"
+                tabIndex={activeTab === button.toLowerCase() ? 0 : -1}
                 onKeyDown={onItemKeyDown}
               >
                 {button}
