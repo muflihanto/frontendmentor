@@ -1,30 +1,34 @@
-import { useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useRef, useState } from "react";
 
 export default function ChartBar(props: {
   value: number;
   maxVal: boolean;
   day: string;
+  index: number;
+  isFocused: boolean;
+  onFocus: (index: number) => void;
+  onKeyDown: (event: KeyboardEvent<HTMLButtonElement>, index: number) => void;
 }) {
-  const [isFocused, setIsFocused] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const barRef = useRef<HTMLButtonElement>(null);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      setIsFocused(true);
-    }
+  const handleClick = () => {
+    setShowTooltip((prev) => !prev);
+  };
+
+  const handleFocus = () => {
+    props.onFocus(props.index);
   };
 
   const handleBlur = () => {
-    setIsFocused(false);
+    setShowTooltip(false);
   };
 
   useEffect(() => {
-    if (isFocused && barRef.current) {
-      // Programmatically focus the bar when isFocused is true
+    if (props.isFocused && barRef.current) {
       barRef.current.focus();
     }
-  }, [isFocused]);
+  }, [props.isFocused]);
 
   return (
     <div className="relative flex flex-col items-center gap-[10px]">
@@ -38,14 +42,16 @@ export default function ChartBar(props: {
         } peer w-[calc(33/375*100vw)] max-w-[calc(33/375*570px)] rounded-[4px] px-1 py-3 hover:cursor-pointer focus-visible:border-none focus-visible:outline-none`}
         style={{ height: `${props.value * 2.86}px` }}
         aria-describedby={`tooltip-${props.day}`}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(e) => props.onKeyDown(e, props.index)}
         onBlur={handleBlur}
+        onFocus={handleFocus}
         aria-label={`${props.day} spending: $${props.value}`}
+        onClick={handleClick}
         type="button"
       />
       <p
         className={`invisible absolute w-[calc(48/375*100vw)] max-w-[calc(48/375*570px)] scale-90 rounded-[4px] bg-expenses-neutral-400 py-1 pb-[7px] pt-[6px] text-center text-[min(18px,calc(10/375*100vw))] font-bold text-expenses-neutral-100 transition-all duration-100 ease-in peer-hover:visible peer-hover:-translate-y-[5px] peer-hover:scale-100 peer-focus:visible peer-focus:-translate-y-[5px] peer-focus:scale-100 ${
-          isFocused
+          showTooltip
             ? "visible -translate-y-[5px] scale-100"
             : "invisible scale-90"
         }}`}
