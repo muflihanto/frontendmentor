@@ -12,10 +12,6 @@ export default function ChartBar(props: {
   const [showTooltip, setShowTooltip] = useState(false);
   const barRef = useRef<HTMLButtonElement>(null);
 
-  const handleClick = () => {
-    setShowTooltip((prev) => !prev);
-  };
-
   const handleFocus = () => {
     props.onFocus(props.index);
   };
@@ -27,6 +23,9 @@ export default function ChartBar(props: {
   useEffect(() => {
     if (props.isFocused && barRef.current) {
       barRef.current.focus();
+      setShowTooltip(true);
+    } else {
+      setShowTooltip(false);
     }
   }, [props.isFocused]);
 
@@ -46,11 +45,10 @@ export default function ChartBar(props: {
         onBlur={handleBlur}
         onFocus={handleFocus}
         aria-label={`${props.day} spending: $${props.value}`}
-        onClick={handleClick}
         type="button"
       />
       <p
-        className={`invisible absolute w-[calc(48/375*100vw)] max-w-[calc(48/375*570px)] scale-90 rounded-[4px] bg-expenses-neutral-400 py-1 pb-[7px] pt-[6px] text-center text-[min(18px,calc(10/375*100vw))] font-bold text-expenses-neutral-100 transition-all duration-100 ease-in peer-hover:visible peer-hover:-translate-y-[5px] peer-hover:scale-100 peer-focus:visible peer-focus:-translate-y-[5px] peer-focus:scale-100 ${
+        className={`absolute w-[calc(48/375*100vw)] max-w-[calc(48/375*570px)] rounded-[4px] bg-expenses-neutral-400 py-1 pb-[7px] pt-[6px] text-center text-[min(18px,calc(10/375*100vw))] font-bold text-expenses-neutral-100 transition-all duration-100 ease-in peer-hover:visible peer-hover:-translate-y-[5px] peer-hover:scale-100 ${
           showTooltip
             ? "visible -translate-y-[5px] scale-100"
             : "invisible scale-90"

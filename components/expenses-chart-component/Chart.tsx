@@ -4,7 +4,8 @@ import type { ChartData } from "./Spending";
 
 export default function Chart({ data }: { data: ChartData }) {
   const maxVal = Math.max(...data.map((bar) => bar.amount));
-  const [focusedBarIndex, setFocusedBarIndex] = useState(0);
+  const [focusedBarIndex, setFocusedBarIndex] = useState<number | null>(null); // Start with null (no focus)
+
   const handleBarFocus = (index: number) => {
     setFocusedBarIndex(index);
   };
@@ -40,11 +41,6 @@ export default function Chart({ data }: { data: ChartData }) {
         setFocusedBarIndex(data.length - 1);
         flag = true;
         break;
-
-      case "Enter":
-      case " ":
-        flag = true;
-        break;
     }
 
     if (flag) {
@@ -68,7 +64,11 @@ export default function Chart({ data }: { data: ChartData }) {
     );
   });
   return (
-    <div className="mt-[52px] flex items-end justify-between md:mt-[max(54px,calc(71/1024*100vh))]">
+    <div
+      className="mt-[52px] flex items-end justify-between md:mt-[max(54px,calc(71/1024*100vh))]"
+      role="toolbar"
+      aria-label="Spending chart"
+    >
       {chartElement}
     </div>
   );

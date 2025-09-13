@@ -98,6 +98,76 @@ test.describe("FrontendMentor Challenge - Expenses chart component Page", () => 
     }
   });
 
+  /** Test if the keyboard navigation works properly */
+  test("keyboard navigation works properly", async ({ page }) => {
+    // Get all chart bars
+    const chartBars = page.locator('[role="toolbar"] button');
+    const firstBar = chartBars.first();
+    const lastBar = chartBars.last();
+
+    // Initially, no bar should be focused and no tooltips visible
+    for (let i = 0; i < data.length; i++) {
+      await expect(chartBars.nth(i)).not.toBeFocused();
+      const tooltip = page.locator(`id=tooltip-${data[i].day}`);
+      await expect(tooltip).not.toBeVisible();
+    }
+
+    // Focus the first bar manually - tooltip should appear automatically
+    await firstBar.focus();
+    await expect(firstBar).toBeFocused();
+    const firstTooltip = page.locator(`id=tooltip-${data[0].day}`);
+    await expect(firstTooltip).toBeVisible();
+
+    // Test Right Arrow navigation - tooltip should follow focus
+    for (let i = 0; i < data.length - 1; i++) {
+      await page.keyboard.press("ArrowRight");
+      await expect(chartBars.nth(i + 1)).toBeFocused();
+      const currentTooltip = page.locator(`id=tooltip-${data[i + 1].day}`);
+      await expect(currentTooltip).toBeVisible();
+
+      // Previous tooltip should be hidden
+      const previousTooltip = page.locator(`id=tooltip-${data[i].day}`);
+      await expect(previousTooltip).not.toBeVisible();
+    }
+
+    // Test Left Arrow navigation
+    for (let i = data.length - 1; i > 0; i--) {
+      await page.keyboard.press("ArrowLeft");
+      await expect(chartBars.nth(i - 1)).toBeFocused();
+      const currentTooltip = page.locator(`id=tooltip-${data[i - 1].day}`);
+      await expect(currentTooltip).toBeVisible();
+
+      // Previous tooltip should be hidden
+      const previousTooltip = page.locator(`id=tooltip-${data[i].day}`);
+      await expect(previousTooltip).not.toBeVisible();
+    }
+
+    // Test Home key
+    await page.keyboard.press("Home");
+    await expect(firstBar).toBeFocused();
+    await expect(firstTooltip).toBeVisible();
+
+    // Test End key
+    await page.keyboard.press("End");
+    await expect(lastBar).toBeFocused();
+    const lastTooltip = page.locator(`id=tooltip-${data[data.length - 1].day}`);
+    await expect(lastTooltip).toBeVisible();
+    await expect(firstTooltip).not.toBeVisible();
+
+    // Test that Enter/Space does not toggle tooltip (it should remain visible)
+    await firstBar.focus();
+    await expect(firstTooltip).toBeVisible();
+    await page.keyboard.press("Enter");
+    await expect(firstTooltip).toBeVisible(); // Should still be visible
+    await page.keyboard.press(" ");
+    await expect(firstTooltip).toBeVisible(); // Should still be visible
+
+    // Test blur hides tooltip
+    await page.keyboard.press("Tab"); // Tab away from chart
+    await expect(firstBar).not.toBeFocused();
+    await expect(firstTooltip).not.toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
