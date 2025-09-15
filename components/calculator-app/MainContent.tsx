@@ -111,7 +111,32 @@ export default function MainContent() {
   );
 }
 
-// TODO: Format display with comma separator
+function formatDisplayWithCommas(value: string): string {
+  if (!value) return "";
+
+  // Split the expression into tokens (numbers and operators)
+  const tokens = value.split(/([+\-*/])/);
+
+  // Format each number token with commas
+  const formattedTokens = tokens.map((token) => {
+    // Check if it's an operator
+    if (/[+\-*/]/.test(token)) {
+      return token;
+    }
+
+    // It's a number, split into integer and decimal parts
+    const parts = token.split(".");
+    const integerPart = parts[0];
+    const decimalPart = parts.length > 1 ? `.${parts[1]}` : "";
+
+    // Format integer part with commas
+    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return formattedInteger + decimalPart;
+  });
+
+  return formattedTokens.join("");
+}
 
 function Header() {
   const classes = useAtomValue(themeClassAtom);
@@ -183,6 +208,8 @@ function Screen() {
   const theme = useAtomValue(calculatorThemeAtom);
   const display = useAtomValue(displayAtom);
 
+  const formattedDisplay = formatDisplayWithCommas(display);
+
   return (
     <div
       className={`mt-7 h-[88px] w-full rounded-[10px] px-6 lg:mt-6 lg:h-[128px] lg:px-8 ${classes[theme].bg3}`}
@@ -192,7 +219,7 @@ function Screen() {
           theme === 1 ? classes[theme].text1 : classes[theme].text2
         }`}
       >
-        {display ? display.replace("*", "x") : "0"}
+        {formattedDisplay ? formattedDisplay.replace("*", "x") : "0"}
       </p>
     </div>
   );
