@@ -51,7 +51,7 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
 
   /** Test if the page has a calculator screen */
   test("has a calculator screen", async ({ page }) => {
-    const screen = page.locator("div").nth(8);
+    const screen = page.locator("div").nth(6);
     await expect(screen).toBeVisible();
     await expect(screen).toBeInViewport();
   });
@@ -67,6 +67,20 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         calckeys.getByRole("button", { name: key.key === "*" ? "x" : key.key }),
       ).toBeVisible();
     }
+  });
+
+  test.describe("Comma Formatting", () => {
+    test.describe("Single numbers formatting", () => {
+      test("should format 4-digit numbers with commas", async ({ page }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("1,000");
+      });
+    });
   });
 
   test.describe("Theme Switching", () => {
