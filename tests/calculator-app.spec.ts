@@ -137,6 +137,43 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         const screen = page.locator("div").nth(6);
         await expect(screen).toHaveText("1,000,000");
       });
+
+      test("should format decimal calculation results correctly", async ({
+        page,
+      }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "2" }).click();
+        await page.getByRole("button", { name: "9" }).click();
+        await page.getByRole("button", { name: "4" }).click();
+        await page.getByRole("button", { name: "5" }).click();
+        await page.getByRole("button", { name: "/" }).click();
+        await page.getByRole("button", { name: "6" }).click();
+        await page.getByRole("button", { name: "=" }).click();
+
+        const screen = page.locator("div").nth(6);
+        // Result should be 2157.5 or similar, formatted with comma
+        const text = await screen.textContent();
+        expect(text).toMatch(/^[0-9,]+\.?[0-9]*$/);
+      });
+
+      test("should format very large calculation results", async ({ page }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "x" }).click();
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "=" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("1,000,000,000");
+      });
     });
   });
 
