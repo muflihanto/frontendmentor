@@ -118,6 +118,26 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         await expect(screen).toHaveText("999");
       });
     });
+
+    test.describe("Calculation results formatting", () => {
+      test("should format large calculation results with commas", async ({
+        page,
+      }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "x" }).click();
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "=" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("1,000,000");
+      });
+    });
   });
 
   test.describe("Theme Switching", () => {
