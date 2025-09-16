@@ -175,6 +175,19 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         await expect(screen).toHaveText("1,000,000,000");
       });
     });
+
+    test.describe("Edge cases and error handling", () => {
+      test("should handle empty display correctly", async ({ page }) => {
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("0");
+      });
+
+      test("should handle single digit numbers correctly", async ({ page }) => {
+        await page.getByRole("button", { name: "7" }).click();
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("7");
+      });
+    });
   });
 
   test.describe("Theme Switching", () => {
