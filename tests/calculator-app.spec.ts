@@ -80,6 +80,43 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         const screen = page.locator("div").nth(6);
         await expect(screen).toHaveText("1,000");
       });
+
+      test("should format 7-digit numbers with commas", async ({ page }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("1,000,000");
+      });
+
+      test("should format numbers with decimal points correctly", async ({
+        page,
+      }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "2" }).click();
+        await page.getByRole("button", { name: "7" }).click();
+        await page.getByRole("button", { name: "4" }).click();
+        await page.getByRole("button", { name: "." }).click();
+        await page.getByRole("button", { name: "5" }).click();
+        await page.getByRole("button", { name: "6" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("1,274.56");
+      });
+
+      test("should not format numbers below 1000", async ({ page }) => {
+        await page.getByRole("button", { name: "9" }).click();
+        await page.getByRole("button", { name: "9" }).click();
+        await page.getByRole("button", { name: "9" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("999");
+      });
     });
   });
 
