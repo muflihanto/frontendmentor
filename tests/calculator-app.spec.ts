@@ -187,6 +187,60 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         const screen = page.locator("div").nth(6);
         await expect(screen).toHaveText("7");
       });
+
+      test("should handle numbers with leading zeros correctly", async ({
+        page,
+      }) => {
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "." }).click();
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "2" }).click();
+        await page.getByRole("button", { name: "7" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("0.127");
+      });
+
+      test("should maintain formatting after delete operations", async ({
+        page,
+      }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("10,000");
+
+        await page.getByRole("button", { name: "del" }).click();
+        await expect(screen).toHaveText("1,000");
+
+        await page.getByRole("button", { name: "del" }).click();
+        await expect(screen).toHaveText("100");
+
+        await page.getByRole("button", { name: "del" }).click();
+        await expect(screen).toHaveText("10");
+
+        await page.getByRole("button", { name: "del" }).click();
+        await expect(screen).toHaveText("1");
+      });
+
+      test("should maintain formatting after reset operations", async ({
+        page,
+      }) => {
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "2" }).click();
+        await page.getByRole("button", { name: "7" }).click();
+        await page.getByRole("button", { name: "4" }).click();
+        await page.getByRole("button", { name: "5" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("12,745");
+
+        await page.getByRole("button", { name: "reset" }).click();
+        await expect(screen).toHaveText("0");
+      });
     });
   });
 
