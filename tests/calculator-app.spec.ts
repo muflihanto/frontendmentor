@@ -242,6 +242,38 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
         await expect(screen).toHaveText("0");
       });
     });
+
+    test.describe("Mixed operations with formatting", () => {
+      test("should handle complex expressions with mixed formatting", async ({
+        page,
+      }) => {
+        // Build: 1234 + 567.89 - 10000 * 2.5
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "2" }).click();
+        await page.getByRole("button", { name: "3", exact: true }).click();
+        await page.getByRole("button", { name: "4" }).click();
+        await page.getByRole("button", { name: "+" }).click();
+        await page.getByRole("button", { name: "5" }).click();
+        await page.getByRole("button", { name: "6" }).click();
+        await page.getByRole("button", { name: "7" }).click();
+        await page.getByRole("button", { name: "." }).click();
+        await page.getByRole("button", { name: "8" }).click();
+        await page.getByRole("button", { name: "9" }).click();
+        await page.getByRole("button", { name: "-" }).click();
+        await page.getByRole("button", { name: "1" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "0" }).click();
+        await page.getByRole("button", { name: "x" }).click();
+        await page.getByRole("button", { name: "2" }).click();
+        await page.getByRole("button", { name: "." }).click();
+        await page.getByRole("button", { name: "5" }).click();
+
+        const screen = page.locator("div").nth(6);
+        await expect(screen).toHaveText("1,234+567.89-10,000x2.5");
+      });
+    });
   });
 
   test.describe("Theme Switching", () => {
