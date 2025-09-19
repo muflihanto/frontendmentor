@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import Mexp from "math-expression-evaluator";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { getMaxIndex } from "../../utils/indexesOf";
 
@@ -64,27 +64,28 @@ export type KeyType = "number" | "operator" | "dot" | "equal" | "del" | "reset";
 export type Key = {
   key: string;
   type: KeyType;
+  keyboardKey?: string;
 };
 
 const keys: Key[] = [
-  { key: "7", type: "number" },
-  { key: "8", type: "number" },
-  { key: "9", type: "number" },
-  { key: "del", type: "del" },
-  { key: "4", type: "number" },
-  { key: "5", type: "number" },
-  { key: "6", type: "number" },
-  { key: "+", type: "operator" },
-  { key: "1", type: "number" },
-  { key: "2", type: "number" },
-  { key: "3", type: "number" },
-  { key: "-", type: "operator" },
-  { key: ".", type: "dot" },
-  { key: "0", type: "number" },
-  { key: "/", type: "operator" },
-  { key: "*", type: "operator" },
-  { key: "reset", type: "reset" },
-  { key: "=", type: "equal" },
+  { key: "7", type: "number", keyboardKey: "7" },
+  { key: "8", type: "number", keyboardKey: "8" },
+  { key: "9", type: "number", keyboardKey: "9" },
+  { key: "del", type: "del", keyboardKey: "Backspace" },
+  { key: "4", type: "number", keyboardKey: "4" },
+  { key: "5", type: "number", keyboardKey: "5" },
+  { key: "6", type: "number", keyboardKey: "6" },
+  { key: "+", type: "operator", keyboardKey: "+" },
+  { key: "1", type: "number", keyboardKey: "1" },
+  { key: "2", type: "number", keyboardKey: "2" },
+  { key: "3", type: "number", keyboardKey: "3" },
+  { key: "-", type: "operator", keyboardKey: "-" },
+  { key: ".", type: "dot", keyboardKey: "." },
+  { key: "0", type: "number", keyboardKey: "0" },
+  { key: "/", type: "operator", keyboardKey: "/" },
+  { key: "*", type: "operator", keyboardKey: "*" },
+  { key: "reset", type: "reset", keyboardKey: "Escape" },
+  { key: "=", type: "equal", keyboardKey: "Enter" },
 ];
 
 export default function MainContent() {
@@ -225,6 +226,14 @@ function Screen() {
   );
 }
 
+const getCharType = (char: string): KeyType => {
+  const ch = keys.find((c) => {
+    return c.key === char;
+  });
+  // biome-ignore lint/style/noNonNullAssertion: Character guaranteed to exist in keys array
+  return ch!.type;
+};
+
 function Keyboard() {
   const classes = useAtomValue(themeClassAtom);
   const theme = useAtomValue(calculatorThemeAtom);
@@ -232,37 +241,32 @@ function Keyboard() {
   const currentInputType = useRef<KeyType>();
   const [isFloat, setIsFloat] = useState(false);
 
-  const getCharType = (char: string): KeyType => {
-    const ch = keys.find((c) => {
-      return c.key === char;
-    });
-    // biome-ignore lint/style/noNonNullAssertion: Character guaranteed to exist in keys array
-    return ch!.type;
-  };
+  const handleNumKey = useCallback(
+    (k: Key) => {
+      if (!currentInputType.current) {
+        if (k.key === "0") return;
+        setDisplay(k.key);
+      } else {
+        setDisplay((d) => {
+          return (
+            (d.endsWith("0") && getCharType(d.slice(-2)[0]) === "operator"
+              ? d.slice(0, -1)
+              : d) + k.key
+          );
+        });
+      }
+      currentInputType.current = k.type;
+    },
+    [setDisplay],
+  );
 
-  const handleNumKey = (k: Key) => {
-    if (!currentInputType.current) {
-      if (k.key === "0") return;
-      setDisplay(k.key);
-    } else {
-      setDisplay((d) => {
-        return (
-          (d.endsWith("0") && getCharType(d.slice(-2)[0]) === "operator"
-            ? d.slice(0, -1)
-            : d) + k.key
-        );
-      });
-    }
-    currentInputType.current = k.type;
-  };
-
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setDisplay("");
     setIsFloat(false);
     currentInputType.current = undefined;
-  };
+  }, [setDisplay]);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     if (!currentInputType.current) return;
 
     if (currentInputType.current === "dot") {
@@ -280,9 +284,9 @@ function Keyboard() {
     setDisplay((d) => (d.length > 1 ? d.slice(0, -1) : ""));
     currentInputType.current =
       display.length > 1 ? getCharType(display.slice(-2, -1)) : undefined;
-  };
+  }, [display, isFloat, setDisplay]);
 
-  const handleDot = () => {
+  const handleDot = useCallback(() => {
     if (isFloat) return;
 
     if (!currentInputType.current) {
@@ -295,31 +299,93 @@ function Keyboard() {
     setIsFloat(true);
 
     currentInputType.current = "dot";
-  };
+  }, [isFloat, setDisplay]);
 
-  const handleOperator = (key: Key) => {
-    if (!currentInputType.current) {
-      setDisplay(`0${key.key}`);
-    } else {
-      const curr = (["operator", "dot"] as KeyType[]).includes(
-        currentInputType.current,
-      )
-        ? display.slice(0, -1)
-        : display;
-      setDisplay(curr + key.key);
-    }
+  const handleOperator = useCallback(
+    (key: Key) => {
+      if (!currentInputType.current) {
+        setDisplay(`0${key.key}`);
+      } else {
+        const curr = (["operator", "dot"] as KeyType[]).includes(
+          currentInputType.current,
+        )
+          ? display.slice(0, -1)
+          : display;
+        setDisplay(curr + key.key);
+      }
 
-    setIsFloat(false);
-    currentInputType.current = key.type;
-  };
+      setIsFloat(false);
+      currentInputType.current = key.type;
+    },
+    [display, setDisplay],
+  );
 
-  const handleEqual = () => {
+  const handleEqual = useCallback(() => {
     const mex = new Mexp();
     const result = String(mex.eval(display));
     setDisplay(result);
     setIsFloat(result.includes("."));
     currentInputType.current = "number";
-  };
+  }, [display, setDisplay]);
+
+  const handleKeyPress = useCallback(
+    (key: Key) => {
+      switch (key.type) {
+        case "number":
+          handleNumKey(key);
+          break;
+        case "reset":
+          handleReset();
+          break;
+        case "del":
+          handleDelete();
+          break;
+        case "dot":
+          handleDot();
+          break;
+        case "operator":
+          handleOperator(key);
+          break;
+        case "equal":
+          handleEqual();
+          break;
+        default:
+          console.log("invalid input");
+          break;
+      }
+    },
+    [
+      handleNumKey,
+      handleReset,
+      handleDelete,
+      handleDot,
+      handleOperator,
+      handleEqual,
+    ],
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Prevent default behavior for calculator keys
+      if (event.key === "Enter") {
+        event.preventDefault();
+      }
+
+      const pressedKey = keys.find(
+        (k) =>
+          k.keyboardKey === event.key || (k.key === "*" && event.key === "x"),
+      );
+
+      if (pressedKey) {
+        handleKeyPress(pressedKey);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyPress]);
 
   useEffect(() => {
     if (display.length < 1) {
@@ -338,31 +404,7 @@ function Keyboard() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               key={key.key}
-              onClick={() => {
-                switch (key.type) {
-                  case "number":
-                    handleNumKey(key);
-                    break;
-                  case "reset":
-                    handleReset();
-                    break;
-                  case "del":
-                    handleDelete();
-                    break;
-                  case "dot":
-                    handleDot();
-                    break;
-                  case "operator":
-                    handleOperator(key);
-                    break;
-                  case "equal":
-                    handleEqual();
-                    break;
-                  default:
-                    console.log("invalid input");
-                    break;
-                }
-              }}
+              onClick={() => handleKeyPress(key)}
               className={`${
                 (key.type === "reset" || key.type === "equal") && "col-span-2"
               } flex h-16 items-center justify-center rounded-[6px] border-b-4 pt-2 uppercase hover:brightness-125 lg:rounded-[10px] ${
