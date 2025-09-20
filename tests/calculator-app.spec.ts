@@ -276,6 +276,45 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
     });
   });
 
+  test.describe("Keyboard Support", () => {
+    test("should support number keys 0-9", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("2");
+      await page.keyboard.press("3");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("123");
+    });
+
+    test("should support operator keys", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("+");
+      await page.keyboard.press("2");
+      await page.keyboard.press("*");
+      await page.keyboard.press("3");
+      await page.keyboard.press("-");
+      await page.keyboard.press("4");
+      await page.keyboard.press("/");
+      await page.keyboard.press("5");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("1+2x3-4/5");
+    });
+
+    test("should support decimal point key", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press(".");
+      await page.keyboard.press("2");
+      await page.keyboard.press("3");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("1.23");
+    });
+  });
+
   test.describe("Theme Switching", () => {
     test("should switch between themes when theme toggle is clicked", async ({
       page,
