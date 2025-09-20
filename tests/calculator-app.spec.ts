@@ -313,6 +313,28 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const screen = page.locator("div").nth(6);
       await expect(screen).toHaveText("1.23");
     });
+
+    test("should support Backspace for delete", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("2");
+      await page.keyboard.press("3");
+      await page.keyboard.press("Backspace");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("12");
+    });
+
+    test("should support Escape for reset", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("2");
+      await page.keyboard.press("3");
+      await page.keyboard.press("Escape");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("0");
+    });
   });
 
   test.describe("Theme Switching", () => {
