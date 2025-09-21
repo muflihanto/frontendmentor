@@ -335,6 +335,27 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const screen = page.locator("div").nth(6);
       await expect(screen).toHaveText("0");
     });
+
+    test("should support Enter for equals", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("2");
+      await page.keyboard.press("+");
+      await page.keyboard.press("2");
+      await page.keyboard.press("Enter");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("4");
+    });
+
+    test("should support 'x' key for multiplication", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("2");
+      await page.keyboard.press("x");
+      await page.keyboard.press("3");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("2x3");
+    });
   });
 
   test.describe("Theme Switching", () => {
