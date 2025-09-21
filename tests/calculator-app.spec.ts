@@ -356,6 +356,34 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const screen = page.locator("div").nth(6);
       await expect(screen).toHaveText("2x3");
     });
+
+    test("should ignore unsupported keys", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("a"); // Should be ignored
+      await page.keyboard.press("2");
+      await page.keyboard.press("!"); // Should be ignored
+      await page.keyboard.press("3");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("123");
+    });
+
+    test("should prevent default behavior for Enter key", async ({ page }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("+");
+      await page.keyboard.press("1");
+
+      // Enter should not submit forms or cause page navigation
+      await page.keyboard.press("Enter");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("2");
+
+      // Verify we're still on the same page
+      await expect(page).toHaveTitle("Frontend Mentor | Calculator app");
+    });
   });
 
   test.describe("Theme Switching", () => {
