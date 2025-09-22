@@ -384,6 +384,28 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       // Verify we're still on the same page
       await expect(page).toHaveTitle("Frontend Mentor | Calculator app");
     });
+
+    test("should handle complex keyboard input with formatting", async ({
+      page,
+    }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("2");
+      await page.keyboard.press("3");
+      await page.keyboard.press("4");
+      await page.keyboard.press("5");
+      await page.keyboard.press("+");
+      await page.keyboard.press("6");
+      await page.keyboard.press("7");
+      await page.keyboard.press("8");
+      await page.keyboard.press("9");
+      await page.keyboard.press(".");
+      await page.keyboard.press("1");
+      await page.keyboard.press("2");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("12,345+6,789.12");
+    });
   });
 
   test.describe("Theme Switching", () => {
