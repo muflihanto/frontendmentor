@@ -406,6 +406,27 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const screen = page.locator("div").nth(6);
       await expect(screen).toHaveText("12,345+6,789.12");
     });
+
+    test("should handle keyboard input with mixed mouse and keyboard", async ({
+      page,
+    }) => {
+      // Use mouse for some inputs
+      await page.getByRole("button", { name: "1" }).click();
+      await page.getByRole("button", { name: "0" }).click();
+      await page.getByRole("button", { name: "0" }).click();
+
+      // Use keyboard for others
+      await page.focus("body");
+      await page.keyboard.press("0");
+      await page.keyboard.press("*");
+      await page.keyboard.press("2");
+
+      // Back to mouse
+      await page.getByRole("button", { name: "5" }).click();
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("1,000x25");
+    });
   });
 
   test.describe("Theme Switching", () => {
