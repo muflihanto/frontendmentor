@@ -463,6 +463,25 @@ test.describe("FrontendMentor Challenge - Calculator app Page", () => {
       const screen = page.locator("div").nth(6);
       await expect(screen).toHaveText("500x2");
     });
+
+    test("should handle keyboard input with formatting and calculations", async ({
+      page,
+    }) => {
+      await page.focus("body");
+      await page.keyboard.press("1");
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.keyboard.press("*");
+      await page.keyboard.press("1");
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.keyboard.press("Enter");
+
+      const screen = page.locator("div").nth(6);
+      await expect(screen).toHaveText("1,000,000");
+    });
   });
 
   test.describe("Theme Switching", () => {
