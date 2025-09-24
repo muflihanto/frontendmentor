@@ -13,8 +13,6 @@ import { rubik } from "../utils/fonts/rubik";
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-// TODO: **Bonus**: See the chat interface animate on the initial load
-
 export default function ChatAppCssIllustration() {
   return (
     <div className="min-h-[100dvh] bg-white">
