@@ -330,6 +330,52 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(icon).toHaveCSS("color", "rgb(177, 177, 177)");
       await expect(icon).toHaveCSS("fill", "rgb(122, 122, 122)");
     });
+    test("Should handle option selection and pledge input with blur validation", async ({
+      page,
+    }) => {
+      await page.click('button:has-text("Back this project")');
+
+      // Select Bamboo Stand option
+      await page.click('label:has-text("Bamboo Stand")');
+
+      // Verify option is selected with visual indicator
+      const bambooOption = page
+        .locator('label:has-text("Bamboo Stand")')
+        .locator("..")
+        .locator("..");
+      await expect(bambooOption).toHaveClass(
+        /outline-crowdfunding-primary-100/,
+      );
+
+      // Verify pledge input is visible for selected option
+      const pledgeInput = bambooOption.locator('input[type="number"]');
+      await expect(pledgeInput).toBeVisible();
+
+      // Test valid pledge amount
+      await pledgeInput.fill("25");
+      await pledgeInput.blur(); // Trigger blur to update state
+      await expect(pledgeInput).toHaveValue("25");
+
+      // Test invalid pledge amount (below minimum) - error should appear on blur
+      await pledgeInput.fill("5");
+      await pledgeInput.blur(); // Trigger blur to update state and show error
+
+      // Verify error message appears after blur
+      const errorMessage = page.locator("text=Pledge must be at least $25");
+      await expect(errorMessage).toBeVisible();
+
+      // Verify error message has the new styling classes
+      await expect(errorMessage).toHaveClass(/bg-red-50/);
+      await expect(errorMessage).toHaveClass(/border-red-200/);
+      await expect(errorMessage).toHaveClass(/rounded-md/);
+
+      // Fix pledge amount - error should disappear on blur
+      await pledgeInput.fill("30");
+      await pledgeInput.blur(); // Trigger blur to update state
+
+      // Verify error message disappears when pledge becomes valid after blur
+      await expect(errorMessage).not.toBeVisible();
+    });
   });
 
   /** Test if the page has a 'Statistic' card */
