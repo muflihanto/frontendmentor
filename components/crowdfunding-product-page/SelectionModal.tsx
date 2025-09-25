@@ -14,8 +14,6 @@ import type { SuppportContext } from "./Main";
 import { NumberField } from "./NumberField";
 import supportType from "./supportType.json";
 
-// TODO: improve NumberField input error message
-
 type SupportType = typeof supportType;
 
 type SelectionModalProps = {
@@ -204,6 +202,9 @@ type ContinueProps = {
   onChange: (e: number) => void;
 };
 const Continue = ({ el, pledge, onChange }: ContinueProps) => {
+  const minPledge = el.startsFrom > 0 ? el.startsFrom : 1;
+  const isInvalid = pledge < minPledge;
+
   return (
     <div className="mt-[22px] lg:mt-[31px]">
       <hr className="w-[calc(100%+46px)] -translate-x-[23px] border-t-2" />
@@ -211,13 +212,28 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
         <p className="mt-[27px] text-center text-[14px] font-medium text-crowdfunding-neutral-100/75 lg:mt-0 lg:text-[15px]">
           Enter your pledge
         </p>
-        <div className="mt-[19px] grid h-[48px] auto-cols-auto grid-flow-col grid-rows-1 items-center justify-between lg:mt-0 lg:gap-4">
-          <NumberField
-            value={pledge}
-            onChange={onChange}
-            validationBehavior="native"
-            isInvalid={pledge < (el.startsFrom > 0 ? el.startsFrom : 1)}
-          />
+        <div className="mt-[19px] grid h-[48px] auto-cols-auto grid-flow-col grid-rows-1 items-center justify-between lg:mt-0 lg:gap-4 relative">
+          <div className="contents relative">
+            <NumberField
+              value={pledge}
+              onChange={onChange}
+              validationBehavior="native"
+              isInvalid={isInvalid}
+              aria-describedby={
+                isInvalid
+                  ? `pledge-error-${el.name.replace(/\s+/g, "-")}`
+                  : undefined
+              }
+            />
+            {isInvalid && (
+              <span
+                id={`pledge-error-${el.name.replace(/\s+/g, "-")}`}
+                className="absolute -bottom-6 left-0 w-full text-xs font-medium text-red-500 text-center px-4 py-1/2 bg-red-50 rounded-md border border-red-200 shadow-sm"
+              >
+                Pledge must be at least ${minPledge}
+              </span>
+            )}
+          </div>
           <button
             className="h-full w-[115px] rounded-full bg-crowdfunding-primary-100 pb-[2px] text-[14px] font-bold text-white/75 hover:bg-crowdfunding-primary-200 lg:w-[107px]"
             type="submit"
