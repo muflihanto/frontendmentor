@@ -383,6 +383,52 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(errorMessage).not.toBeVisible();
       await expect(continueButton).toBeEnabled();
     });
+
+    test("Should validate pledge amounts for different options on blur", async ({
+      page,
+    }) => {
+      await page.click('button:has-text("Back this project")');
+
+      // Test no reward option (minimum $1)
+      await page.click('label:has-text("Pledge with no reward")');
+      const noRewardOption = page
+        .locator('label:has-text("Pledge with no reward")')
+        .locator("..")
+        .locator("..");
+      const pledgeInput1 = noRewardOption.locator('input[type="number"]');
+
+      await pledgeInput1.fill("0");
+      await pledgeInput1.blur(); // Trigger validation on blur
+      await expect(
+        page.locator("text=Pledge must be at least $1"),
+      ).toBeVisible();
+
+      await pledgeInput1.fill("1");
+      await pledgeInput1.blur(); // Trigger validation on blur
+      await expect(
+        page.locator("text=Pledge must be at least $1"),
+      ).not.toBeVisible();
+
+      // Test Bamboo Stand option (minimum $25)
+      await page.click('label:has-text("Bamboo Stand")');
+      const bambooOption = page
+        .locator('label:has-text("Bamboo Stand")')
+        .locator("..")
+        .locator("..");
+      const pledgeInput2 = bambooOption.locator('input[type="number"]');
+
+      await pledgeInput2.fill("24");
+      await pledgeInput2.blur(); // Trigger validation on blur
+      await expect(
+        page.locator("text=Pledge must be at least $25"),
+      ).toBeVisible();
+
+      await pledgeInput2.fill("25");
+      await pledgeInput2.blur(); // Trigger validation on blur
+      await expect(
+        page.locator("text=Pledge must be at least $25"),
+      ).not.toBeVisible();
+    });
   });
 
   /** Test if the page has a 'Statistic' card */
