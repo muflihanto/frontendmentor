@@ -369,12 +369,19 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(errorMessage).toHaveClass(/border-red-200/);
       await expect(errorMessage).toHaveClass(/rounded-md/);
 
+      // Verify continue button is disabled for invalid pledge
+      const continueButton = bambooOption.locator(
+        'button:has-text("Continue")',
+      );
+      await expect(continueButton).toBeDisabled();
+
       // Fix pledge amount - error should disappear on blur
       await pledgeInput.fill("30");
       await pledgeInput.blur(); // Trigger blur to update state
 
       // Verify error message disappears when pledge becomes valid after blur
       await expect(errorMessage).not.toBeVisible();
+      await expect(continueButton).toBeEnabled();
     });
   });
 

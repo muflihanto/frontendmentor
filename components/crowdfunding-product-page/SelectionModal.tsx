@@ -237,6 +237,7 @@ const Continue = ({ el, pledge, onChange }: ContinueProps) => {
           <button
             className="h-full w-[115px] rounded-full bg-crowdfunding-primary-100 pb-[2px] text-[14px] font-bold text-white/75 hover:bg-crowdfunding-primary-200 lg:w-[107px]"
             type="submit"
+            disabled={isInvalid}
           >
             Continue
           </button>
