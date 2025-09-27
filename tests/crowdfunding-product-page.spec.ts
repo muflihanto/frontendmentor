@@ -429,6 +429,33 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         page.locator("text=Pledge must be at least $25"),
       ).not.toBeVisible();
     });
+
+    test("Should show proper error message styling for invalid pledges after blur", async ({
+      page,
+    }) => {
+      await page.click('button:has-text("Back this project")');
+
+      // Select Bamboo Stand and enter invalid pledge
+      await page.click('label:has-text("Bamboo Stand")');
+      const pledgeInput = page.locator('input[type="number"]');
+
+      await pledgeInput.fill("10");
+      await pledgeInput.blur(); // Error message appears on blur
+
+      // Verify error message has the enhanced styling
+      const errorMessage = page.locator("text=Pledge must be at least $25");
+      await expect(errorMessage).toBeVisible();
+
+      // Check for new styling classes
+      await expect(errorMessage).toHaveClass(/bg-red-50/);
+      await expect(errorMessage).toHaveClass(/border/);
+      await expect(errorMessage).toHaveClass(/rounded-md/);
+      await expect(errorMessage).toHaveClass(/shadow-sm/);
+
+      // Verify text styling
+      await expect(errorMessage).toHaveClass(/font-medium/);
+      await expect(errorMessage).toHaveClass(/text-center/);
+    });
   });
 
   /** Test if the page has a 'Statistic' card */
