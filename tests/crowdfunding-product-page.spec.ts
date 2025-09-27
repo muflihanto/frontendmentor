@@ -456,6 +456,34 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(errorMessage).toHaveClass(/font-medium/);
       await expect(errorMessage).toHaveClass(/text-center/);
     });
+
+    test("Should not show error message while typing, only after blur", async ({
+      page,
+    }) => {
+      await page.click('button:has-text("Back this project")');
+
+      // Select Bamboo Stand option
+      await page.click('label:has-text("Bamboo Stand")');
+      const pledgeInput = page.locator('input[type="number"]');
+
+      // Type an invalid value - error should NOT appear during typing
+      await pledgeInput.fill("10");
+
+      // Error message should not be visible while typing (before blur)
+      const errorMessage = page.locator("text=Pledge must be at least $25");
+      await expect(errorMessage).not.toBeVisible();
+
+      // Trigger blur - error should appear after blur
+      await pledgeInput.blur();
+      await expect(errorMessage).toBeVisible();
+
+      // Type a valid value - error should persist until blur
+      await pledgeInput.fill("30");
+      await expect(errorMessage).toBeVisible(); // Still visible during typing
+
+      await pledgeInput.blur(); // Error should disappear after blur with valid value
+      await expect(errorMessage).not.toBeVisible();
+    });
   });
 
   /** Test if the page has a 'Statistic' card */
