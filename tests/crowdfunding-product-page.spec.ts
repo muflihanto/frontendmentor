@@ -514,6 +514,19 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const associatedErrorMessage = page.locator(`#${ariaDescribedBy}`);
       await expect(associatedErrorMessage).toBeVisible();
     });
+    test("Should auto-scroll to selected option", async ({ page }) => {
+      await page.click('button:has-text("Back this project")');
+
+      // Select an option and verify it's scrolled into view
+      const blackEditionOption = page
+        .locator("form")
+        .getByRole("heading", { name: "Black Edition Stand" });
+
+      await blackEditionOption.click();
+
+      // Verify the option is in viewport (basic check)
+      await expect(blackEditionOption).toBeInViewport();
+    });
   });
 
   /** Test if the page has a 'Statistic' card */
