@@ -383,7 +383,6 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(errorMessage).not.toBeVisible();
       await expect(continueButton).toBeEnabled();
     });
-
     test("Should validate pledge amounts for different options on blur", async ({
       page,
     }) => {
@@ -429,7 +428,6 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
         page.locator("text=Pledge must be at least $25"),
       ).not.toBeVisible();
     });
-
     test("Should show proper error message styling for invalid pledges after blur", async ({
       page,
     }) => {
@@ -456,7 +454,6 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       await expect(errorMessage).toHaveClass(/font-medium/);
       await expect(errorMessage).toHaveClass(/text-center/);
     });
-
     test("Should not show error message while typing, only after blur", async ({
       page,
     }) => {
@@ -483,6 +480,39 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
 
       await pledgeInput.blur(); // Error should disappear after blur with valid value
       await expect(errorMessage).not.toBeVisible();
+    });
+    test("Should handle keyboard navigation and accessibility with blur events", async ({
+      page,
+    }) => {
+      await page.click('button:has-text("Back this project")');
+
+      // First focusable element should be close button or first radio
+      const firstFocusable = page.getByLabel("Close 'Back this project'");
+      await expect(firstFocusable).toBeFocused();
+
+      // Test Tab navigation to input field and blur validation
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Space");
+      await page.keyboard.press("Tab"); // Navigate to input field
+
+      const pledgeInput = page.locator('input[type="number"]');
+      await expect(pledgeInput).toBeFocused();
+
+      // Type invalid value and Tab away to trigger blur
+      await pledgeInput.fill("0");
+      await page.keyboard.press("Tab"); // This triggers blur
+
+      // Error message should appear after Tab (blur)
+      const errorMessage = page.locator("text=Pledge must be at least $1");
+      await expect(errorMessage).toBeVisible();
+
+      // Test aria-describedby association after blur
+      const ariaDescribedBy =
+        await pledgeInput.getAttribute("aria-describedby");
+      expect(ariaDescribedBy).toContain("pledge-error");
+
+      const associatedErrorMessage = page.locator(`#${ariaDescribedBy}`);
+      await expect(associatedErrorMessage).toBeVisible();
     });
   });
 
