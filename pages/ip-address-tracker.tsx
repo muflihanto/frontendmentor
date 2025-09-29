@@ -72,7 +72,10 @@ function Main() {
 }
 
 const zInputSchema = z.object({
-  ipAddress: z.string().min(1, "").ip(""),
+  ipAddress: z
+    .string()
+    .min(1, "IP address is required")
+    .ip("Please enter a valid IP address"),
 });
 type InputSchema = z.infer<typeof zInputSchema>;
 // type Detail = {
@@ -93,7 +96,7 @@ function Intro() {
     register,
     reset,
     handleSubmit,
-    formState: { isSubmitSuccessful },
+    formState: { isSubmitSuccessful, errors },
   } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema) });
   const [detail, setDetail] = useAtom(detailAtom);
   const setLoc = useSetAtom(locAtom);
@@ -132,12 +135,31 @@ function Intro() {
           noValidate
           className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white lg:mt-[30px] lg:w-[555px]"
         >
-          <input
-            type="text"
-            className="w-full bg-white px-6 text-[18px] font-normal text-ip-address-200"
-            {...register("ipAddress", { required: true })}
-            placeholder="Search for any IP address or domain"
-          />
+          <div className="contents relative">
+            <input
+              type="text"
+              className="w-full bg-white px-6 text-[18px] font-normal text-ip-address-200"
+              {...register("ipAddress", { required: true })}
+              placeholder="Search for any IP address or domain"
+            />
+            {errors.ipAddress && (
+              <div className="absolute top-40 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-medium py-2 px-3 rounded-lg shadow-lg z-20 flex items-center gap-2">
+                <svg
+                  className="w-4 h-4 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  role="graphic-symbol"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>Please enter a valid IP address</span>
+              </div>
+            )}
+          </div>
           <button
             onClick={onClick}
             className="flex w-[58px] items-center justify-center bg-black hover:bg-opacity-[75%]"
