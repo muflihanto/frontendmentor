@@ -143,6 +143,39 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorMessage).toBeVisible();
   });
 
+  test("display error message for empty input", async ({ page }) => {
+    // Find the input and submit button
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    // Clear input and click submit
+    await input.clear();
+    await submitButton.click();
+
+    // Wait for error state to appear
+    await page.waitForTimeout(500);
+
+    // Check input has error styling
+    await expect(input).toHaveCSS("border-color", "rgb(239, 68, 68)");
+
+    // Check error message is visible with enhanced styling
+    const errorMessage = page.locator("text=Please enter a valid IP address");
+    await expect(errorMessage).toBeVisible();
+
+    // Check error message container has enhanced styling
+    const errorContainer = errorMessage.locator("..");
+    await expect(errorContainer).toHaveCSS(
+      "background-color",
+      "rgb(239, 68, 68)",
+    );
+    await expect(errorContainer).toHaveCSS("color", "rgb(255, 255, 255)");
+    await expect(errorContainer).toHaveCSS("border-radius", "8px");
+
+    // Check error icon is visible
+    const errorIcon = page.locator('svg[fill="currentColor"]').first();
+    await expect(errorIcon).toBeVisible();
+  });
+
   /** Test responsive layout for mobile */
   test("has correct mobile layout", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
