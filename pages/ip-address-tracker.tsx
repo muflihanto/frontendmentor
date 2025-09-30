@@ -138,7 +138,11 @@ function Intro() {
           <div className="contents relative">
             <input
               type="text"
-              className="w-full bg-white px-6 text-[18px] font-normal text-ip-address-200"
+              className={`w-full bg-white px-6 text-[18px] font-normal text-ip-address-200 placeholder:text-ip-address-100 transition-all rounded-l-[16px] ${
+                errors.ipAddress
+                  ? "border-2 border-red-500 bg-red-50 pr-12 ring-2 ring-red-200"
+                  : "border-2 border-transparent"
+              }`}
               {...register("ipAddress", { required: true })}
               placeholder="Search for any IP address or domain"
             />

@@ -137,9 +137,10 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await page.waitForTimeout(500);
 
     await expect(input).toHaveValue("invalid.ip.address");
-
-    // TODO: the input should show visual feedback for invalid input
     await expect(initialAddress).toBeVisible();
+
+    const errorMessage = page.locator("text=Please enter a valid IP address");
+    await expect(errorMessage).toBeVisible();
   });
 
   /** Test responsive layout for mobile */
