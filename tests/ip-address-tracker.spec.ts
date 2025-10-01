@@ -33,7 +33,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
   /** Test if the page has an ip info card */
   test("has an ip info card", async ({ page }) => {
-    const card = page.locator("div").nth(4);
+    const card = page.locator("div").nth(5);
     await expect(card.getByText("IP Address::ffff:127.0.0.1")).toBeVisible();
     await expect(card.getByText("Location-")).toBeVisible();
     await expect(card.getByText("Timezone-")).toBeVisible();
@@ -98,7 +98,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     expect(
       await map.locator(".leaflet-map-pane").getAttribute("style"),
     ).not.toContain("translate3d(545886px, 382367px, 0px)");
-    const card = page.locator("div").nth(4);
+    const card = page.locator("div").nth(5);
     await expect(card.getByText("IP Address8.8.8.8")).toBeVisible();
     await expect(card.getByText("ISPGoogle LLC")).toBeVisible();
   });
