@@ -92,6 +92,9 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await input.fill("8.8.8.8");
     await form.getByRole("button").click();
     await page.waitForTimeout(1000);
+    const errorMessage = page.locator("text=Please enter a valid IP address");
+    await expect(errorMessage).not.toBeVisible();
+    await expect(input).toHaveValue("");
     expect(
       await map.locator(".leaflet-map-pane").getAttribute("style"),
     ).not.toContain("translate3d(545886px, 382367px, 0px)");
