@@ -176,6 +176,33 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorIcon).toBeVisible();
   });
 
+  test("display error message for invalid IP format", async ({ page }) => {
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    // Enter invalid IP format
+    await input.fill("invalid-ip");
+    await submitButton.click();
+
+    // Wait for error state
+    await page.waitForTimeout(500);
+
+    // Check enhanced error styling
+    await expect(input).toHaveCSS("border-color", "rgb(239, 68, 68)");
+
+    const errorMessage = page.locator("text=Please enter a valid IP address");
+    await expect(errorMessage).toBeVisible();
+
+    // Check error message container has enhanced styling
+    const errorContainer = errorMessage.locator("..");
+    await expect(errorContainer).toHaveCSS(
+      "background-color",
+      "rgb(239, 68, 68)",
+    );
+    await expect(errorContainer).toHaveCSS("color", "rgb(255, 255, 255)");
+    await expect(errorContainer).toHaveCSS("border-radius", "8px");
+  });
+
   /** Test responsive layout for mobile */
   test("has correct mobile layout", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
