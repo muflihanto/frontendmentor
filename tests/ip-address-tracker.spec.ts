@@ -231,6 +231,24 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(input).not.toHaveCSS("border-color", "rgb(239, 68, 68)");
   });
 
+  test("maintain error state during rapid invalid submissions", async ({
+    page,
+  }) => {
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    // Rapid invalid submissions
+    for (let i = 0; i < 3; i++) {
+      await input.fill(`invalid${i}`);
+      await submitButton.click();
+      await page.waitForTimeout(100);
+    }
+
+    // Error should persist and be visible
+    const errorMessage = page.locator("text=Please enter a valid IP address");
+    await expect(errorMessage).toBeVisible();
+  });
+
   /** Test responsive layout for mobile */
   test("has correct mobile layout", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
