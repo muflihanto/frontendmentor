@@ -145,9 +145,19 @@ function Intro() {
               }`}
               {...register("ipAddress", { required: true })}
               placeholder="Search for any IP address or domain"
+              aria-invalid={errors.ipAddress ? "true" : "false"}
+              aria-describedby={
+                errors.ipAddress ? "ip-address-error" : undefined
+              }
+              aria-required="true"
             />
             {errors.ipAddress && (
-              <div className="absolute top-40 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-medium py-2 px-3 rounded-lg shadow-lg z-20 flex items-center gap-2">
+              <div
+                id="ip-address-error"
+                role="alert"
+                aria-live="polite"
+                className="absolute top-40 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-medium py-2 px-3 rounded-lg shadow-lg z-20 flex items-center gap-2"
+              >
                 <svg
                   className="w-4 h-4 flex-shrink-0"
                   fill="currentColor"
