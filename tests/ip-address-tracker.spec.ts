@@ -265,9 +265,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(input).toHaveAttribute("aria-required", "true");
 
     // Error message should have proper role and live region
-    const errorMessage = page
-      .locator("text=Please enter a valid IP address")
-      .locator("..");
+    const errorMessage = page.locator('div[role="alert"]');
     await expect(errorMessage).toHaveAttribute("id");
 
     // Input should be described by error message
@@ -276,6 +274,31 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
       "aria-describedby",
       errorId ?? "ip-address-error",
     );
+  });
+
+  test("should clear ARIA attributes when error is resolved", async ({
+    page,
+  }) => {
+    const input = page.locator('input[type="text"]');
+
+    // Trigger error
+    await input.fill("invalid-ip");
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(500);
+
+    // Verify error state
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+
+    // Fix the error
+    await input.fill("8.8.8.8");
+
+    // ARIA attributes should be cleared
+    await expect(input).toHaveAttribute("aria-invalid", "false");
+    await expect(input).not.toHaveAttribute("aria-describedby", /.*/);
+
+    // Error message should be removed from DOM or hidden
+    const errorMessage = page.locator('div[role="alert"]');
+    await expect(errorMessage).not.toBeVisible();
   });
 
   /** Test responsive layout for mobile */
