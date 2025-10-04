@@ -249,6 +249,35 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorMessage).toBeVisible();
   });
 
+  test("should have proper ARIA attributes for error state", async ({
+    page,
+  }) => {
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("invalid-ip");
+    await submitButton.click();
+
+    await page.waitForTimeout(500);
+
+    // Check input has proper ARIA attributes
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveAttribute("aria-required", "true");
+
+    // Error message should have proper role and live region
+    const errorMessage = page
+      .locator("text=Please enter a valid IP address")
+      .locator("..");
+    await expect(errorMessage).toHaveAttribute("id");
+
+    // Input should be described by error message
+    const errorId = await errorMessage.getAttribute("id");
+    await expect(input).toHaveAttribute(
+      "aria-describedby",
+      errorId ?? "ip-address-error",
+    );
+  });
+
   /** Test responsive layout for mobile */
   test("has correct mobile layout", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
