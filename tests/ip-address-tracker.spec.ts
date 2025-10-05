@@ -301,6 +301,38 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorMessage).not.toBeVisible();
   });
 
+  test("should maintain focus management during error state", async ({
+    page,
+  }) => {
+    const input = page.locator('input[type="text"]');
+
+    // Focus input and trigger error
+    await input.focus();
+    await input.fill("invalid-ip");
+    await page.keyboard.press("Enter");
+
+    await page.waitForTimeout(500);
+
+    // Focus should remain on input or move to error message for screen readers
+    const activeElement = await page.evaluate(
+      () => document.activeElement?.tagName,
+    );
+    expect(activeElement).toBe("INPUT");
+
+    // Error message should be accessible to screen readers
+    const errorMessage = page.locator('div[role="alert"]');
+    const isVisibleToScreenReader = await errorMessage.evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return (
+        style.visibility !== "hidden" &&
+        style.display !== "none" &&
+        el.getAttribute("aria-hidden") !== "true"
+      );
+    });
+
+    expect(isVisibleToScreenReader).toBe(true);
+  });
+
   /** Test responsive layout for mobile */
   test("has correct mobile layout", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
