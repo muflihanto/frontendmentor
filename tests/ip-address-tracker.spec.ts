@@ -301,6 +301,31 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorMessage).not.toBeVisible();
   });
 
+  test("should provide complete context for screen reader users", async ({
+    page,
+  }) => {
+    // Check form has proper label
+    const form = page.locator("form");
+    await expect(form).toHaveAttribute("aria-labelledby", "main-heading");
+
+    // Check placeholder is descriptive
+    const input = page.locator('input[type="text"]');
+    await expect(input).toHaveAttribute(
+      "placeholder",
+      "Search for any IP address or domain",
+    );
+
+    // Trigger error and check announcements
+    await input.fill("invalid-ip");
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(500);
+
+    // Error should be properly associated
+    const errorMessage = page.locator('div[role="alert"]');
+    const errorText = await errorMessage.textContent();
+    expect(errorText).toContain("Please enter a valid IP address");
+  });
+
   test("should maintain focus management during error state", async ({
     page,
   }) => {

@@ -33,7 +33,6 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 
 // TODO: View the optimal layout for each page depending on their device's screen size
 // TODO: Add API error UI feedback
-// TODO: Add invalid input UI feedback
 
 export const getServerSideProps: GetServerSideProps<{
   detail: IpInfoResponse;
@@ -134,6 +133,7 @@ function Intro() {
         <form
           noValidate
           className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white lg:mt-[30px] lg:w-[555px]"
+          aria-labelledby="main-heading"
         >
           <div className="contents relative">
             <input
