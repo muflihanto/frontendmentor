@@ -5,7 +5,7 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
-import { type ReactNode, useEffect, useMemo } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import requestIp from "request-ip";
 import { z } from "zod";
@@ -32,7 +32,6 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 });
 
 // TODO: View the optimal layout for each page depending on their device's screen size
-// TODO: Add API error UI feedback
 
 export const getServerSideProps: GetServerSideProps<{
   detail: IpInfoResponse;
@@ -99,14 +98,23 @@ function Intro() {
   } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema) });
   const [detail, setDetail] = useAtom(detailAtom);
   const setLoc = useSetAtom(locAtom);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onClick = handleSubmit(async (data) => {
-    await fetch(`/api/getIpInfo?ip=${data.ipAddress}`)
-      .then((res) => res.json())
-      .then((data: { data: IpInfoResponse }) => {
-        setDetail(data.data);
-        // console.log(data);
-      });
+    setApiError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`/api/getIpInfo?ip=${data.ipAddress}`);
+      if (!response.ok) throw new Error("API request failed");
+      const result = (await response.json()) as { data: IpInfoResponse };
+      setDetail(result.data);
+    } catch (_error) {
+      setApiError("Failed to fetch IP information");
+    } finally {
+      setIsLoading(false);
+    }
   });
 
   useEffect(() => {
@@ -130,6 +138,24 @@ function Intro() {
         >
           IP Address Tracker
         </h1>
+        {/* API Error Message - Minimal addition */}
+        {apiError && (
+          <div className="mt-4 w-full max-w-[555px] bg-red-500 text-white text-sm py-2 px-3 rounded flex items-center gap-2">
+            <svg
+              className="w-4 h-4"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              role="graphic-symbol"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span>{apiError}</span>
+          </div>
+        )}
         <form
           noValidate
           className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white lg:mt-[30px] lg:w-[555px]"
@@ -179,14 +205,18 @@ function Intro() {
             className="flex w-[58px] items-center justify-center bg-black hover:bg-opacity-[75%]"
             type="submit"
           >
-            <svg
-              className="w-[11px]"
-              viewBox="0 0 11 14"
-              aria-label="Submit"
-              role="graphics-symbol"
-            >
-              <use href="/ip-address-tracker/images/icon-arrow.svg#icon-arrow" />
-            </svg>
+            {isLoading ? (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <svg
+                className="w-[11px]"
+                viewBox="0 0 11 14"
+                aria-label="Submit"
+                role="graphics-symbol"
+              >
+                <use href="/ip-address-tracker/images/icon-arrow.svg#icon-arrow" />
+              </svg>
+            )}
           </button>
         </form>
 
