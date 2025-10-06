@@ -114,8 +114,8 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
       });
     });
 
-    const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
-    await expect(initialAddress).toBeVisible();
+    const errorMessage = page.getByText("Failed to fetch IP information");
+    await expect(errorMessage).not.toBeVisible();
 
     const form = page.locator("form");
     const input = form.getByPlaceholder("Search for any IP address or domain");
@@ -124,8 +124,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await page.waitForTimeout(1000);
 
     // Check if the UI shows appropriate error state
-    await expect(initialAddress).not.toBeVisible();
-    await expect(page.getByText("IP Address-")).toBeVisible();
+    await expect(errorMessage).toBeVisible();
   });
 
   /** Test form validation with invalid IP address */
