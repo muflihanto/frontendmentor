@@ -176,6 +176,7 @@ function Intro() {
                 errors.ipAddress ? "ip-address-error" : undefined
               }
               aria-required="true"
+              disabled={isLoading}
             />
             {errors.ipAddress && (
               <div
@@ -203,6 +204,7 @@ function Intro() {
           <button
             onClick={onClick}
             className="flex w-[58px] items-center justify-center bg-black hover:bg-opacity-[75%]"
+            disabled={isLoading}
             type="submit"
           >
             {isLoading ? (

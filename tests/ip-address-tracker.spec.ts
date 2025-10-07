@@ -132,6 +132,54 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorBanner).toHaveCSS("color", "rgb(255, 255, 255)"); // white text
   });
 
+  test("show loading state in button during API request", async ({ page }) => {
+    // Mock slow API response
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await page.waitForTimeout(1000); // Simulate slow network
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            ip: "8.8.8.8",
+            city: "Mountain View",
+            region: "California",
+            country: "US",
+            loc: "37.4056,-122.0775",
+            org: "AS15169 Google LLC",
+            postal: "94043",
+            timezone: "America/Los_Angeles",
+          },
+        }),
+      });
+    });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+
+    // Check loading spinner in button
+    const loadingSpinner = page.locator(".animate-spin");
+    await expect(loadingSpinner).toBeVisible();
+
+    // Button should be disabled during loading
+    await expect(submitButton).toBeDisabled();
+
+    // Input should be disabled during loading
+    await expect(input).toBeDisabled();
+
+    // Wait for loading to complete
+    await page.waitForTimeout(1500);
+
+    // Loading spinner should be gone
+    await expect(loadingSpinner).not.toBeVisible();
+
+    // Button should be enabled again
+    await expect(submitButton).not.toBeDisabled();
+  });
+
   /** Test form validation with invalid IP address */
   test("form validation rejects invalid IP address", async ({ page }) => {
     const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
