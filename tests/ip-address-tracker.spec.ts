@@ -114,8 +114,8 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
       });
     });
 
-    const errorMessage = page.getByText("Failed to fetch IP information");
-    await expect(errorMessage).not.toBeVisible();
+    const apiErrorBanner = page.getByText("Failed to fetch IP information");
+    await expect(apiErrorBanner).not.toBeVisible();
 
     const form = page.locator("form");
     const input = form.getByPlaceholder("Search for any IP address or domain");
@@ -124,7 +124,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await page.waitForTimeout(1000);
 
     // Check if the UI shows appropriate error state
-    await expect(errorMessage).toBeVisible();
+    await expect(apiErrorBanner).toBeVisible();
+
+    // Check error banner styling
+    const errorBanner = apiErrorBanner.locator("..");
+    await expect(errorBanner).toHaveCSS("background-color", "rgb(239, 68, 68)"); // red-500
+    await expect(errorBanner).toHaveCSS("color", "rgb(255, 255, 255)"); // white text
   });
 
   /** Test form validation with invalid IP address */
