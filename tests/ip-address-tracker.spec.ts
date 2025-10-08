@@ -180,6 +180,51 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(submitButton).not.toBeDisabled();
   });
 
+  test("should NOT show loading state in detail card during API request", async ({
+    page,
+  }) => {
+    // Mock slow API response
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await page.waitForTimeout(1000);
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            ip: "8.8.8.8",
+            city: "Mountain View",
+            region: "California",
+            country: "US",
+            loc: "37.4056,-122.0775",
+            org: "AS15169 Google LLC",
+            postal: "94043",
+            timezone: "America/Los_Angeles",
+          },
+        }),
+      });
+    });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    // Check that no loading text exists initially
+    const loadingText = page.locator("text=Loading...");
+    await expect(loadingText).not.toBeVisible();
+
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+
+    // Even during loading, detail card should NOT show loading state
+    await expect(loadingText).not.toBeVisible();
+
+    // Wait for loading to complete
+    await page.waitForTimeout(1500);
+
+    // Should show the data instead
+    const ipDisplay = page.locator("text=8.8.8.8").first();
+    await expect(ipDisplay).toBeVisible();
+  });
+
   /** Test form validation with invalid IP address */
   test("form validation rejects invalid IP address", async ({ page }) => {
     const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
