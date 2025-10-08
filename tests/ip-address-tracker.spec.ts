@@ -225,6 +225,72 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(ipDisplay).toBeVisible();
   });
 
+  test("should maintain existing data in detail card during loading", async ({
+    page,
+  }) => {
+    // First successful request
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            ip: "8.8.8.8",
+            city: "Mountain View",
+            region: "California",
+            country: "US",
+            loc: "37.4056,-122.0775",
+            org: "AS15169 Google LLC",
+            postal: "94043",
+            timezone: "America/Los_Angeles",
+          },
+        }),
+      });
+    });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+
+    // Now mock slow API for second request
+    await page.route("**/api/getIpInfo?ip=1.1.1.1", async (route) => {
+      await page.waitForTimeout(1000);
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            ip: "1.1.1.1",
+            city: "Los Angeles",
+            region: "California",
+            country: "US",
+            loc: "34.0522,-118.2437",
+            org: "AS13335 Cloudflare Inc",
+            postal: "90001",
+            timezone: "America/Los_Angeles",
+          },
+        }),
+      });
+    });
+
+    // Start second request
+    await input.fill("1.1.1.1");
+    await submitButton.click();
+
+    // During loading, should still show the previous data (8.8.8.8)
+    const previousIpDisplay = page.locator("text=8.8.8.8").first();
+    await expect(previousIpDisplay).toBeVisible();
+
+    // Wait for second request to complete
+    await page.waitForTimeout(1500);
+
+    // Now should show new data
+    const newIpDisplay = page.locator("text=1.1.1.1").first();
+    await expect(newIpDisplay).toBeVisible();
+  });
+
   /** Test form validation with invalid IP address */
   test("form validation rejects invalid IP address", async ({ page }) => {
     const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
