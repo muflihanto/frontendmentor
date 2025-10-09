@@ -291,6 +291,60 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(newIpDisplay).toBeVisible();
   });
 
+  test("should clear API error when new successful request is made", async ({
+    page,
+  }) => {
+    // First mock failure
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error: "Internal server error",
+        }),
+      });
+    });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+    await page.waitForTimeout(500);
+
+    // Verify error is shown
+    const apiErrorBanner = page.locator("text=Failed to fetch IP information");
+    await expect(apiErrorBanner).toBeVisible();
+
+    // Now mock success
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            ip: "8.8.8.8",
+            city: "Mountain View",
+            region: "California",
+            country: "US",
+            loc: "37.4056,-122.0775",
+            org: "AS15169 Google LLC",
+            postal: "94043",
+            timezone: "America/Los_Angeles",
+          },
+        }),
+      });
+    });
+
+    // Make successful request
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+    await page.waitForTimeout(500);
+
+    // Error should be cleared
+    await expect(apiErrorBanner).not.toBeVisible();
+  });
+
   /** Test form validation with invalid IP address */
   test("form validation rejects invalid IP address", async ({ page }) => {
     const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
