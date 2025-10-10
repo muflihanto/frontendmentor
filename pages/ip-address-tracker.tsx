@@ -138,24 +138,7 @@ function Intro() {
         >
           IP Address Tracker
         </h1>
-        {/* API Error Message - Minimal addition */}
-        {apiError && (
-          <div className="mt-4 w-full max-w-[555px] bg-red-500 text-white text-sm py-2 px-3 rounded flex items-center gap-2">
-            <svg
-              className="w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              role="graphic-symbol"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span>{apiError}</span>
-          </div>
-        )}
+
         <form
           noValidate
           className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white lg:mt-[30px] lg:w-[555px]"
@@ -224,6 +207,45 @@ function Intro() {
 
         <DetailCard detail={detail} />
       </div>
+
+      {apiError && (
+        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-sm py-3 px-4 rounded-lg shadow-xl flex items-center gap-3 z-50 max-w-[90vw] mx-auto">
+          <svg
+            className="w-5 h-5 flex-shrink-0"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            role="graphic-symbol"
+          >
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span className="flex-1">{apiError}</span>
+          <button
+            onClick={() => setApiError(null)}
+            className="flex-shrink-0 text-white hover:text-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-500 rounded"
+            aria-label="Dismiss error message"
+            type="button"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              role="graphic-symbol"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
