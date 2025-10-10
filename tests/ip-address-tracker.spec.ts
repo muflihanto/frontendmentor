@@ -345,7 +345,37 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(apiErrorBanner).not.toBeVisible();
   });
 
-  /** Test form validation with invalid IP address */
+  test("should be able to dismiss floating error", async ({ page }) => {
+    // Mock API failure
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "API error" }),
+      });
+    });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+    await page.waitForTimeout(500);
+
+    // Error should be visible
+    const apiError = page.locator("text=Failed to fetch IP information");
+    await expect(apiError).toBeVisible();
+
+    // Click dismiss button
+    const dismissButton = page.locator(
+      'button[aria-label="Dismiss error message"]',
+    );
+    await dismissButton.click();
+
+    // Error should disappear
+    await expect(apiError).not.toBeVisible();
+  });
+
   test("form validation rejects invalid IP address", async ({ page }) => {
     const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
     await expect(initialAddress).toBeVisible();
