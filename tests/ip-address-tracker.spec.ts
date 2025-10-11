@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: - */
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
@@ -345,7 +346,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(apiErrorBanner).not.toBeVisible();
   });
 
-  test("should be able to dismiss floating error", async ({ page }) => {
+  test("should be able to dismiss API error", async ({ page }) => {
     // Mock API failure
     await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
       await route.fulfill({
@@ -374,6 +375,41 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
     // Error should disappear
     await expect(apiError).not.toBeVisible();
+  });
+
+  test("API error should not cover important interactive elements", async ({
+    page,
+  }) => {
+    // Mock API failure
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "API error" }),
+      });
+    });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+    await page.waitForTimeout(500);
+
+    // Get positions of all important elements
+    const apiError = page.locator("text=Failed to fetch IP information");
+    const errorBox = await apiError.boundingBox();
+    const inputBox = await input.boundingBox();
+    const buttonBox = await submitButton.boundingBox();
+    const detailCard = page.locator('[class*="h-[294px]"]');
+    const detailCardBox = await detailCard.boundingBox();
+
+    // Error should not overlap with any important elements
+    expect(errorBox!.y).toBeGreaterThan(
+      detailCardBox!.y + detailCardBox!.height,
+    );
+    expect(errorBox!.y).toBeGreaterThan(inputBox!.y + inputBox!.height);
+    expect(errorBox!.y).toBeGreaterThan(buttonBox!.y + buttonBox!.height);
   });
 
   test("form validation rejects invalid IP address", async ({ page }) => {
