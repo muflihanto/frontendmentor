@@ -144,10 +144,10 @@ function Intro() {
           className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] grid-rows-1 overflow-hidden rounded-[16px] bg-white lg:mt-[30px] lg:w-[555px]"
           aria-labelledby="main-heading"
         >
-          <div className="contents relative">
+          <div className="relative contents">
             <input
               type="text"
-              className={`w-full bg-white px-6 text-[18px] font-normal text-ip-address-200 placeholder:text-ip-address-100 transition-all rounded-l-[16px] ${
+              className={`w-full rounded-l-[16px] bg-white px-6 text-[18px] font-normal text-ip-address-200 transition-all placeholder:text-ip-address-100 ${
                 errors.ipAddress
                   ? "border-2 border-red-500 bg-red-50 pr-12 ring-2 ring-red-200"
                   : "border-2 border-transparent"
@@ -166,10 +166,10 @@ function Intro() {
                 id="ip-address-error"
                 role="alert"
                 aria-live="polite"
-                className="absolute top-40 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-medium py-2 px-3 rounded-lg shadow-lg z-20 flex items-center gap-2"
+                className="absolute left-1/2 top-[150px] z-20 flex min-w-max -translate-x-1/2 items-center gap-2 rounded-lg bg-red-500 px-3 py-2 text-xs font-medium text-white shadow-lg lg:top-40"
               >
                 <svg
-                  className="w-4 h-4 flex-shrink-0"
+                  className="h-4 w-4 flex-shrink-0"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   role="graphic-symbol"
@@ -180,7 +180,9 @@ function Intro() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>Please enter a valid IP address</span>
+                <span className="whitespace-nowrap">
+                  Please enter a valid IP address
+                </span>
               </div>
             )}
           </div>
@@ -191,7 +193,7 @@ function Intro() {
             type="submit"
           >
             {isLoading ? (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
             ) : (
               <svg
                 className="w-[11px]"
@@ -209,9 +211,9 @@ function Intro() {
       </div>
 
       {apiError && (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-sm py-3 px-4 rounded-lg shadow-xl flex items-center gap-3 z-50 max-w-[90vw] mx-auto">
+        <div className="fixed bottom-8 left-1/2 z-50 mx-auto flex max-w-[90vw] -translate-x-1/2 transform items-center gap-3 rounded-lg bg-red-500 px-4 py-3 text-sm text-white shadow-xl">
           <svg
-            className="w-5 h-5 flex-shrink-0"
+            className="h-5 w-5 flex-shrink-0"
             fill="currentColor"
             viewBox="0 0 20 20"
             role="graphic-symbol"
@@ -225,12 +227,12 @@ function Intro() {
           <span className="flex-1">{apiError}</span>
           <button
             onClick={() => setApiError(null)}
-            className="flex-shrink-0 text-white hover:text-red-100 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-500 rounded"
+            className="flex-shrink-0 rounded text-white transition-colors hover:text-red-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-500"
             aria-label="Dismiss error message"
             type="button"
           >
             <svg
-              className="w-4 h-4"
+              className="h-4 w-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
