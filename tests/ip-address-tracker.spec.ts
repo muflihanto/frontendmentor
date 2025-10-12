@@ -532,6 +532,34 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorMessage).toBeVisible();
   });
 
+  test("validation error should be single line on desktop", async ({
+    page,
+  }) => {
+    // Use desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("invalid-ip");
+    await submitButton.click();
+    await page.waitForTimeout(500);
+
+    const validationError = page.locator("#ip-address-error");
+    await expect(validationError).toBeVisible();
+
+    // Check it's a single line - container should be ~32px height (16px line height + 16px padding)
+    const errorBox = await validationError.boundingBox();
+    expect(errorBox!.height).toBeCloseTo(32, -0.5); // ~32px with small tolerance
+
+    // Check no text wrapping
+    const errorText = page.locator("#ip-address-error span");
+    await expect(errorText).toHaveCSS("white-space", "nowrap");
+
+    // Check line height is 16px
+    await expect(errorText).toHaveCSS("line-height", "16px");
+  });
+
   test("should handle multiple error states correctly", async ({ page }) => {
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
