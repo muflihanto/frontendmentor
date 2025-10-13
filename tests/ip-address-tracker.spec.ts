@@ -586,6 +586,46 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(errorText).toHaveCSS("line-height", "16px");
   });
 
+  test("validation error text should not wrap on any screen size", async ({
+    page,
+  }) => {
+    const viewports = [
+      { width: 320, height: 568 }, // Small mobile
+      { width: 375, height: 667 }, // Standard mobile
+      { width: 768, height: 1024 }, // Tablet
+      { width: 1024, height: 768 }, // Small desktop
+      { width: 1440, height: 900 }, // Large desktop
+    ];
+
+    for (const viewport of viewports) {
+      await page.setViewportSize(viewport);
+
+      const input = page.locator('input[type="text"]');
+      const submitButton = page.locator('button[type="submit"]');
+
+      await input.fill("invalid-ip");
+      await submitButton.click();
+      await page.waitForTimeout(500);
+
+      const validationError = page.locator("#ip-address-error");
+      const errorText = page.locator("#ip-address-error span");
+
+      // Check text never wraps
+      await expect(errorText).toHaveCSS("white-space", "nowrap");
+
+      // Check container height is ~32px (16px line height + 16px padding)
+      const errorBox = await validationError.boundingBox();
+      expect(errorBox!.height).toBeCloseTo(32, -0.5);
+
+      // Check line height is consistent
+      await expect(errorText).toHaveCSS("line-height", "16px");
+
+      // Clear for next test
+      await input.fill("");
+      await page.waitForTimeout(100);
+    }
+  });
+
   test("should handle multiple error states correctly", async ({ page }) => {
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
