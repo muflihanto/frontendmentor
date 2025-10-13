@@ -412,6 +412,43 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     expect(errorBox!.y).toBeGreaterThan(buttonBox!.y + buttonBox!.height);
   });
 
+  test("API error should not affect any layout elements", async ({
+    page,
+  }) => {
+    // Get initial positions
+    const form = page.locator("form");
+    const detailCard = page.locator('[class*="h-[294px]"]');
+    const initialFormPosition = await form.boundingBox();
+    const initialCardPosition = await detailCard.boundingBox();
+
+    // Mock API failure
+    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "API error" }),
+      });
+    });
+
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("8.8.8.8");
+    await submitButton.click();
+    await page.waitForTimeout(500);
+
+    // All layout elements should remain in exact same positions
+    const finalFormPosition = await form.boundingBox();
+    const finalCardPosition = await detailCard.boundingBox();
+
+    expect(finalFormPosition?.y).toBe(initialFormPosition?.y);
+    expect(finalCardPosition?.y).toBe(initialCardPosition?.y);
+
+    // Floating error should be visible but not affect layout
+    const apiError = page.locator("text=Failed to fetch IP information");
+    await expect(apiError).toBeVisible();
+  });
+
   test("form validation rejects invalid IP address", async ({ page }) => {
     const initialAddress = page.getByText("IP Address::ffff:127.0.0.1");
     await expect(initialAddress).toBeVisible();
