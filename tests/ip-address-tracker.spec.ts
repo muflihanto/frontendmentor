@@ -696,6 +696,52 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     expect(textBox!.height).toBeCloseTo(16, -0.5); // Should be exactly the line height
   });
 
+  test("validation error should maintain single line with 16px line height", async ({
+    page,
+  }) => {
+    // Test with different viewports
+    const viewports = [
+      { width: 375, height: 667 }, // Mobile
+      { width: 1440, height: 900 }, // Desktop
+    ];
+
+    for (const viewport of viewports) {
+      await page.setViewportSize(viewport);
+
+      const input = page.locator('input[type="text"]');
+      const submitButton = page.locator('button[type="submit"]');
+
+      await input.fill("invalid-ip");
+      await submitButton.click();
+      await page.waitForTimeout(500);
+
+      const validationError = page.locator("#ip-address-error");
+      const errorText = page.locator("#ip-address-error span");
+
+      // Check exact height calculation with 16px line height
+      const errorBox = await validationError.boundingBox();
+      const textBox = await errorText.boundingBox();
+
+      // Container height should be line height (16px) + vertical padding (8px top + 8px bottom)
+      const expectedHeight = 16 + 16; // 16px line height + 16px total padding
+      expect(errorBox!.height).toBeCloseTo(expectedHeight, -0.5);
+
+      // Text element height should match line height
+      expect(textBox!.height).toBeCloseTo(16, -0.5);
+
+      // Verify no text wrapping by checking scroll dimensions match client dimensions
+      const isWrapped = await errorText.evaluate((el) => {
+        return el.scrollHeight > el.clientHeight;
+      });
+
+      expect(isWrapped).toBe(false);
+
+      // Clear for next test
+      await input.fill("");
+      await page.waitForTimeout(100);
+    }
+  });
+
   test("should handle multiple error states correctly", async ({ page }) => {
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
