@@ -412,9 +412,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     expect(errorBox!.y).toBeGreaterThan(buttonBox!.y + buttonBox!.height);
   });
 
-  test("API error should not affect any layout elements", async ({
-    page,
-  }) => {
+  test("API error should not affect any layout elements", async ({ page }) => {
     // Get initial positions
     const form = page.locator("form");
     const detailCard = page.locator('[class*="h-[294px]"]');
@@ -661,6 +659,41 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
       await input.fill("");
       await page.waitForTimeout(100);
     }
+  });
+
+  test("validation error should have proper styling and dimensions with 16px line height", async ({
+    page,
+  }) => {
+    const input = page.locator('input[type="text"]');
+    const submitButton = page.locator('button[type="submit"]');
+
+    await input.fill("invalid-ip");
+    await submitButton.click();
+    await page.waitForTimeout(500);
+
+    const validationError = page.locator("#ip-address-error");
+    const errorText = page.locator("#ip-address-error span");
+
+    // Check dimensions
+    const errorBox = await validationError.boundingBox();
+    expect(errorBox!.height).toBeCloseTo(32, -0.5); // 16px line height + 8px py-2 (top) + 8px py-2 (bottom) = 32px
+
+    // Check styling
+    await expect(validationError).toHaveCSS(
+      "background-color",
+      "rgb(239, 68, 68)",
+    ); // red-500
+    await expect(validationError).toHaveCSS("color", "rgb(255, 255, 255)"); // white text
+    await expect(validationError).toHaveCSS("padding-top", "8px"); // py-2
+    await expect(validationError).toHaveCSS("padding-bottom", "8px"); // py-2
+
+    // Check text styling - line height should be 16px
+    await expect(errorText).toHaveCSS("line-height", "16px");
+    await expect(errorText).toHaveCSS("white-space", "nowrap");
+
+    // Verify the actual text height matches line height
+    const textBox = await errorText.boundingBox();
+    expect(textBox!.height).toBeCloseTo(16, -0.5); // Should be exactly the line height
   });
 
   test("should handle multiple error states correctly", async ({ page }) => {
