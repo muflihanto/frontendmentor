@@ -638,34 +638,46 @@ function EditForm({
 
 function DeleteModal({ close }: { close: () => void }) {
   const cardRef = useRef(null);
-  const [data, setData] = useAtom(dataAtom);
+  const setData = useSetAtom(dataAtom);
   const idToDelete = useAtomValue(idToDeleteAtom);
 
-  const handleDelete = useCallback(
-    (id: number) => {
-      const filteredComments = data.comments.filter((comment) => {
-        return comment.id !== id;
-      });
-      const deleteReply = (id: number, replies: Reply[]) => {
-        const reps = replies.filter((rep) => {
-          return rep.id !== id;
-        });
-        for (const rep of reps) {
-          if (!!rep.replies && rep.replies.length > 0) {
-            rep.replies = deleteReply(id, rep.replies);
-          }
-        }
-        return reps;
-      };
+  const deleteReply = useCallback((id: number, replies: Reply[]): Reply[] => {
+    const reps = replies.filter((rep) => rep.id !== id);
+    for (const rep of reps) {
+      if (rep.replies && rep.replies.length > 0) {
+        rep.replies = deleteReply(id, rep.replies);
+      }
+    }
+    return reps;
+  }, []);
+
+  const handleDelete = useCallback(() => {
+    if (idToDelete === null) return;
+
+    setData((prev) => {
+      const { currentUser, comments } = prev;
+
+      // Filter out the comment to delete
+      const filteredComments = comments.filter(
+        (comment) => comment.id !== idToDelete,
+      );
+
+      // Process remaining comments to delete any nested replies
       for (const comment of filteredComments) {
-        if (!!comment.replies && comment.replies.length > 0) {
-          comment.replies = deleteReply(id, comment.replies);
+        if (comment.replies && comment.replies.length > 0) {
+          comment.replies = deleteReply(idToDelete, comment.replies);
         }
       }
-      setData((prev) => ({ ...prev, comments: filteredComments }));
-    },
-    [data, setData],
-  );
+
+      return { currentUser, comments: filteredComments };
+    });
+
+    close();
+  }, [setData, idToDelete, close, deleteReply]);
+
+  const handleCancel = useCallback(() => {
+    close();
+  }, [close]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -674,9 +686,7 @@ function DeleteModal({ close }: { close: () => void }) {
     };
   }, []);
 
-  useOnClickOutside(cardRef, () => {
-    close();
-  });
+  useOnClickOutside(cardRef, handleCancel);
 
   return (
     <div className="fixed left-0 top-0 z-40 flex h-[100svh] w-screen flex-col items-center justify-center bg-black/50 px-4 pt-[2px] lg:pt-0">
@@ -694,21 +704,14 @@ function DeleteModal({ close }: { close: () => void }) {
         <div className="mt-[17px] grid h-[48px] grid-cols-2 grid-rows-1 gap-3 lg:mt-[21px] lg:gap-[14px]">
           <button
             className="rounded-lg bg-interactive-comment-neutral-400 pb-[2px] font-medium uppercase text-interactive-comment-neutral-100"
-            onClick={() => {
-              close();
-            }}
+            onClick={handleCancel}
             type="button"
           >
             No, cancel
           </button>
           <button
             className="rounded-lg bg-interactive-comment-primary-red-200 pb-[2px] font-medium uppercase text-interactive-comment-neutral-100"
-            onClick={() => {
-              if (idToDelete !== null) {
-                handleDelete(idToDelete);
-                close();
-              }
-            }}
+            onClick={handleDelete}
             type="button"
           >
             Yes, delete
