@@ -113,8 +113,10 @@ export default function Main() {
     [setData, update],
   );
 
-  const renderReplies = (replies: Reply[], parent = true) => {
-    if (replies.length > 0)
+  const renderReplies = useCallback(
+    (replies: Reply[], parent = true) => {
+      if (replies.length === 0) return null;
+
       return (
         <div
           className={`flex flex-col gap-4 border-l-2 border-l-interactive-comment-neutral-300 pl-4 lg:ml-[44px] lg:gap-6 lg:pl-[42px] ${
@@ -123,7 +125,7 @@ export default function Main() {
         >
           {replies.map((reply) => {
             return (
-              <div key={reply.id}>
+              <div key={`reply-${reply.id}`}>
                 <Card
                   currentUser={data.currentUser}
                   data={reply}
@@ -139,7 +141,9 @@ export default function Main() {
           })}
         </div>
       );
-  };
+    },
+    [data.currentUser, handleUpdate],
+  );
 
   // useEffect(() => {
   //   console.log(latestId);
@@ -151,7 +155,7 @@ export default function Main() {
 
       {data.comments.map((comment) => {
         return (
-          <div key={comment.id} className="w-full">
+          <div key={`comment-${comment.id}`} className="w-full">
             <Card
               currentUser={data.currentUser}
               data={comment}
@@ -177,6 +181,41 @@ export default function Main() {
         />
       )}
     </main>
+  );
+}
+
+function renderContentWithMentions(content: string, replyingTo?: string) {
+  // For replies, include the mandatory @mention at the beginning
+  const fullContent = replyingTo ? `@${replyingTo} ${content}` : content;
+
+  // Regex to match all @mentions in the text
+  const mentionRegex = /(@\w+)/g;
+
+  const parts = fullContent.split(mentionRegex);
+
+  // If no mentions found or only one part, return plain content
+  if (parts.length === 1) {
+    return fullContent;
+  }
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        const key = `${part}-${i}-${parts.length}`;
+
+        if (part.startsWith("@")) {
+          return (
+            <span
+              key={key}
+              className="font-medium text-interactive-comment-primary-blue-200"
+            >
+              {part}
+            </span>
+          );
+        }
+        return <span key={key}>{part}</span>;
+      })}
+    </>
   );
 }
 
@@ -249,12 +288,10 @@ function Card({
           />
         ) : (
           <p className="mt-[15px] text-interactive-comment-neutral-400 lg:mt-[14px]">
-            {variant === "reply" && (
-              <span className="font-medium text-interactive-comment-primary-blue-200">
-                @{(data as Reply).replyingTo}{" "}
-              </span>
+            {renderContentWithMentions(
+              data.content,
+              variant === "reply" ? (data as Reply).replyingTo : undefined,
             )}
-            {data.content}
           </p>
         )}
         <div className="mt-[17px] flex items-center justify-between">
@@ -452,8 +489,11 @@ function NewEntryForm({
   });
 
   const handleReply = handleSubmit((c) => {
+    // Remove the mandatory @mention from the beginning before storing
+    const contentWithoutMention = c.content.split(" ").slice(1).join(" ");
+
     const newReply: Reply = {
-      content: c.content.split(" ").slice(1).join(" "),
+      content: contentWithoutMention, // Store without the mandatory @mention
       createdAt: dayjs().format(),
       id: latestId + 1,
       score: 0,
@@ -462,29 +502,29 @@ function NewEntryForm({
       replyingTo: replyingTo!,
       replies: [],
     };
+
     setData((prev) => {
-      const { comments } = prev;
+      const comments = [...prev.comments];
       const searchById = (data: Comment[] | Reply[], id: number) => {
         for (const dat of data) {
           if (dat.id === id) {
-            if (dat.replies) {
-              dat.replies.push(newReply);
-            } else {
-              dat.replies = [newReply];
-            }
-          } else {
-            if (dat.replies) {
-              searchById(dat.replies, id);
-            }
+            const newReplies = [...(dat.replies ?? [])];
+            newReplies.push(newReply);
+            dat.replies = newReplies;
+            return true;
+          }
+          if (dat.replies && searchById(dat.replies, id)) {
+            return true;
           }
         }
+        return false;
       };
       // biome-ignore lint/style/noNonNullAssertion: parentId guaranteed by reply action flow
       searchById(comments, parentId!);
       return { ...prev, comments };
     });
+
     setLatestId((prev) => prev + 1);
-    console.log({ newReply });
   });
 
   useEffect(() => {
@@ -567,15 +607,20 @@ function EditForm({
     setFocus,
   } = useForm<z.infer<typeof zEdit>>({ resolver: zodResolver(zEdit) });
 
-  // TODO: FIXME: handle user mention highlighting in reply
   const handleEdit = handleSubmit((c) => {
+    let finalContent = c.content;
+
+    // For replies, remove only the mandatory @mention before storing
+    if (variant === "reply") {
+      const replyData = data as Reply;
+      finalContent = finalContent.replace(`@${replyData.replyingTo} `, "");
+    }
+
     const editedEntry: Pick<Comment, "content" | "createdAt"> = {
-      content:
-        variant === "comment"
-          ? c.content
-          : c.content.split(" ").slice(1).join(" "),
+      content: finalContent,
       createdAt: dayjs().format(),
     };
+
     setData((prev) => {
       const { comments } = prev;
       const searchById = (data: Comment[] | Reply[], id: number) => {
@@ -590,11 +635,18 @@ function EditForm({
         });
       };
       searchById(comments, id);
-      console.log({ editedEntry, comments, id });
       return { ...prev, comments };
     });
-    // console.log({ editedEntry });
   });
+
+  // Get the initial value for the textarea
+  const getInitialValue = () => {
+    if (variant === "reply") {
+      const replyData = data as Reply;
+      return `@${replyData.replyingTo} ${data.content}`;
+    }
+    return data.content;
+  };
 
   useEffect(() => {
     setFocus("content");
@@ -617,10 +669,7 @@ function EditForm({
       <textarea
         {...register("content", {
           required: true,
-          value:
-            variant === "comment"
-              ? data.content
-              : `@${(data as Reply).replyingTo} ${data.content}`,
+          value: getInitialValue(),
         })}
         className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 bg-white px-[22px] py-[10px] pr-[24px] text-interactive-comment-neutral-500 placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[124px]"
         placeholder="Add a comment..."
