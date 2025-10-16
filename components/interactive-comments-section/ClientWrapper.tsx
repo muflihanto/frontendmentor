@@ -17,6 +17,8 @@ import {
 import rawData from "../../public/interactive-comments-section/data.json";
 import dayjs from "../../utils/dayjs";
 
+// TODO: handle whitespace-only comment validation
+
 const unit = ["month", "week", "day"] as const;
 
 const transformDate = (data: typeof rawData) => {

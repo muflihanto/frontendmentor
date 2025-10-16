@@ -93,6 +93,24 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     expect(initialLength).toEqual(updatedLength);
   });
 
+  test("cannot submit whitespace-only comment", async ({ page }) => {
+    const form = page.locator("form").first();
+    const textarea = form.getByPlaceholder("Add a comment...");
+    const submitButton = form.getByRole("button", { name: "Send" });
+
+    const getMyComments = async () =>
+      await page.getByText("juliusomoyou").all();
+
+    const initialLength = (await getMyComments()).length;
+
+    await textarea.fill("   ");
+    await submitButton.click();
+
+    const updatedLength = (await getMyComments()).length;
+
+    expect(initialLength).toEqual(updatedLength);
+  });
+
   /** Test if the page has comments */
   test("has all comments", async ({ page }) => {
     const currentUser = raw_data.currentUser.username;
