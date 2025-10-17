@@ -177,6 +177,39 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
       const scoreElement = page.locator(`id=comment${comment.id}-votes`);
       await expect(scoreElement).toHaveText(String(comment.score - 1));
     });
+
+    test("vote buttons have proper aria-labels", async ({ page }) => {
+      const comment = comments[0];
+      const article = page.getByRole("article", {
+        name: `Comment by ${comment.user.username}`,
+      });
+
+      const upvoteButton = article.getByRole("button", {
+        name: "Upvote comment",
+      });
+      const downvoteButton = article.getByRole("button", {
+        name: "Downvote comment",
+      });
+
+      await expect(upvoteButton).toHaveAttribute(
+        "aria-label",
+        "Upvote comment",
+      );
+      await expect(downvoteButton).toHaveAttribute(
+        "aria-label",
+        "Downvote comment",
+      );
+      await expect(upvoteButton).toHaveAttribute("aria-pressed", "false");
+      await expect(downvoteButton).toHaveAttribute("aria-pressed", "false");
+
+      await upvoteButton.click();
+      await expect(upvoteButton).toHaveAttribute("aria-pressed", "true");
+      await expect(downvoteButton).toHaveAttribute("aria-pressed", "false");
+
+      await downvoteButton.click();
+      await expect(downvoteButton).toHaveAttribute("aria-pressed", "true");
+      await expect(upvoteButton).toHaveAttribute("aria-pressed", "false");
+    });
   });
 
   /** Test comment submission */
