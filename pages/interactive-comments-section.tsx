@@ -26,9 +26,16 @@ export const zBaseComment = z.object({
 export const zReply = zBaseComment.extend({
   replyingTo: z.string(),
 });
-export const zNewComment = z.object({ content: z.string() });
+export const zContent = z
+  .string()
+  .min(1, "Cannot be empty")
+  .refine((val) => val.trim().length > 0, {
+    message: "Cannot be only whitespace",
+  })
+  .transform((val) => val.trim());
+export const zNewComment = z.object({ content: zContent });
 export const zNewReply = z.object({
-  content: z.string(),
+  content: zContent,
   replyingTo: z.string(),
 });
 export const zEdit = z.object({ content: z.string() });
@@ -40,6 +47,7 @@ export type Reply = z.infer<typeof zReply> & {
 export type Comment = z.infer<typeof zBaseComment> & {
   replies?: Reply[];
 };
+export type Content = z.infer<typeof zContent>;
 
 export default function InteractiveCommentsSection() {
   return (
