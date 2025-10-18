@@ -183,6 +183,7 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
       const article = page.getByRole("article", {
         name: `Comment by ${comment.user.username}`,
       });
+      const scoreElement = page.locator(`id=comment${comment.id}-votes`);
 
       const upvoteButton = article.getByRole("button", {
         name: "Upvote comment",
@@ -199,16 +200,22 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
         "aria-label",
         "Downvote comment",
       );
+      await expect(scoreElement).toHaveAttribute(
+        "aria-label",
+        `${comment.score} votes`,
+      );
       await expect(upvoteButton).toHaveAttribute("aria-pressed", "false");
       await expect(downvoteButton).toHaveAttribute("aria-pressed", "false");
 
       await upvoteButton.click();
       await expect(upvoteButton).toHaveAttribute("aria-pressed", "true");
       await expect(downvoteButton).toHaveAttribute("aria-pressed", "false");
+      await expect(scoreElement).toHaveText(String(comment.score + 1));
 
       await downvoteButton.click();
       await expect(downvoteButton).toHaveAttribute("aria-pressed", "true");
       await expect(upvoteButton).toHaveAttribute("aria-pressed", "false");
+      await expect(scoreElement).toHaveText(String(comment.score - 1));
     });
   });
 
