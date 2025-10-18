@@ -233,6 +233,27 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
         page.getByText("This is a test comment").first(),
       ).toBeVisible();
     });
+
+    test("new comment has current user's avatar and username", async ({
+      page,
+    }) => {
+      const form = page.locator("form").first();
+      const textarea = form.getByPlaceholder("Add a comment...");
+      const submitButton = form.getByRole("button", { name: "Send" });
+
+      const content = "Test comment with user info";
+
+      await textarea.fill(content);
+      await submitButton.click();
+
+      const newComment = page.locator("article", { hasText: content });
+
+      // Check that the new comment has the current user's info
+      await expect(
+        newComment.locator("p", { hasText: "juliusomo" }),
+      ).toBeVisible();
+      await expect(newComment.getByAltText("juliusomo's avatar")).toBeVisible();
+    });
   });
 
   /** Test reply functionality */
