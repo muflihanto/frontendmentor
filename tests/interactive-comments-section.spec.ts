@@ -274,6 +274,24 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
       ).toBeVisible();
     });
 
+    test("reply form has correct user avatar", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username !== raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const replyButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Reply to comment" });
+
+      await replyButton.click();
+
+      const replyForm = page.locator("form").filter({ hasText: "Reply" });
+      await expect(
+        replyForm.getByRole("img", { name: "juliusomo Avatar" }),
+      ).toBeVisible();
+    });
+
     test("can submit a reply", async ({ page }) => {
       const comment = comments.find(
         (c) => c.user.username !== raw_data.currentUser.username,
