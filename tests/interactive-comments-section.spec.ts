@@ -371,6 +371,33 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
         page.getByText("@ramsesmiron This is an edited comment"),
       ).toBeVisible();
     });
+
+    test("can cancel editing", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username === raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const originalContent = comment.content;
+
+      const editToggleButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Edit" });
+
+      await editToggleButton.click();
+
+      const editForm = page.locator("form").first();
+      const textarea = editForm.getByPlaceholder("Add a comment...");
+
+      await textarea.fill("This edit will be cancelled");
+      await editToggleButton.click();
+
+      // Content should remain unchanged
+      await expect(page.getByText(originalContent)).toBeVisible();
+      await expect(
+        page.getByText("This edit will be cancelled"),
+      ).not.toBeVisible();
+    });
   });
 
   /** Test comment deletion */
