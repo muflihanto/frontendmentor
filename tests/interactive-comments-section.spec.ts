@@ -425,6 +425,31 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
         }),
       ).not.toBeVisible();
     });
+
+    test("can cancel deletion", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username === raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const deleteButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByLabel("Delete my comment");
+
+      await deleteButton.click();
+
+      await expect(page.getByText("Delete comment")).toBeVisible();
+
+      const cancelButton = page.getByRole("button", { name: "No, cancel" });
+      await cancelButton.click();
+
+      // Comment should still be visible
+      await expect(
+        page.getByRole("article", {
+          name: `Comment by ${comment.user.username}`,
+        }),
+      ).toBeVisible();
+    });
   });
 
   /** Test if the page has a footer */
