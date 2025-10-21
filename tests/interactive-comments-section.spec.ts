@@ -426,6 +426,26 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
       ).not.toBeVisible();
     });
 
+    test("delete modal has proper buttons", async ({ page }) => {
+      const comment = comments.find(
+        (c) => c.user.username === raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const deleteButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByLabel("Delete my comment");
+
+      await deleteButton.click();
+
+      await expect(
+        page.getByRole("button", { name: "Yes, delete" }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: "No, cancel" }),
+      ).toBeVisible();
+    });
+
     test("can cancel deletion", async ({ page }) => {
       const comment = comments.find(
         (c) => c.user.username === raw_data.currentUser.username,
