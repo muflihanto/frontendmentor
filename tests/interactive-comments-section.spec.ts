@@ -472,6 +472,36 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     });
   });
 
+  test("only current user can see edit and delete buttons", async ({
+    page,
+  }) => {
+    const currentUser = raw_data.currentUser.username;
+
+    for (const comment of comments) {
+      const article = page.getByRole("article", {
+        name: `Comment by ${comment.user.username}`,
+      });
+
+      if (comment.user.username === currentUser) {
+        await expect(article.getByLabel("Delete my comment")).toBeVisible();
+        await expect(
+          article.getByRole("button", { name: "Edit" }),
+        ).toBeVisible();
+        await expect(
+          article.getByRole("button", { name: "Reply to comment" }),
+        ).not.toBeVisible();
+      } else {
+        await expect(article.getByLabel("Delete my comment")).not.toBeVisible();
+        await expect(
+          article.getByRole("button", { name: "Edit" }),
+        ).not.toBeVisible();
+        await expect(
+          article.getByRole("button", { name: "Reply to comment" }),
+        ).toBeVisible();
+      }
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
