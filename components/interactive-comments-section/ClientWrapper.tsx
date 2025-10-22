@@ -463,7 +463,7 @@ function NewEntryForm({
 
   const {
     register,
-    formState: { isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
     setFocus,
@@ -542,7 +542,7 @@ function NewEntryForm({
 
   return (
     <form
-      className={`grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 p-4 pb-[14px] lg:flex lg:grid-cols-[auto,auto,auto] lg:grid-rows-1 lg:items-start lg:p-6 lg:pr-[25px] ${
+      className={`relative grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 p-4 pb-[14px] lg:flex lg:grid-cols-[auto,auto,auto] lg:grid-rows-1 lg:items-start lg:p-6 lg:pr-[25px] ${
         variant === "reply" && "mt-2"
       }`}
       onSubmit={(e) => {
@@ -567,10 +567,27 @@ function NewEntryForm({
           required: true,
           value: variant === "reply" ? `@${replyingTo} ` : "",
         })}
-        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 bg-white px-[22px] py-[10px] text-interactive-comment-neutral-500 placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:flex-1"
+        className={`h-24 w-full resize-none rounded border bg-white px-[22px] py-[10px] text-interactive-comment-neutral-500 placeholder:font-medium focus-visible:outline focus-visible:outline-transparent ${
+          errors.content
+            ? "border-interactive-comment-primary-red-200 focus:border-interactive-comment-primary-red-200"
+            : "border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500"
+        }`}
         placeholder="Add a comment..."
         required
+        aria-invalid={!!errors.content}
+        aria-describedby={
+          errors.content ? `content-error-${variant}` : undefined
+        }
       />
+      {errors.content && (
+        <div
+          id={`content-error-${variant}`}
+          className="absolute bottom-8 left-24 mt-1 w-full text-sm text-interactive-comment-primary-red-200"
+          role="alert"
+        >
+          {errors.content.message}
+        </div>
+      )}
       {variant === "reply" && (
         <input
           type="hidden"
