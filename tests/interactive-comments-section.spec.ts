@@ -89,7 +89,6 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     await submitButton.click();
 
     const updatedLength = (await getMyComments()).length;
-
     expect(initialLength).toEqual(updatedLength);
   });
 
@@ -107,8 +106,31 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     await submitButton.click();
 
     const updatedLength = (await getMyComments()).length;
-
     expect(initialLength).toEqual(updatedLength);
+
+    await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
+    await expect(textarea).toHaveAttribute("aria-invalid", "true");
+  });
+
+  test("validation error clears when valid content is entered and submitted", async ({
+    page,
+  }) => {
+    const form = page.locator("form").first();
+    const textarea = form.getByPlaceholder("Add a comment...");
+    const submitButton = form.getByRole("button", { name: "Send" });
+
+    // Trigger error by submitting whitespace
+    await textarea.fill("   ");
+    await submitButton.click();
+    await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
+
+    // Enter valid content and submit successfully
+    await textarea.fill("Valid comment");
+    await submitButton.click();
+
+    // Error should clear and form should submit
+    await expect(page.getByText("Cannot be only whitespace")).not.toBeVisible();
+    await expect(textarea).toHaveAttribute("aria-invalid", "false");
   });
 
   /** Test if the page has comments */
