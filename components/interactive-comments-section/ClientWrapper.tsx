@@ -618,7 +618,7 @@ function EditForm({
   const setData = useSetAtom(dataAtom);
   const {
     register,
-    formState: { isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
     setFocus,
@@ -679,7 +679,7 @@ function EditForm({
   return (
     <form
       className={
-        "mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 pb-[14px] pr-[10px]"
+        "relative mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 pb-[14px] pr-[10px]"
       }
       onSubmit={handleEdit}
     >
@@ -688,10 +688,28 @@ function EditForm({
           required: true,
           value: getInitialValue(),
         })}
-        className="col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border border-interactive-comment-neutral-300 bg-white px-[22px] py-[10px] pr-[24px] text-interactive-comment-neutral-500 placeholder:font-medium focus:border-interactive-comment-neutral-500 focus-visible:outline focus-visible:outline-transparent lg:h-[124px]"
+        className={`col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border bg-white px-[22px] py-[10px] pr-[24px] text-interactive-comment-neutral-500 placeholder:font-medium focus-visible:outline focus-visible:outline-transparent lg:h-[124px] ${
+          errors.content
+            ? "border-interactive-comment-primary-red-200 focus:border-interactive-comment-primary-red-200"
+            : "border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500"
+        }`}
         placeholder="Add a comment..."
         required
+        aria-invalid={!!errors.content}
+        aria-describedby={
+          errors.content ? `edit-content-error-${id}` : undefined
+        }
       />
+      {errors.content && (
+        <div
+          id={`edit-content-error-${id}`}
+          className="absolute bottom-12 left-0 text-sm text-interactive-comment-primary-red-200"
+          role="alert"
+        >
+          {errors.content.message}
+          {/* errors.content.message */}
+        </div>
+      )}
       <button
         className="col-start-2 row-start-2 h-12 w-[104px] translate-y-[-1px] place-self-end rounded-lg bg-interactive-comment-primary-blue-200 pb-[2px] font-medium uppercase text-white hover:opacity-40 active:opacity-60 lg:mt-[1px] lg:self-start"
         type="submit"

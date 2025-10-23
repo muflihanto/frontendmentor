@@ -38,7 +38,7 @@ export const zNewReply = z.object({
   content: zContent,
   replyingTo: z.string(),
 });
-export const zEdit = z.object({ content: z.string() });
+export const zEdit = z.object({ content: zContent });
 
 export type User = z.infer<typeof zUser>;
 export type Reply = z.infer<typeof zReply> & {
