@@ -421,6 +421,33 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
       ).not.toBeVisible();
     });
 
+    test("shows validation error for empty edit after submission attempt", async ({
+      page,
+    }) => {
+      const comment = comments.find(
+        (c) => c.user.username === raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const editButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Edit" });
+
+      await editButton.click();
+
+      const editForm = page.locator("form").first();
+      const textarea = editForm.getByPlaceholder("Add a comment...");
+      const updateButton = editForm.getByRole("button", { name: "Update" });
+
+      // Clear content and try to submit
+      await textarea.fill("");
+      await updateButton.click();
+
+      // Check for validation error after submission attempt
+      await expect(page.getByText("Cannot be empty")).toBeVisible();
+      await expect(textarea).toHaveAttribute("aria-invalid", "true");
+    });
+
     test("shows validation error for whitespace-only edit after submission attempt", async ({
       page,
     }) => {

@@ -469,6 +469,7 @@ function NewEntryForm({
     setFocus,
   } = useForm<z.infer<(typeof schemas)[typeof variant]>>({
     resolver: zodResolver(schemas[variant]),
+    shouldUseNativeValidation: false,
   });
 
   const handleAddComment = handleSubmit((c) => {
@@ -552,6 +553,7 @@ function NewEntryForm({
           void handleReply(e);
         }
       }}
+      noValidate
     >
       <div className="relative col-start-1 row-start-2 aspect-square h-8 w-8 lg:mt-1 lg:h-10 lg:w-10">
         <Image
@@ -564,7 +566,6 @@ function NewEntryForm({
       </div>
       <textarea
         {...register("content", {
-          required: true,
           value: variant === "reply" ? `@${replyingTo} ` : "",
         })}
         className={`h-24 w-full resize-none rounded border bg-white px-[22px] py-[10px] text-interactive-comment-neutral-500 placeholder:font-medium focus-visible:outline focus-visible:outline-transparent ${
@@ -573,7 +574,6 @@ function NewEntryForm({
             : "border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500"
         }`}
         placeholder="Add a comment..."
-        required
         aria-invalid={!!errors.content}
         aria-describedby={
           errors.content ? `content-error-${variant}` : undefined
@@ -622,7 +622,10 @@ function EditForm({
     reset,
     handleSubmit,
     setFocus,
-  } = useForm<z.infer<typeof zEdit>>({ resolver: zodResolver(zEdit) });
+  } = useForm<z.infer<typeof zEdit>>({
+    resolver: zodResolver(zEdit),
+    shouldUseNativeValidation: false,
+  });
 
   const handleEdit = handleSubmit((c) => {
     let finalContent = c.content;
@@ -682,10 +685,10 @@ function EditForm({
         "relative mt-4 grid w-full grid-cols-2 grid-rows-[auto,auto] items-center gap-[16px] rounded bg-interactive-comment-neutral-100 pb-[14px] pr-[10px]"
       }
       onSubmit={handleEdit}
+      noValidate
     >
       <textarea
         {...register("content", {
-          required: true,
           value: getInitialValue(),
         })}
         className={`col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border bg-white px-[22px] py-[10px] pr-[24px] text-interactive-comment-neutral-500 placeholder:font-medium focus-visible:outline focus-visible:outline-transparent lg:h-[124px] ${
@@ -694,7 +697,6 @@ function EditForm({
             : "border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500"
         }`}
         placeholder="Add a comment..."
-        required
         aria-invalid={!!errors.content}
         aria-describedby={
           errors.content ? `edit-content-error-${id}` : undefined
