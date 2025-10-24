@@ -446,6 +446,39 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
       await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
       await expect(textarea).toHaveAttribute("aria-invalid", "true");
     });
+
+    test("validation error clears when valid content is entered and submitted in edit form", async ({
+      page,
+    }) => {
+      const comment = comments.find(
+        (c) => c.user.username === raw_data.currentUser.username,
+      );
+      if (!comment) return;
+
+      const editButton = page
+        .getByRole("article", { name: `Comment by ${comment.user.username}` })
+        .getByRole("button", { name: "Edit" });
+
+      await editButton.click();
+
+      const editForm = page.locator("form").first();
+      const textarea = editForm.getByPlaceholder("Add a comment...");
+      const updateButton = editForm.getByRole("button", { name: "Update" });
+
+      // Trigger error by submitting whitespace
+      await textarea.fill("   ");
+      await updateButton.click();
+      await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
+
+      // Enter valid content and submit successfully
+      await textarea.fill("This is an edited comment");
+      await updateButton.click();
+
+      // Error should clear and form should submit
+      await expect(
+        page.getByText("Cannot be only whitespace"),
+      ).not.toBeVisible();
+    });
   });
 
   /** Test comment deletion */
