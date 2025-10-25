@@ -77,62 +77,6 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
     });
   });
 
-  test("cannot submit empty comment", async ({ page }) => {
-    const form = page.locator("form").first();
-    const submitButton = form.getByRole("button", { name: "Send" });
-
-    const getMyComments = async () =>
-      await page.getByText("juliusomoyou").all();
-
-    const initialLength = (await getMyComments()).length;
-
-    await submitButton.click();
-
-    const updatedLength = (await getMyComments()).length;
-    expect(initialLength).toEqual(updatedLength);
-  });
-
-  test("cannot submit whitespace-only comment", async ({ page }) => {
-    const form = page.locator("form").first();
-    const textarea = form.getByPlaceholder("Add a comment...");
-    const submitButton = form.getByRole("button", { name: "Send" });
-
-    const getMyComments = async () =>
-      await page.getByText("juliusomoyou").all();
-
-    const initialLength = (await getMyComments()).length;
-
-    await textarea.fill("   ");
-    await submitButton.click();
-
-    const updatedLength = (await getMyComments()).length;
-    expect(initialLength).toEqual(updatedLength);
-
-    await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
-    await expect(textarea).toHaveAttribute("aria-invalid", "true");
-  });
-
-  test("validation error clears when valid content is entered and submitted", async ({
-    page,
-  }) => {
-    const form = page.locator("form").first();
-    const textarea = form.getByPlaceholder("Add a comment...");
-    const submitButton = form.getByRole("button", { name: "Send" });
-
-    // Trigger error by submitting whitespace
-    await textarea.fill("   ");
-    await submitButton.click();
-    await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
-
-    // Enter valid content and submit successfully
-    await textarea.fill("Valid comment");
-    await submitButton.click();
-
-    // Error should clear and form should submit
-    await expect(page.getByText("Cannot be only whitespace")).not.toBeVisible();
-    await expect(textarea).toHaveAttribute("aria-invalid", "false");
-  });
-
   /** Test if the page has comments */
   test("has all comments", async ({ page }) => {
     const currentUser = raw_data.currentUser.username;
@@ -275,6 +219,69 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
         newComment.locator("p", { hasText: "juliusomo" }),
       ).toBeVisible();
       await expect(newComment.getByAltText("juliusomo's avatar")).toBeVisible();
+    });
+
+    test("cannot submit empty comment", async ({ page }) => {
+      const form = page.locator("form").first();
+      const textarea = form.getByPlaceholder("Add a comment...");
+      const submitButton = form.getByRole("button", { name: "Send" });
+
+      const getMyComments = async () =>
+        await page.getByText("juliusomoyou").all();
+
+      const initialLength = (await getMyComments()).length;
+
+      await textarea.fill("");
+      await submitButton.click();
+
+      const updatedLength = (await getMyComments()).length;
+      expect(initialLength).toEqual(updatedLength);
+
+      await expect(form.getByText("Cannot be empty")).toBeVisible();
+      await expect(textarea).toHaveAttribute("aria-invalid", "true");
+    });
+
+    test("cannot submit whitespace-only comment", async ({ page }) => {
+      const form = page.locator("form").first();
+      const textarea = form.getByPlaceholder("Add a comment...");
+      const submitButton = form.getByRole("button", { name: "Send" });
+
+      const getMyComments = async () =>
+        await page.getByText("juliusomoyou").all();
+
+      const initialLength = (await getMyComments()).length;
+
+      await textarea.fill("   ");
+      await submitButton.click();
+
+      const updatedLength = (await getMyComments()).length;
+      expect(initialLength).toEqual(updatedLength);
+
+      await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
+      await expect(textarea).toHaveAttribute("aria-invalid", "true");
+    });
+
+    test("validation error clears when valid content is entered and submitted", async ({
+      page,
+    }) => {
+      const form = page.locator("form").first();
+      const textarea = form.getByPlaceholder("Add a comment...");
+      const submitButton = form.getByRole("button", { name: "Send" });
+
+      // Trigger error by submitting whitespace
+      await textarea.fill("   ");
+      await submitButton.click();
+      await expect(page.getByText("Cannot be only whitespace")).toBeVisible();
+
+      // Enter valid content and submit successfully
+      await textarea.fill("Valid comment");
+      await submitButton.click();
+
+      // Error should clear and form should submit
+      await expect(
+        page.getByText("Cannot be only whitespace"),
+      ).not.toBeVisible();
+      await expect(textarea).toHaveAttribute("aria-invalid", "false");
     });
   });
 
