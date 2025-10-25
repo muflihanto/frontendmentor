@@ -568,7 +568,7 @@ function NewEntryForm({
         {...register("content", {
           value: variant === "reply" ? `@${replyingTo} ` : "",
         })}
-        className={`h-24 w-full resize-none rounded border bg-white px-[22px] py-[10px] text-interactive-comment-neutral-500 placeholder:font-medium focus-visible:outline focus-visible:outline-transparent ${
+        className={`col-span-2 col-start-1 row-start-1 h-24 w-full resize-none rounded border bg-white px-[22px] py-[10px] text-interactive-comment-neutral-500 placeholder:font-medium focus-visible:outline focus-visible:outline-transparent lg:flex-1 ${
           errors.content
             ? "border-interactive-comment-primary-red-200 focus:border-interactive-comment-primary-red-200"
             : "border-interactive-comment-neutral-300 focus:border-interactive-comment-neutral-500"
@@ -582,7 +582,7 @@ function NewEntryForm({
       {errors.content && (
         <div
           id={`content-error-${variant}`}
-          className="absolute bottom-8 left-24 mt-1 w-full text-sm text-interactive-comment-primary-red-200"
+          className="absolute left-20 bottom-7 lg:bottom-9 lg:left-[100px] mt-1 text-sm text-interactive-comment-primary-red-200"
           role="alert"
         >
           {errors.content.message}
@@ -709,7 +709,6 @@ function EditForm({
           role="alert"
         >
           {errors.content.message}
-          {/* errors.content.message */}
         </div>
       )}
       <button
