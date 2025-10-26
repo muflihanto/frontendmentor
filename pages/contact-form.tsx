@@ -316,7 +316,8 @@ function Form() {
           onSubmit: z
             .string()
             .min(1, "This field is required")
-            .min(50, "Message must be at least 50 characters"),
+            .min(50, "Message must be at least 50 characters")
+            .refine((val) => val.trim().length > 0, "This field is required"),
         }}
       >
         {(field) => (
