@@ -187,17 +187,30 @@ test.describe("FrontendMentor Challenge - Interactive comments section Page", ()
 
   /** Test comment submission */
   test.describe("comment submission", () => {
-    test("can submit a new comment", async ({ page }) => {
-      const form = page.locator("form");
+    test("can submit valid comment without validation errors", async ({
+      page,
+    }) => {
+      const form = page.locator("form").first();
       const textarea = form.getByPlaceholder("Add a comment...");
       const submitButton = form.getByRole("button", { name: "Send" });
 
-      await textarea.fill("This is a test comment");
+      const getMyComments = async () =>
+        await page.getByText("juliusomoyou").all();
+
+      const initialLength = (await getMyComments()).length;
+
+      await textarea.fill("This is a valid comment");
       await submitButton.click();
 
+      // Should not show validation errors
+      await expect(page.getByText("Cannot be empty")).not.toBeVisible();
       await expect(
-        page.getByText("This is a test comment").first(),
-      ).toBeVisible();
+        page.getByText("Cannot be only whitespace"),
+      ).not.toBeVisible();
+
+      // Comment should be added
+      const updatedLength = (await getMyComments()).length;
+      expect(updatedLength).toBeGreaterThan(initialLength);
     });
 
     test("new comment has current user's avatar and username", async ({
