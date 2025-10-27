@@ -233,6 +233,54 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     ).not.toBeVisible();
   });
 
+  /** Test if page can handle whitespace-only input in message field */
+  test("can handle whitespace-only input in message field", async ({
+    page,
+  }) => {
+    const messageError = page.getByText("This field cannot be only whitespace");
+    const message = page.getByLabel("Message*");
+    const submit = page.getByRole("button", { name: "Submit" });
+
+    // Fill other required fields with valid data
+    const firstName = page.getByLabel("First Name*");
+    await firstName.fill("John");
+    const lastName = page.getByLabel("Last Name*");
+    await lastName.fill("Doe");
+    const email = page.getByLabel("Email Address*");
+    await email.fill("mail@example.com");
+    const generalEnquiry = page.getByLabel("General Enquiry");
+    await generalEnquiry.click();
+    const consent = page.getByLabel("I consent to being contacted");
+    await consent.click();
+
+    // Test various whitespace-only scenarios
+    const whitespaceScenarios = [
+      "   ", // spaces only
+      "\t\t\t", // tabs only
+      "\n\n\n", // newlines only
+      "   \t\n   \t", // mixed whitespace
+    ];
+
+    for (const whitespaceInput of whitespaceScenarios) {
+      await message.fill(whitespaceInput);
+      await expect(message).toHaveValue(whitespaceInput);
+      await expect(messageError).not.toBeVisible();
+
+      await submit.click();
+
+      // Should show whitespace error instead of minimum length error
+      await expect(messageError).toBeVisible();
+      await expect(message).toHaveCSS("border-color", "rgb(220, 38, 38)");
+      await expect(
+        page.getByRole("heading", { name: "Message Sent!" }),
+      ).not.toBeVisible();
+
+      // Clear message for next iteration
+      await message.clear();
+      await expect(messageError).not.toBeVisible();
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
