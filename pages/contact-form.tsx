@@ -316,8 +316,12 @@ function Form() {
           onSubmit: z
             .string()
             .min(1, "This field is required")
-            .min(50, "Message must be at least 50 characters")
-            .refine((val) => val.trim().length > 0, "This field is required"),
+            .refine((value) => value.trim().length > 0, {
+              message: "This field cannot be only whitespace",
+            })
+            .refine((value) => value.trim().length >= 50, {
+              message: "Message must be at least 50 meaningful characters",
+            }),
         }}
       >
         {(field) => (
