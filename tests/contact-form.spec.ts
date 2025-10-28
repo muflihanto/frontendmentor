@@ -281,6 +281,60 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     }
   });
 
+  /** Test if user can handle whitespace-only input in all text fields */
+  test("can handle whitespace-only input in all text fields", async ({
+    page,
+  }) => {
+    const firstNameError = page
+      .getByText("This field cannot be only whitespace")
+      .nth(0);
+    const lastNameError = page
+      .getByText("This field cannot be only whitespace")
+      .nth(1);
+    const messageError = page
+      .getByText("This field cannot be only whitespace")
+      .nth(2);
+
+    const firstName = page.getByLabel("First Name*");
+    const lastName = page.getByLabel("Last Name*");
+    const message = page.getByLabel("Message*");
+    const submit = page.getByRole("button", { name: "Submit" });
+
+    // Fill other required fields with valid data
+    const email = page.getByLabel("Email Address*");
+    await email.fill("mail@example.com");
+    const generalEnquiry = page.getByLabel("General Enquiry");
+    await generalEnquiry.click();
+    const consent = page.getByLabel("I consent to being contacted");
+    await consent.click();
+
+    // Test whitespace-only input for first name, last name, and message
+    const whitespaceInput = "   \t\n   ";
+
+    await firstName.fill(whitespaceInput);
+    await lastName.fill(whitespaceInput);
+    await message.fill(whitespaceInput);
+
+    await expect(firstNameError).not.toBeVisible();
+    await expect(lastNameError).not.toBeVisible();
+    await expect(messageError).not.toBeVisible();
+
+    await submit.click();
+
+    // Should show whitespace error for all three fields
+    await expect(firstNameError).toBeVisible();
+    await expect(lastNameError).toBeVisible();
+    await expect(messageError).toBeVisible();
+
+    await expect(firstName).toHaveCSS("border-color", "rgb(220, 38, 38)");
+    await expect(lastName).toHaveCSS("border-color", "rgb(220, 38, 38)");
+    await expect(message).toHaveCSS("border-color", "rgb(220, 38, 38)");
+
+    await expect(
+      page.getByRole("heading", { name: "Message Sent!" }),
+    ).not.toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
