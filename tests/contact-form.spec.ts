@@ -285,20 +285,22 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
   test("can handle whitespace-only input in all text fields", async ({
     page,
   }) => {
-    const firstNameError = page
-      .getByText("This field cannot be only whitespace")
-      .nth(0);
-    const lastNameError = page
-      .getByText("This field cannot be only whitespace")
-      .nth(1);
-    const messageError = page
-      .getByText("This field cannot be only whitespace")
-      .nth(2);
-
     const firstName = page.getByLabel("First Name*");
     const lastName = page.getByLabel("Last Name*");
     const message = page.getByLabel("Message*");
     const submit = page.getByRole("button", { name: "Submit" });
+
+    const whitespaceErrorMessage = "This field cannot be only whitespace";
+
+    const firstNameError = firstName
+      .locator("..")
+      .getByText(whitespaceErrorMessage);
+    const lastNameError = lastName
+      .locator("..")
+      .getByText(whitespaceErrorMessage);
+    const messageError = message
+      .locator("..")
+      .getByText(whitespaceErrorMessage);
 
     // Fill other required fields with valid data
     const email = page.getByLabel("Email Address*");
@@ -339,20 +341,20 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
   test("can handle text fields with whitespace but insufficient meaningful characters", async ({
     page,
   }) => {
-    const firstNameError = page.getByText(
-      "First name must be at least 3 characters",
-    );
-    const lastNameError = page.getByText(
-      "Last name must be at least 3 characters",
-    );
-    const messageError = page.getByText(
-      "Message must be at least 50 meaningful characters",
-    );
-
     const firstName = page.getByLabel("First Name*");
     const lastName = page.getByLabel("Last Name*");
     const message = page.getByLabel("Message*");
     const submit = page.getByRole("button", { name: "Submit" });
+
+    const firstNameError = firstName
+      .locator("..")
+      .getByText("First name must be at least 3 characters");
+    const lastNameError = lastName
+      .locator("..")
+      .getByText("Last name must be at least 3 characters");
+    const messageError = message
+      .locator("..")
+      .getByText("Message must be at least 50 meaningful characters");
 
     // Fill other required fields with valid data
     const email = page.getByLabel("Email Address*");
