@@ -335,6 +335,54 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     ).not.toBeVisible();
   });
 
+  /** Test if text fields handle whitespace with insufficient meaningful characters */
+  test("can handle text fields with whitespace but insufficient meaningful characters", async ({
+    page,
+  }) => {
+    const firstNameError = page.getByText(
+      "First name must be at least 3 characters",
+    );
+    const lastNameError = page.getByText(
+      "Last name must be at least 3 characters",
+    );
+    const messageError = page.getByText(
+      "Message must be at least 50 meaningful characters",
+    );
+
+    const firstName = page.getByLabel("First Name*");
+    const lastName = page.getByLabel("Last Name*");
+    const message = page.getByLabel("Message*");
+    const submit = page.getByRole("button", { name: "Submit" });
+
+    // Fill other required fields with valid data
+    const email = page.getByLabel("Email Address*");
+    await email.fill("mail@example.com");
+    const generalEnquiry = page.getByLabel("General Enquiry");
+    await generalEnquiry.click();
+    const consent = page.getByLabel("I consent to being contacted");
+    await consent.click();
+
+    // Test fields with some content but padded with whitespace (insufficient meaningful chars)
+    await firstName.fill("  A  "); // Only 1 meaningful character
+    await lastName.fill(" B\t"); // Only 1 meaningful character
+    await message.fill("   Hello, this is a short message.   "); // Less than 50 meaningful chars
+
+    await submit.click();
+
+    // Should show minimum length errors since meaningful content is insufficient
+    await expect(firstNameError).toBeVisible();
+    await expect(lastNameError).toBeVisible();
+    await expect(messageError).toBeVisible();
+
+    await expect(firstName).toHaveCSS("border-color", "rgb(220, 38, 38)");
+    await expect(lastName).toHaveCSS("border-color", "rgb(220, 38, 38)");
+    await expect(message).toHaveCSS("border-color", "rgb(220, 38, 38)");
+
+    await expect(
+      page.getByRole("heading", { name: "Message Sent!" }),
+    ).not.toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
