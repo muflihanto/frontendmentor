@@ -196,7 +196,7 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     );
     const emailError = page.getByText("Please enter a valid email address");
     const messageError = page.getByText(
-      "Message must be at least 50 characters",
+      "Message must be at least 50 meaningful characters",
     );
     const submit = page.getByRole("button", { name: "Submit" });
     await expect(firstNameError).not.toBeVisible();
@@ -383,6 +383,101 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await expect(
       page.getByRole("heading", { name: "Message Sent!" }),
     ).not.toBeVisible();
+  });
+
+  /** Test if user can handle mixed valid and whitespace-only inputs */
+  test("can handle mixed valid and whitespace-only inputs", async ({
+    page,
+  }) => {
+    const firstName = page.getByLabel("First Name*");
+    const lastName = page.getByLabel("Last Name*");
+    const message = page.getByLabel("Message*");
+    const submit = page.getByRole("button", { name: "Submit" });
+
+    const whitespaceErrorMessage = "This field cannot be only whitespace";
+
+    const firstNameError = firstName
+      .locator("..")
+      .getByText(whitespaceErrorMessage);
+    const lastNameError = lastName
+      .locator("..")
+      .getByText(whitespaceErrorMessage);
+    const messageError = message
+      .locator("..")
+      .getByText(whitespaceErrorMessage);
+
+    // Fill email and other non-text fields with valid data
+    const email = page.getByLabel("Email Address*");
+    await email.fill("mail@example.com");
+    const generalEnquiry = page.getByLabel("General Enquiry");
+    await generalEnquiry.click();
+    const consent = page.getByLabel("I consent to being contacted");
+    await consent.click();
+
+    // Test different combinations of valid and whitespace-only inputs
+    const testScenarios = [
+      {
+        firstName: "   ",
+        lastName: "Doe",
+        message: "   ",
+        expectedErrors: { firstName: true, lastName: false, message: true },
+      },
+      {
+        firstName: "John",
+        lastName: "   \t",
+        message: "   ",
+        expectedErrors: { firstName: false, lastName: true, message: true },
+      },
+      {
+        firstName: "   \n",
+        lastName: "   ",
+        message:
+          "This is a valid message that meets the minimum length requirement of fifty characters",
+        expectedErrors: { firstName: true, lastName: true, message: false },
+      },
+    ];
+
+    for (const scenario of testScenarios) {
+      await firstName.fill(scenario.firstName);
+      await lastName.fill(scenario.lastName);
+      await message.fill(scenario.message);
+
+      await submit.click();
+
+      // Check expected error states
+      if (scenario.expectedErrors.firstName) {
+        await expect(firstNameError).toBeVisible();
+        await expect(firstName).toHaveCSS("border-color", "rgb(220, 38, 38)");
+      } else {
+        await expect(firstNameError).not.toBeVisible();
+        await expect(firstName).toHaveCSS("border-color", "rgb(135, 163, 166)");
+      }
+
+      if (scenario.expectedErrors.lastName) {
+        await expect(lastNameError).toBeVisible();
+        await expect(lastName).toHaveCSS("border-color", "rgb(220, 38, 38)");
+      } else {
+        await expect(lastNameError).not.toBeVisible();
+        await expect(lastName).toHaveCSS("border-color", "rgb(135, 163, 166)");
+      }
+
+      if (scenario.expectedErrors.message) {
+        await expect(messageError).toBeVisible();
+        await expect(message).toHaveCSS("border-color", "rgb(220, 38, 38)");
+      } else {
+        await expect(messageError).not.toBeVisible();
+        await expect(message).toHaveCSS("border-color", "rgb(135, 163, 166)");
+      }
+
+      await expect(
+        page.getByRole("heading", { name: "Message Sent!" }),
+      ).not.toBeVisible();
+
+      // Clear fields for next scenario
+      await firstName.clear();
+      await lastName.clear();
+      await message.clear();
+    }
   });
 
   /** Test if the page has a footer */
