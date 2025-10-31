@@ -163,9 +163,6 @@ function Form() {
             .min(1, "This field is required")
             .refine((value) => value.trim().length > 0, {
               message: "This field cannot be only whitespace",
-            })
-            .refine((value) => value.trim().length >= 3, {
-              message: "First name must be at least 3 characters",
             }),
         }}
       >
@@ -190,9 +187,6 @@ function Form() {
             .min(1, "This field is required")
             .refine((value) => value.trim().length > 0, {
               message: "This field cannot be only whitespace",
-            })
-            .refine((value) => value.trim().length >= 3, {
-              message: "Last name must be at least 3 characters",
             }),
         }}
       >
