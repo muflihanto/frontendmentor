@@ -189,11 +189,9 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
   /** Test if user can handle invalid input submit */
   test("can handle invalid input submit", async ({ page }) => {
     const firstNameError = page.getByText(
-      "First name must be at least 3 characters",
+      "This field cannot be only whitespace",
     );
-    const lastNameError = page.getByText(
-      "Last name must be at least 3 characters",
-    );
+    const lastNameError = page.getByText("This field is required");
     const emailError = page.getByText("Please enter a valid email address");
     const messageError = page.getByText(
       "Message must be at least 50 meaningful characters",
@@ -204,9 +202,9 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await expect(emailError).not.toBeVisible();
     await expect(messageError).not.toBeVisible();
     const firstName = page.getByLabel("First Name*");
-    await firstName.fill("Fi");
+    await firstName.fill("    ");
     const lastName = page.getByLabel("Last Name*");
-    await lastName.fill("La");
+    await lastName.fill("");
     const email = page.getByLabel("Email Address*");
     await email.fill("mail@example");
     const supportRequest = page.getByLabel("Support Request");
@@ -341,17 +339,9 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
   test("can handle text fields with whitespace but insufficient meaningful characters", async ({
     page,
   }) => {
-    const firstName = page.getByLabel("First Name*");
-    const lastName = page.getByLabel("Last Name*");
     const message = page.getByLabel("Message*");
     const submit = page.getByRole("button", { name: "Submit" });
 
-    const firstNameError = firstName
-      .locator("..")
-      .getByText("First name must be at least 3 characters");
-    const lastNameError = lastName
-      .locator("..")
-      .getByText("Last name must be at least 3 characters");
     const messageError = message
       .locator("..")
       .getByText("Message must be at least 50 meaningful characters");
@@ -365,19 +355,13 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
     await consent.click();
 
     // Test fields with some content but padded with whitespace (insufficient meaningful chars)
-    await firstName.fill("  A  "); // Only 1 meaningful character
-    await lastName.fill(" B\t"); // Only 1 meaningful character
     await message.fill("   Hello, this is a short message.   "); // Less than 50 meaningful chars
 
     await submit.click();
 
     // Should show minimum length errors since meaningful content is insufficient
-    await expect(firstNameError).toBeVisible();
-    await expect(lastNameError).toBeVisible();
     await expect(messageError).toBeVisible();
 
-    await expect(firstName).toHaveCSS("border-color", "rgb(220, 38, 38)");
-    await expect(lastName).toHaveCSS("border-color", "rgb(220, 38, 38)");
     await expect(message).toHaveCSS("border-color", "rgb(220, 38, 38)");
 
     await expect(
