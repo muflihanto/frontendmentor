@@ -78,7 +78,7 @@
     "tailwindcss": "^3.4.10",
     "typescript": "^5.4.5"
   },
-  "packageManager": "pnpm@9.7.1+sha256.46f1bbc8f8020aa9869568c387198f1a813f21fb44c82f400e7d1dbde6c70b40",
+  "packageManager": "pnpm@10.20.0+sha256.47a3352808501b8d1ef20112273b6a5dcfa53d28a55bcce36d268e878bd6bfe9",
   "pnpm": {
     "overrides": {
       "cross-spawn": ">=7.0.5",
@@ -87,6 +87,14 @@
       "@babel/runtime": "7.28.2",
       "nanoid": "3.3.11",
       "brace-expansion": "1.1.12"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@fortawesome/fontawesome-common-types",
+      "@fortawesome/fontawesome-svg-core",
+      "@fortawesome/free-brands-svg-icons",
+      "@fortawesome/free-regular-svg-icons",
+      "@fortawesome/free-solid-svg-icons",
+      "sharp"
+    ]
   }
 }
