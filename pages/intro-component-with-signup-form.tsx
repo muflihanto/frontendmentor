@@ -9,8 +9,20 @@ import { poppins } from "../utils/fonts/poppins";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const inputSchema = z.object({
-  firstName: z.string().min(1, { message: "First Name cannot be empty" }),
-  lastName: z.string().min(1, { message: "Last Name cannot be empty" }),
+  firstName: z
+    .string()
+    .min(1, { message: "First Name cannot be empty" })
+    .refine((val) => val.trim().length > 0, {
+      message: "First Name cannot be empty",
+    })
+    .transform((el) => el.trim()),
+  lastName: z
+    .string()
+    .min(1, { message: "Last Name cannot be empty" })
+    .refine((val) => val.trim().length > 0, {
+      message: "Last Name cannot be empty",
+    })
+    .transform((el) => el.trim()),
   password: z
     .string()
     .min(1, { message: "Password cannot be empty" })
