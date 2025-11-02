@@ -136,6 +136,34 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       }
     });
 
+    test("inputs with only spaces should trigger error warning", async ({
+      page,
+    }) => {
+      const spaceOnlyValues = ["  ", "   ", "  ", "    "];
+      const inputs = await page.locator("form input").all();
+      const submit = page.locator("form button");
+
+      for (const [index, input] of Object.entries(inputs)) {
+        await input.fill(spaceOnlyValues[Number(index)]);
+      }
+      await submit.click();
+
+      // Check for empty field errors since spaces get trimmed to empty strings
+      const emptyFieldErrors = [
+        "First Name cannot be empty",
+        "Last Name cannot be empty",
+        "Looks like this is not an email",
+        "Password must be atleast 6 characters",
+      ];
+
+      for (const [index, input] of Object.entries(inputs)) {
+        const error = input
+          .locator("+p")
+          .getByText(emptyFieldErrors[Number(index)]);
+        await expect(error).toBeVisible();
+      }
+    });
+
     test("invalid email input should trigger error warning", async ({
       page,
     }) => {
