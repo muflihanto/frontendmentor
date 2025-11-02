@@ -26,8 +26,14 @@ const inputSchema = z.object({
   password: z
     .string()
     .min(1, { message: "Password cannot be empty" })
-    .min(6, { message: "Password must be atleast 6 characters" }),
-  email: z.string().email({ message: "Looks like this is not an email" }),
+    .min(6, { message: "Password must be atleast 6 characters" })
+    .refine((val) => val === val.trim(), {
+      message: "Password cannot contain leading or trailing spaces",
+    }),
+  email: z
+    .string()
+    .email({ message: "Looks like this is not an email" })
+    .transform((el) => el.trim()),
 });
 
 type Inputs = z.infer<typeof inputSchema>;
