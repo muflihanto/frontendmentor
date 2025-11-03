@@ -215,6 +215,30 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       }
     });
 
+    test("non password inputs with leading/trailing spaces should be valid", async ({
+      page,
+    }) => {
+      const inputValuesWithSpaces = [
+        "  John  ",
+        "  Doe  ",
+        "  johndoe@example.com  ",
+        "password",
+      ];
+      const inputs = await page.locator("form input").all();
+      const submit = page.locator("form button");
+
+      // Fill inputs with values containing spaces
+      for (const [index, input] of Object.entries(inputs)) {
+        await input.fill(inputValuesWithSpaces[Number(index)]);
+      }
+      await submit.click();
+
+      // Should submit successfully since non email field gets trimmed and are valid
+      for (const input of inputs) {
+        await expect(input).toBeEmpty();
+      }
+    });
+
     test("should be able to submit valid input", async ({ page }) => {
       const inputValues = ["John", "Doe", "johndoe@example.com", "password"];
       const inputs = await page.locator("form input").all();
