@@ -197,6 +197,24 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       }
     });
 
+    test("password with leading/trailing spaces should trigger error warning", async ({
+      page,
+    }) => {
+      const passwordsWithSpaces = [" password", "password ", "  password  "];
+      const passInput = page.getByPlaceholder("Password");
+      const submit = page.locator("form button");
+
+      for (const pass of passwordsWithSpaces) {
+        await passInput.fill(pass);
+        await submit.click();
+        await expect(
+          passInput
+            .locator("+p")
+            .getByText("Password cannot contain leading or trailing spaces"),
+        ).toBeVisible();
+      }
+    });
+
     test("should be able to submit valid input", async ({ page }) => {
       const inputValues = ["John", "Doe", "johndoe@example.com", "password"];
       const inputs = await page.locator("form input").all();
