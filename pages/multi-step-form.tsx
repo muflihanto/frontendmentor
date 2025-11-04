@@ -30,12 +30,23 @@ const phoneRegex = new RegExp(
 );
 
 const PersonalInfo = z.object({
-  name: z.string().min(1, "This field is required"),
-  email: z.string().min(1, "This field is required").email("Email invalid"),
+  name: z
+    .string()
+    .min(1, "This field is required")
+    .refine((val) => val.trim().length > 0, {
+      message: "This field is required",
+    })
+    .transform((val) => val.trim()),
+  email: z
+    .string()
+    .min(1, "This field is required")
+    .email("Email invalid")
+    .transform((val) => val.trim()),
   phone: z
     .string()
     .min(1, "This field is required")
-    .regex(phoneRegex, "Invalid Number!"),
+    .regex(phoneRegex, "Invalid Number!")
+    .transform((val) => val.trim()),
 });
 type PersonalInfo = z.infer<typeof PersonalInfo>;
 
