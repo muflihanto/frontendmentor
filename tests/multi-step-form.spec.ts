@@ -147,10 +147,11 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("can handle invalid inputs", async () => {
         await page.reload();
         // TODO: add more name validation
-        await step1Form.name.fill("Name");
+        await step1Form.name.fill("     ");
         await step1Form.email.fill("invalid email");
         await step1Form.phone.fill("invalid phone");
         await step1Form.nextStep.click();
+        await expect(form.getByText("This field is required")).toBeVisible();
         await expect(form.getByText("Email invalid")).toBeVisible();
         await expect(form.getByText("Invalid Number!")).toBeVisible();
       });
