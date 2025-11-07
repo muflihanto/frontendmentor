@@ -25,9 +25,63 @@ export default function ConferenceTicketGenerator() {
   );
 }
 
+function Ornament() {
+  return (
+    <div className="absolute left-0 top-0 z-10 h-full w-full overflow-hidden">
+      <div className="absolute -left-[22px] -top-8 aspect-square h-[109px]">
+        <Image
+          src="/conference-ticket-generator/assets/images/pattern-circle.svg"
+          fill
+          className="object-contain"
+          alt="Pattern circle"
+          aria-hidden="true"
+        />
+      </div>
+      <div className="absolute -right-[46px] top-[548px] aspect-square h-[108px]">
+        <Image
+          src="/conference-ticket-generator/assets/images/pattern-circle.svg"
+          fill
+          className="object-contain"
+          alt="Pattern circle bottom"
+          aria-hidden="true"
+        />
+      </div>
+      <div className="absolute left-1/2 top-0 z-10 aspect-[1459/1024] w-[264%] -translate-x-[calc(50%+28px)]">
+        <Image
+          src="/conference-ticket-generator/assets/images/pattern-lines.svg"
+          fill
+          className="object-contain"
+          alt="Pattern lines"
+          aria-hidden="true"
+        />
+      </div>
+      <div className="absolute right-0 top-6 aspect-[446/208] h-[52px]">
+        <Image
+          src="/conference-ticket-generator/assets/images/pattern-squiggly-line-top.svg"
+          fill
+          className="object-contain"
+          alt="Pattern squiggly line top"
+          aria-hidden="true"
+        />
+      </div>
+      <div className="absolute bottom-0 left-0 aspect-[760/530] h-[210px] lg:hidden">
+        <Image
+          src="/conference-ticket-generator/assets/images/pattern-squiggly-line-bottom-mobile-tablet.svg"
+          fill
+          className="object-contain"
+          alt="Pattern squiggly line bottom tablet"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   return (
-    <main className="flex h-full w-full flex-col items-center px-6 py-[30px] text-[20px] leading-6 text-conference-ticket-generator-neutral-0">
+    <main className="z-20 flex h-full w-full flex-col items-center px-6 py-[30px] text-[20px] leading-6 text-conference-ticket-generator-neutral-0">
+      <Ornament />
+
       <Image
         src={"/conference-ticket-generator/assets/images/logo-full.svg"}
         width={209}
@@ -80,7 +134,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] text-black [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-conference-ticket-generator-neutral-0 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
