@@ -80,7 +80,7 @@ function Ornament() {
 
 function Form() {
   return (
-    <form className="mt-10 flex w-full flex-col items-center">
+    <form className="mt-10 flex w-full flex-1 flex-col items-center">
       <div className="w-full">
         <p className="tracking-tight">Upload Avatar</p>
         <label
@@ -115,6 +115,41 @@ function Form() {
           <span>Upload your photo (JPG or PNG, max size: 500KB).</span>
         </p>
       </div>
+      <label htmlFor="fullname" className="w-full mt-6">
+        <p className="tracking-tight">Full Name</p>
+        <input
+          type="text"
+          name="fullname"
+          id="fullname"
+          className="mt-3 text-[18px] h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:bg-conference-ticket-generator-neutral-500/50 focus-visible:border-conference-ticket-generator-neutral-300 py-2 px-[14px] focus-visible:outline-transparent focus-visible:outline"
+        />
+      </label>
+      <label htmlFor="email" className="w-full mt-6">
+        <p className="tracking-tight">Email Address</p>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          className="mt-3 text-[18px] h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:bg-conference-ticket-generator-neutral-500/50 focus-visible:border-conference-ticket-generator-neutral-300 py-2 px-[14px] focus-visible:outline-transparent focus-visible:outline"
+          placeholder="example@email.com"
+        />
+      </label>
+      <label htmlFor="username" className="w-full mt-6">
+        <p className="tracking-tight">GitHub Username</p>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          className="mt-3 text-[18px] h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:bg-conference-ticket-generator-neutral-500/50 focus-visible:border-conference-ticket-generator-neutral-300 py-2 px-[14px] focus-visible:outline-transparent focus-visible:outline"
+          placeholder="@yourusername"
+        />
+      </label>
+      <button
+        className="w-full bg-conference-ticket-generator-orange-500 text-conference-ticket-generator-neutral-900 mt-[24px] h-[54px] rounded-xl font-extrabold tracking-tight"
+        type="submit"
+      >
+        Generate My Ticket
+      </button>
     </form>
   );
 }
@@ -142,15 +177,6 @@ function Main() {
 
       {/* 
         <!-- Form starts -->
-        Full Name
-
-        Email Address
-        example@email.com
-
-        GitHub Username
-        @yourusername
-
-        Generate My Ticket
 
         <!-- Form ends -->
 
