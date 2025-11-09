@@ -1,9 +1,58 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
+import { z } from "zod";
 import { inconsolata } from "../utils/fonts/inconsolata";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+
+const inputSchema = z.object({
+  avatar: z
+    .custom<FileList | null>()
+    .transform((fileList) => (fileList ? fileList[0] : null))
+    .refine((file) => !file || file instanceof File, {
+      message: "Invalid file",
+    })
+    .refine(
+      (file) => {
+        if (!file) return true;
+        const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+        return allowedTypes.includes(file.type);
+      },
+      {
+        message: "File must be JPG or PNG format",
+      },
+    )
+    .refine(
+      (file) => {
+        if (!file) return true;
+        return file.size <= 500 * 1024;
+      },
+      {
+        message: "File too large. Please upload photo under 500KB",
+      },
+    )
+    .nullable()
+    .optional(),
+  fullname: z
+    .string()
+    .min(1, { message: "Fullname cannot be empty" })
+    .refine((val) => val.trim().length > 0, {
+      message: "Fullname cannot be empty",
+    })
+    .transform((el) => el.trim()),
+  email: z
+    .string()
+    .email({ message: "Please enter a valid email address" })
+    .transform((el) => el.trim()),
+  username: z
+    .string()
+    .min(1, { message: "Username cannot be empty" })
+    .refine((val) => val.trim().length > 0, {
+      message: "Username cannot be empty",
+    })
+    .transform((el) => el.trim()),
+});
 
 export default function ConferenceTicketGenerator() {
   return (
