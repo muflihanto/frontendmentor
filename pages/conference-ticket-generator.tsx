@@ -3,6 +3,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { z } from "zod";
 import { inconsolata } from "../utils/fonts/inconsolata";
+import { cn } from "../utils/cn";
+import { ComponentProps } from "react";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -68,7 +70,8 @@ export default function ConferenceTicketGenerator() {
         <Footer />
         {/* <Slider
           basePath="/conference-ticket-generator/design"
-          absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
+          // absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
+          absolutePath="/conference-ticket-generator/design/state-focus.jpg"
         /> */}
       </div>
     </>
@@ -127,14 +130,27 @@ function Ornament() {
   );
 }
 
+function Input({ className, ...props }: ComponentProps<"input">) {
+  return (
+    <input
+      className={cn(
+        "mt-3 h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
 function Form() {
   return (
-    <form className="mt-10 flex w-full flex-1 flex-col items-center">
+    <form className="mt-10 flex w-full max-w-[460px] flex-1 flex-col items-center">
       <div className="w-full">
         <p className="tracking-tight">Upload Avatar</p>
         <label
           htmlFor="avatar"
-          className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50"
+          className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
+          // TODO: make this element interactive
         >
           <div className="flex flex-col items-center justify-start gap-[15px]">
             <svg
@@ -164,37 +180,30 @@ function Form() {
           <span>Upload your photo (JPG or PNG, max size: 500KB).</span>
         </p>
       </div>
-      <label htmlFor="fullname" className="w-full mt-6">
+      <label htmlFor="fullname" className="mt-6 w-full">
         <p className="tracking-tight">Full Name</p>
-        <input
-          type="text"
-          name="fullname"
-          id="fullname"
-          className="mt-3 text-[18px] h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:bg-conference-ticket-generator-neutral-500/50 focus-visible:border-conference-ticket-generator-neutral-300 py-2 px-[14px] focus-visible:outline-transparent focus-visible:outline"
-        />
+        <Input type="text" name="fullname" id="fullname" />
       </label>
-      <label htmlFor="email" className="w-full mt-6">
+      <label htmlFor="email" className="mt-6 w-full">
         <p className="tracking-tight">Email Address</p>
-        <input
+        <Input
           type="email"
           name="email"
           id="email"
-          className="mt-3 text-[18px] h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:bg-conference-ticket-generator-neutral-500/50 focus-visible:border-conference-ticket-generator-neutral-300 py-2 px-[14px] focus-visible:outline-transparent focus-visible:outline"
           placeholder="example@email.com"
         />
       </label>
-      <label htmlFor="username" className="w-full mt-6">
+      <label htmlFor="username" className="mt-6 w-full">
         <p className="tracking-tight">GitHub Username</p>
-        <input
+        <Input
           type="text"
           name="username"
           id="username"
-          className="mt-3 text-[18px] h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:bg-conference-ticket-generator-neutral-500/50 focus-visible:border-conference-ticket-generator-neutral-300 py-2 px-[14px] focus-visible:outline-transparent focus-visible:outline"
           placeholder="@yourusername"
         />
       </label>
       <button
-        className="w-full bg-conference-ticket-generator-orange-500 text-conference-ticket-generator-neutral-900 mt-[24px] h-[54px] rounded-xl font-extrabold tracking-tight"
+        className="mt-[24px] h-[54px] w-full rounded-xl bg-conference-ticket-generator-orange-500 font-extrabold tracking-tight text-conference-ticket-generator-neutral-900 focus-visible:border-[3px] focus-visible:border-conference-ticket-generator-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-conference-ticket-generator-neutral-500"
         type="submit"
       >
         Generate My Ticket
