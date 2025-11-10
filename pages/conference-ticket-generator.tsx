@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
+import { type ComponentProps, useRef } from "react";
 import { z } from "zod";
-import { inconsolata } from "../utils/fonts/inconsolata";
 import { cn } from "../utils/cn";
-import { ComponentProps, useRef } from "react";
+import { inconsolata } from "../utils/fonts/inconsolata";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -71,7 +71,7 @@ export default function ConferenceTicketGenerator() {
         {/* <Slider
           basePath="/conference-ticket-generator/design"
           // absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
-          absolutePath="/conference-ticket-generator/design/state-focus.jpg"
+          absolutePath="/conference-ticket-generator/design/desktop-design-form.jpg"
         /> */}
       </div>
     </>
@@ -146,7 +146,7 @@ function Form() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <form className="mt-10 flex w-full max-w-[460px] flex-1 flex-col items-center">
+    <form className="mt-10 flex w-full max-w-[460px] flex-1 flex-col items-center lg:mt-[45px]">
       <div className="w-full">
         <label htmlFor="avatar" className="tracking-tight">
           Upload Avatar
@@ -226,20 +226,20 @@ function Form() {
 
 function Main() {
   return (
-    <main className="relative z-20 flex h-full w-full flex-col items-center px-4 py-[30px] text-[20px] leading-6 text-conference-ticket-generator-neutral-0">
+    <main className="relative z-20 flex h-full w-full flex-col items-center px-4 py-[30px] text-[20px] leading-6 text-conference-ticket-generator-neutral-0 lg:py-10">
       <Image
         src={"/conference-ticket-generator/assets/images/logo-full.svg"}
         width={209}
         height={30}
         alt="Coding Conf"
-        className="scale-[80%]"
+        className="scale-[80%] lg:scale-100"
       />
 
-      <h1 className="mt-[38px] text-center text-[30px] font-extrabold leading-8 tracking-[-0.035em]">
+      <h1 className="mt-[38px] text-center text-[30px]/8 font-extrabold tracking-[-0.035em] lg:mt-[59px] lg:max-w-[800px] lg:text-[60px]/[66px] lg:tracking-[-0.0175em]">
         Your Journey to Coding Conf 2025 Starts Here!
       </h1>
 
-      <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300">
+      <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[22px] lg:text-[22px]/7 lg:tracking-wide">
         Secure your spot at next year&rsquo;s biggest coding conference.
       </p>
 
