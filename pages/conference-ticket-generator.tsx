@@ -4,7 +4,7 @@ import Image from "next/image";
 import { z } from "zod";
 import { inconsolata } from "../utils/fonts/inconsolata";
 import { cn } from "../utils/cn";
-import { ComponentProps } from "react";
+import { ComponentProps, useRef } from "react";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -143,14 +143,25 @@ function Input({ className, ...props }: ComponentProps<"input">) {
 }
 
 function Form() {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <form className="mt-10 flex w-full max-w-[460px] flex-1 flex-col items-center">
       <div className="w-full">
-        <p className="tracking-tight">Upload Avatar</p>
+        <label htmlFor="avatar" className="tracking-tight">
+          Upload Avatar
+        </label>
         <label
           htmlFor="avatar"
           className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
-          // TODO: make this element interactive
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
+          tabIndex={0}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              inputRef.current?.click();
+            }
+          }}
         >
           <div className="flex flex-col items-center justify-start gap-[15px]">
             <svg
@@ -171,6 +182,7 @@ function Form() {
             name="avatar"
             id="avatar"
             className="hidden"
+            ref={inputRef}
           />
         </label>
         <p className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500">
