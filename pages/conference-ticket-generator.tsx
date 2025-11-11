@@ -63,7 +63,7 @@ export default function ConferenceTicketGenerator() {
         <title>Frontend Mentor | Conference ticket generator</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] overflow-x-hidden bg-white bg-[url('/conference-ticket-generator/assets/images/background-mobile.png')] bg-cover bg-top font-inconsolata md:bg-[url('/conference-ticket-generator/assets/images/background-tablet.png')] lg:bg-[url('/conference-ticket-generator/assets/images/background-desktop.png')] ${inconsolata.variable}`}
+        className={`App relative min-h-[100svh] overflow-x-hidden bg-white bg-[url('/conference-ticket-generator/assets/images/background-mobile.png')] bg-cover bg-top font-inconsolata md:bg-[url('/conference-ticket-generator/assets/images/background-tablet.png')] lg:bg-[url('/conference-ticket-generator/assets/images/background-desktop.png')] bg-scroll ${inconsolata.variable}`}
       >
         <Ornament />
         <Main />
@@ -81,7 +81,7 @@ export default function ConferenceTicketGenerator() {
 function Ornament() {
   return (
     <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
-      <div className="pointer-events-none absolute -left-[22px] -top-8 aspect-square h-[109px]">
+      <div className="pointer-events-none absolute -left-[22px] -top-8 aspect-square h-[109px] lg:-top-[84px] lg:left-11 lg:h-[217px]">
         <Image
           src="/conference-ticket-generator/assets/images/pattern-circle.svg"
           fill
@@ -90,7 +90,7 @@ function Ornament() {
           aria-hidden="true"
         />
       </div>
-      <div className="pointer-events-none absolute -right-[46px] top-[548px] aspect-square h-[108px]">
+      <div className="pointer-events-none absolute -right-[46px] top-[548px] aspect-square h-[108px] lg:left-[65.15%] lg:top-[48.5%] lg:h-[217px]">
         <Image
           src="/conference-ticket-generator/assets/images/pattern-circle.svg"
           fill
@@ -99,7 +99,7 @@ function Ornament() {
           aria-hidden="true"
         />
       </div>
-      <div className="pointer-events-none absolute left-1/2 top-0 z-10 aspect-[1459/1024] w-[264%] -translate-x-[calc(50%+28px)]">
+      <div className="pointer-events-none absolute left-1/2 top-0 z-10 aspect-[1459/1024] w-[264%] -translate-x-[calc(50%+28px)] lg:w-[101.25%] lg:-translate-x-[calc(50%+41px)]">
         <Image
           src="/conference-ticket-generator/assets/images/pattern-lines.svg"
           fill
@@ -108,7 +108,7 @@ function Ornament() {
           aria-hidden="true"
         />
       </div>
-      <div className="pointer-events-none absolute right-0 top-6 aspect-[446/208] h-[52px]">
+      <div className="pointer-events-none absolute right-0 top-6 aspect-[446/208] h-[52px] lg:top-[76px] lg:h-[208px]">
         <Image
           src="/conference-ticket-generator/assets/images/pattern-squiggly-line-top.svg"
           fill
@@ -117,13 +117,19 @@ function Ornament() {
           aria-hidden="true"
         />
       </div>
-      <div className="pointer-events-none absolute bottom-0 left-0 aspect-[760/530] h-[210px] lg:hidden">
+      <div className="pointer-events-none absolute bottom-0 left-0 aspect-[760/530] h-[210px] lg:aspect-[825/476] lg:h-[476px]">
         <Image
-          src="/conference-ticket-generator/assets/images/pattern-squiggly-line-bottom-mobile-tablet.svg"
+          src="/conference-ticket-generator/assets/images/pattern-squiggly-line-"
           fill
           className="object-contain"
-          alt="Pattern squiggly line bottom tablet"
+          alt="Pattern squiggly line"
           aria-hidden="true"
+          loader={({ src, width }) => {
+            if (width > 1023) {
+              return `${src}bottom-desktop.svg`;
+            }
+            return `${src}bottom-mobile-tablet.svg`;
+          }}
         />
       </div>
     </div>
