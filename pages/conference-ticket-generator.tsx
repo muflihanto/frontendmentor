@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { type ComponentProps, forwardRef, useRef } from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "../utils/cn";
 import { inconsolata } from "../utils/fonts/inconsolata";
@@ -158,7 +158,12 @@ const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
 Input.displayName = "Input";
 
 function Form() {
-  const { register, handleSubmit, reset } = useForm<Inputs>({
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+  } = useForm<Inputs>({
     resolver: zodResolver(inputSchema),
   });
 
@@ -178,40 +183,49 @@ function Form() {
         <label htmlFor="avatar" className="tracking-tight">
           Upload Avatar
         </label>
-        <label
-          htmlFor="avatar"
-          className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
-          // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
-          tabIndex={0}
-          onKeyDown={(e: React.KeyboardEvent) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              inputRef.current?.click();
-            }
+        <Controller
+          name="avatar"
+          control={control}
+          render={({ field }) => {
+            return (
+              <label
+                htmlFor="avatar"
+                className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
+                // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
+                tabIndex={0}
+                onKeyDown={(e: React.KeyboardEvent) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    inputRef.current?.click();
+                  }
+                }}
+              >
+                <div className="flex flex-col items-center justify-start gap-[15px]">
+                  <svg
+                    viewBox="0 0 30 30"
+                    className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700/50 p-[9px]"
+                    role="graphics-symbol"
+                    aria-label="Upload avatar"
+                  >
+                    <use href="/conference-ticket-generator/assets/images/icon-upload.svg#icon-upload" />
+                  </svg>
+                  <p className="text-[18px] text-conference-ticket-generator-neutral-300">
+                    Drag and drop or click to upload
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="avatar"
+                  id="avatar"
+                  className="hidden"
+                  ref={inputRef}
+                  onChange={(e) => field.onChange(e.target.files)}
+                />
+              </label>
+            );
           }}
-        >
-          <div className="flex flex-col items-center justify-start gap-[15px]">
-            <svg
-              viewBox="0 0 30 30"
-              className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700/50 p-[9px]"
-              role="graphics-symbol"
-              aria-label="Upload avatar"
-            >
-              <use href="/conference-ticket-generator/assets/images/icon-upload.svg#icon-upload" />
-            </svg>
-            <p className="text-[18px] text-conference-ticket-generator-neutral-300">
-              Drag and drop or click to upload
-            </p>
-          </div>
-          <input
-            type="file"
-            accept="image/*"
-            name="avatar"
-            id="avatar"
-            className="hidden"
-            ref={inputRef}
-          />
-        </label>
+        />
         <p className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500">
           <svg viewBox="0 0 16 16" className="w-4" role="graphics-symbol">
             <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
