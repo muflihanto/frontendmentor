@@ -2,8 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { type ComponentProps, forwardRef, useRef } from "react";
-import { Controller, type SubmitHandler, useForm } from "react-hook-form";
+import { type ComponentProps, forwardRef, useRef, useState } from "react";
+import {
+  Controller,
+  type ControllerRenderProps,
+  type SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { z } from "zod";
 import { cn } from "../utils/cn";
 import { inconsolata } from "../utils/fonts/inconsolata";
@@ -67,15 +72,15 @@ export default function ConferenceTicketGenerator() {
         <title>Frontend Mentor | Conference ticket generator</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] overflow-x-hidden bg-white bg-[url('/conference-ticket-generator/assets/images/background-mobile.png')] bg-cover bg-top font-inconsolata md:bg-[url('/conference-ticket-generator/assets/images/background-tablet.png')] lg:bg-[url('/conference-ticket-generator/assets/images/background-desktop.png')] bg-scroll ${inconsolata.variable}`}
+        className={`App relative min-h-[100svh] overflow-x-hidden bg-white bg-[url('/conference-ticket-generator/assets/images/background-mobile.png')] bg-cover bg-scroll bg-top font-inconsolata md:bg-[url('/conference-ticket-generator/assets/images/background-tablet.png')] lg:bg-[url('/conference-ticket-generator/assets/images/background-desktop.png')] ${inconsolata.variable}`}
       >
         <Ornament />
         <Main />
         <Footer />
         {/* <Slider
           basePath="/conference-ticket-generator/design"
-          absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
-          // absolutePath="/conference-ticket-generator/design/desktop-design-form.jpg"
+          // absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
+          absolutePath="/conference-ticket-generator/design/state-form-complete-mobile.jpg"
         /> */}
       </div>
     </>
@@ -158,19 +163,51 @@ const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
 Input.displayName = "Input";
 
 function Form() {
-  const {
-    control,
-    register,
-    handleSubmit,
-    reset,
-  } = useForm<Inputs>({
-    resolver: zodResolver(inputSchema),
-  });
+  const { control, register, handleSubmit, reset, resetField } =
+    useForm<Inputs>({
+      resolver: zodResolver(inputSchema),
+    });
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const handleFileChange = (
+    files: FileList | null,
+    field: ControllerRenderProps<Inputs, "avatar">,
+  ) => {
+    if (files && files.length > 0) {
+      const validation = z
+        .object({
+          avatar: inputSchema.shape.avatar,
+        })
+        .safeParse({ avatar: files });
+      if (validation.success) {
+        const url = URL.createObjectURL(files[0]);
+        setPreviewUrl(url);
+      } else {
+        setPreviewUrl(null);
+      }
+    } else {
+      setPreviewUrl(null);
+    }
+    field.onChange(files);
+  };
+
+  const handleRemoveImage = () => {
+    setPreviewUrl(null);
+    resetField("avatar");
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  };
+
+  const handleChangeImage = () => {
+    inputRef.current?.click();
+  };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
+    setPreviewUrl(null);
     reset();
   };
 
@@ -188,31 +225,61 @@ function Form() {
           control={control}
           render={({ field }) => {
             return (
-              <label
-                htmlFor="avatar"
-                className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
-                // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
-                tabIndex={0}
-                onKeyDown={(e: React.KeyboardEvent) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    inputRef.current?.click();
-                  }
-                }}
-              >
-                <div className="flex flex-col items-center justify-start gap-[15px]">
-                  <svg
-                    viewBox="0 0 30 30"
-                    className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700/50 p-[9px]"
-                    role="graphics-symbol"
-                    aria-label="Upload avatar"
+              <>
+                {previewUrl ? (
+                  <div className="mt-3 flex h-[126px] w-full flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 ">
+                    <Image
+                      src={previewUrl}
+                      alt="Avatar preview"
+                      width={50}
+                      height={50}
+                      className="aspect-square rounded-xl border border-conference-ticket-generator-neutral-500 object-cover"
+                    />
+                    <div className="mt-4 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2"
+                      >
+                        Remove image
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleChangeImage}
+                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2"
+                      >
+                        Change image
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="avatar"
+                    className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
+                    // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
+                    tabIndex={0}
+                    onKeyDown={(e: React.KeyboardEvent) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleChangeImage();
+                      }
+                    }}
                   >
-                    <use href="/conference-ticket-generator/assets/images/icon-upload.svg#icon-upload" />
-                  </svg>
-                  <p className="text-[18px] text-conference-ticket-generator-neutral-300">
-                    Drag and drop or click to upload
-                  </p>
-                </div>
+                    <div className="flex flex-col items-center justify-start gap-[15px]">
+                      <svg
+                        viewBox="0 0 30 30"
+                        className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700/50 p-[9px]"
+                        role="graphics-symbol"
+                        aria-label="Upload avatar"
+                      >
+                        <use href="/conference-ticket-generator/assets/images/icon-upload.svg#icon-upload" />
+                      </svg>
+                      <p className="text-[18px] text-conference-ticket-generator-neutral-300">
+                        Drag and drop or click to upload
+                      </p>
+                    </div>
+                  </label>
+                )}
                 <input
                   type="file"
                   accept="image/*"
@@ -220,9 +287,9 @@ function Form() {
                   id="avatar"
                   className="hidden"
                   ref={inputRef}
-                  onChange={(e) => field.onChange(e.target.files)}
+                  onChange={(e) => handleFileChange(e.target.files, field)}
                 />
-              </label>
+              </>
             );
           }}
         />
