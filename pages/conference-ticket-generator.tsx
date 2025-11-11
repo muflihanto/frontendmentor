@@ -1,7 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { type ComponentProps, useRef } from "react";
+import { type ComponentProps, forwardRef, useRef } from "react";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "../utils/cn";
 import { inconsolata } from "../utils/fonts/inconsolata";
@@ -56,6 +58,8 @@ const inputSchema = z.object({
     .transform((el) => el.trim()),
 });
 
+type Inputs = z.infer<typeof inputSchema>;
+
 export default function ConferenceTicketGenerator() {
   return (
     <>
@@ -70,8 +74,8 @@ export default function ConferenceTicketGenerator() {
         <Footer />
         {/* <Slider
           basePath="/conference-ticket-generator/design"
-          // absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
-          absolutePath="/conference-ticket-generator/design/desktop-design-form.jpg"
+          absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
+          // absolutePath="/conference-ticket-generator/design/desktop-design-form.jpg"
         /> */}
       </div>
     </>
@@ -136,23 +140,40 @@ function Ornament() {
   );
 }
 
-function Input({ className, ...props }: ComponentProps<"input">) {
-  return (
-    <input
-      className={cn(
-        "mt-3 h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input
+        className={cn(
+          "mt-3 h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+          className,
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+
+Input.displayName = "Input";
 
 function Form() {
+  const { register, handleSubmit, reset } = useForm<Inputs>({
+    resolver: zodResolver(inputSchema),
+  });
+
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    reset();
+  };
+
   return (
-    <form className="mt-10 flex w-full max-w-[460px] flex-1 flex-col items-center lg:mt-[45px]">
+    <form
+      className="mt-10 flex w-full max-w-[460px] flex-1 flex-col items-center lg:mt-[45px]"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="w-full">
         <label htmlFor="avatar" className="tracking-tight">
           Upload Avatar
@@ -200,24 +221,28 @@ function Form() {
       </div>
       <label htmlFor="fullname" className="mt-6 w-full">
         <p className="tracking-tight">Full Name</p>
-        <Input type="text" name="fullname" id="fullname" />
+        <Input
+          type="text"
+          id="fullname"
+          {...register("fullname", { required: true })}
+        />
       </label>
       <label htmlFor="email" className="mt-6 w-full">
         <p className="tracking-tight">Email Address</p>
         <Input
           type="email"
-          name="email"
           id="email"
           placeholder="example@email.com"
+          {...register("email", { required: true })}
         />
       </label>
       <label htmlFor="username" className="mt-6 w-full">
         <p className="tracking-tight">GitHub Username</p>
         <Input
           type="text"
-          name="username"
           id="username"
           placeholder="@yourusername"
+          {...register("username", { required: true })}
         />
       </label>
       <button
