@@ -6,6 +6,7 @@ import { type ComponentProps, forwardRef, useRef, useState } from "react";
 import {
   Controller,
   type ControllerRenderProps,
+  type FieldError,
   type SubmitHandler,
   useForm,
 } from "react-hook-form";
@@ -38,27 +39,27 @@ const inputSchema = z.object({
         return file.size <= 500 * 1024;
       },
       {
-        message: "File too large. Please upload photo under 500KB",
+        message: "File too large. Please upload a photo under 500KB.",
       },
     )
     .nullable()
     .optional(),
   fullname: z
     .string()
-    .min(1, { message: "Fullname cannot be empty" })
+    .min(1, { message: "Fullname cannot be empty." })
     .refine((val) => val.trim().length > 0, {
-      message: "Fullname cannot be empty",
+      message: "Fullname cannot be empty.",
     })
     .transform((el) => el.trim()),
   email: z
     .string()
-    .email({ message: "Please enter a valid email address" })
+    .email({ message: "Please enter a valid email address." })
     .transform((el) => el.trim()),
   username: z
     .string()
-    .min(1, { message: "Username cannot be empty" })
+    .min(1, { message: "Username cannot be empty." })
     .refine((val) => val.trim().length > 0, {
-      message: "Username cannot be empty",
+      message: "Username cannot be empty.",
     })
     .transform((el) => el.trim()),
 });
@@ -80,7 +81,7 @@ export default function ConferenceTicketGenerator() {
         {/* <Slider
           basePath="/conference-ticket-generator/design"
           // absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
-          absolutePath="/conference-ticket-generator/design/state-hover.jpg"
+          absolutePath="/conference-ticket-generator/design/state-error.jpg"
         /> */}
       </div>
     </>
@@ -145,28 +146,54 @@ function Ornament() {
   );
 }
 
-const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
-  ({ className, ...props }, ref) => {
-    return (
+const Input = forwardRef<
+  HTMLInputElement,
+  ComponentProps<"input"> & { error?: FieldError }
+>(({ className, error, ...props }, ref) => {
+  return (
+    <>
       <input
         className={cn(
-          "mt-3 h-[54px] w-full rounded-[12px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+          "mt-3 h-[54px] w-full rounded-[12px] border bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+          error
+            ? "border-conference-ticket-generator-orange-500"
+            : "border-conference-ticket-generator-neutral-500",
           className,
         )}
         ref={ref}
         {...props}
       />
-    );
-  },
-);
+      {!!error && (
+        <p className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500">
+          <svg
+            viewBox="0 0 16 16"
+            className="w-4 text-conference-ticket-generator-orange-500"
+            role="graphics-symbol"
+          >
+            <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
+          </svg>
+          <span className="text-conference-ticket-generator-orange-500">
+            {error.message}
+          </span>
+        </p>
+      )}
+    </>
+  );
+});
 
 Input.displayName = "Input";
 
 function Form() {
-  const { control, register, handleSubmit, reset, resetField } =
-    useForm<Inputs>({
-      resolver: zodResolver(inputSchema),
-    });
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    resetField,
+    formState: { errors },
+  } = useForm<Inputs>({
+    resolver: zodResolver(inputSchema),
+  });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -293,11 +320,20 @@ function Form() {
             );
           }}
         />
-        <p className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500">
-          <svg viewBox="0 0 16 16" className="w-4" role="graphics-symbol">
+        <p
+          className={`mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] ${errors.avatar ? "text-conference-ticket-generator-orange-500" : "text-conference-ticket-generator-neutral-500"}`}
+        >
+          <svg
+            viewBox="0 0 16 16"
+            className={`w-4 ${errors.avatar ? "text-conference-ticket-generator-orange-500" : "text-[#D1D0D5]"}`}
+            role="graphics-symbol"
+          >
             <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
           </svg>
-          <span>Upload your photo (JPG or PNG, max size: 500KB).</span>
+          <span>
+            {errors.avatar?.message ??
+              "Upload your photo (JPG or PNG, max size: 500KB)."}
+          </span>
         </p>
       </div>
       <label htmlFor="fullname" className="mt-6 w-full">
@@ -306,6 +342,7 @@ function Form() {
           type="text"
           id="fullname"
           {...register("fullname", { required: true })}
+          error={errors.fullname}
         />
       </label>
       <label htmlFor="email" className="mt-6 w-full">
@@ -315,6 +352,7 @@ function Form() {
           id="email"
           placeholder="example@email.com"
           {...register("email", { required: true })}
+          error={errors.email}
         />
       </label>
       <label htmlFor="username" className="mt-6 w-full">
@@ -324,6 +362,7 @@ function Form() {
           id="username"
           placeholder="@yourusername"
           {...register("username", { required: true })}
+          error={errors.username}
         />
       </label>
       <button
