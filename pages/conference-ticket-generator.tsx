@@ -80,7 +80,7 @@ export default function ConferenceTicketGenerator() {
         {/* <Slider
           basePath="/conference-ticket-generator/design"
           // absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
-          absolutePath="/conference-ticket-generator/design/state-form-complete-mobile.jpg"
+          absolutePath="/conference-ticket-generator/design/state-hover.jpg"
         /> */}
       </div>
     </>
@@ -150,7 +150,7 @@ const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
     return (
       <input
         className={cn(
-          "mt-3 h-[54px] w-full rounded-[10px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-500/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+          "mt-3 h-[54px] w-full rounded-[12px] border border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
           className,
         )}
         ref={ref}
@@ -255,7 +255,7 @@ function Form() {
                 ) : (
                   <label
                     htmlFor="avatar"
-                    className="mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
+                    className="group mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
                     // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
                     tabIndex={0}
                     onKeyDown={(e: React.KeyboardEvent) => {
@@ -268,7 +268,7 @@ function Form() {
                     <div className="flex flex-col items-center justify-start gap-[15px]">
                       <svg
                         viewBox="0 0 30 30"
-                        className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700/50 p-[9px]"
+                        className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700 bg-opacity-50 p-[9px] group-hover:border-conference-ticket-generator-neutral-500 group-hover:bg-opacity-100"
                         role="graphics-symbol"
                         aria-label="Upload avatar"
                       >
@@ -327,7 +327,7 @@ function Form() {
         />
       </label>
       <button
-        className="mt-[24px] h-[54px] w-full rounded-xl bg-conference-ticket-generator-orange-500 font-extrabold tracking-tight text-conference-ticket-generator-neutral-900 focus-visible:border-[3px] focus-visible:border-conference-ticket-generator-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-conference-ticket-generator-neutral-500"
+        className="mt-[24px] h-[54px] w-full rounded-xl bg-conference-ticket-generator-orange-500 font-extrabold tracking-tight text-conference-ticket-generator-neutral-900 hover:bg-conference-ticket-generator-orange-700 hover:shadow-[0px_4px] hover:shadow-conference-ticket-generator-orange-500 focus-visible:border-[3px] focus-visible:border-conference-ticket-generator-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-conference-ticket-generator-neutral-500"
         type="submit"
       >
         Generate My Ticket
