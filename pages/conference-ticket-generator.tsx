@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { type ComponentProps, forwardRef, useRef, useState } from "react";
+import { type ComponentProps, forwardRef, useRef } from "react";
 import {
   Controller,
   type ControllerRenderProps,
@@ -67,6 +68,9 @@ const inputSchema = z.object({
 });
 
 type Inputs = z.infer<typeof inputSchema>;
+
+const completedAtom = atom<boolean>(false);
+const previewUrlAtom = atom<string | null>(null);
 
 export default function ConferenceTicketGenerator() {
   return (
@@ -190,13 +194,13 @@ function Form() {
     control,
     register,
     handleSubmit,
-    reset,
     resetField,
     formState: { errors },
   } = useFormContext<Inputs>();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useAtom(previewUrlAtom);
+  const setIsCompleted = useSetAtom(completedAtom);
 
   const handleFileChange = (
     files: FileList | null,
@@ -234,8 +238,7 @@ function Form() {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
-    setPreviewUrl(null);
-    reset();
+    setIsCompleted(true);
   };
 
   return (
@@ -378,7 +381,16 @@ function Form() {
 function Main() {
   const form = useForm<Inputs>({
     resolver: zodResolver(inputSchema),
+    // values: {
+    //   email: "jonatan@email.com",
+    //   fullname: "Jonatan Kristof",
+    //   username: "@jonatankristof0101",
+    // },
   });
+  const { getValues } = form;
+
+  const isCompleted = useAtomValue(completedAtom);
+  const previewUrl = useAtomValue(previewUrlAtom);
 
   return (
     <FormProvider {...form}>
@@ -391,32 +403,91 @@ function Main() {
           className="scale-[80%] lg:scale-100"
         />
 
-        <h1 className="mt-[38px] text-center text-[30px]/8 font-extrabold tracking-[-0.035em] lg:mt-[59px] lg:max-w-[800px] lg:text-[60px]/[66px] lg:tracking-[-0.0175em]">
-          Your Journey to Coding Conf 2025 Starts Here!
-        </h1>
+        {isCompleted ? (
+          <>
+            <h1 className="mt-[38px] text-center text-[30px]/8 font-extrabold tracking-[-0.035em] lg:mt-[59px] lg:max-w-[800px] lg:text-[60px]/[66px] lg:tracking-[-0.0175em]">
+              Congrats,{" "}
+              <span className="bg-gradient-to-r from-conference-ticket-generator-orange-gradient to-conference-ticket-generator-neutral-0 bg-clip-text text-transparent">
+                {getValues("fullname")}!
+              </span>{" "}
+              Your ticket is ready.
+            </h1>
 
-        <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[22px] lg:text-[22px]/7 lg:tracking-wide">
-          Secure your spot at next year&rsquo;s biggest coding conference.
-        </p>
+            <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[22px] lg:text-[22px]/7 lg:tracking-wide">
+              We&rsquo;ve emailed your ticket to{" "}
+              <span className="text-conference-ticket-generator-orange-gradient">
+                {getValues("email")}
+              </span>{" "}
+              and will send updates in the run up to the event.
+            </p>
 
-        <Form />
+            <div className="relative mt-[73px] flex aspect-[600/280] w-full max-w-[343px] items-start justify-between bg-[url('/conference-ticket-generator/assets/images/pattern-ticket.svg')] bg-cover px-4 py-4">
+              <div className="flex flex-col items-start justify-start gap-[34px] pt-1">
+                <div className="flex items-start gap-px">
+                  <Image
+                    src={
+                      "/conference-ticket-generator/assets/images/logo-mark.svg"
+                    }
+                    width={40}
+                    height={40}
+                    alt="Coding Conf Mark"
+                    className="origin-top-left scale-[calc(29/40*100%)] lg:scale-100"
+                  />
+                  <div className="flex flex-col gap-[13px]">
+                    <span className="text-[24px]/[18px] font-medium tracking-[-0.04em]">
+                      Coding Conf
+                    </span>
+                    <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300">
+                      Jan 31, 2025 / Austin, TX
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Image
+                    src={previewUrl!}
+                    alt="Avatar preview"
+                    width={45}
+                    height={45}
+                    className="aspect-square rounded-lg object-cover"
+                  />
+                  <div className="flex flex-col justify-between pb-[1px] pt-1">
+                    <div className="text-[18px] leading-none">
+                      {getValues("fullname")}
+                    </div>
+                    <div className="flex items-center gap-[3px]">
+                      <div className="relative aspect-[22/23] h-[17px]">
+                        <Image
+                          src="/conference-ticket-generator/assets/images/icon-github.svg"
+                          alt="Avatar preview"
+                          fill
+                          className=" object-cover"
+                        />
+                      </div>
+                      <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300">
+                        {getValues("username")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute -right-1 top-1/2 -translate-y-1/2 rotate-90 text-conference-ticket-generator-neutral-500 text-[22px] tracking-[-0.035em]">
+                #01609
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <h1 className="mt-[38px] text-center text-[30px]/8 font-extrabold tracking-[-0.035em] lg:mt-[59px] lg:max-w-[800px] lg:text-[60px]/[66px] lg:tracking-[-0.0175em]">
+              Your Journey to Coding Conf 2025 Starts Here!
+            </h1>
 
-        {/* 
-        <!-- Form starts -->
+            <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[22px] lg:text-[22px]/7 lg:tracking-wide">
+              Secure your spot at next year&rsquo;s biggest coding conference.
+            </p>
 
-        <!-- Form ends -->
-
-        <!-- Generated tickets starts -->
-
-        Congrats, <!-- Full Name -->! Your ticket is ready.
-
-        We've emailed your ticket to <!-- Email Address --> and will send updates in the run up to the event.
-
-        Coding Conf
-        Jan 31, 2025 / Austin, TX
-
-        <!-- Generated tickets ends -->
-      */}
+            <Form />
+          </>
+        )}
       </main>
     </FormProvider>
   );
