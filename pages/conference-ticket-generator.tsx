@@ -87,8 +87,7 @@ export default function ConferenceTicketGenerator() {
         {/* <Slider
           basePath="/conference-ticket-generator/design"
           // absolutePath="/conference-ticket-generator/design/mobile-design-form.jpg"
-          absolutePath="/conference-ticket-generator/design/desktop-design-ticket.jpg"
-          // absolutePath="/conference-ticket-generator/design/mobile-design-ticket.jpg"
+          absolutePath="/conference-ticket-generator/design/dekstop-design-ticket.jpg"
         /> */}
       </div>
     </>
@@ -406,7 +405,7 @@ function Main() {
 
         {isCompleted ? (
           <>
-            <h1 className="mt-[38px] text-center text-[30px]/8 font-extrabold tracking-[-0.035em] lg:mt-[59px] lg:max-w-[800px] lg:text-[60px]/[66px] lg:tracking-[-0.0175em]">
+            <h1 className="mt-[38px] text-center text-[30px]/8 font-extrabold tracking-[-0.035em] lg:mt-[70px] lg:max-w-[800px] lg:text-[62px]/[66px] lg:tracking-[-0.0325em]">
               Congrats,{" "}
               <span className="bg-gradient-to-r from-conference-ticket-generator-orange-gradient to-conference-ticket-generator-neutral-0 bg-clip-text text-transparent">
                 {getValues("fullname")}!
@@ -414,7 +413,7 @@ function Main() {
               Your ticket is ready.
             </h1>
 
-            <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[22px] lg:text-[22px]/7 lg:tracking-wide">
+            <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[32px] lg:text-[24px]/[29px] max-w-[520px]">
               We&rsquo;ve emailed your ticket to{" "}
               <span className="text-conference-ticket-generator-orange-gradient">
                 {getValues("email")}
@@ -422,7 +421,7 @@ function Main() {
               and will send updates in the run up to the event.
             </p>
 
-            <div className="relative mt-[73px] flex aspect-[600/280] w-full max-w-[600px] items-center justify-between bg-[url('/conference-ticket-generator/assets/images/pattern-ticket.svg')] bg-cover px-4 py-4 md:px-6 md:py-6">
+            <div className="relative mt-[73px] flex aspect-[600/280] w-full max-w-[600px] items-center justify-between bg-[url('/conference-ticket-generator/assets/images/pattern-ticket.svg')] bg-cover px-4 py-4 md:px-6 md:py-6 lg:mt-[111px]">
               <div className="flex h-full flex-col items-start justify-between pt-1 md:pt-1.5">
                 <div className="flex items-start gap-px md:gap-5">
                   <Image
