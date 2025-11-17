@@ -300,7 +300,6 @@ function Form() {
                         viewBox="0 0 30 30"
                         className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700 bg-opacity-50 p-[9px] group-hover:border-conference-ticket-generator-neutral-500 group-hover:bg-opacity-100"
                         role="graphics-symbol"
-                        aria-label="Upload avatar"
                       >
                         <use href="/conference-ticket-generator/assets/images/icon-upload.svg#icon-upload" />
                       </svg>
