@@ -63,6 +63,27 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     ).toBeVisible();
   });
 
+  /** Test if the page can handle form submission */
+  test.describe("form submission", () => {
+    /** Test if the form can handle valid input */
+    test("should handle valid input correctly", async ({ page }) => {
+      const form = page.locator("form");
+      const fullName = page.getByLabel("Full Name");
+      const email = page.getByLabel("Email Address");
+      const username = page.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      // Fill inputs
+      await fullName.fill("Jonatan Kristof");
+      await email.fill("jonatan@email.com");
+      await username.fill("@jonatankristof0101");
+      // Submit
+      await submit.click();
+      // Switch to ticket view
+      await expect(form).not.toBeVisible();
+      await expect(page.getByText("Congrats")).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(

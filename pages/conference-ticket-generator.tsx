@@ -442,7 +442,10 @@ function Main() {
                 <div className="flex gap-3 md:gap-4">
                   <div className="relative aspect-square w-[clamp(45px,8.906vw+0.725rem,80px)] origin-bottom-left overflow-hidden rounded-lg object-cover lg:rounded-xl">
                     <Image
-                      src={previewUrl!}
+                      src={
+                        previewUrl ??
+                        "/conference-ticket-generator/assets/images/default-avatar.png"
+                      }
                       alt="Avatar preview"
                       fill
                       className="object-cover"
