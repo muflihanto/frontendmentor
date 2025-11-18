@@ -82,6 +82,24 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(form).not.toBeVisible();
       await expect(page.getByText("Congrats")).toBeVisible();
     });
+
+    /** Test if the form can handle empty input */
+    test("should handle empty input correctly", async ({ page }) => {
+      const fullNameError = page.getByText("Fullname cannot be empty.");
+      const emailError = page.getByText("Please enter a valid email address.");
+      const usernameError = page.getByText("Username cannot be empty.");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      await expect(fullNameError).not.toBeVisible();
+      await expect(emailError).not.toBeVisible();
+      await expect(usernameError).not.toBeVisible();
+
+      await submit.click();
+
+      await expect(fullNameError).toBeVisible();
+      await expect(emailError).toBeVisible();
+      await expect(usernameError).toBeVisible();
+    });
   });
 
   /** Test if the page has a footer */
