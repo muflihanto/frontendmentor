@@ -129,6 +129,32 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(emailError).toBeVisible();
       await expect(usernameError).toBeVisible();
     });
+
+    /** Test if the form can handle whitespace-only input */
+    test("should handle whitespace-only input correctly", async ({ page }) => {
+      const form = page.locator("form");
+      const fullName = form.getByLabel("Full Name");
+      const email = form.getByLabel("Email Address");
+      const username = form.getByLabel("GitHub Username");
+
+      const fullNameError = page.getByText("Fullname cannot be empty.");
+      const emailError = page.getByText("Please enter a valid email address.");
+      const usernameError = page.getByText("Username cannot be empty.");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      await expect(fullNameError).not.toBeVisible();
+      await expect(emailError).not.toBeVisible();
+      await expect(usernameError).not.toBeVisible();
+
+      await fullName.fill("   ");
+      await email.fill("jonatan@email.com");
+      await username.fill("   ");
+
+      await submit.click();
+
+      await expect(fullNameError).toBeVisible();
+      await expect(usernameError).toBeVisible();
+    });
   });
 
   /** Test if the page has a footer */
