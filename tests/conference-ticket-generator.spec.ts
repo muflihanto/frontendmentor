@@ -83,6 +83,35 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(page.getByText("Congrats")).toBeVisible();
     });
 
+    /** Test if the form can generate conference ticket */
+    test("should generate conference ticket", async ({ page }) => {
+      const form = page.locator("form");
+      // Fill inputs
+      await page.getByLabel("Full Name").fill("Jonatan Kristof");
+      await page.getByLabel("Email Address").fill("jonatan@email.com");
+      await page.getByLabel("GitHub Username").fill("@jonatankristof0101");
+      // Submit
+      await page.getByRole("button", { name: "Generate My Ticket" }).click();
+      // Switch to ticket view
+      await expect(form).not.toBeVisible();
+      await expect(
+        page.getByRole("heading", { name: "Congrats, Jonatan Kristof!" }),
+      ).toBeVisible();
+      await expect(
+        page.getByText("We’ve emailed your ticket to jonatan@email.com"),
+      ).toBeVisible();
+      await expect(
+        page.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
+      ).toBeVisible();
+      await expect(
+        page.getByRole("img", { name: "Avatar preview" }).first(),
+      ).toBeVisible();
+      await expect(
+        page.getByText("Jonatan Kristof@jonatankristof0101"),
+      ).toBeVisible();
+      await expect(page.getByText(/#\d+/)).toBeVisible();
+    });
+
     /** Test if the form can handle empty input */
     test("should handle empty input correctly", async ({ page }) => {
       const fullNameError = page.getByText("Fullname cannot be empty.");
