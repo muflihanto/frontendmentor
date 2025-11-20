@@ -204,6 +204,43 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     );
   });
 
+  /** Test if the page has focus states on interactive elements */
+  test("has focus states on interactive elements", async ({ page }) => {
+    // interactive elements
+    const form = page.locator("form");
+    const fullName = form.getByLabel("Full Name");
+    const email = form.getByLabel("Email Address");
+    const username = form.getByLabel("GitHub Username");
+    const submit = form.getByRole("button", { name: "Generate My Ticket" });
+    const textInputs = [fullName, email, username];
+
+    // text inputs
+    for (const textInput of textInputs) {
+      await expect(textInput).toHaveCSS("outline-color", "rgb(255, 255, 255)");
+      await expect(textInput).toHaveCSS("outline-offset", "0px");
+      await expect(textInput).toHaveCSS("outline-style", "none");
+      await expect(textInput).toHaveCSS("outline-width", "0px");
+      await textInput.focus();
+      await expect(textInput).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+      await expect(textInput).toHaveCSS("outline-offset", "3px");
+      await expect(textInput).toHaveCSS("outline-style", "solid");
+      await expect(textInput).toHaveCSS("outline-width", "2px");
+    }
+
+    // submit
+    await expect(submit).toHaveCSS("border-color", "rgb(229, 231, 235)");
+    await expect(submit).toHaveCSS("border-width", "0px");
+    await expect(submit).toHaveCSS("outline-color", "rgb(12, 8, 43)");
+    await expect(submit).toHaveCSS("outline-style", "none");
+    await expect(submit).toHaveCSS("outline-width", "0px");
+    await submit.focus();
+    await expect(submit).toHaveCSS("border-color", "rgb(12, 8, 43)");
+    await expect(submit).toHaveCSS("border-width", "3px");
+    await expect(submit).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(submit).toHaveCSS("outline-style", "solid");
+    await expect(submit).toHaveCSS("outline-width", "2px");
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
