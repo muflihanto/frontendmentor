@@ -157,6 +157,53 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     });
   });
 
+  /** Test if the page has hover effects on interactive elements */
+  test("has hover effects on interactive elements", async ({ page }) => {
+    // interactive elements
+    const form = page.locator("form");
+    const avatar = form.locator('label[for="avatar"]').nth(1);
+    const fullName = form.getByLabel("Full Name");
+    const email = form.getByLabel("Email Address");
+    const username = form.getByLabel("GitHub Username");
+    const submit = form.getByRole("button", { name: "Generate My Ticket" });
+    // text styles
+    const defaultBg = "rgba(75, 72, 106, 0.3)";
+    const hoverBg = "rgba(75, 72, 106, 0.7)";
+    // avatar
+    await expect(avatar).toHaveCSS("border-color", "rgb(135, 132, 164)");
+    await expect(avatar).toHaveCSS(
+      "background-color",
+      "rgba(75, 72, 106, 0.3)",
+    );
+    await avatar.hover();
+    await expect(avatar).toHaveCSS("border-color", "rgb(210, 209, 214)");
+    await expect(avatar).toHaveCSS(
+      "background-color",
+      "rgba(75, 72, 106, 0.7)",
+    );
+    // fullName
+    await expect(fullName).toHaveCSS("background-color", defaultBg);
+    await fullName.hover();
+    await expect(fullName).toHaveCSS("background-color", hoverBg);
+    // email
+    await expect(email).toHaveCSS("background-color", defaultBg);
+    await email.hover();
+    await expect(email).toHaveCSS("background-color", hoverBg);
+    // username
+    await expect(username).toHaveCSS("background-color", defaultBg);
+    await username.hover();
+    await expect(username).toHaveCSS("background-color", hoverBg);
+    // submit
+    await expect(submit).toHaveCSS("background-color", "rgb(245, 114, 97)");
+    await expect(submit).toHaveCSS("box-shadow", "none");
+    await submit.hover();
+    await expect(submit).toHaveCSS("background-color", "rgb(225, 97, 81)");
+    await expect(submit).toHaveCSS(
+      "box-shadow",
+      "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(245, 114, 97) 0px 4px 0px 0px",
+    );
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
