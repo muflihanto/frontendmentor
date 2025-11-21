@@ -115,7 +115,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     /** Test if the form can handle empty input */
     test("should handle empty input correctly", async ({ page }) => {
       const fullNameError = page.getByText("Fullname cannot be empty.");
-      const emailError = page.getByText("Please enter a valid email address.");
+      const emailError = page.getByText("Email address cannot be empty.");
       const usernameError = page.getByText("Username cannot be empty.");
       const submit = page.getByRole("button", { name: "Generate My Ticket" });
 

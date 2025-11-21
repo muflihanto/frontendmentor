@@ -56,6 +56,7 @@ const inputSchema = z.object({
     .transform((el) => el.trim()),
   email: z
     .string()
+    .min(1, { message: "Email address cannot be empty." })
     .email({ message: "Please enter a valid email address." })
     .transform((el) => el.trim()),
   username: z
