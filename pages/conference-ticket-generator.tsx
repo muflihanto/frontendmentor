@@ -246,6 +246,7 @@ function Form() {
     <form
       className="mt-10 flex w-full max-w-[460px] flex-1 flex-col items-center lg:mt-[45px]"
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
       <div className="w-full">
         <label htmlFor="avatar" className="tracking-tight">
