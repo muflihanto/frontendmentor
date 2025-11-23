@@ -201,6 +201,53 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(removeImage).toBeVisible();
       await expect(changeImage).toBeVisible();
     });
+
+    /** Test if the avatar upload field works */
+    test("should be able to change and remove selected image", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const avatarLabel = form.getByText("Upload Avatar");
+      const avatarInput = form.getByLabel("Upload Avatar");
+      const preview = form.getByRole("img", { name: "Avatar preview" });
+      const removeImage = form.locator("button", { hasText: "Remove image" });
+      const changeImage = form.locator("button", { hasText: "Change image" });
+
+      const imagePathOne = path.join(__dirname, "assets/image-avatar.jpg");
+      const imagePathTwo = path.join(__dirname, "assets/default-avatar.png");
+
+      // select first image
+      const fileChooserPromise = page.waitForEvent("filechooser");
+      await avatarLabel.click();
+      let fileChooser = await fileChooserPromise;
+      await fileChooser.setFiles(imagePathOne);
+      await expect(preview).toBeVisible();
+      await expect(removeImage).toBeVisible();
+      await expect(changeImage).toBeVisible();
+      expect(
+        await avatarInput.evaluate(
+          (el) => (el as HTMLInputElement).files?.[0].name,
+        ),
+      ).toBe("image-avatar.jpg");
+
+      // change image button check
+      fileChooser = await fileChooserPromise;
+      await fileChooser.setFiles(imagePathTwo);
+      await expect(preview).toBeVisible();
+      await expect(removeImage).toBeVisible();
+      await expect(changeImage).toBeVisible();
+      expect(
+        await avatarInput.evaluate(
+          (el) => (el as HTMLInputElement).files?.[0].name,
+        ),
+      ).toBe("default-avatar.png");
+
+      // remove image button check
+      await removeImage.click();
+      await expect(preview).not.toBeVisible();
+      await expect(removeImage).not.toBeVisible();
+      await expect(changeImage).not.toBeVisible();
+    });
   });
 
   /** Test if the page has hover effects on interactive elements */
