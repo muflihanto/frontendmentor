@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import path from "node:path";
 
 test.describe("FrontendMentor Challenge - Conference ticket generator page", () => {
   /** Go to Conference ticket generator page before each test */
@@ -179,6 +180,26 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(fullNameError).toBeVisible();
       await expect(emailError).toBeVisible();
       await expect(usernameError).toBeVisible();
+    });
+
+    /** Test if the avatar upload field works */
+    test("should show avatar preview", async ({ page }) => {
+      const form = page.locator("form");
+      const avatarLabel = form.locator("label", {
+        hasText: "Drag and drop or click to upload",
+      });
+      const fileChooserPromise = page.waitForEvent("filechooser");
+      await avatarLabel.click();
+      const fileChooser = await fileChooserPromise;
+      await fileChooser.setFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
+      const preview = form.getByRole("img", { name: "Avatar preview" });
+      const removeImage = form.locator("button", { hasText: "Remove image" });
+      const changeImage = form.locator("button", { hasText: "Change image" });
+      await expect(preview).toBeVisible();
+      await expect(removeImage).toBeVisible();
+      await expect(changeImage).toBeVisible();
     });
   });
 
