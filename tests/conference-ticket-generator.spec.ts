@@ -160,23 +160,32 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     /** Test if the form can handle invalid input */
     test("should handle invalid input correctly", async ({ page }) => {
       const form = page.locator("form");
+      const avatar = form.getByLabel("Upload Avatar");
       const fullName = form.getByLabel("Full Name");
       const email = form.getByLabel("Email Address");
 
+      const avatarError = page.getByText(
+        "File too large. Please upload a photo under 500KB.",
+      );
       const fullNameError = page.getByText("Fullname cannot be empty.");
       const emailError = page.getByText("Please enter a valid email address.");
       const usernameError = page.getByText("Username cannot be empty.");
       const submit = page.getByRole("button", { name: "Generate My Ticket" });
 
+      const filePath = path.join(__dirname, "assets/icon-github.png");
+
+      await expect(avatarError).not.toBeVisible();
       await expect(fullNameError).not.toBeVisible();
       await expect(emailError).not.toBeVisible();
       await expect(usernameError).not.toBeVisible();
 
+      await avatar.setInputFiles(filePath);
       await fullName.fill("  \t\t  ");
       await email.fill("jonatan");
 
       await submit.click();
 
+      await expect(avatarError).toBeVisible();
       await expect(fullNameError).toBeVisible();
       await expect(emailError).toBeVisible();
       await expect(usernameError).toBeVisible();
