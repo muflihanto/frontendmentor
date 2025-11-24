@@ -84,6 +84,30 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(page.getByText("Congrats")).toBeVisible();
     });
 
+    /** Test if the form can handle valid input with avatar */
+    test("should handle valid input with avatar correctly", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const avatar = page.getByLabel("Drag and drop or click to upload");
+      const fullName = page.getByLabel("Full Name");
+      const email = page.getByLabel("Email Address");
+      const username = page.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      // Fill inputs
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
+      await fullName.fill("Jonatan Kristof");
+      await email.fill("jonatan@email.com");
+      await username.fill("@jonatankristof0101");
+      // Submit
+      await submit.click();
+      // Switch to ticket view
+      await expect(form).not.toBeVisible();
+      await expect(page.getByText("Congrats")).toBeVisible();
+    });
+
     /** Test if the form can generate conference ticket */
     test("should generate conference ticket", async ({ page }) => {
       const form = page.locator("form");
