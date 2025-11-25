@@ -196,6 +196,7 @@ function Form() {
     register,
     handleSubmit,
     resetField,
+    trigger,
     formState: { errors },
   } = useFormContext<Inputs>();
 
@@ -223,6 +224,7 @@ function Form() {
       setPreviewUrl(null);
     }
     field.onChange(files);
+    void trigger("avatar");
   };
 
   const handleRemoveImage = () => {
