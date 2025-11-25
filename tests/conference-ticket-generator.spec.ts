@@ -235,6 +235,55 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(changeImage).toBeVisible();
     });
 
+    /** Test if the avatar upload field validation works */
+    test("should trigger field validation on avatar change", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const avatarLabel = form.locator("label", {
+        hasText: "Drag and drop or click to upload",
+      });
+      const formatError = form.getByText("File must be JPG or PNG format.");
+      const sizeError = form.getByText(
+        "File too large. Please upload a photo under 500KB.",
+      );
+      const fileChooserPromise = page.waitForEvent("filechooser");
+
+      // initial check
+      await expect(formatError).not.toBeVisible();
+      await expect(sizeError).not.toBeVisible();
+
+      // unsupported format upload
+      await avatarLabel.click();
+      let fileChooser = await fileChooserPromise;
+      await fileChooser.setFiles(
+        path.join(__dirname, "assets/image-avatar.webp"),
+      );
+      await expect(formatError).toBeVisible();
+      await expect(sizeError).not.toBeVisible();
+
+      // too large file upload
+      await avatarLabel.click();
+      fileChooser = await fileChooserPromise;
+      await fileChooser.setFiles(
+        path.join(__dirname, "assets/icon-github.png"),
+      );
+      await expect(formatError).not.toBeVisible();
+      await expect(sizeError).toBeVisible();
+
+      // valid image upload
+      await avatarLabel.click();
+      fileChooser = await fileChooserPromise;
+      await fileChooser.setFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
+      await expect(formatError).not.toBeVisible();
+      await expect(sizeError).not.toBeVisible();
+      await expect(
+        form.getByRole("img", { name: "Avatar preview" }),
+      ).toBeVisible();
+    });
+
     /** Test if the avatar upload field works */
     test("should be able to change and remove selected image", async ({
       page,

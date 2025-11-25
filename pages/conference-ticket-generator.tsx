@@ -33,7 +33,7 @@ const inputSchema = z.object({
         return allowedTypes.includes(file.type);
       },
       {
-        message: "File must be JPG or PNG format",
+        message: "File must be JPG or PNG format.",
       },
     )
     .refine(
