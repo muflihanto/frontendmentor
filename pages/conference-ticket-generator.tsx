@@ -424,7 +424,10 @@ function Main() {
               and will send updates in the run up to the event.
             </p>
 
-            <div className="relative mt-[73px] flex aspect-[600/280] w-full max-w-[600px] items-center justify-between bg-[url('/conference-ticket-generator/assets/images/pattern-ticket.svg')] bg-cover px-4 py-4 md:px-6 md:py-6 lg:mt-[111px]">
+            <div
+              className="relative mt-[73px] flex aspect-[600/280] w-full max-w-[600px] items-center justify-between bg-[url('/conference-ticket-generator/assets/images/pattern-ticket.svg')] bg-cover px-4 py-4 md:px-6 md:py-6 lg:mt-[111px]"
+              id="ticket"
+            >
               <div className="flex h-full flex-col items-start justify-between pt-1 md:pt-1.5">
                 <div className="flex items-start gap-px md:gap-5">
                   <Image
@@ -463,9 +466,10 @@ function Main() {
                       <div className="relative aspect-[22/23] h-[17px] md:h-[23px]">
                         <Image
                           src="/conference-ticket-generator/assets/images/icon-github.svg"
-                          alt="Avatar preview"
+                          alt="Github"
                           fill
                           className="object-cover"
+                          role="graphics-symbol"
                         />
                       </div>
                       <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300 md:text-[20px] md:tracking-[-0.025em]">

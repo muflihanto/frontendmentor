@@ -111,6 +111,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     /** Test if the form can generate conference ticket */
     test("should generate conference ticket", async ({ page }) => {
       const form = page.locator("form");
+      const ticket = page.locator('div[id="ticket"]');
       // input data
       const fullname = "Jonatan Kristof";
       const email = "jonatan@email.com";
@@ -130,13 +131,53 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         page.getByText(`We’ve emailed your ticket to ${email}`),
       ).toBeVisible();
       await expect(
-        page.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
+        ticket.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
       ).toBeVisible();
       await expect(
-        page.getByRole("img", { name: "Avatar preview" }).first(),
+        ticket.getByRole("img", { name: "Avatar preview" }),
       ).toBeVisible();
-      await expect(page.getByText(`${fullname}${username}`)).toBeVisible();
-      await expect(page.getByText(/#\d+/)).toBeVisible();
+      await expect(ticket.getByText(`${fullname}${username}`)).toBeVisible();
+      await expect(ticket.getByText(/#\d+/)).toBeVisible();
+    });
+
+    /** Test if the form can generate conference ticket with avatar */
+    test("should generate conference ticket with avatar", async ({ page }) => {
+      const form = page.locator("form");
+      const ticket = page.locator('div[id="ticket"]');
+      // input data
+      const fullname = "Jonatan Kristof";
+      const email = "jonatan@email.com";
+      const username = "@jonatankristof0101";
+      const filePath = path.join(__dirname, "assets/image-avatar.jpg");
+      // Fill inputs
+      await page.getByLabel("Upload Avatar").setInputFiles(filePath);
+      await page.getByLabel("Full Name").fill(fullname);
+      await page.getByLabel("Email Address").fill(email);
+      await page.getByLabel("GitHub Username").fill(username);
+
+      const preview = form.getByRole("img", { name: "Avatar preview" });
+      const previewSrc = await preview.getAttribute("src");
+      // Submit
+      await page.getByRole("button", { name: "Generate My Ticket" }).click();
+      // Switch to ticket view
+      await expect(form).not.toBeVisible();
+      await expect(
+        page.getByRole("heading", { name: `Congrats, ${fullname}!` }),
+      ).toBeVisible();
+      await expect(
+        page.getByText(`We’ve emailed your ticket to ${email}`),
+      ).toBeVisible();
+      await expect(
+        ticket.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
+      ).toBeVisible();
+      await expect(
+        ticket.getByRole("img", { name: "Avatar preview" }),
+      ).toBeVisible();
+      await expect(
+        ticket.getByRole("img", { name: "Avatar preview" }),
+      ).toHaveAttribute("src", previewSrc ?? "");
+      await expect(ticket.getByText(`${fullname}${username}`)).toBeVisible();
+      await expect(ticket.getByText(/#\d+/)).toBeVisible();
     });
 
     /** Test if the form can handle empty input */
