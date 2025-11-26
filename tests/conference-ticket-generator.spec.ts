@@ -111,19 +111,23 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     /** Test if the form can generate conference ticket */
     test("should generate conference ticket", async ({ page }) => {
       const form = page.locator("form");
+      // input data
+      const fullname = "Jonatan Kristof";
+      const email = "jonatan@email.com";
+      const username = "@jonatankristof0101";
       // Fill inputs
-      await page.getByLabel("Full Name").fill("Jonatan Kristof");
-      await page.getByLabel("Email Address").fill("jonatan@email.com");
-      await page.getByLabel("GitHub Username").fill("@jonatankristof0101");
+      await page.getByLabel("Full Name").fill(fullname);
+      await page.getByLabel("Email Address").fill(email);
+      await page.getByLabel("GitHub Username").fill(username);
       // Submit
       await page.getByRole("button", { name: "Generate My Ticket" }).click();
       // Switch to ticket view
       await expect(form).not.toBeVisible();
       await expect(
-        page.getByRole("heading", { name: "Congrats, Jonatan Kristof!" }),
+        page.getByRole("heading", { name: `Congrats, ${fullname}!` }),
       ).toBeVisible();
       await expect(
-        page.getByText("We’ve emailed your ticket to jonatan@email.com"),
+        page.getByText(`We’ve emailed your ticket to ${email}`),
       ).toBeVisible();
       await expect(
         page.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
@@ -131,9 +135,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(
         page.getByRole("img", { name: "Avatar preview" }).first(),
       ).toBeVisible();
-      await expect(
-        page.getByText("Jonatan Kristof@jonatankristof0101"),
-      ).toBeVisible();
+      await expect(page.getByText(`${fullname}${username}`)).toBeVisible();
       await expect(page.getByText(/#\d+/)).toBeVisible();
     });
 
