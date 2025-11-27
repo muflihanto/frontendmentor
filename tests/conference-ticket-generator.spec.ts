@@ -373,6 +373,40 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(removeImage).not.toBeVisible();
       await expect(changeImage).not.toBeVisible();
     });
+
+    /** Test if the email field validation works */
+    test("should validate specific email formats", async ({ page }) => {
+      const form = page.locator("form");
+      const email = form.getByLabel("Email Address");
+      const fullName = form.getByLabel("Full Name");
+      const username = form.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const emailError = page.getByText("Please enter a valid email address.");
+
+      // fill valid name and username
+      await fullName.fill("John Doe");
+      await username.fill("@johndoe");
+
+      // test email without @
+      await email.fill("emailwithoutatsign.com");
+      await submit.click();
+      await expect(emailError).toBeVisible();
+
+      // test email without domain
+      await email.fill("email@");
+      await submit.click();
+      await expect(emailError).toBeVisible();
+
+      // test email without local part
+      await email.fill("@domain.com");
+      await submit.click();
+      await expect(emailError).toBeVisible();
+
+      // test email with spasi
+      await email.fill("john doe@email.com");
+      await submit.click();
+      await expect(emailError).toBeVisible();
+    });
   });
 
   /** Test if the page has hover effects on interactive elements */
