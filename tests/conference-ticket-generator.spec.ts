@@ -468,6 +468,32 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await username.fill("@johndoe");
       await expect(usernameError).not.toBeVisible();
     });
+
+    /** Test if the page has correct tab navigation order */
+    test("should have correct tab navigation order", async ({ page }) => {
+      const avatar = page.locator("label", {
+        hasText: "Drag and drop or click to upload",
+      });
+      const fullName = page.getByLabel("Full Name");
+      const email = page.getByLabel("Email Address");
+      const username = page.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      await page.keyboard.press("Tab");
+      await expect(avatar).toBeFocused();
+
+      await page.keyboard.press("Tab");
+      await expect(fullName).toBeFocused();
+
+      await page.keyboard.press("Tab");
+      await expect(email).toBeFocused();
+
+      await page.keyboard.press("Tab");
+      await expect(username).toBeFocused();
+
+      await page.keyboard.press("Tab");
+      await expect(submit).toBeFocused();
+    });
   });
 
   /** Test if the page has hover effects on interactive elements */
