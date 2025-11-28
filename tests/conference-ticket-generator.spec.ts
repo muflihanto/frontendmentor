@@ -374,6 +374,33 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(changeImage).not.toBeVisible();
     });
 
+    /** Test if the avatar preview persists when other validation errors occur */
+    test("should keep avatar preview when other validation errors occur", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const avatar = form.getByLabel("Upload Avatar");
+      const fullName = form.getByLabel("Full Name");
+      const email = form.getByLabel("Email Address");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const preview = form.getByRole("img", { name: "Avatar preview" });
+
+      const filePath = path.join(__dirname, "assets/image-avatar.jpg");
+
+      // upload avatar
+      await avatar.setInputFiles(filePath);
+      await expect(preview).toBeVisible();
+
+      // submit with other fields empty
+      await fullName.fill("");
+      await email.fill("");
+      await submit.click();
+
+      // avatar preview should be visible
+      await expect(preview).toBeVisible();
+      await expect(page.getByText("Fullname cannot be empty.")).toBeVisible();
+    });
+
     /** Test if the email field validation works */
     test("should validate specific email formats", async ({ page }) => {
       const form = page.locator("form");
