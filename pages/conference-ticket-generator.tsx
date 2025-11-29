@@ -367,7 +367,16 @@ function Form() {
           type="text"
           id="username"
           placeholder="@yourusername"
-          {...register("username", { required: true })}
+          {...register("username", {
+            required: true,
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+              let value = e.target.value.trim();
+              if (value && !value.startsWith("@")) {
+                value = `@${value}`;
+                e.target.value = value;
+              }
+            },
+          })}
           error={errors.username}
         />
       </label>
