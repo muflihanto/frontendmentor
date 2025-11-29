@@ -435,6 +435,37 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(emailError).toBeVisible();
     });
 
+    /** Test if the form handle username with and without @ symbol */
+    test("should handle username with and without @ symbol", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const ticket = page.locator('div[id="ticket"]');
+      const fullName = page.getByLabel("Full Name");
+      const email = page.getByLabel("Email Address");
+      const username = page.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      // fill with username without @
+      await fullName.fill("John Doe");
+      await email.fill("john@email.com");
+      await username.fill("johndoe");
+
+      // blur to trigger onChange handler
+      await username.blur();
+
+      // verify that @ has been added to the field
+      await expect(username).toHaveValue("@johndoe");
+
+      await submit.click();
+
+      await expect(form).not.toBeVisible();
+      await expect(page.getByText("Congrats")).toBeVisible();
+
+      // verify the username in the ticket has @
+      await expect(ticket.getByText("John Doe@johndoe")).toBeVisible();
+    });
+
     /** Test if the error messages cleared when input is corrected */
     test("should clear error messages when input is corrected", async ({
       page,
