@@ -435,6 +435,21 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(emailError).toBeVisible();
     });
 
+    /** Test if the username field should automatically prepend @ */
+    test("should automatically prepend @ when user types username without it", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const username = form.getByLabel("GitHub Username");
+
+      // fill username without @
+      await username.fill("testuser");
+      await username.blur();
+
+      // verify @ automatically added
+      await expect(username).toHaveValue("@testuser");
+    });
+
     /** Test if the form handle username with and without @ symbol */
     test("should handle username with and without @ symbol", async ({
       page,
