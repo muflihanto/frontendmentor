@@ -429,7 +429,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await submit.click();
       await expect(emailError).toBeVisible();
 
-      // test email with spasi
+      // test email with space
       await email.fill("john doe@email.com");
       await submit.click();
       await expect(emailError).toBeVisible();
@@ -447,6 +447,21 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await username.blur();
 
       // verify @ automatically added
+      await expect(username).toHaveValue("@testuser");
+    });
+
+    /** Test if the username field should not duplicate @ */
+    test("should not duplicate @ if user already typed it", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const username = form.getByLabel("GitHub Username");
+
+      // fill username with @
+      await username.fill("@testuser");
+      await username.blur();
+
+      // verify @ not duplicated
       await expect(username).toHaveValue("@testuser");
     });
 
