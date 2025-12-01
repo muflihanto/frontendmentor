@@ -568,6 +568,25 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await page.keyboard.press("Tab");
       await expect(submit).toBeFocused();
     });
+
+    /** Test if the form can be submitted with enter key */
+    test("should submit form with Enter key", async ({ page }) => {
+      const form = page.locator("form");
+      const fullName = form.getByLabel("Full Name");
+      const email = form.getByLabel("Email Address");
+      const username = form.getByLabel("GitHub Username");
+
+      await fullName.fill("John Doe");
+      await email.fill("john@email.com");
+      await username.fill("@johndoe");
+
+      // press Enter at the last field
+      await username.press("Enter");
+
+      // form submit
+      await expect(form).not.toBeVisible();
+      await expect(page.getByText("Congrats")).toBeVisible();
+    });
   });
 
   /** Test if the page has hover effects on interactive elements */
