@@ -374,6 +374,19 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(changeImage).not.toBeVisible();
     });
 
+    /** Test if the avatar field reject non-image file formats */
+    test("should reject non-image file formats", async ({ page }) => {
+      const form = page.locator("form");
+      const avatar = form.getByLabel("Upload Avatar");
+      const formatError = form.getByText("File must be JPG or PNG format.");
+
+      // try upload non-image file
+      const filePath = path.join(__dirname, "assets/test-file.txt");
+
+      await avatar.setInputFiles(filePath);
+      await expect(formatError).toBeVisible();
+    });
+
     /** Test if the avatar preview persists when other validation errors occur */
     test("should keep avatar preview when other validation errors occur", async ({
       page,
