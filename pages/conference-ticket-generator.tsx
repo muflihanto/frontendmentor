@@ -19,6 +19,8 @@ import { inconsolata } from "../utils/fonts/inconsolata";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
+// TODO: show trimmed/submitted value in generated ticket
+
 const inputSchema = z.object({
   avatar: z
     .custom<FileList | null>()
