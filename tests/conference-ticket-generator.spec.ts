@@ -387,6 +387,27 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(formatError).toBeVisible();
     });
 
+    /** Test if the form can handle rapid avatar changes */
+    test("should handle rapid avatar changes", async ({ page }) => {
+      const form = page.locator("form");
+      const avatar = form.getByLabel("Upload Avatar");
+      const preview = form.getByRole("img", { name: "Avatar preview" });
+
+      const file1 = path.join(__dirname, "assets/image-avatar.jpg");
+      const file2 = path.join(__dirname, "assets/default-avatar.png");
+
+      // upload rapidly several times
+      await avatar.setInputFiles(file1);
+      await avatar.setInputFiles(file2);
+      await avatar.setInputFiles(file1);
+
+      // preview should be visible with no errors
+      await expect(preview).toBeVisible();
+      await expect(
+        form.getByRole("img", { name: "Avatar preview" }),
+      ).toHaveAttribute("src", /blob:/);
+    });
+
     /** Test if the avatar preview persists when other validation errors occur */
     test("should keep avatar preview when other validation errors occur", async ({
       page,
