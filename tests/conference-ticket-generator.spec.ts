@@ -258,6 +258,29 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(usernameError).toBeVisible();
     });
 
+    /** Test if the form can handle special characters in inputs */
+    test("should handle special characters in inputs", async ({ page }) => {
+      const form = page.locator("form");
+      const fullName = form.getByLabel("Full Name");
+      const email = form.getByLabel("Email Address");
+      const username = form.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      const specialName = "José O'Brien-Smith";
+      const specialEmail = "jose.o-brien+test@email-domain.co.uk";
+      const specialUsername = "@jose_obrien-123";
+
+      await fullName.fill(specialName);
+      await email.fill(specialEmail);
+      await username.fill(specialUsername);
+      await submit.click();
+
+      await expect(form).not.toBeVisible();
+      await expect(
+        page.getByRole("heading", { name: `Congrats, ${specialName}!` }),
+      ).toBeVisible();
+    });
+
     /** Test if the form trim leading and trailing whitespace from inputs */
     test("should trim leading and trailing whitespace from inputs", async ({
       page,
