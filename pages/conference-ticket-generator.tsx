@@ -19,8 +19,6 @@ import { inconsolata } from "../utils/fonts/inconsolata";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-// TODO: show trimmed/submitted value in generated ticket
-
 const inputSchema = z.object({
   avatar: z
     .custom<FileList | null>()
@@ -74,6 +72,7 @@ type Inputs = z.infer<typeof inputSchema>;
 
 const completedAtom = atom<boolean>(false);
 const previewUrlAtom = atom<string | null>(null);
+const submittedDataAtom = atom<Inputs | null>(null);
 
 export default function ConferenceTicketGenerator() {
   return (
@@ -205,6 +204,7 @@ function Form() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useAtom(previewUrlAtom);
   const setIsCompleted = useSetAtom(completedAtom);
+  const setSubmittedData = useSetAtom(submittedDataAtom);
 
   const handleFileChange = (
     files: FileList | null,
@@ -244,6 +244,7 @@ function Form() {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
     setIsCompleted(true);
+    setSubmittedData(data);
   };
 
   return (
@@ -401,10 +402,10 @@ function Main() {
     //   username: "@jonatankristof0101",
     // },
   });
-  const { getValues } = form;
 
   const isCompleted = useAtomValue(completedAtom);
   const previewUrl = useAtomValue(previewUrlAtom);
+  const submittedData = useAtomValue(submittedDataAtom);
 
   return (
     <FormProvider {...form}>
@@ -422,7 +423,7 @@ function Main() {
             <h1 className="mt-[38px] text-center text-[30px]/8 font-extrabold tracking-[-0.035em] lg:mt-[70px] lg:max-w-[800px] lg:text-[62px]/[66px] lg:tracking-[-0.0325em]">
               Congrats,{" "}
               <span className="bg-gradient-to-r from-conference-ticket-generator-orange-gradient to-conference-ticket-generator-neutral-0 bg-clip-text text-transparent">
-                {getValues("fullname")}!
+                {submittedData?.fullname}!
               </span>{" "}
               Your ticket is ready.
             </h1>
@@ -430,7 +431,7 @@ function Main() {
             <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[32px] lg:text-[24px]/[29px] max-w-[520px]">
               We&rsquo;ve emailed your ticket to{" "}
               <span className="text-conference-ticket-generator-orange-gradient">
-                {getValues("email")}
+                {submittedData?.email}
               </span>{" "}
               and will send updates in the run up to the event.
             </p>
@@ -471,7 +472,7 @@ function Main() {
                   </div>
                   <div className="flex flex-col justify-between pb-[1px] pt-1 md:pb-[8px] md:pt-[10px]">
                     <div className="text-[clamp(1.125rem,0.0625rem+4.5vw,1.875rem)] leading-none md:tracking-[-0.035em]">
-                      {getValues("fullname")}
+                      {submittedData?.fullname}
                     </div>
                     <div className="flex items-center gap-[3px] md:gap-[9px]">
                       <div className="relative aspect-[22/23] h-[17px] md:h-[23px]">
@@ -484,7 +485,7 @@ function Main() {
                         />
                       </div>
                       <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300 md:text-[20px] md:tracking-[-0.025em]">
-                        {getValues("username")}
+                        {submittedData?.username}
                       </span>
                     </div>
                   </div>
