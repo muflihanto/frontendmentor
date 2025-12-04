@@ -281,8 +281,8 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       ).toBeVisible();
     });
 
-    /** Test if the form trim leading and trailing whitespace from inputs */
-    test("should trim leading and trailing whitespace from inputs", async ({
+    /** Test if the form trim leading and trailing whitespace from inputs and auto-prepend @ username */
+    test("should trim and auto-prepend @ for username input", async ({
       page,
     }) => {
       const form = page.locator("form");
@@ -293,19 +293,22 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       const submit = page.getByRole("button", { name: "Generate My Ticket" });
 
       const trimmedName = "John Doe";
-      const trimmedUsername = "@johndoe";
+      const trimmedUsername = "johndoe"; // without @
 
       // input with trailing/leading whitespace
       await fullName.fill(`  ${trimmedName}  `);
       await email.fill("  john@email.com  ");
       await username.fill(`  ${trimmedUsername}  `);
+      await username.blur();
+
+      // verify @ added after trim
+      await expect(username).toHaveValue("@johndoe");
+
       await submit.click();
 
       // ticket should shows trimmed values
       await expect(form).not.toBeVisible();
-      await expect(
-        ticket.getByText(`${trimmedName}${trimmedUsername}`),
-      ).toBeVisible();
+      await expect(ticket.getByText(`${trimmedName}@johndoe`)).toBeVisible();
     });
 
     /** Test if the avatar upload field works */
