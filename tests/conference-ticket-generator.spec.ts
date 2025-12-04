@@ -580,6 +580,29 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(ticket.getByText("John Doe@johndoe")).toBeVisible();
     });
 
+    /** Test if the form auto-prepend @ even when validation errors occur */
+    test("should auto-prepend @ even when validation errors occur", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const username = form.getByLabel("GitHub Username");
+      const submit = form.getByRole("button", { name: "Generate My Ticket" });
+
+      // fill only username
+      await username.fill("testuser");
+      await username.blur();
+
+      // verify @ added
+      await expect(username).toHaveValue("@testuser");
+
+      // submit to trigger validation errors
+      await submit.click();
+
+      // username value should contain @
+      await expect(username).toHaveValue("@testuser");
+      await expect(page.getByText("Fullname cannot be empty.")).toBeVisible();
+    });
+
     /** Test if the error messages cleared when input is corrected */
     test("should clear error messages when input is corrected", async ({
       page,
