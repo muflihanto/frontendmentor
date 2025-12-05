@@ -606,6 +606,28 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(page.getByText("Fullname cannot be empty.")).toBeVisible();
     });
 
+    /** Test if the form auto-prepend @ when navigating with Tab key */
+    test("should auto-prepend @ when navigating with Tab key", async ({
+      page,
+    }) => {
+      const fullName = page.getByLabel("Full Name");
+      const username = page.getByLabel("GitHub Username");
+
+      // tab to username field
+      await fullName.focus();
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      // type without @
+      await username.fill("johndoe");
+
+      // tab to move focus
+      await page.keyboard.press("Tab");
+
+      // verify @ has been added
+      await expect(username).toHaveValue("@johndoe");
+    });
+
     /** Test if the error messages cleared when input is corrected */
     test("should clear error messages when input is corrected", async ({
       page,
