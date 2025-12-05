@@ -3,7 +3,13 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { type ComponentProps, forwardRef, useRef } from "react";
+import {
+  type ComponentProps,
+  type DragEvent,
+  forwardRef,
+  useRef,
+  useState,
+} from "react";
 import {
   Controller,
   type ControllerRenderProps,
@@ -206,6 +212,8 @@ function Form() {
   const setIsCompleted = useSetAtom(completedAtom);
   const setSubmittedData = useSetAtom(submittedDataAtom);
 
+  const [isDragging, setIsDragging] = useState(false);
+
   const handleFileChange = (
     files: FileList | null,
     field: ControllerRenderProps<Inputs, "avatar">,
@@ -239,6 +247,44 @@ function Form() {
 
   const handleChangeImage = () => {
     inputRef.current?.click();
+  };
+
+  const handleDragEnter = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (
+    e: DragEvent,
+    field: ControllerRenderProps<Inputs, "avatar">,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(files[0]);
+
+      if (inputRef.current) {
+        inputRef.current.files = dataTransfer.files;
+      }
+
+      handleFileChange(dataTransfer.files, field);
+    }
   };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -292,7 +338,12 @@ function Form() {
                 ) : (
                   <label
                     htmlFor="avatar"
-                    className="group mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500"
+                    className={cn(
+                      "group mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+                      isDragging
+                        ? "border-conference-ticket-generator-neutral-300 bg-conference-ticket-generator-neutral-700/70"
+                        : "border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/70",
+                    )}
                     // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
                     tabIndex={0}
                     onKeyDown={(e: React.KeyboardEvent) => {
@@ -301,6 +352,10 @@ function Form() {
                         handleChangeImage();
                       }
                     }}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDragOver={handleDragOver}
+                    onDrop={(e) => handleDrop(e, field)}
                   >
                     <div className="flex flex-col items-center justify-start gap-[15px]">
                       <svg
@@ -428,7 +483,7 @@ function Main() {
               Your ticket is ready.
             </h1>
 
-            <p className="mt-[21px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[32px] lg:text-[24px]/[29px] max-w-[520px]">
+            <p className="mt-[21px] max-w-[520px] text-center tracking-tight text-conference-ticket-generator-neutral-300 lg:mt-[32px] lg:text-[24px]/[29px]">
               We&rsquo;ve emailed your ticket to{" "}
               <span className="text-conference-ticket-generator-orange-gradient">
                 {submittedData?.email}
@@ -450,7 +505,7 @@ function Main() {
                     className="origin-top-left scale-[calc(29/40*100%)] lg:scale-100"
                   />
                   <div className="flex flex-col gap-[13px] md:gap-5">
-                    <span className="text-[clamp(1.5rem,0.08rem+6.04vw,2.5rem)] leading-[18px] md:leading-[32px] font-medium tracking-[-0.04em] md:font-bold md:tracking-[-0.0275em]">
+                    <span className="text-[clamp(1.5rem,0.08rem+6.04vw,2.5rem)] font-medium leading-[18px] tracking-[-0.04em] md:font-bold md:leading-[32px] md:tracking-[-0.0275em]">
                       Coding Conf
                     </span>
                     <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300 md:text-[18px]">
