@@ -764,6 +764,26 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         // preview should visible
         await expect(preview).toBeVisible();
       });
+
+      /** Test if the format error is shown when dropping unsupported image type  */
+      test("should show format error when dropping unsupported image type", async ({
+        page,
+      }) => {
+        const form = page.locator("form");
+        const formatError = form.getByText("File must be JPG or PNG format.");
+
+        await expect(formatError).not.toBeVisible();
+
+        // simulate drag-and-drop unsupported image type file to drop zone
+        await dragAndDropFile(
+          page,
+          "label.group",
+          "assets/image-avatar.webp",
+          "image/webp",
+        );
+
+        await expect(formatError).toBeVisible();
+      });
     });
   });
 
