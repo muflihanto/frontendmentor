@@ -1,5 +1,40 @@
+import { readFileSync } from "node:fs";
 import path from "node:path";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+export async function dragAndDropFile(
+  page: Page,
+  dropSelector: string,
+  filePath: string,
+  mimeType = "application/octet-stream",
+) {
+  const absolutePath = path.join(__dirname, filePath);
+  const buffer = readFileSync(absolutePath);
+
+  // Pass file bytes and metadata into browser context
+  const dataTransfer = await page.evaluateHandle(
+    ({ bytes, name, type }) => {
+      const dt = new DataTransfer();
+
+      // Recreate the File in the browser from raw bytes
+      const uint8Array = new Uint8Array(bytes);
+      const blob = new Blob([uint8Array], { type });
+      const file = new File([blob], name, { type });
+
+      dt.items.add(file);
+      return dt;
+    },
+    {
+      bytes: Array.from(buffer),
+      name: path.basename(absolutePath),
+      type: mimeType,
+    },
+  );
+
+  // Dispatch dragenter + drop to simulate real DnD
+  await page.dispatchEvent(dropSelector, "dragenter", { dataTransfer });
+  await page.dispatchEvent(dropSelector, "drop", { dataTransfer });
+}
 
 test.describe("FrontendMentor Challenge - Conference ticket generator page", () => {
   /** Go to Conference ticket generator page before each test */
@@ -705,6 +740,30 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       // form submit
       await expect(form).not.toBeVisible();
       await expect(page.getByText("Congrats")).toBeVisible();
+    });
+
+    test.describe("Drag and drop avatar input", () => {
+      /** Test if the avatar preview visible when image is dropped */
+      test("should show avatar preview when image is dropped", async ({
+        page,
+      }) => {
+        const form = page.locator("form");
+        const preview = form.getByRole("img", { name: "Avatar preview" });
+
+        // make sure preview not visible
+        await expect(preview).toHaveCount(0);
+
+        // simulate drag-and-drop file to drop zone
+        await dragAndDropFile(
+          page,
+          "label.group",
+          "assets/image-avatar.jpg",
+          "image/jpg",
+        );
+
+        // preview should visible
+        await expect(preview).toBeVisible();
+      });
     });
   });
 
