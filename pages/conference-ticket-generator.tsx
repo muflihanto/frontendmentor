@@ -79,6 +79,7 @@ type Inputs = z.infer<typeof inputSchema>;
 const completedAtom = atom<boolean>(false);
 const previewUrlAtom = atom<string | null>(null);
 const submittedDataAtom = atom<Inputs | null>(null);
+const ticketNumberAtom = atom<number | null>(null);
 
 export default function ConferenceTicketGenerator() {
   return (
@@ -210,6 +211,7 @@ function Form() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useAtom(previewUrlAtom);
   const setIsCompleted = useSetAtom(completedAtom);
+  const setTicketNumber = useSetAtom(ticketNumberAtom);
   const setSubmittedData = useSetAtom(submittedDataAtom);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -288,6 +290,15 @@ function Form() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000);
+    const uniqueNumber = parseInt(
+      (
+        timestamp.toString().slice(-4) + random.toString().padStart(3, "0")
+      ).slice(0, 5),
+    );
+
+    setTicketNumber(uniqueNumber);
     console.log(data);
     setIsCompleted(true);
     setSubmittedData(data);
@@ -310,7 +321,7 @@ function Form() {
             return (
               <>
                 {previewUrl ? (
-                  <div className="mt-3 flex h-[126px] w-full flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 ">
+                  <div className="mt-3 flex h-[126px] w-full flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30">
                     <Image
                       src={previewUrl}
                       alt="Avatar preview"
@@ -461,6 +472,7 @@ function Main() {
   const isCompleted = useAtomValue(completedAtom);
   const previewUrl = useAtomValue(previewUrlAtom);
   const submittedData = useAtomValue(submittedDataAtom);
+  const ticketNumber = useAtomValue(ticketNumberAtom);
 
   return (
     <FormProvider {...form}>
@@ -547,7 +559,7 @@ function Main() {
                 </div>
               </div>
               <div className="absolute right-[clamp(15px,calc(-22.5px+10vw),42px)] top-1/2 origin-top translate-x-1/2 rotate-90 text-[clamp(22px,calc(10px+3vw),30px)] tracking-[-0.035em] text-conference-ticket-generator-neutral-500">
-                #01609
+                #{ticketNumber?.toString().padStart(5, "0") ?? "00000"}
               </div>
             </div>
           </>
