@@ -784,6 +784,28 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
         await expect(formatError).toBeVisible();
       });
+
+      /** Test if the size error is shown when dropping too large image  */
+      test("should show size error when dropping too large image", async ({
+        page,
+      }) => {
+        const form = page.locator("form");
+        const sizeError = form.getByText(
+          "File too large. Please upload a photo under 500KB.",
+        );
+
+        await expect(sizeError).not.toBeVisible();
+
+        // drop too large file
+        await dragAndDropFile(
+          page,
+          "label.group",
+          "assets/icon-github.png",
+          "image/png",
+        );
+
+        await expect(sizeError).toBeVisible();
+      });
     });
   });
 
