@@ -742,6 +742,40 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(page.getByText("Congrats")).toBeVisible();
     });
 
+    /** Test if the form generate unique ticket numbers for multiple submissions */
+    test("should generate unique ticket numbers for multiple submissions", async ({
+      page,
+    }) => {
+      const fullName = page.getByLabel("Full Name");
+      const email = page.getByLabel("Email Address");
+      const username = page.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      // generate first ticket
+      await fullName.fill("John Doe");
+      await email.fill("john@email.com");
+      await username.fill("@johndoe");
+      await submit.click();
+
+      const ticket1 = page.locator('div[id="ticket"]');
+      const ticketNumber1 = await ticket1.getByText(/#\d+/).textContent();
+
+      // reload page for new submission
+      await page.reload();
+
+      // generate second ticket
+      await fullName.fill("Jane Smith");
+      await email.fill("jane@email.com");
+      await username.fill("@janesmith");
+      await submit.click();
+
+      const ticket2 = page.locator('div[id="ticket"]');
+      const ticketNumber2 = await ticket2.getByText(/#\d+/).textContent();
+
+      // ticket numbers must be different
+      expect(ticketNumber1).not.toBe(ticketNumber2);
+    });
+
     test.describe("Drag and drop avatar input", () => {
       /** Test if the avatar preview visible when image is dropped */
       test("should show avatar preview when image is dropped", async ({
