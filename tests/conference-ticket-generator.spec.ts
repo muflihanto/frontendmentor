@@ -840,6 +840,30 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
         await expect(sizeError).toBeVisible();
       });
+
+      /** Test if the drag-over styles are applied when dragging file over drop zone  */
+      test("should apply drag-over styles when dragging file over drop zone", async ({
+        page,
+      }) => {
+        const form = page.locator("form");
+        const dropZone = form.locator("label", {
+          hasText: "Drag and drop or click to upload",
+        });
+
+        const defaultBorder = await dropZone.evaluate(
+          (el) => window.getComputedStyle(el).borderColor,
+        );
+
+        // trigger dragenter + dragover via JS
+        await dropZone.dispatchEvent("dragenter");
+        await dropZone.dispatchEvent("dragover");
+
+        const dragBorder = await dropZone.evaluate(
+          (el) => window.getComputedStyle(el).borderColor,
+        );
+
+        expect(dragBorder).not.toBe(defaultBorder);
+      });
     });
   });
 
