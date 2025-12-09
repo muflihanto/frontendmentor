@@ -29,8 +29,8 @@ const inputSchema = z.object({
   avatar: z
     .custom<FileList | null>()
     .transform((fileList) => (fileList ? fileList[0] : null))
-    .refine((file) => !file || file instanceof File, {
-      message: "Invalid file",
+    .refine((file) => file instanceof File, {
+      message: "Avatar cannot be empty.",
     })
     .refine(
       (file) => {
@@ -50,9 +50,7 @@ const inputSchema = z.object({
       {
         message: "File too large. Please upload a photo under 500KB.",
       },
-    )
-    .nullable()
-    .optional(),
+    ),
   fullname: z
     .string()
     .min(1, { message: "Fullname cannot be empty." })
