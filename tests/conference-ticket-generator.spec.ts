@@ -864,6 +864,29 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
         expect(dragBorder).not.toBe(defaultBorder);
       });
+
+      /** Test if the drag-over styles are reset when drag leaves drop zone  */
+      test("should reset drag-over styles when drag leaves drop zone", async ({
+        page,
+      }) => {
+        const form = page.locator("form");
+        const dropZone = form.locator("label", {
+          hasText: "Drag and drop or click to upload",
+        });
+
+        await dropZone.dispatchEvent("dragenter");
+        await dropZone.dispatchEvent("dragover");
+        const dragBorder = await dropZone.evaluate(
+          (el) => window.getComputedStyle(el).borderColor,
+        );
+
+        await dropZone.dispatchEvent("dragleave");
+        const leaveBorder = await dropZone.evaluate(
+          (el) => window.getComputedStyle(el).borderColor,
+        );
+
+        expect(leaveBorder).not.toBe(dragBorder);
+      });
     });
   });
 
