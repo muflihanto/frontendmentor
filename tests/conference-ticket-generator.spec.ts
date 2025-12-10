@@ -101,28 +101,8 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
   /** Test if the page can handle form submission */
   test.describe("form submission", () => {
-    /** Test if the form can handle valid input */
-    test("should handle valid input correctly", async ({ page }) => {
-      const form = page.locator("form");
-      const fullName = page.getByLabel("Full Name");
-      const email = page.getByLabel("Email Address");
-      const username = page.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
-      // Fill inputs
-      await fullName.fill("Jonatan Kristof");
-      await email.fill("jonatan@email.com");
-      await username.fill("@jonatankristof0101");
-      // Submit
-      await submit.click();
-      // Switch to ticket view
-      await expect(form).not.toBeVisible();
-      await expect(page.getByText("Congrats")).toBeVisible();
-    });
-
     /** Test if the form can handle valid input with avatar */
-    test("should handle valid input with avatar correctly", async ({
-      page,
-    }) => {
+    test("should handle valid input correctly", async ({ page }) => {
       const form = page.locator("form");
       const avatar = page.getByLabel("Drag and drop or click to upload");
       const fullName = page.getByLabel("Full Name");
@@ -145,38 +125,6 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
     /** Test if the form can generate conference ticket */
     test("should generate conference ticket", async ({ page }) => {
-      const form = page.locator("form");
-      const ticket = page.locator('div[id="ticket"]');
-      // input data
-      const fullname = "Jonatan Kristof";
-      const email = "jonatan@email.com";
-      const username = "@jonatankristof0101";
-      // Fill inputs
-      await page.getByLabel("Full Name").fill(fullname);
-      await page.getByLabel("Email Address").fill(email);
-      await page.getByLabel("GitHub Username").fill(username);
-      // Submit
-      await page.getByRole("button", { name: "Generate My Ticket" }).click();
-      // Switch to ticket view
-      await expect(form).not.toBeVisible();
-      await expect(
-        page.getByRole("heading", { name: `Congrats, ${fullname}!` }),
-      ).toBeVisible();
-      await expect(
-        page.getByText(`We’ve emailed your ticket to ${email}`),
-      ).toBeVisible();
-      await expect(
-        ticket.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
-      ).toBeVisible();
-      await expect(
-        ticket.getByRole("img", { name: "Avatar preview" }),
-      ).toBeVisible();
-      await expect(ticket.getByText(`${fullname}${username}`)).toBeVisible();
-      await expect(ticket.getByText(/#\d+/)).toBeVisible();
-    });
-
-    /** Test if the form can generate conference ticket with avatar */
-    test("should generate conference ticket with avatar", async ({ page }) => {
       const form = page.locator("form");
       const ticket = page.locator('div[id="ticket"]');
       // input data
@@ -217,17 +165,20 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
     /** Test if the form can handle empty input */
     test("should handle empty input correctly", async ({ page }) => {
+      const avatarError = page.getByText("Avatar cannot be empty.");
       const fullNameError = page.getByText("Fullname cannot be empty.");
       const emailError = page.getByText("Email address cannot be empty.");
       const usernameError = page.getByText("Username cannot be empty.");
       const submit = page.getByRole("button", { name: "Generate My Ticket" });
 
+      await expect(avatarError).not.toBeVisible();
       await expect(fullNameError).not.toBeVisible();
       await expect(emailError).not.toBeVisible();
       await expect(usernameError).not.toBeVisible();
 
       await submit.click();
 
+      await expect(avatarError).toBeVisible();
       await expect(fullNameError).toBeVisible();
       await expect(emailError).toBeVisible();
       await expect(usernameError).toBeVisible();
@@ -296,6 +247,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     /** Test if the form can handle special characters in inputs */
     test("should handle special characters in inputs", async ({ page }) => {
       const form = page.locator("form");
+      const avatar = form.getByLabel("Upload Avatar");
       const fullName = form.getByLabel("Full Name");
       const email = form.getByLabel("Email Address");
       const username = form.getByLabel("GitHub Username");
@@ -305,6 +257,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       const specialEmail = "jose.o-brien+test@email-domain.co.uk";
       const specialUsername = "@jose_obrien-123";
 
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
       await fullName.fill(specialName);
       await email.fill(specialEmail);
       await username.fill(specialUsername);
@@ -322,6 +277,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     }) => {
       const form = page.locator("form");
       const ticket = page.locator('div[id="ticket"]');
+      const avatar = form.getByLabel("Upload Avatar");
       const fullName = form.getByLabel("Full Name");
       const email = form.getByLabel("Email Address");
       const username = form.getByLabel("GitHub Username");
@@ -331,6 +287,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       const trimmedUsername = "johndoe"; // without @
 
       // input with trailing/leading whitespace
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
       await fullName.fill(`  ${trimmedName}  `);
       await email.fill("  john@email.com  ");
       await username.fill(`  ${trimmedUsername}  `);
@@ -593,12 +552,16 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     }) => {
       const form = page.locator("form");
       const ticket = page.locator('div[id="ticket"]');
+      const avatar = page.getByLabel("Upload Avatar");
       const fullName = page.getByLabel("Full Name");
       const email = page.getByLabel("Email Address");
       const username = page.getByLabel("GitHub Username");
       const submit = page.getByRole("button", { name: "Generate My Ticket" });
 
       // fill with username without @
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
       await fullName.fill("John Doe");
       await email.fill("john@email.com");
       await username.fill("johndoe");
@@ -726,10 +689,14 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     /** Test if the form can be submitted with enter key */
     test("should submit form with Enter key", async ({ page }) => {
       const form = page.locator("form");
+      const avatar = form.getByLabel("Upload Avatar");
       const fullName = form.getByLabel("Full Name");
       const email = form.getByLabel("Email Address");
       const username = form.getByLabel("GitHub Username");
 
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
       await fullName.fill("John Doe");
       await email.fill("john@email.com");
       await username.fill("@johndoe");
@@ -746,12 +713,16 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     test("should generate unique ticket numbers for multiple submissions", async ({
       page,
     }) => {
+      const avatar = page.getByLabel("Upload Avatar");
       const fullName = page.getByLabel("Full Name");
       const email = page.getByLabel("Email Address");
       const username = page.getByLabel("GitHub Username");
       const submit = page.getByRole("button", { name: "Generate My Ticket" });
 
       // generate first ticket
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
       await fullName.fill("John Doe");
       await email.fill("john@email.com");
       await username.fill("@johndoe");
@@ -764,6 +735,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await page.reload();
 
       // generate second ticket
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
       await fullName.fill("Jane Smith");
       await email.fill("jane@email.com");
       await username.fill("@janesmith");
