@@ -965,4 +965,49 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     // console.log({ violations: accessibilityScanResults.violations });
     expect(accessibilityScanResults.violations).toEqual([]);
   });
+
+  /** Test accessibility attributes */
+  test.describe("accessibility attributes", () => {
+    /** Test if avatar input has proper aria-describedby */
+    test("should have aria-describedby on avatar input", async ({ page }) => {
+      const avatarInput = page.locator("input#avatar");
+      const avatarHint = page.locator("#avatar-hint");
+
+      await expect(avatarInput).toHaveAttribute(
+        "aria-describedby",
+        "avatar-hint",
+      );
+      await expect(avatarHint).toBeVisible();
+      await expect(avatarHint).toHaveAttribute("aria-live", "polite");
+    });
+
+    /** Test if avatar buttons have proper aria-labels */
+    test("should have aria-label on avatar buttons", async ({ page }) => {
+      const form = page.locator("form");
+      const avatar = form.getByLabel("Upload Avatar");
+
+      // upload avatar first
+      await avatar.setInputFiles(
+        path.join(__dirname, "assets/image-avatar.jpg"),
+      );
+
+      const removeButton = form.getByRole("button", {
+        name: "Remove avatar image",
+      });
+      const changeButton = form.getByRole("button", {
+        name: "Change avatar image",
+      });
+
+      await expect(removeButton).toBeVisible();
+      await expect(changeButton).toBeVisible();
+      await expect(removeButton).toHaveAttribute(
+        "aria-label",
+        "Remove avatar image",
+      );
+      await expect(changeButton).toHaveAttribute(
+        "aria-label",
+        "Change avatar image",
+      );
+    });
+  });
 });
