@@ -161,8 +161,8 @@ function Ornament() {
 
 const Input = forwardRef<
   HTMLInputElement,
-  ComponentProps<"input"> & { error?: FieldError }
->(({ className, error, ...props }, ref) => {
+  ComponentProps<"input"> & { error?: FieldError; errorId?: string }
+>(({ className, error, errorId, ...props }, ref) => {
   return (
     <>
       <input
@@ -174,21 +174,28 @@ const Input = forwardRef<
           className,
         )}
         ref={ref}
+        aria-invalid={!!error}
+        aria-describedby={error && errorId ? errorId : undefined}
         {...props}
       />
       {!!error && (
-        <p className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500">
+        <output
+          id={errorId}
+          aria-live="polite"
+          className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500"
+        >
           <svg
             viewBox="0 0 16 16"
             className="w-4 text-conference-ticket-generator-orange-500"
             role="graphics-symbol"
+            aria-hidden="true"
           >
             <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
           </svg>
           <span className="text-conference-ticket-generator-orange-500">
             {error.message}
           </span>
-        </p>
+        </output>
       )}
     </>
   );
@@ -331,6 +338,7 @@ function Form() {
                       <button
                         type="button"
                         onClick={handleRemoveImage}
+                        aria-label="Remove avatar image"
                         className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2"
                       >
                         Remove image
@@ -338,6 +346,7 @@ function Form() {
                       <button
                         type="button"
                         onClick={handleChangeImage}
+                        aria-label="Change avatar image"
                         className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2"
                       >
                         Change image
@@ -387,19 +396,23 @@ function Form() {
                   id="avatar"
                   className="hidden"
                   ref={inputRef}
+                  aria-describedby="avatar-hint"
                   onChange={(e) => handleFileChange(e.target.files, field)}
                 />
               </>
             );
           }}
         />
-        <p
+        <output
+          id="avatar-hint"
+          aria-live="polite"
           className={`mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] ${errors.avatar ? "text-conference-ticket-generator-orange-500" : "text-conference-ticket-generator-neutral-500"}`}
         >
           <svg
             viewBox="0 0 16 16"
             className={`w-4 ${errors.avatar ? "text-conference-ticket-generator-orange-500" : "text-[#D1D0D5]"}`}
             role="graphics-symbol"
+            aria-hidden="true"
           >
             <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
           </svg>
@@ -407,7 +420,7 @@ function Form() {
             {errors.avatar?.message ??
               "Upload your photo (JPG or PNG, max size: 500KB)."}
           </span>
-        </p>
+        </output>
       </div>
       <label htmlFor="fullname" className="mt-6 w-full">
         <p className="tracking-tight">Full Name</p>
@@ -416,6 +429,7 @@ function Form() {
           id="fullname"
           {...register("fullname", { required: true })}
           error={errors.fullname}
+          errorId="fullname-error"
         />
       </label>
       <label htmlFor="email" className="mt-6 w-full">
@@ -426,6 +440,7 @@ function Form() {
           placeholder="example@email.com"
           {...register("email", { required: true })}
           error={errors.email}
+          errorId="email-error"
         />
       </label>
       <label htmlFor="username" className="mt-6 w-full">
@@ -445,6 +460,7 @@ function Form() {
             },
           })}
           error={errors.username}
+          errorId="username-error"
         />
       </label>
       <button
