@@ -1063,5 +1063,33 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(page.locator("#email-error")).toBeVisible();
       await expect(page.locator("#username-error")).toBeVisible();
     });
+
+    /** Test if error messages use output elements with aria-live */
+    test("should use output elements with aria-live for error messages", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      // submit empty form
+      await submit.click();
+
+      // check error outputs have aria-live
+      const fullnameError = form.locator("output#fullname-error");
+      const emailError = form.locator("output#email-error");
+      const usernameError = form.locator("output#username-error");
+
+      await expect(fullnameError).toHaveAttribute("aria-live", "polite");
+      await expect(emailError).toHaveAttribute("aria-live", "polite");
+      await expect(usernameError).toHaveAttribute("aria-live", "polite");
+    });
+
+    /** Test if decorative icons are hidden from screen readers */
+    test("should have aria-hidden on decorative icons", async ({ page }) => {
+      const form = page.locator("form");
+      const avatarHintIcon = form.locator("#avatar-hint svg");
+
+      await expect(avatarHintIcon).toHaveAttribute("aria-hidden", "true");
+    });
   });
 });
