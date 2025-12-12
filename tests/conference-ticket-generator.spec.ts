@@ -1009,5 +1009,59 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         "Change avatar image",
       );
     });
+
+    /** Test if text inputs have aria-invalid when error occurs */
+    test("should have aria-invalid on text inputs when validation errors occur", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const fullName = form.getByLabel("Full Name");
+      const email = form.getByLabel("Email Address");
+      const username = form.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      // initially no aria-invalid
+      await expect(fullName).not.toHaveAttribute("aria-invalid", "true");
+      await expect(email).not.toHaveAttribute("aria-invalid", "true");
+      await expect(username).not.toHaveAttribute("aria-invalid", "true");
+
+      // submit empty form
+      await submit.click();
+
+      // aria-invalid should be set
+      await expect(fullName).toHaveAttribute("aria-invalid", "true");
+      await expect(email).toHaveAttribute("aria-invalid", "true");
+      await expect(username).toHaveAttribute("aria-invalid", "true");
+    });
+
+    /** Test if text inputs have aria-describedby when error occurs */
+    test("should have aria-describedby on text inputs when validation errors occur", async ({
+      page,
+    }) => {
+      const form = page.locator("form");
+      const fullName = form.getByLabel("Full Name");
+      const email = form.getByLabel("Email Address");
+      const username = form.getByLabel("GitHub Username");
+      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+
+      // submit empty form
+      await submit.click();
+
+      // check aria-describedby
+      await expect(fullName).toHaveAttribute(
+        "aria-describedby",
+        "fullname-error",
+      );
+      await expect(email).toHaveAttribute("aria-describedby", "email-error");
+      await expect(username).toHaveAttribute(
+        "aria-describedby",
+        "username-error",
+      );
+
+      // check error elements exist with correct IDs
+      await expect(page.locator("#fullname-error")).toBeVisible();
+      await expect(page.locator("#email-error")).toBeVisible();
+      await expect(page.locator("#username-error")).toBeVisible();
+    });
   });
 });
