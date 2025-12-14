@@ -10,6 +10,8 @@ This is a solution to the [Conference ticket generator challenge on Frontend Men
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Avatar File Validation with Zod](#avatar-file-validation-with-zod)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -62,29 +64,44 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Playwright](https://playwright.dev/) - End-to-end testing
 - [axe-core](https://github.com/dequelabs/axe-core) - Accessibility testing
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Avatar File Validation with Zod
 
-To see how you can add code snippets, see below:
+I learned how to use Zod's `.custom()` and `.refine()` methods to validate file uploads. This schema validates that the avatar is a valid image file (JPG or PNG) and is under 500KB:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+```ts
+const inputSchema = z.object({
+  avatar: z
+    .custom<FileList | null>()
+    .transform((fileList) => (fileList ? fileList[0] : null))
+    .refine((file) => file instanceof File, {
+      message: "Avatar cannot be empty.",
+    })
+    .refine(
+      (file) => {
+        if (!file) return true;
+        const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+        return allowedTypes.includes(file.type);
+      },
+      {
+        message: "File must be JPG or PNG format.",
+      },
+    )
+    .refine(
+      (file) => {
+        if (!file) return true;
+        return file.size <= 500 * 1024;
+      },
+      {
+        message: "File too large. Please upload a photo under 500KB.",
+      },
+    ),
+  // ... other fields
+});
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
+<!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
