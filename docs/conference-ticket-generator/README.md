@@ -56,6 +56,11 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [React Hook Form](https://react-hook-form.com/) - Form handling
+- [Zod](https://zod.dev/) - Schema validation
+- [Jotai](https://jotai.org/) - State management
+- [Playwright](https://playwright.dev/) - End-to-end testing
+- [axe-core](https://github.com/dequelabs/axe-core) - Accessibility testing
 
 <!-- ### What I learned
 
