@@ -12,6 +12,7 @@ This is a solution to the [Conference ticket generator challenge on Frontend Men
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
       - [Avatar File Validation with Zod](#avatar-file-validation-with-zod)
+      - [Handling File Input with Drag and Drop](#handling-file-input-with-drag-and-drop)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -99,6 +100,56 @@ const inputSchema = z.object({
     ),
   // ... other fields
 });
+```
+
+#### Handling File Input with Drag and Drop
+
+I implemented a file input handler that supports both click-to-upload and drag-and-drop functionality. The key was using React Hook Form's `Controller` component to manage the file input state:
+
+```tsx
+const handleFileChange = (
+  files: FileList | null,
+  field: ControllerRenderProps<Inputs, "avatar">,
+) => {
+  if (files && files.length > 0) {
+    const validation = z
+      .object({
+        avatar: inputSchema.shape.avatar,
+      })
+      .safeParse({ avatar: files });
+    if (validation.success) {
+      const url = URL.createObjectURL(files[0]);
+      setPreviewUrl(url);
+    } else {
+      setPreviewUrl(null);
+    }
+  } else {
+    setPreviewUrl(null);
+  }
+  field.onChange(files);
+  void trigger("avatar");
+};
+
+const handleDrop = (
+  e: DragEvent,
+  field: ControllerRenderProps<Inputs, "avatar">,
+) => {
+  e.preventDefault();
+  e.stopPropagation();
+  setIsDragging(false);
+
+  const files = e.dataTransfer.files;
+  if (files && files.length > 0) {
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(files[0]);
+
+    if (inputRef.current) {
+      inputRef.current.files = dataTransfer.files;
+    }
+
+    handleFileChange(dataTransfer.files, field);
+  }
+};
 ```
 
 <!-- ### Continued development
