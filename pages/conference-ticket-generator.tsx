@@ -181,7 +181,7 @@ const Input = forwardRef<
       {!!error && (
         <output
           id={errorId}
-          aria-live="polite"
+          aria-live="assertive"
           className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500"
         >
           <svg
@@ -339,7 +339,7 @@ function Form() {
                         type="button"
                         onClick={handleRemoveImage}
                         aria-label="Remove avatar image"
-                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2"
+                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-conference-ticket-generator-neutral-500"
                       >
                         Remove image
                       </button>
@@ -347,7 +347,7 @@ function Form() {
                         type="button"
                         onClick={handleChangeImage}
                         aria-label="Change avatar image"
-                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2"
+                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-conference-ticket-generator-neutral-500"
                       >
                         Change image
                       </button>
@@ -397,6 +397,7 @@ function Form() {
                   id="avatar"
                   className="hidden"
                   ref={inputRef}
+                  aria-invalid={!!errors.avatar}
                   aria-describedby="avatar-hint"
                   onChange={(e) => handleFileChange(e.target.files, field)}
                 />
@@ -406,7 +407,7 @@ function Form() {
         />
         <output
           id="avatar-hint"
-          aria-live="polite"
+          aria-live="assertive"
           className={`mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] ${errors.avatar ? "text-conference-ticket-generator-orange-500" : "text-conference-ticket-generator-neutral-500"}`}
         >
           <svg
