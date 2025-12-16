@@ -949,6 +949,47 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     await expect(submit).toHaveCSS("outline-width", "2px");
   });
 
+  /** Test if avatar action buttons have focus states */
+  test("has focus states on avatar action buttons", async ({ page }) => {
+    const form = page.locator("form");
+    const avatar = form.getByLabel("Upload Avatar");
+
+    // upload avatar first to show action buttons
+    await avatar.setInputFiles(
+      path.join(__dirname, "assets/image-avatar.jpg"),
+    );
+
+    const removeButton = form.getByRole("button", {
+      name: "Remove avatar image",
+    });
+    const changeButton = form.getByRole("button", {
+      name: "Change avatar image",
+    });
+
+    // Remove button - initial state
+    await expect(removeButton).toHaveCSS("outline-style", "none");
+    await expect(removeButton).toHaveCSS("outline-width", "0px");
+
+    // Remove button - focused state
+    await removeButton.focus();
+    await expect(removeButton).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(removeButton).toHaveCSS("outline-offset", "2px");
+    await expect(removeButton).toHaveCSS("outline-style", "solid");
+    await expect(removeButton).toHaveCSS("outline-width", "2px");
+
+    // Change button - initial state
+    await changeButton.evaluate((el) => (el as HTMLElement).blur());
+    await expect(changeButton).toHaveCSS("outline-style", "none");
+    await expect(changeButton).toHaveCSS("outline-width", "0px");
+
+    // Change button - focused state
+    await changeButton.focus();
+    await expect(changeButton).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(changeButton).toHaveCSS("outline-offset", "2px");
+    await expect(changeButton).toHaveCSS("outline-style", "solid");
+    await expect(changeButton).toHaveCSS("outline-width", "2px");
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
@@ -978,7 +1019,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         "avatar-hint",
       );
       await expect(avatarHint).toBeVisible();
-      await expect(avatarHint).toHaveAttribute("aria-live", "polite");
+      await expect(avatarHint).toHaveAttribute("aria-live", "assertive");
     });
 
     /** Test if avatar buttons have proper aria-labels */
@@ -1079,9 +1120,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       const emailError = form.locator("output#email-error");
       const usernameError = form.locator("output#username-error");
 
-      await expect(fullnameError).toHaveAttribute("aria-live", "polite");
-      await expect(emailError).toHaveAttribute("aria-live", "polite");
-      await expect(usernameError).toHaveAttribute("aria-live", "polite");
+      await expect(fullnameError).toHaveAttribute("aria-live", "assertive");
+      await expect(emailError).toHaveAttribute("aria-live", "assertive");
+      await expect(usernameError).toHaveAttribute("aria-live", "assertive");
     });
 
     /** Test if decorative icons are hidden from screen readers */
