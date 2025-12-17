@@ -55,31 +55,51 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 - [Zod](https://zod.dev/) - TypeScript-first schema validation
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Mock Slow API Response in Playwright Tests
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+When testing loading states that depend on API responses, you can use Playwright's `page.route()` to intercept requests and simulate slow network conditions. This allows you to verify loading spinners, disabled states, and other UI feedback during async operations.
 
 ```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
+test("show loading state in button during API request", async ({ page }) => {
+  // Mock slow API response
+  await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
+    await page.waitForTimeout(1000); // Simulate slow network
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        data: {
+          ip: "8.8.8.8",
+          city: "Mountain View",
+          // ... other fields
+        },
+      }),
+    });
+  });
+
+  const input = page.locator('input[type="text"]');
+  const submitButton = page.locator('button[type="submit"]');
+
+  await input.fill("8.8.8.8");
+  await submitButton.click();
+
+  // Check loading spinner in button
+  const loadingSpinner = page.locator(".animate-spin");
+  await expect(loadingSpinner).toBeVisible();
+
+  // Button should be disabled during loading
+  await expect(submitButton).toBeDisabled();
+});
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+This technique is useful for:
+- Verifying loading indicators appear during API calls
+- Testing that form controls are properly disabled during submission
+- Ensuring the UI maintains previous data while new data is loading
 
-### Continued development
+<!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
