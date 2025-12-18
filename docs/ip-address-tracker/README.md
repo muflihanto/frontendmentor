@@ -99,6 +99,45 @@ This technique is useful for:
 - Testing that form controls are properly disabled during submission
 - Ensuring the UI maintains previous data while new data is loading
 
+#### Mock API Failure in Playwright Tests
+
+You can also use `page.route()` to simulate API errors and test how your application handles failure cases gracefully.
+
+```js
+test("handles API errors gracefully", async ({ page }) => {
+  // Mock the API response with a 500 error
+  await page.route("/api/getIpInfo*", async (route) => {
+    await route.fulfill({
+      status: 500,
+      contentType: "application/json",
+      body: JSON.stringify({ error: "Server error" }),
+    });
+  });
+
+  const apiErrorBanner = page.getByText("Failed to fetch IP information");
+  await expect(apiErrorBanner).not.toBeVisible();
+
+  const form = page.locator("form");
+  const input = form.getByPlaceholder("Search for any IP address or domain");
+  await input.fill("8.8.8.8");
+  await form.getByRole("button").click();
+
+  // Check if the UI shows appropriate error state
+  await expect(apiErrorBanner).toBeVisible();
+
+  // Check error banner styling
+  const errorBanner = apiErrorBanner.locator("..");
+  await expect(errorBanner).toHaveCSS("background-color", "rgb(239, 68, 68)");
+  await expect(errorBanner).toHaveCSS("color", "rgb(255, 255, 255)");
+});
+```
+
+This technique is useful for:
+- Verifying error messages are displayed to users
+- Testing error UI styling and accessibility
+- Ensuring the app doesn't crash on API failures
+- Testing error dismissal and recovery flows
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
