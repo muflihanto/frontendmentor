@@ -10,6 +10,9 @@ This is a solution to the [Crowdfunding product page challenge on Frontend Mento
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Focus Trapping](#focus-trapping)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -55,38 +58,85 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Stately](https://react-spectrum.adobe.com/react-stately/index.html) - React state management
 - [React Aria](https://react-spectrum.adobe.com/react-aria/) - Accessible UI components for React
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Focus Trapping
 
-To see how you can add code snippets, see below:
+Focus trapping is an essential technique for web accessibility, ensuring keyboard focus remains within a specific component like a modal. For this project, I implemented a custom `useFocusTrap` hook, following the principles of circular navigation and intercepting keyboard events to create a seamless user experience.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+```tsx
+import { type Dispatch, type SetStateAction, useEffect } from "react";
+import { useCallbackRef } from "use-callback-ref";
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
+export default function useFocusTrap(
+  state: boolean,
+  setState: Dispatch<SetStateAction<boolean>>,
+) {
+  const modalRef = useCallbackRef<HTMLDivElement>(null, (curr) => {
+    if (curr !== null) {
+      (
+        curr.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        )[0] as HTMLElement
+      ).focus();
+    }
+  });
+
+  useEffect(() => {
+    if (state) {
+      const modalElement = modalRef.current;
+      if (modalElement) {
+        const focusableElements = modalElement.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        const handleTabKeyPress = (event: KeyboardEvent) => {
+          if (event.key === "Tab") {
+            if (event.shiftKey && document.activeElement === firstElement) {
+              event.preventDefault();
+              (lastElement as HTMLElement).focus();
+            } else if (
+              !event.shiftKey &&
+              document.activeElement === lastElement
+            ) {
+              event.preventDefault();
+              (firstElement as HTMLElement).focus();
+            }
+          }
+        };
+
+        const handleEscapeKeyPress = (event: KeyboardEvent) => {
+          if (event.key === "Escape") {
+            setState(false);
+          }
+        };
+
+        modalElement.addEventListener("keydown", handleTabKeyPress);
+        modalElement.addEventListener("keydown", handleEscapeKeyPress);
+
+        return () => {
+          modalElement.removeEventListener("keydown", handleTabKeyPress);
+          modalElement.removeEventListener("keydown", handleEscapeKeyPress);
+        };
+      }
+    }
+  }, [setState, state, modalRef]);
+
+  return modalRef;
 }
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+This approach allows for a controlled environment where users can interact with the modal content efficiently using only the keyboard.
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+<!-- ### Continued development
 
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Achieving Focus Trapping in a React Modal Component](https://medium.com/cstech/achieving-focus-trapping-in-a-react-modal-component-3f28f596f35b) - This article was a great reference for understanding how to manually implement focus trapping without external libraries.
 
 ## Author
 
