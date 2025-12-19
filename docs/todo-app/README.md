@@ -10,6 +10,7 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
   - [Author](#author)
 
 ## Overview
@@ -60,29 +61,22 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 - [Zod](https://zod.dev/) - TypeScript-first schema validation
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+In this project, I learned how to test CSS pseudo-elements using Playwright. Since pseudo-elements are not part of the DOM, they cannot be selected directly. Instead, I used `window.getComputedStyle()` within an `evaluate` call to assert their properties, such as the `background-image` of a `::before` element:
 
-To see how you can add code snippets, see below:
+```ts
+const getBgImage = async () =>
+  await container.evaluate(
+    (el) => window.getComputedStyle(el, "::before").backgroundImage,
+  );
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
+expect(await getBgImage()).toStrictEqual(
+  'url("http://localhost:3000/todo-app/images/bg-desktop-light.jpg")',
+);
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
+<!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
