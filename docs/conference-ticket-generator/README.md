@@ -13,6 +13,7 @@ This is a solution to the [Conference ticket generator challenge on Frontend Men
     - [What I learned](#what-i-learned)
       - [Avatar File Validation with Zod](#avatar-file-validation-with-zod)
       - [Handling File Input with Drag and Drop](#handling-file-input-with-drag-and-drop)
+      - [Testing File Uploads with Playwright](#testing-file-uploads-with-playwright)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -150,6 +151,51 @@ const handleDrop = (
     handleFileChange(dataTransfer.files, field);
   }
 };
+```
+
+#### Testing File Uploads with Playwright
+
+Testing file inputs required two different approaches: using Playwright's built-in `setInputFiles` for standard input interactions and a custom helper to simulate drag-and-drop events.
+
+For standard file selection:
+
+```ts
+await page
+  .getByLabel("Upload Avatar")
+  .setInputFiles(path.join(__dirname, "assets/image-avatar.jpg"));
+```
+
+For simulating drag-and-drop, I implemented a helper that recreates a `File` object within the browser context and dispatches the necessary events:
+
+```ts
+export async function dragAndDropFile(
+  page: Page,
+  dropSelector: string,
+  filePath: string,
+  mimeType = "application/octet-stream",
+) {
+  const absolutePath = path.join(__dirname, filePath);
+  const buffer = readFileSync(absolutePath);
+
+  const dataTransfer = await page.evaluateHandle(
+    ({ bytes, name, type }) => {
+      const dt = new DataTransfer();
+      const uint8Array = new Uint8Array(bytes);
+      const blob = new Blob([uint8Array], { type });
+      const file = new File([blob], name, { type });
+      dt.items.add(file);
+      return dt;
+    },
+    {
+      bytes: Array.from(buffer),
+      name: path.basename(absolutePath),
+      type: mimeType,
+    },
+  );
+
+  await page.dispatchEvent(dropSelector, "dragenter", { dataTransfer });
+  await page.dispatchEvent(dropSelector, "drop", { dataTransfer });
+}
 ```
 
 <!-- ### Continued development
