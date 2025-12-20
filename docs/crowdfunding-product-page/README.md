@@ -12,6 +12,7 @@ This is a solution to the [Crowdfunding product page challenge on Frontend Mento
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
       - [Focus Trapping](#focus-trapping)
+      - [Navigation Menu Accessibility](#navigation-menu-accessibility)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -130,6 +131,31 @@ export default function useFocusTrap(
 
 This approach allows for a controlled environment where users can interact with the modal content efficiently using only the keyboard.
 
+#### Navigation Menu Accessibility
+
+Implementing a mobile navigation menu requires careful attention to ARIA roles and attributes to ensure it's accessible to screen reader users. I used the `menu` and `menuitem` roles along with appropriate state management to clearly define the structure and relationship of the navigation elements.
+
+```tsx
+<MenuButton
+  aria-expanded={isMenuOpen}
+  aria-haspopup="true"
+  aria-controls="mobilenavmenu"
+  handleClick={handleClick}
+/>
+<nav>
+  <ul
+    id="mobilenavmenu"
+    role="menu"
+    aria-labelledby="menubutton"
+  >
+    <li role="none">
+      <a role="menuitem" href="">About</a>
+    </li>
+    {/* ... other items */}
+  </ul>
+</nav>
+```
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -137,6 +163,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [Achieving Focus Trapping in a React Modal Component](https://medium.com/cstech/achieving-focus-trapping-in-a-react-modal-component-3f28f596f35b) - This article was a great reference for understanding how to manually implement focus trapping without external libraries.
+- [W3C - Menu Button Navigation Links Example](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/examples/menu-button-links/) - This example provided a clear guide on implementing an accessible menu button that opens a list of navigation links, which was instrumental in structuring the header navigation.
 
 ## Author
 
