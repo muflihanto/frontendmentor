@@ -10,6 +10,8 @@ This is a solution to the [Social media dashboard with theme switcher challenge 
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -50,38 +52,37 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+In this project, I learned how to implement an accessible theme switcher using the ARIA `switch` role. Using a `button` with `role="switch"` and `aria-checked` is a more semantic way to represent a toggle that takes immediate effect compared to a standard checkbox.
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
+```tsx
+<div className="... ... mt-[16px] flex justify-between focus-within:outline">
+  <label htmlFor="darkSwitch" className="..." id="dark-label">
+    Dark Mode
+  </label>
+  <button
+    className="... ... flex h-[24px] w-[48px] dark:justify-start"
+    onClick={() => {
+      update?.();
+    }}
+    type="button"
+    id="darkSwitch"
+    role="switch"
+    aria-checked={theme === "dark"}
+  >
+    <span className="... aspect-square h-[18px] rounded-full" />
+  </button>
+</div>
 ```
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+<!-- ### Continued development
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
-
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [W3C ARIA Authoring Practices Guide - Switch Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/examples/switch-button/) - This resource provided a clear example of how to implement an accessible switch button, which I used for the theme toggle.
 
 ## Author
 
