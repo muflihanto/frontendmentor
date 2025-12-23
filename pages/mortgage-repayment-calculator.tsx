@@ -81,7 +81,7 @@ const defaultValues = {
   amount: "",
   term: "",
   interestRate: "",
-  mortgageType: undefined as MortgageType,
+  mortgageType: undefined as unknown as MortgageType,
 };
 
 function FieldErrorMessage({

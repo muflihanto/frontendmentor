@@ -127,7 +127,7 @@ function Form() {
       firstName: "",
       lastName: "",
       emailAddress: "",
-      queryType: undefined as QueryType,
+      queryType: undefined as unknown as QueryType,
       message: "",
       consent: false,
     },
