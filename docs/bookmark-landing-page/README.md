@@ -10,6 +10,7 @@ This is a solution to the [Bookmark landing page challenge on Frontend Mentor](h
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
   - [Author](#author)
 
 ## Overview
@@ -57,29 +58,48 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 - [Zod](https://zod.dev/) - TypeScript-first schema validation
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+This project marks my earliest usage of `ComponentProps` utility type from React. This utility type allows extracting the props type from any React component or HTML element, making it easier to extend native element props for custom components.
 
-To see how you can add code snippets, see below:
+```tsx
+import { ComponentProps, PropsWithChildren } from "react";
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
+function TabButton({
+  active,
+  children,
+  ...props
+}: PropsWithChildren<{ active: boolean } & ComponentProps<"button">>) {
+  return (
+    <button
+      className={cn([
+        "h-[58px] w-full text-[17px]",
+        active &&
+          "text-bookmark-neutral-200 ... relative before:absolute before:bottom-0",
+      ])}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+function FeatureIllustration({
+  variant,
+  ...props
+}: ComponentProps<"svg"> & { variant: number }) {
+  const svgProps: { className: ComponentProps<"svg">["className"] }[] = [
+    { className: "aspect-[536/346]" },
+    { className: "aspect-[478/346]" },
+    { className: "aspect-[440/380]" },
+  ];
+  // ...
 }
 ```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+`ComponentProps<"element">` extracts the props type of a given HTML element (e.g., `"button"`, `"svg"`), allowing you to spread all native props onto your custom component while adding your own custom props with full type safety.
 
-### Continued development
+<!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
