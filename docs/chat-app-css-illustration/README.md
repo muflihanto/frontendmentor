@@ -10,6 +10,7 @@ This is a solution to the [Chat app CSS illustration challenge on Frontend Mento
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
   - [Author](#author)
 
 ## Overview
@@ -50,31 +51,37 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Framer Motion](https://www.framer.com/motion/) - Motion library for React
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+This project marks my earliest usage of `PropsWithChildren` utility type from React. This utility type helps to properly type component props that include children.
 
-To see how you can add code snippets, see below:
+```tsx
+import { type PropsWithChildren } from "react";
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+function ChatGroup({
+  variant,
+  children,
+}: PropsWithChildren<{ variant?: "left" | "right" }>) {
+  return (
+    <div
+      className={`mb-2 flex flex-col ${variant === "right" ? "items-end self-end" : "items-start self-start"}`}
+    >
+      {children}
+    </div>
+  );
+}
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
+function ChatLeft({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) {
+  return <div className={twMerge("...", className)}>{children}</div>;
 }
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+`PropsWithChildren<P>` is a utility type that adds `children?: React.ReactNode` to the provided props type `P`, making it cleaner and more type-safe than manually defining children in every component's props interface.
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
+<!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
