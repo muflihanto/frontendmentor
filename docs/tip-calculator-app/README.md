@@ -10,6 +10,13 @@ This is a solution to the [Tip calculator app challenge on Frontend Mentor](http
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [React Aria Usage for Accessible Number Input](#react-aria-usage-for-accessible-number-input)
+        - [1. `useLocale` - Internationalization Support](#1-uselocale---internationalization-support)
+        - [2. `useNumberFieldState` - State Management](#2-usenumberfieldstate---state-management)
+        - [3. `useNumberField` - Accessible Number Input](#3-usenumberfield---accessible-number-input)
+      - [Key Takeaways](#key-takeaways)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -51,36 +58,76 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Stately](https://react-spectrum.adobe.com/react-stately/index.html) - React state management
 - [React Aria](https://react-spectrum.adobe.com/react-aria/) - Accessible UI components for React
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### React Aria Usage for Accessible Number Input
 
-To see how you can add code snippets, see below:
+This project uses [React Aria](https://react-spectrum.adobe.com/react-aria/) and [React Stately](https://react-spectrum.adobe.com/react-stately/) to build an accessible number input field with internationalization support.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+##### 1. `useLocale` - Internationalization Support
+
+The `useLocale` hook provides the current locale for proper number formatting:
+
+```tsx
+import { useLocale } from "react-aria";
+
+const { locale } = useLocale();
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
+
+##### 2. `useNumberFieldState` - State Management
+
+The `useNumberFieldState` hook from react-stately manages the number field's state including value parsing and formatting based on locale:
+
+```tsx
+import { useNumberFieldState } from "react-stately";
+
+const state = useNumberFieldState({ ...props, locale });
+```
+
+##### 3. `useNumberField` - Accessible Number Input
+
+The `useNumberField` hook provides all the necessary props for building an accessible number input:
+
+```tsx
+import { type AriaNumberFieldProps, useNumberField } from "react-aria";
+
+function NumberField(props: AriaNumberFieldProps) {
+  const { locale } = useLocale();
+  const state = useNumberFieldState({ ...props, locale });
+  const inputRef = useRef(null);
+
+  const { labelProps, groupProps, inputProps } = useNumberField(
+    props,
+    state,
+    inputRef,
+  );
+
+  return (
+    <label {...labelProps}>
+      <span>{props.label}</span>
+      <div {...groupProps}>
+        <input {...inputProps} ref={inputRef} />
+      </div>
+    </label>
+  );
 }
 ```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+#### Key Takeaways
 
-### Continued development
+- **Internationalization**: `useLocale` + `useNumberFieldState` work together to handle locale-specific number formatting (decimal separators, grouping, etc.).
+- **Prop Separation**: The hook returns separate prop objects (`labelProps`, `groupProps`, `inputProps`) for different elements, enabling flexible component composition.
+- **Type Safety**: `AriaNumberFieldProps` provides type-safe props including `label`, `value`, `onChange`, `minValue`, `maxValue`, `step`, and more.
+- **Accessibility**: The hook automatically handles ARIA attributes, keyboard navigation (arrow keys for increment/decrement), and screen reader announcements.
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [React Aria useNumberField](https://react-spectrum.adobe.com/react-aria/useNumberField.html) - Official documentation for the useNumberField hook.
+- [React Stately useNumberFieldState](https://react-spectrum.adobe.com/react-stately/useNumberFieldState.html) - Official documentation for number field state management.
 
 ## Author
 
