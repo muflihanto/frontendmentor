@@ -10,6 +10,14 @@ This is a solution to the [Space tourism website challenge on Frontend Mentor](h
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [React Aria Usage for Accessible Mobile Navigation](#react-aria-usage-for-accessible-mobile-navigation)
+        - [1. `useButton` - Accessible Button Component](#1-usebutton---accessible-button-component)
+        - [2. `useOverlayTriggerState` + `useOverlayTrigger` - Managing Modal State](#2-useoverlaytriggerstate--useoverlaytrigger---managing-modal-state)
+        - [3. `useModalOverlay` - Modal Accessibility](#3-usemodaloverlay---modal-accessibility)
+        - [4. `useDialog` - Dialog Accessibility](#4-usedialog---dialog-accessibility)
+      - [Key Takeaways](#key-takeaways)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -52,36 +60,121 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Stately](https://react-spectrum.adobe.com/react-stately/index.html) - React state management
 - [React Aria](https://react-spectrum.adobe.com/react-aria/) - Accessible UI components for React
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### React Aria Usage for Accessible Mobile Navigation
 
-To see how you can add code snippets, see below:
+This project uses [React Aria](https://react-spectrum.adobe.com/react-aria/) and [React Stately](https://react-spectrum.adobe.com/react-stately/) to build an accessible mobile navigation menu. Here's a breakdown of the hooks used:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
+##### 1. `useButton` - Accessible Button Component
+
+The `useButton` hook provides accessible button behaviors including keyboard interactions and ARIA attributes:
+
+```tsx
+import { useButton } from "react-aria";
+
+function Button(
+  props: PropsWithChildren<AriaButtonProps & HTMLProps<HTMLButtonElement>>,
+) {
+  const ref = useRef(null);
+  const { buttonProps } = useButton(props, ref);
+
+  return (
+    <button {...buttonProps} ref={ref}>
+      {props.children}
+    </button>
+  );
 }
 ```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
+
+##### 2. `useOverlayTriggerState` + `useOverlayTrigger` - Managing Modal State
+
+These hooks work together to manage the open/close state of overlay elements like modals and menus:
+
+```tsx
+import { useOverlayTrigger } from "react-aria";
+import { useOverlayTriggerState } from "react-stately";
+
+function MobileNav({ children, ...props }: OverlayTriggerProps) {
+  // State management from react-stately
+  const state = useOverlayTriggerState(props);
+
+  // UI behaviors from react-aria
+  const { triggerProps, overlayProps } = useOverlayTrigger(
+    { type: "menu" },
+    state,
+  );
+
+  return (
+    <>
+      <Button {...triggerProps}>Open Menu</Button>
+      {state.isOpen && (
+        <Modal state={state}>
+          {cloneElement(children(state.close), overlayProps)}
+        </Modal>
+      )}
+    </>
+  );
 }
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+##### 3. `useModalOverlay` - Modal Accessibility
 
-### Continued development
+The `useModalOverlay` hook provides proper modal behavior including focus trapping and ARIA attributes:
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+```tsx
+import { Overlay, useModalOverlay } from "react-aria";
+
+function Modal({ state, children, ...props }: ModalProps) {
+  const ref = useRef(null);
+  const { modalProps, underlayProps } = useModalOverlay(props, state, ref);
+
+  return (
+    <Overlay>
+      <div {...underlayProps}>
+        <div {...modalProps} ref={ref}>
+          {children}
+        </div>
+      </div>
+    </Overlay>
+  );
+}
+```
+
+##### 4. `useDialog` - Dialog Accessibility
+
+The `useDialog` hook provides proper dialog semantics and ARIA attributes:
+
+```tsx
+import { useDialog } from "react-aria";
+
+function Dialog({ children, ...props }: DialogProps) {
+  const ref = useRef(null);
+  const { dialogProps } = useDialog(props, ref);
+
+  return (
+    <div {...dialogProps} ref={ref} aria-label="Mobile Navigation Menu">
+      {children}
+    </div>
+  );
+}
+```
+
+#### Key Takeaways
+
+- **Separation of Concerns**: React Stately handles state logic (`useOverlayTriggerState`), while React Aria handles accessibility behaviors and ARIA attributes.
+- **Prop Spreading**: Each hook returns props objects that should be spread onto the appropriate DOM elements.
+- **Ref Management**: Most hooks require a ref to the DOM element for proper focus management.
+- **Composable Patterns**: These hooks can be combined to create complex accessible UI patterns like this mobile navigation menu.
+
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [React Aria Documentation](https://react-spectrum.adobe.com/react-aria/) - Official documentation for React Aria hooks and components.
+- [React Stately Documentation](https://react-spectrum.adobe.com/react-stately/) - Official documentation for React Stately state management hooks.
 
 ## Author
 
