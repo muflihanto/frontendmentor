@@ -10,6 +10,8 @@ This is a solution to the [Age calculator app challenge on Frontend Mentor](http
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Day.js for Date Manipulation](#dayjs-for-date-manipulation)
   - [Author](#author)
 
 ## Overview
@@ -60,31 +62,55 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Zod](https://zod.dev/) - TS library for schema validation
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Day.js for Date Manipulation
 
-To see how you can add code snippets, see below:
+I used `dayjs` for handling date calculations in this age calculator app. Day.js is a lightweight alternative to Moment.js that provides a simple API for parsing, validating, manipulating, and displaying dates.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+Here's how I used Day.js to calculate the age difference:
+
+```tsx
+import dayjs from "../utils/dayjs";
+
+const onSubmit = handleSubmit((data) => {
+  const { year, month, day } = data;
+  const inputDate = dayjs(new Date(0, month - 1, day)).set("year", year);
+  const now = dayjs();
+
+  const yearDiff = now.diff(inputDate, "year");
+  const monthDiff = now.diff(inputDate.add(yearDiff, "year"), "month");
+  const dayDiff = now.diff(
+    inputDate.add(yearDiff, "year").add(monthDiff, "month"),
+    "day",
+  );
+});
 ```
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
+I also used Day.js for date validation with Zod schema, checking if the input date is valid and not in the future:
+
+```tsx
+const inputDate = dayjs(new Date(0, val.month - 1, val.day)).set(
+  "year",
+  val.year,
+);
+
+if (
+  inputDate.year() !== val.year ||
+  inputDate.month() + 1 !== val.month ||
+  inputDate.date() !== val.day
+) {
+  ctx.addIssue({
+    code: z.ZodIssueCode.custom,
+    message: "Must be a valid date",
+    path: ["day"],
+  });
 }
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+This approach catches invalid dates like February 30th by comparing the parsed date back to the input values.
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
+<!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
