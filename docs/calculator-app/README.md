@@ -11,6 +11,8 @@ This is a solution to the [Calculator app challenge on Frontend Mentor](https://
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Theme Switcher with System Preference](#theme-switcher-with-system-preference)
+      - [Math Expression Evaluator](#math-expression-evaluator)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -58,7 +60,9 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
-In this project, I implemented a theme switcher that respects the user's system preferences using the `prefers-color-scheme` media query. I used `jotai` for state management and `usehooks-ts` for easy media query handling in React.
+#### Theme Switcher with System Preference
+
+I implemented a theme switcher that respects the user's system preferences using the `prefers-color-scheme` media query. I used `jotai` for state management and `usehooks-ts` for easy media query handling in React.
 
 Here's how I initialized the theme based on the system preference:
 
@@ -87,6 +91,24 @@ useEffect(() => {
   }
 }, [matches, setTheme]);
 ```
+
+#### Math Expression Evaluator
+
+For evaluating the mathematical expressions, I used the `math-expression-evaluator` library. This library provides a simple way to evaluate math expressions without using JavaScript's `eval()` function, which is a security risk:
+
+```tsx
+import Mexp from "math-expression-evaluator";
+
+const handleEqual = useCallback(() => {
+  const mex = new Mexp();
+  const result = String(mex.eval(display));
+  setDisplay(result);
+  setIsFloat(result.includes("."));
+  currentInputType.current = "number";
+}, [display, setDisplay]);
+```
+
+The library handles all standard mathematical operations (+, -, *, /) and correctly parses expressions like `3+5*2` respecting operator precedence.
 
 <!-- ### Continued development
 
