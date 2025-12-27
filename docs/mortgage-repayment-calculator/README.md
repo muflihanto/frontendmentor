@@ -87,6 +87,25 @@ Then crop/optimize/edit your image however you like, add it to your project, and
   >
   ```
 
+- Using `NumericFormat` from `react-number-format` to format numeric inputs with thousand separators.
+
+  ```tsx
+  import { NumericFormat } from "react-number-format";
+
+  <NumericFormat
+    type="text"
+    thousandSeparator=","
+    id={field.name}
+    name={field.name}
+    value={field.state.value}
+    onValueChange={(val) => field.handleChange(val.value)}
+  />;
+  ```
+
+  - `thousandSeparator` - Adds thousand separators to the number (e.g., `1,000,000`)
+  - `value` - The raw numeric value (without formatting)
+  - `onValueChange` - Callback that receives an object with `value` (unformatted string), `formattedValue` (formatted string), and `floatValue` (number)
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -94,6 +113,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [Form and Field Validation](https://tanstack.com/form/latest/docs/framework/react/guides/validation) - This helped me understand more about the concept of how Form and Field Validation works in Tanstack Form.
+- [NumericFormat Props](https://s-yadav.github.io/react-number-format/docs/numeric_format) - Official documentation for NumericFormat component props and usage.
 
 ## Author
 
