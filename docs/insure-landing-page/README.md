@@ -10,6 +10,9 @@ This is a solution to the [Insure landing page challenge on Frontend Mentor](htt
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [CSS Viewport Units: `svh`, `dvh`, `lvh`](#css-viewport-units-svh-dvh-lvh)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -48,36 +51,34 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### CSS Viewport Units: `svh`, `dvh`, `lvh`
 
-To see how you can add code snippets, see below:
+This project marks my first usage of the new CSS viewport units (`svh`, `dvh`, `lvh`) which solve the common mobile viewport height problem.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+The traditional `vh` unit doesn't account for dynamic browser UI elements (like the address bar on mobile), causing layout issues. The new units address this:
+
+- **`svh` (Small Viewport Height)** - The viewport size when browser UI is fully expanded (smallest visible area)
+- **`dvh` (Dynamic Viewport Height)** - Adjusts dynamically as browser UI appears/disappears
+- **`lvh` (Large Viewport Height)** - The viewport size when browser UI is fully hidden (largest visible area)
+
 ```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
+/* Used in the mobile navigation menu */
+.menu {
+  height: calc(100svh - 80px);
 }
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+Using `svh` ensures the content fits properly even when the mobile browser's address bar is visible.
 
-### Continued development
+<!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [CSS vh, dvh, lvh, svh and vw units](https://dev.to/frehner/css-vh-dvh-lvh-svh-and-vw-units-27k4) - A comprehensive explanation of the new viewport units and when to use each one.
 
 ## Author
 
