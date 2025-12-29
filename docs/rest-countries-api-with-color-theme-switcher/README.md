@@ -12,6 +12,7 @@ This is a solution to the [REST Countries API with color theme switcher challeng
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
       - [Using match-sorter for Flexible Filtering](#using-match-sorter-for-flexible-filtering)
+      - [Using TanStack Query for Data Fetching](#using-tanstack-query-for-data-fetching)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -108,6 +109,53 @@ matchSorter(
   keywordFilter,
   keywordFilterOptions,
 );
+```
+
+#### Using TanStack Query for Data Fetching
+
+[TanStack Query](https://tanstack.com/query/latest) simplifies data fetching by managing server state, caching, synchronization, and updates. In this project, custom hooks in `useCountries.ts` leverage `useQuery` for fetching country data from the REST Countries API.
+
+**1. Basic useQuery Setup**
+
+The `useQuery` hook requires a `queryKey` for cache identification and a `queryFn` for fetching data:
+
+```tsx
+const useCountries = (limit: number) => {
+  return useQuery({
+    queryKey: ["countries", limit],
+    queryFn: () => fetchCountries(limit),
+  });
+};
+```
+
+**2. Conditional Fetching with `enabled`**
+
+The `enabled` option controls when the query runs. Setting it to `false` prevents the query from automatically executing:
+
+```tsx
+const useCountry = (name: string) => {
+  return useQuery({
+    queryKey: ["country", name],
+    queryFn: () => fetchCountry(name),
+    enabled: name !== undefined,
+  });
+};
+```
+
+**3. Custom Retry Logic**
+
+The `retry` option accepts a function to define custom retry behavior:
+
+```tsx
+const useCountry = (name: string) => {
+  return useQuery({
+    // ...
+    retry: (count) => {
+      if (count >= 1) return false;
+      return true;
+    },
+  });
+};
 ```
 
 <!-- ### Continued development
