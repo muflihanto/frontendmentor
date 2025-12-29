@@ -14,6 +14,7 @@ This is a solution to the [Conference ticket generator challenge on Frontend Men
       - [Avatar File Validation with Zod](#avatar-file-validation-with-zod)
       - [Handling File Input with Drag and Drop](#handling-file-input-with-drag-and-drop)
       - [Testing File Uploads with Playwright](#testing-file-uploads-with-playwright)
+      - [Using forwardRef for Reusable Input Components](#using-forwardref-for-reusable-input-components)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -198,12 +199,54 @@ export async function dragAndDropFile(
 }
 ```
 
+#### Using forwardRef for Reusable Input Components
+
+I used React's `forwardRef` to create a reusable `Input` component that forwards refs to the underlying DOM `<input>` element. This is essential when using libraries like React Hook Form that need direct access to form elements for registration and focus management.
+
+```tsx
+const Input = forwardRef<
+  HTMLInputElement,
+  ComponentProps<"input"> & { error?: FieldError; errorId?: string }
+>(({ className, error, errorId, ...props }, ref) => {
+  return (
+    <>
+      <input
+        className={cn(
+          "mt-3 h-[54px] w-full rounded-[12px] border bg-neutral-700/30 px-[14px] py-2 text-[18px]",
+          error ? "border-orange-500" : "border-neutral-500",
+          className,
+        )}
+        ref={ref}
+        aria-invalid={!!error}
+        aria-describedby={error && errorId ? errorId : undefined}
+        {...props}
+      />
+      {!!error && (
+        <output id={errorId} aria-live="assertive" className="mt-3 text-xs">
+          {error.message}
+        </output>
+      )}
+    </>
+  );
+});
+
+Input.displayName = "Input";
+```
+
+Key points about `forwardRef`:
+
+- **When to use**: Use `forwardRef` when you need to expose a ref to a child DOM element from a custom component. This is common in reusable "leaf" components like inputs, buttons, and text areas.
+- **Typing with TypeScript**: The generic `forwardRef<RefType, PropsType>` takes the ref type first and props type second.
+- **displayName**: Always set `displayName` when using `forwardRef` to improve debugging experience in React DevTools.
+- **Ref forwarding**: The `ref` parameter is passed as the second argument to the render function, separate from `props`.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
+- [Forwarding Refs - React Legacy Docs](https://legacy.reactjs.org/docs/forwarding-refs.html) - Official React documentation explaining ref forwarding, including usage patterns for DOM components and higher-order components.
 - [Playwright drag and drop files](https://github.com/microsoft/playwright/issues/10667) - This helped me create drag and drop files simulation using playwright.
 
 ## Author
