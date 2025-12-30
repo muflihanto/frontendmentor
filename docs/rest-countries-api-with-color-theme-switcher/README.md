@@ -13,6 +13,7 @@ This is a solution to the [REST Countries API with color theme switcher challeng
     - [What I learned](#what-i-learned)
       - [Using match-sorter for Flexible Filtering](#using-match-sorter-for-flexible-filtering)
       - [Using TanStack Query for Data Fetching](#using-tanstack-query-for-data-fetching)
+      - [Implementing Debounced Input](#implementing-debounced-input)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -157,6 +158,22 @@ const useCountry = (name: string) => {
   });
 };
 ```
+
+#### Implementing Debounced Input
+
+Using `useDebounce` from `usehooks-ts` helps in reducing the number of filtering operations when the user types in the search input. This improves performance by waiting for a specified delay before updating the search keyword.
+
+```tsx
+const [input, setInput] = useAtom(inputAtom);
+const debouncedValue = useDebounce<string>(input, 500);
+const setKeywordFilter = useSetAtom(keywordFilterAtom);
+
+useEffect(() => {
+  setKeywordFilter(debouncedValue);
+}, [debouncedValue, setKeywordFilter]);
+```
+
+In this implementation, the `input` atom tracks the immediate value of the text field, while the `keywordFilter` atom is only updated with the `debouncedValue` after 500ms of inactivity.
 
 <!-- ### Continued development
 
