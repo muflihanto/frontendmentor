@@ -10,6 +10,7 @@ This is a solution to the [Fylo data storage component challenge on Frontend Men
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
   - [Author](#author)
 
 ## Overview
@@ -48,29 +49,26 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+This project marks my first usage of CSS custom properties (variables) combined with Tailwind CSS arbitrary value syntax. This approach is particularly useful for dynamic styles that are difficult to express with standard Tailwind classes alone, such as a progress bar width calculated from state.
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
+```tsx
+<div
+  style={
+    {
+      "--bar-length": `${(storage.remaining / storage.maximum) * 100}%`,
+    } as CSSProperties
+  }
+  className="flex h-full w-[--bar-length] items-center justify-end rounded-full bg-gradient-to-r from-fylo-storage-primary-gradient-100 to-fylo-storage-primary-gradient-200 p-[2px]"
+>
+  <div className="aspect-square h-full rounded-full bg-white" />
+</div>
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+By using `as CSSProperties`, I can define custom properties in the `style` attribute that are then accessible within Tailwind's arbitrary value brackets `[...]`.
 
-### Continued development
+<!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
