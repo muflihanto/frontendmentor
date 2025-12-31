@@ -10,6 +10,8 @@ This is a solution to the [Room homepage challenge on Frontend Mentor](https://w
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -51,38 +53,44 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Framer Motion](https://www.framer.com/motion/) - Motion library for React
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+During this project, I used the CSS `clamp()` function for the first time to create fluid typography and responsive spacing.
 
-To see how you can add code snippets, see below:
+The `clamp(min, preferred, max)` function calculates a value based on three parameters:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+- **Minimum**: The lower bound.
+- **Preferred**: The value that scales (e.g., using `vw` or `vh`).
+- **Maximum**: The upper bound.
+
+It effectively works as `max(min, min(preferred, max))`, ensuring the value stays within the defined range while remaining fluid.
+
+For example, I used it to scale the font size of the main heading and paragraphs fluidly:
+
+```tsx
+<h1 className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] text-room-primary-400 lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]">
+  {product[activeProduct].title}
+</h1>
+<p className="mt-[15px] font-medium leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[22px] lg:text-[clamp(15px,calc(16/800*100dvh),16px)]">
+  {product[activeProduct].description}
+</p>
 ```
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
+It's also useful for responsive padding:
+
+```tsx
+<div className="h-[410px] w-full px-8 py-[61px] lg:flex lg:h-full lg:w-auto lg:flex-col lg:justify-center lg:px-[clamp(80px,calc(100/1440*100vw),100px)] lg:py-0 lg:pb-[34px]">
+  {/* Content */}
+</div>
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+<!-- ### Continued development
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [clamp() - CSS: Cascading Style Sheets | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/clamp) - This is the official MDN documentation for the `clamp()` function, which explains how to use it to clamp a value between an upper and lower bound.
 
 ## Author
 
