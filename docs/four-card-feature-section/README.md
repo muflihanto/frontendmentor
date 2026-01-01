@@ -10,6 +10,9 @@ This is a solution to the [Four card feature section challenge on Frontend Mento
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [React Compound Pattern](#react-compound-pattern)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -48,38 +51,53 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### React Compound Pattern
 
-To see how you can add code snippets, see below:
+This project marks my first implementation of the **React Compound Pattern**. This pattern allows creating components with implicit shared state and a more declarative API by attaching subcomponents to a parent component.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+```tsx
+// Define the subcomponents type
+type CardSubComponents = { Heading: typeof Heading; Body: typeof Body };
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
+// Create the parent component with subcomponents attached
+const Card: FC<CardProps> & CardSubComponents = ({ className, children }) => {
+  return <div className={`...${className}`}>{children}</div>;
 };
+
+// Define subcomponents
+const Heading: React.FC<{ children: ReactNode }> = ({ children }) => {
+  return <h2 className="...">{children}</h2>;
+};
+
+const Body: React.FC<{ children: ReactNode }> = ({ children }) => {
+  return <p className="...">{children}</p>;
+};
+
+// Attach subcomponents to parent
+Card.Heading = Heading;
+Card.Body = Body;
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+Usage becomes more readable and declarative:
 
-### Continued development
+```tsx
+<Card className={cards[variant].cardStyle}>
+  <Card.Heading>{variant}</Card.Heading>
+  <Card.Body>{cards[variant].p}</Card.Body>
+  <Icon variant={variant} />
+</Card>
+```
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [React Design Patterns: Compound Component Pattern](https://blog.logrocket.com/understanding-react-compound-components/) - Great article explaining the compound component pattern with practical examples.
+- [React TypeScript Cheatsheet - Compound Components](https://react-typescript-cheatsheet.netlify.app/docs/advanced/patterns_by_usecase#props-typing-strategies) - Helpful reference for typing compound components in TypeScript.
 
 ## Author
 
