@@ -10,6 +10,11 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Mock Slow API Response in Playwright Tests](#mock-slow-api-response-in-playwright-tests)
+      - [Mock API Failure in Playwright Tests](#mock-api-failure-in-playwright-tests)
+      - [Converting Timezone Identifiers to UTC Offset](#converting-timezone-identifiers-to-utc-offset)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -95,6 +100,7 @@ test("show loading state in button during API request", async ({ page }) => {
 ```
 
 This technique is useful for:
+
 - Verifying loading indicators appear during API calls
 - Testing that form controls are properly disabled during submission
 - Ensuring the UI maintains previous data while new data is loading
@@ -133,19 +139,64 @@ test("handles API errors gracefully", async ({ page }) => {
 ```
 
 This technique is useful for:
+
 - Verifying error messages are displayed to users
 - Testing error UI styling and accessibility
 - Ensuring the app doesn't crash on API failures
 - Testing error dismissal and recovery flows
 
+#### Converting Timezone Identifiers to UTC Offset
+
+When working with timezone data from APIs, you often receive timezone identifiers (like `America/New_York` or `Asia/Jakarta`) rather than UTC offsets. The `getTimezoneOffset` function converts these [IANA timezone identifiers](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) to a formatted UTC offset string (e.g., `UTC +07:00`).
+
+The implementation uses JavaScript's `toLocaleString()` with the `timeZone` option to calculate the offset difference:
+
+```typescript
+function getTimezoneOffset(tz: string): string {
+  const d1 = new Date(Date.now());
+  d1.setMilliseconds(0); // for nice rounding
+  const d1OffsetHrs = (d1.getTimezoneOffset() / 60) * -1;
+
+  const d2LocaleStr = d1.toLocaleString("en-US", { timeZone: tz });
+  const d2 = new Date(d2LocaleStr);
+
+  const diffHrs = (d2.getTime() - d1.getTime()) / 1000 / 60 / 60;
+  const d2OffsetHrs = d1OffsetHrs + diffHrs;
+
+  let formattedOffset = "UTC ";
+  switch (true) {
+    case d2OffsetHrs < -9:
+      formattedOffset += `${d2OffsetHrs}`;
+      break;
+    case d2OffsetHrs < 0:
+      formattedOffset += `-0${d2OffsetHrs.toString()[1]}`;
+      break;
+    case d2OffsetHrs < 10:
+      formattedOffset += `+0${d2OffsetHrs}`;
+      break;
+    default:
+      formattedOffset += `+${d2OffsetHrs}`;
+  }
+
+  return `${formattedOffset}:00`;
+}
+```
+
+**How it works:**
+
+1. Get the current date and the local timezone offset
+2. Convert the date to the target timezone using `toLocaleString()`
+3. Calculate the difference in hours between the two dates
+4. Add this difference to the local offset to get the target timezone's offset
+5. Format the offset as a UTC string with proper sign and padding
+
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Calculate the UTC offset given a TimeZone string in JavaScript - Stack Overflow](https://stackoverflow.com/questions/36112774/calculate-the-utc-offset-given-a-timezone-string-in-javascript) - This answer by ekerner (posted August 14, 2019) provides an elegant solution for converting IANA timezone identifiers to UTC offset strings using `toLocaleString()` and `getTime()`. I used this approach in the `getTimezoneOffset` function.
 
 ## Author
 
