@@ -10,6 +10,8 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -55,38 +57,54 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [HeadlessUI](https://headlessui.com/) - UI components
 - [Jotai](https://jotai.org/) - React state management
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+In this project, I combined React's `createPortal` with Headless UI's `Transition` to create a robust cart popup. Using `createPortal` ensures the popup is rendered at the end of `document.body`, avoiding common layout issues like `z-index` conflicts or `overflow: hidden` clipping from parent containers.
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-
-```css
-.proud-of-this-css {
-  color: papayawhip;
+```tsx
+{
+  createPortal(
+    <Transition show={cartOpen}>
+      <CartPopup />
+    </Transition>,
+    document.body,
+  );
 }
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
+In the `CartPopup` component, I used `Transition.Child` to coordinate the enter/leave animations:
+
+```tsx
+function CartPopup() {
+  return (
+    <Transition.Child
+      enter="transition-all duration-75"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-all duration-150"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+      className="... absolute"
+    >
+      {/* Cart content */}
+    </Transition.Child>
+  );
+}
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+Key benefits:
 
-### Continued development
+- **`createPortal`**: Decouples the UI component from its DOM position, perfect for floating elements like the cart.
+- **Nested Transitions**: `Transition.Child` within a `createPortal`ed `Transition` allows for granular control over the popup's appearance.
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [React createPortal Documentation](https://react.dev/reference/react-dom/createPortal) - Learn how to render children into a different part of the DOM.
+- [Headless UI Transition Documentation (v1)](https://headlessui.com/v1/react/transition) - Guide on using the `Transition` component for enter/leave animations.
 
 ## Author
 
