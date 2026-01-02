@@ -10,6 +10,8 @@ This is a solution to the [Article preview component challenge on Frontend Mento
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -51,36 +53,39 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [HeadlessUI](https://headlessui.com/) - UI components
 - [Jotai](https://jotai.org/) - React state management
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+In this project, I learned how to use the `@headlessui/react` `Transition` component (v1) to add smooth enter and leave animations to the share menu. Using Tailwind CSS classes within the transition props makes it straightforward to orchestrate animations directly in the component.
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
+```tsx
+<Transition
+  show={shareMenu}
+  as={Fragment}
+  enter="transition-all duration-75"
+  enterFrom="opacity-50 max-lg:-bottom-16"
+  enterTo="opacity-100 max-lg:bottom-0"
+  leave="transition-all duration-200 lg:duration-75"
+  leaveFrom="opacity-100 max-lg:bottom-0 h-[72px] pb-2"
+  leaveTo="opacity-0 max-lg:-bottom-16"
+>
+  <div className="... absolute">{/* Share menu content */}</div>
+</Transition>
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+Key learnings:
 
-### Continued development
+- **`show` prop**: Automatically triggers enter/leave transitions based on a boolean state.
+- **`as={Fragment}`**: Useful for keeping the DOM clean by not adding extra wrapper elements.
+- **Tailwind Orchestration**: Responsive classes (like `max-lg:-bottom-16`) can be used directly in transition props to handle different animation behaviors across screen sizes.
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Headless UI Transition Documentation (v1)](https://headlessui.com/v1/react/transition) - Official documentation for the `Transition` component in Headless UI v1.
+- [Tailwind CSS Transition Property](https://tailwindcss.com/docs/transition-property) - Comprehensive guide on Tailwind's transition utilities.
 
 ## Author
 
