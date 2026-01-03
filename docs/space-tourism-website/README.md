@@ -16,7 +16,8 @@ This is a solution to the [Space tourism website challenge on Frontend Mentor](h
         - [2. `useOverlayTriggerState` + `useOverlayTrigger` - Managing Modal State](#2-useoverlaytriggerstate--useoverlaytrigger---managing-modal-state)
         - [3. `useModalOverlay` - Modal Accessibility](#3-usemodaloverlay---modal-accessibility)
         - [4. `useDialog` - Dialog Accessibility](#4-usedialog---dialog-accessibility)
-      - [Key Takeaways](#key-takeaways)
+        - [Key Takeaways](#key-takeaways)
+      - [Client-side Rendering with `next/dynamic`](#client-side-rendering-with-nextdynamic)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -160,12 +161,24 @@ function Dialog({ children, ...props }: DialogProps) {
 }
 ```
 
-#### Key Takeaways
+##### Key Takeaways
 
 - **Separation of Concerns**: React Stately handles state logic (`useOverlayTriggerState`), while React Aria handles accessibility behaviors and ARIA attributes.
 - **Prop Spreading**: Each hook returns props objects that should be spread onto the appropriate DOM elements.
 - **Ref Management**: Most hooks require a ref to the DOM element for proper focus management.
 - **Composable Patterns**: These hooks can be combined to create complex accessible UI patterns like this mobile navigation menu.
+
+#### Client-side Rendering with `next/dynamic`
+
+In the `Layout` component, I used `next/dynamic` to import the `Header` component with SSR disabled. This was necessary because the `Header` (specifically through React Aria hooks) relies on browser-only APIs or might cause hydration mismatches if rendered on the server.
+
+```tsx
+import dynamic from "next/dynamic";
+
+const Header = dynamic(import("./Header"), { ssr: false });
+```
+
+By setting `ssr: false`, Next.js ensures that this component is only loaded and rendered on the client side, preventing potential server-side execution errors and ensuring a consistent initial render.
 
 <!-- ### Continued development
 
@@ -175,6 +188,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [React Aria Documentation](https://react-spectrum.adobe.com/react-aria/) - Official documentation for React Aria hooks and components.
 - [React Stately Documentation](https://react-spectrum.adobe.com/react-stately/) - Official documentation for React Stately state management hooks.
+- [Next.js dynamic import (v14.2.35)](https://nextjs.org/docs/14/pages/building-your-application/optimizing/lazy-loading#nextdynamic) - Documentation for `next/dynamic` and the `ssr: false` option.
 
 ## Author
 
