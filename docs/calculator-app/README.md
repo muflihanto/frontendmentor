@@ -13,6 +13,9 @@ This is a solution to the [Calculator app challenge on Frontend Mentor](https://
     - [What I learned](#what-i-learned)
       - [Theme Switcher with System Preference](#theme-switcher-with-system-preference)
       - [Math Expression Evaluator](#math-expression-evaluator)
+      - [Framer Motion for Interactive Animations](#framer-motion-for-interactive-animations)
+        - [1. Animated Theme Switcher](#1-animated-theme-switcher)
+        - [2. Interactive Button Press Effect](#2-interactive-button-press-effect)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -110,6 +113,43 @@ const handleEqual = useCallback(() => {
 
 The library handles all standard mathematical operations (+, -, *, /) and correctly parses expressions like `3+5*2` respecting operator precedence.
 
+#### Framer Motion for Interactive Animations
+
+I used **Framer Motion** to add subtle but effective animations to the calculator's UI, enhancing the overall user experience.
+
+##### 1. Animated Theme Switcher
+
+Instead of a static jump, the theme switcher thumb smoothly slides to its new position when the theme changes. This is achieved using `motion.div` and dynamic `animate` props:
+
+```tsx
+<motion.div
+  animate={{
+    left:
+      theme === 1
+        ? "5px"
+        : theme === 2
+          ? "calc(50% - 8px)"
+          : "calc(100% - 21px)",
+  }}
+  className="..."
+/>
+```
+
+##### 2. Interactive Button Press Effect
+
+To make the calculator keys feel more tactile, I implemented a scale-down effect using the `whileTap` prop from Framer Motion. This provides immediate visual feedback when a key is pressed:
+
+```tsx
+<motion.button
+  whileTap={{ scale: 0.95 }}
+  key={key.key}
+  onClick={() => handleKeyPress(key)}
+  className="..."
+>
+  {key.key.replace("*", "x")}
+</motion.button>
+```
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -118,6 +158,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [Jotai Documentation](https://jotai.org/docs/utils/atom-with-storage) - This helped me understand how to persist the theme in local storage easily.
 - [usehooks-ts useMediaQuery](https://usehooks-ts.com/react-hook/use-media-query) - A great hook for handling media queries in a React-way.
+- [Framer Motion Documentation](https://www.framer.com/motion/) - Official documentation for adding animations to React components.
 
 ## Author
 
