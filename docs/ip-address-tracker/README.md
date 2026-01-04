@@ -14,6 +14,7 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
       - [Mock Slow API Response in Playwright Tests](#mock-slow-api-response-in-playwright-tests)
       - [Mock API Failure in Playwright Tests](#mock-api-failure-in-playwright-tests)
       - [Converting Timezone Identifiers to UTC Offset](#converting-timezone-identifiers-to-utc-offset)
+      - [Jotai's `useHydrateAtoms` for SSR Hydration](#jotais-usehydrateatoms-for-ssr-hydration)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -190,6 +191,32 @@ function getTimezoneOffset(tz: string): string {
 4. Add this difference to the local offset to get the target timezone's offset
 5. Format the offset as a UTC string with proper sign and padding
 
+#### Jotai's `useHydrateAtoms` for SSR Hydration
+
+I learned how to use Jotai's `useHydrateAtoms` hook to initialize atoms with server-side fetched data in a Next.js application. This ensures that the state is ready immediately on the client side, preventing hydration mismatches and unnecessary re-renders.
+
+In `ip-address-tracker.tsx`, I used `useHydrateAtoms` to populate the `detailAtom` with data from `getServerSideProps`:
+
+```typescript
+export default function IpAddressTracker({
+  detail,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  useHydrateAtoms([[detailAtom, detail]]);
+  return (
+    <Layout>
+      <Main />
+      <Footer />
+    </Layout>
+  );
+}
+```
+
+The `useHydrateAtoms` hook is particularly beneficial for:
+
+- **Server-Side Rendering (SSR)**: Initializing atoms with data fetched during the server request.
+- **Improved Performance**: Avoiding client-side "flash" or empty states when the page first loads.
+- **Type Safety**: Ensuring the hydrated data matches the atom's expected type.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -197,6 +224,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [Calculate the UTC offset given a TimeZone string in JavaScript - Stack Overflow](https://stackoverflow.com/questions/36112774/calculate-the-utc-offset-given-a-timezone-string-in-javascript) - This answer by ekerner (posted August 14, 2019) provides an elegant solution for converting IANA timezone identifiers to UTC offset strings using `toLocaleString()` and `getTime()`. I used this approach in the `getTimezoneOffset` function.
+- [Jotai Utils - useHydrateAtoms](https://jotai.org/docs/utilities/ssr#usehydrateatoms) - Official documentation for `useHydrateAtoms` utility, which is essential for SSR scenarios where atoms need to be pre-populated with server-side data.
 
 ## Author
 
