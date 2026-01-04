@@ -10,6 +10,9 @@ This is a solution to the [Interactive comments section challenge on Frontend Me
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Jotai's `atomWithStorage` for Persistent State](#jotais-atomwithstorage-for-persistent-state)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -57,36 +60,46 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Jotai](https://jotai.org/) - React state management
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Jotai's `atomWithStorage` for Persistent State
 
-To see how you can add code snippets, see below:
+I learned how to use Jotai's `atomWithStorage` utility to persist state to `localStorage`, which automatically syncs state between browser sessions. This was particularly useful for implementing the bonus requirement of maintaining comment data, votes, and IDs across page refreshes.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+In `ClientWrapper.tsx`, I created three persistent atoms:
+
+```typescript
+const dataAtom = atomWithStorage<{ currentUser: User; comments: Comment[] }>(
+  "data",
+  transformDate(rawData),
+);
+const voteAtom = atomWithStorage<Record<string, "up" | "down" | null>>(
+  "vote",
+  getVotes(),
+);
+const latestIdAtom = atomWithStorage<number>("id", getLatestId());
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+The `atomWithStorage` function takes three parameters:
 
-### Continued development
+1. **key**: The localStorage key (e.g., `"data"`, `"vote"`, `"id"`)
+2. **initialValue**: The default value used when no stored value exists
+3. **storage** (optional): Custom storage implementation (defaults to `localStorage`)
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+This approach provides several benefits:
+
+- Automatic serialization/deserialization of complex data structures
+- Type-safe state management with TypeScript
+- Seamless integration with Jotai's atom ecosystem
+- No manual `localStorage.getItem()` or `localStorage.setItem()` calls needed
+
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Jotai Utils - atomWithStorage](https://jotai.org/docs/utilities/storage#atomwithstorage) - Official documentation for `atomWithStorage` utility that explains how to persist atom values to localStorage or sessionStorage.
 
 ## Author
 
