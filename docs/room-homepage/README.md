@@ -11,6 +11,8 @@ This is a solution to the [Room homepage challenge on Frontend Mentor](https://w
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Fluid Layouts with CSS `clamp()`](#fluid-layouts-with-css-clamp)
+      - [Exit Animations with Framer Motion `AnimatePresence`](#exit-animations-with-framer-motion-animatepresence)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -55,6 +57,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Fluid Layouts with CSS `clamp()`
+
 During this project, I used the CSS `clamp()` function for the first time to create fluid typography and responsive spacing.
 
 The `clamp(min, preferred, max)` function calculates a value based on three parameters:
@@ -68,7 +72,7 @@ It effectively works as `max(min, min(preferred, max))`, ensuring the value stay
 For example, I used it to scale the font size of the main heading and paragraphs fluidly:
 
 ```tsx
-<h1 className="text-[40px] font-semibold leading-[37px] tracking-[-1.7px] text-room-primary-400 lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]">
+<h1 className="text-room-primary-400 text-[40px] font-semibold leading-[37px] tracking-[-1.7px] lg:text-[clamp(40px,calc(48/800*100dvh),48px)] lg:leading-[45px] lg:tracking-[-2px]">
   {product[activeProduct].title}
 </h1>
 <p className="mt-[15px] font-medium leading-[22px] tracking-[-.35px] text-room-primary-200 lg:mt-[22px] lg:text-[clamp(15px,calc(16/800*100dvh),16px)]">
@@ -84,13 +88,34 @@ It's also useful for responsive padding:
 </div>
 ```
 
-<!-- ### Continued development
+#### Exit Animations with Framer Motion `AnimatePresence`
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
+I implemented `AnimatePresence` to handle exit animations for the mobile navigation menu and the background overlay. It allows components to animate out before they are removed from the React tree, which is essential for smooth UI transitions.
+
+```tsx
+<AnimatePresence>
+  {!!menuOpen && (
+    <motion.div
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.2 }}
+      exit={{ opacity: 0.5 }}
+      className="bg-room-primary-400/50 absolute left-0 top-0 z-10 h-screen w-screen"
+      role="none"
+    />
+  )}
+</AnimatePresence>
+```
+
+Key takeaways:
+
+- **Exit Animations**: Using the `exit` prop on a `motion` component allows for specific animations to play when the component is unmounted.
+- **`AnimatePresence` Wrapper**: It must wrap the conditional rendering logic for it to detect when a child is being unmounted.
 
 ### Useful resources
 
-- [clamp() - CSS: Cascading Style Sheets | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/clamp) - This is the official MDN documentation for the `clamp()` function, which explains how to use it to clamp a value between an upper and lower bound.
+- [clamp() - CSS: Cascading Style Sheets | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/clamp) - Official MDN documentation for the `clamp()` function.
+- [Framer Motion AnimatePresence](https://www.framer.com/motion/animate-presence/) - Official documentation for handling exit animations with `AnimatePresence`.
 
 ## Author
 
