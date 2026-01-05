@@ -10,6 +10,9 @@ This is a solution to the [Interactive pricing component challenge on Frontend M
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Custom Tailwind Variants](#custom-tailwind-variants)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -48,40 +51,56 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
-- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Custom Tailwind Variants
 
-To see how you can add code snippets, see below:
+To style the slider (range input) consistently across browsers while staying within the Tailwind CSS workflow, I implemented custom variants using Tailwind's plugin system. This allowed me to target vendor-specific pseudo-elements like `::-webkit-slider-thumb` and `::-moz-range-thumb` directly with utility classes.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+Custom variant definition in `tailwind.config.ts`:
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+```ts
+// tailwind.config.ts
+import plugin from "tailwindcss/plugin";
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
+export default {
+  // ...
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant("thumb", [
+        "&[type='range']::-webkit-slider-thumb",
+        "&[type='range']::-moz-range-thumb",
+        "&[type='range']::-ms-thumb",
+      ]);
+      addVariant("track", [
+        "&[type='range']::-webkit-slider-runnable-track",
+        "&[type='range']::-moz-range-track",
+        "&[type='range']::-ms-track",
+      ]);
+    }),
+  ],
 };
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+Usage in the component:
 
-### Continued development
+```tsx
+<input
+  type="range"
+  className="... thumb:h-10 thumb:w-10 thumb:bg-pricing-primary-cyan-200 track:bg-transparent"
+/>
+```
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Tailwind CSS - Adding Custom Variants](https://tailwindcss.com/docs/plugins#adding-variants) - Documentation on how to extend Tailwind with custom variants.
+- [MDN - ::-webkit-slider-thumb](https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-slider-thumb) - Reference for styling the thumb of a range input in WebKit/Blink browsers.
+- [MDN - ::-moz-range-thumb](https://developer.mozilla.org/en-US/docs/Web/CSS/::-moz-range-thumb) - Reference for styling the thumb of a range input in Firefox.
 
 ## Author
 
