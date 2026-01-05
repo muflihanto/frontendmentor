@@ -11,6 +11,8 @@ This is a solution to the [Chat app CSS illustration challenge on Frontend Mento
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+    - [Framer Motion Animation Sequences](#framer-motion-animation-sequences)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -79,16 +81,35 @@ function ChatLeft({
 }
 ```
 
-`PropsWithChildren<P>` is a utility type that adds `children?: React.ReactNode` to the provided props type `P`, making it cleaner and more type-safe than manually defining children in every component's props interface.
+### Framer Motion Animation Sequences
+
+This project uses the imperative `animate` function from `framer-motion` (v10) to create staggered animation sequences for the chat interface. Unlike the declarative `initial` and `animate` props on `motion` components, this approach allows for more control over complex orchestrations.
+
+```tsx
+import { animate, stagger } from "framer-motion";
+import { useEffect } from "react";
+
+function Main() {
+  useEffect(() => {
+    void animate([
+      ["div.chat", { scale: [0, 1] }, { delay: stagger(2), duration: 0.3 }],
+      ["div.radio", { scale: [0, 1] }, { delay: 2 }],
+    ]);
+  }, []);
+  // ...
+}
+```
+
+The `animate` function accepts an array of animation definitions (sequences). Each definition consists of a selector string, the animation properties, and transition options. The `stagger` function is used here to offset the start time of animations for multiple elements matching the same selector.
 
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Framer Motion animate() Sequences](https://motion.dev/docs/animate#sequences) - Documentation for the imperative `animate` function and timeline sequences.
+- [Framer Motion stagger()](https://motion.dev/docs/stagger) - Official guide on using the `stagger` function for orchestrated animations.
 
 ## Author
 
