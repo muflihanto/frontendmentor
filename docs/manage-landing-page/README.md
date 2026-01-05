@@ -10,6 +10,9 @@ This is a solution to the [Manage landing page challenge on Frontend Mentor](htt
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [CSS Scroll Snap](#css-scroll-snap)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -56,38 +59,54 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 - [Zod](https://zod.dev/) - TypeScript-first schema validation
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### CSS Scroll Snap
 
-To see how you can add code snippets, see below:
+I used CSS Scroll Snap to create a smooth, touch-friendly testimonial carousel. By using Tailwind's `snap-x` and `snap-mandatory` utilities on the container, combined with `snap-center` on the items, the carousel automatically snaps to the nearest testimonial when scrolling.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+Scroll container implementation:
+
+```tsx
+<motion.div
+  className={cn([
+    "flex w-full snap-x snap-mandatory items-center gap-8 overflow-x-auto scroll-smooth",
+    // ... other classes
+  ])}
+  ref={carouselRef}
+>
+  {testimonials.map((testi) => (
+    <Testimonial testimony={testi} key={testi.name} />
+  ))}
+</motion.div>
 ```
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
+Testimonial item implementation:
+
+```tsx
+function Testimonial({ testimony, className }) {
+  return (
+    <div
+      className={cn(
+        "min-w-[calc(100vw-32px)] max-w-[539px] shrink-0 snap-center",
+        className,
+      )}
+    >
+      {/* ... content */}
+    </div>
+  );
 }
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+<!-- ### Continued development
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Tailwind CSS - Scroll Snap Type](https://tailwindcss.com/docs/scroll-snap-type) - Utilities for controlling how strictly snap points are enforced in a scroll container.
+- [Tailwind CSS - Scroll Snap Align](https://tailwindcss.com/docs/scroll-snap-align) - Utilities for controlling the scroll snap alignment of an element.
+- [MDN - CSS Scroll Snap](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap) - Comprehensive guide on how scroll snap works in CSS.
 
 ## Author
 
