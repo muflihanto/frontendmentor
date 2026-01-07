@@ -65,6 +65,19 @@ useEffect(() => {
 }, [isMenuOpen]);
 ```
 
+I used `role="graphics-symbol"` for SVG icons to improve accessibility for screen readers. This role specifically identifies a graphic as a single functional or decorative symbol (like an icon) rather than a complex image or document.
+
+```tsx
+<svg
+  viewBox="0 0 10 6"
+  className="h-1.5"
+  role="graphics-symbol"
+  aria-label="Arrow Down"
+>
+  <use href="/intro-section-with-dropdown-navigation/images/icon-arrow-down.svg#icon-arrow-down" />
+</svg>
+```
+
 <!--### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -72,6 +85,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [MDN - overflow](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow) - This helped me understand how to control scrolling behavior.
+- [University of Melbourne - Accessible SVGs](https://www.unimelb.edu.au/accessibility/techniques/accessible-svgs) - A great resource for implementing accessible SVGs, specifically explaining the use of `role="graphics-symbol"` for icons.
 
 ## Author
 
