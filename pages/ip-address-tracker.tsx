@@ -172,7 +172,7 @@ function Intro() {
                   className="h-4 w-4 flex-shrink-0"
                   fill="currentColor"
                   viewBox="0 0 20 20"
-                  role="graphic-symbol"
+                  role="graphics-symbol"
                 >
                   <path
                     fillRule="evenodd"
@@ -216,7 +216,7 @@ function Intro() {
             className="h-5 w-5 flex-shrink-0"
             fill="currentColor"
             viewBox="0 0 20 20"
-            role="graphic-symbol"
+            role="graphics-symbol"
           >
             <path
               fillRule="evenodd"
@@ -236,7 +236,7 @@ function Intro() {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              role="graphic-symbol"
+              role="graphics-symbol"
             >
               <path
                 strokeLinecap="round"
