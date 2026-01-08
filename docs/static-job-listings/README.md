@@ -10,6 +10,8 @@ This is a solution to the [Job listings with filtering challenge on Frontend Men
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -51,38 +53,33 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Jotai](https://jotai.org/) - React state management
 - [TS-Pattern](https://github.com/gvergnaud/ts-pattern) - TS exhaustive pattern matching library
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+To maintain type safety when using `Object.entries()` on an object with specific keys (like the filters in this project), I implemented a helper type called `Entries<T>`. This ensures that the resulting array of key-value pairs preserves the relationship between the key and its corresponding value type, rather than defaulting to `string` and `any`.
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
+```typescript
+type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
 ```
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
+Usage with `Object.entries()`:
+
+```typescript
+(Object.entries(filters) as FilterEntries).every((filter) => {
+  if (filter[1].size === 0) return true;
+  // filter[0] is correctly typed as 'languages' | 'levels' | 'roles' | 'tools'
+  // filter[1] is correctly typed as Set<Language> | Set<Level> | etc.
+});
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
+<!-- ### Continued development
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [TypeScript key-value relation preserving Object.entries() type](https://stackoverflow.com/questions/60141960/typescript-key-value-relation-preserving-object-entries-type) - This Stack Overflow answer provides a clean way to define an `Entries` helper type to make `Object.entries()` more type-safe in TypeScript.
 
 ## Author
 
