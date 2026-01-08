@@ -15,6 +15,7 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
       - [Mock API Failure in Playwright Tests](#mock-api-failure-in-playwright-tests)
       - [Converting Timezone Identifiers to UTC Offset](#converting-timezone-identifiers-to-utc-offset)
       - [Jotai's `useHydrateAtoms` for SSR Hydration](#jotais-usehydrateatoms-for-ssr-hydration)
+      - [Discriminated Unions for API Responses](#discriminated-unions-for-api-responses)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -217,6 +218,30 @@ The `useHydrateAtoms` hook is particularly beneficial for:
 - **Improved Performance**: Avoiding client-side "flash" or empty states when the page first loads.
 - **Type Safety**: Ensuring the hydrated data matches the atom's expected type.
 
+#### Discriminated Unions for API Responses
+
+I used a **discriminated union** to model the API response from IPInfo. This is particularly useful when an API can return different shapes of data based on a specific field. In this case, `bogon` IPs (like private or reserved addresses) return a simpler object than regular IPs.
+
+```typescript
+export type IpInfoResponse =
+  | {
+      ip: string;
+      city: string;
+      region: string;
+      country: string;
+      loc: string;
+      org: string;
+      timezone: string;
+      // ... other fields
+    }
+  | {
+      ip: string;
+      bogon: boolean;
+    };
+```
+
+By defining the response this way, TypeScript can automatically narrow the type when I check for the presence of the `bogon` property, ensuring I only access fields that actually exist on the returned object.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -225,6 +250,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [Calculate the UTC offset given a TimeZone string in JavaScript - Stack Overflow](https://stackoverflow.com/questions/36112774/calculate-the-utc-offset-given-a-timezone-string-in-javascript) - This answer by ekerner (posted August 14, 2019) provides an elegant solution for converting IANA timezone identifiers to UTC offset strings using `toLocaleString()` and `getTime()`. I used this approach in the `getTimezoneOffset` function.
 - [Jotai Utils - useHydrateAtoms](https://jotai.org/docs/utilities/ssr#usehydrateatoms) - Official documentation for `useHydrateAtoms` utility, which is essential for SSR scenarios where atoms need to be pre-populated with server-side data.
+- [TypeScript Handbook: Discriminated Unions](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions) - Official documentation on discriminated unions, explaining how to use a functional pattern for narrowing types.
 
 ## Author
 
