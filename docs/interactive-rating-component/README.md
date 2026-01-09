@@ -11,6 +11,7 @@ This is a solution to the [Interactive rating component challenge on Frontend Me
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -55,6 +56,25 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+- First time using **React Hook Form** for managing form state and validation. It's much more efficient than using multiple `useState` hooks for individual inputs, especially when dealing with validation and error states:
+
+```tsx
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+  clearErrors,
+  watch,
+} = useForm<Input>();
+
+// Registering inputs with validation
+<input
+  {...register("rating", { required: true })}
+  type="radio"
+  value={ratingValue}
+/>;
+```
+
 - Using **@formkit/auto-animate** for smooth transitions between component states without writing custom animations:
 
 ```js
@@ -74,12 +94,11 @@ This zero-config animation utility automatically handles smooth transitions when
 
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [React Hook Form Get Started](https://react-hook-form.com/get-started) - This helped me understand the basic setup of the library, specifically using the `register` and `handleSubmit` functions for form control.
 
 ## Author
 
