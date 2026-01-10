@@ -12,6 +12,8 @@ This is a solution to the [Age calculator app challenge on Frontend Mentor](http
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
       - [Day.js for Date Manipulation](#dayjs-for-date-manipulation)
+      - [Zod superRefine for Cross-Field Validation](#zod-superrefine-for-cross-field-validation)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -110,14 +112,61 @@ if (
 
 This approach catches invalid dates like February 30th by comparing the parsed date back to the input values.
 
+#### Zod superRefine for Cross-Field Validation
+
+I used Zod's `superRefine` method to perform complex validation that depends on multiple fields. Unlike basic field-level validators, `superRefine` runs after all individual field validations pass and gives access to the entire parsed object:
+
+```tsx
+const dateInputsSchema = z
+  .object({
+    day: z.number().min(1).max(31),
+    month: z.number().min(1).max(12),
+    year: z.number().min(0).max(new Date().getFullYear()),
+  })
+  .superRefine((val, ctx) => {
+    const inputDate = dayjs(new Date(0, val.month - 1, val.day)).set(
+      "year",
+      val.year,
+    );
+
+    // Check if the date is valid (e.g., Feb 30 would fail)
+    if (
+      inputDate.year() !== val.year ||
+      inputDate.month() + 1 !== val.month ||
+      inputDate.date() !== val.day
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Must be a valid date",
+        path: ["day"],
+      });
+      return;
+    }
+
+    // Check if date is in the future
+    if (inputDate.isAfter(dayjs())) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Must be in the past",
+        path: ["year"], // Specify which field gets the error
+      });
+    }
+  });
+```
+
+Key features:
+
+- **Cross-field validation**: Access all fields together to validate relationships between them
+- **Custom error paths**: Use `path` to attach errors to specific fields
+- **Early return**: Stop validation early with `return` to prevent cascading errors
+
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Zod v3 superRefine documentation](https://v3.zod.dev/?id=superrefine) - This helped me understand how to implement custom cross-field validation with specific error paths.
 
 ## Author
 
