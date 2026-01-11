@@ -87,6 +87,16 @@ Then crop/optimize/edit your image however you like, add it to your project, and
   >
   ```
 
+- Using `z.coerce` from Zod to automatically convert string input to a number before validation. This is useful when form inputs are stored as strings but need to be validated as numbers.
+
+  ```typescript
+  z.coerce.number().min(1, "This field is required");
+  ```
+
+  - `z.coerce.number()` - Converts the input value to a number using `Number(input)` before applying validation
+  - This allows string values like `"300000"` to be validated against numeric constraints like `.min(1)`
+  - Without coercion, validating a string against `.min(1)` would fail since strings are compared differently than numbers
+
 - Using `NumericFormat` from `react-number-format` to format numeric inputs with thousand separators.
 
   ```tsx
@@ -114,6 +124,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [Form and Field Validation](https://tanstack.com/form/latest/docs/framework/react/guides/validation) - This helped me understand more about the concept of how Form and Field Validation works in Tanstack Form.
 - [NumericFormat Props](https://s-yadav.github.io/react-number-format/docs/numeric_format) - Official documentation for NumericFormat component props and usage.
+- [Zod Coercion for Primitives](https://v3.zod.dev/?id=coercion-for-primitives) - Official documentation for Zod's coercion API that converts inputs to the target type before validation.
 
 ## Author
 
