@@ -11,11 +11,12 @@ This is a solution to the [Tip calculator app challenge on Frontend Mentor](http
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Dynamic Import with Loading State](#dynamic-import-with-loading-state)
       - [React Aria Usage for Accessible Number Input](#react-aria-usage-for-accessible-number-input)
         - [1. `useLocale` - Internationalization Support](#1-uselocale---internationalization-support)
         - [2. `useNumberFieldState` - State Management](#2-usenumberfieldstate---state-management)
         - [3. `useNumberField` - Accessible Number Input](#3-usenumberfield---accessible-number-input)
-      - [Key Takeaways](#key-takeaways)
+        - [Key Takeaways](#key-takeaways)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -59,6 +60,32 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React Aria](https://react-spectrum.adobe.com/react-aria/) - Accessible UI components for React
 
 ### What I learned
+
+#### Dynamic Import with Loading State
+
+This project uses `next/dynamic` with a custom `loading` option to display a skeleton placeholder while the `Main` component loads:
+
+```tsx
+import dynamic from "next/dynamic";
+
+const Main = dynamic(() => import("../components/tip-calculator-app/Main"), {
+  ssr: false,
+  loading: () => {
+    return (
+      <main className="contents" aria-label="Loading main content">
+        <div className="bg-tip-neutral-100 mt-[40px] h-full animate-pulse rounded-t-[25px] lg:mx-auto lg:mt-[calc(87/1024*100vh)] lg:h-[480px] lg:max-w-screen-md lg:rounded-[25px] xl:max-w-[calc(23/36*100vw)]" />
+      </main>
+    );
+  },
+});
+```
+
+**Key options:**
+
+- **`ssr: false`**: Disables server-side rendering for this component, useful for client-only code.
+- **`loading`**: A React component that renders while the dynamic component is being loaded. This provides a better user experience with a visible loading state instead of a blank area.
+
+The loading skeleton uses `animate-pulse` for a subtle animation effect and matches the approximate dimensions of the loaded component for a smooth visual transition.
 
 #### React Aria Usage for Accessible Number Input
 
@@ -113,7 +140,7 @@ function NumberField(props: AriaNumberFieldProps) {
 }
 ```
 
-#### Key Takeaways
+##### Key Takeaways
 
 - **Internationalization**: `useLocale` + `useNumberFieldState` work together to handle locale-specific number formatting (decimal separators, grouping, etc.).
 - **Prop Separation**: The hook returns separate prop objects (`labelProps`, `groupProps`, `inputProps`) for different elements, enabling flexible component composition.
@@ -126,6 +153,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 ### Useful resources
 
+- [Next.js Dynamic Imports](https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading) - Official documentation for lazy loading with `next/dynamic`.
 - [React Aria useNumberField](https://react-spectrum.adobe.com/react-aria/useNumberField.html) - Official documentation for the useNumberField hook.
 - [React Stately useNumberFieldState](https://react-spectrum.adobe.com/react-stately/useNumberFieldState.html) - Official documentation for number field state management.
 
