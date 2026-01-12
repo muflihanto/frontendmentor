@@ -98,6 +98,45 @@ function Testimonial({ testimony, className }) {
 }
 ```
 
+#### Click-and-Drag Pan Gesture
+
+To enhance the carousel UX, I implemented a click-and-drag (pan) behavior using Framer Motion's gesture handlers. When the user holds down the mouse button and moves, the carousel scrolls accordingly, and the snap behavior is temporarily disabled. This provides a more natural scrolling experience, especially on desktop.
+
+```tsx
+const carouselRef = useRef<null | HTMLDivElement>(null);
+const [panInfo, setPanInfo] = useState<number>();
+
+<motion.div
+  className={cn([
+    "flex w-full items-center gap-8 overflow-x-auto",
+    panInfo === undefined
+      ? "snap-x snap-mandatory scroll-smooth" // stop scrolling
+      : "snap-none snap-normal scroll-auto", // scrolling
+  ])}
+  ref={carouselRef}
+  onMouseDown={() => {
+    setPanInfo(carouselRef.current?.scrollLeft);
+  }}
+  onPan={(_, info) => {
+    panInfo !== undefined &&
+      carouselRef.current &&
+      carouselRef.current.scrollTo(panInfo - info.offset.x, 0);
+  }}
+  onMouseUp={() => {
+    setPanInfo(undefined);
+  }}
+>
+  {/* ... testimonials */}
+</motion.div>;
+```
+
+**Key implementation details:**
+
+- **`onMouseDown`**: Captures the initial scroll position when the user starts dragging
+- **`onPan`**: Scrolls the container based on the drag offset from the initial position
+- **`onMouseUp`**: Resets the pan state, re-enabling scroll snap behavior
+- **CSS toggling**: Dynamically switches between `snap-x snap-mandatory` (normal) and `snap-none` (during pan) to prevent snapping interference while dragging
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -107,6 +146,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 - [Tailwind CSS - Scroll Snap Type](https://tailwindcss.com/docs/scroll-snap-type) - Utilities for controlling how strictly snap points are enforced in a scroll container.
 - [Tailwind CSS - Scroll Snap Align](https://tailwindcss.com/docs/scroll-snap-align) - Utilities for controlling the scroll snap alignment of an element.
 - [MDN - CSS Scroll Snap](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap) - Comprehensive guide on how scroll snap works in CSS.
+- [Framer Motion - Gestures](https://motion.dev/docs/react-gestures) - Documentation on Framer Motion's gesture system including pan, drag, hover, and tap gestures.
 
 ## Author
 
