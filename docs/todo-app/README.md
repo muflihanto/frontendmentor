@@ -11,6 +11,9 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Testing pseudo-elements with Playwright](#testing-pseudo-elements-with-playwright)
+      - [Drag-and-drop reordering with Framer Motion](#drag-and-drop-reordering-with-framer-motion)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -63,6 +66,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Testing pseudo-elements with Playwright
+
 In this project, I learned how to test CSS pseudo-elements using Playwright. Since pseudo-elements are not part of the DOM, they cannot be selected directly. Instead, I used `window.getComputedStyle()` within an `evaluate` call to assert their properties, such as the `background-image` of a `::before` element:
 
 ```ts
@@ -76,14 +81,49 @@ expect(await getBgImage()).toStrictEqual(
 );
 ```
 
+#### Drag-and-drop reordering with Framer Motion
+
+I implemented drag-and-drop reordering using Framer Motion's `Reorder` component. This allowed for a smooth, accessible reordering experience with minimal boilerplate.
+
+```tsx
+<Reorder.Group axis="y" values={data} onReorder={setData}>
+  {data.map((item) => (
+    <Reorder.Item key={item.id} value={item}>
+      {item.text}
+    </Reorder.Item>
+  ))}
+</Reorder.Group>
+```
+
+In this specific implementation, I used custom drag controls to allow dragging only when interacting with the todo text, while letting the checkbox and delete button remain clickable without triggering a drag. This was achieved by setting `dragListener={false}` on `Reorder.Item` and manually triggering the drag with `controls.start(e)` on the `onPointerDown` event of the text element.
+
+```tsx
+function Item({ d }) {
+  const y = useMotionValue(0);
+  const controls = useDragControls();
+
+  return (
+    <Reorder.Item
+      value={d}
+      dragListener={false}
+      dragControls={controls}
+      style={{ y }}
+    >
+      <button onClick={toggle}>Checkbox</button>
+      <p onPointerDown={(e) => controls.start(e)}>{d.activity}</p>
+      <button onClick={deleteItem}>Delete</button>
+    </Reorder.Item>
+  );
+}
+```
+
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Framer Motion Reorder Documentation](https://www.framer.com/motion/reorder/) - Comprehensive guide on how to implement reorderable lists with Framer Motion.
 
 ## Author
 
