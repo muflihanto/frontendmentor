@@ -51,7 +51,6 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Jotai](https://jotai.org/) - React state management
-- [TS-Pattern](https://github.com/gvergnaud/ts-pattern) - TS exhaustive pattern matching library
 
 ### What I learned
 
@@ -70,6 +69,21 @@ Usage with `Object.entries()`:
   if (filter[1].size === 0) return true;
   // filter[0] is correctly typed as 'languages' | 'levels' | 'roles' | 'tools'
   // filter[1] is correctly typed as Set<Language> | Set<Level> | etc.
+});
+```
+
+To handle filter deletion generically without resorting to `any`, I used a combination of `Set<unknown>` and a final object cast. Since `Set.prototype.delete()` only needs to know that a value exists, casting a specific Set to `Set<unknown>` allows us to call `.delete()` safely even when we are dealing with a union of different Set types (e.g., `Set<Language> | Set<Level>`).
+
+```typescript
+setFilters((prev) => {
+  // Create a new Set to maintain immutability
+  const nextSet = new Set(prev[category]);
+
+  // Use 'unknown' to safely call .delete() on a union of sets
+  (nextSet as Set<unknown>).delete(value);
+
+  // Cast the final object to 'Filter' to satisfy the record update
+  return { ...prev, [category]: nextSet } as Filter;
 });
 ```
 
