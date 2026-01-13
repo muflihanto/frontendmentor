@@ -4,7 +4,6 @@ import Image from "next/image";
 import type { HTMLProps, PropsWithChildren } from "react";
 import { Fragment, useMemo } from "react";
 
-import { match } from "ts-pattern";
 import _data from "../public/static-job-listings/data.json";
 import { leagueSpartan } from "../utils/fonts/leagueSpartan";
 
@@ -336,40 +335,26 @@ function Main() {
             Active Filters
           </legend>
           <div className="flex flex-wrap gap-4 lg:gap-[15px]">
-            {(Object.entries(filters) as FilterEntries).map((entry, index) => {
-              if (entry[1].size === 0) return null;
-              return (
-                <Fragment key={`${index}-${entry[0]}`}>
-                  {Array.from(entry[1]).map((e, eindex) => {
-                    const onClick = () => {
-                      setFilters((filt) => {
-                        const newSet = filt[entry[0]];
-                        match(entry[0])
-                          .with("languages", () => {
-                            (newSet as Set<Language>).delete(e as Language);
-                          })
-                          .with("levels", () => {
-                            (newSet as Set<Level>).delete(e as Level);
-                          })
-                          .with("roles", () => {
-                            (newSet as Set<Role>).delete(e as Role);
-                          })
-                          .with("tools", () => {
-                            (newSet as Set<Tool>).delete(e as Tool);
-                          })
-                          .exhaustive();
-                        return { ...filt, [entry[0]]: newSet };
-                      });
-                    };
-                    return (
-                      <FilterButton key={`${eindex}-${e}`} onClick={onClick}>
-                        {e}
-                      </FilterButton>
-                    );
-                  })}
+            {(Object.entries(filters) as FilterEntries).map(
+              ([category, values]) => (
+                <Fragment key={category}>
+                  {Array.from(values).map((value) => (
+                    <FilterButton
+                      key={`${category}-${value}`}
+                      onClick={() => {
+                        setFilters((prev) => {
+                          const nextSet = new Set(prev[category]);
+                          (nextSet as Set<unknown>).delete(value);
+                          return { ...prev, [category]: nextSet } as Filter;
+                        });
+                      }}
+                    >
+                      {value}
+                    </FilterButton>
+                  ))}
                 </Fragment>
-              );
-            })}
+              ),
+            )}
           </div>
           <button
             className="h-[24px] px-[6px] pt-[2px] font-bold leading-none text-job-listings-neutral-300"
