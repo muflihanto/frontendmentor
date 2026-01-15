@@ -175,6 +175,26 @@ useEffect(() => {
 
 In this implementation, the `input` atom tracks the immediate value of the text field, while the `keywordFilter` atom is only updated with the `debouncedValue` after 500ms of inactivity.
 
+#### Styling Component States with group-data
+
+I used the `group-data` variant to style child elements based on the state of a parent component. This is particularly useful when working with libraries like Headless UI, which manage component states (like "open" or "selected") and expose them via data attributes.
+
+In the `RegionFilter` component, I used this to rotate the chevron icon when the dropdown is open:
+
+```tsx
+<Listbox.Button className="text-rest-countries-darkblue-100 dark:bg-rest-countries-darkblue-100 dark:text-rest-countries-gray-200 group flex h-12 w-[200px] items-center justify-between rounded bg-white pl-6 pr-5 text-left text-[12px] font-semibold tracking-[-.125px] shadow-sm md:h-[56px] md:text-[14px]">
+  <span>{selectedFilter?.name ?? "Filter by Region"}</span>
+  <FontAwesomeIcon
+    className="w-2 transition-transform group-data-[headlessui-state=open]:rotate-180 lg:w-[10px]"
+    icon={faChevronDown}
+  />
+</Listbox.Button>
+```
+
+- `group`: Applied to the parent element (`Listbox.Button`) to mark it as the target for the variant.
+- `group-data-[headlessui-state=open]`: This variant tells Tailwind to apply the `rotate-180` class to the icon only when the parent `group` has the attribute `data-headlessui-state="open"`.
+- `transition-transform`: Ensures a smooth rotation effect.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -182,6 +202,8 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [match-sorter](https://github.com/kentcdodds/match-sorter) - Official documentation for the match-sorter library. Contains detailed API reference for all options including keys, threshold rankings, and advanced configuration.
+- [Tailwind CSS - Data Attributes](https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes) - Documentation on how to style elements based on data attributes.
+- [Headless UI - Listbox Styling](https://headlessui.com/react/listbox#styling-with-data-attributes) - How Headless UI uses data attributes to expose component state for styling.
 
 ## Author
 
