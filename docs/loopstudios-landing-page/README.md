@@ -10,6 +10,9 @@ This is a solution to the [Loopstudios landing page challenge on Frontend Mentor
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Advanced Group Selection with Arbitrary Variants](#advanced-group-selection-with-arbitrary-variants)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -49,36 +52,36 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Advanced Group Selection with Arbitrary Variants
 
-To see how you can add code snippets, see below:
+I used Tailwind's arbitrary group variants to apply specific styles to a child element based on a complex condition on its parent. This is particularly useful when you need to target a specific index in a list or satisfy a unique CSS selector without creating new classes.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
+In the `Creations` component, I targeted the 4th item in the grid to adjust its padding:
+
+```tsx
+<li className="... ... group">
+  <a href="" className="... ... group-[&:nth-child(4)]:pr-[120px]">
+    {el.title}
+  </a>
+</li>
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+- `group`: Marks the `li` as the parent group.
+- `group-[&:nth-child(4)]`: This arbitrary variant checks if the element with the `group` class is the 4th child of its parent. The `&` symbol represents the group element itself.
+- `pr-[120px]`: Applies the specific padding only when the condition is met.
 
-### Continued development
+This approach allowed for fine-grained control over individual items within a loop while keeping the logic clean and contained within Tailwind classes.
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Tailwind CSS - Arbitrary variants](https://tailwindcss.com/docs/hover-focus-and-other-states#arbitrary-variants) - Documentation on using square brackets to create one-off variants.
+- [Tailwind CSS - Styling based on parent state (group)](https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-parent-state) - How to use the `group` class to style child elements.
 
 ## Author
 
