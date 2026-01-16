@@ -11,6 +11,8 @@ This is a solution to the [Bento grid challenge on Frontend Mentor](https://www.
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [CSS Grid & display: contents](#css-grid--display-contents)
+      - [Accessibility: Main Landmark](#accessibility-main-landmark)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -52,6 +54,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### CSS Grid & `display: contents`
+
 "**display: contents**" makes the container disappear, making the child elements children of the element the next level up in the DOM
 
 Example:
@@ -80,6 +84,18 @@ Example:
   <!-- </div> -->
   ```
 
+#### Accessibility: Main Landmark
+
+I learned about the importance of having a `main` landmark on every page. According to the [axe-core "landmark-one-main" rule](https://dequeuniversity.com/rules/axe/4.10/landmark-one-main), a document must have at least one `main` landmark to allow users of assistive technologies to quickly bypass navigation and reach the primary content.
+
+In this project, I used the semantic `<main>` tag to wrap the grid layout:
+
+```tsx
+function Main() {
+  return <main className="... grid">{/* Bento grid items */}</main>;
+}
+```
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -87,6 +103,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [CSS display contents](https://ishadeed.com/article/display-contents/) - This helped me understand how to use display contents to build more fluid layouts.
+- [axe-core landmark-one-main Rule](https://dequeuniversity.com/rules/axe/4.10/landmark-one-main) - Documentation on why a document must have a `main` landmark.
 
 ## Author
 
