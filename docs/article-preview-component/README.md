@@ -11,6 +11,8 @@ This is a solution to the [Article preview component challenge on Frontend Mento
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [UI Transitions with Headless UI](#ui-transitions-with-headless-ui)
+      - [Accessibility \& Landmark Regions](#accessibility--landmark-regions)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -55,7 +57,9 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
-In this project, I learned how to use the `@headlessui/react` `Transition` component (v1) to add smooth enter and leave animations to the share menu. Using Tailwind CSS classes within the transition props makes it straightforward to orchestrate animations directly in the component.
+#### UI Transitions with Headless UI
+
+I learned how to use the `@headlessui/react` `Transition` component (v1) to implement smooth entry and exit animations for the share menu. By using Tailwind CSS classes within the transition props, orchestrating animations becomes highly declarative.
 
 ```tsx
 <Transition
@@ -72,11 +76,22 @@ In this project, I learned how to use the `@headlessui/react` `Transition` compo
 </Transition>
 ```
 
-Key learnings:
+Key takeaways:
 
-- **`show` prop**: Automatically triggers enter/leave transitions based on a boolean state.
-- **`as={Fragment}`**: Useful for keeping the DOM clean by not adding extra wrapper elements.
-- **Tailwind Orchestration**: Responsive classes (like `max-lg:-bottom-16`) can be used directly in transition props to handle different animation behaviors across screen sizes.
+- **`show` state**: The component automatically handles the mounting/unmounting logic based on this boolean.
+- **Fragment Wrapper**: Using `as={Fragment}` avoids adding unnecessary wrapper divs to the DOM.
+- **Responsive Animations**: Tailwind's responsive modifiers can be used directly in transition classes to vary animation behavior across devices.
+
+#### Accessibility & Landmark Regions
+
+According to the [axe-core "region" rule](https://dequeuniversity.com/rules/axe/4.10/region), all page content should be contained within HTML5 landmark regions.
+
+To comply with these best practices, I refactored the component from generic `<div>` tags to semantic landmarks:
+
+- **Hero Image**: Wrapped the image section in a `<header>` tag, signaling that it serves as introductory content for the article.
+- **Article Body**: Wrapped the primary content in a `<main>` tag to explicitly define the central purpose of the component.
+
+This transition from purely visual layout containers to semantic landmarks ensures that the content's purpose is programmatically determinable, improving the experience for all users, including those relying on screen readers or other assistive technologies.
 
 <!-- ### Continued development
 
@@ -86,6 +101,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [Headless UI Transition Documentation (v1)](https://headlessui.com/v1/react/transition) - Official documentation for the `Transition` component in Headless UI v1.
 - [Tailwind CSS Transition Property](https://tailwindcss.com/docs/transition-property) - Comprehensive guide on Tailwind's transition utilities.
+- [axe-core Region Rule](https://dequeuniversity.com/rules/axe/4.10/region) - Documentation on why all content should be contained by landmarks.
 
 ## Author
 
