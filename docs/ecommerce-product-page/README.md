@@ -11,6 +11,7 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Decorative SVGs and Accessibility](#decorative-svgs-and-accessibility)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -97,6 +98,21 @@ Key benefits:
 - **`createPortal`**: Decouples the UI component from its DOM position, perfect for floating elements like the cart.
 - **Nested Transitions**: `Transition.Child` within a `createPortal`ed `Transition` allows for granular control over the popup's appearance.
 
+#### Decorative SVGs and Accessibility
+
+I improved the accessibility of the "Add to cart" button by changing the SVG role from `graphics-symbol` to `none`.
+
+The `svg-img-alt` rule requires that SVGs with semantic roles (like `img` or `graphics-symbol`) have an accessible text alternative. In this case, the cart icon is decorative because the "Add to cart" text immediately follows it, providing sufficient context. By using `role="none"`, I removed the SVG from the accessibility tree, satisfying the requirement without adding redundant labels.
+
+```tsx
+<button ...>
+  <svg role="none" ...>
+    <use href="..." />
+  </svg>
+  <div>Add to cart</div>
+</button>
+```
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -105,6 +121,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [React createPortal Documentation](https://react.dev/reference/react-dom/createPortal) - Learn how to render children into a different part of the DOM.
 - [Headless UI Transition Documentation (v1)](https://headlessui.com/v1/react/transition) - Guide on using the `Transition` component for enter/leave animations.
+- [Axe Rules: svg-img-alt](https://dequeuniversity.com/rules/axe/4.10/svg-img-alt) - Documentation on why SVGs with semantic roles need alternative text and how to handle decorative icons.
 
 ## Author
 
