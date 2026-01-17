@@ -11,6 +11,9 @@ This is a solution to the [Bookmark landing page challenge on Frontend Mentor](h
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Type-safe Component Props](#type-safe-component-props)
+      - [Accessible Tabs Pattern](#accessible-tabs-pattern)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -60,7 +63,9 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
-This project marks my earliest usage of `ComponentProps` utility type from React. This utility type allows extracting the props type from any React component or HTML element, making it easier to extend native element props for custom components.
+#### Type-safe Component Props
+
+This project marks my earliest usage of the `ComponentProps` utility type from React. It allows for extracting prop types from any React component or HTML element, which is incredibly useful when building wrapper components that need to pass through native props.
 
 ```tsx
 import { ComponentProps, PropsWithChildren } from "react";
@@ -83,30 +88,35 @@ function TabButton({
     </button>
   );
 }
-
-function FeatureIllustration({
-  variant,
-  ...props
-}: ComponentProps<"svg"> & { variant: number }) {
-  const svgProps: { className: ComponentProps<"svg">["className"] }[] = [
-    { className: "aspect-[536/346]" },
-    { className: "aspect-[478/346]" },
-    { className: "aspect-[440/380]" },
-  ];
-  // ...
-}
 ```
 
-`ComponentProps<"element">` extracts the props type of a given HTML element (e.g., `"button"`, `"svg"`), allowing you to spread all native props onto your custom component while adding your own custom props with full type safety.
+Using `ComponentProps<"button">` ensures that the component remains fully typed for all native button attributes while allowing for custom extensions like the `active` state or custom styling logic.
+
+#### Accessible Tabs Pattern
+
+I learned how to correctly implement the ARIA tab pattern while maintaining a valid HTML structure. When using a `<ul>` with `role="tablist"`, the spec requires that the direct children have the `role="tab"`.
+
+However, wrapping the tabs in `<li>` elements introduces an implicit `role="listitem"`, which violates the `aria-required-children` rule. To fix this, I used `role="none"` (or `role="presentation"`) on the `<li>` elements to remove their semantic meaning, allowing the nested `tab` elements to be correctly associated with the `tablist`.
+
+```tsx
+<ul role="tablist" ...>
+  {features.map((feature, index) => (
+    <li key={feature.name} role="none">
+      <TabButton role="tab" ...>
+        {feature.name}
+      </TabButton>
+    </li>
+  ))}
+</ul>
+```
 
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Axe Rules: aria-required-children](https://dequeuniversity.com/rules/axe/4.10/aria-required-children) - This documentation explained why my tab list was failing accessibility checks and how to fix it by using `role="none"` on wrapper elements.
 
 ## Author
 
