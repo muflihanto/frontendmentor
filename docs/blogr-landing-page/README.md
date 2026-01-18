@@ -10,6 +10,8 @@ This is a solution to the [Blogr landing page challenge on Frontend Mentor](http
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -48,39 +50,42 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Axe-core for Playwright](https://playwright.dev/docs/accessibility-testing) - Automated accessibility testing
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+This project marks the first time I integrated [axe-core](https://www.deque.com/axe/) via `@axe-core/playwright` to automate accessibility testing. This allows for catching common accessibility issues (like missing labels or incorrect ARIA attributes) automatically during the E2E test suite.
 
-To see how you can add code snippets, see below:
+Key takeaways:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+- **AxeBuilder**: Using the `AxeBuilder` class to scan the page or specific components.
+- **Rule Configuration**: Learning how to disable specific rules (like `color-contrast` if needed) to focus on structural accessibility.
+- **Continuous Accessibility**: Ensuring that every new feature meets a baseline of accessibility by default.
+
+Example of an automated accessibility scan in Playwright:
+
+```ts
+import AxeBuilder from "@axe-core/playwright";
+
+test("should not have any automatically detectable accessibility issues", async ({
+  page,
+}) => {
+  const accessibilityScanResults = await new AxeBuilder({ page })
+    .disableRules(["color-contrast"])
+    .analyze();
+
+  expect(accessibilityScanResults.violations).toEqual([]);
+});
 ```
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+<!-- ### Continued development
 
-```js
-const proudOfThisFunc = () => {
-  console.log("🎉");
-};
-```
-
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Axe-core for Playwright Documentation](https://playwright.dev/docs/accessibility-testing) - A great guide on how to integrate accessibility testing into your Playwright tests.
+- [Axe-core Rules](https://dequeuniversity.com/rules/axe/4.10) - Detailed documentation on all the rules axe-core checks for.
 
 ## Author
 
