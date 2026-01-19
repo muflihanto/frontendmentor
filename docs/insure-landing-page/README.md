@@ -12,6 +12,7 @@ This is a solution to the [Insure landing page challenge on Frontend Mentor](htt
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
       - [CSS Viewport Units: `svh`, `dvh`, `lvh`](#css-viewport-units-svh-dvh-lvh)
+      - [Playwright Viewport Configuration](#playwright-viewport-configuration)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -50,6 +51,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Playwright](https://playwright.dev/) - End-to-end testing framework
 
 ### What I learned
 
@@ -72,13 +74,31 @@ The traditional `vh` unit doesn't account for dynamic browser UI elements (like 
 
 Using `svh` ensures the content fits properly even when the mobile browser's address bar is visible.
 
+#### Playwright Viewport Configuration
+
+I also implemented component-specific viewport settings in my Playwright tests. Instead of relying only on global configuration, I used `test.use()` within a `describe` block to simulate mobile devices specifically for the mobile menu tests.
+
+```typescript
+/** Test if the page has a mobile menu*/
+test.describe("has a mobile menu", () => {
+  test.use({ viewport: { width: 375, height: 667 } });
+
+  test("button is visible", async ({ page }) => {
+    const button = page.getByRole("banner").getByRole("button");
+    await expect(button).toBeVisible();
+    await expect(button).toBeInViewport();
+  });
+});
+```
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [CSS vh, dvh, lvh, svh and vw units](https://dev.to/frehner/css-vh-dvh-lvh-svh-and-vw-units-27k4) - A comprehensive explanation of the new viewport units and when to use each one.
+- [CSS vh, dvh, lvh, svh and vw units](https://dev.to/frehner/css-vh-dvh-lvh-svh-and-vw-units-27k4) - A comprehensive explanation of the new viewport units.
+- [Playwright Emulation](https://playwright.dev/docs/emulation#viewport) - Guide on how to emulate different viewports and devices in Playwright.
 
 ## Author
 
