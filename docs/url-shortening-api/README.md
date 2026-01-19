@@ -10,6 +10,8 @@ This is a solution to the [Shortly URL shortening API Challenge challenge on Fro
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -56,37 +58,36 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Jotai](https://jotai.org/) - React state management
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 - [Zod](https://zod.dev/) - TypeScript-first schema validation
+- [Playwright](https://playwright.dev/) - End-to-end testing framework
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+In this project, I first implemented Playwright's serial mode for test groups that need to run sequentially. This is particularly useful when tests are interdependent or when you want to avoid redundant setup steps for a specific sequence of interactions.
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
+```typescript
+/** Test if the page has a main form */
+test.describe("has a main form", () => {
+  test.describe.configure({ mode: "serial" });
+  let form: Locator;
+  test("main form is visible", async ({ page }) => {
+    form = page.locator("form");
+    await form.scrollIntoViewIfNeeded();
+    await expect(form).toBeVisible();
+    await expect(form.getByPlaceholder("Shorten a link here...")).toBeVisible();
+    await expect(
+      form.getByRole("button", { name: "Shorten It!" }),
+    ).toBeVisible();
+  });
+});
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+<!-- ### Continued development
 
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Playwright Serial Mode](https://playwright.dev/docs/test-parallel#serial-mode) - This documentation explains how to run tests sequentially using serial mode, which I used for the form and mobile navigation tests.
 
 ## Author
 
