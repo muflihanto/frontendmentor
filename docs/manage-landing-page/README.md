@@ -12,6 +12,8 @@ This is a solution to the [Manage landing page challenge on Frontend Mentor](htt
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
       - [CSS Scroll Snap](#css-scroll-snap)
+      - [Click-and-Drag Pan Gesture](#click-and-drag-pan-gesture)
+      - [Simulating Swipe in Playwright](#simulating-swipe-in-playwright)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -137,6 +139,48 @@ const [panInfo, setPanInfo] = useState<number>();
 - **`onMouseUp`**: Resets the pan state, re-enabling scroll snap behavior
 - **CSS toggling**: Dynamically switches between `snap-x snap-mandatory` (normal) and `snap-none` (during pan) to prevent snapping interference while dragging
 
+#### Simulating Swipe in Playwright
+
+To test the touch-friendly swipe behavior and the "click-and-drag" pan gesture in the carousel, I used Playwright's `mouse` API to simulate manual mouse interactions. This is particularly useful for verifying scroll behavior that can't be easily triggered by simple `click()` or `scrollIntoView()` calls.
+
+```typescript
+test("should swipe between testimonials", async ({ page }) => {
+  const carousel = page.locator("div").nth(15);
+  const firstItem = carousel.locator("> div").first();
+  await carousel.scrollIntoViewIfNeeded();
+
+  // Get initial position
+  const initialScroll = await carousel.evaluate((el) => el.scrollLeft);
+
+  // Simulate swipe
+  const boundingBox = await firstItem.boundingBox();
+  const startX = (boundingBox?.x ?? 0) + 10;
+  const y = (boundingBox?.y ?? 0) + 10;
+  const endX = (boundingBox?.x ?? 0) - 100;
+
+  // Move cursor to start position and press down
+  await page.mouse.move(startX, y);
+  await page.mouse.down();
+
+  // Move to end position (swipe left 100px) and release
+  await page.mouse.move(endX, y);
+  await page.mouse.up();
+
+  // Verify scroll position changed
+  const newScroll = await carousel.evaluate((el) => el.scrollLeft);
+  expect(newScroll).toBeGreaterThan(initialScroll);
+});
+```
+
+**Workflow for simulation:**
+
+- **Bounding Box**: Obtain the element's position using `boundingBox()` to calculate precise start and end coordinates.
+- **`mouse.move`**: Position the virtual cursor at the starting point.
+- **`mouse.down`**: Initiate the drag/press.
+- **`mouse.move` (again)**: Perform the actual movement while the "button" is held.
+- **`mouse.up`**: Release the drag to finish the gesture.
+- **`evaluate`**: Use `page.evaluate` to inspect DOM properties (like `scrollLeft`) that aren't directly exposed as Playwright assertions.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -147,6 +191,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 - [Tailwind CSS - Scroll Snap Align](https://tailwindcss.com/docs/scroll-snap-align) - Utilities for controlling the scroll snap alignment of an element.
 - [MDN - CSS Scroll Snap](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap) - Comprehensive guide on how scroll snap works in CSS.
 - [Framer Motion - Gestures](https://motion.dev/docs/react-gestures) - Documentation on Framer Motion's gesture system including pan, drag, hover, and tap gestures.
+- [Playwright - Mouse API](https://playwright.dev/docs/api/class-mouse) - API reference for simulating mouse events in Playwright tests.
 
 ## Author
 
