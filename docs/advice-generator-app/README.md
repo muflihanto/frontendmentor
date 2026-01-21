@@ -10,6 +10,10 @@ This is a solution to the [Advice generator app challenge on Frontend Mentor](ht
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Force Loading State in Playwright Tests](#force-loading-state-in-playwright-tests)
+      - [Dynamic Viewport Testing](#dynamic-viewport-testing)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -67,14 +71,40 @@ await expect(spinner).toBeVisible();
 
 This technique is useful for verifying that loading states are properly displayed and accessible without relying on timing-based assertions.
 
+#### Dynamic Viewport Testing
+
+To test responsive behavior within a single test case, `page.setViewportSize` can be used to change the browser's viewport dynamically. This is particularly useful when you need to verify that elements (like images using `srcset` or `<picture>`) respond correctly to size changes without restarting the browser context.
+
+```js
+test("displays correct divider image based on viewport", async ({ page }) => {
+  // Set mobile view
+  await page.setViewportSize({ width: 375, height: 667 });
+  const mobileDivider = page.getByAltText("Line Divider");
+  // ... assertions for mobile ...
+
+  // Switch to desktop view
+  await page.setViewportSize({ width: 1440, height: 800 });
+  // Small delay might be needed for layout/image source re-calculation
+  await page.waitForTimeout(300);
+
+  // ... assertions for desktop ...
+});
+```
+
+**Comparison: `page.setViewportSize` vs `test.use({ viewport })`**
+
+- **`page.setViewportSize`**: Changes the viewport **dynamically** during test execution. It is ideal for testing transitions and responsiveness within a single flow.
+- **`test.use({ viewport: { ... } })`**: Sets a **static** viewport for all tests in a file or block. It is a configuration setting that applies when the browser context is created. If you only need to test a specific view (e.g., "only mobile" or "only desktop"), `test.use` is the preferred, more declarative approach.
+
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Playwright Documentation - `page.setViewportSize()`](https://playwright.dev/docs/api/class-page#page-set-viewport-size) - Official API reference for dynamically changing the viewport size.
+- [Playwright Documentation - `test.use({ viewport })`](https://playwright.dev/docs/test-use-options#browser-and-context-options) - Official guide on how to configure the viewport for all tests in a file or block.
+- [Playwright Documentation - Emulation](https://playwright.dev/docs/emulation) - Comprehensive guide on emulating mobile devices, including viewports and touch.
 
 ## Author
 
