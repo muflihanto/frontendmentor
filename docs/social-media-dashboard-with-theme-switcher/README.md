@@ -11,6 +11,8 @@ This is a solution to the [Social media dashboard with theme switcher challenge 
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Accessible Theme Switcher](#accessible-theme-switcher)
+      - [System Color Scheme Testing (Playwright)](#system-color-scheme-testing-playwright)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -54,6 +56,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Accessible Theme Switcher
+
 In this project, I learned how to implement an accessible theme switcher using the ARIA `switch` role. Using a `button` with `role="switch"` and `aria-checked` is a more semantic way to represent a toggle that takes immediate effect compared to a standard checkbox.
 
 ```tsx
@@ -76,6 +80,35 @@ In this project, I learned how to implement an accessible theme switcher using t
 </div>
 ```
 
+#### System Color Scheme Testing (Playwright)
+
+To test how the application responds to system-level color scheme preferences (e.g., "dark mode" or "light mode" set at the OS/browser level), `page.emulateMedia` can be used within a test case.
+
+```ts
+test("theme respects system preference", async ({ page }) => {
+  const button = page.getByRole("switch", { name: "Dark Mode" });
+
+  // Set system preference to dark
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.reload();
+
+  // Should automatically switch to dark mode
+  await expect(button).toHaveAttribute("aria-checked", "true");
+
+  // Set system preference back to light
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.reload();
+
+  // Should automatically switch to light mode
+  await expect(button).toHaveAttribute("aria-checked", "false");
+});
+```
+
+**Comparison: `page.emulateMedia({ colorScheme })` vs `test.use({ colorScheme })`**
+
+- **`page.emulateMedia({ colorScheme })`**: Changes the color scheme **dynamically** during test execution. This is perfect for verifying that the app correctly listens and reacts to system preference changes without needing to restart the browser context.
+- **`test.use({ colorScheme: '...' })`**: Sets a **static** color scheme for all tests in a block or file. It is a configuration-level setting that emulates the preference when the browser context is initially created. Use this when you want to run a suite of tests specifically in light or dark mode.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -83,6 +116,9 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [W3C ARIA Authoring Practices Guide - Switch Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/examples/switch-button/) - This resource provided a clear example of how to implement an accessible switch button, which I used for the theme toggle.
+- [Playwright Documentation - `page.emulateMedia()`](https://playwright.dev/docs/api/class-page#page-emulate-media) - Official API reference for emulating media features like color scheme.
+- [Playwright Documentation - `test.use({ colorScheme })`](https://playwright.dev/docs/test-use-options#browser-and-context-options) - Official guide on configuring the color scheme at the test or file level.
+- [Playwright Documentation - Emulation](https://playwright.dev/docs/emulation) - Comprehensive guide on emulating various browser and system states.
 
 ## Author
 
