@@ -11,6 +11,9 @@ This is a solution to the [Fylo data storage component challenge on Frontend Men
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [CSS custom properties with Tailwind CSS](#css-custom-properties-with-tailwind-css)
+      - [Floating-point assertions in Playwright](#floating-point-assertions-in-playwright)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -51,6 +54,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### CSS custom properties with Tailwind CSS
+
 This project marks my first usage of CSS custom properties (variables) combined with Tailwind CSS arbitrary value syntax. This approach is particularly useful for dynamic styles that are difficult to express with standard Tailwind classes alone, such as a progress bar width calculated from state.
 
 ```tsx
@@ -60,7 +65,7 @@ This project marks my first usage of CSS custom properties (variables) combined 
       "--bar-length": `${(storage.remaining / storage.maximum) * 100}%`,
     } as CSSProperties
   }
-  className="flex h-full w-[--bar-length] items-center justify-end rounded-full bg-gradient-to-r from-fylo-storage-primary-gradient-100 to-fylo-storage-primary-gradient-200 p-[2px]"
+  className="from-fylo-storage-primary-gradient-100 to-fylo-storage-primary-gradient-200 flex h-full w-[--bar-length] items-center justify-end rounded-full bg-gradient-to-r p-[2px]"
 >
   <div className="aspect-square h-full rounded-full bg-white" />
 </div>
@@ -68,14 +73,25 @@ This project marks my first usage of CSS custom properties (variables) combined 
 
 By using `as CSSProperties`, I can define custom properties in the `style` attribute that are then accessible within Tailwind's arbitrary value brackets `[...]`.
 
+#### Floating-point assertions in Playwright
+
+Used the `toBeCloseTo` assertion to verify floating-point calculations with tolerance:
+
+```ts
+// tests/fylo-data-storage-component.spec.ts
+expect(fillWidth).toBeCloseTo(81.5, -0.5);
+```
+
+The `toBeCloseTo` matcher uses the formula `|expected - actual| < (10 ** -precision) / 2`. By passing `-0.5` as the precision (numDigits), the tolerance becomes `(10 ** 0.5) / 2 = √10 / 2 ≈ 1.58`. This allows the test to pass even if subtle layout factors like padding or sub-pixel rendering cause the calculated width to deviate slightly from the theoretical 81.5%.
+
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Playwright - toBeCloseTo Documentation](https://playwright.dev/docs/api/class-genericassertions#generic-assertions-to-be-close-to) - Official documentation for the `toBeCloseTo` assertion.
+- [Jest - toBeCloseTo Documentation](https://jestjs.io/docs/expect#tobeclosetoexpect-numdigits) - `toBeCloseTo` behavior, which Playwright follows.
 
 ## Author
 
