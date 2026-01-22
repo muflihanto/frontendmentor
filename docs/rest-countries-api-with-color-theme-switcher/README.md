@@ -14,6 +14,8 @@ This is a solution to the [REST Countries API with color theme switcher challeng
       - [Using match-sorter for Flexible Filtering](#using-match-sorter-for-flexible-filtering)
       - [Using TanStack Query for Data Fetching](#using-tanstack-query-for-data-fetching)
       - [Implementing Debounced Input](#implementing-debounced-input)
+      - [Styling Component States with group-data](#styling-component-states-with-group-data)
+      - [Testing with Playwright](#testing-with-playwright)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -195,6 +197,41 @@ In the `RegionFilter` component, I used this to rotate the chevron icon when the
 - `group-data-[headlessui-state=open]`: This variant tells Tailwind to apply the `rotate-180` class to the icon only when the parent `group` has the attribute `data-headlessui-state="open"`.
 - `transition-transform`: Ensures a smooth rotation effect.
 
+#### Testing with Playwright
+
+[Playwright](https://playwright.dev/) is used for end-to-end testing in this project. The `page.waitForURL` method is essential for handling navigation between pages in a client-side rendered application.
+
+**1. Using waitForURL for Navigation Verification**
+
+The `waitForURL` method waits for the page URL to match a specific pattern before proceeding with assertions. This is crucial when testing client-side navigation (SPA) where the page doesn't do a full reload:
+
+```tsx
+// Wait for navigation to Indonesia detail page
+await page.getByRole("link", { name: "Indonesia" }).click();
+await page.waitForURL("**/indonesia");
+await expect(page.getByRole("heading", { name: "Indonesia" })).toBeVisible();
+```
+
+**2. URL Pattern Matching**
+
+Playwright supports glob patterns for matching URLs:
+
+- `**/indonesia` - Matches any URL containing "/indonesia"
+- `**${pageUrl}` - Matches the base page URL
+- `**/malaysia` - Matches any URL containing "/malaysia"
+
+```tsx
+// Navigate back to countries list
+await back.click();
+await page.waitForURL(`**${pageUrl}`);
+const countries = await page.getByRole("list").getByRole("link").all();
+expect(countries).toHaveLength(data.length);
+```
+
+**3. Best Practices**
+
+Using `waitForURL` ensures tests are resilient to timing issues by waiting for the URL to update before making assertions. This is especially important in SPAs where content changes without full page reloads.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -202,6 +239,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [match-sorter](https://github.com/kentcdodds/match-sorter) - Official documentation for the match-sorter library. Contains detailed API reference for all options including keys, threshold rankings, and advanced configuration.
+- [Playwright - waitForURL](https://playwright.dev/docs/api/class-page#page-wait-for-url) - Official documentation for the waitForURL method used for handling navigation in end-to-end tests.
 - [Tailwind CSS - Data Attributes](https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes) - Documentation on how to style elements based on data attributes.
 - [Headless UI - Listbox Styling](https://headlessui.com/react/listbox#styling-with-data-attributes) - How Headless UI uses data attributes to expose component state for styling.
 
