@@ -89,7 +89,8 @@
       "glob@>=10.2.0 <10.5.0": "10.5.0",
       "@remix-run/router": "1.23.2",
       "@remix-run/node": "2.17.2",
-      "@remix-run/server-runtime": "2.17.3"
+      "@remix-run/server-runtime": "2.17.3",
+      "undici": "6.23.0"
     },
     "onlyBuiltDependencies": [
       "@fortawesome/fontawesome-common-types",
