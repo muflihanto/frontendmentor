@@ -17,6 +17,7 @@ This is a solution to the [Space tourism website challenge on Frontend Mentor](h
         - [3. `useModalOverlay` - Modal Accessibility](#3-usemodaloverlay---modal-accessibility)
         - [4. `useDialog` - Dialog Accessibility](#4-usedialog---dialog-accessibility)
         - [Key Takeaways](#key-takeaways)
+      - [Type-safe Routing with `as const`](#type-safe-routing-with-as-const)
       - [Client-side Rendering with `next/dynamic`](#client-side-rendering-with-nextdynamic)
     - [Useful resources](#useful-resources)
   - [Author](#author)
@@ -167,6 +168,21 @@ function Dialog({ children, ...props }: DialogProps) {
 - **Prop Spreading**: Each hook returns props objects that should be spread onto the appropriate DOM elements.
 - **Ref Management**: Most hooks require a ref to the DOM element for proper focus management.
 - **Composable Patterns**: These hooks can be combined to create complex accessible UI patterns like this mobile navigation menu.
+
+#### Type-safe Routing with `as const`
+
+In the `Layout` component, I used a TypeScript `as const` assertion to define a fixed set of page names. This technique allows for better type safety when managing navigation and page-specific logic.
+
+```tsx
+export const pages = ["home", "destination", "crew", "technology"] as const;
+export type Page = (typeof pages)[number];
+```
+
+**Key benefits:**
+
+- **Literal Types**: `as const` prevents TypeScript from widening the array elements to `string[]`. Instead, it treats `pages` as a read-only tuple of specific string literals: `readonly ["home", "destination", "crew", "technology"]`.
+- **Automatic Union Types**: By using `(typeof pages)[number]`, we can automatically derive a union type `Page` (i.e., `"home" | "destination" | "crew" | "technology"`).
+- **Maintenance**: Adding a new page to the `pages` array automatically updates the `Page` type throughout the application, ensuring consistency and reducing manual type updates.
 
 #### Client-side Rendering with `next/dynamic`
 
