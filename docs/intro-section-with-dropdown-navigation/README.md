@@ -11,6 +11,9 @@ This is a solution to the [Intro section with dropdown navigation challenge on F
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Preventing background scroll](#preventing-background-scroll)
+      - [Accessible SVGs](#accessible-svgs)
+      - [TypeScript types in React](#typescript-types-in-react)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -53,6 +56,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Preventing background scroll
+
 To prevent background scrolling when the mobile menu is open, I used a `useEffect` hook to toggle the `overflow` property of the `body` element.
 
 ```js
@@ -64,6 +69,8 @@ useEffect(() => {
   }
 }, [isMenuOpen]);
 ```
+
+#### Accessible SVGs
 
 I used `role="graphics-symbol"` for SVG icons to improve accessibility for screen readers. This role specifically identifies a graphic as a single functional or decorative symbol (like an icon) rather than a complex image or document.
 
@@ -78,6 +85,10 @@ I used `role="graphics-symbol"` for SVG icons to improve accessibility for scree
 </svg>
 ```
 
+#### TypeScript types in React
+
+I learned the difference between `JSX.Element`, `React.ReactElement`, and `React.ReactNode` when working with TypeScript in React. `JSX.Element` and `React.ReactElement` are used for the result of a JSX expression, while `React.ReactNode` is more comprehensive, covering everything React can render (including strings, numbers, and fragments). For typing `children` props, `React.ReactNode` is the preferred choice.
+
 <!--### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -86,6 +97,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [MDN - overflow](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow) - This helped me understand how to control scrolling behavior.
 - [University of Melbourne - Accessible SVGs](https://www.unimelb.edu.au/accessibility/techniques/accessible-svgs) - A great resource for implementing accessible SVGs, specifically explaining the use of `role="graphics-symbol"` for icons.
+- [Total TypeScript - JSX.Element vs React.ReactNode](https://www.totaltypescript.com/jsx-element-vs-react-reactnode) - A clear explanation of the differences between React's TypeScript types.
 
 ## Author
 
