@@ -16,6 +16,7 @@ This is a solution to the [REST Countries API with color theme switcher challeng
       - [Implementing Debounced Input](#implementing-debounced-input)
       - [Styling Component States with group-data](#styling-component-states-with-group-data)
       - [Testing with Playwright](#testing-with-playwright)
+      - [Next.js Dynamic Routing](#nextjs-dynamic-routing)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -232,7 +233,39 @@ expect(countries).toHaveLength(data.length);
 
 Using `waitForURL` ensures tests are resilient to timing issues by waiting for the URL to update before making assertions. This is especially important in SPAs where content changes without full page reloads.
 
+#### Next.js Dynamic Routing
+
+This project uses Next.js dynamic routes to create detail pages for each country. The file `pages/rest-countries-api-with-color-theme-switcher/[country].tsx` captures the country name from the URL.
+
+**1. Accessing Route Parameters**
+
+The `useRouter` hook from `next/router` is used to access the `country` parameter:
+
+```tsx
+const router = useRouter();
+const countryName = router.query.country as string;
+```
+
+**2. Handling URL Formatting**
+
+To ensure clean URLs, spaces in country names are replaced with underscores in links and converted back when fetching data:
+
+```tsx
+// Link generation
+href={`/rest-countries-api-with-color-theme-switcher/${countryName.toLowerCase().split(" ").join("_")}`}
+
+// Data fetching
+const { data } = useCountry(
+  router.query.country !== undefined
+    ? (router.query.country as string).split("_").join(" ")
+    : ""
+);
+```
+
+This approach allows for readable, SEO-friendly URLs while maintaining compatibility with the API's expected search format.
+
 <!-- ### Continued development
+
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
@@ -242,6 +275,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 - [Playwright - waitForURL](https://playwright.dev/docs/api/class-page#page-wait-for-url) - Official documentation for the waitForURL method used for handling navigation in end-to-end tests.
 - [Tailwind CSS - Data Attributes](https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes) - Documentation on how to style elements based on data attributes.
 - [Headless UI - Listbox Styling](https://headlessui.com/react/listbox#styling-with-data-attributes) - How Headless UI uses data attributes to expose component state for styling.
+- [Next.js Dynamic Routes (v14.2.35)](https://nextjs.org/docs/14/pages/building-your-application/routing/dynamic-routes) - Official documentation for implementing dynamic routes in Next.js.
 
 ## Author
 
