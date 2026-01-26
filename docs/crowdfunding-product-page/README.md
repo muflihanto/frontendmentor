@@ -13,6 +13,7 @@ This is a solution to the [Crowdfunding product page challenge on Frontend Mento
     - [What I learned](#what-i-learned)
       - [Focus Trapping](#focus-trapping)
       - [Navigation Menu Accessibility](#navigation-menu-accessibility)
+      - [Progress Bar Accessibility](#progress-bar-accessibility)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -156,6 +157,25 @@ Implementing a mobile navigation menu requires careful attention to ARIA roles a
 </nav>
 ```
 
+#### Progress Bar Accessibility
+
+To ensure the crowdfunding progress is accessible to screen reader users, I implemented the ARIA `progressbar` role. This involves providing the current, minimum, and maximum values, and linking the component to a descriptive label using `aria-labelledby`.
+
+```tsx
+<div id="progress-label" className="sr-only">
+  {`Crowdfunding progress: ${props.value} of ${props.target}`}
+</div>
+<div
+  role="progressbar"
+  aria-valuenow={Number(props.value)}
+  aria-valuemin={0}
+  aria-valuemax={Number(props.target)}
+  aria-labelledby="progress-label"
+>
+  {/* progress indicator */}
+</div>
+```
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -164,6 +184,8 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [Achieving Focus Trapping in a React Modal Component](https://medium.com/cstech/achieving-focus-trapping-in-a-react-modal-component-3f28f596f35b) - This article was a great reference for understanding how to manually implement focus trapping without external libraries.
 - [W3C - Menu Button Navigation Links Example](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/examples/menu-button-links/) - This example provided a clear guide on implementing an accessible menu button that opens a list of navigation links, which was instrumental in structuring the header navigation.
+- [W3C - Progress Bar Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/progressbar/) - The definitive guide for implementing accessible progress bars, detailing necessary roles and attributes.
+- [MDN - ARIA: progressbar role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/progressbar_role) - A comprehensive reference for the progressbar role, including browser compatibility and examples.
 
 ## Author
 
