@@ -11,6 +11,8 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Portals and Transitions](#portals-and-transitions)
+      - [Next.js and Client-Side Portals](#nextjs-and-client-side-portals)
       - [Decorative SVGs and Accessibility](#decorative-svgs-and-accessibility)
     - [Useful resources](#useful-resources)
   - [Author](#author)
@@ -60,6 +62,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Portals and Transitions
+
 In this project, I combined React's `createPortal` with Headless UI's `Transition` to create a robust cart popup. Using `createPortal` ensures the popup is rendered at the end of `document.body`, avoiding common layout issues like `z-index` conflicts or `overflow: hidden` clipping from parent containers.
 
 ```tsx
@@ -73,7 +77,7 @@ In this project, I combined React's `createPortal` with Headless UI's `Transitio
 }
 ```
 
-In the `CartPopup` component, I used `Transition.Child` to coordinate the enter/leave animations:
+Inside the `CartPopup`, I used `Transition.Child` to coordinate granular enter/leave animations for the content:
 
 ```tsx
 function CartPopup() {
@@ -93,16 +97,26 @@ function CartPopup() {
 }
 ```
 
-Key benefits:
+#### Next.js and Client-Side Portals
 
-- **`createPortal`**: Decouples the UI component from its DOM position, perfect for floating elements like the cart.
-- **Nested Transitions**: `Transition.Child` within a `createPortal`ed `Transition` allows for granular control over the popup's appearance.
+Using `createPortal` with `document.body` in Next.js requires caution because `document` is not available during Server-Side Rendering (SSR). Rendering a portal on the server would lead to hydration mismatches or "Document is not defined" errors.
+
+To solve this, I used **Client-Side Rendering (CSR)** for components that implement portals (like `CartController`, `MobileMenu`, and `Lightbox`) using `next/dynamic` with the `ssr: false` option:
+
+```tsx
+import dynamic from "next/dynamic";
+
+const CartController = dynamic(
+  import("../components/ecommerce-product-page/CartController"),
+  { ssr: false },
+);
+```
 
 #### Decorative SVGs and Accessibility
 
 I improved the accessibility of the "Add to cart" button by changing the SVG role from `graphics-symbol` to `none`.
 
-The `svg-img-alt` rule requires that SVGs with semantic roles (like `img` or `graphics-symbol`) have an accessible text alternative. In this case, the cart icon is decorative because the "Add to cart" text immediately follows it, providing sufficient context. By using `role="none"`, I removed the SVG from the accessibility tree, satisfying the requirement without adding redundant labels.
+The `svg-img-alt` rule requires SVGs with semantic roles to have text alternatives. However, since the "Add to cart" text immediately follows the icon, the SVG is purely decorative. By using `role="none"`, I removed it from the accessibility tree to avoid redundant announcements.
 
 ```tsx
 <button ...>
@@ -120,6 +134,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [React createPortal Documentation](https://react.dev/reference/react-dom/createPortal) - Learn how to render children into a different part of the DOM.
+- [Next.js dynamic import (v14.2.35)](https://nextjs.org/docs/14/pages/building-your-application/optimizing/lazy-loading#nextdynamic) - Documentation for `next/dynamic` and the `ssr: false` option.
 - [Headless UI Transition Documentation (v1)](https://headlessui.com/v1/react/transition) - Guide on using the `Transition` component for enter/leave animations.
 - [Axe Rules: svg-img-alt](https://dequeuniversity.com/rules/axe/4.10/svg-img-alt) - Documentation on why SVGs with semantic roles need alternative text and how to handle decorative icons.
 
