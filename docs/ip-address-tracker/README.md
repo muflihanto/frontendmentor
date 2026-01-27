@@ -16,6 +16,7 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
       - [Converting Timezone Identifiers to UTC Offset](#converting-timezone-identifiers-to-utc-offset)
       - [Jotai's `useHydrateAtoms` for SSR Hydration](#jotais-usehydrateatoms-for-ssr-hydration)
       - [Discriminated Unions for API Responses](#discriminated-unions-for-api-responses)
+      - [Client-side Rendering for Leaflet Map with `next/dynamic`](#client-side-rendering-for-leaflet-map-with-nextdynamic)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -241,6 +242,22 @@ export type IpInfoResponse =
 ```
 
 By defining the response this way, TypeScript can automatically narrow the type when I check for the presence of the `bogon` property, ensuring I only access fields that actually exist on the returned object.
+
+#### Client-side Rendering for Leaflet Map with `next/dynamic`
+
+The `GeoMap` component uses `react-leaflet`, which depends on the `leaflet` library. Leaflet requires access to browser-only globals like `window` and `document` to initialize and manipulate the map DOM.
+
+When Next.js attempts to render this component on the server (SSR), it throws a `ReferenceError: window is not defined` because these globals don't exist in the Node.js environment.
+
+To resolve this, I used `next/dynamic` with the `ssr: false` option to ensure the component is only imported and rendered on the client side:
+
+```typescript
+const GeoMap = dynamic(() => import("../components/ip-address-tracker/Map"), {
+  ssr: false,
+});
+```
+
+This ensures that Leaflet only runs in the browser environment where the necessary DOM APIs are available.
 
 <!-- ### Continued development
 
