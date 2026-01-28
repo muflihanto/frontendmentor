@@ -10,6 +10,11 @@ This is a solution to the [Multi-step form challenge on Frontend Mentor](https:/
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [URL Query Tracking](#url-query-tracking)
+        - [Query Parameters](#query-parameters)
+        - [Navigation \& Validation](#navigation--validation)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -59,31 +64,28 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Jotai](https://jotai.org/) - React state management
 - [React Hook Form](https://react-hook-form.com/) - React forms build tool
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### URL Query Tracking
 
-To see how you can add code snippets, see below:
+The form's progress is tracked using URL query parameters, providing browser history support and allowing users to navigate between steps using the back/forward buttons.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
+##### Query Parameters
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+- **`step`**: (1 | 2 | 3 | 4) Determines the currently active form step.
+- **`completed`**: (1) When set to `1` on step 4, the "Thank You" confirmation screen is displayed instead of the summary.
 
-### Continued development
+##### Navigation & Validation
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+The application uses a combination of URL queries and Jotai state (`completedStep`) to ensure a linear flow:
+
+1. **Initial Load**: If no `step` is present, the user is redirected to `step=1`.
+2. **Step Protection**: A validation hook prevents users from manually skipping to future steps via the URL. If the requested `step` is greater than the `completedStep` stored in state, the user is redirected back to their last valid step.
+3. **Step Indicators**: The sidebar navigation links are dynamically enabled or disabled based on the user's progress.
+
+<!-- ### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
