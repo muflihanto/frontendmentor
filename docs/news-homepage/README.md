@@ -11,6 +11,8 @@ This is a solution to the [News homepage challenge on Frontend Mentor](https://w
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Accessibility with Screen Reader Only Text](#accessibility-with-screen-reader-only-text)
+      - [React Fragment with Key](#react-fragment-with-key)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -56,6 +58,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Accessibility with Screen Reader Only Text
+
 To enhance accessibility, I used the `sr-only` utility class from Tailwind CSS. This class allows providing descriptive text for screen readers while keeping it visually hidden from sighted users. In this project, I used it to provide a heading for the "Popular posts" section, which visually doesn't have a title in the design, but is crucial for semantic layout and navigation.
 
 ```tsx
@@ -67,7 +71,25 @@ To enhance accessibility, I used the `sr-only` utility class from Tailwind CSS. 
 </section>
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+#### React Fragment with Key
+
+When mapping over an array and needing to return multiple sibling elements without adding an extra wrapper node to the DOM, I used the `<Fragment>` component with a `key` prop. The short syntax `<>...</>` doesn't support keys, so the full component name is required here. In this case, it allowed me to render both a post item and its separator.
+
+```tsx
+{
+  newPosts.map(({ body, title, href }, index) => (
+    <Fragment key={title}>
+      <li className="flex flex-col justify-center">{/* post content */}</li>
+      {index !== newPosts.length - 1 && (
+        <li
+          aria-hidden="true"
+          className="border-t-news-homepage-neutral-300 border-t"
+        />
+      )}
+    </Fragment>
+  ));
+}
+```
 
 <!-- ### Continued development
 
