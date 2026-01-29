@@ -14,6 +14,7 @@ This is a solution to the [Manage landing page challenge on Frontend Mentor](htt
       - [CSS Scroll Snap](#css-scroll-snap)
       - [Click-and-Drag Pan Gesture](#click-and-drag-pan-gesture)
       - [Simulating Swipe in Playwright](#simulating-swipe-in-playwright)
+      - [Tailwind Class Merging Utility (`cn`)](#tailwind-class-merging-utility-cn)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -172,18 +173,48 @@ test("should swipe between testimonials", async ({ page }) => {
 });
 ```
 
-**Workflow for simulation:**
+#### Tailwind Class Merging Utility (`cn`)
 
-- **Bounding Box**: Obtain the element's position using `boundingBox()` to calculate precise start and end coordinates.
-- **`mouse.move`**: Position the virtual cursor at the starting point.
-- **`mouse.down`**: Initiate the drag/press.
-- **`mouse.move` (again)**: Perform the actual movement while the "button" is held.
-- **`mouse.up`**: Release the drag to finish the gesture.
-- **`evaluate`**: Use `page.evaluate` to inspect DOM properties (like `scrollLeft`) that aren't directly exposed as Playwright assertions.
+I implemented a `cn` utility to cleanly manage Tailwind CSS classes. This utility combines `clsx` for conditional class logic and `tailwind-merge` to ensure that class overrides (especially from component props) work correctly without conflicts.
 
-<!-- ### Continued development
+Utility definition in `utils/cn.ts`:
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
+```typescript
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+Its first usage in `pages/manage-landing-page.tsx` is within the `Logo` component, where it handles conditional coloring based on the `variant` prop while allowing external style overrides via `className`:
+
+```tsx
+function Logo({
+  variant,
+  className,
+  ...props
+}: { variant: "header" | "footer" } & SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      className={cn(
+        `${
+          variant === "header" ? "text-[#242D52]" : "text-manage-neutral-100"
+        }`,
+        className,
+      )}
+      viewBox="0 0 146 24"
+      {...props}
+    >
+      <title>Logo</title>
+      <use href="/manage-landing-page/images/logo.svg#manage-logo" />
+    </svg>
+  );
+}
+```
+
+This pattern is used throughout the project to keep component styling flexible and maintainable, particularly in the `GetStarted` button and `Testimonial` cards.
 
 ### Useful resources
 
