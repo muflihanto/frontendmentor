@@ -11,6 +11,8 @@ This is a solution to the [Notifications page challenge on Frontend Mentor](http
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [E2E Testing with Playwright](#e2e-testing-with-playwright)
+      - [Local Font Optimization with `next/font/local`](#local-font-optimization-with-nextfontlocal)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -56,6 +58,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### E2E Testing with Playwright
+
 This project marks the first time I used [Playwright](https://playwright.dev/) for end-to-end testing. I learned how to set up and run E2E tests for a React/Next.js application, which significantly improved my confidence in the codebase.
 
 Key takeaways:
@@ -75,12 +79,31 @@ test('"mark all as read" button works', async ({ page }) => {
 });
 ```
 
+#### Local Font Optimization with `next/font/local`
+
+I implemented `next/font/local` to optimize the loading of the "Plus Jakarta Sans" font. This approach allows Next.js to automatically optimize the font file, provide zero layout shift through CSS variables, and ensure the font is self-hosted with the application.
+
+Implementation in `pages/notifications-page.tsx`:
+
+```tsx
+const _plusJakartaSans = localFont({
+  src: "../public/notifications-page/assets/fonts/PlusJakartaSans-VariableFont_wght.ttf",
+  variable: "--font-plus-jakarta",
+});
+
+// Combining the variable and the Tailwind class
+const plusJakartaSans = `${_plusJakartaSans.variable} font-plus-jakarta`;
+```
+
+This variable is mapped in `tailwind.config.ts` to enable the `font-plus-jakarta` utility class, providing a seamless bridge between Next.js font optimization and Tailwind's styling system.
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
+- [Next.js Font Optimization Documentation](https://nextjs.org/docs/14/pages/building-your-application/optimizing/fonts#local-fonts) - Comprehensive guide on using `next/font/local` for self-hosted fonts.
 - [Playwright Documentation](https://playwright.dev/docs/intro) - The official documentation is excellent for learning E2E testing from scratch.
 
 ## Author
