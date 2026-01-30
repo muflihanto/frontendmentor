@@ -15,6 +15,7 @@ This is a solution to the [Manage landing page challenge on Frontend Mentor](htt
       - [Click-and-Drag Pan Gesture](#click-and-drag-pan-gesture)
       - [Simulating Swipe in Playwright](#simulating-swipe-in-playwright)
       - [Tailwind Class Merging Utility (`cn`)](#tailwind-class-merging-utility-cn)
+      - [Custom Scrollbar-Hidden Utility (`addUtilities`)](#custom-scrollbar-hidden-utility-addutilities)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -216,10 +217,55 @@ function Logo({
 
 This pattern is used throughout the project to keep component styling flexible and maintainable, particularly in the `GetStarted` button and `Testimonial` cards.
 
+#### Custom Scrollbar-Hidden Utility (`addUtilities`)
+
+I used Tailwind's `addUtilities` API to create a custom `.scrollbar-hidden` utility that hides scrollbars while maintaining scroll functionality. This is particularly useful for the testimonial carousel where native scrollbars would detract from the visual design.
+
+The `addUtilities` function, as documented in the official Tailwind CSS plugins guide, is used to register new static utility styles. Plugin functions receive a single object argument containing helper functions including `addUtilities()`, which is used for registering new static utility styles that don't support user-provided values. Like with the utilities Tailwind includes by default, utilities added by a plugin will only be included in the generated CSS if they are actually being used in the project, making the CSS bundle efficient by default.
+
+Custom utility definition in `tailwind.config.ts`:
+
+```typescript
+addUtilities({
+  ".scrollbar-hidden": {
+    "-ms-overflow-style": "none",
+    "scrollbar-width": "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  },
+});
+```
+
+**Browser compatibility notes:**
+
+- `scrollbar-width: none` - Firefox
+- `::-webkit-scrollbar` - Chrome, Safari, Edge
+- `-ms-overflow-style: none` - Internet Explorer and Edge Legacy
+
+Usage in `pages/manage-landing-page.tsx`:
+
+```tsx
+<motion.div
+  className={cn([
+    "scrollbar-hidden flex w-full items-center gap-8 overflow-x-auto overflow-y-visible pb-6 pt-10 sm:px-[var(--padding-inline)] sm:pb-0",
+    // ... other classes
+  ])}
+  ref={carouselRef}
+>
+  {testimonials.map((testi) => (
+    <Testimonial testimony={testi} key={testi.name} />
+  ))}
+</motion.div>
+```
+
+This utility is applied to the testimonial carousel container to provide a clean, scrollable interface without visible scrollbars, enhancing the user experience on both desktop and mobile devices.
+
 ### Useful resources
 
 - [Tailwind CSS - Scroll Snap Type](https://tailwindcss.com/docs/scroll-snap-type) - Utilities for controlling how strictly snap points are enforced in a scroll container.
 - [Tailwind CSS - Scroll Snap Align](https://tailwindcss.com/docs/scroll-snap-align) - Utilities for controlling the scroll snap alignment of an element.
+- [Tailwind CSS - Plugins](https://v3.tailwindcss.com/docs/plugins) - Official documentation for the plugin system, including `addUtilities`, `addComponents`, and `addVariant` APIs.
 - [MDN - CSS Scroll Snap](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap) - Comprehensive guide on how scroll snap works in CSS.
 - [Framer Motion - Gestures](https://motion.dev/docs/react-gestures) - Documentation on Framer Motion's gesture system including pan, drag, hover, and tap gestures.
 - [Playwright - Mouse API](https://playwright.dev/docs/api/class-mouse) - API reference for simulating mouse events in Playwright tests.
