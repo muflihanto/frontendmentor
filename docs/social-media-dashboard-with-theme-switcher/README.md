@@ -11,6 +11,7 @@ This is a solution to the [Social media dashboard with theme switcher challenge 
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Tailwind CSS Dark Mode Configuration](#tailwind-css-dark-mode-configuration)
       - [Accessible Theme Switcher](#accessible-theme-switcher)
       - [System Color Scheme Testing (Playwright)](#system-color-scheme-testing-playwright)
     - [Useful resources](#useful-resources)
@@ -55,6 +56,43 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 
 ### What I learned
+
+#### Tailwind CSS Dark Mode Configuration
+
+This project uses Tailwind CSS's `darkMode: "class"` strategy (configured in `tailwind.config.ts:1169`). This setting tells Tailwind to apply dark mode styles only when a parent element has the `.dark` class, rather than relying on the system's color scheme preference.
+
+```ts
+// tailwind.config.ts
+export default {
+  // ... other config
+  darkMode: "class",
+} satisfies Config;
+```
+
+This configuration works in conjunction with the React context theme switcher. When the theme is toggled, the `dark` class is added or removed from `document.documentElement` (the `<html>` tag), which triggers Tailwind to apply all `dark:` prefixed utility classes throughout the application.
+
+```tsx
+// From pages/social-media-dashboard-with-theme-switcher.tsx:104-115
+useEffect(() => {
+  if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    if (theme === "light") setTheme("dark");
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+}, [theme]);
+```
+
+The combination of `darkMode: "class"` and manual class manipulation via React context provides:
+
+- **Explicit control** over when dark mode is applied
+- **Persistence** of user preference via localStorage
+- **Respect for system preference** when no user preference is set
+- **Immediate visual feedback** without page reload
 
 #### Accessible Theme Switcher
 
