@@ -80,6 +80,14 @@
     "name-href": "https://www.frontendmentor.io/challenges/bookmark-landing-page-5d0b588a9edda32581d29158"
   },
   {
+    "description": "This project will be a fun way to practice working with dynamic data, filtering data, color theming, building a responsive grid, and more!",
+    "path": "browser-extensions-manager-ui",
+    "name": "Browser extensions manager UI",
+    "preview-src": "/index/previews/rdasumeaufbhpmdjowwj.webp",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/browser-extension-manager-ui-yNZnOfsMAp"
+  },
+  {
     "description": "This calculator app will be a great test of your CSS and JS skills especially. If you're wanting to practice using Grid, this challenge will be perfect for you!",
     "path": "calculator-app",
     "name": "Calculator app",
