@@ -2,9 +2,10 @@ import { matchSorter } from "match-sorter";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ThemeProvider, useTheme } from "next-themes";
 import type { ChangeEvent } from "react";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BsGithub } from "react-icons/bs";
 import { useIsClient } from "usehooks-ts";
 import pages from "../docs/data.json";
@@ -23,10 +24,50 @@ import pages from "../docs/data.json";
 //   pages,
 // }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 export function Home() {
+  const router = useRouter();
   const [input, setInput] = useState("");
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const searchQuery = router.query.search as string;
+    if (searchQuery) {
+      setInput(searchQuery);
+    }
+  }, [router.query.search]);
+
+  const updateUrlQuery = useCallback((value: string) => {
+    const query = value ? { search: value } : {};
+    void router.push(
+      {
+        pathname: router.pathname,
+        query: Object.keys(query).length > 0 ? query : {},
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [router]);
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+    const value = e.target.value;
+    setInput(value);
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      updateUrlQuery(value);
+    }, 500);
   };
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
+
   const filteredPages = useMemo(() => {
     if (!input) return pages;
     return matchSorter(pages, input, {
