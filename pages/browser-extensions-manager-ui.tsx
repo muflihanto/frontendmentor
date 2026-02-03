@@ -1,10 +1,15 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import Image from "next/image";
+// import { useEffect } from "react";
+import { cn } from "../utils/cn";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function BrowserExtensionsManagerUi() {
+  // useEffect(() => {
+  //   document.documentElement.classList.add("dark");
+  // }, []);
+
   return (
     <>
       <Head>
@@ -15,6 +20,7 @@ export default function BrowserExtensionsManagerUi() {
         <Footer />
         <Slider
           basePath="/browser-extensions-manager-ui/design"
+          // absolutePath="/browser-extensions-manager-ui/design/mobile-design-dark.jpg"
           absolutePath="/browser-extensions-manager-ui/design/mobile-design-light.jpg"
         />
       </div>
@@ -24,22 +30,25 @@ export default function BrowserExtensionsManagerUi() {
 
 function Main() {
   return (
-    <main className="min-h-[2866px] bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 py-5">
-      <header className="flex items-center justify-between rounded-lg border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow">
-        <div className="relative aspect-[179/41] h-[41px]">
-          <Image
-            src="/browser-extensions-manager-ui/assets/images/logo.svg"
-            fill
-            className="object-contain"
-            alt="Extension"
-            aria-hidden="true"
-          />
-        </div>
+    <main className="min-h-[2866px] bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 py-5 dark:from-browser-extensions-gradient-dark-0 dark:to-browser-extensions-gradient-dark-100 dark:py-6">
+      <header className="flex items-center justify-between rounded-lg border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow dark:border-browser-extensions-neutral-800 dark:bg-browser-extensions-neutral-800">
+        <svg
+          viewBox="0 0 179 41"
+          className={cn(
+            "aspect-[179/41] h-[41px]",
+            "[--logo-shape:theme(colors.browser-extensions.red.700)] dark:[--logo-shape:theme(colors.browser-extensions.red.400)]",
+            "[--logo-text:theme(colors.browser-extensions.neutral.800)] dark:[--logo-text:theme(colors.white)]",
+          )}
+          role="graphics-symbol"
+          aria-hidden="true"
+        >
+          <use href="/browser-extensions-manager-ui/assets/images/logo.svg#logo" />
+        </svg>
         <button
           role="switch"
           aria-checked="false"
           type="button"
-          className="flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100"
+          className="flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 dark:bg-browser-extensions-neutral-700"
         >
           <svg
             viewBox="0 0 22 22"
@@ -47,6 +56,7 @@ function Main() {
             role="graphics-symbol"
             aria-hidden="true"
           >
+            {/* <use href="/browser-extensions-manager-ui/assets/images/icon-sun.svg#icon-sun" /> */}
             <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
           </svg>
         </button>
