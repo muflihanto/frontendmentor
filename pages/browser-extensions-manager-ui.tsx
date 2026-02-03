@@ -1,6 +1,6 @@
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -24,7 +24,33 @@ export default function BrowserExtensionsManagerUi() {
 
 function Main() {
   return (
-    <>
+    <main className="min-h-[2866px] bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 py-5">
+      <header className="flex items-center justify-between rounded-lg border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow">
+        <div className="relative aspect-[179/41] h-[41px]">
+          <Image
+            src="/browser-extensions-manager-ui/assets/images/logo.svg"
+            fill
+            className="object-contain"
+            alt="Extension"
+            aria-hidden="true"
+          />
+        </div>
+        <button
+          role="switch"
+          aria-checked="false"
+          type="button"
+          className="flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100"
+        >
+          <svg
+            viewBox="0 0 22 22"
+            className="w-[22px]"
+            role="graphics-symbol"
+            aria-hidden="true"
+          >
+            <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
+          </svg>
+        </button>
+      </header>
       {/* {`
         Extensions List
 
@@ -82,7 +108,7 @@ function Main() {
         Enhanced developer console with advanced filtering and logging.
         Remove
       `} */}
-    </>
+    </main>
   );
 }
 
