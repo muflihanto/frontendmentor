@@ -1,6 +1,8 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 // import { useEffect } from "react";
+import { useState } from "react";
+
 import { cn } from "../utils/cn";
 import { notoSans } from "../utils/fonts/notoSans";
 
@@ -31,7 +33,11 @@ export default function BrowserExtensionsManagerUi() {
   );
 }
 
+const tabs = ["All", "Active", "Inactive"] as const;
+
 function Main() {
+  const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>("All");
+
   return (
     <main className="min-h-[2866px] bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 py-5 dark:from-browser-extensions-gradient-dark-0 dark:to-browser-extensions-gradient-dark-100 dark:py-6">
       <header className="flex items-center justify-between rounded-lg border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow dark:border-browser-extensions-neutral-800 dark:bg-browser-extensions-neutral-800">
@@ -64,63 +70,41 @@ function Main() {
           </svg>
         </button>
       </header>
-      {/* {`
+      <h1
+        id="extensions"
+        className="mt-[31px] w-full text-center text-[34px] font-bold tracking-[-0.055rem] text-browser-extensions-neutral-900"
+      >
         Extensions List
-
-        All
-        Active
-        Inactive
-
-        <!-- If you plan to use the JSON file to populate the data dynamically, you can delete the content below -->
-
-        DevLens
-        Quickly inspect page layouts and visualize element boundaries.
-        Remove
-
-        StyleSpy
-        Instantly analyze and copy CSS from any webpage element.
-        Remove
-
-        SpeedBoost
-        Optimizes browser resource usage to accelerate page loading.
-        Remove
-
-        JSONWizard
-        Formats, validates, and prettifies JSON responses in-browser.
-        Remove
-
-        TabMaster Pro
-        Organizes browser tabs into groups and sessions.
-        Remove
-
-        ViewportBuddy
-        Simulates various screen resolutions directly within the browser.
-        Remove
-
-        Markup Notes
-        Enables annotation and notes directly onto webpages for collaborative debugging.
-        Remove
-
-        GridGuides
-        Overlay customizable grids and alignment guides on any webpage.
-        Remove
-
-        Palette Picker
-        Instantly extracts color palettes from any webpage.
-        Remove
-
-        LinkChecker
-        Scans and highlights broken links on any page.
-        Remove
-
-        DOM Snapshot
-        Capture and export DOM structures quickly.
-        Remove
-
-        ConsolePlus
-        Enhanced developer console with advanced filtering and logging.
-        Remove
-      `} */}
+      </h1>
+      <div
+        role="tablist"
+        aria-labelledby="extensions"
+        className="mt-4 flex items-center justify-center gap-3"
+      >
+        {tabs.map((tab) => {
+          return (
+            <div key={tab}>
+              <button
+                role="tab"
+                type="button"
+                id={`tab-${tab.toLowerCase()}`}
+                aria-selected={tab === selectedTab}
+                onClick={() => {
+                  setSelectedTab(tab);
+                }}
+                className="h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0"
+              >
+                {tab}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <div
+        role="tabpanel"
+        id="tabpanel"
+        aria-labelledby={`tab-${selectedTab.toLowerCase()}`}
+      ></div>
     </main>
   );
 }
