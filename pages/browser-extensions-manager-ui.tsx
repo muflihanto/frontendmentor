@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 // import { useEffect } from "react";
 import { cn } from "../utils/cn";
+import { notoSans } from "../utils/fonts/notoSans";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -15,7 +16,9 @@ export default function BrowserExtensionsManagerUi() {
       <Head>
         <title>Frontend Mentor | Browser extensions manager UI</title>
       </Head>
-      <div className="App relative min-h-[100svh] bg-white">
+      <div
+        className={`App relative min-h-[100svh] bg-white font-noto-sans ${notoSans.variable}`}
+      >
         <Main />
         <Footer />
         <Slider
