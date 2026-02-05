@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-// import { useEffect } from "react";
+// import { useEffect, useMemo, useState } from "react";
 import { useMemo, useState } from "react";
 
 import extensionsData from "../starter_files/browser-extensions-manager-ui/data.json";
@@ -49,7 +49,7 @@ function ExtensionCard({
   onToggle: () => void;
 }) {
   return (
-    <div className="rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm">
+    <div className="rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm dark:border-browser-extensions-neutral-600 dark:bg-browser-extensions-neutral-800">
       <div className="flex gap-4">
         <div className="relative aspect-square h-[60px] flex-shrink-0 rounded-lg">
           <Image
@@ -60,10 +60,10 @@ function ExtensionCard({
           />
         </div>
         <div className="flex-1">
-          <h2 className="text-[20px]/[20px] font-bold leading-tight text-browser-extensions-neutral-900">
+          <h2 className="text-[20px]/[20px] font-bold leading-tight text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0">
             {extension.name}
           </h2>
-          <p className="mt-[7px] leading-[1.375] tracking-[-0.0275rem] text-browser-extensions-neutral-600">
+          <p className="mt-[7px] leading-[1.375] tracking-[-0.0275rem] text-browser-extensions-neutral-600 dark:text-browser-extensions-neutral-300">
             {extension.description}
           </p>
         </div>
@@ -72,7 +72,7 @@ function ExtensionCard({
         <button
           type="button"
           onClick={onRemove}
-          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors"
+          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0"
         >
           Remove
         </button>
@@ -84,8 +84,8 @@ function ExtensionCard({
           className={cn(
             "relative h-5 w-9 rounded-full transition-colors",
             extension.isActive
-              ? "bg-browser-extensions-red-700"
-              : "bg-browser-extensions-neutral-300",
+              ? "bg-browser-extensions-red-700 dark:bg-browser-extensions-red-400"
+              : "bg-browser-extensions-neutral-300 dark:bg-browser-extensions-neutral-600",
           )}
         >
           <span
@@ -167,7 +167,7 @@ function Main() {
       </header>
       <h1
         id="extensions"
-        className="mt-[31px] w-full text-center text-[34px] font-bold tracking-[-0.055rem] text-browser-extensions-neutral-900"
+        className="mt-[31px] w-full text-center text-[34px] font-bold tracking-[-0.055rem] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0"
       >
         Extensions List
       </h1>
@@ -187,7 +187,7 @@ function Main() {
                 onClick={() => {
                   setSelectedTab(tab);
                 }}
-                className="h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0"
+                className="h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:aria-selected:bg-browser-extensions-red-400 dark:aria-selected:text-browser-extensions-neutral-900"
               >
                 {tab}
               </button>
@@ -199,7 +199,7 @@ function Main() {
         role="tabpanel"
         id="tabpanel"
         aria-labelledby={`tab-${selectedTab.toLowerCase()}`}
-        className="mt-10 flex flex-col gap-[12px]"
+        className="mt-10 flex flex-col gap-[12px] dark:mt-8"
       >
         {filteredExtensions.map((extension, index) => (
           <ExtensionCard
