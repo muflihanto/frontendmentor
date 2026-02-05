@@ -1,8 +1,10 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Image from "next/image";
 // import { useEffect } from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
+import extensionsData from "../starter_files/browser-extensions-manager-ui/data.json";
 import { cn } from "../utils/cn";
 import { notoSans } from "../utils/fonts/notoSans";
 
@@ -35,8 +37,101 @@ export default function BrowserExtensionsManagerUi() {
 
 const tabs = ["All", "Active", "Inactive"] as const;
 
+type Extension = (typeof extensionsData)[number];
+
+function ExtensionCard({
+  extension,
+  onRemove,
+  onToggle,
+}: {
+  extension: Extension;
+  onRemove: () => void;
+  onToggle: () => void;
+}) {
+  return (
+    <div className="rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm">
+      <div className="flex gap-4">
+        <div className="relative aspect-square h-[60px] flex-shrink-0 rounded-lg">
+          <Image
+            src={extension.logo.replace(".", "/browser-extensions-manager-ui")}
+            alt={extension.name}
+            fill
+            className="object-contain"
+          />
+        </div>
+        <div className="flex-1">
+          <h2 className="text-[20px]/[20px] font-bold leading-tight text-browser-extensions-neutral-900">
+            {extension.name}
+          </h2>
+          <p className="mt-[7px] leading-[1.375] tracking-[-0.0275rem] text-browser-extensions-neutral-600">
+            {extension.description}
+          </p>
+        </div>
+      </div>
+      <div className="mt-6 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={onRemove}
+          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors"
+        >
+          Remove
+        </button>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={extension.isActive}
+          onClick={onToggle}
+          className={cn(
+            "relative h-5 w-9 rounded-full transition-colors",
+            extension.isActive
+              ? "bg-browser-extensions-red-700"
+              : "bg-browser-extensions-neutral-300",
+          )}
+        >
+          <span
+            className={cn(
+              "absolute top-1/2 aspect-square h-4 -translate-y-1/2 rounded-full bg-browser-extensions-neutral-0 transition-transform",
+              extension.isActive ? "left-[17px]" : "left-[3px]",
+            )}
+          />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>("All");
+  const [extensions, setExtensions] = useState<Extension[]>(extensionsData);
+
+  const filteredExtensions = useMemo(() => {
+    switch (selectedTab) {
+      case "Active":
+        return extensions.filter((ext) => ext.isActive);
+      case "Inactive":
+        return extensions.filter((ext) => !ext.isActive);
+      default:
+        return extensions;
+    }
+  }, [selectedTab, extensions]);
+
+  const handleRemove = (index: number) => {
+    const actualIndex = extensions.findIndex(
+      (ext) => ext.name === filteredExtensions[index].name,
+    );
+    setExtensions((prev) => prev.filter((_, i) => i !== actualIndex));
+  };
+
+  const handleToggle = (index: number) => {
+    const actualIndex = extensions.findIndex(
+      (ext) => ext.name === filteredExtensions[index].name,
+    );
+    setExtensions((prev) =>
+      prev.map((ext, i) =>
+        i === actualIndex ? { ...ext, isActive: !ext.isActive } : ext,
+      ),
+    );
+  };
 
   return (
     <main className="min-h-[2866px] bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 py-5 dark:from-browser-extensions-gradient-dark-0 dark:to-browser-extensions-gradient-dark-100 dark:py-6">
@@ -104,7 +199,17 @@ function Main() {
         role="tabpanel"
         id="tabpanel"
         aria-labelledby={`tab-${selectedTab.toLowerCase()}`}
-      ></div>
+        className="mt-10 flex flex-col gap-[12px]"
+      >
+        {filteredExtensions.map((extension, index) => (
+          <ExtensionCard
+            key={extension.name}
+            extension={extension}
+            onRemove={() => handleRemove(index)}
+            onToggle={() => handleToggle(index)}
+          />
+        ))}
+      </div>
     </main>
   );
 }
