@@ -1,8 +1,7 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-// import { useEffect, useMemo, useState } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import extensionsData from "../starter_files/browser-extensions-manager-ui/data.json";
 import { cn } from "../utils/cn";
@@ -11,10 +10,6 @@ import { notoSans } from "../utils/fonts/notoSans";
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function BrowserExtensionsManagerUi() {
-  // useEffect(() => {
-  //   document.documentElement.classList.add("dark");
-  // }, []);
-
   return (
     <>
       <Head>
@@ -103,6 +98,15 @@ function ExtensionCard({
 function Main() {
   const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>("All");
   const [extensions, setExtensions] = useState<Extension[]>(extensionsData);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDark]);
 
   const filteredExtensions = useMemo(() => {
     switch (selectedTab) {
@@ -150,8 +154,9 @@ function Main() {
         </svg>
         <button
           role="switch"
-          aria-checked="false"
+          aria-checked={isDark}
           type="button"
+          onClick={() => setIsDark(!isDark)}
           className="flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 dark:bg-browser-extensions-neutral-700"
         >
           <svg
@@ -160,8 +165,11 @@ function Main() {
             role="graphics-symbol"
             aria-hidden="true"
           >
-            {/* <use href="/browser-extensions-manager-ui/assets/images/icon-sun.svg#icon-sun" /> */}
-            <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
+            {isDark ? (
+              <use href="/browser-extensions-manager-ui/assets/images/icon-sun.svg#icon-sun" />
+            ) : (
+              <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
+            )}
           </svg>
         </button>
       </header>
@@ -216,7 +224,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] text-black [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:decoration-browser-extensions-red-400">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
