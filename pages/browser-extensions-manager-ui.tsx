@@ -49,7 +49,7 @@ function ExtensionCard({
   onToggle: () => void;
 }) {
   return (
-    <div className="rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm dark:border-browser-extensions-neutral-600 dark:bg-browser-extensions-neutral-800">
+    <div className="flex min-h-[200px] flex-col rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm dark:border-browser-extensions-neutral-600 dark:bg-browser-extensions-neutral-800">
       <div className="flex gap-4">
         <div className="relative aspect-square h-[60px] flex-shrink-0 rounded-lg">
           <Image
@@ -68,7 +68,7 @@ function ExtensionCard({
           </p>
         </div>
       </div>
-      <div className="mt-6 flex items-center justify-between">
+      <div className="mt-auto flex items-center justify-between">
         <button
           type="button"
           onClick={onRemove}
