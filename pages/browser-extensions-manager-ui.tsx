@@ -22,8 +22,8 @@ export default function BrowserExtensionsManagerUi() {
         <Footer />
         <Slider
           basePath="/browser-extensions-manager-ui/design"
-          // absolutePath="/browser-extensions-manager-ui/design/mobile-design-dark.jpg"
-          absolutePath="/browser-extensions-manager-ui/design/mobile-design-light.jpg"
+          // absolutePath="/browser-extensions-manager-ui/design/mobile-design-light.jpg"
+          absolutePath="/browser-extensions-manager-ui/design/desktop-design-light.jpg"
         />
       </div>
     </>
@@ -44,7 +44,7 @@ function ExtensionCard({
   onToggle: () => void;
 }) {
   return (
-    <div className="flex min-h-[200px] flex-col rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm dark:border-browser-extensions-neutral-600 dark:bg-browser-extensions-neutral-800">
+    <div className="flex min-h-[200px] flex-col rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm dark:border-browser-extensions-neutral-600 dark:bg-browser-extensions-neutral-800 lg:px-[19px]">
       <div className="flex gap-4">
         <div className="relative aspect-square h-[60px] flex-shrink-0 rounded-lg">
           <Image
@@ -55,10 +55,10 @@ function ExtensionCard({
           />
         </div>
         <div className="flex-1">
-          <h2 className="text-[20px]/[20px] font-bold leading-tight text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0">
+          <h2 className="text-[20px]/[20px] font-bold leading-tight tracking-[-0.01rem] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0">
             {extension.name}
           </h2>
-          <p className="mt-[7px] leading-[1.375] tracking-[-0.0275rem] text-browser-extensions-neutral-600 dark:text-browser-extensions-neutral-300">
+          <p className="mt-[7px] text-base leading-[1.375] tracking-[-0.03rem] text-browser-extensions-neutral-600 dark:text-browser-extensions-neutral-300">
             {extension.description}
           </p>
         </div>
@@ -67,7 +67,7 @@ function ExtensionCard({
         <button
           type="button"
           onClick={onRemove}
-          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0"
+          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 text-base font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0 lg:tracking-[-0.04rem]"
         >
           Remove
         </button>
@@ -86,7 +86,7 @@ function ExtensionCard({
           <span
             className={cn(
               "absolute top-1/2 aspect-square h-4 -translate-y-1/2 rounded-full bg-browser-extensions-neutral-0 transition-transform",
-              extension.isActive ? "left-[17px]" : "left-[3px]",
+              extension.isActive ? "left-[18px]" : "left-[2px]",
             )}
           />
         </button>
@@ -138,8 +138,8 @@ function Main() {
   };
 
   return (
-    <main className="min-h-[2866px] bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 py-5 dark:from-browser-extensions-gradient-dark-0 dark:to-browser-extensions-gradient-dark-100 dark:py-6">
-      <header className="flex items-center justify-between rounded-lg border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow dark:border-browser-extensions-neutral-800 dark:bg-browser-extensions-neutral-800">
+    <main className="min-h-screen bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 pb-10 pt-5 dark:from-browser-extensions-gradient-dark-0 dark:to-browser-extensions-gradient-dark-100 md:px-6 md:pb-12 md:pt-6 lg:px-[135px] lg:pb-[66px] lg:pt-[40px]">
+      <header className="flex items-center justify-between rounded-xl border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow dark:border-browser-extensions-neutral-800 dark:bg-browser-extensions-neutral-800 md:px-4 md:py-[12px] lg:rounded-[22px]">
         <svg
           viewBox="0 0 179 41"
           className={cn(
@@ -173,41 +173,45 @@ function Main() {
           </svg>
         </button>
       </header>
-      <h1
-        id="extensions"
-        className="mt-[31px] w-full text-center text-[34px] font-bold tracking-[-0.055rem] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0"
-      >
-        Extensions List
-      </h1>
-      <div
-        role="tablist"
-        aria-labelledby="extensions"
-        className="mt-4 flex items-center justify-center gap-3"
-      >
-        {tabs.map((tab) => {
-          return (
-            <div key={tab}>
-              <button
-                role="tab"
-                type="button"
-                id={`tab-${tab.toLowerCase()}`}
-                aria-selected={tab === selectedTab}
-                onClick={() => {
-                  setSelectedTab(tab);
-                }}
-                className="h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:aria-selected:bg-browser-extensions-red-400 dark:aria-selected:text-browser-extensions-neutral-900"
-              >
-                {tab}
-              </button>
-            </div>
-          );
-        })}
+
+      <div className="mt-[31px] flex flex-col gap-4 md:mt-12 md:flex-row md:items-center md:justify-between lg:mt-[61px] lg:gap-6">
+        <h1
+          id="extensions"
+          className="text-center text-[34px] font-bold tracking-[-0.055rem] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0 md:text-left"
+        >
+          Extensions List
+        </h1>
+        <div
+          role="tablist"
+          aria-labelledby="extensions"
+          className="flex items-center justify-center gap-3"
+        >
+          {tabs.map((tab) => {
+            return (
+              <div key={tab}>
+                <button
+                  role="tab"
+                  type="button"
+                  id={`tab-${tab.toLowerCase()}`}
+                  aria-selected={tab === selectedTab}
+                  onClick={() => {
+                    setSelectedTab(tab);
+                  }}
+                  className="hover:border-browser-extensions-neutral-400 h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm transition-colors aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-neutral-600 dark:aria-selected:bg-browser-extensions-red-400 dark:aria-selected:text-browser-extensions-neutral-900"
+                >
+                  {tab}
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
+
       <div
         role="tabpanel"
         id="tabpanel"
         aria-labelledby={`tab-${selectedTab.toLowerCase()}`}
-        className="mt-10 flex flex-col gap-[12px] dark:mt-8"
+        className="mt-10 grid grid-cols-1 gap-[12px] dark:mt-8 md:mt-12 md:grid-cols-2 lg:mt-[30px] lg:grid-cols-3"
       >
         {filteredExtensions.map((extension, index) => (
           <ExtensionCard
