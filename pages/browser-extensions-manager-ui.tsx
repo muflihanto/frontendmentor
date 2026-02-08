@@ -16,7 +16,10 @@ export default function BrowserExtensionsManagerUi() {
         <title>Frontend Mentor | Browser extensions manager UI</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] bg-white font-noto-sans ${notoSans.variable}`}
+        className={cn(
+          "App relative min-h-[100svh] bg-white font-noto-sans",
+          notoSans.variable,
+        )}
       >
         <Main />
         <Footer />
@@ -44,7 +47,12 @@ function ExtensionCard({
   onToggle: () => void;
 }) {
   return (
-    <div className="flex min-h-[200px] flex-col rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm dark:border-browser-extensions-neutral-600 dark:bg-browser-extensions-neutral-800 lg:px-[19px]">
+    <div
+      className={cn(
+        "flex min-h-[200px] flex-col rounded-[18px] border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-[18px] py-[19px] shadow-sm lg:px-[19px]",
+        "dark:border-browser-extensions-neutral-600 dark:bg-browser-extensions-neutral-800",
+      )}
+    >
       <div className="flex gap-4">
         <div className="relative aspect-square h-[60px] flex-shrink-0 rounded-lg">
           <Image
@@ -55,10 +63,20 @@ function ExtensionCard({
           />
         </div>
         <div className="flex-1">
-          <h2 className="text-[20px]/[20px] font-bold leading-tight tracking-[-0.01rem] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0">
+          <h2
+            className={cn(
+              "text-[20px]/[20px] font-bold leading-tight tracking-[-0.01rem] text-browser-extensions-neutral-900",
+              "dark:text-browser-extensions-neutral-0",
+            )}
+          >
             {extension.name}
           </h2>
-          <p className="mt-[7px] text-base leading-[1.375] tracking-[-0.03rem] text-browser-extensions-neutral-600 dark:text-browser-extensions-neutral-300">
+          <p
+            className={cn(
+              "mt-[7px] text-base leading-[1.375] tracking-[-0.03rem] text-browser-extensions-neutral-600",
+              "dark:text-browser-extensions-neutral-300",
+            )}
+          >
             {extension.description}
           </p>
         </div>
@@ -67,7 +85,14 @@ function ExtensionCard({
         <button
           type="button"
           onClick={onRemove}
-          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 text-base font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors hover:border-browser-extensions-red-700 hover:bg-browser-extensions-red-700 hover:text-browser-extensions-neutral-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2 dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-400 dark:hover:text-browser-extensions-neutral-900 dark:focus-visible:border-transparent dark:focus-visible:bg-browser-extensions-neutral-600 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800 lg:tracking-[-0.04rem]"
+          className={cn(
+            "h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 text-base font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors lg:tracking-[-0.04rem]",
+            "hover:border-browser-extensions-red-700 hover:bg-browser-extensions-red-700 hover:text-browser-extensions-neutral-0",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+            "dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0",
+            "dark:hover:border-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-400 dark:hover:text-browser-extensions-neutral-900",
+            "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
+          )}
         >
           Remove
         </button>
@@ -77,7 +102,9 @@ function ExtensionCard({
           aria-checked={extension.isActive}
           onClick={onToggle}
           className={cn(
-            "relative h-5 w-9 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
+            "relative h-5 w-9 rounded-full transition-colors",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+            "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
             extension.isActive
               ? "bg-browser-extensions-red-700 hover:bg-browser-extensions-red-500 dark:bg-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-500"
               : "bg-browser-extensions-neutral-300 hover:bg-opacity-75 dark:bg-browser-extensions-neutral-600 dark:hover:bg-opacity-75",
@@ -138,8 +165,18 @@ function Main() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 pb-10 pt-5 dark:from-browser-extensions-gradient-dark-0 dark:to-browser-extensions-gradient-dark-100 md:px-6 md:pb-12 md:pt-6 lg:px-[135px] lg:pb-[66px] lg:pt-[40px]">
-      <header className="flex items-center justify-between rounded-xl border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow dark:border-browser-extensions-neutral-800 dark:bg-browser-extensions-neutral-800 md:px-4 md:py-[12px] lg:rounded-[22px]">
+    <main
+      className={cn(
+        "min-h-[100svh] bg-gradient-to-b from-browser-extensions-gradient-light-0 to-browser-extensions-gradient-light-100 px-4 pb-10 pt-5 md:px-6 md:pb-12 md:pt-6 lg:px-[135px] lg:pb-[66px] lg:pt-[40px]",
+        "dark:from-browser-extensions-gradient-dark-0 dark:to-browser-extensions-gradient-dark-100",
+      )}
+    >
+      <header
+        className={cn(
+          "flex items-center justify-between rounded-xl border border-browser-extensions-neutral-200 bg-browser-extensions-neutral-0 px-3 py-2 shadow md:px-4 md:py-[12px] lg:rounded-[22px]",
+          "dark:border-browser-extensions-neutral-800 dark:bg-browser-extensions-neutral-800",
+        )}
+      >
         <svg
           viewBox="0 0 179 41"
           className={cn(
@@ -157,7 +194,12 @@ function Main() {
           aria-checked={isDark}
           type="button"
           onClick={() => setIsDark(!isDark)}
-          className="flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 transition-colors hover:bg-browser-extensions-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-500 focus-visible:ring-offset-2 dark:bg-browser-extensions-neutral-700 dark:hover:bg-browser-extensions-neutral-600 dark:focus-visible:bg-browser-extensions-neutral-600 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800"
+          className={cn(
+            "flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 transition-colors hover:bg-browser-extensions-neutral-300",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+            "dark:bg-browser-extensions-neutral-700 dark:hover:bg-browser-extensions-neutral-600",
+            "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
+          )}
         >
           <svg
             viewBox="0 0 22 22"
@@ -177,7 +219,10 @@ function Main() {
       <div className="mt-[31px] flex flex-col gap-4 md:mt-12 md:flex-row md:items-center md:justify-between lg:mt-[61px] lg:gap-6">
         <h1
           id="extensions"
-          className="text-center text-[34px] font-bold tracking-[-0.055rem] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0 md:text-left"
+          className={cn(
+            "text-center text-[34px] font-bold tracking-[-0.055rem] text-browser-extensions-neutral-900 md:text-left",
+            "dark:text-browser-extensions-neutral-0",
+          )}
         >
           Extensions List
         </h1>
@@ -197,11 +242,15 @@ function Main() {
                   onClick={() => {
                     setSelectedTab(tab);
                   }}
-                  className="h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm transition-all hover:border-browser-extensions-neutral-200 hover:text-browser-extensions-neutral-600 hover:shadow-none
-                  focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-500 focus-visible:ring-offset-2 aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 aria-selected:hover:border-browser-extensions-red-500 aria-selected:hover:bg-browser-extensions-red-500 dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-neutral-800 dark:hover:bg-browser-extensions-neutral-600 dark:hover:shadow-lg dark:focus-visible:border-transparent dark:focus-visible:bg-browser-extensions-neutral-600 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-900 dark:aria-selected:border-browser-extensions-red-400
-                  dark:aria-selected:bg-browser-extensions-red-400 dark:aria-selected:text-browser-extensions-neutral-900
-                  dark:aria-selected:hover:border-browser-extensions-red-500 
-                  dark:aria-selected:hover:bg-browser-extensions-red-500"
+                  className={cn(
+                    "h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm transition-all hover:border-browser-extensions-neutral-200 hover:text-browser-extensions-neutral-600 hover:shadow-none",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+                    "aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 aria-selected:hover:border-browser-extensions-red-500 aria-selected:hover:bg-browser-extensions-red-500",
+                    "dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-neutral-800 dark:hover:bg-browser-extensions-neutral-600 dark:hover:shadow-lg",
+                    "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-900",
+                    "dark:aria-selected:border-browser-extensions-red-400 dark:aria-selected:bg-browser-extensions-red-400 dark:aria-selected:text-browser-extensions-neutral-900",
+                    "dark:aria-selected:hover:border-browser-extensions-red-500 dark:aria-selected:hover:bg-browser-extensions-red-500",
+                  )}
                 >
                   {tab}
                 </button>
@@ -215,7 +264,10 @@ function Main() {
         role="tabpanel"
         id="tabpanel"
         aria-labelledby={`tab-${selectedTab.toLowerCase()}`}
-        className="mt-10 grid grid-cols-1 gap-[12px] dark:mt-8 md:mt-12 md:grid-cols-2 lg:mt-[30px] lg:grid-cols-3"
+        className={cn(
+          "mt-10 grid grid-cols-1 gap-[12px] md:mt-12 md:grid-cols-2 lg:mt-[30px] lg:grid-cols-3",
+          "dark:mt-8",
+        )}
       >
         {filteredExtensions.map((extension, index) => (
           <ExtensionCard
@@ -232,7 +284,16 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0 [&_a:focus-visible]:rounded-sm [&_a:focus-visible]:outline-none [&_a:focus-visible]:ring-2 [&_a:focus-visible]:ring-browser-extensions-red-700 [&_a:focus-visible]:ring-offset-2 dark:[&_a:focus-visible]:ring-browser-extensions-red-400 dark:[&_a:focus-visible]:ring-offset-browser-extensions-neutral-900 [&_a:hover]:text-browser-extensions-red-700 dark:[&_a:hover]:text-browser-extensions-red-400 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:decoration-browser-extensions-red-400">
+    <footer
+      className={cn(
+        "absolute bottom-3 w-full text-center text-[11px] text-browser-extensions-neutral-900",
+        "dark:text-browser-extensions-neutral-0",
+        "[&_a:focus-visible]:rounded-sm [&_a:focus-visible]:outline-none [&_a:focus-visible]:ring-2 [&_a:focus-visible]:ring-browser-extensions-red-700 [&_a:focus-visible]:ring-offset-2",
+        "dark:[&_a:focus-visible]:ring-browser-extensions-red-400 dark:[&_a:focus-visible]:ring-offset-browser-extensions-neutral-900",
+        "[&_a:hover]:text-browser-extensions-red-700 dark:[&_a:hover]:text-browser-extensions-red-400",
+        "[&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:decoration-browser-extensions-red-400",
+      )}
+    >
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
