@@ -23,7 +23,7 @@ export default function BrowserExtensionsManagerUi() {
         {/* <Slider
           basePath="/browser-extensions-manager-ui/design"
           // absolutePath="/browser-extensions-manager-ui/design/mobile-design-light.jpg"
-          absolutePath="/browser-extensions-manager-ui/design/desktop-design-light-hover.jpg"
+          absolutePath="/browser-extensions-manager-ui/design/desktop-design-light-focus.jpg"
         /> */}
       </div>
     </>
@@ -67,7 +67,7 @@ function ExtensionCard({
         <button
           type="button"
           onClick={onRemove}
-          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 text-base font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors hover:border-browser-extensions-red-700 hover:bg-browser-extensions-red-700 hover:text-browser-extensions-neutral-0 dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-400 dark:hover:text-browser-extensions-neutral-900 lg:tracking-[-0.04rem]"
+          className="h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 text-base font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors hover:border-browser-extensions-red-700 hover:bg-browser-extensions-red-700 hover:text-browser-extensions-neutral-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2 dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-400 dark:hover:text-browser-extensions-neutral-900 dark:focus-visible:border-transparent dark:focus-visible:bg-browser-extensions-neutral-600 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800 lg:tracking-[-0.04rem]"
         >
           Remove
         </button>
@@ -77,7 +77,7 @@ function ExtensionCard({
           aria-checked={extension.isActive}
           onClick={onToggle}
           className={cn(
-            "relative h-5 w-9 rounded-full transition-colors",
+            "relative h-5 w-9 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
             extension.isActive
               ? "bg-browser-extensions-red-700 hover:bg-browser-extensions-red-500 dark:bg-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-500"
               : "bg-browser-extensions-neutral-300 hover:bg-opacity-75 dark:bg-browser-extensions-neutral-600 dark:hover:bg-opacity-75",
@@ -157,7 +157,7 @@ function Main() {
           aria-checked={isDark}
           type="button"
           onClick={() => setIsDark(!isDark)}
-          className="flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 transition-colors hover:bg-browser-extensions-neutral-300 dark:bg-browser-extensions-neutral-700 dark:hover:bg-browser-extensions-neutral-600"
+          className="flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 transition-colors hover:bg-browser-extensions-neutral-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-500 focus-visible:ring-offset-2 dark:bg-browser-extensions-neutral-700 dark:hover:bg-browser-extensions-neutral-600 dark:focus-visible:bg-browser-extensions-neutral-600 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800"
         >
           <svg
             viewBox="0 0 22 22"
@@ -197,8 +197,8 @@ function Main() {
                   onClick={() => {
                     setSelectedTab(tab);
                   }}
-                  className="dark:hover:border-browser-extensions-neutral-500 h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm transition-all hover:border-browser-extensions-neutral-200 hover:text-browser-extensions-neutral-600 hover:shadow-none
-                  aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 aria-selected:hover:border-browser-extensions-red-500 aria-selected:hover:bg-browser-extensions-red-500 dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-neutral-800 dark:hover:bg-browser-extensions-neutral-600 dark:hover:shadow-lg dark:aria-selected:border-browser-extensions-red-400
+                  className="h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm transition-all hover:border-browser-extensions-neutral-200 hover:text-browser-extensions-neutral-600 hover:shadow-none
+                  focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-500 focus-visible:ring-offset-2 aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 aria-selected:hover:border-browser-extensions-red-500 aria-selected:hover:bg-browser-extensions-red-500 dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-neutral-800 dark:hover:bg-browser-extensions-neutral-600 dark:hover:shadow-lg dark:focus-visible:border-transparent dark:focus-visible:bg-browser-extensions-neutral-600 dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-900 dark:aria-selected:border-browser-extensions-red-400
                   dark:aria-selected:bg-browser-extensions-red-400 dark:aria-selected:text-browser-extensions-neutral-900
                   dark:aria-selected:hover:border-browser-extensions-red-500 
                   dark:aria-selected:hover:bg-browser-extensions-red-500"
@@ -232,7 +232,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 w-full text-center text-[11px] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0 [&_a:hover]:text-browser-extensions-red-700 dark:[&_a:hover]:text-browser-extensions-red-400 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:decoration-browser-extensions-red-400">
+    <footer className="absolute bottom-3 w-full text-center text-[11px] text-browser-extensions-neutral-900 dark:text-browser-extensions-neutral-0 [&_a:focus-visible]:rounded-sm [&_a:focus-visible]:outline-none [&_a:focus-visible]:ring-2 [&_a:focus-visible]:ring-browser-extensions-red-700 [&_a:focus-visible]:ring-offset-2 dark:[&_a:focus-visible]:ring-browser-extensions-red-400 dark:[&_a:focus-visible]:ring-offset-browser-extensions-neutral-900 [&_a:hover]:text-browser-extensions-red-700 dark:[&_a:hover]:text-browser-extensions-red-400 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:decoration-browser-extensions-red-400">
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
