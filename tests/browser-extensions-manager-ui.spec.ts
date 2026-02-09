@@ -19,4 +19,50 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
     ).toBeVisible();
   });
+
+  /** Test theme toggle button is visible */
+  test("has theme toggle button", async ({ page }) => {
+    const themeButton = page.locator('[role="switch"][aria-checked]').first();
+    await expect(themeButton).toBeVisible();
+  });
+
+  /** Test theme toggle switches between dark and light mode */
+  test("theme toggle switches dark/light mode", async ({ page }) => {
+    const themeButton = page.locator('header button[role="switch"]');
+
+    await expect(themeButton).toBeVisible();
+
+    const initialAriaChecked = await themeButton.getAttribute("aria-checked");
+
+    await themeButton.click();
+
+    await expect(themeButton).toHaveAttribute(
+      "aria-checked",
+      initialAriaChecked === "true" ? "false" : "true",
+    );
+  });
+
+  /** Test extension cards are displayed */
+  test("displays extension cards", async ({ page }) => {
+    const extensionCards = page.locator('[role="tabpanel"] > div');
+    await expect(extensionCards.first()).toBeVisible();
+  });
+
+  /** Test tab filters work */
+  test("tab filters filter extensions", async ({ page }) => {
+    const allTab = page.getByRole("tab", { name: "All", exact: true });
+    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
+    const inactiveTab = page.getByRole("tab", {
+      name: "Inactive",
+      exact: true,
+    });
+
+    await expect(allTab).toHaveAttribute("aria-selected", "true");
+
+    await activeTab.click();
+    await expect(activeTab).toHaveAttribute("aria-selected", "true");
+
+    await inactiveTab.click();
+    await expect(inactiveTab).toHaveAttribute("aria-selected", "true");
+  });
 });
