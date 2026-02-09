@@ -125,7 +125,23 @@ function ExtensionCard({
 function Main() {
   const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>("All");
   const [extensions, setExtensions] = useState<Extension[]>(extensionsData);
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("browser-extensions-theme");
+      if (saved !== null) return saved === "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
+  });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("browser-extensions-theme", isDark ? "dark" : "light");
+  }, [isDark]);
 
   useEffect(() => {
     if (isDark) {
@@ -201,18 +217,21 @@ function Main() {
             "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
           )}
         >
-          <svg
-            viewBox="0 0 22 22"
-            className="w-[22px]"
-            role="graphics-symbol"
-            aria-hidden="true"
-          >
-            {isDark ? (
-              <use href="/browser-extensions-manager-ui/assets/images/icon-sun.svg#icon-sun" />
-            ) : (
-              <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
-            )}
-          </svg>
+          {mounted && (
+            <svg
+              viewBox="0 0 22 22"
+              className="w-[22px]"
+              role="graphics-symbol"
+              aria-hidden="true"
+            >
+              <g className={isDark ? "block" : "hidden"}>
+                <use href="/browser-extensions-manager-ui/assets/images/icon-sun.svg#icon-sun" />
+              </g>
+              <g className={isDark ? "hidden" : "block"}>
+                <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
+              </g>
+            </svg>
+          )}
         </button>
       </header>
 
