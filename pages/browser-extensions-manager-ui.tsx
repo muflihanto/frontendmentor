@@ -100,6 +100,7 @@ function ExtensionCard({
           type="button"
           role="switch"
           aria-checked={extension.isActive}
+          aria-label={`Toggle ${extension.name} extension`}
           onClick={onToggle}
           className={cn(
             "relative h-5 w-9 rounded-full transition-colors",
@@ -208,6 +209,7 @@ function Main() {
         <button
           role="switch"
           aria-checked={isDark}
+          aria-label="Toggle dark mode"
           type="button"
           onClick={() => setIsDark(!isDark)}
           className={cn(
