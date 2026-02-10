@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Browser extensions manager UI page", () => {
@@ -64,5 +65,15 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
     await inactiveTab.click();
     await expect(inactiveTab).toHaveAttribute("aria-selected", "true");
+  });
+
+  test("should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .disableRules(["color-contrast"])
+      .analyze();
+    // console.log({ violations: accessibilityScanResults.violations });
+    expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
