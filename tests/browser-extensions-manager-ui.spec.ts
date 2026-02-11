@@ -76,4 +76,41 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     // console.log({ violations: accessibilityScanResults.violations });
     expect(accessibilityScanResults.violations).toEqual([]);
   });
+
+  test.describe("hover states", () => {
+    test("theme toggle button shows hover styles", async ({ page }) => {
+      const themeButton = page.locator('header button[role="switch"]');
+      await expect(themeButton).toHaveCSS(
+        "background-color",
+        "rgb(237, 237, 237)",
+      );
+      await themeButton.hover();
+      await expect(themeButton).toHaveCSS(
+        "background-color",
+        "rgb(199, 199, 199)",
+      );
+    });
+
+    test("tab buttons show hover styles", async ({ page }) => {
+      const activeTab = page.getByRole("tab", { name: "Active", exact: true });
+      await expect(activeTab).toHaveCSS("color", "rgb(9, 21, 62)");
+      await activeTab.hover();
+      await expect(activeTab).toHaveCSS("color", "rgb(84, 89, 105)");
+    });
+
+    test("remove button shows hover styles", async ({ page }) => {
+      const removeButton = page
+        .locator('[role="tabpanel"] button:has-text("Remove")')
+        .first();
+      await expect(removeButton).toHaveCSS(
+        "background-color",
+        "rgb(251, 253, 254)",
+      );
+      await removeButton.hover();
+      await expect(removeButton).toHaveCSS(
+        "background-color",
+        "rgb(199, 34, 26)",
+      );
+    });
+  });
 });
