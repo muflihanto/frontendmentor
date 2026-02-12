@@ -206,5 +206,47 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
         await expect(toggleSwitch).toHaveCSS("outline-style", "solid");
       });
     });
+
+    test.describe("dark mode", () => {
+      test.use({ colorScheme: "dark" });
+
+      test("theme toggle button shows dark focus styles", async ({ page }) => {
+        const themeButton = page.locator('header button[role="switch"]');
+        await expect(themeButton).toHaveCSS("outline-style", "none");
+        await themeButton.focus();
+        await expect(themeButton).toHaveCSS("outline-style", "solid");
+        await expect(themeButton).toHaveCSS("box-shadow", /rgb\(242, 92, 84\)/);
+      });
+
+      test("tab buttons show dark focus styles", async ({ page }) => {
+        const activeTab = page.getByRole("tab", {
+          name: "Active",
+          exact: true,
+        });
+        await expect(activeTab).toHaveCSS("outline-style", "none");
+        await activeTab.focus();
+        await expect(activeTab).toHaveCSS("outline-style", "solid");
+      });
+
+      test("remove button shows dark focus styles", async ({ page }) => {
+        const removeButton = page
+          .locator('[role="tabpanel"] button:has-text("Remove")')
+          .first();
+        await expect(removeButton).toHaveCSS("outline-style", "none");
+        await removeButton.focus();
+        await expect(removeButton).toHaveCSS("outline-style", "solid");
+      });
+
+      test("extension toggle switch shows dark focus styles", async ({
+        page,
+      }) => {
+        const toggleSwitch = page
+          .locator('[role="tabpanel"] [role="switch"]')
+          .first();
+        await expect(toggleSwitch).toHaveCSS("outline-style", "none");
+        await toggleSwitch.focus();
+        await expect(toggleSwitch).toHaveCSS("outline-style", "solid");
+      });
+    });
   });
 });
