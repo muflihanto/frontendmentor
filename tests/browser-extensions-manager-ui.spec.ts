@@ -49,6 +49,41 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(extensionCards.first()).toBeVisible();
   });
 
+  /** Test extension toggle switches have correct aria-checked */
+  test("extension toggle switches toggle aria-checked on click", async ({
+    page,
+  }) => {
+    const extensionCards = page.locator('[role="tabpanel"] > div');
+    const count = await extensionCards.count();
+    expect(count).toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+      const card = extensionCards.nth(i);
+      const toggleButton = card.locator('[role="switch"]').first();
+
+      await expect(toggleButton).toBeVisible();
+
+      const initialChecked = await toggleButton.getAttribute("aria-checked");
+      expect(initialChecked).not.toBeNull();
+
+      await toggleButton.click();
+
+      const toggledChecked = initialChecked === "true" ? "false" : "true";
+      await expect(toggleButton).toHaveAttribute(
+        "aria-checked",
+        toggledChecked,
+      );
+
+      await toggleButton.click();
+
+      await expect(toggleButton).toHaveAttribute(
+        "aria-checked",
+        // biome-ignore lint/style/noNonNullAssertion: TypeScript doesn't narrow after expect assertion, but we verified it's not null above
+        initialChecked!,
+      );
+    }
+  });
+
   /** Test tab filters work */
   test("tab filters filter extensions", async ({ page }) => {
     const allTab = page.getByRole("tab", { name: "All", exact: true });
