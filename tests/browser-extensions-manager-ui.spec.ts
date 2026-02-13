@@ -102,6 +102,59 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(inactiveTab).toHaveAttribute("aria-selected", "true");
   });
 
+  /** Test extension toggle affects tab filtering */
+  test("toggling extension updates filtered tab view", async ({ page }) => {
+    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
+    const inactiveTab = page.getByRole("tab", {
+      name: "Inactive",
+      exact: true,
+    });
+
+    // Go to Active tab and get first active extension
+    await activeTab.click();
+    const initialActiveCount = await page
+      .locator('[role="tabpanel"] > div')
+      .count();
+    expect(initialActiveCount).toBeGreaterThan(0);
+
+    const firstActiveCard = page.locator('[role="tabpanel"] > div').first();
+    const toggleButton = firstActiveCard.locator('[role="switch"]').first();
+    const extensionName = await firstActiveCard.locator("h2").textContent();
+    expect(extensionName).not.toBeNull();
+
+    // Toggle it off - should disappear from Active tab
+    await toggleButton.click();
+    await expect(
+      page
+        .locator('[role="tabpanel"] > div')
+        .first(),
+      // biome-ignore lint/style/noNonNullAssertion: TypeScript doesn't narrow after expect assertion, but we verified it's not null above
+    ).not.toHaveText(extensionName!);
+
+    // Go to Inactive tab and verify it appears there
+    await inactiveTab.click();
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).toBeVisible();
+
+    // Toggle it back on - should disappear from Inactive tab
+    const inactiveCard = page
+      .locator(`[role="tabpanel"] h2:has-text("${extensionName}")`)
+      .locator("..")
+      .locator("..")
+      .locator("..");
+    await inactiveCard.locator('[role="switch"]').first().click();
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).not.toBeVisible();
+
+    // Go back to Active tab and verify it appears there
+    await activeTab.click();
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).toBeVisible();
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
