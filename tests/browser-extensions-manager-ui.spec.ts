@@ -155,6 +155,35 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).toBeVisible();
   });
 
+  /** Test remove button removes extension from list */
+  test("remove button removes extension from list", async ({ page }) => {
+    const extensionCards = page.locator('[role="tabpanel"] > div');
+    const initialCount = await extensionCards.count();
+    expect(initialCount).toBeGreaterThan(0);
+
+    const firstCard = extensionCards.first();
+    const extensionName = await firstCard.locator("h2").textContent();
+    expect(extensionName).not.toBeNull();
+
+    const removeButton = firstCard.locator("button:has-text('Remove')");
+    await removeButton.click();
+
+    // Verify card count decreased
+    await expect(extensionCards).toHaveCount(initialCount - 1);
+
+    // Verify the removed extension is no longer visible
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).not.toBeVisible();
+
+    // Switch to All tab and verify it's still gone
+    const allTab = page.getByRole("tab", { name: "All", exact: true });
+    await allTab.click();
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).not.toBeVisible();
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
