@@ -43,6 +43,33 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     );
   });
 
+  /** Test theme preference persists after page reload */
+  test("theme preference persists after page reload", async ({ page }) => {
+    const themeButton = page.locator('header button[role="switch"]');
+    await expect(themeButton).toBeVisible();
+
+    // Get initial state and toggle to opposite
+    const initialAriaChecked = await themeButton.getAttribute("aria-checked");
+    await themeButton.click();
+
+    // Verify toggle happened
+    const toggledAriaChecked = initialAriaChecked === "true" ? "false" : "true";
+    await expect(themeButton).toHaveAttribute(
+      "aria-checked",
+      toggledAriaChecked,
+    );
+
+    // Reload page
+    await page.reload();
+
+    // Verify theme persisted after reload
+    const themeButtonAfterReload = page.locator('header button[role="switch"]');
+    await expect(themeButtonAfterReload).toHaveAttribute(
+      "aria-checked",
+      toggledAriaChecked,
+    );
+  });
+
   /** Test extension cards are displayed */
   test("displays extension cards", async ({ page }) => {
     const extensionCards = page.locator('[role="tabpanel"] > div');

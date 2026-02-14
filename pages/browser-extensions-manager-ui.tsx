@@ -206,6 +206,7 @@ function Main() {
         >
           <use href="/browser-extensions-manager-ui/assets/images/logo.svg#logo" />
         </svg>
+        {/* FIXME: error after reload Warning: Prop `aria-checked` did not match. Server: "false" Client: "true" */}
         <button
           role="switch"
           aria-checked={isDark}
