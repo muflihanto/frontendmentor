@@ -126,31 +126,33 @@ function ExtensionCard({
 function Main() {
   const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>("All");
   const [extensions, setExtensions] = useState<Extension[]>(extensionsData);
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("browser-extensions-theme");
-      if (saved !== null) return saved === "dark";
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return false;
-  });
+  const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    const saved = localStorage.getItem("browser-extensions-theme");
+    const prefersDark =
+      saved !== null
+        ? saved === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setIsDark(prefersDark);
+    if (prefersDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
     setMounted(true);
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     localStorage.setItem("browser-extensions-theme", isDark ? "dark" : "light");
-  }, [isDark]);
-
-  useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [isDark]);
+  }, [isDark, mounted]);
 
   const filteredExtensions = useMemo(() => {
     switch (selectedTab) {
@@ -206,21 +208,20 @@ function Main() {
         >
           <use href="/browser-extensions-manager-ui/assets/images/logo.svg#logo" />
         </svg>
-        {/* FIXME: error after reload Warning: Prop `aria-checked` did not match. Server: "false" Client: "true" */}
-        <button
-          role="switch"
-          aria-checked={isDark}
-          aria-label="Toggle dark mode"
-          type="button"
-          onClick={() => setIsDark(!isDark)}
-          className={cn(
-            "flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 transition-colors hover:bg-browser-extensions-neutral-300",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
-            "dark:bg-browser-extensions-neutral-700 dark:hover:bg-browser-extensions-neutral-600",
-            "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
-          )}
-        >
-          {mounted && (
+        {mounted && (
+          <button
+            role="switch"
+            aria-checked={isDark}
+            aria-label="Toggle dark mode"
+            type="button"
+            onClick={() => setIsDark(!isDark)}
+            className={cn(
+              "flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 transition-colors hover:bg-browser-extensions-neutral-300",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+              "dark:bg-browser-extensions-neutral-700 dark:hover:bg-browser-extensions-neutral-600",
+              "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
+            )}
+          >
             <svg
               viewBox="0 0 22 22"
               className="w-[22px]"
@@ -234,8 +235,8 @@ function Main() {
                 <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
               </g>
             </svg>
-          )}
-        </button>
+          </button>
+        )}
       </header>
 
       <div className="mt-[31px] flex flex-col gap-4 md:mt-12 md:flex-row md:items-center md:justify-between lg:mt-[61px] lg:gap-6">
