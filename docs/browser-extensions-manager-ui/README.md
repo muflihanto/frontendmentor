@@ -11,6 +11,8 @@ This is a solution to the [Browser extensions manager UI challenge on Frontend M
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Dynamic Multi-Variable SVG Styling](#dynamic-multi-variable-svg-styling)
+      - [Conditional SVG Group Visibility](#conditional-svg-group-visibility)
   - [Author](#author)
 
 ## Overview
@@ -56,6 +58,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Dynamic Multi-Variable SVG Styling
+
 In this project, I implemented dynamic CSS variable styling using Tailwind's arbitrary property syntax to control multiple parts of an SVG independently. This technique allows for granular, theme-aware color management of distinct SVG paths within a single asset loaded via the `<use>` element.
 
 By defining multiple variables (e.g., `--logo-shape` and `--logo-text`), I can target different elements of the SVG logo—such as the icon and the typography—and style them with different colors that react to the theme toggle simultaneously.
@@ -72,6 +76,26 @@ By defining multiple variables (e.g., `--logo-shape` and `--logo-text`), I can t
   aria-hidden="true"
 >
   <use href="/browser-extensions-manager-ui/assets/images/logo.svg#logo" />
+</svg>
+```
+
+#### Conditional SVG Group Visibility
+
+Another technique I used was managing the visibility of different icons within a single `<svg>` container using conditional group (`<g>`) tags. Instead of swapping the entire SVG component, I toggle the visibility of specific groups based on the application state (like dark mode). This keeps the DOM structure stable while allowing for simple theme-switching logic within the SVG itself.
+
+```tsx
+<svg
+  viewBox="0 0 22 22"
+  className="w-[22px]"
+  role="graphics-symbol"
+  aria-hidden="true"
+>
+  <g className={isDark ? "block" : "hidden"}>
+    <use href="/browser-extensions-manager-ui/assets/images/icon-sun.svg#icon-sun" />
+  </g>
+  <g className={isDark ? "hidden" : "block"}>
+    <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
+  </g>
 </svg>
 ```
 
