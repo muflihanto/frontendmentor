@@ -129,6 +129,23 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(inactiveTab).toHaveAttribute("aria-selected", "true");
   });
 
+  test("displays correct initial extension counts in tabs", async ({
+    page,
+  }) => {
+    const allExtensionsCount = await page
+      .locator('[role="tabpanel"] > div')
+      .count();
+    expect(allExtensionsCount).toBe(12); // Based on data.json
+
+    await page.getByRole("tab", { name: "Active", exact: true }).click();
+    const activeCount = await page.locator('[role="tabpanel"] > div').count();
+
+    await page.getByRole("tab", { name: "Inactive", exact: true }).click();
+    const inactiveCount = await page.locator('[role="tabpanel"] > div').count();
+
+    expect(activeCount + inactiveCount).toBe(allExtensionsCount);
+  });
+
   /** Test extension toggle affects tab filtering */
   test("toggling extension updates filtered tab view", async ({ page }) => {
     const activeTab = page.getByRole("tab", { name: "Active", exact: true });
