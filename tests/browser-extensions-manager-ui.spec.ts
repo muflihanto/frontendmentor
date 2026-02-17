@@ -228,6 +228,34 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).not.toBeVisible();
   });
 
+  /** Test that removed extensions are removed from all tabs */
+  test("removed extension disappears from all tabs", async ({ page }) => {
+    // Get first extension name from All tab
+    const firstCard = page.locator('[role="tabpanel"] > div').first();
+    const extensionName = await firstCard.locator("h2").textContent();
+    expect(extensionName).not.toBeNull();
+
+    // Remove the extension
+    await firstCard.locator("button:has-text('Remove')").click();
+
+    // Check All tab - should be gone
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).not.toBeVisible();
+
+    // Check Active tab
+    await page.getByRole("tab", { name: "Active", exact: true }).click();
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).not.toBeVisible();
+
+    // Check Inactive tab
+    await page.getByRole("tab", { name: "Inactive", exact: true }).click();
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).not.toBeVisible();
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
