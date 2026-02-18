@@ -146,6 +146,26 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     expect(activeCount + inactiveCount).toBe(allExtensionsCount);
   });
 
+  /** Test extension card content is displayed correctly */
+  test("extension card displays all required information", async ({ page }) => {
+    const firstCard = page.locator('[role="tabpanel"] > div').first();
+
+    // logo
+    await expect(firstCard.locator("img")).toBeVisible();
+
+    // name
+    await expect(firstCard.locator("h2")).toBeVisible();
+
+    // description
+    await expect(firstCard.locator("p")).toBeVisible();
+
+    // Remove button
+    await expect(firstCard.locator("button:has-text('Remove')")).toBeVisible();
+
+    // toggle switch
+    await expect(firstCard.locator('[role="switch"]')).toBeVisible();
+  });
+
   /** Test extension toggle affects tab filtering */
   test("toggling extension updates filtered tab view", async ({ page }) => {
     const activeTab = page.getByRole("tab", { name: "Active", exact: true });
