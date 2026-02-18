@@ -43,6 +43,30 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     );
   });
 
+  /** Test theme toggle can be operated with keyboard */
+  test("theme toggle can be operated with keyboard", async ({ page }) => {
+    const themeButton = page.locator('header button[role="switch"]');
+
+    await themeButton.focus();
+    await expect(themeButton).toBeFocused();
+
+    const initialChecked = await themeButton.getAttribute("aria-checked");
+
+    // Toggle with Space key
+    await page.keyboard.press("Space");
+    await expect(themeButton).toHaveAttribute(
+      "aria-checked",
+      initialChecked === "true" ? "false" : "true",
+    );
+
+    // Toggle with Enter key
+    await page.keyboard.press("Enter");
+    await expect(themeButton).toHaveAttribute(
+      "aria-checked",
+      initialChecked === "true" ? "true" : "false",
+    );
+  });
+
   /** Test theme preference persists after page reload */
   test("theme preference persists after page reload", async ({ page }) => {
     const themeButton = page.locator('header button[role="switch"]');
