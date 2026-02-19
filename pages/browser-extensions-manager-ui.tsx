@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import extensionsData from "../starter_files/browser-extensions-manager-ui/data.json";
 import { cn } from "../utils/cn";
 import { notoSans } from "../utils/fonts/notoSans";
+import { createTabKeyHandler } from "../utils/tabKeyHandler";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -128,6 +129,7 @@ function Main() {
   const [extensions, setExtensions] = useState<Extension[]>(extensionsData);
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const onTabKeyDown = createTabKeyHandler();
 
   useEffect(() => {
     const saved = localStorage.getItem("browser-extensions-theme");
@@ -265,6 +267,7 @@ function Main() {
                   onClick={() => {
                     setSelectedTab(tab);
                   }}
+                  onKeyDown={onTabKeyDown}
                   className={cn(
                     "h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm transition-all hover:border-browser-extensions-neutral-200 hover:text-browser-extensions-neutral-600 hover:shadow-none",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
