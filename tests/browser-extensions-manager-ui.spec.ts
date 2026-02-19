@@ -153,6 +153,31 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(inactiveTab).toHaveAttribute("aria-selected", "true");
   });
 
+  /** Test keyboard navigation between tabs */
+  test("keyboard navigation works for tabs", async ({ page }) => {
+    const allTab = page.getByRole("tab", { name: "All", exact: true });
+    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
+    const inactiveTab = page.getByRole("tab", {
+      name: "Inactive",
+      exact: true,
+    });
+
+    // Focus first tab
+    await allTab.focus();
+    await expect(allTab).toBeFocused();
+
+    // Navigate with arrow keys
+    await page.keyboard.press("ArrowRight");
+    await expect(activeTab).toBeFocused();
+
+    await page.keyboard.press("ArrowRight");
+    await expect(inactiveTab).toBeFocused();
+
+    // Navigate back
+    await page.keyboard.press("ArrowLeft");
+    await expect(activeTab).toBeFocused();
+  });
+
   test("displays correct initial extension counts in tabs", async ({
     page,
   }) => {
