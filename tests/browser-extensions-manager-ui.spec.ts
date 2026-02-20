@@ -333,6 +333,27 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).not.toBeVisible();
   });
 
+  /** Test remove button can be activated with keyboard */
+  test("remove buttons can be activated with keyboard", async ({ page }) => {
+    const firstCard = page.locator('[role="tabpanel"] > div').first();
+    const extensionName = await firstCard.locator("h2").textContent();
+    const initialCount = await page.locator('[role="tabpanel"] > div').count();
+
+    // Focus and activate remove button with Enter
+    const removeButton = firstCard.locator("button:has-text('Remove')");
+    await removeButton.focus();
+    await expect(removeButton).toBeFocused();
+    await page.keyboard.press("Enter");
+
+    // Verify extension was removed
+    await expect(page.locator('[role="tabpanel"] > div')).toHaveCount(
+      initialCount - 1,
+    );
+    await expect(
+      page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
+    ).not.toBeVisible();
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
