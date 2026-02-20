@@ -176,6 +176,14 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     // Navigate back
     await page.keyboard.press("ArrowLeft");
     await expect(activeTab).toBeFocused();
+
+    // Navigate first tab
+    await page.keyboard.press("Home");
+    await expect(allTab).toBeFocused();
+
+    // Navigate last tab
+    await page.keyboard.press("End");
+    await expect(inactiveTab).toBeFocused();
   });
 
   test("displays correct initial extension counts in tabs", async ({
