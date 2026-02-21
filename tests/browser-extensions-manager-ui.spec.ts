@@ -186,6 +186,22 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(inactiveTab).toBeFocused();
   });
 
+  /** Test that focus is managed appropriately */
+  test("focus management works as expected", async ({ page }) => {
+    // Test focus ring appears on tabbable elements
+    const focusableElements = [
+      page.locator('header button[role="switch"]'),
+      page.getByRole("tab", { name: "All", exact: true }),
+      page.locator('[role="tabpanel"] > div [role="switch"]').first(),
+      page.locator('[role="tabpanel"] button:has-text("Remove")').first(),
+    ];
+
+    for (const element of focusableElements) {
+      await element.focus();
+      await expect(element).toHaveCSS("outline-style", "solid");
+    }
+  });
+
   test("displays correct initial extension counts in tabs", async ({
     page,
   }) => {
