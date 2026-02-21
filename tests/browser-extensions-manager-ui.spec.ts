@@ -370,6 +370,26 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).not.toBeVisible();
   });
 
+  /** Test that all images load correctly */
+  test("all extension logos load successfully", async ({ page }) => {
+    const images = page.locator('[role="tabpanel"] img');
+    const count = await images.count();
+
+    for (let i = 0; i < count; i++) {
+      const image = images.nth(i);
+      // Check if image is visible and has valid src
+      await expect(image).toBeVisible();
+      const src = await image.getAttribute("src");
+      expect(src).toBeTruthy();
+
+      // Verify image loaded successfully (no broken images)
+      const naturalWidth = await image.evaluate(
+        (img: HTMLImageElement) => img.naturalWidth,
+      );
+      expect(naturalWidth).toBeGreaterThan(0);
+    }
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
