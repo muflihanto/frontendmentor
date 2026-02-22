@@ -36,7 +36,11 @@ export default function BrowserExtensionsManagerUi() {
 
 const tabs = ["All", "Active", "Inactive"] as const;
 
+type Tab = (typeof tabs)[number];
+
 type Extension = (typeof extensionsData)[number];
+
+type ExtensionsState = Record<string, boolean>;
 
 function ExtensionCard({
   extension,
@@ -125,7 +129,7 @@ function ExtensionCard({
 }
 
 function Main() {
-  const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>("All");
+  const [selectedTab, setSelectedTab] = useState<Tab>("All");
   const [extensions, setExtensions] = useState<Extension[]>(extensionsData);
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -143,6 +147,24 @@ function Main() {
     } else {
       document.documentElement.classList.remove("dark");
     }
+
+    const savedExtensions = localStorage.getItem("browser-extensions-state");
+    if (savedExtensions) {
+      try {
+        const parsed: ExtensionsState = JSON.parse(
+          savedExtensions,
+        ) as ExtensionsState;
+        setExtensions((prev) =>
+          prev.map((ext) => ({
+            ...ext,
+            isActive: parsed[ext.name] ?? ext.isActive,
+          })),
+        );
+      } catch {
+        // ignore parse errors
+      }
+    }
+
     setMounted(true);
   }, []);
 
@@ -156,7 +178,16 @@ function Main() {
     }
   }, [isDark, mounted]);
 
-  const filteredExtensions = useMemo(() => {
+  useEffect(() => {
+    if (!mounted) return;
+    const state: ExtensionsState = {};
+    extensions.forEach((ext) => {
+      state[ext.name] = ext.isActive;
+    });
+    localStorage.setItem("browser-extensions-state", JSON.stringify(state));
+  }, [extensions, mounted]);
+
+  const filteredExtensions = useMemo((): Extension[] => {
     switch (selectedTab) {
       case "Active":
         return extensions.filter((ext) => ext.isActive);
