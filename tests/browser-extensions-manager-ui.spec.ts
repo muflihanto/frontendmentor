@@ -135,6 +135,39 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     }
   });
 
+  /** Test that extension state persists after page reload */
+  test("extension active/inactive state persists after page reload", async ({
+    page,
+  }) => {
+    const firstToggle = page
+      .locator('[role="tabpanel"] > div [role="switch"]')
+      .first();
+    const extensionName = await page
+      .locator('[role="tabpanel"] > div h2')
+      .first()
+      .textContent();
+
+    // Toggle the extension
+    const initialChecked = await firstToggle.getAttribute("aria-checked");
+    await firstToggle.click();
+
+    // Reload page
+    await page.reload();
+
+    // Find the same extension and verify its state
+    const extensionCard = page
+      .locator(`[role="tabpanel"] h2:has-text("${extensionName}")`)
+      .locator("..")
+      .locator("..")
+      .locator("..");
+    const toggleAfterReload = extensionCard.locator('[role="switch"]').first();
+
+    await expect(toggleAfterReload).toHaveAttribute(
+      "aria-checked",
+      initialChecked === "true" ? "false" : "true",
+    );
+  });
+
   /** Test tab filters work */
   test("tab filters filter extensions", async ({ page }) => {
     const allTab = page.getByRole("tab", { name: "All", exact: true });
