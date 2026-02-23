@@ -317,24 +317,26 @@ function Main() {
         </div>
       </div>
 
-      <div
-        role="tabpanel"
-        id="tabpanel"
-        aria-labelledby={`tab-${selectedTab.toLowerCase()}`}
-        className={cn(
-          "mt-10 grid grid-cols-1 gap-[12px] md:mt-12 md:grid-cols-2 lg:mt-[30px] lg:grid-cols-3",
-          "dark:mt-8",
-        )}
-      >
-        {filteredExtensions.map((extension, index) => (
-          <ExtensionCard
-            key={extension.name}
-            extension={extension}
-            onRemove={() => handleRemove(index)}
-            onToggle={() => handleToggle(index)}
-          />
-        ))}
-      </div>
+      {mounted && (
+        <div
+          role="tabpanel"
+          id="tabpanel"
+          aria-labelledby={`tab-${selectedTab.toLowerCase()}`}
+          className={cn(
+            "mt-10 grid grid-cols-1 gap-[12px] md:mt-12 md:grid-cols-2 lg:mt-[30px] lg:grid-cols-3",
+            "dark:mt-8",
+          )}
+        >
+          {filteredExtensions.map((extension, index) => (
+            <ExtensionCard
+              key={extension.name}
+              extension={extension}
+              onRemove={() => handleRemove(index)}
+              onToggle={() => handleToggle(index)}
+            />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
