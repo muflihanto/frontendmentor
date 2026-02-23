@@ -154,14 +154,28 @@ function Main() {
         const parsed: ExtensionsState = JSON.parse(
           savedExtensions,
         ) as ExtensionsState;
-        setExtensions((prev) =>
-          prev.map((ext) => ({
-            ...ext,
-            isActive: parsed[ext.name] ?? ext.isActive,
-          })),
+        // Validate that parsed is actually an object and not null/array
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+          setExtensions((prev) =>
+            prev.map((ext) => ({
+              ...ext,
+              isActive: parsed[ext.name] ?? ext.isActive,
+            })),
+          );
+        } else {
+          // Invalid data structure, log and remove corrupted entry
+          console.error(
+            "Invalid extensions state format in localStorage, resetting",
+          );
+          localStorage.removeItem("browser-extensions-state");
+        }
+      } catch (error) {
+        // Parse error - log and remove corrupted entry
+        console.error(
+          "Failed to parse extensions state from localStorage:",
+          error,
         );
-      } catch {
-        // ignore parse errors
+        localStorage.removeItem("browser-extensions-state");
       }
     }
 
