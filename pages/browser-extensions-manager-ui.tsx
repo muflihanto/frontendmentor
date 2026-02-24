@@ -98,6 +98,7 @@ function ExtensionCard({
             "dark:hover:border-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-400 dark:hover:text-browser-extensions-neutral-900",
             "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
           )}
+          aria-label={`Remove ${extension.name} extension`}
         >
           Remove
         </button>

@@ -266,7 +266,11 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(firstCard.locator("p")).toBeVisible();
 
     // Remove button
+    const firstExtensionName = await firstCard.locator("h2").textContent();
     await expect(firstCard.locator("button:has-text('Remove')")).toBeVisible();
+    await expect(
+      firstCard.locator("button:has-text('Remove')"),
+    ).toHaveAccessibleName(`Remove ${firstExtensionName} extension`);
 
     // toggle switch
     await expect(firstCard.locator('[role="switch"]')).toBeVisible();
