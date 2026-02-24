@@ -38,7 +38,9 @@ const tabs = ["All", "Active", "Inactive"] as const;
 
 type Tab = (typeof tabs)[number];
 
-type Extension = (typeof extensionsData)[number];
+type Extension = (typeof extensionsData)[number] & {
+  id: string;
+};
 
 type ExtensionsState = Record<string, boolean>;
 
@@ -131,7 +133,12 @@ function ExtensionCard({
 
 function Main() {
   const [selectedTab, setSelectedTab] = useState<Tab>("All");
-  const [extensions, setExtensions] = useState<Extension[]>(extensionsData);
+  const [extensions, setExtensions] = useState<Extension[]>(
+    extensionsData.map((ext, index) => ({
+      ...ext,
+      id: `ext-${index}-${ext.name.toLowerCase().replace(/\s+/g, "-")}`, // Create a unique ID
+    })),
+  );
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const onTabKeyDown = createTabKeyHandler();
@@ -160,7 +167,7 @@ function Main() {
           setExtensions((prev) =>
             prev.map((ext) => ({
               ...ext,
-              isActive: parsed[ext.name] ?? ext.isActive,
+              isActive: parsed[ext.id] ?? ext.isActive,
             })),
           );
         } else {
@@ -197,7 +204,7 @@ function Main() {
     if (!mounted) return;
     const state: ExtensionsState = {};
     extensions.forEach((ext) => {
-      state[ext.name] = ext.isActive;
+      state[ext.id] = ext.isActive;
     });
     localStorage.setItem("browser-extensions-state", JSON.stringify(state));
   }, [extensions, mounted]);
@@ -213,20 +220,14 @@ function Main() {
     }
   }, [selectedTab, extensions]);
 
-  const handleRemove = (index: number) => {
-    const actualIndex = extensions.findIndex(
-      (ext) => ext.name === filteredExtensions[index].name,
-    );
-    setExtensions((prev) => prev.filter((_, i) => i !== actualIndex));
+  const handleRemove = (extensionId: string) => {
+    setExtensions((prev) => prev.filter((ext) => ext.id !== extensionId));
   };
 
-  const handleToggle = (index: number) => {
-    const actualIndex = extensions.findIndex(
-      (ext) => ext.name === filteredExtensions[index].name,
-    );
+  const handleToggle = (extensionId: string) => {
     setExtensions((prev) =>
-      prev.map((ext, i) =>
-        i === actualIndex ? { ...ext, isActive: !ext.isActive } : ext,
+      prev.map((ext) =>
+        ext.id === extensionId ? { ...ext, isActive: !ext.isActive } : ext,
       ),
     );
   };
@@ -342,12 +343,12 @@ function Main() {
             "dark:mt-8",
           )}
         >
-          {filteredExtensions.map((extension, index) => (
+          {filteredExtensions.map((extension) => (
             <ExtensionCard
-              key={extension.name}
+              key={extension.id}
               extension={extension}
-              onRemove={() => handleRemove(index)}
-              onToggle={() => handleToggle(index)}
+              onRemove={() => handleRemove(extension.id)}
+              onToggle={() => handleToggle(extension.id)}
             />
           ))}
         </div>
