@@ -427,6 +427,45 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     }
   });
 
+  test("recovers gracefully from corrupted localStorage data", async ({
+    page,
+  }) => {
+    // Set corrupted JSON
+    await page.addInitScript(() => {
+      localStorage.setItem("browser-extensions-state", "{invalid json");
+    });
+    await page.goto("/browser-extensions-manager-ui");
+
+    // Wait for UI to be stable
+    await expect(page.locator('[role="tabpanel"] > div').first()).toBeVisible();
+
+    // Verify that extensions are in default state (you may need to know initial active count)
+    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
+    await activeTab.click();
+    const activeCount = await page.locator('[role="tabpanel"] > div').count();
+    // Compare with expected default active count from data.json
+    expect(activeCount).toBe(8);
+
+    // Check that localStorage now contains valid JSON
+    const isValid = await page.evaluate(() => {
+      const stored = localStorage.getItem("browser-extensions-state");
+      if (!stored) return false;
+      try {
+        const parsed: unknown = JSON.parse(stored);
+        // Ensure it's an object (not array or null) and has expected shape
+        return (
+          typeof parsed === "object" &&
+          parsed !== null &&
+          !Array.isArray(parsed)
+        );
+      } catch {
+        return false;
+      }
+    });
+
+    expect(isValid).toBe(true);
+  });
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
