@@ -10,6 +10,8 @@ import { createTabKeyHandler } from "../utils/tabKeyHandler";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
+const ASSETS_BASE_URL = "/browser-extensions-manager-ui";
+
 export default function BrowserExtensionsManagerUi() {
   return (
     <>
@@ -44,6 +46,12 @@ type Extension = (typeof extensionsData)[number] & {
 
 type ExtensionsState = Record<string, boolean>;
 
+const getImagePath = (path: string): string => {
+  // Remove leading dot and slash if present, then combine with base URL
+  const cleanPath = path.replace(/^\.\/?/, "");
+  return `${ASSETS_BASE_URL}/${cleanPath}`;
+};
+
 function ExtensionCard({
   extension,
   onRemove,
@@ -63,9 +71,10 @@ function ExtensionCard({
       <div className="flex gap-4">
         <div className="relative aspect-square h-[60px] flex-shrink-0 rounded-lg">
           <Image
-            src={extension.logo.replace(".", "/browser-extensions-manager-ui")}
+            src={getImagePath(extension.logo)}
             alt={extension.name}
             fill
+            sizes="60px"
             className="object-contain"
           />
         </div>
@@ -255,7 +264,7 @@ function Main() {
           role="graphics-symbol"
           aria-hidden="true"
         >
-          <use href="/browser-extensions-manager-ui/assets/images/logo.svg#logo" />
+          <use href={`${ASSETS_BASE_URL}/assets/images/logo.svg#logo`} />
         </svg>
         {mounted && (
           <button
@@ -278,10 +287,14 @@ function Main() {
               aria-hidden="true"
             >
               <g className={isDark ? "block" : "hidden"}>
-                <use href="/browser-extensions-manager-ui/assets/images/icon-sun.svg#icon-sun" />
+                <use
+                  href={`${ASSETS_BASE_URL}/assets/images/icon-sun.svg#icon-sun`}
+                />
               </g>
               <g className={isDark ? "hidden" : "block"}>
-                <use href="/browser-extensions-manager-ui/assets/images/icon-moon.svg#icon-moon" />
+                <use
+                  href={`${ASSETS_BASE_URL}/assets/images/icon-moon.svg#icon-moon`}
+                />
               </g>
             </svg>
           </button>
