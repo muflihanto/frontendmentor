@@ -476,6 +476,29 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
+  test("theme toggle shows sun icon in dark mode and moon icon in light mode", async ({
+    page,
+  }) => {
+    const themeButton = page.locator('header button[role="switch"]');
+
+    // Helper to check visibility of a group by its href content
+    const isGroupVisible = async (hrefPattern: string) => {
+      const group = page.locator(`svg g:has(use[href*="${hrefPattern}"])`);
+      const classes = await group.getAttribute("class");
+      return classes?.includes("block") ?? false;
+    };
+
+    // Start in light mode (moon visible)
+    expect(await isGroupVisible("icon-moon")).toBe(true);
+    expect(await isGroupVisible("icon-sun")).toBe(false);
+
+    await themeButton.click();
+
+    // After toggle, dark mode (sun visible)
+    expect(await isGroupVisible("icon-sun")).toBe(true);
+    expect(await isGroupVisible("icon-moon")).toBe(false);
+  });
+
   test.describe("hover states", () => {
     test.describe("light mode", () => {
       test("theme toggle button shows hover styles", async ({ page }) => {
