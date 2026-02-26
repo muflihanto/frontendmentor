@@ -9,10 +9,11 @@ import {
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { nanoid } from "nanoid";
-import { type KeyboardEvent, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDarkMode, useWindowSize } from "usehooks-ts";
 import { z } from "zod";
+import { createTabKeyHandler } from "../../utils/tabKeyHandler";
 import _data from "./data.json";
 
 export type Data = {
@@ -175,58 +176,7 @@ function Todo() {
     });
   };
 
-  const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    const tab = event.currentTarget;
-    const parent = tab.parentElement;
-    const tablist = parent?.parentElement;
-    const key = event.key;
-    const allTabs = tablist?.querySelectorAll("button");
-    const firstTab = allTabs?.[0];
-    const lastTab = allTabs?.[allTabs.length - 1];
-    const nextTab = parent?.nextElementSibling?.querySelector("button");
-    const prevTab = parent?.previousElementSibling?.querySelector("button");
-
-    let flag = false;
-
-    switch (key) {
-      case "Right":
-      case "ArrowRight":
-        if (nextTab) {
-          nextTab.focus();
-        } else {
-          firstTab?.focus();
-        }
-        flag = true;
-        break;
-
-      case "Left":
-      case "ArrowLeft":
-        if (prevTab) {
-          prevTab.focus();
-        } else {
-          lastTab?.focus();
-        }
-        flag = true;
-        break;
-
-      case "Home":
-      case "PageUp":
-        firstTab?.focus();
-        flag = true;
-        break;
-
-      case "End":
-      case "PageDown":
-        lastTab?.focus();
-        flag = true;
-        break;
-    }
-
-    if (flag) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  };
+  const onItemKeyDown = createTabKeyHandler("horizontal");
 
   return (
     <main className="contents" aria-label="Todo app">
