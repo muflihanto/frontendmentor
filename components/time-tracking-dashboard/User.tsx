@@ -1,6 +1,7 @@
 import Image from "next/image";
-import type { Dispatch, KeyboardEvent, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useWindowSize } from "usehooks-ts";
+import { createTabKeyHandler } from "../../utils/tabKeyHandler";
 import type { TimeUnit } from "./Main";
 
 type UserProps = {
@@ -11,86 +12,9 @@ export default function User({ activeTab, setActiveTab }: UserProps) {
   const buttons = ["Daily", "Weekly", "Monthly"];
   const { width } = useWindowSize();
 
-  const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    const tab = event.currentTarget;
-    const parent = tab.parentElement;
-    const tablist = parent?.parentElement;
-    const key = event.key;
-    const allTabs = tablist?.querySelectorAll("button");
-    const firstTab = allTabs?.[0];
-    const lastTab = allTabs?.[allTabs.length - 1];
-    const nextTab = parent?.nextElementSibling?.querySelector("button");
-    const prevTab = parent?.previousElementSibling?.querySelector("button");
-
-    let flag = false;
-
-    switch (key) {
-      case "Down":
-      case "ArrowDown":
-        if (width > 1023) {
-          if (nextTab) {
-            nextTab.focus();
-          } else {
-            firstTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Up":
-      case "ArrowUp":
-        if (width > 1023) {
-          if (prevTab) {
-            prevTab.focus();
-          } else {
-            lastTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Right":
-      case "ArrowRight":
-        if (width <= 1023) {
-          if (nextTab) {
-            nextTab.focus();
-          } else {
-            firstTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Left":
-      case "ArrowLeft":
-        if (width <= 1023) {
-          if (prevTab) {
-            prevTab.focus();
-          } else {
-            lastTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Home":
-      case "PageUp":
-        firstTab?.focus();
-        flag = true;
-        break;
-
-      case "End":
-      case "PageDown":
-        lastTab?.focus();
-        flag = true;
-        break;
-    }
-
-    if (flag) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  };
+  const onItemKeyDown = createTabKeyHandler(
+    width > 1023 ? "vertical" : "horizontal",
+  );
 
   return (
     <div className="rounded-[16px] bg-tracking-neutral-300 lg:row-span-2">
