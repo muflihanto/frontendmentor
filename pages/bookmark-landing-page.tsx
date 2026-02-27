@@ -6,7 +6,6 @@ import {
   type ComponentProps,
   type CSSProperties,
   cloneElement,
-  type KeyboardEvent,
   type PropsWithChildren,
   useEffect,
   useRef,
@@ -32,6 +31,7 @@ import { useWindowSize } from "usehooks-ts";
 import { z } from "zod";
 import { cn } from "../utils/cn";
 import { rubik } from "../utils/fonts/rubik";
+import { createTabKeyHandler } from "../utils/tabKeyHandler";
 
 interface DialogProps extends AriaDialogProps {
   children: React.ReactNode;
@@ -340,86 +340,9 @@ function TabButton({
   ...props
 }: PropsWithChildren<{ active: boolean } & ComponentProps<"button">>) {
   const { width } = useWindowSize();
-  const onItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    const tab = event.currentTarget;
-    const parent = tab.parentElement;
-    const tablist = parent?.parentElement;
-    const key = event.key;
-    const allTabs = tablist?.querySelectorAll("button");
-    const firstTab = allTabs?.[0];
-    const lastTab = allTabs?.[allTabs.length - 1];
-    const nextTab = parent?.nextElementSibling?.querySelector("button");
-    const prevTab = parent?.previousElementSibling?.querySelector("button");
-
-    let flag = false;
-
-    switch (key) {
-      case "Down":
-      case "ArrowDown":
-        if (width <= 1023) {
-          if (nextTab) {
-            nextTab.focus();
-          } else {
-            firstTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Up":
-      case "ArrowUp":
-        if (width <= 1023) {
-          if (prevTab) {
-            prevTab.focus();
-          } else {
-            lastTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Right":
-      case "ArrowRight":
-        if (width > 1023) {
-          if (nextTab) {
-            nextTab.focus();
-          } else {
-            firstTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Left":
-      case "ArrowLeft":
-        if (width > 1023) {
-          if (prevTab) {
-            prevTab.focus();
-          } else {
-            lastTab?.focus();
-          }
-          flag = true;
-        }
-        break;
-
-      case "Home":
-      case "PageUp":
-        firstTab?.focus();
-        flag = true;
-        break;
-
-      case "End":
-      case "PageDown":
-        lastTab?.focus();
-        flag = true;
-        break;
-    }
-
-    if (flag) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  };
+  const onItemKeyDown = createTabKeyHandler(
+    width > 1023 ? "horizontal" : "vertical",
+  );
 
   return (
     <button
@@ -731,6 +654,7 @@ function FAQ() {
                       className={cn([
                         "flex h-[64px] items-center justify-between py-2 pt-4 text-left text-[15px] text-bookmark-neutral-200 hover:text-bookmark-primary-red lg:pb-[10px] lg:pr-6 lg:text-[18px] lg:group-[:nth-child(2)]:h-[70px] lg:group-[:nth-child(2)]:pb-[16px]",
                       ])}
+                      onKeyDown={createTabKeyHandler("vertical")}
                     >
                       <div>{question}</div>
                       <svg
