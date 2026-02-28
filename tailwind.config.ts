@@ -1015,19 +1015,35 @@ export default {
           red: {
             400: "hsl(3,86%,64%)",
             500: "hsl(3,71%,56%)",
-            700: "hsl(3,77%,44%)"
+            700: "hsl(3,77%,44%)",
           },
           gradient: {
             light: {
               0: "#EBF2FC",
-              100: "#EEF8F9"
+              100: "#EEF8F9",
             },
             dark: {
               0: " #040918",
-              100: "#091540"
-            }
-          }
-        }
+              100: "#091540",
+            },
+          },
+        },
+        "weather-app": {
+          neutral: {
+            900: "hsl(243,96%,9%)",
+            800: "hsl(243,27%,20%)",
+            700: "hsl(243,23%,24%)",
+            600: "hsl(243,23%,30%)",
+            300: "hsl(240,6%,70%)",
+            200: "hsl(250,6%,84%)",
+            0: "hsl(0,0%,100%)",
+          },
+          orange: "hsl(28,100%,52%)",
+          blue: {
+            500: "hsl(233,67%,56%)",
+            700: "hsl(248,70%,36%)",
+          },
+        },
       },
       fontFamily: {
         "plus-jakarta": [
@@ -1166,9 +1182,10 @@ export default {
           "Inconsolata",
           ...fontFamily.sans,
         ],
-        "noto-sans": [
-          "var(--font-noto-sans)",
-          "Noto Sans",
+        "noto-sans": ["var(--font-noto-sans)", "Noto Sans", ...fontFamily.sans],
+        "bricolage-grotesque": [
+          "var(--font-bricolage-grotesque)",
+          "Bricolage Grotesque",
           ...fontFamily.sans,
         ],
       },
