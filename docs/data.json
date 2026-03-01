@@ -582,5 +582,13 @@
     "preview-src": "/index/previews/069-erg4fyzl3bu0r4kwcvvq.jpg",
     "tags": "FreeHTMLCSSJSAPI3intermediate",
     "name-href": "https://www.frontendmentor.io/challenges/url-shortening-api-landing-page-2ce3ob-G"
+  },
+  {
+    "description": "Build a responsive weather app with search functionality, unit conversion, and detailed forecasts using the Open-Meteo API.",
+    "path": "weather-app",
+    "name": "Weather app",
+    "preview-src": "/index/previews/aldppmnkr0tfgyuuabzg.webp",
+    "tags": "FreeHTMLCSSJSAPI3intermediate",
+    "name-href": "https://www.frontendmentor.io/challenges/weather-app-K1FhddVm49"
   }
 ]
