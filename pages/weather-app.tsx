@@ -13,7 +13,7 @@ export default function WeatherApp() {
         <title>Frontend Mentor | Weather App</title>
       </Head>
       <div
-        className={`App relative min-h-[100svh] bg-weather-app-neutral-900 px-4 py-4 text-white ${dmSans.variable} ${bricolageGrotesque.variable} font-dm-sans overflow-x-hidden`}
+        className={`App relative min-h-[100svh] bg-weather-app-neutral-900 px-4 py-4 text-white ${dmSans.variable} ${bricolageGrotesque.variable} overflow-x-hidden font-dm-sans`}
       >
         <Header />
         <Main />
@@ -44,7 +44,7 @@ function Header() {
         aria-label="Switch to Imperial/Metric"
       >
         <svg
-          className="w-[14px] aspect-square"
+          className="aspect-square w-[14px]"
           role="graphics-symbol"
           viewBox="0 0 16 16"
         >
@@ -52,7 +52,7 @@ function Header() {
         </svg>
         <span className="text-[14px]">Units</span>
         <svg
-          className="h-[6px] aspect-[13/8]"
+          className="aspect-[13/8] h-[6px]"
           role="graphics-symbol"
           viewBox="0 0 13 8"
         >
@@ -65,7 +65,39 @@ function Header() {
 
 function Main() {
   return (
-    <main>
+    <main className="mt-[48px] flex flex-col gap-8 pb-20">
+      <section className="text-center">
+        <h1
+          className={`font-bricolage-grotesque text-[52px] font-semibold leading-[1.2] tracking-[0.03em]`}
+        >
+          How&apos;s the sky looking today?
+        </h1>
+
+        <div className="mt-12 flex flex-col gap-3">
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-y-0 left-6 flex items-center">
+              <Image
+                src="/weather-app/assets/images/icon-search.svg"
+                alt=""
+                width={20}
+                height={20}
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Search for a place..."
+              className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300"
+            />
+          </div>
+          <button
+            type="button"
+            className="h-[56px] w-full rounded-xl bg-weather-app-blue-500 text-[20px] font-medium tracking-wide transition-colors"
+          >
+            Search
+          </button>
+        </div>
+      </section>
+
       {/* {`
         Units
 
