@@ -98,6 +98,46 @@ function Main() {
         </div>
       </section>
 
+      <section>
+        <div className="relative h-[286px] overflow-hidden rounded-[20px] bg-[image:url('/weather-app/assets/images/bg-today-small.svg')] bg-cover bg-center p-8 pt-[38px]">
+          <div className="text-center">
+            <h2 className="text-[28px] font-bold">Berlin, Germany</h2>
+            <p className="mt-1 text-lg opacity-70">Tuesday, Aug 5, 2025</p>
+          </div>
+
+          <div className="mt-[13px] flex items-center justify-center gap-4">
+            <Image
+              src="/weather-app/assets/images/icon-sunny.webp"
+              alt="Sunny"
+              width={120}
+              height={120}
+            />
+            <span className="pt-0.5 text-[96px] font-extrabold italic leading-none">
+              20°
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-5 grid grid-cols-2 gap-4">
+          {[
+            { label: "Feels Like", value: "18°" },
+            { label: "Humidity", value: "46%" },
+            { label: "Wind", value: "14 km/h" },
+            { label: "Precipitation", value: "0 mm" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="flex h-[118px] flex-col justify-between rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-5 pb-[19px] pt-4"
+            >
+              <p className="text-lg text-weather-app-neutral-200">
+                {stat.label}
+              </p>
+              <p className="text-[32px] leading-none">{stat.value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* {`
         Units
 
