@@ -138,6 +138,46 @@ function Main() {
         </div>
       </section>
 
+      <section>
+        <h3 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
+          Daily forecast
+        </h3>
+        <div className="mt-[22px] flex flex-wrap justify-between gap-4 pb-2">
+          {[
+            { day: "Tue", icon: "icon-rain.webp", high: 20, low: 14 },
+            { day: "Wed", icon: "icon-rain.webp", high: 21, low: 15 },
+            { day: "Thu", icon: "icon-sunny.webp", high: 24, low: 14 },
+            { day: "Fri", icon: "icon-partly-cloudy.webp", high: 25, low: 13 },
+            { day: "Sat", icon: "icon-storm.webp", high: 21, low: 15 },
+            { day: "Sun", icon: "icon-snow.webp", high: 25, low: 16 },
+            { day: "Mon", icon: "icon-fog.webp", high: 24, low: 15 },
+          ].map((item) => (
+            <div
+              key={item.day}
+              className="flex h-[165px] w-[103px] flex-col items-center justify-between rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[10px] py-[17px]"
+            >
+              <span className="text-weather-app-neutral-100 text-lg font-medium leading-none">
+                {item.day}
+              </span>
+              <div>
+                <Image
+                  src={`/weather-app/assets/images/${item.icon}`}
+                  alt={item.day}
+                  width={60}
+                  height={60}
+                />
+              </div>
+              <div className="flex w-full justify-between gap-2 text-[16px] font-medium leading-none">
+                <span>{item.high}°</span>
+                <span className="text-weather-app-neutral-300">
+                  {item.low}°
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* {`
         Units
 
