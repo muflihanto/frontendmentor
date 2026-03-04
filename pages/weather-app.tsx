@@ -142,10 +142,10 @@ function Main() {
         <h3 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
           Daily forecast
         </h3>
-        <div className="mt-[22px] flex flex-wrap justify-between gap-4 pb-2">
+        <div className="mt-[22px] flex flex-wrap justify-between gap-4">
           {[
             { day: "Tue", icon: "icon-rain.webp", high: 20, low: 14 },
-            { day: "Wed", icon: "icon-rain.webp", high: 21, low: 15 },
+            { day: "Wed", icon: "icon-drizzle.webp", high: 21, low: 15 },
             { day: "Thu", icon: "icon-sunny.webp", high: 24, low: 14 },
             { day: "Fri", icon: "icon-partly-cloudy.webp", high: 25, low: 13 },
             { day: "Sat", icon: "icon-storm.webp", high: 21, low: 15 },
@@ -173,6 +173,54 @@ function Main() {
                   {item.low}°
                 </span>
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[20px] bg-weather-app-neutral-800 px-4 py-5">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-bold leading-none">Hourly forecast</h3>
+          <button
+            type="button"
+            className="flex items-center gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] py-[10px] leading-none"
+          >
+            Tuesday
+            <Image
+              src="/weather-app/assets/images/icon-dropdown.svg"
+              alt=""
+              width={13}
+              height={8}
+            />
+          </button>
+        </div>
+        <div className="mt-[17px] flex flex-col gap-4">
+          {[
+            { time: "3 PM", icon: "icon-overcast.webp", temp: 20 },
+            { time: "4 PM", icon: "icon-partly-cloudy.webp", temp: 20 },
+            { time: "5 PM", icon: "icon-sunny.webp", temp: 20 },
+            { time: "6 PM", icon: "icon-overcast.webp", temp: 19 },
+            { time: "7 PM", icon: "icon-snow.webp", temp: 18 },
+            { time: "8 PM", icon: "icon-fog.webp", temp: 18 },
+            { time: "9 PM", icon: "icon-snow.webp", temp: 17 },
+            { time: "10 PM", icon: "icon-overcast.webp", temp: 17 },
+          ].map((item) => (
+            <div
+              key={item.time}
+              className="flex h-[60px] items-center justify-between rounded-lg border border-weather-app-neutral-600 bg-weather-app-neutral-700 pl-[11px] pr-4 leading-none"
+            >
+              <div className="flex items-center gap-2">
+                <Image
+                  src={`/weather-app/assets/images/${item.icon}`}
+                  alt=""
+                  width={40}
+                  height={40}
+                />
+                <span className="text-xl">{item.time}</span>
+              </div>
+              <span className="font-medium text-weather-app-neutral-200">
+                {item.temp}°
+              </span>
             </div>
           ))}
         </div>
