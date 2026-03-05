@@ -66,6 +66,38 @@ function Header() {
   );
 }
 
+function ApiError() {
+  return (
+    <main className="mt-[48px] flex flex-col items-center text-center lg:mt-[108px]">
+      <Image
+        src="/weather-app/assets/images/icon-error.svg"
+        alt=""
+        width={42}
+        height={42}
+      />
+      <h1 className="mt-7 font-bricolage-grotesque text-[52px] font-semibold leading-[1.2] tracking-[0.03em]">
+        Something went wrong
+      </h1>
+      <p className="mt-[24px] max-w-[540px] text-xl leading-[1.2] tracking-[0.01rem] text-weather-app-neutral-200">
+        We couldn&lsquo;t connect to the server (API error). Please try again in
+        a few moments.
+      </p>
+      <button
+        className="mt-6 flex h-[42px] w-[98px] items-center justify-center gap-[10px] rounded-lg bg-weather-app-neutral-800 p-2 font-medium"
+        type="button"
+      >
+        <Image
+          src="/weather-app/assets/images/icon-retry.svg"
+          height={17}
+          width={16}
+          alt=""
+        />
+        <span>Retry</span>
+      </button>
+    </main>
+  );
+}
+
 function Main() {
   return (
     <main className="mt-[48px] flex flex-col gap-8 lg:mt-[64px]">
