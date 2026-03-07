@@ -30,7 +30,8 @@ export default function WeatherApp() {
     refetch: refetchWeather,
   } = useWeather(location.lat, location.lon, units);
 
-  const { data: geocodingResults } = useGeocoding(activeQuery);
+  const { data: geocodingResults, isFetching: isGeocodingFetching } =
+    useGeocoding(activeQuery);
 
   const toggleUnits = () => {
     setUnits((prev) => (prev === "metric" ? "imperial" : "metric"));
@@ -77,6 +78,7 @@ export default function WeatherApp() {
               }}
               onSearchSubmit={handleSearch}
               geocodingResults={geocodingResults}
+              isGeocodingLoading={isGeocodingFetching}
               onLocationSelect={selectLocation}
               units={units}
             />
@@ -85,7 +87,7 @@ export default function WeatherApp() {
         <Footer />
         <Slider
           basePath="/weather-app/design"
-          absolutePath="/weather-app/design/desktop-design-metric.jpg"
+          absolutePath="/weather-app/design/search-in-progress-state.jpg"
           // absolutePath="/weather-app/design/mobile-design-metric.jpg"
         />
       </div>
@@ -171,6 +173,7 @@ function Main({
   onSearchChange,
   onSearchSubmit,
   geocodingResults,
+  isGeocodingLoading,
   onLocationSelect,
   units,
 }: {
@@ -181,6 +184,7 @@ function Main({
   onSearchChange: (val: string) => void;
   onSearchSubmit: (e: React.FormEvent) => void;
   geocodingResults?: LocationData[];
+  isGeocodingLoading: boolean;
   onLocationSelect: (res: LocationData) => void;
   units: "metric" | "imperial";
 }) {
@@ -240,24 +244,42 @@ function Main({
             </button>
           </form>
 
-          {geocodingResults && geocodingResults.length > 0 && (
-            <div className="absolute top-full z-10 mt-2 w-full rounded-xl bg-weather-app-neutral-800 p-2 shadow-xl lg:max-w-[525px]">
-              {geocodingResults.map((res: LocationData) => (
-                <button
-                  type="button"
-                  key={res.id}
-                  onClick={() => onLocationSelect(res)}
-                  className="w-full px-4 py-3 text-left first:rounded-t-lg last:rounded-b-lg hover:bg-weather-app-neutral-700"
-                >
-                  <p className="font-medium">{res.name}</p>
-                  <p className="text-sm text-weather-app-neutral-300">
-                    {res.admin1 ? `${res.admin1}, ` : ""}
-                    {res.country}
-                  </p>
-                </button>
-              ))}
+          {isGeocodingLoading && (
+            <div className="absolute top-full z-10 mt-[14px] flex h-[55px] w-full items-center gap-[10px] rounded-xl bg-weather-app-neutral-800 px-4 shadow lg:max-w-[525px]">
+              <div className="animate-spin">
+                <Image
+                  src="/weather-app/assets/images/icon-loading.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+              </div>
+              <p className="font-medium text-weather-app-neutral-0">
+                Search in progress
+              </p>
             </div>
           )}
+
+          {geocodingResults &&
+            geocodingResults.length > 0 &&
+            !isGeocodingLoading && (
+              <div className="absolute top-full z-10 mt-2 w-full rounded-xl bg-weather-app-neutral-800 p-2 shadow-xl lg:max-w-[525px]">
+                {geocodingResults.map((res: LocationData) => (
+                  <button
+                    type="button"
+                    key={res.id}
+                    onClick={() => onLocationSelect(res)}
+                    className="w-full px-4 py-3 text-left first:rounded-t-lg last:rounded-b-lg hover:bg-weather-app-neutral-700"
+                  >
+                    <p className="font-medium">{res.name}</p>
+                    <p className="text-sm text-weather-app-neutral-300">
+                      {res.admin1 ? `${res.admin1}, ` : ""}
+                      {res.country}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
         </div>
       </section>
 
