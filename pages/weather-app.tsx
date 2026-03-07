@@ -87,7 +87,7 @@ export default function WeatherApp() {
         <Footer />
         <Slider
           basePath="/weather-app/design"
-          absolutePath="/weather-app/design/search-in-progress-state.jpg"
+          absolutePath="/weather-app/design/loading-state.jpg"
           // absolutePath="/weather-app/design/mobile-design-metric.jpg"
         />
       </div>
@@ -284,9 +284,7 @@ function Main({
       </section>
 
       {isLoading || !weatherData ? (
-        <div className="flex justify-center py-20">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-weather-app-blue-500 border-t-transparent" />
-        </div>
+        <MainSkeleton />
       ) : (
         <div className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start">
           <div className="flex flex-col gap-8 lg:gap-12">
@@ -429,6 +427,90 @@ function Main({
         </div>
       )}
     </main>
+  );
+}
+
+function MainSkeleton() {
+  return (
+    <div className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start">
+      <div className="flex flex-col gap-8 lg:gap-12">
+        <section>
+          {/* Main Card */}
+          <div className="relative flex h-[286px] items-center justify-center overflow-hidden rounded-[20px] bg-weather-app-neutral-800 p-8 pt-[38px]">
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex gap-[10px]">
+                <div className="h-3 w-3 animate-bounce rounded-full bg-weather-app-neutral-200 [animation-duration:1s]" />
+                <div className="h-3 w-3 animate-bounce rounded-full bg-weather-app-neutral-200 [animation-delay:0.2s] [animation-duration:1s]" />
+                <div className="h-3 w-3 animate-bounce rounded-full bg-weather-app-neutral-200 [animation-delay:0.4s] [animation-duration:1s]" />
+              </div>
+              <p className="text-lg font-medium text-weather-app-neutral-200">
+                Loading...
+              </p>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-5 grid grid-cols-2 gap-4 lg:mt-8 lg:grid-cols-4 lg:gap-6">
+            {["Feels Like", "Humidity", "Wind", "Precipitation"].map(
+              (label) => (
+                <div
+                  key={label}
+                  className="flex h-[118px] flex-col justify-between rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-5 pb-[19px] pt-4"
+                >
+                  <p className="text-lg text-weather-app-neutral-200">
+                    {label}
+                  </p>
+                  <p className="text-[32px] leading-none text-white">&ndash;</p>
+                </div>
+              ),
+            )}
+          </div>
+        </section>
+
+        {/* Daily Forecast */}
+        <section>
+          <h3 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
+            Daily forecast
+          </h3>
+          <div className="mt-[22px] flex flex-wrap justify-between gap-4 lg:flex-nowrap">
+            {["d1", "d2", "d3", "d4", "d5", "d6", "d7"].map((id) => (
+              <div
+                key={id}
+                className="h-[165px] w-[103px] rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 lg:w-[96px] lg:flex-1"
+              />
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* Hourly Forecast Sidebar */}
+      <section className="rounded-[20px] bg-weather-app-neutral-800 py-5 lg:h-full lg:py-6">
+        <div className="flex items-center justify-between px-4 lg:px-6">
+          <h3 className="text-xl font-semibold leading-none">
+            Hourly forecast
+          </h3>
+          <div className="relative">
+            <div className="flex h-[36px] items-center justify-between rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none lg:w-[67px]">
+              <span>&ndash;</span>
+              <Image
+                src="/weather-app/assets/images/icon-dropdown.svg"
+                alt=""
+                width={13}
+                height={8}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="mt-[17px] flex flex-col gap-4 px-4 lg:mt-4 lg:px-6">
+          {["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"].map((id) => (
+            <div
+              key={id}
+              className="h-[60px] rounded-lg border border-weather-app-neutral-600 bg-weather-app-neutral-700"
+            />
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
 
