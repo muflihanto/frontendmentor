@@ -22,6 +22,7 @@ export default function WeatherApp() {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
+  const [lastSearchFailed, setLastSearchFailed] = useState(false);
 
   const {
     data: weatherData,
@@ -32,6 +33,17 @@ export default function WeatherApp() {
 
   const { data: geocodingResults, isFetching: isGeocodingFetching } =
     useGeocoding(activeQuery);
+
+  useEffect(() => {
+    if (
+      geocodingResults &&
+      geocodingResults.length === 0 &&
+      !isGeocodingFetching &&
+      activeQuery.length >= 2
+    ) {
+      setLastSearchFailed(true);
+    }
+  }, [geocodingResults, isGeocodingFetching, activeQuery]);
 
   const toggleUnits = () => {
     setUnits((prev) => (prev === "metric" ? "imperial" : "metric"));
@@ -52,6 +64,7 @@ export default function WeatherApp() {
     });
     setSearchQuery("");
     setActiveQuery("");
+    setLastSearchFailed(false);
   };
 
   return (
@@ -74,20 +87,24 @@ export default function WeatherApp() {
               searchQuery={searchQuery}
               onSearchChange={(val: string) => {
                 setSearchQuery(val);
-                if (val.length < 2) setActiveQuery("");
+                if (val.length < 2) {
+                  setActiveQuery("");
+                }
               }}
               onSearchSubmit={handleSearch}
               geocodingResults={geocodingResults}
               isGeocodingLoading={isGeocodingFetching}
               onLocationSelect={selectLocation}
               units={units}
+              lastSearchFailed={lastSearchFailed}
             />
           )}
         </div>
+
         <Footer />
         <Slider
           basePath="/weather-app/design"
-          absolutePath="/weather-app/design/loading-state.jpg"
+          absolutePath="/weather-app/design/no-results-state.jpg"
           // absolutePath="/weather-app/design/mobile-design-metric.jpg"
         />
       </div>
@@ -176,6 +193,7 @@ function Main({
   isGeocodingLoading,
   onLocationSelect,
   units,
+  lastSearchFailed,
 }: {
   weatherData?: WeatherData;
   isLoading: boolean;
@@ -187,6 +205,7 @@ function Main({
   isGeocodingLoading: boolean;
   onLocationSelect: (res: LocationData) => void;
   units: "metric" | "imperial";
+  lastSearchFailed: boolean;
 }) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
@@ -283,7 +302,13 @@ function Main({
         </div>
       </section>
 
-      {isLoading || !weatherData ? (
+      {lastSearchFailed ? (
+        <div className="mt-5 flex justify-center">
+          <p className="text-[28px] font-bold leading-none text-white">
+            No search result found!
+          </p>
+        </div>
+      ) : isLoading || !weatherData ? (
         <MainSkeleton />
       ) : (
         <div className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start">
