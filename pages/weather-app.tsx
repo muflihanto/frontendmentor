@@ -104,7 +104,7 @@ export default function WeatherApp() {
         <Footer />
         <Slider
           basePath="/weather-app/design"
-          absolutePath="/weather-app/design/no-results-state.jpg"
+          absolutePath="/weather-app/design/dropdown-state.jpg"
           // absolutePath="/weather-app/design/mobile-design-metric.jpg"
         />
       </div>
@@ -208,6 +208,7 @@ function Main({
   lastSearchFailed: boolean;
 }) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (weatherData && !selectedDay) {
@@ -282,13 +283,13 @@ function Main({
           {geocodingResults &&
             geocodingResults.length > 0 &&
             !isGeocodingLoading && (
-              <div className="absolute top-full z-10 mt-2 w-full rounded-xl bg-weather-app-neutral-800 p-2 shadow-xl lg:max-w-[525px]">
+              <div className="absolute top-full z-10 mt-[10px] w-full rounded-xl bg-weather-app-neutral-800 p-2 shadow-xl lg:max-w-[525px]">
                 {geocodingResults.map((res: LocationData) => (
                   <button
                     type="button"
                     key={res.id}
                     onClick={() => onLocationSelect(res)}
-                    className="w-full px-4 py-3 text-left first:rounded-t-lg last:rounded-b-lg hover:bg-weather-app-neutral-700"
+                    className="w-full rounded border border-transparent px-4 py-3 text-left hover:border-weather-app-neutral-600 hover:bg-weather-app-neutral-700"
                   >
                     <p className="font-medium">{res.name}</p>
                     <p className="text-sm text-weather-app-neutral-300">
@@ -406,27 +407,45 @@ function Main({
                 Hourly forecast
               </h3>
               <div className="relative">
-                <select
-                  value={selectedDay ?? ""}
-                  onChange={(e) => setSelectedDay(e.target.value)}
-                  className="flex appearance-none items-center gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] py-[10px] pr-8 leading-none outline-none lg:w-[120px]"
+                <button
+                  type="button"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none lg:w-[120px]"
                 >
-                  {Object.keys(weatherData.hourly).map((day) => (
-                    <option key={day} value={day}>
-                      {day}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                  <span className="truncate">{selectedDay}</span>
                   <Image
                     src="/weather-app/assets/images/icon-dropdown.svg"
                     alt=""
                     width={13}
                     height={8}
+                    className={`transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
                   />
-                </div>
+                </button>
+
+                {isDropdownOpen && (
+                  <div className="absolute right-0 top-full z-20 mt-[11px] flex w-[214px] flex-col gap-1 overflow-hidden rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] py-[7px] shadow-xl">
+                    {Object.keys(weatherData.hourly).map((day) => (
+                      <button
+                        key={day}
+                        type="button"
+                        onClick={() => {
+                          setSelectedDay(day);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`h-[39px] w-full rounded-lg px-2 text-left transition-colors hover:bg-weather-app-neutral-700 ${
+                          selectedDay === day
+                            ? "bg-weather-app-neutral-700 text-white"
+                            : "text-weather-app-neutral-200"
+                        }`}
+                      >
+                        {day}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
+
             <div className="mt-[17px] flex max-h-[592px] flex-col gap-4 overflow-scroll px-4 lg:mt-4 lg:px-6">
               {currentDayHourly.map((item) => (
                 <div
