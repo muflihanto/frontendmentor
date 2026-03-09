@@ -100,12 +100,21 @@ export const getWeatherIcon = (code: number): string => {
   return weatherIconMap[code] ?? "icon-sunny.webp";
 };
 
+export interface WeatherUnits {
+  temperature: "celsius" | "fahrenheit";
+  windSpeed: "kmh" | "mph";
+  precipitation: "mm" | "inch";
+}
+
 export const fetchWeather = async (
   lat: number,
   lon: number,
-  units: "metric" | "imperial" = "metric",
+  units: WeatherUnits = {
+    temperature: "celsius",
+    windSpeed: "kmh",
+    precipitation: "mm",
+  },
 ): Promise<WeatherData> => {
-  const isMetric = units === "metric";
   const searchParams = {
     latitude: lat,
     longitude: lon,
@@ -114,9 +123,9 @@ export const fetchWeather = async (
     hourly: "temperature_2m,weather_code",
     daily: "weather_code,temperature_2m_max,temperature_2m_min",
     timezone: "auto",
-    temperature_unit: isMetric ? "celsius" : "fahrenheit",
-    wind_speed_unit: isMetric ? "kmh" : "mph",
-    precipitation_unit: isMetric ? "mm" : "inch",
+    temperature_unit: units.temperature,
+    wind_speed_unit: units.windSpeed,
+    precipitation_unit: units.precipitation,
   };
 
   const data = await ky("https://api.open-meteo.com/v1/forecast", {
@@ -168,7 +177,11 @@ export const fetchWeather = async (
 export const useWeather = (
   lat: number,
   lon: number,
-  units: "metric" | "imperial" = "metric",
+  units: WeatherUnits = {
+    temperature: "celsius",
+    windSpeed: "kmh",
+    precipitation: "mm",
+  },
 ) => {
   return useQuery({
     queryKey: ["weather", lat, lon, units],

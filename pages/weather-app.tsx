@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { cn } from "../utils/cn";
 import { bricolageGrotesque } from "../utils/fonts/bricolageGrotesque";
 import { dmSans } from "../utils/fonts/dmSans";
 import {
@@ -9,13 +10,17 @@ import {
   useGeocoding,
   useWeather,
   type WeatherData,
+  type WeatherUnits,
 } from "../utils/useWeather";
-import { cn } from "../utils/cn";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function WeatherApp() {
-  const [units, setUnits] = useState<"metric" | "imperial">("metric");
+  const [weatherUnits, setWeatherUnits] = useState<WeatherUnits>({
+    temperature: "celsius",
+    windSpeed: "kmh",
+    precipitation: "mm",
+  });
   const [location, setLocation] = useState({
     name: "Berlin, Germany",
     lat: 52.52,
@@ -30,7 +35,7 @@ export default function WeatherApp() {
     isLoading: isWeatherLoading,
     isError: isWeatherError,
     refetch: refetchWeather,
-  } = useWeather(location.lat, location.lon, units);
+  } = useWeather(location.lat, location.lon, weatherUnits);
 
   const { data: geocodingResults, isFetching: isGeocodingFetching } =
     useGeocoding(activeQuery);
@@ -46,8 +51,8 @@ export default function WeatherApp() {
     }
   }, [geocodingResults, isGeocodingFetching, activeQuery]);
 
-  const toggleUnits = () => {
-    setUnits((prev) => (prev === "metric" ? "imperial" : "metric"));
+  const updateWeatherUnits = (newUnits: Partial<WeatherUnits>) => {
+    setWeatherUnits((prev) => ({ ...prev, ...newUnits }));
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -77,7 +82,10 @@ export default function WeatherApp() {
         className={`App relative flex min-h-[100svh] flex-col bg-weather-app-neutral-900 px-4 py-4 pb-10 text-white ${dmSans.variable} ${bricolageGrotesque.variable} overflow-x-hidden font-dm-sans lg:py-[49px] lg:pb-[79px]`}
       >
         <div className="mx-auto w-full max-w-[1216px]">
-          <Header onUnitToggle={toggleUnits} units={units} />
+          <Header
+            weatherUnits={weatherUnits}
+            onUpdateUnits={updateWeatherUnits}
+          />
           {isWeatherError ? (
             <ApiError onRetry={() => refetchWeather()} />
           ) : (
@@ -96,7 +104,7 @@ export default function WeatherApp() {
               geocodingResults={geocodingResults}
               isGeocodingLoading={isGeocodingFetching}
               onLocationSelect={selectLocation}
-              units={units}
+              weatherUnits={weatherUnits}
               lastSearchFailed={lastSearchFailed}
             />
           )}
@@ -114,15 +122,13 @@ export default function WeatherApp() {
 }
 
 function Header({
-  units,
-  onUnitToggle,
+  weatherUnits,
+  onUpdateUnits,
 }: {
-  units: "metric" | "imperial";
-  onUnitToggle: () => void;
+  weatherUnits: WeatherUnits;
+  onUpdateUnits: (newUnits: Partial<WeatherUnits>) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const isMetric = units === "metric";
 
   return (
     <header className="flex items-center justify-between">
@@ -163,12 +169,34 @@ function Header({
             <button
               type="button"
               onClick={() => {
-                onUnitToggle();
+                const isCurrentlyMetric =
+                  weatherUnits.temperature === "celsius" &&
+                  weatherUnits.windSpeed === "kmh" &&
+                  weatherUnits.precipitation === "mm";
+
+                if (isCurrentlyMetric) {
+                  onUpdateUnits({
+                    temperature: "fahrenheit",
+                    windSpeed: "mph",
+                    precipitation: "inch",
+                  });
+                } else {
+                  onUpdateUnits({
+                    temperature: "celsius",
+                    windSpeed: "kmh",
+                    precipitation: "mm",
+                  });
+                }
                 setIsOpen(false);
               }}
               className="my-1.5 w-full rounded-lg px-2 py-1.5 text-left font-medium transition-colors hover:bg-weather-app-neutral-700"
             >
-              Switch to {isMetric ? "Imperial" : "Metric"}
+              Switch to{" "}
+              {weatherUnits.temperature === "celsius" &&
+              weatherUnits.windSpeed === "kmh" &&
+              weatherUnits.precipitation === "mm"
+                ? "Imperial"
+                : "Metric"}
             </button>
 
             <div className="pb-[3px]">
@@ -176,38 +204,44 @@ function Header({
                 Temperature
               </p>
               <div className="flex flex-col gap-[3px]">
-                <div
+                <button
+                  type="button"
+                  onClick={() => onUpdateUnits({ temperature: "celsius" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
-                    isMetric && "bg-weather-app-neutral-700",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700",
+                    weatherUnits.temperature === "celsius" &&
+                      "bg-weather-app-neutral-700",
                   )}
                 >
-                  <span className={"text-weather-app-neutral-200"}>
+                  <span className="text-weather-app-neutral-200">
                     Celsius (°C)
                   </span>
-                  {isMetric && (
+                  {weatherUnits.temperature === "celsius" && (
                     <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
                       <title>Selected</title>
                       <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
                     </svg>
                   )}
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onUpdateUnits({ temperature: "fahrenheit" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
-                    !isMetric && "bg-weather-app-neutral-700",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700",
+                    weatherUnits.temperature === "fahrenheit" &&
+                      "bg-weather-app-neutral-700",
                   )}
                 >
                   <span className="text-weather-app-neutral-200">
                     Fahrenheit (°F)
                   </span>
-                  {!isMetric && (
+                  {weatherUnits.temperature === "fahrenheit" && (
                     <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
                       <title>Selected</title>
                       <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
                     </svg>
                   )}
-                </div>
+                </button>
               </div>
             </div>
 
@@ -216,74 +250,81 @@ function Header({
                 Wind Speed
               </p>
               <div className="flex flex-col gap-[3px]">
-                <div
-                  className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
-                    isMetric && "bg-weather-app-neutral-700",
-                  )}
-                >
-                  <span className={"text-weather-app-neutral-200"}>km/h</span>
-                  {isMetric && (
-                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
-                      <title>Selected</title>
-                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
-                    </svg>
-                  )}
-                </div>
-                <div
-                  className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
-                    !isMetric && "bg-weather-app-neutral-700",
-                  )}
-                >
-                  <span className="text-weather-app-neutral-200">mph</span>
-                  {!isMetric && (
-                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
-                      <title>Selected</title>
-                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
-                    </svg>
-                  )}
-                </div>
+                {[
+                  { value: "kmh", label: "km/h" },
+                  { value: "mph", label: "mph" },
+                ].map((unit) => (
+                  <button
+                    key={unit.value}
+                    type="button"
+                    onClick={() =>
+                      onUpdateUnits({
+                        windSpeed: unit.value as WeatherUnits["windSpeed"],
+                      })
+                    }
+                    className={cn(
+                      "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700",
+                      weatherUnits.windSpeed === unit.value &&
+                        "bg-weather-app-neutral-700",
+                    )}
+                  >
+                    <span className="text-weather-app-neutral-200">
+                      {unit.label}
+                    </span>
+                    {weatherUnits.windSpeed === unit.value && (
+                      <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+                        <title>Selected</title>
+                        <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+                      </svg>
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
 
             <div className="border-t border-weather-app-neutral-600 pb-[3px] pt-1">
               <p className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300">
-                Percipitation
+                Precipitation
               </p>
               <div className="flex flex-col gap-[3px]">
-                <div
+                <button
+                  type="button"
+                  onClick={() => onUpdateUnits({ precipitation: "mm" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
-                    isMetric && "bg-weather-app-neutral-700",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700",
+                    weatherUnits.precipitation === "mm" &&
+                      "bg-weather-app-neutral-700",
                   )}
                 >
-                  <span className={"text-weather-app-neutral-200"}>
-                    Milimeters (mm)
+                  <span className="text-weather-app-neutral-200">
+                    Millimeters (mm)
                   </span>
-                  {isMetric && (
+                  {weatherUnits.precipitation === "mm" && (
                     <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
                       <title>Selected</title>
                       <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
                     </svg>
                   )}
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onUpdateUnits({ precipitation: "inch" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
-                    !isMetric && "bg-weather-app-neutral-700",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700",
+                    weatherUnits.precipitation === "inch" &&
+                      "bg-weather-app-neutral-700",
                   )}
                 >
                   <span className="text-weather-app-neutral-200">
                     Inches (inch)
                   </span>
-                  {!isMetric && (
+                  {weatherUnits.precipitation === "inch" && (
                     <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
                       <title>Selected</title>
                       <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
                     </svg>
                   )}
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -336,7 +377,7 @@ function Main({
   geocodingResults,
   isGeocodingLoading,
   onLocationSelect,
-  units,
+  weatherUnits,
   lastSearchFailed,
 }: {
   weatherData?: WeatherData;
@@ -348,7 +389,7 @@ function Main({
   geocodingResults?: LocationData[];
   isGeocodingLoading: boolean;
   onLocationSelect: (res: LocationData) => void;
-  units: "metric" | "imperial";
+  weatherUnits: WeatherUnits;
   lastSearchFailed: boolean;
 }) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -365,7 +406,15 @@ function Main({
     Object.values(weatherData?.hourly ?? {})[0] ??
     [];
 
-  const speedUnit = units === "metric" ? "km/h" : "mph";
+  const speedLabel = {
+    kmh: "km/h",
+    mph: "mph",
+  }[weatherUnits.windSpeed];
+
+  const precipLabel = {
+    mm: "mm",
+    inch: "inch",
+  }[weatherUnits.precipitation];
 
   return (
     <main className="mt-[48px] flex flex-col gap-8 lg:mt-[64px]">
@@ -492,11 +541,11 @@ function Main({
                   },
                   {
                     label: "Wind",
-                    value: `${weatherData.current.windSpeed} ${speedUnit}`,
+                    value: `${weatherData.current.windSpeed} ${speedLabel}`,
                   },
                   {
                     label: "Precipitation",
-                    value: `${weatherData.current.precipitation} mm`,
+                    value: `${weatherData.current.precipitation} ${precipLabel}`,
                   },
                 ].map((stat) => (
                   <div
