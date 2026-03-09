@@ -10,6 +10,7 @@ import {
   useWeather,
   type WeatherData,
 } from "../utils/useWeather";
+import { cn } from "../utils/cn";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -76,7 +77,7 @@ export default function WeatherApp() {
         className={`App relative flex min-h-[100svh] flex-col bg-weather-app-neutral-900 px-4 py-4 pb-10 text-white ${dmSans.variable} ${bricolageGrotesque.variable} overflow-x-hidden font-dm-sans lg:py-[49px] lg:pb-[79px]`}
       >
         <div className="mx-auto w-full max-w-[1216px]">
-          <Header onUnitToggle={toggleUnits} />
+          <Header onUnitToggle={toggleUnits} units={units} />
           {isWeatherError ? (
             <ApiError onRetry={() => refetchWeather()} />
           ) : (
@@ -112,7 +113,17 @@ export default function WeatherApp() {
   );
 }
 
-function Header({ onUnitToggle }: { onUnitToggle: () => void }) {
+function Header({
+  units,
+  onUnitToggle,
+}: {
+  units: "metric" | "imperial";
+  onUnitToggle: () => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const isMetric = units === "metric";
+
   return (
     <header className="flex items-center justify-between">
       <div className="relative flex aspect-[197/40] h-7 items-center gap-2 lg:h-10">
@@ -123,28 +134,161 @@ function Header({ onUnitToggle }: { onUnitToggle: () => void }) {
           fill
         />
       </div>
-      <button
-        type="button"
-        onClick={onUnitToggle}
-        className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium lg:gap-[10px] lg:px-4 lg:py-[9px]"
-        aria-label="Switch to Imperial/Metric"
-      >
-        <svg
-          className="aspect-square w-[14px] lg:w-4"
-          role="graphics-symbol"
-          viewBox="0 0 16 16"
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium lg:gap-[10px] lg:px-4 lg:py-[9px]"
+          aria-label="Switch to Imperial/Metric"
         >
-          <use href="/weather-app/assets/images/icon-units.svg#icon-units" />
-        </svg>
-        <span className="max-lg:text-[14px]">Units</span>
-        <svg
-          className="aspect-[13/8] h-[6px] lg:h-2"
-          role="graphics-symbol"
-          viewBox="0 0 13 8"
-        >
-          <use href="/weather-app/assets/images/icon-dropdown.svg#icon-dropdown" />
-        </svg>
-      </button>
+          <svg
+            className="aspect-square w-[14px] lg:w-4"
+            role="graphics-symbol"
+            viewBox="0 0 16 16"
+          >
+            <use href="/weather-app/assets/images/icon-units.svg#icon-units" />
+          </svg>
+          <span className="max-lg:text-[14px]">Units</span>
+          <svg
+            className={`aspect-[13/8] h-[6px] transition-transform lg:h-2 ${isOpen ? "rotate-180" : ""}`}
+            role="graphics-symbol"
+            viewBox="0 0 13 8"
+          >
+            <use href="/weather-app/assets/images/icon-dropdown.svg#icon-dropdown" />
+          </svg>
+        </button>
+
+        {isOpen && (
+          <div className="absolute right-0 top-full z-20 mt-[10px] flex w-[214px] flex-col overflow-hidden rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] shadow-xl">
+            <button
+              type="button"
+              onClick={() => {
+                onUnitToggle();
+                setIsOpen(false);
+              }}
+              className="my-1.5 w-full rounded-lg px-2 py-1.5 text-left font-medium transition-colors hover:bg-weather-app-neutral-700"
+            >
+              Switch to {isMetric ? "Imperial" : "Metric"}
+            </button>
+
+            <div className="pb-[3px]">
+              <p className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300">
+                Temperature
+              </p>
+              <div className="flex flex-col gap-[3px]">
+                <div
+                  className={cn(
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
+                    isMetric && "bg-weather-app-neutral-700",
+                  )}
+                >
+                  <span className={"text-weather-app-neutral-200"}>
+                    Celsius (°C)
+                  </span>
+                  {isMetric && (
+                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+                      <title>Selected</title>
+                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+                    </svg>
+                  )}
+                </div>
+                <div
+                  className={cn(
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
+                    !isMetric && "bg-weather-app-neutral-700",
+                  )}
+                >
+                  <span className="text-weather-app-neutral-200">
+                    Fahrenheit (°F)
+                  </span>
+                  {!isMetric && (
+                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+                      <title>Selected</title>
+                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-weather-app-neutral-600 pb-[3px] pt-1">
+              <p className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300">
+                Wind Speed
+              </p>
+              <div className="flex flex-col gap-[3px]">
+                <div
+                  className={cn(
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
+                    isMetric && "bg-weather-app-neutral-700",
+                  )}
+                >
+                  <span className={"text-weather-app-neutral-200"}>km/h</span>
+                  {isMetric && (
+                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+                      <title>Selected</title>
+                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+                    </svg>
+                  )}
+                </div>
+                <div
+                  className={cn(
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
+                    !isMetric && "bg-weather-app-neutral-700",
+                  )}
+                >
+                  <span className="text-weather-app-neutral-200">mph</span>
+                  {!isMetric && (
+                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+                      <title>Selected</title>
+                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-weather-app-neutral-600 pb-[3px] pt-1">
+              <p className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300">
+                Percipitation
+              </p>
+              <div className="flex flex-col gap-[3px]">
+                <div
+                  className={cn(
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
+                    isMetric && "bg-weather-app-neutral-700",
+                  )}
+                >
+                  <span className={"text-weather-app-neutral-200"}>
+                    Milimeters (mm)
+                  </span>
+                  {isMetric && (
+                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+                      <title>Selected</title>
+                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+                    </svg>
+                  )}
+                </div>
+                <div
+                  className={cn(
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium",
+                    !isMetric && "bg-weather-app-neutral-700",
+                  )}
+                >
+                  <span className="text-weather-app-neutral-200">
+                    Inches (inch)
+                  </span>
+                  {!isMetric && (
+                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+                      <title>Selected</title>
+                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 }
