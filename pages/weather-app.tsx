@@ -113,7 +113,7 @@ export default function WeatherApp() {
         <Footer />
         <Slider
           basePath="/weather-app/design"
-          absolutePath="/weather-app/design/dropdown-state.jpg"
+          absolutePath="/weather-app/design/hover-state.jpg"
           // absolutePath="/weather-app/design/mobile-design-metric.jpg"
         />
       </div>
@@ -144,7 +144,7 @@ function Header({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium lg:gap-[10px] lg:px-4 lg:py-[9px]"
+          className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium hover:bg-weather-app-neutral-700 lg:gap-[10px] lg:px-4 lg:py-[9px]"
           aria-label="Switch to Imperial/Metric"
         >
           <svg
@@ -446,12 +446,12 @@ function Main({
                   onSearchChange(e.target.value);
                 }}
                 placeholder="Search for a place..."
-                className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300"
+                className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300 hover:bg-weather-app-neutral-700"
               />
             </div>
             <button
               type="submit"
-              className="h-[56px] w-full rounded-xl bg-weather-app-blue-500 text-[20px] font-medium tracking-wide transition-colors lg:w-[114px]"
+              className="h-[56px] w-full rounded-xl bg-weather-app-blue-500 text-[20px] font-medium tracking-wide transition-colors hover:bg-weather-app-blue-700 lg:w-[114px]"
             >
               Search
             </button>
