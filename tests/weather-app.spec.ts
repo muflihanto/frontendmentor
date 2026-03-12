@@ -29,6 +29,30 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText("Precipitation")).toBeVisible();
   });
 
+  test("can search for a location and display results", async ({ page }) => {
+    const searchInput = page.getByPlaceholder("Search for a place...");
+    await searchInput.fill("London");
+    await page.getByRole("button", { name: "Search" }).click();
+
+    // Wait for search results dropdown
+    await page.waitForSelector("text=London", { state: "visible" });
+
+    // Click on first result
+    await page.getByText("London").first().click();
+
+    // Verify location changed
+    await expect(page.getByText("London, United Kingdom")).toBeVisible();
+  });
+
+  test("shows loading state while searching", async ({ page }) => {
+    const searchInput = page.getByPlaceholder("Search for a place...");
+    await searchInput.fill("Paris");
+    await page.getByRole("button", { name: "Search" }).click();
+
+    // Check if loading indicator appears
+    await expect(page.getByText("Search in progress")).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
