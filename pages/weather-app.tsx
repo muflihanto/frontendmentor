@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ import {
   type WeatherUnits,
 } from "../utils/useWeather";
 
-const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
+// const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 export default function WeatherApp() {
   const [weatherUnits, setWeatherUnits] = useState<WeatherUnits>({
@@ -111,11 +111,11 @@ export default function WeatherApp() {
         </div>
 
         <Footer />
-        <Slider
+        {/* <Slider
           basePath="/weather-app/design"
           absolutePath="/weather-app/design/focus-state.jpg"
           // absolutePath="/weather-app/design/mobile-design-metric.jpg"
-        />
+        /> */}
       </div>
     </>
   );
