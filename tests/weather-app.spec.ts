@@ -29,6 +29,15 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText("Precipitation")).toBeVisible();
   });
 
+  test("shows skeleton loading state initially", async ({ page }) => {
+    // Reload page to see loading state
+    await page.reload();
+
+    // Check for loading indicators
+    await expect(page.getByText("Loading...")).toBeVisible();
+    await expect(page.locator(".animate-bounce")).toHaveCount(3);
+  });
+
   test("can search for a location and display results", async ({ page }) => {
     const searchInput = page.getByPlaceholder("Search for a place...");
     await searchInput.fill("London");
