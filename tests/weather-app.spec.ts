@@ -53,6 +53,23 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText("Search in progress")).toBeVisible();
   });
 
+  test("displays no results message for invalid search", async ({ page }) => {
+    const searchInput = page.getByPlaceholder("Search for a place...");
+    await searchInput.fill("xyzabc123");
+    await page.getByRole("button", { name: "Search" }).click();
+
+    // Wait for no results message
+    await expect(page.getByText("No search result found!")).toBeVisible();
+  });
+
+  test("search input has proper accessibility attributes", async ({ page }) => {
+    const searchInput = page.getByPlaceholder("Search for a place...");
+    await expect(searchInput).toHaveAttribute("type", "text");
+
+    const searchButton = page.getByRole("button", { name: "Search" });
+    await expect(searchButton).toBeEnabled();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
