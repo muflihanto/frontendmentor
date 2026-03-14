@@ -150,6 +150,7 @@ function Header({
           <svg
             className="aspect-square w-[14px] lg:w-4"
             role="graphics-symbol"
+            aria-hidden="true"
             viewBox="0 0 16 16"
           >
             <use href="/weather-app/assets/images/icon-units.svg#icon-units" />
@@ -158,6 +159,7 @@ function Header({
           <svg
             className={`aspect-[13/8] h-[6px] transition-transform lg:h-2 ${isOpen ? "rotate-180" : ""}`}
             role="graphics-symbol"
+            aria-hidden="true"
             viewBox="0 0 13 8"
           >
             <use href="/weather-app/assets/images/icon-dropdown.svg#icon-dropdown" />
@@ -562,9 +564,9 @@ function Main({
             </section>
 
             <section>
-              <h3 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
+              <h2 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
                 Daily forecast
-              </h3>
+              </h2>
               <div className="mt-[22px] flex flex-wrap justify-between gap-4 lg:flex-nowrap">
                 {weatherData.daily.map((item) => (
                   <div
@@ -596,9 +598,9 @@ function Main({
 
           <section className="rounded-[20px] bg-weather-app-neutral-800 py-5 lg:h-full lg:py-6">
             <div className="flex items-center justify-between px-4 lg:px-6">
-              <h3 className="text-xl font-semibold leading-none">
+              <h2 className="text-xl font-semibold leading-none">
                 Hourly forecast
-              </h3>
+              </h2>
               <div className="relative">
                 <button
                   type="button"
@@ -706,9 +708,9 @@ function MainSkeleton() {
 
         {/* Daily Forecast */}
         <section>
-          <h3 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
+          <h2 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
             Daily forecast
-          </h3>
+          </h2>
           <div className="mt-[22px] flex flex-wrap justify-between gap-4 lg:flex-nowrap">
             {["d1", "d2", "d3", "d4", "d5", "d6", "d7"].map((id) => (
               <div
@@ -723,9 +725,9 @@ function MainSkeleton() {
       {/* Hourly Forecast Sidebar */}
       <section className="rounded-[20px] bg-weather-app-neutral-800 py-5 lg:h-full lg:py-6">
         <div className="flex items-center justify-between px-4 lg:px-6">
-          <h3 className="text-xl font-semibold leading-none">
+          <h2 className="text-xl font-semibold leading-none">
             Hourly forecast
-          </h3>
+          </h2>
           <div className="relative">
             <div className="flex h-[36px] items-center justify-between rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none lg:w-[67px]">
               <span>&ndash;</span>
