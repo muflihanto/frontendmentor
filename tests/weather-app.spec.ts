@@ -80,6 +80,30 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(searchButton).toBeEnabled();
   });
 
+  test("can switch between metric and imperial units", async ({ page }) => {
+    // Open units dropdown
+    await page.getByLabel("Switch to Imperial/Metric").click();
+
+    // Switch to Imperial
+    await page
+      .getByRole("button", { name: "Switch to Imperial", exact: true })
+      .click();
+
+    // Verify wind speed unit changed to mph
+    await expect(page.getByText(/mph/)).toBeVisible();
+
+    // Open units dropdown again
+    await page.getByLabel("Switch to Imperial/Metric").click();
+
+    // Switch back to Metric
+    await page
+      .getByRole("button", { name: "Switch to Metric", exact: true })
+      .click();
+
+    // Verify wind speed unit changed back to km/h
+    await expect(page.getByText(/km\/h/)).toBeVisible();
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
