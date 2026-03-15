@@ -104,6 +104,31 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText(/km\/h/)).toBeVisible();
   });
 
+  test("can switch between hourly forecast days", async ({ page }) => {
+    // Wait for hourly forecast section
+    await page.waitForSelector("text='12 AM'", { state: "visible" });
+
+    const dayOptionsToggle = page.locator(
+      'h2:has-text("Hourly forecast") + div button',
+    );
+
+    // Open day dropdown
+    await dayOptionsToggle.click();
+
+    // Select a different day
+    const dayOptions = await page
+      .locator('h2:has-text("Hourly forecast") + div div button')
+      .all();
+    if (dayOptions.length > 0) {
+      await dayOptions[3].click();
+
+      // Verify dropdown closed
+      await expect(
+        page.locator('h2:has-text("Hourly forecast") + div div button'),
+      ).toHaveCount(0);
+    }
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
