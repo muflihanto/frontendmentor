@@ -448,6 +448,7 @@ function Main({
                   onSearchChange(e.target.value);
                 }}
                 placeholder="Search for a place..."
+                aria-label="Search for a city or location"
                 className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300 hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
               />
             </div>
@@ -460,7 +461,10 @@ function Main({
           </form>
 
           {isGeocodingLoading && (
-            <div className="absolute top-full z-10 mt-[14px] flex h-[55px] w-full items-center gap-[10px] rounded-xl bg-weather-app-neutral-800 px-4 shadow lg:max-w-[525px]">
+            <div
+              className="absolute top-full z-10 mt-[14px] flex h-[55px] w-full items-center gap-[10px] rounded-xl bg-weather-app-neutral-800 px-4 shadow lg:max-w-[525px]"
+              aria-live="polite"
+            >
               <div className="animate-spin">
                 <Image
                   src="/weather-app/assets/images/icon-loading.svg"
@@ -478,13 +482,19 @@ function Main({
           {geocodingResults &&
             geocodingResults.length > 0 &&
             !isGeocodingLoading && (
-              <div className="absolute top-full z-10 mt-[10px] w-full rounded-xl bg-weather-app-neutral-800 p-2 shadow-xl lg:max-w-[525px]">
+              <div
+                className="absolute top-full z-10 mt-[10px] w-full rounded-xl bg-weather-app-neutral-800 p-2 shadow-xl lg:max-w-[525px]"
+                role="listbox"
+                aria-label="Search results"
+              >
                 {geocodingResults.map((res: LocationData) => (
                   <button
                     type="button"
                     key={res.id}
                     onClick={() => onLocationSelect(res)}
                     className="w-full rounded border border-transparent px-4 py-3 text-left hover:border-weather-app-neutral-600 hover:bg-weather-app-neutral-700"
+                    role="option"
+                    aria-selected="false"
                   >
                     <p className="font-medium">{res.name}</p>
                     <p className="text-sm text-weather-app-neutral-300">
@@ -499,7 +509,7 @@ function Main({
       </section>
 
       {lastSearchFailed ? (
-        <div className="mt-5 flex justify-center">
+        <div className="mt-5 flex justify-center" aria-live="polite">
           <p className="text-[28px] font-bold leading-none text-white">
             No search result found!
           </p>
