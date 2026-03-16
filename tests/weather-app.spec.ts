@@ -80,6 +80,27 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(searchButton).toBeEnabled();
   });
 
+  test("units dropdown opens and closes", async ({ page }) => {
+    const unitsButton = page.getByLabel("Switch to Imperial/Metric");
+
+    // Dropdown should be closed initially
+    await expect(
+      page.getByRole("button", { name: "Switch to Imperial", exact: true }),
+    ).not.toBeVisible();
+
+    // Open dropdown
+    await unitsButton.click();
+    await expect(
+      page.getByRole("button", { name: "Switch to Imperial", exact: true }),
+    ).toBeVisible();
+
+    // Close dropdown by clicking again
+    await unitsButton.click();
+    await expect(
+      page.getByRole("button", { name: "Switch to Imperial", exact: true }),
+    ).not.toBeVisible();
+  });
+
   test("can switch between metric and imperial units", async ({ page }) => {
     // Open units dropdown
     await page.getByLabel("Switch to Imperial/Metric").click();
@@ -102,6 +123,15 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
     // Verify wind speed unit changed back to km/h
     await expect(page.getByText(/km\/h/)).toBeVisible();
+  });
+
+  test("daily forecast cards are displayed", async ({ page }) => {
+    await page.waitForSelector("text=Daily forecast", { state: "visible" });
+
+    // Check if at least 7 daily forecast cards are present
+    const heading = page.getByRole("heading", { name: "Daily forecast" });
+    const dailyCards = await heading.locator("+ div > div").count();
+    expect(dailyCards).toBe(7);
   });
 
   test("can switch between hourly forecast days", async ({ page }) => {
