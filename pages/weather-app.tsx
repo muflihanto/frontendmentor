@@ -144,8 +144,11 @@ function Header({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-haspopup="true"
           className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:gap-[10px] lg:px-4 lg:py-[9px]"
           aria-label="Switch to Imperial/Metric"
+          aria-describedby="units-description"
         >
           <svg
             className="aspect-square w-[14px] lg:w-4"
@@ -156,6 +159,10 @@ function Header({
             <use href="/weather-app/assets/images/icon-units.svg#icon-units" />
           </svg>
           <span className="max-lg:text-[14px]">Units</span>
+          <span id="units-description" className="sr-only">
+            Opens a menu to switch between metric and imperial units for
+            temperature, wind speed, and precipitation.
+          </span>
           <svg
             className={`aspect-[13/8] h-[6px] transition-transform lg:h-2 ${isOpen ? "rotate-180" : ""}`}
             role="graphics-symbol"
