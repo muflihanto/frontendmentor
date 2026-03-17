@@ -584,9 +584,9 @@ function Main({
               <h2 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
                 Daily forecast
               </h2>
-              <div className="mt-[22px] flex flex-wrap justify-between gap-4 lg:flex-nowrap">
+              <ul className="mt-[22px] flex flex-wrap justify-between gap-4 lg:flex-nowrap">
                 {weatherData.daily.map((item) => (
-                  <div
+                  <li
                     key={item.date}
                     className="flex h-[165px] w-[103px] flex-col items-center justify-between rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[10px] py-[17px] lg:w-[96px] lg:flex-1"
                   >
@@ -607,9 +607,9 @@ function Main({
                         {item.low}°
                       </span>
                     </div>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </section>
           </div>
 
@@ -622,6 +622,8 @@ function Main({
                 <button
                   type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  aria-haspopup="listbox"
+                  aria-expanded={isDropdownOpen}
                   className="flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:w-[120px]"
                 >
                   <span className="truncate">{selectedDay}</span>
@@ -635,7 +637,11 @@ function Main({
                 </button>
 
                 {isDropdownOpen && (
-                  <div className="absolute right-0 top-full z-20 mt-[11px] flex w-[214px] flex-col gap-1 overflow-hidden rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] py-[7px] shadow-xl">
+                  <div
+                    className="absolute right-0 top-full z-20 mt-[11px] flex w-[214px] flex-col gap-1 overflow-hidden rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] py-[7px] shadow-xl"
+                    role="listbox"
+                    aria-label="Select a day"
+                  >
                     {Object.keys(weatherData.hourly).map((day) => (
                       <button
                         key={day}
@@ -644,6 +650,8 @@ function Main({
                           setSelectedDay(day);
                           setIsDropdownOpen(false);
                         }}
+                        role="option"
+                        aria-selected={selectedDay === day}
                         className={`h-[39px] w-full rounded-lg px-2 text-left transition-colors hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 ${
                           selectedDay === day
                             ? "bg-weather-app-neutral-700 text-white"
