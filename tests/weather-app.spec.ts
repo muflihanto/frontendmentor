@@ -26,8 +26,10 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     // Check if weather stats are displayed
     await expect(page.getByText("Feels Like")).toBeVisible();
     await expect(page.getByText("Humidity")).toBeVisible();
-    await expect(page.getByText("Wind")).toBeVisible();
-    await expect(page.getByText("Precipitation")).toBeVisible();
+    await expect(page.getByText("Wind", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText("Precipitation", { exact: true }),
+    ).toBeVisible();
   });
 
   test("shows skeleton loading state initially", async ({ page }) => {
