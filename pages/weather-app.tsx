@@ -538,7 +538,9 @@ function Main({
                 <div className="mt-[13px] flex items-center justify-center gap-4 lg:mt-0">
                   <Image
                     src={`/weather-app/assets/images/${weatherData.current.icon}`}
-                    alt=""
+                    alt={weatherData.current.icon
+                      .replace("icon-", "")
+                      .replace(".webp", "")}
                     width={120}
                     height={120}
                   />
@@ -675,7 +677,7 @@ function Main({
                   <div className="flex items-center gap-2">
                     <Image
                       src={`/weather-app/assets/images/${item.icon}`}
-                      alt=""
+                      alt={item.icon.replace("icon-", "").replace(".webp", "")}
                       width={40}
                       height={40}
                     />
