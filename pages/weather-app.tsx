@@ -698,7 +698,7 @@ function Main({
 
 function MainSkeleton() {
   return (
-    <div className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start">
+    <div role="status" aria-busy="true" aria-label="Loading weather data" className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start">
       <div className="flex flex-col gap-8 lg:gap-12">
         <section>
           {/* Main Card */}
@@ -709,7 +709,7 @@ function MainSkeleton() {
                 <div className="h-3 w-3 animate-bounce rounded-full bg-weather-app-neutral-200 [animation-delay:0.2s] [animation-duration:1s]" />
                 <div className="h-3 w-3 animate-bounce rounded-full bg-weather-app-neutral-200 [animation-delay:0.4s] [animation-duration:1s]" />
               </div>
-              <p className="text-lg font-medium text-weather-app-neutral-200">
+              <p className="text-lg font-medium text-weather-app-neutral-200" aria-live="polite">
                 Loading...
               </p>
             </div>
