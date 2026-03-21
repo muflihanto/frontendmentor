@@ -698,6 +698,7 @@ function Main({
 
 function MainSkeleton() {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: <output> is for calculation results, not loading states. role="status" is the correct semantic for a loading skeleton.
     <div role="status" aria-busy="true" aria-label="Loading weather data" className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start">
       <div className="flex flex-col gap-8 lg:gap-12">
         <section>
