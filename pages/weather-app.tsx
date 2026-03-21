@@ -145,7 +145,8 @@ function Header({
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
-          aria-haspopup="true"
+          aria-haspopup="menu"
+          aria-controls={isOpen ? "units-menu" : undefined}
           className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:gap-[10px] lg:px-4 lg:py-[9px]"
           aria-label="Switch to Imperial/Metric"
           aria-describedby="units-description"
@@ -174,7 +175,12 @@ function Header({
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 top-full z-20 mt-[10px] flex w-[214px] flex-col rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] shadow-xl">
+          <div
+            id="units-menu"
+            role="menu"
+            aria-label="Unit settings"
+            className="absolute right-0 top-full z-20 mt-[10px] flex w-[214px] flex-col rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] shadow-xl"
+          >
             <button
               type="button"
               onClick={() => {
@@ -198,6 +204,7 @@ function Header({
                 }
                 setIsOpen(false);
               }}
+              role="menuitem"
               className="my-1.5 w-full rounded-lg px-2 py-1.5 text-left font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
             >
               Switch to{" "}
@@ -208,13 +215,19 @@ function Header({
                 : "Metric"}
             </button>
 
-            <div className="pb-[3px]">
-              <p className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300">
+            <fieldset className="m-0 min-w-0 border-none p-0 pb-[3px]">
+              <legend className="sr-only">Temperature</legend>
+              <p
+                aria-hidden="true"
+                className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300"
+              >
                 Temperature
               </p>
               <div className="flex flex-col gap-[3px]">
                 <button
                   type="button"
+                  role="menuitemradio"
+                  aria-checked={weatherUnits.temperature === "celsius"}
                   onClick={() => onUpdateUnits({ temperature: "celsius" })}
                   className={cn(
                     "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
@@ -234,6 +247,8 @@ function Header({
                 </button>
                 <button
                   type="button"
+                  role="menuitemradio"
+                  aria-checked={weatherUnits.temperature === "fahrenheit"}
                   onClick={() => onUpdateUnits({ temperature: "fahrenheit" })}
                   className={cn(
                     "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
@@ -252,10 +267,14 @@ function Header({
                   )}
                 </button>
               </div>
-            </div>
+            </fieldset>
 
-            <div className="border-t border-weather-app-neutral-600 pb-[3px] pt-1">
-              <p className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300">
+            <fieldset className="m-0 min-w-0 border-0 border-solid border-t border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
+              <legend className="sr-only">Wind Speed</legend>
+              <p
+                aria-hidden="true"
+                className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300"
+              >
                 Wind Speed
               </p>
               <div className="flex flex-col gap-[3px]">
@@ -266,6 +285,8 @@ function Header({
                   <button
                     key={unit.value}
                     type="button"
+                    role="menuitemradio"
+                    aria-checked={weatherUnits.windSpeed === unit.value}
                     onClick={() =>
                       onUpdateUnits({
                         windSpeed: unit.value as WeatherUnits["windSpeed"],
@@ -289,15 +310,21 @@ function Header({
                   </button>
                 ))}
               </div>
-            </div>
+            </fieldset>
 
-            <div className="border-t border-weather-app-neutral-600 pb-[3px] pt-1">
-              <p className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300">
+            <fieldset className="m-0 min-w-0 border-0 border-solid border-t border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
+              <legend className="sr-only">Precipitation</legend>
+              <p
+                aria-hidden="true"
+                className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300"
+              >
                 Precipitation
               </p>
               <div className="flex flex-col gap-[3px]">
                 <button
                   type="button"
+                  role="menuitemradio"
+                  aria-checked={weatherUnits.precipitation === "mm"}
                   onClick={() => onUpdateUnits({ precipitation: "mm" })}
                   className={cn(
                     "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
@@ -317,6 +344,8 @@ function Header({
                 </button>
                 <button
                   type="button"
+                  role="menuitemradio"
+                  aria-checked={weatherUnits.precipitation === "inch"}
                   onClick={() => onUpdateUnits({ precipitation: "inch" })}
                   className={cn(
                     "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
@@ -335,7 +364,7 @@ function Header({
                   )}
                 </button>
               </div>
-            </div>
+            </fieldset>
           </div>
         )}
       </div>
@@ -699,7 +728,12 @@ function Main({
 function MainSkeleton() {
   return (
     // biome-ignore lint/a11y/useSemanticElements: <output> is for calculation results, not loading states. role="status" is the correct semantic for a loading skeleton.
-    <div role="status" aria-busy="true" aria-label="Loading weather data" className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start">
+    <div
+      role="status"
+      aria-busy="true"
+      aria-label="Loading weather data"
+      className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start"
+    >
       <div className="flex flex-col gap-8 lg:gap-12">
         <section>
           {/* Main Card */}
@@ -710,7 +744,10 @@ function MainSkeleton() {
                 <div className="h-3 w-3 animate-bounce rounded-full bg-weather-app-neutral-200 [animation-delay:0.2s] [animation-duration:1s]" />
                 <div className="h-3 w-3 animate-bounce rounded-full bg-weather-app-neutral-200 [animation-delay:0.4s] [animation-duration:1s]" />
               </div>
-              <p className="text-lg font-medium text-weather-app-neutral-200" aria-live="polite">
+              <p
+                className="text-lg font-medium text-weather-app-neutral-200"
+                aria-live="polite"
+              >
                 Loading...
               </p>
             </div>
