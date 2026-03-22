@@ -147,7 +147,7 @@ function Header({
           aria-expanded={isOpen}
           aria-haspopup="menu"
           aria-controls={isOpen ? "units-menu" : undefined}
-          className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-2 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:gap-[10px] lg:px-4 lg:py-[9px]"
+          className="flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:gap-[10px] lg:px-4 lg:py-[9px]"
           aria-label="Switch to Imperial/Metric"
           aria-describedby="units-description"
         >
@@ -205,7 +205,7 @@ function Header({
                 setIsOpen(false);
               }}
               role="menuitem"
-              className="my-1.5 w-full rounded-lg px-2 py-1.5 text-left font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
+              className="my-1.5 w-full rounded-lg px-2 py-1.5 text-left font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
             >
               Switch to{" "}
               {weatherUnits.temperature === "celsius" &&
@@ -230,7 +230,7 @@ function Header({
                   aria-checked={weatherUnits.temperature === "celsius"}
                   onClick={() => onUpdateUnits({ temperature: "celsius" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
                     weatherUnits.temperature === "celsius" &&
                       "bg-weather-app-neutral-700",
                   )}
@@ -251,7 +251,7 @@ function Header({
                   aria-checked={weatherUnits.temperature === "fahrenheit"}
                   onClick={() => onUpdateUnits({ temperature: "fahrenheit" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
                     weatherUnits.temperature === "fahrenheit" &&
                       "bg-weather-app-neutral-700",
                   )}
@@ -269,7 +269,7 @@ function Header({
               </div>
             </fieldset>
 
-            <fieldset className="m-0 min-w-0 border-0 border-solid border-t border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
+            <fieldset className="m-0 min-w-0 border-0 border-t border-solid border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
               <legend className="sr-only">Wind Speed</legend>
               <p
                 aria-hidden="true"
@@ -293,7 +293,7 @@ function Header({
                       })
                     }
                     className={cn(
-                      "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
+                      "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
                       weatherUnits.windSpeed === unit.value &&
                         "bg-weather-app-neutral-700",
                     )}
@@ -312,7 +312,7 @@ function Header({
               </div>
             </fieldset>
 
-            <fieldset className="m-0 min-w-0 border-0 border-solid border-t border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
+            <fieldset className="m-0 min-w-0 border-0 border-t border-solid border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
               <legend className="sr-only">Precipitation</legend>
               <p
                 aria-hidden="true"
@@ -327,7 +327,7 @@ function Header({
                   aria-checked={weatherUnits.precipitation === "mm"}
                   onClick={() => onUpdateUnits({ precipitation: "mm" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
                     weatherUnits.precipitation === "mm" &&
                       "bg-weather-app-neutral-700",
                   )}
@@ -348,7 +348,7 @@ function Header({
                   aria-checked={weatherUnits.precipitation === "inch"}
                   onClick={() => onUpdateUnits({ precipitation: "inch" })}
                   className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
+                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
                     weatherUnits.precipitation === "inch" &&
                       "bg-weather-app-neutral-700",
                   )}
@@ -374,7 +374,10 @@ function Header({
 
 function ApiError({ onRetry }: { onRetry: () => void }) {
   return (
-    <main className="mt-[48px] flex flex-col items-center text-center lg:mt-[108px]">
+    <main
+      aria-label="API Error"
+      className="mt-[48px] flex flex-col items-center text-center lg:mt-[108px]"
+    >
       <Image
         src="/weather-app/assets/images/icon-error.svg"
         alt=""
@@ -391,6 +394,7 @@ function ApiError({ onRetry }: { onRetry: () => void }) {
       <button
         className="mt-6 flex h-[42px] w-[98px] items-center justify-center gap-[10px] rounded-lg bg-weather-app-neutral-800 p-2 font-medium"
         type="button"
+        aria-label="Retry connection"
         onClick={onRetry}
       >
         <Image
@@ -455,7 +459,10 @@ function Main({
   }[weatherUnits.precipitation];
 
   return (
-    <main className="mt-[48px] flex flex-col gap-8 lg:mt-[64px]">
+    <main
+      aria-label="Weather Dashboard"
+      className="mt-[48px] flex flex-col gap-8 lg:mt-[64px]"
+    >
       <section className="text-center">
         <h1
           className={`font-bricolage-grotesque text-[52px] font-semibold leading-[1.2] tracking-[0.03em]`}
@@ -485,12 +492,12 @@ function Main({
                 }}
                 placeholder="Search for a place..."
                 aria-label="Search for a city or location"
-                className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300 hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
+                className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300 hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
               />
             </div>
             <button
               type="submit"
-              className="h-[56px] w-full rounded-xl bg-weather-app-blue-500 text-[20px] font-medium tracking-wide transition-colors hover:bg-weather-app-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-blue-500 lg:w-[114px]"
+              className="h-[56px] w-full rounded-xl bg-weather-app-blue-500 text-[20px] font-medium tracking-wide transition-colors hover:bg-weather-app-blue-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-blue-500 lg:w-[114px]"
             >
               Search
             </button>
@@ -655,7 +662,7 @@ function Main({
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   aria-haspopup="listbox"
                   aria-expanded={isDropdownOpen}
-                  className="flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:w-[120px]"
+                  className="flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:w-[120px]"
                 >
                   <span className="truncate">{selectedDay}</span>
                   <Image
@@ -683,7 +690,7 @@ function Main({
                         }}
                         role="option"
                         aria-selected={selectedDay === day}
-                        className={`h-[39px] w-full rounded-lg px-2 text-left transition-colors hover:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:relative focus-visible:z-10 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 ${
+                        className={`h-[39px] w-full rounded-lg px-2 text-left transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 ${
                           selectedDay === day
                             ? "bg-weather-app-neutral-700 text-white"
                             : "text-weather-app-neutral-200"
