@@ -618,8 +618,11 @@ function Main({
               </div>
             </section>
 
-            <section>
-              <h2 className="text-xl font-medium leading-[1.1] tracking-[0.0175em]">
+            <section aria-labelledby="daily-forecast-heading">
+              <h2
+                id="daily-forecast-heading"
+                className="text-xl font-medium leading-[1.1] tracking-[0.0175em]"
+              >
                 Daily forecast
               </h2>
               <ul className="mt-[22px] flex flex-wrap justify-between gap-4 lg:flex-nowrap">
@@ -640,8 +643,12 @@ function Main({
                       />
                     </div>
                     <div className="flex w-full justify-between gap-2 text-[16px] font-medium leading-none">
-                      <span>{item.high}°</span>
+                      <span>
+                        <span className="sr-only">High: </span>
+                        {item.high}°
+                      </span>
                       <span className="text-weather-app-neutral-300">
+                        <span className="sr-only">Low: </span>
                         {item.low}°
                       </span>
                     </div>
