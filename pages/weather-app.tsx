@@ -658,17 +658,27 @@ function Main({
             </section>
           </div>
 
-          <section className="rounded-[20px] bg-weather-app-neutral-800 py-5 lg:h-full lg:py-6">
+          <section
+            aria-labelledby="hourly-forecast-heading"
+            className="rounded-[20px] bg-weather-app-neutral-800 py-5 lg:h-full lg:py-6"
+          >
             <div className="flex items-center justify-between px-4 lg:px-6">
-              <h2 className="text-xl font-semibold leading-none">
+              <h2
+                id="hourly-forecast-heading"
+                className="text-xl font-semibold leading-none"
+              >
                 Hourly forecast
               </h2>
               <div className="relative">
                 <button
                   type="button"
+                  aria-label="Select day for hourly forecast"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   aria-haspopup="listbox"
                   aria-expanded={isDropdownOpen}
+                  aria-controls={
+                    isDropdownOpen ? "hourly-forecast-listbox" : undefined
+                  }
                   className="flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:w-[120px]"
                 >
                   <span className="truncate">{selectedDay}</span>
@@ -683,6 +693,7 @@ function Main({
 
                 {isDropdownOpen && (
                   <div
+                    id="hourly-forecast-listbox"
                     className="absolute right-0 top-full z-20 mt-[11px] flex w-[214px] flex-col gap-1 rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] py-[7px] shadow-xl"
                     role="listbox"
                     aria-label="Select a day"
@@ -711,9 +722,9 @@ function Main({
               </div>
             </div>
 
-            <div className="mt-[17px] flex max-h-[592px] flex-col gap-4 overflow-scroll px-4 lg:mt-4 lg:px-6">
+            <ul className="mt-[17px] flex max-h-[592px] flex-col gap-4 overflow-scroll px-4 lg:mt-4 lg:px-6">
               {currentDayHourly.map((item) => (
-                <div
+                <li
                   key={item.time}
                   className="flex min-h-[60px] flex-1 items-center justify-between rounded-lg border border-weather-app-neutral-600 bg-weather-app-neutral-700 pl-[11px] pr-4 leading-none"
                 >
@@ -727,11 +738,12 @@ function Main({
                     <span className="text-xl">{item.time}</span>
                   </div>
                   <span className="font-medium text-weather-app-neutral-200">
+                    <span className="sr-only">Temperature: </span>
                     {item.temp}°
                   </span>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
         </div>
       )}
