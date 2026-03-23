@@ -87,19 +87,19 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
     // Dropdown should be closed initially
     await expect(
-      page.getByRole("button", { name: "Switch to Imperial", exact: true }),
+      page.getByRole("menuitem", { name: "Switch to Imperial", exact: true }),
     ).not.toBeVisible();
 
     // Open dropdown
     await unitsButton.click();
     await expect(
-      page.getByRole("button", { name: "Switch to Imperial", exact: true }),
+      page.getByRole("menuitem", { name: "Switch to Imperial", exact: true }),
     ).toBeVisible();
 
     // Close dropdown by clicking again
     await unitsButton.click();
     await expect(
-      page.getByRole("button", { name: "Switch to Imperial", exact: true }),
+      page.getByRole("menuitem", { name: "Switch to Imperial", exact: true }),
     ).not.toBeVisible();
   });
 
@@ -109,7 +109,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
     // Switch to Imperial
     await page
-      .getByRole("button", { name: "Switch to Imperial", exact: true })
+      .getByRole("menuitem", { name: "Switch to Imperial", exact: true })
       .click();
 
     // Verify wind speed unit changed to mph
@@ -120,7 +120,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
     // Switch back to Metric
     await page
-      .getByRole("button", { name: "Switch to Metric", exact: true })
+      .getByRole("menuitem", { name: "Switch to Metric", exact: true })
       .click();
 
     // Verify wind speed unit changed back to km/h
