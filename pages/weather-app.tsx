@@ -490,6 +490,16 @@ function Main({
                 onChange={(e) => {
                   onSearchChange(e.target.value);
                 }}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded={
+                  !!(
+                    geocodingResults &&
+                    geocodingResults.length > 0 &&
+                    !isGeocodingLoading
+                  )
+                }
+                aria-controls="search-results-list"
                 placeholder="Search for a place..."
                 aria-label="Search for a city or location"
                 className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300 hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
@@ -526,6 +536,7 @@ function Main({
             geocodingResults.length > 0 &&
             !isGeocodingLoading && (
               <div
+                id="search-results-list"
                 className="absolute top-full z-10 mt-[10px] w-full rounded-xl bg-weather-app-neutral-800 p-2 shadow-xl lg:max-w-[525px]"
                 role="listbox"
                 aria-label="Search results"
@@ -535,7 +546,7 @@ function Main({
                     type="button"
                     key={res.id}
                     onClick={() => onLocationSelect(res)}
-                    className="w-full rounded border border-transparent px-4 py-3 text-left hover:border-weather-app-neutral-600 hover:bg-weather-app-neutral-700"
+                    className="w-full rounded border border-transparent px-4 py-3 text-left hover:border-weather-app-neutral-600 hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
                     role="option"
                     aria-selected="false"
                   >
