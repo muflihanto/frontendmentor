@@ -56,6 +56,45 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText("London, United Kingdom")).toBeVisible();
   });
 
+  test("supports keyboard navigation in search results", async ({ page }) => {
+    const searchInput = page.getByPlaceholder("Search for a place...");
+    await searchInput.fill("London");
+    await page.getByRole("button", { name: "Search" }).click();
+
+    // Wait for search results dropdown
+    await page.waitForSelector("text=London", { state: "visible" });
+
+    // Focus input to receive keydown events
+    await searchInput.focus();
+
+    // Press ArrowDown to highlight the first item
+    await searchInput.press("ArrowDown");
+
+    const firstOption = page.locator('[role="option"]').first();
+    await expect(firstOption).toHaveAttribute("aria-selected", "true");
+
+    // Press ArrowDown again to highlight the second item
+    const optionsCount = await page.locator('[role="option"]').count();
+    if (optionsCount > 1) {
+      await searchInput.press("ArrowDown");
+      const secondOption = page.locator('[role="option"]').nth(1);
+      await expect(secondOption).toHaveAttribute("aria-selected", "true");
+      await expect(firstOption).toHaveAttribute("aria-selected", "false");
+
+      // Go back to the first item using ArrowUp
+      await searchInput.press("ArrowUp");
+      await expect(firstOption).toHaveAttribute("aria-selected", "true");
+    }
+
+    // Press Enter to select the currently highlighted item (first option)
+    await searchInput.press("Enter");
+
+    // Verify location changed
+    await expect(
+      page.getByText("London, United Kingdom").first(),
+    ).toBeVisible();
+  });
+
   test("shows loading state while searching", async ({ page }) => {
     const searchInput = page.getByPlaceholder("Search for a place...");
     await searchInput.fill("Paris");
