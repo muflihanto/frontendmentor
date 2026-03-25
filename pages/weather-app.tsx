@@ -436,6 +436,13 @@ function Main({
 }) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+
+  useEffect(() => {
+    if (searchQuery !== undefined || geocodingResults !== undefined) {
+      setFocusedIndex(-1);
+    }
+  }, [geocodingResults, searchQuery]);
 
   useEffect(() => {
     if (weatherData && !selectedDay) {
@@ -493,13 +500,39 @@ function Main({
                 role="combobox"
                 aria-autocomplete="list"
                 aria-expanded={
-                  !!(
-                    geocodingResults &&
-                    geocodingResults.length > 0 &&
-                    !isGeocodingLoading
-                  )
+                  !!(geocodingResults?.length && !isGeocodingLoading)
                 }
                 aria-controls="search-results-list"
+                aria-activedescendant={
+                  focusedIndex >= 0 && geocodingResults?.[focusedIndex]
+                    ? `search-result-${geocodingResults[focusedIndex].id}`
+                    : undefined
+                }
+                onKeyDown={(e) => {
+                  if (!geocodingResults?.length || isGeocodingLoading) return;
+
+                  if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    setFocusedIndex((prev) =>
+                      prev < geocodingResults.length - 1 ? prev + 1 : 0
+                    );
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    setFocusedIndex((prev) =>
+                      prev > 0 ? prev - 1 : geocodingResults.length - 1
+                    );
+                  } else if (e.key === "Enter") {
+                    if (
+                      focusedIndex >= 0 &&
+                      focusedIndex < geocodingResults.length
+                    ) {
+                      e.preventDefault();
+                      onLocationSelect(geocodingResults[focusedIndex]);
+                    }
+                  } else if (e.key === "Escape") {
+                    setFocusedIndex(-1);
+                  }
+                }}
                 placeholder="Search for a place..."
                 aria-label="Search for a city or location"
                 className="h-[56px] w-full rounded-xl bg-weather-app-neutral-800 pl-[58px] pr-4 text-[20px] outline-none placeholder:font-semibold placeholder:text-weather-app-neutral-300 hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
@@ -541,14 +574,18 @@ function Main({
                 role="listbox"
                 aria-label="Search results"
               >
-                {geocodingResults.map((res: LocationData) => (
+                {geocodingResults.map((res: LocationData, index: number) => (
                   <button
+                    id={`search-result-${res.id}`}
                     type="button"
                     key={res.id}
                     onClick={() => onLocationSelect(res)}
-                    className="w-full rounded border border-transparent px-4 py-3 text-left hover:border-weather-app-neutral-600 hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
+                    className={cn(
+                      "w-full rounded border border-transparent px-4 py-3 text-left hover:border-weather-app-neutral-600 hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
+                      focusedIndex === index && "bg-weather-app-neutral-700"
+                    )}
                     role="option"
-                    aria-selected="false"
+                    aria-selected={focusedIndex === index}
                   >
                     <p className="font-medium">{res.name}</p>
                     <p className="text-sm text-weather-app-neutral-300">
