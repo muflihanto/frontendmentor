@@ -86,6 +86,14 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
       await expect(firstOption).toHaveAttribute("aria-selected", "true");
     }
 
+    // Press Escape to clear the focused index
+    await searchInput.press("Escape");
+    await expect(firstOption).toHaveAttribute("aria-selected", "false");
+
+    // Press ArrowDown to highlight the first item again
+    await searchInput.press("ArrowDown");
+    await expect(firstOption).toHaveAttribute("aria-selected", "true");
+
     // Press Enter to select the currently highlighted item (first option)
     await searchInput.press("Enter");
 
