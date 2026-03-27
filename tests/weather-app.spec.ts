@@ -174,6 +174,31 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText(/km\/h/)).toBeVisible();
   });
 
+  test("can individually change unit preferences", async ({ page }) => {
+    // Open units dropdown
+    await page.getByLabel("Switch to Imperial/Metric").click();
+
+    // Change Temperature to Fahrenheit
+    await page.getByRole("menuitemradio", { name: "Fahrenheit (°F)" }).click();
+    await expect(
+      page.getByRole("menuitemradio", { name: "Fahrenheit (°F)" }),
+    ).toHaveAttribute("aria-checked", "true");
+
+    // Change Wind Speed to mph
+    await page.getByRole("menuitemradio", { name: "mph" }).click();
+    await expect(
+      page.getByRole("menuitemradio", { name: "mph" }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(page.getByText(/mph/)).toBeVisible();
+
+    // Change Precipitation to inch
+    await page.getByRole("menuitemradio", { name: "Inches (inch)" }).click();
+    await expect(
+      page.getByRole("menuitemradio", { name: "Inches (inch)" }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(page.getByText(/\d+\sin/)).toBeVisible();
+  });
+
   test("daily forecast cards are displayed", async ({ page }) => {
     await page.waitForSelector("text=Daily forecast", { state: "visible" });
 
