@@ -121,6 +121,37 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText("No search result found!")).toBeVisible();
   });
 
+  test("displays API error state and can retry", async ({ page }) => {
+    // Intercept the weather API call and abort it to simulate an error
+    await page.route("**/v1/forecast**", (route) => route.abort());
+
+    // Reload the page to trigger the error state
+    await page.reload();
+    await page.waitForTimeout(10000);
+
+    // Verify error state is visible
+    await expect(page.getByText("Something went wrong")).toBeVisible();
+    await expect(
+      page.getByText(/We couldn.*t connect to the server/),
+    ).toBeVisible();
+
+    // Now unroute to simulate successful retry
+    await page.unroute("**/v1/forecast**");
+
+    // Click retry
+    await page.getByRole("button", { name: "Retry connection" }).click();
+    await page.waitForTimeout(3000);
+
+    // Verify it loads the dashboard again
+    await expect(page.getByText("How’s the sky looking today?")).toBeVisible();
+
+    // Verify error state is not visible
+    await expect(page.getByText("Something went wrong")).not.toBeVisible();
+    await expect(
+      page.getByText(/We couldn.*t connect to the server/),
+    ).not.toBeVisible();
+  });
+
   test("search input has proper accessibility attributes", async ({ page }) => {
     const searchInput = page.getByPlaceholder("Search for a place...");
     await expect(searchInput).toHaveAttribute("type", "text");
