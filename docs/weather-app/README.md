@@ -10,6 +10,8 @@ This is a solution to the [Weather app challenge on Frontend Mentor](https://www
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -60,38 +62,56 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Ky](https://github.com/sindresorhus/ky) - Tiny and elegant HTTP client for JS
 - [Day.js](https://day.js.org/) - JS date utility library
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+One of the key accessibility improvements in this project was implementing a custom search combobox using the `aria-activedescendant` pattern. This allows users to navigate through search results using the arrow keys while keeping the keyboard focus on the input field.
 
-To see how you can add code snippets, see below:
+The `aria-activedescendant` attribute on the input points to the `id` of the currently "visually focused" option in the listbox. Screen readers then announce the selected option as if it were truly focused.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+```tsx
+// Input implementation
+<input
+  role="combobox"
+  aria-autocomplete="list"
+  aria-expanded={isOpen}
+  aria-controls="search-results-list"
+  aria-activedescendant={
+    focusedIndex >= 0 ? `search-result-${results[focusedIndex].id}` : undefined
+  }
+  onKeyDown={(e) => {
+    if (e.key === "ArrowDown") {
+      setFocusedIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
+    }
+    // ... other navigation logic
+  }}
+/>
+
+// Listbox implementation
+<div id="search-results-list" role="listbox">
+  {results.map((res, index) => (
+    <button
+      id={`search-result-${res.id}`}
+      role="option"
+      aria-selected={focusedIndex === index}
+    >
+      {res.name}
+    </button>
+  ))}
+</div>
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+This pattern is cleaner than manually moving focus between the input and list items, as it maintains the user's ability to keep typing or clearing the input without losing their place.
 
-### Continued development
+<!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
+- [Aria-activedescendant - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-activedescendant) - Documentation for the `aria-activedescendant` attribute.
+- [W3C WAI-ARIA Authoring Practices - Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) - Best practices for building accessible comboboxes.
 
-### AI Collaboration
+<!-- ### AI Collaboration
 
 Describe how you used AI tools (if any) during this project. This helps demonstrate your ability to work effectively with AI assistants.
 
