@@ -514,12 +514,12 @@ function Main({
                   if (e.key === "ArrowDown") {
                     e.preventDefault();
                     setFocusedIndex((prev) =>
-                      prev < geocodingResults.length - 1 ? prev + 1 : 0
+                      prev < geocodingResults.length - 1 ? prev + 1 : 0,
                     );
                   } else if (e.key === "ArrowUp") {
                     e.preventDefault();
                     setFocusedIndex((prev) =>
-                      prev > 0 ? prev - 1 : geocodingResults.length - 1
+                      prev > 0 ? prev - 1 : geocodingResults.length - 1,
                     );
                   } else if (e.key === "Enter") {
                     if (
@@ -582,7 +582,7 @@ function Main({
                     onClick={() => onLocationSelect(res)}
                     className={cn(
                       "w-full rounded border border-transparent px-4 py-3 text-left hover:border-weather-app-neutral-600 hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
-                      focusedIndex === index && "bg-weather-app-neutral-700"
+                      focusedIndex === index && "bg-weather-app-neutral-700",
                     )}
                     role="option"
                     aria-selected={focusedIndex === index}
@@ -770,7 +770,7 @@ function Main({
               </div>
             </div>
 
-            <ul className="mt-[17px] flex max-h-[592px] flex-col gap-4 overflow-scroll px-4 lg:mt-4 lg:px-6">
+            <ul className="mt-[17px] flex max-h-[592px] flex-col gap-4 overflow-y-auto scrollbar:w-1.5 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-weather-app-neutral-600 px-4 lg:mt-4 lg:px-6">
               {currentDayHourly.map((item) => (
                 <li
                   key={item.time}

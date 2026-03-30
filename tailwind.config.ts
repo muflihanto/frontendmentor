@@ -1203,6 +1203,9 @@ export default {
         "&[type='range']::-moz-range-track",
         "&[type='range']::-ms-track",
       ]);
+      addVariant("scrollbar", ["&::-webkit-scrollbar"]);
+      addVariant("scrollbar-track", ["&::-webkit-scrollbar-track"]);
+      addVariant("scrollbar-thumb", ["&::-webkit-scrollbar-thumb"]);
       addUtilities({
         ".scrollbar-hidden": {
           "-ms-overflow-style": "none",
