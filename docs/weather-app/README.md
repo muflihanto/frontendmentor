@@ -64,6 +64,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Accessible Search Combobox
 One of the key accessibility improvements in this project was implementing a custom search combobox using the `aria-activedescendant` pattern. This allows users to navigate through search results using the arrow keys while keeping the keyboard focus on the input field.
 
 The `aria-activedescendant` attribute on the input points to the `id` of the currently "visually focused" option in the listbox. Screen readers then announce the selected option as if it were truly focused.
@@ -101,6 +102,26 @@ The `aria-activedescendant` attribute on the input points to the `id` of the cur
 ```
 
 This pattern is cleaner than manually moving focus between the input and list items, as it maintains the user's ability to keep typing or clearing the input without losing their place.
+
+#### Custom Scrollbar Styling
+Another interesting problem I solved was customizing the scrollbar appearance for the hourly forecast section on Chromium-based browsers (especially Windows) without adding external dependencies. I implemented this by adding custom Tailwild CSS variants in `tailwind.config.ts`.
+
+```ts
+// tailwind.config.ts
+plugin(({ addVariant }) => {
+  addVariant("scrollbar", ["&::-webkit-scrollbar"]);
+  addVariant("scrollbar-track", ["&::-webkit-scrollbar-track"]);
+  addVariant("scrollbar-thumb", ["&::-webkit-scrollbar-thumb"]);
+})
+```
+
+By defining these variants, I could style the scrollbar directly in the JSX using utility classes, ensuring it matches the application's dark theme:
+
+```tsx
+<ul className="overflow-y-auto scrollbar:w-1.5 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-weather-app-neutral-600">
+  {/* forecast items */}
+</ul>
+```
 
 <!-- ### Continued development
 
