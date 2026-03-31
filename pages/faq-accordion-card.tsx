@@ -98,7 +98,7 @@ function Main() {
         >
           FAQ
         </h1>
-        <div className="divide mt-[19px] flex w-full flex-col divide-y divide-faq-accordion-neutral-text-100/20 border-b border-b-faq-accordion-neutral-text-100/20 text-[13px] leading-none text-faq-accordion-neutral-text-200 lg:mt-[25px] lg:max-h-[350px] lg:overflow-y-scroll lg:pr-4">
+        <div className="divide mt-[19px] flex w-full flex-col divide-y divide-faq-accordion-neutral-text-100/20 border-b border-b-faq-accordion-neutral-text-100/20 text-[13px] leading-none text-faq-accordion-neutral-text-200 lg:mt-[25px] lg:max-h-[350px] lg:overflow-y-auto lg:pr-4 lg:scrollbar:w-1 lg:scrollbar-track:bg-transparent lg:scrollbar-thumb:rounded-full lg:scrollbar-thumb:bg-faq-accordion-neutral-text-100/70">
           {faqs.map((faq, index) => {
             return (
               <FaqWrapper
