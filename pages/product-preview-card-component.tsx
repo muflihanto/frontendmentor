@@ -58,7 +58,7 @@ function ProductImage() {
 
 function ProductDescription() {
   return (
-    <main className="flex flex-col justify-around overflow-scroll px-[2.3rem] py-[1.2rem] max-[750px]:px-[1.8rem] max-[750px]:py-4">
+    <main className="flex flex-col justify-around overflow-y-auto px-[2.3rem] py-[1.2rem] scrollbar:w-1 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-product-review-neutral-300/20 max-[750px]:px-[1.8rem] max-[750px]:py-4">
       <h3 className="font-montserrat text-[0.8rem] font-light uppercase tracking-[.4rem] text-product-review-neutral-300">
         perfume
       </h3>
