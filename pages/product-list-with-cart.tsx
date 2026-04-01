@@ -242,7 +242,7 @@ function OrderConfirmationModal({
   }, [orders]);
 
   return (
-    <div className="absolute bottom-0 left-0 max-h-screen min-h-0 w-full overflow-scroll rounded-t-xl bg-white p-6 py-10 pb-[72px] text-product-list-rose-900 lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:w-[592px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-xl lg:px-10 lg:py-10">
+    <div className="absolute bottom-0 left-0 max-h-screen min-h-0 w-full overflow-y-auto rounded-t-xl bg-white p-6 py-10 pb-[72px] text-product-list-rose-900 scrollbar:w-1 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-product-list-rose-900/10 lg:bottom-auto lg:left-1/2 lg:top-1/2 lg:w-[592px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-xl lg:px-10 lg:py-10">
       <svg
         role="graphics-symbol"
         aria-hidden={true}
@@ -380,7 +380,7 @@ function Main() {
           })}
         </ul>
       </main>
-      <aside className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-8 lg:max-h-[calc(100svh-32px)] lg:self-start lg:overflow-y-scroll">
+      <aside className="mt-[31px] flex min-h-[300px] w-full flex-col items-center rounded-xl bg-white px-6 py-[23px] lg:sticky lg:top-8 lg:mt-8 lg:max-h-[calc(100svh-32px)] lg:self-start lg:overflow-y-auto lg:scrollbar:w-1 lg:scrollbar-track:bg-transparent lg:scrollbar-thumb:rounded-full lg:scrollbar-thumb:bg-product-list-rose-900/10">
         <h2 className="self-start text-[24px] font-bold text-product-list-red">
           Your Cart ({totalQuantity})
         </h2>
