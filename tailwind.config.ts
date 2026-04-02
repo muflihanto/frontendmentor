@@ -1044,6 +1044,22 @@ export default {
             700: "hsl(248,70%,36%)",
           },
         },
+        "typing-speed-test": {
+          neutral: {
+            900: "hsl(0,0%,7%)",
+            800: "hsl(0,0%,15%)",
+            500: "hsl(240,3%,46%)",
+            400: "hsl(240,1%,59%)",
+            0: "hsl(0,0%,100%)",
+          },
+          blue: {
+            400: "hsl(214,100%,55%)",
+            600: "hsl(210,100%,65%)",
+          },
+          "red-500": "hsl(354,63%,57%)",
+          "green-500": "hsl(140,63%,57%)",
+          "yellow-400": "hsl(49,85%,70%)",
+        },
       },
       fontFamily: {
         "plus-jakarta": [
@@ -1188,6 +1204,7 @@ export default {
           "Bricolage Grotesque",
           ...fontFamily.sans,
         ],
+        sora: ["var(--font-sora)", "Sora", ...fontFamily.sans],
       },
     },
   },
