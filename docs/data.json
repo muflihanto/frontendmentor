@@ -576,6 +576,14 @@
     "name-href": "https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW"
   },
   {
+    "description": "Build a typing speed test that calculates words per minute (WPM) and accuracy. A fun project to practice DOM manipulation and working with timers.",
+    "path": "typing-speed-test",
+    "name": "Typing speed test",
+    "preview-src": "/index/previews/typing-speed-test-preview.jpg",
+    "tags": "FreeHTMLCSSJS2junior",
+    "name-href": "https://www.frontendmentor.io/challenges/typing-speed-test"
+  },
+  {
     "description": "Integrate with the Clean URI link shortening API and play with browser storage in this landing page challenge.",
     "path": "url-shortening-api",
     "name": "URL shortening API landing page",
