@@ -1,17 +1,15 @@
-# Frontend Mentor - Job listings with filtering solution
+# Frontend Mentor - Typing Speed Test solution
 
-This is a solution to the [Job listings with filtering challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/job-listings-with-filtering-ivstIPCt). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/typing-speed-test). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
 ## Table of contents
 
-- [Frontend Mentor - Job listings with filtering solution](#frontend-mentor---job-listings-with-filtering-solution)
+- [Frontend Mentor - Typing Speed Test solution](#frontend-mentor---typing-speed-test-solution)
   - [Table of contents](#table-of-contents)
   - [Overview](#overview)
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
-    - [What I learned](#what-i-learned)
-    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -20,9 +18,8 @@ This is a solution to the [Job listings with filtering challenge on Frontend Men
 
 Users should be able to:
 
-- View the optimal layout for the site depending on their device's screen size
-- See hover states for all interactive elements on the page
-- Filter job listings based on the categories
+- View the optimal layout for the interface depending on their device's screen size
+- See hover and focus states for all interactive elements on the page
 
 <!-- ### Screenshot
 
@@ -44,56 +41,51 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 ### Built with
 
 - Semantic HTML5 markup
-- CSS custom properties
-- Flexbox
 - Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
-- [Jotai](https://jotai.org/) - React state management
 
-### What I learned
+<!-- ### What I learned
 
-To maintain type safety when using `Object.entries()` on an object with specific keys (like the filters in this project), I implemented a helper type called `Entries<T>`. This ensures that the resulting array of key-value pairs preserves the relationship between the key and its corresponding value type, rather than defaulting to `string` and `any`.
+Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
 
-```typescript
-type Entries<T> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T][];
+To see how you can add code snippets, see below:
+
+```html
+<h1>Some HTML code I'm proud of</h1>
 ```
 
-Usage with `Object.entries()`:
-
-```typescript
-(Object.entries(filters) as FilterEntries).every((filter) => {
-  if (filter[1].size === 0) return true;
-  // filter[0] is correctly typed as 'languages' | 'levels' | 'roles' | 'tools'
-  // filter[1] is correctly typed as Set<Language> | Set<Level> | etc.
-});
+```css
+.proud-of-this-css {
+  color: papayawhip;
+}
 ```
 
-To handle filter deletion generically without resorting to `any`, I used a combination of `Set<unknown>` and a final object cast. Since `Set.prototype.delete()` only needs to know that a value exists, casting a specific Set to `Set<unknown>` allows us to call `.delete()` safely even when we are dealing with a union of different Set types (e.g., `Set<Language> | Set<Level>`).
-
-```typescript
-setFilters((prev) => {
-  // Create a new Set to maintain immutability
-  const nextSet = new Set(prev[category]);
-
-  // Use 'unknown' to safely call .delete() on a union of sets
-  (nextSet as Set<unknown>).delete(value);
-
-  // Cast the final object to 'Filter' to satisfy the record update
-  return { ...prev, [category]: nextSet } as Filter;
-});
+```js
+const proudOfThisFunc = () => {
+  console.log("🎉");
+};
 ```
 
-<!-- ### Continued development
+If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
+### Continued development
+
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
 ### Useful resources
 
-- [TypeScript key-value relation preserving Object.entries() type](https://stackoverflow.com/questions/60141960/typescript-key-value-relation-preserving-object-entries-type) - This Stack Overflow answer provides a clean way to define an `Entries` helper type to make `Object.entries()` more type-safe in TypeScript.
+- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
+- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
+
+### AI Collaboration
+
+Describe how you used AI tools (if any) during this project. This helps demonstrate your ability to work effectively with AI assistants.
+
+- What tools did you use (e.g., ChatGPT, Claude, GitHub Copilot)?
+- How did you use them (e.g., debugging, generating boilerplate, brainstorming solutions)?
+- What worked well? What didn't? -->
 
 ## Author
 
