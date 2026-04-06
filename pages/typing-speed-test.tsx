@@ -1,3 +1,4 @@
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
@@ -26,6 +27,11 @@ export default function TypingSpeedTest() {
 }
 
 function Main() {
+  const [difficulty, setDifficulty] = useState("Hard");
+  const [mode, setMode] = useState("Timed (60s)");
+  const [isDiffOpen, setIsDiffOpen] = useState(false);
+  const [isModeOpen, setIsModeOpen] = useState(false);
+
   return (
     <main className="mx-auto flex w-full max-w-md flex-col px-4 pb-[0px] pt-4 md:max-w-7xl md:px-8 md:pt-8">
       <header className="flex w-full items-center justify-between">
@@ -95,86 +101,93 @@ function Main() {
           <div className="relative w-full">
             <button
               type="button"
+              onClick={() => {
+                setIsDiffOpen(!isDiffOpen);
+                setIsModeOpen(false);
+              }}
               className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
             >
-              Hard
+              {difficulty}
               <Image
                 src="/typing-speed-test/assets/images/icon-down-arrow.svg"
                 alt=""
                 width={12}
                 height={8}
-                className="h-auto w-3 rotate-180"
+                className={`h-auto w-3 transition-transform ${isDiffOpen ? "rotate-180" : ""}`}
               />
             </button>
-            <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
-              >
-                <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
-                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
-                  Easy
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
-              >
-                <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
-                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
-                  Medium
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
-              >
-                <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
-                  <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
-                </div>
-                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
-                  Hard
-                </span>
-              </button>
-            </div>
+            {isDiffOpen && (
+              <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
+                {["Easy", "Medium", "Hard"].map((diff) => (
+                  <button
+                    key={diff}
+                    type="button"
+                    onClick={() => {
+                      setDifficulty(diff);
+                      setIsDiffOpen(false);
+                    }}
+                    className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
+                  >
+                    {difficulty === diff ? (
+                      <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
+                        <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
+                      </div>
+                    ) : (
+                      <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
+                    )}
+                    <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                      {diff}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="relative w-full">
             <button
               type="button"
+              onClick={() => {
+                setIsModeOpen(!isModeOpen);
+                setIsDiffOpen(false);
+              }}
               className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
             >
-              Timed (60s)
+              {mode}
               <Image
                 src="/typing-speed-test/assets/images/icon-down-arrow.svg"
                 alt=""
                 width={12}
                 height={8}
-                className="h-auto w-3 rotate-180"
+                className={`h-auto w-3 transition-transform ${isModeOpen ? "rotate-180" : ""}`}
               />
             </button>
-            <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-2 py-1.5 transition-colors hover:bg-typing-speed-test-neutral-500/20"
-              >
-                <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
-                  <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
-                </div>
-                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
-                  Timed (60s)
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex w-full items-center gap-3 px-2 py-1.5 transition-colors hover:bg-typing-speed-test-neutral-500/20"
-              >
-                <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
-                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
-                  Passage
-                </span>
-              </button>
-            </div>
+            {isModeOpen && (
+              <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
+                {["Timed (60s)", "Passage"].map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => {
+                      setMode(m);
+                      setIsModeOpen(false);
+                    }}
+                    className="flex w-full items-center gap-3 px-2 py-1.5 transition-colors hover:bg-typing-speed-test-neutral-500/20"
+                  >
+                    {mode === m ? (
+                      <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
+                        <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
+                      </div>
+                    ) : (
+                      <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
+                    )}
+                    <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                      {m}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -185,24 +198,20 @@ function Main() {
               Difficulty:
             </span>
             <div className="flex items-center gap-2">
-              <button
-                type="button"
-                className="rounded-lg border border-typing-speed-test-neutral-500 px-2 py-1 text-[15px] text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
-              >
-                Easy
-              </button>
-              <button
-                type="button"
-                className="rounded-lg border border-typing-speed-test-neutral-500 px-2 py-1 text-[15px] text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
-              >
-                Medium
-              </button>
-              <button
-                type="button"
-                className="rounded-lg border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 px-2 py-1 text-[15px] text-typing-speed-test-blue-600 transition-colors"
-              >
-                Hard
-              </button>
+              {["Easy", "Medium", "Hard"].map((diff) => (
+                <button
+                  key={diff}
+                  type="button"
+                  onClick={() => setDifficulty(diff)}
+                  className={`rounded-lg px-2 py-1 text-[15px] transition-colors ${
+                    difficulty === diff
+                      ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
+                      : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-neutral-800"
+                  }`}
+                >
+                  {diff}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -213,18 +222,20 @@ function Main() {
               Mode:
             </span>
             <div className="flex items-center gap-2">
-              <button
-                type="button"
-                className="rounded-lg border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 px-2 py-1 text-[15px] text-typing-speed-test-blue-600 transition-colors"
-              >
-                Timed (60s)
-              </button>
-              <button
-                type="button"
-                className="rounded-lg border border-typing-speed-test-neutral-500 px-2 py-1 text-[15px] text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
-              >
-                Passage
-              </button>
+              {["Timed (60s)", "Passage"].map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMode(m)}
+                  className={`rounded-lg px-2 py-1 text-[15px] transition-colors ${
+                    mode === m
+                      ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
+                      : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-neutral-800"
+                  }`}
+                >
+                  {m}
+                </button>
+              ))}
             </div>
           </div>
         </div>
