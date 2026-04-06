@@ -18,7 +18,7 @@ export default function TypingSpeedTest() {
         <Footer />
         <Slider
           basePath="/typing-speed-test/design"
-          absolutePath="/typing-speed-test/design/desktop-not-started.jpg"
+          absolutePath="/typing-speed-test/design/mobile-dropdown.jpg"
         />
       </div>
     </>
@@ -91,33 +91,91 @@ function Main() {
         </div>
 
         {/* Mobile Dropdowns */}
-        <div className="mt-4 flex w-full gap-2 border-b border-typing-speed-test-neutral-800 pb-[15px] md:hidden">
-          <button
-            type="button"
-            className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
-          >
-            Hard
-            <Image
-              src="/typing-speed-test/assets/images/icon-down-arrow.svg"
-              alt=""
-              width={12}
-              height={8}
-              className="h-auto w-3"
-            />
-          </button>
-          <button
-            type="button"
-            className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
-          >
-            Timed (60s)
-            <Image
-              src="/typing-speed-test/assets/images/icon-down-arrow.svg"
-              alt=""
-              width={12}
-              height={8}
-              className="h-auto w-3"
-            />
-          </button>
+        <div className="relative z-20 mt-4 flex w-full gap-2 border-b border-typing-speed-test-neutral-800 pb-[15px] md:hidden">
+          <div className="relative w-full">
+            <button
+              type="button"
+              className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
+            >
+              Hard
+              <Image
+                src="/typing-speed-test/assets/images/icon-down-arrow.svg"
+                alt=""
+                width={12}
+                height={8}
+                className="h-auto w-3 rotate-180"
+              />
+            </button>
+            <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
+              <button
+                type="button"
+                className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
+              >
+                <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
+                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                  Easy
+                </span>
+              </button>
+              <button
+                type="button"
+                className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
+              >
+                <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
+                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                  Medium
+                </span>
+              </button>
+              <button
+                type="button"
+                className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
+              >
+                <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
+                  <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
+                </div>
+                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                  Hard
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div className="relative w-full">
+            <button
+              type="button"
+              className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800"
+            >
+              Timed (60s)
+              <Image
+                src="/typing-speed-test/assets/images/icon-down-arrow.svg"
+                alt=""
+                width={12}
+                height={8}
+                className="h-auto w-3 rotate-180"
+              />
+            </button>
+            <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
+              <button
+                type="button"
+                className="flex w-full items-center gap-3 px-2 py-1.5 transition-colors hover:bg-typing-speed-test-neutral-500/20"
+              >
+                <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
+                  <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
+                </div>
+                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                  Timed (60s)
+                </span>
+              </button>
+              <button
+                type="button"
+                className="flex w-full items-center gap-3 px-2 py-1.5 transition-colors hover:bg-typing-speed-test-neutral-500/20"
+              >
+                <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
+                <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                  Passage
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Desktop Pills */}
