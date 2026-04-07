@@ -206,7 +206,7 @@ function Main() {
                   className={`rounded-lg px-2 py-1 text-[15px] transition-colors ${
                     difficulty === diff
                       ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
-                      : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-neutral-800"
+                      : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:border-typing-speed-test-blue-600 hover:text-typing-speed-test-blue-600"
                   }`}
                 >
                   {diff}
@@ -230,7 +230,7 @@ function Main() {
                   className={`rounded-lg px-2 py-1 text-[15px] transition-colors ${
                     mode === m
                       ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
-                      : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-neutral-800"
+                      : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:border-typing-speed-test-blue-600 hover:text-typing-speed-test-blue-600"
                   }`}
                 >
                   {m}
@@ -253,7 +253,7 @@ function Main() {
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-[30px] md:pt-[0px]">
           <button
             type="button"
-            className="h-[56px] w-[220px] rounded-xl bg-typing-speed-test-blue-400 text-[20px] font-semibold tracking-[-0.02em] text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-blue-600"
+            className="h-[56px] w-[220px] rounded-xl bg-typing-speed-test-blue-400 text-[20px] font-semibold tracking-[-0.02em] text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-blue-600"
           >
             Start Typing Test
           </button>
