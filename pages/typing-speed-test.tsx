@@ -37,7 +37,7 @@ function Main() {
 
   const [status, setStatus] = useState<"idle" | "active" | "finished">("idle");
   const [input, setInput] = useState("");
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeElapsed, setTimeElapsed] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
   const [wpm, setWpm] = useState(0);
 
@@ -45,15 +45,21 @@ function Main() {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (status === "active" && timeLeft > 0) {
+    if (status === "active") {
       interval = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
+        setTimeElapsed((prev) => prev + 1);
       }, 1000);
-    } else if (timeLeft === 0 && status === "active") {
-      setStatus("finished");
     }
     return () => clearInterval(interval);
-  }, [status, timeLeft]);
+  }, [status]);
+
+  useEffect(() => {
+    if (status === "active") {
+      if (mode === "Timed (60s)" && timeElapsed >= 60) {
+        setStatus("finished");
+      }
+    }
+  }, [timeElapsed, mode, status]);
 
   useEffect(() => {
     if (status === "active") {
@@ -66,18 +72,21 @@ function Main() {
         input.length === 0 ? 100 : Math.round((correct / input.length) * 100);
       setAccuracy(acc);
 
-      const timeElapsed = 60 - timeLeft;
       if (timeElapsed > 0) {
         const currentWpm = Math.round(correct / 5 / (timeElapsed / 60));
         setWpm(currentWpm);
       }
+
+      if (mode === "Passage" && input.length >= passageText.length) {
+        setStatus("finished");
+      }
     }
-  }, [input, timeLeft, status]);
+  }, [input, timeElapsed, status, mode]);
 
   const handleStartTest = () => {
     setStatus("active");
     setInput("");
-    setTimeLeft(60);
+    setTimeElapsed(0);
     setWpm(0);
     setAccuracy(100);
     setTimeout(() => {
@@ -198,7 +207,11 @@ function Main() {
             <p
               className={`mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px] ${status === "active" ? "text-typing-speed-test-yellow-400" : "text-typing-speed-test-neutral-0"}`}
             >
-              0:{timeLeft.toString().padStart(2, "0")}
+              {mode === "Timed (60s)"
+                ? `0:${Math.max(0, 60 - timeElapsed)
+                    .toString()
+                    .padStart(2, "0")}`
+                : `${Math.floor(timeElapsed / 60)}:${(timeElapsed % 60).toString().padStart(2, "0")}`}
             </p>
           </div>
         </div>
@@ -386,6 +399,7 @@ function Main() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            maxLength={passageText.length}
             className="absolute left-0 top-0 h-0 w-0 opacity-0"
             autoComplete="off"
             autoCorrect="off"
