@@ -1,7 +1,7 @@
-import { useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { sora } from "../utils/fonts/sora";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
@@ -19,18 +19,119 @@ export default function TypingSpeedTest() {
         <Footer />
         <Slider
           basePath="/typing-speed-test/design"
-          absolutePath="/typing-speed-test/design/mobile-dropdown.jpg"
+          absolutePath="/typing-speed-test/design/mobile-started.jpg"
         />
       </div>
     </>
   );
 }
 
+const passageText =
+  'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb. "Globalization isn\'t as modern as we assume."';
+
 function Main() {
   const [difficulty, setDifficulty] = useState("Hard");
   const [mode, setMode] = useState("Timed (60s)");
   const [isDiffOpen, setIsDiffOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
+
+  const [status, setStatus] = useState<"idle" | "active" | "finished">("idle");
+  const [input, setInput] = useState("");
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [accuracy, setAccuracy] = useState(100);
+  const [wpm, setWpm] = useState(0);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (status === "active" && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0 && status === "active") {
+      setStatus("finished");
+    }
+    return () => clearInterval(interval);
+  }, [status, timeLeft]);
+
+  useEffect(() => {
+    if (status === "active") {
+      let correct = 0;
+      for (let i = 0; i < input.length; i++) {
+        if (input[i] === passageText[i]) correct++;
+      }
+
+      const acc =
+        input.length === 0 ? 100 : Math.round((correct / input.length) * 100);
+      setAccuracy(acc);
+
+      const timeElapsed = 60 - timeLeft;
+      if (timeElapsed > 0) {
+        const currentWpm = Math.round(correct / 5 / (timeElapsed / 60));
+        setWpm(currentWpm);
+      }
+    }
+  }, [input, timeLeft, status]);
+
+  const handleStartTest = () => {
+    setStatus("active");
+    setInput("");
+    setTimeLeft(60);
+    setWpm(0);
+    setAccuracy(100);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 10);
+  };
+
+  const handleContainerClick = () => {
+    if (status === "idle") {
+      handleStartTest();
+    } else if (status === "active") {
+      inputRef.current?.focus();
+    }
+  };
+
+  const renderPassage = () => {
+    const chars = passageText.split("");
+    const typedChars = input.split("");
+
+    return chars.map((char, index) => {
+      let colorClass = "text-typing-speed-test-neutral-400";
+      let decorationClass = "";
+
+      if (index < typedChars.length) {
+        if (typedChars[index] === char) {
+          colorClass = "text-typing-speed-test-green-500";
+        } else {
+          if (char !== " ") {
+            colorClass = "text-typing-speed-test-red-500";
+            decorationClass =
+              "underline decoration-typing-speed-test-red-500 underline-offset-4";
+          } else {
+            decorationClass =
+              "underline decoration-typing-speed-test-red-500 underline-offset-4";
+          }
+        }
+      }
+
+      const isCursor = index === typedChars.length && status === "active";
+
+      return (
+        <span
+          // biome-ignore lint/suspicious/noArrayIndexKey: static string sequence won't reorder
+          key={index}
+          className={`relative ${colorClass} ${decorationClass}`}
+        >
+          {char}
+          {isCursor && (
+            <span className="absolute inset-x-0 bottom-0 top-1 -mx-[1px] rounded-[4px] bg-typing-speed-test-neutral-400/30"></span>
+          )}
+        </span>
+      );
+    });
+  };
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-col px-4 pb-[0px] pt-4 md:max-w-7xl md:px-8 md:pt-8">
@@ -72,8 +173,10 @@ function Main() {
             <p className="text-[15px] font-medium text-typing-speed-test-neutral-400 md:text-[20px] md:tracking-tight">
               WPM:
             </p>
-            <p className="mt-1.5 text-2xl font-bold leading-none text-typing-speed-test-neutral-0 md:mt-0 md:text-[24px]">
-              0
+            <p
+              className={`mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px] ${status === "active" ? "text-typing-speed-test-neutral-0" : "text-typing-speed-test-neutral-0"}`}
+            >
+              {status === "idle" ? "0" : wpm}
             </p>
           </div>
           <div className="h-12 w-px place-self-center bg-typing-speed-test-neutral-500 md:h-8"></div>
@@ -81,8 +184,10 @@ function Main() {
             <p className="text-[15px] font-medium text-typing-speed-test-neutral-400 md:text-[20px] md:tracking-tight">
               Accuracy:
             </p>
-            <p className="mt-1.5 text-2xl font-bold leading-none text-typing-speed-test-neutral-0 md:mt-0 md:text-[24px]">
-              100%
+            <p
+              className={`mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px] ${(status === "active" || status === "finished") && accuracy < 100 ? "text-typing-speed-test-red-500" : "text-typing-speed-test-neutral-0"}`}
+            >
+              {status === "idle" ? "100%" : `${accuracy}%`}
             </p>
           </div>
           <div className="h-12 w-px place-self-center bg-typing-speed-test-neutral-500 md:h-8"></div>
@@ -90,8 +195,10 @@ function Main() {
             <p className="text-[15px] font-medium text-typing-speed-test-neutral-400 md:text-[20px] md:tracking-tight">
               Time:
             </p>
-            <p className="mt-1.5 text-2xl font-bold leading-none text-typing-speed-test-neutral-0 md:mt-0 md:text-[24px]">
-              0:60
+            <p
+              className={`mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px] ${status === "active" ? "text-typing-speed-test-yellow-400" : "text-typing-speed-test-neutral-0"}`}
+            >
+              0:{timeLeft.toString().padStart(2, "0")}
             </p>
           </div>
         </div>
@@ -241,27 +348,71 @@ function Main() {
         </div>
       </div>
 
-      <div className="relative mt-8 md:mt-8">
-        <p className="text-[28px] font-semibold leading-[1.575] text-typing-speed-test-neutral-400 opacity-70 blur-[8px] md:text-[38px] md:leading-[1.425] md:blur-[10px]">
-          The archaeological expedition unearthed artifacts that complicated
-          prevailing theories about Bronze Age trade networks. Obsidian from
-          Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all
-          discovered in a single Mycenaean tomb. &quot;Globalization isn&apos;t
-          as modern as we assume.&quot;
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: capturing text bounds click */}
+      <div
+        role="presentation"
+        className="relative mt-8 cursor-text md:mt-8"
+        onClick={handleContainerClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            handleContainerClick();
+          }
+        }}
+      >
+        <p
+          className={`text-[28px] font-semibold leading-[1.575] md:text-[38px] md:leading-[1.425] ${status === "idle" ? "text-typing-speed-test-neutral-400 opacity-70 blur-[8px] md:blur-[10px]" : ""}`}
+        >
+          {status === "idle" ? passageText : renderPassage()}
         </p>
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-[30px] md:pt-[0px]">
+        {status === "idle" && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-[30px] md:pt-[0px]">
+            <button
+              type="button"
+              onClick={handleStartTest}
+              className="h-[56px] w-[220px] rounded-xl bg-typing-speed-test-blue-400 text-[20px] font-semibold tracking-[-0.02em] text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+            >
+              Start Typing Test
+            </button>
+            <p className="mt-[18px] text-center text-[20px] font-semibold tracking-[-0.02875em] text-typing-speed-test-neutral-0">
+              Or click the text and start typing
+            </p>
+          </div>
+        )}
+
+        {status === "active" && (
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="absolute left-0 top-0 h-0 w-0 opacity-0"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+          />
+        )}
+      </div>
+
+      {(status === "active" || status === "finished") && (
+        <div className="mt-8 flex justify-center pb-8">
           <button
             type="button"
-            className="h-[56px] w-[220px] rounded-xl bg-typing-speed-test-blue-400 text-[20px] font-semibold tracking-[-0.02em] text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+            onClick={handleStartTest}
+            className="flex items-center gap-2 rounded-xl bg-typing-speed-test-neutral-800 px-6 py-4 text-[16px] font-semibold text-typing-speed-test-neutral-0 transition hover:bg-typing-speed-test-neutral-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
           >
-            Start Typing Test
+            Restart Test
+            <Image
+              src="/typing-speed-test/assets/images/icon-restart.svg"
+              alt=""
+              width={16}
+              height={16}
+              className="h-4 w-4 transition-transform hover:rotate-180"
+            />
           </button>
-          <p className="mt-[18px] text-center text-[20px] font-semibold tracking-[-0.02875em] text-typing-speed-test-neutral-0">
-            Or click the text and start typing
-          </p>
         </div>
-      </div>
+      )}
     </main>
   );
 }
