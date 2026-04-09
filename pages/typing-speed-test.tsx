@@ -42,6 +42,7 @@ function Main() {
   const [wpm, setWpm] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastOffsetTopRef = useRef<number | null>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -82,6 +83,34 @@ function Main() {
       }
     }
   }, [input, timeElapsed, status, mode]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: trigger scroll on input change
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (status !== "active") {
+      lastOffsetTopRef.current = null;
+      return;
+    }
+
+    const activeChar = document.getElementById("active-char");
+    if (!activeChar) return;
+
+    const currentOffset = activeChar.offsetTop;
+
+    // Track vertical position of invisible input to prevent native browser focus-scroll jumps
+    if (inputRef.current) {
+      inputRef.current.style.top = `${currentOffset}px`;
+    }
+
+    // Scroll smoothly to center only when wrapping to a new line
+    const isNewLine = lastOffsetTopRef.current !== currentOffset;
+
+    if (isNewLine) {
+      activeChar.scrollIntoView({ behavior: "smooth", block: "center" });
+      lastOffsetTopRef.current = currentOffset;
+    }
+  }, [input, status]);
 
   const handleStartTest = () => {
     setStatus("active");
@@ -131,6 +160,7 @@ function Main() {
         <span
           // biome-ignore lint/suspicious/noArrayIndexKey: static string sequence won't reorder
           key={index}
+          id={isCursor ? "active-char" : undefined}
           className={`relative ${colorClass} ${decorationClass}`}
         >
           {char}
