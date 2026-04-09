@@ -19,7 +19,7 @@ export default function TypingSpeedTest() {
         <Footer />
         <Slider
           basePath="/typing-speed-test/design"
-          absolutePath="/typing-speed-test/design/mobile-started.jpg"
+          absolutePath="/typing-speed-test/design/desktop-started.jpg"
         />
       </div>
     </>
@@ -27,7 +27,7 @@ export default function TypingSpeedTest() {
 }
 
 const passageText =
-  'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb. "Globalization isn\'t as modern as we assume."';
+  'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
 
 function Main() {
   const [difficulty, setDifficulty] = useState("Hard");
@@ -373,7 +373,7 @@ function Main() {
         }}
       >
         <p
-          className={`text-[28px] font-semibold leading-[1.575] md:text-[38px] md:leading-[1.425] ${status === "idle" ? "text-typing-speed-test-neutral-400 opacity-70 blur-[8px] md:blur-[10px]" : ""}`}
+          className={`text-[28px] leading-[1.575] tracking-[0.0235em] md:text-[39px] md:leading-[1.3875] ${status === "idle" ? "text-typing-speed-test-neutral-400 opacity-70 blur-[8px] md:blur-[10px]" : ""}`}
         >
           {status === "idle" ? passageText : renderPassage()}
         </p>
@@ -410,11 +410,11 @@ function Main() {
       </div>
 
       {(status === "active" || status === "finished") && (
-        <div className="mt-8 flex justify-center pb-8">
+        <div className="mt-[63px] flex justify-center border-t-2 border-t-typing-speed-test-neutral-800 pb-8 pt-[30px]">
           <button
             type="button"
             onClick={handleStartTest}
-            className="flex items-center gap-2 rounded-xl bg-typing-speed-test-neutral-800 px-6 py-4 text-[16px] font-semibold text-typing-speed-test-neutral-0 transition hover:bg-typing-speed-test-neutral-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+            className="flex h-14 w-[180px] items-center justify-center gap-2 rounded-xl bg-typing-speed-test-neutral-800 p-2 text-center text-[20px] font-semibold text-typing-speed-test-neutral-0 transition hover:bg-typing-speed-test-neutral-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
           >
             Restart Test
             <Image
@@ -422,7 +422,7 @@ function Main() {
               alt=""
               width={16}
               height={16}
-              className="h-4 w-4 transition-transform hover:rotate-180"
+              className="h-5 w-5 transition-transform hover:rotate-180"
             />
           </button>
         </div>
