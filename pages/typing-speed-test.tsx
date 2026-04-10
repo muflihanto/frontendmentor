@@ -19,7 +19,7 @@ export default function TypingSpeedTest() {
         <Footer />
         <Slider
           basePath="/typing-speed-test/design"
-          absolutePath="/typing-speed-test/design/mobile-results-first-test.jpg"
+          absolutePath="/typing-speed-test/design/desktop-results-first-test.jpg"
         />
       </div>
     </>
@@ -470,82 +470,84 @@ function Main() {
           )}
         </>
       ) : (
-        <div className="relative mt-8 flex w-full flex-col items-center px-0 pb-16">
+        <div className="relative mt-8 flex w-full flex-col items-center px-0 pb-16 md:mt-[55px]">
           <Image
             src="/typing-speed-test/assets/images/pattern-star-2.svg"
             alt=""
             width={32}
             height={32}
-            className="absolute left-[3px] top-[45px] h-5 w-5"
+            className="absolute left-[3px] top-[45px] h-5 w-5 md:-left-[2px] md:top-[124px] md:h-8 md:w-8"
           />
           <Image
             src="/typing-speed-test/assets/images/pattern-star-1.svg"
             alt=""
-            width={32}
-            height={32}
-            className="absolute bottom-[40px] right-[12px] h-10 w-10"
+            width={72}
+            height={72}
+            className="absolute bottom-[40px] right-[12px] h-10 w-10 md:bottom-[100px] md:right-[0px] md:h-[72px] md:w-[72px]"
           />
 
-          <div className="relative flex h-[80px] w-[80px] items-center justify-center rounded-full bg-typing-speed-test-green-500/10">
-            <div className="flex h-[64px] w-[64px] items-center justify-center rounded-full bg-typing-speed-test-green-500/20">
+          <div className="relative flex h-[80px] w-[80px] items-center justify-center rounded-full bg-typing-speed-test-green-500/10 md:h-[128px] md:w-[128px]">
+            <div className="flex h-[64px] w-[64px] items-center justify-center rounded-full bg-typing-speed-test-green-500/20 md:h-[96px] md:w-[96px]">
               <Image
                 src="/typing-speed-test/assets/images/icon-completed.svg"
                 alt="Completed"
                 width={64}
                 height={64}
-                className="h-12 w-12"
+                className="h-12 w-12 md:h-16 md:w-16"
               />
             </div>
           </div>
 
-          <h1 className="mt-7 text-center text-[24px] font-bold leading-none tracking-[0.015em] text-typing-speed-test-neutral-0">
+          <h1 className="mt-7 text-center text-[24px] font-bold leading-none tracking-[0.015em] text-typing-speed-test-neutral-0 md:mt-8 md:text-[40px] md:tracking-normal">
             Baseline Established!
           </h1>
-          <p className="mt-[10px] text-center leading-5 tracking-[-0.035em] text-typing-speed-test-neutral-400">
+          <p className="mt-[10px] text-center leading-5 tracking-[-0.035em] text-typing-speed-test-neutral-400 md:mt-[18px] md:text-[20px] md:tracking-[-0.0275em]">
             You&apos;ve set the bar. Now the real challenge begins—time to beat
             it.
           </p>
 
-          <div className="mt-[23px] flex w-full flex-col gap-4">
-            <div className="flex h-[92px] flex-col justify-center gap-2 rounded border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm">
-              <span className="text-[20px] text-typing-speed-test-neutral-400">
-                WPM:
-              </span>
-              <span className="text-[24px] font-bold leading-none text-typing-speed-test-neutral-0">
-                {wpm}
-              </span>
-            </div>
-            <div className="flex h-[92px] flex-col justify-center gap-2 rounded border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm">
-              <span className="text-[20px] text-typing-speed-test-neutral-400">
-                Accuracy:
-              </span>
-              <span
-                className={`text-[24px] font-bold leading-none ${accuracy < 100 ? "text-typing-speed-test-red-500" : "text-typing-speed-test-neutral-0"}`}
-              >
-                {accuracy}%
-              </span>
-            </div>
-            <div className="flex h-[92px] flex-col justify-center gap-2 rounded border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm">
-              <span className="text-[20px] text-typing-speed-test-neutral-400">
-                Characters
-              </span>
-              <div className="flex items-end gap-[6px]">
-                <span className="text-[24px] font-bold leading-none tracking-tight text-typing-speed-test-green-500">
-                  {correctChars}
+          <div className="mt-[23px] flex w-full flex-col items-center gap-4 md:mt-[54px]">
+            <div className="flex w-full flex-col gap-4 md:flex-row md:justify-center md:gap-[20px]">
+              <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
+                <span className="text-[20px] text-typing-speed-test-neutral-400">
+                  WPM:
                 </span>
-                <span className="pb-[2px] text-[24px] font-bold leading-none text-typing-speed-test-neutral-500">
-                  /
+                <span className="text-[24px] font-bold leading-none text-typing-speed-test-neutral-0">
+                  {wpm}
                 </span>
-                <span className="text-[24px] font-bold leading-none tracking-tight text-typing-speed-test-red-500">
-                  {incorrectChars}
+              </div>
+              <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
+                <span className="text-[20px] text-typing-speed-test-neutral-400">
+                  Accuracy:
                 </span>
+                <span
+                  className={`text-[24px] font-bold leading-none ${accuracy < 100 ? "text-typing-speed-test-red-500" : "text-typing-speed-test-neutral-0"}`}
+                >
+                  {accuracy}%
+                </span>
+              </div>
+              <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
+                <span className="text-[20px] text-typing-speed-test-neutral-400">
+                  Characters
+                </span>
+                <div className="flex items-end gap-[6px]">
+                  <span className="text-[24px] font-bold leading-none tracking-tight text-typing-speed-test-green-500">
+                    {correctChars}
+                  </span>
+                  <span className="pb-[2px] text-[24px] font-bold leading-none text-typing-speed-test-neutral-500">
+                    /
+                  </span>
+                  <span className="text-[24px] font-bold leading-none tracking-tight text-typing-speed-test-red-500">
+                    {incorrectChars}
+                  </span>
+                </div>
               </div>
             </div>
 
             <button
               type="button"
               onClick={handleStartTest}
-              className="mt-6 flex h-[56px] w-[215px] items-center justify-center gap-[10px] self-center rounded-xl bg-typing-speed-test-neutral-0 text-[20px] font-semibold tracking-[-0.015em] text-typing-speed-test-neutral-900 transition hover:bg-typing-speed-test-neutral-0/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+              className="mt-[6px] flex h-[56px] w-[215px] items-center justify-center gap-[10px] rounded-xl bg-typing-speed-test-neutral-0 text-[20px] font-semibold tracking-[-0.015em] text-typing-speed-test-neutral-900 transition hover:bg-typing-speed-test-neutral-0/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600 md:mt-12"
             >
               Beat This Score
               <Image
