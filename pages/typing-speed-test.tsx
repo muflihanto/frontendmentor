@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "../utils/cn";
 import { sora } from "../utils/fonts/sora";
 
@@ -15,7 +15,7 @@ export default function TypingSpeedTest() {
       </Head>
       <div
         className={cn(
-          "App relative min-h-[100svh] bg-typing-speed-test-neutral-900 font-sora text-typing-speed-test-neutral-0",
+          "App relative min-h-[100svh] overflow-x-hidden bg-typing-speed-test-neutral-900 font-sora text-typing-speed-test-neutral-0",
           sora.variable,
         )}
       >
@@ -23,7 +23,7 @@ export default function TypingSpeedTest() {
         <Footer />
         <Slider
           basePath="/typing-speed-test/design"
-          absolutePath="/typing-speed-test/design/mobile-results.jpg"
+          absolutePath="/typing-speed-test/design/mobile-results-new-personal-best.jpg"
         />
       </div>
     </>
@@ -45,6 +45,9 @@ function Main() {
   const [accuracy, setAccuracy] = useState(100);
   const [wpm, setWpm] = useState(0);
   const [bestWpm, setBestWpm] = useState<number | null>(null);
+  const [resultType, setResultType] = useState<
+    "baseline" | "newBest" | "complete" | null
+  >(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
@@ -59,23 +62,36 @@ function Main() {
     return () => clearInterval(interval);
   }, [status]);
 
+  const handleFinish = useCallback(() => {
+    let type: "baseline" | "newBest" | "complete" = "complete";
+    if (bestWpm === null) {
+      type = "baseline";
+    } else if (wpm > bestWpm) {
+      type = "newBest";
+    }
+
+    setResultType(type);
+    if (type !== "complete") {
+      setBestWpm(wpm);
+    }
+    setStatus("finished");
+  }, [bestWpm, wpm]);
+
   useEffect(() => {
     if (status === "active") {
       if (mode === "Timed (60s)" && timeElapsed >= 60) {
-        setBestWpm((prev) => (prev === null || wpm > prev ? wpm : prev));
-        setStatus("finished");
+        handleFinish();
       }
     }
-  }, [timeElapsed, mode, status, wpm]);
+  }, [timeElapsed, mode, status, handleFinish]);
 
   useEffect(() => {
     if (status === "active") {
       if (mode === "Passage" && input.length >= passageText.length) {
-        setBestWpm((prev) => (prev === null || wpm > prev ? wpm : prev));
-        setStatus("finished");
+        handleFinish();
       }
     }
-  }, [input.length, mode, status, wpm]);
+  }, [input.length, mode, status, handleFinish]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: trigger scroll on input change
   useEffect(() => {
@@ -169,7 +185,7 @@ function Main() {
 
       return (
         <span
-          key={`index-${char}`}
+          key={`${index}-${char}`}
           id={isCursor ? "active-char" : undefined}
           className={cn("relative", colorClass, decorationClass)}
         >
@@ -191,7 +207,8 @@ function Main() {
     }
   }
 
-  const isBaseline = bestWpm === null && status === "finished";
+  const isNewBest = resultType === "newBest";
+  const isBaseline = resultType === "baseline";
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-col px-4 pb-[0px] pt-4 md:max-w-7xl md:px-8 md:pt-8">
@@ -517,6 +534,7 @@ function Main() {
           correctChars={correctChars}
           incorrectChars={incorrectChars}
           isBaseline={isBaseline}
+          isNewBest={isNewBest}
           onRestart={handleStartTest}
         />
       )}
@@ -530,6 +548,7 @@ interface ResultsProps {
   correctChars: number;
   incorrectChars: number;
   isBaseline: boolean;
+  isNewBest: boolean;
   onRestart: () => void;
 }
 
@@ -539,41 +558,81 @@ function Results({
   correctChars,
   incorrectChars,
   isBaseline,
+  isNewBest,
   onRestart,
 }: ResultsProps) {
-  const title = isBaseline ? "Baseline Established!" : "Test Complete!";
+  const title = isBaseline
+    ? "Baseline Established!"
+    : isNewBest
+      ? "High Score Smashed!"
+      : "Test Complete!";
   const subtitle = isBaseline
     ? "You've set the bar. Now the real challenge begins—time to beat it."
-    : "Solid run. Keep pushing to beat your high score.";
+    : isNewBest
+      ? "You're getting faster. That was incredible typing."
+      : "Solid run. Keep pushing to beat your high score.";
 
   const buttonText = isBaseline ? "Beat This Score" : "Go Again";
-  const icon = "/typing-speed-test/assets/images/icon-completed.svg";
+  const icon = isNewBest
+    ? "/typing-speed-test/assets/images/icon-new-pb.svg"
+    : "/typing-speed-test/assets/images/icon-completed.svg";
 
   return (
     <div className="relative mt-8 flex w-full flex-col items-center px-0 pb-16 md:mt-[55px]">
-      <Image
-        src="/typing-speed-test/assets/images/pattern-star-2.svg"
-        alt=""
-        width={32}
-        height={32}
-        className="absolute left-[3px] top-[45px] h-5 w-5 md:-left-[2px] md:top-[124px] md:h-8 md:w-8"
-      />
-      <Image
-        src="/typing-speed-test/assets/images/pattern-star-1.svg"
-        alt=""
-        width={72}
-        height={72}
-        className="absolute bottom-[40px] right-[12px] h-10 w-10 md:bottom-[100px] md:right-[0px] md:h-[72px] md:w-[72px]"
-      />
+      {isNewBest && (
+        <Image
+          src="/typing-speed-test/assets/images/pattern-confetti.svg"
+          alt=""
+          width={1440}
+          height={326}
+          className="absolute -bottom-[82px] left-1/2 z-0 h-[200px] w-[1440px] max-w-none -translate-x-[35.5%] md:h-[326px]"
+        />
+      )}
+      {!isNewBest && (
+        <>
+          <Image
+            src="/typing-speed-test/assets/images/pattern-star-2.svg"
+            alt=""
+            width={32}
+            height={32}
+            className="absolute left-[3px] top-[45px] h-5 w-5 md:-left-[2px] md:top-[124px] md:h-8 md:w-8"
+          />
+          <Image
+            src="/typing-speed-test/assets/images/pattern-star-1.svg"
+            alt=""
+            width={72}
+            height={72}
+            className="absolute bottom-[40px] right-[12px] h-10 w-10 md:bottom-[100px] md:right-[0px] md:h-[72px] md:w-[72px]"
+          />
+        </>
+      )}
 
-      <div className="relative flex h-[80px] w-[80px] items-center justify-center rounded-full bg-typing-speed-test-green-500/10 md:h-[128px] md:w-[128px]">
-        <div className="flex h-[64px] w-[64px] items-center justify-center rounded-full bg-typing-speed-test-green-500/20 md:h-[96px] md:w-[96px]">
+      <div
+        className={cn(
+          "relative flex h-[80px] w-[80px] items-center justify-center rounded-full",
+          isNewBest
+            ? "mt-2"
+            : "bg-typing-speed-test-green-500/10 md:h-[128px] md:w-[128px]",
+        )}
+      >
+        <div
+          className={cn(
+            "flex h-[64px] w-[64px] items-center justify-center rounded-full",
+            isNewBest
+              ? ""
+              : "bg-typing-speed-test-green-500/20 md:h-[96px] md:w-[96px]",
+          )}
+        >
           <Image
             src={icon}
             alt="Completed"
-            width={64}
-            height={64}
-            className="h-12 w-12 md:h-16 md:w-16"
+            width={isNewBest ? 100 : 64}
+            height={isNewBest ? 100 : 64}
+            className={cn(
+              isNewBest
+                ? "h-16 w-16 md:h-24 md:w-24"
+                : "h-12 w-12 md:h-16 md:w-16",
+            )}
           />
         </div>
       </div>
@@ -585,7 +644,7 @@ function Results({
         {subtitle}
       </p>
 
-      <div className="mt-[23px] flex w-full flex-col items-center gap-4 md:mt-[54px]">
+      <div className="relative z-10 mt-[23px] flex w-full flex-col items-center gap-4 md:mt-[54px]">
         <div className="flex w-full flex-col gap-4 md:flex-row md:justify-center md:gap-[20px]">
           <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
             <span className="text-[20px] text-typing-speed-test-neutral-400">
@@ -604,7 +663,9 @@ function Results({
                 "text-[24px] font-bold leading-none",
                 accuracy < 100
                   ? "text-typing-speed-test-red-500"
-                  : "text-typing-speed-test-neutral-0",
+                  : isNewBest
+                    ? "text-typing-speed-test-green-500"
+                    : "text-typing-speed-test-neutral-0",
               )}
             >
               {accuracy}%
