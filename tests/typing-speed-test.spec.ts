@@ -128,6 +128,104 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Stats Update While Typing", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+    });
+
+    test("WPM updates as user types correct characters", async ({ page }) => {
+      // Get initial WPM (should be 0 before typing)
+      const wpmLocator = page.locator("main > div").first().getByText(/^\d+$/);
+
+      // Type correct characters to build up WPM
+      // "The" = 3 correct characters
+      await page.keyboard.press("T");
+      await page.keyboard.press("h");
+      await page.keyboard.press("e");
+
+      // Wait for WPM to update (it calculates based on time elapsed)
+      await page.waitForTimeout(100);
+
+      // WPM should now be greater than 0
+      const wpmText = await wpmLocator.textContent();
+      expect(parseInt(wpmText ?? "0")).toBeGreaterThan(0);
+    });
+
+    test("Accuracy starts at 100% and updates with correct/incorrect typing", async ({
+      page,
+    }) => {
+      const stats = page.locator("main > div").first();
+
+      // Initial accuracy should be 100%
+      await expect(stats.getByText("100%")).toBeVisible();
+
+      // Type a correct character - accuracy should still be 100%
+      await page.keyboard.press("T");
+      await page.waitForTimeout(50);
+      await expect(stats.getByText("100%")).toBeVisible();
+
+      // Type an incorrect character - accuracy should drop below 100%
+      await page.keyboard.press("x"); // Should be "h"
+      await page.waitForTimeout(50);
+      // Now 1 correct out of 2 typed = 50%
+      await expect(stats.getByText("50%")).toBeVisible();
+    });
+
+    test("WPM and accuracy update incrementally as more characters are typed", async ({
+      page,
+    }) => {
+      const stats = page.locator("main > div").first();
+      const wpmLocator = stats
+        .locator("p")
+        .filter({ hasText: /^WPM:/ })
+        .locator("xpath=../p[2]");
+
+      // Type "The archaeological" (many correct characters)
+      const correctText = "The archaeological";
+      for (const char of correctText) {
+        await page.keyboard.press(char);
+      }
+      await page.waitForTimeout(100);
+
+      // WPM should have increased significantly
+      const wpmText = await wpmLocator.textContent();
+      expect(parseInt(wpmText ?? "0")).toBeGreaterThan(0);
+
+      // Accuracy should still be 100% since all typed chars were correct
+      await expect(stats.getByText("100%")).toBeVisible();
+
+      // Type some incorrect characters
+      await page.keyboard.press("z");
+      await page.keyboard.press("z");
+      await page.keyboard.press("z");
+      await page.waitForTimeout(100);
+
+      // Accuracy should now be lower (not 100%)
+      await expect(stats.getByText("100%")).not.toBeVisible();
+    });
+
+    test("Time counts down in Timed mode", async ({ page }) => {
+      const stats = page.locator("main > div").first();
+      const timeLocator = stats
+        .locator("p")
+        .filter({ hasText: /^Time:/ })
+        .locator("xpath=../p[2]");
+
+      // Get initial time - should be 60 seconds
+      const initialTimeText = await timeLocator.textContent();
+      const initialTime = parseInt(initialTimeText?.replace(":", "") ?? "0");
+      expect(initialTime).toBe(60);
+
+      // Wait for time to decrement by at least 1 second
+      await page.waitForTimeout(1100);
+
+      // After 1+ second, time should have decreased
+      const newTimeText = await timeLocator.textContent();
+      const newTime = parseInt(newTimeText?.replace(":", "") ?? "0");
+      expect(newTime).toBeLessThan(initialTime);
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
