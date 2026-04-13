@@ -36,18 +36,26 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(stats.getByText("0:60")).toBeVisible();
     });
 
-    test("shows difficulty and mode options with defaults", async ({ page }) => {
+    test("shows difficulty and mode options with defaults", async ({
+      page,
+    }) => {
       // Check Desktop Pills (since we don't specify viewport, we expect both or one depending on default playwright viewport)
       // Usually Playwright default is 1280x720, so desktop pills should be visible.
 
-      const hardButton = page.getByRole("button", { name: "Hard" }).filter({ visible: true });
+      const hardButton = page
+        .getByRole("button", { name: "Hard" })
+        .filter({ visible: true });
       await expect(hardButton).toBeVisible();
       // It should have the active class (border-blue-600)
       await expect(hardButton).toHaveClass(/border-typing-speed-test-blue-600/);
 
-      const timedButton = page.getByRole("button", { name: "Timed (60s)" }).filter({ visible: true });
+      const timedButton = page
+        .getByRole("button", { name: "Timed (60s)" })
+        .filter({ visible: true });
       await expect(timedButton).toBeVisible();
-      await expect(timedButton).toHaveClass(/border-typing-speed-test-blue-600/);
+      await expect(timedButton).toHaveClass(
+        /border-typing-speed-test-blue-600/,
+      );
     });
 
     test("shows the startup overlay", async ({ page }) => {
@@ -59,8 +67,64 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toBeVisible();
 
       // The passage should be blurred (opacity-70 blur-[8px])
-      const passage = page.locator("p").filter({ hasText: "The archaeological expedition" });
+      const passage = page
+        .locator("p")
+        .filter({ hasText: "The archaeological expedition" });
       await expect(passage).toHaveClass(/blur-\[8px\]/);
+    });
+  });
+
+  test.describe("Typing Functionality", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+    });
+
+    test("starts the test and focuses the invisible input", async ({
+      page,
+    }) => {
+      // The passage should no longer be blurred
+      const passage = page
+        .locator("p")
+        .filter({ hasText: "The archaeological expedition" });
+      await expect(passage).not.toHaveClass(/blur-\[8px\]/);
+
+      // Startup overlay should be hidden
+      await expect(
+        page.getByRole("button", { name: "Start Typing Test" }),
+      ).not.toBeVisible();
+
+      // There should be a visible restart button
+      await expect(
+        page.getByRole("button", { name: "Restart Test" }),
+      ).toBeVisible();
+
+      // The active character should be the first letter "T"
+      const activeChar = page.locator("#active-char");
+      await expect(activeChar).toHaveText("T");
+    });
+
+    test("styles correctly typed characters", async ({ page }) => {
+      // Type "T" (correct)
+      await page.keyboard.press("T");
+
+      // The first character should now be green
+      const chars = page.locator("p > span.relative");
+      await expect(chars.nth(0)).toHaveClass(
+        /text-typing-speed-test-green-500/,
+      );
+
+      // The active character should have moved to "h"
+      await expect(page.locator("#active-char")).toHaveText("h");
+    });
+
+    test("styles incorrectly typed characters", async ({ page }) => {
+      // Type "x" (incorrect, expecting "T")
+      await page.keyboard.press("x");
+
+      // The first character should now be red and underlined
+      const chars = page.locator("p > span.relative");
+      await expect(chars.nth(0)).toHaveClass(/text-typing-speed-test-red-500/);
+      await expect(chars.nth(0)).toHaveClass(/underline/);
     });
   });
 
@@ -71,4 +135,3 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     ).toBeVisible();
   });
 });
-

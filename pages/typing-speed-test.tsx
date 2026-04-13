@@ -21,10 +21,10 @@ export default function TypingSpeedTest() {
       >
         <Main />
         <Footer />
-        <Slider
+        {/* <Slider
           basePath="/typing-speed-test/design"
           absolutePath="/typing-speed-test/design/desktop-results-new-personal-best.jpg"
-        />
+        /> */}
       </div>
     </>
   );
