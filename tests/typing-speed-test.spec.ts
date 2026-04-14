@@ -226,6 +226,58 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Results Screen (Baseline)", () => {
+    test.beforeEach(async ({ page }) => {
+      // Find visible Passage button. On desktop it's a direct button, on mobile it's in a dropdown.
+      const desktopPassageBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" });
+      if (await desktopPassageBtn.isVisible()) {
+        await desktopPassageBtn.click();
+      } else {
+        const mobileDropdown = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Timed (60s)" });
+        await mobileDropdown.click();
+        const mobilePassageBtn = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Passage" });
+        await mobilePassageBtn.click();
+      }
+
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      const passageText =
+        'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
+
+      await page
+        .locator('input[type="text"]')
+        .fill(passageText, { force: true });
+    });
+
+    test("shows baseline heading and subtitle", async ({ page }) => {
+      await expect(
+        page.getByRole("heading", { name: "Baseline Established!" }),
+      ).toBeVisible();
+      await expect(
+        page.getByText(
+          "You've set the bar. Now the real challenge begins—time to beat it.",
+        ),
+      ).toBeVisible();
+    });
+
+    test("shows correct stats structure and 'Beat This Score' button", async ({
+      page,
+    }) => {
+      await expect(page.getByText("WPM:")).toBeVisible();
+      await expect(page.getByText("Accuracy:")).toBeVisible();
+      await expect(page.getByText("Characters")).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: "Beat This Score" }),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
