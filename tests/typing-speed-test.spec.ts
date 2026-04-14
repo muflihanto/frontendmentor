@@ -278,6 +278,60 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Results Screen (Test Complete)", () => {
+    test.beforeEach(async ({ page }) => {
+      // Find visible Passage button. On desktop it's a direct button, on mobile it's in a dropdown.
+      const desktopPassageBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" });
+      if (await desktopPassageBtn.isVisible()) {
+        await desktopPassageBtn.click();
+      } else {
+        const mobileDropdown = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Timed (60s)" });
+        await mobileDropdown.click();
+        const mobilePassageBtn = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Passage" });
+        await mobilePassageBtn.click();
+      }
+
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      const passageText =
+        'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
+
+      // First run to set baseline (instant fill means 0 time elapsed, so 0 WPM)
+      await page
+        .locator('input[type="text"]')
+        .fill(passageText, { force: true });
+
+      // Restart to begin the second run
+      await page.getByRole("button", { name: "Beat This Score" }).click();
+
+      // Second run completes immediately as well, matching the WPM <= bestWpm condition
+      await page
+        .locator('input[type="text"]')
+        .fill(passageText, { force: true });
+    });
+
+    test("shows standard complete heading and subtitle", async ({ page }) => {
+      await expect(
+        page.getByRole("heading", { name: "Test Complete!" }),
+      ).toBeVisible();
+      await expect(
+        page.getByText("Solid run. Keep pushing to beat your high score."),
+      ).toBeVisible();
+    });
+
+    test("shows standard 'Go Again' button", async ({ page }) => {
+      await expect(
+        page.getByRole("button", { name: "Go Again" }),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
