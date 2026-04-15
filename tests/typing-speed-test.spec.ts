@@ -332,6 +332,68 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Results Screen (New Personal Best)", () => {
+    test.beforeEach(async ({ page }) => {
+      // Find visible Passage button. On desktop it's a direct button, on mobile it's in a dropdown.
+      const desktopPassageBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" });
+      if (await desktopPassageBtn.isVisible()) {
+        await desktopPassageBtn.click();
+      } else {
+        const mobileDropdown = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Timed (60s)" });
+        await mobileDropdown.click();
+        const mobilePassageBtn = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Passage" });
+        await mobilePassageBtn.click();
+      }
+
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      const passageText =
+        'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
+
+      // First run to set baseline (instant fill means 0 time elapsed, so 0 WPM)
+      await page
+        .locator('input[type="text"]')
+        .fill(passageText, { force: true });
+
+      // Restart to begin the second run
+      await page.getByRole("button", { name: "Beat This Score" }).click();
+
+      // Wait 1.1s so that timeElapsed becomes 1. This ensures calculated WPM > 0.
+      await page.waitForTimeout(1100);
+
+      // Second run completes, matching WPM (> 0) > bestWpm (0)
+      await page
+        .locator('input[type="text"]')
+        .fill(passageText.slice(0, -5), { force: true });
+
+      for (const char of passageText.slice(-5)) {
+        await page.keyboard.press(char);
+        await page.waitForTimeout(100);
+      }
+    });
+
+    test("shows high score smashed heading and subtitle", async ({ page }) => {
+      await expect(
+        page.getByRole("heading", { name: "High Score Smashed!" }),
+      ).toBeVisible();
+      await expect(
+        page.getByText("You're getting faster. That was incredible typing."),
+      ).toBeVisible();
+    });
+
+    test("shows standard 'Go Again' button", async ({ page }) => {
+      await expect(
+        page.getByRole("button", { name: "Go Again" }),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
