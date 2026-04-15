@@ -187,12 +187,14 @@ function Main() {
         <span
           key={`${index}-${char}`}
           id={isCursor ? "active-char" : undefined}
-          className={cn("relative", colorClass, decorationClass)}
+          className={cn(
+            "relative",
+            colorClass,
+            decorationClass,
+            isCursor && "rounded-[4px] bg-typing-speed-test-neutral-400/30",
+          )}
         >
           {char}
-          {isCursor && (
-            <span className="absolute inset-x-0 bottom-0 top-1 -mx-[1px] rounded-[4px] bg-typing-speed-test-neutral-400/30"></span>
-          )}
         </span>
       );
     });
