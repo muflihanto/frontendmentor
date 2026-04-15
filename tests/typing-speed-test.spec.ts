@@ -74,6 +74,68 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Mobile UI Features", () => {
+    test.beforeEach(async ({ page }) => {
+      // Set to mobile viewport to ensure mobile dropdowns are visible
+      await page.setViewportSize({ width: 375, height: 667 });
+    });
+
+    test("can change difficulty via mobile dropdown", async ({ page }) => {
+      const mobileContainer = page.locator(".md\\:hidden");
+
+      const diffDropdownBtn = mobileContainer.getByRole("button", {
+        name: "Hard",
+        exact: true,
+      });
+      await diffDropdownBtn.click();
+
+      const mediumOption = mobileContainer.getByRole("button", {
+        name: "Medium",
+        exact: true,
+      });
+      await expect(mediumOption).toBeVisible();
+      await mediumOption.click();
+
+      // Only the main toggle should remain, and it should be "Medium"
+      await expect(
+        mobileContainer.getByRole("button", { name: "Medium", exact: true }),
+      ).toHaveCount(1);
+      // "Easy" option from dropdown should be gone
+      await expect(
+        mobileContainer.getByRole("button", { name: "Easy", exact: true }),
+      ).not.toBeVisible();
+    });
+
+    test("can change mode via mobile dropdown", async ({ page }) => {
+      const mobileContainer = page.locator(".md\\:hidden");
+
+      const modeDropdownBtn = mobileContainer.getByRole("button", {
+        name: "Timed (60s)",
+        exact: true,
+      });
+      await modeDropdownBtn.click();
+
+      const passageOption = mobileContainer.getByRole("button", {
+        name: "Passage",
+        exact: true,
+      });
+      await expect(passageOption).toBeVisible();
+      await passageOption.click();
+
+      // Only the main toggle should remain, and it should be "Passage"
+      await expect(
+        mobileContainer.getByRole("button", { name: "Passage", exact: true }),
+      ).toHaveCount(1);
+      // "Timed (60s)" option from dropdown should be gone
+      await expect(
+        mobileContainer.getByRole("button", {
+          name: "Timed (60s)",
+          exact: true,
+        }),
+      ).not.toBeVisible();
+    });
+  });
+
   test.describe("Typing Functionality", () => {
     test.beforeEach(async ({ page }) => {
       await page.getByRole("button", { name: "Start Typing Test" }).click();
