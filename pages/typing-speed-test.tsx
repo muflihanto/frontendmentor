@@ -500,6 +500,7 @@ function Main() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onPaste={(e) => e.preventDefault()}
                 maxLength={passageText.length}
                 className="absolute left-0 top-0 h-0 w-0 opacity-0"
                 autoComplete="off"
