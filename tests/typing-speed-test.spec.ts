@@ -188,6 +188,26 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(chars.nth(0)).toHaveClass(/text-typing-speed-test-red-500/);
       await expect(chars.nth(0)).toHaveClass(/underline/);
     });
+
+    test("prevents pasting text into the input field", async ({ page }) => {
+      const input = page.locator('input[type="text"]');
+
+      const defaultPrevented = await input.evaluate((node) => {
+        // Dispatch a native paste event that bubbles up to React's event listener
+        const pasteEvent = new Event("paste", {
+          bubbles: true,
+          cancelable: true,
+        });
+        node.dispatchEvent(pasteEvent);
+        return pasteEvent.defaultPrevented;
+      });
+
+      // Verify the onPaste handler called e.preventDefault()
+      expect(defaultPrevented).toBe(true);
+
+      // And verify the input's value has not changed from empty as an extra safeguard
+      await expect(input).toHaveValue("");
+    });
   });
 
   test.describe("Stats Update While Typing", () => {
