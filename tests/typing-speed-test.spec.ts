@@ -189,6 +189,35 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(chars.nth(0)).toHaveClass(/underline/);
     });
 
+    test("reverts styling and moves active cursor back on backspace", async ({
+      page,
+    }) => {
+      // Type "x" (incorrect, expecting "T")
+      await page.keyboard.press("x");
+
+      const chars = page.locator("p > span.relative");
+
+      // Verify the element is styled as incorrect
+      await expect(chars.nth(0)).toHaveClass(/text-typing-speed-test-red-500/);
+
+      // The active cursor should have moved to the second character ("h")
+      await expect(page.locator("#active-char")).toHaveText("h");
+
+      // Press Backspace to delete the mistake
+      await page.keyboard.press("Backspace");
+
+      // The first character should revert to its default untyped styling
+      await expect(chars.nth(0)).not.toHaveClass(
+        /text-typing-speed-test-red-500/,
+      );
+      await expect(chars.nth(0)).toHaveClass(
+        /text-typing-speed-test-neutral-400/,
+      );
+
+      // The active cursor should have correctly moved back to the first character ("T")
+      await expect(page.locator("#active-char")).toHaveText("T");
+    });
+
     test("prevents pasting text into the input field", async ({ page }) => {
       const input = page.locator('input[type="text"]');
 
