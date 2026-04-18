@@ -192,19 +192,29 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("reverts styling and moves active cursor back on backspace", async ({
       page,
     }) => {
+      const stats = page.locator("main > div").first();
+
+      // Before typo: initial accuracy is naturally 100%
+      await expect(stats.getByText("100%")).toBeVisible();
+
       // Type "x" (incorrect, expecting "T")
       await page.keyboard.press("x");
+      await page.waitForTimeout(50);
 
       const chars = page.locator("p > span.relative");
 
       // Verify the element is styled as incorrect
       await expect(chars.nth(0)).toHaveClass(/text-typing-speed-test-red-500/);
 
+      // Verification: 0 out of 1 characters correct guarantees 0% accuracy
+      await expect(stats.getByText("0%", { exact: true })).toBeVisible();
+
       // The active cursor should have moved to the second character ("h")
       await expect(page.locator("#active-char")).toHaveText("h");
 
       // Press Backspace to delete the mistake
       await page.keyboard.press("Backspace");
+      await page.waitForTimeout(50);
 
       // The first character should revert to its default untyped styling
       await expect(chars.nth(0)).not.toHaveClass(
@@ -213,6 +223,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(chars.nth(0)).toHaveClass(
         /text-typing-speed-test-neutral-400/,
       );
+
+      // Accuracy statistically jumps back up to 100% as the typing baseline is reset
+      await expect(stats.getByText("100%")).toBeVisible();
 
       // The active cursor should have correctly moved back to the first character ("T")
       await expect(page.locator("#active-char")).toHaveText("T");
