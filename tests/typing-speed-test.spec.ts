@@ -189,6 +189,18 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(chars.nth(0)).toHaveClass(/underline/);
     });
 
+    test("enforces case-sensitivity for typed characters", async ({ page }) => {
+      // The first character of the passage is uppercase "T"
+      // Type lowercase "t" to verify exact case matching
+      await page.keyboard.press("t");
+
+      const chars = page.locator("p > span.relative");
+
+      // The lowercase 't' should be explicitly marked as incorrect
+      await expect(chars.nth(0)).toHaveClass(/text-typing-speed-test-red-500/);
+      await expect(chars.nth(0)).toHaveClass(/underline/);
+    });
+
     test("reverts styling and moves active cursor back on backspace", async ({
       page,
     }) => {
