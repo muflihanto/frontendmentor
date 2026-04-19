@@ -312,6 +312,52 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Verify the autoscroll behavior cleanly rewinds by reverting the top offset to mathematical exact parity
       expect(revertedTop).toBe(initialTop);
     });
+
+    test("transitions to completion screen when the final passage character is typed", async ({
+      page,
+    }) => {
+      // Test suite starts in Timed (60s) mode via beforeEach, so we must restart to switch modes
+      await page.getByRole("button", { name: "Restart Test" }).click();
+
+      // Dynamically switch to Passage mode based on active viewport visibility
+      const desktopPassageBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" });
+      if (await desktopPassageBtn.isVisible()) {
+        await desktopPassageBtn.click();
+      } else {
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Timed (60s)" })
+          .click();
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Passage" })
+          .click();
+      }
+
+      // await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      const input = page.locator('input[type="text"]');
+      const passageText =
+        'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
+
+      // Instantly inject the entire passage minus the final character to bypass test wait times
+      await input.fill(passageText.slice(0, -1), { force: true });
+
+      // Verify the application remains firmly in the active typing state
+      await expect(
+        page.getByRole("heading", { name: "Baseline Established!" }),
+      ).not.toBeVisible();
+
+      // Type the final character natively via Playwright
+      await page.keyboard.press(passageText.slice(-1));
+
+      // Assert that this final organic keystroke triggered the Passage mode auto-completion sequence
+      await expect(
+        page.getByRole("heading", { name: "Baseline Established!" }),
+      ).toBeVisible();
+    });
   });
 
   test.describe("Stats Update While Typing", () => {
