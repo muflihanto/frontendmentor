@@ -262,6 +262,56 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // And verify the input's value has not changed from empty as an extra safeguard
       await expect(input).toHaveValue("");
     });
+
+    test("handles backwards autoscrolling when backspacing across lines", async ({
+      page,
+    }) => {
+      // Set to mobile viewport to aggressively force early line wrapping
+      await page.setViewportSize({ width: 375, height: 667 });
+
+      const input = page.locator('input[type="text"]');
+
+      // Type first character to ensure input top layout is stabilized after viewport resize
+      await page.keyboard.press("T");
+      await page.waitForTimeout(50);
+      const initialTop = await input.evaluate((node) => node.style.top);
+
+      // Type a long string to force a line wrap on the narrow mobile bounds
+      // We inject the bulk of the text instantly to drastically speed up the test
+      const injectText =
+        "he archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. ";
+      const typeText = "Obsidian";
+
+      await input.fill(`T${injectText}`, { force: true });
+
+      // Type the final word to trigger key events and layout engine settling organically
+      for (const char of typeText) {
+        await page.keyboard.press(char);
+      }
+
+      // Wait for React layout engine to recalculate the wrapped offsetTop tracking
+      await page.waitForTimeout(100);
+      const wrappedTop = await input.evaluate((node) => node.style.top);
+
+      // Verify the tracking offsetTop genuinely shifted downwards to a new line
+      expect(parseInt(wrappedTop || "0", 10)).toBeGreaterThan(
+        parseInt(initialTop || "0", 10),
+      );
+
+      // Backspace the final word manually
+      for (const _ of typeText) {
+        await page.keyboard.press("Backspace");
+      }
+
+      // Inject deletion for the rest of the text to instantly return to the first line
+      await input.fill("T", { force: true });
+
+      await page.waitForTimeout(100);
+      const revertedTop = await input.evaluate((node) => node.style.top);
+
+      // Verify the autoscroll behavior cleanly rewinds by reverting the top offset to mathematical exact parity
+      expect(revertedTop).toBe(initialTop);
+    });
   });
 
   test.describe("Stats Update While Typing", () => {
