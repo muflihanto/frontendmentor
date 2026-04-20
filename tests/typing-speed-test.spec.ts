@@ -316,10 +316,8 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("transitions to completion screen when the final passage character is typed", async ({
       page,
     }) => {
-      // Test suite starts in Timed (60s) mode via beforeEach, so we must restart to switch modes
-      await page.getByRole("button", { name: "Restart Test" }).click();
-
-      // Dynamically switch to Passage mode based on active viewport visibility
+      // Test suite starts in Timed (60s) mode via beforeEach, but we want Passage mode.
+      // Switching mode now automatically resets the test to idle state.
       const desktopPassageBtn = page
         .locator(".md\\:flex")
         .getByRole("button", { name: "Passage" });
@@ -336,7 +334,8 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .click();
       }
 
-      // await page.getByRole("button", { name: "Start Typing Test" }).click();
+      // We must manually start the test after switching modes
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
 
       const input = page.locator('input[type="text"]');
       const passageText =
