@@ -139,6 +139,18 @@ function Main() {
     }
   }, [input, timeElapsed, status]);
 
+  const handleModeChange = (newMode: string) => {
+    if (newMode !== mode) {
+      setMode(newMode);
+      setStatus("idle");
+      setInput("");
+      setTimeElapsed(0);
+      setWpm(0);
+      setAccuracy(100);
+      setResultType(null);
+    }
+  };
+
   const handleStartTest = () => {
     setStatus("active");
     setInput("");
@@ -384,7 +396,7 @@ function Main() {
                         key={m}
                         type="button"
                         onClick={() => {
-                          setMode(m);
+                          handleModeChange(m);
                           setIsModeOpen(false);
                         }}
                         className="flex w-full items-center gap-3 px-2 py-1.5 transition-colors hover:bg-typing-speed-test-neutral-500/20"
@@ -442,7 +454,7 @@ function Main() {
                     <button
                       key={m}
                       type="button"
-                      onClick={() => setMode(m)}
+                      onClick={() => handleModeChange(m)}
                       className={cn(
                         "rounded-lg px-2 py-1 text-[15px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600",
                         mode === m
