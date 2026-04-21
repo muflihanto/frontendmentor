@@ -625,6 +625,30 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Timed Mode Expiration", () => {
+    test("automatically finishes the test when time hits zero", async ({
+      page,
+    }) => {
+      // Install the mock clock before navigating to the page
+      await page.clock.install();
+      await page.goto("/typing-speed-test");
+
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      // Start the timer by typing the first character
+      await page.keyboard.press("T");
+
+      // Advance the clock by 60 seconds. runFor() is often more reliable than fastForward()
+      // as it allows React's microtask queue to flush between ticks.
+      await page.clock.runFor(60000);
+
+      // Verify completion
+      await expect(
+        page.getByRole("heading", { name: "Baseline Established!" }),
+      ).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
