@@ -357,6 +357,60 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         page.getByRole("heading", { name: "Baseline Established!" }),
       ).toBeVisible();
     });
+
+    test("resets all stats and UI when 'Restart Test' is clicked during an active session", async ({
+      page,
+    }) => {
+      // Let time advance slightly so WPM and timers can calculate deviations natively
+      await page.waitForTimeout(1050);
+
+      // Type some correct and incorrect characters to alter stats and UI state actively
+      await page.keyboard.press("T");
+      await page.keyboard.press("h");
+      await page.keyboard.press("x"); // Mistake drastically drops accuracy
+
+      const stats = page.locator("main > div").first();
+
+      // Verify dynamic stats actively changed from their defaults
+      await expect(stats.getByText("100%")).not.toBeVisible();
+
+      // Verify the typing cursor progressed
+      await expect(page.locator("#active-char")).toHaveText(" ");
+
+      // Verify incorrect formatting applied
+      const chars = page.locator("p > span.relative");
+      await expect(chars.nth(2)).toHaveClass(/text-typing-speed-test-red-500/);
+
+      // Trigger the active 'Restart Test' button
+      await page.getByRole("button", { name: "Restart Test" }).click();
+
+      // Assert that all dynamic stats are completely wiped to default
+      await expect(stats.getByText("100%")).toBeVisible();
+      await expect(stats.getByText("0", { exact: true })).toBeVisible(); // WPM
+
+      const timeLocator = stats
+        .locator("p")
+        .filter({ hasText: /^Time:/ })
+        .locator("xpath=../p[2]");
+      await expect(timeLocator).toHaveText("0:60");
+
+      // Verify passage character UI styling is completely sanitized of progress/mistakes
+      await expect(chars.nth(0)).not.toHaveClass(
+        /text-typing-speed-test-green-500/,
+      );
+      await expect(chars.nth(2)).not.toHaveClass(
+        /text-typing-speed-test-red-500/,
+      );
+
+      // Verify the cursor was accurately bumped back to the first character index
+      await expect(page.locator("#active-char")).toHaveText("T");
+
+      // Assert the invisible input is successfully refocused so the user can immediately type
+      const isFocused = await page.evaluate(
+        () => document.activeElement?.tagName === "INPUT",
+      );
+      expect(isFocused).toBe(true);
+    });
   });
 
   test.describe("Stats Update While Typing", () => {
