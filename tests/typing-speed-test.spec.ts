@@ -411,6 +411,59 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       );
       expect(isFocused).toBe(true);
     });
+
+    test("resets all stats and UI when 'Restart Test' is clicked during an active session in Passage mode", async ({
+      page,
+    }) => {
+      // Test suite starts in Timed (60s) mode via beforeEach, so we must restart to switch modes
+      await page.getByRole("button", { name: "Restart Test" }).click();
+
+      // Dynamically switch to Passage mode
+      const desktopPassageBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" });
+      if (await desktopPassageBtn.isVisible()) {
+        await desktopPassageBtn.click();
+      } else {
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Timed (60s)" })
+          .click();
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Passage" })
+          .click();
+      }
+
+      // Manually start the test after switching modes
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      // Let time advance slightly so WPM and timers calculate natively
+      await page.waitForTimeout(1050);
+
+      // Type some characters to push stats out of default baseline
+      await page.keyboard.press("T");
+      await page.keyboard.press("h");
+
+      // Trigger the active 'Restart Test' button
+      await page.getByRole("button", { name: "Restart Test" }).click();
+
+      const stats = page.locator("main > div").first();
+
+      // Assert that all dynamic stats are completely wiped to default
+      await expect(stats.getByText("100%")).toBeVisible();
+      await expect(stats.getByText("0", { exact: true })).toBeVisible(); // WPM
+
+      // CRITICAL DIFFERENCE: Passage mode counts UP from 0:00, not DOWN from 0:60
+      const timeLocator = stats
+        .locator("p")
+        .filter({ hasText: /^Time:/ })
+        .locator("xpath=../p[2]");
+      await expect(timeLocator).toHaveText("0:00");
+
+      // Verify the cursor was accurately bumped back to the first character index
+      await expect(page.locator("#active-char")).toHaveText("T");
+    });
   });
 
   test.describe("Stats Update While Typing", () => {
