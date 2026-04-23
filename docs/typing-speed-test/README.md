@@ -49,6 +49,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
+#### Handling Paste Events
+
 This project provided my first opportunity to use the `onPaste` event in React. I used it to prevent users from cheating on the typing test by pasting text directly into the hidden input field.
 
 ```tsx
@@ -79,6 +81,34 @@ test("prevents pasting text into the input field", async ({ page }) => {
 
   // And verify the input's value has not changed from empty as an extra safeguard
   await expect(input).toHaveValue("");
+});
+```
+
+#### Mocking Timers in Playwright
+
+Additionally, I learned how to use Playwright's clock mocking feature (`page.clock`) to reliably test time-dependent functionality, such as the 60-second timer in the typing test. This approach avoids using `waitForTimeout` with large values, significantly speeding up the test suite and preventing flakiness.
+
+```typescript
+test("automatically finishes the test when time hits zero", async ({
+  page,
+}) => {
+  // Install the mock clock before navigating to the page
+  await page.clock.install();
+  await page.goto("/typing-speed-test");
+
+  await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+  // Start the timer by typing the first character
+  await page.keyboard.press("T");
+
+  // Advance the clock by 60 seconds. runFor() is often more reliable than fastForward()
+  // as it allows React's microtask queue to flush between ticks.
+  await page.clock.runFor(60000);
+
+  // Verify completion
+  await expect(
+    page.getByRole("heading", { name: "Baseline Established!" }),
+  ).toBeVisible();
 });
 ```
 
