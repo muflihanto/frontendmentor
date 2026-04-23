@@ -30,11 +30,17 @@ export default function TypingSpeedTest() {
   );
 }
 
-const passageText =
-  'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
+const passages = {
+  Easy: "The sun was warm and the sky was blue. It was a good day to go for a walk in the park. Dogs were playing and birds were singing. The cat sat on the mat. It was a very nice mat. The cat liked to sleep all day and play with its toys.",
+  Medium:
+    "A programming language is a system of notation for writing computer programs. Most programming languages are text-based formal languages, but they may also be graphical. They are a kind of computer language. The description of a programming language is usually split into the two components of syntax and semantics.",
+  Hard: 'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."',
+};
 
 function Main() {
   const [difficulty, setDifficulty] = useState("Hard");
+  const passageText =
+    passages[difficulty as keyof typeof passages] || passages.Hard;
   const [mode, setMode] = useState("Timed (60s)");
   const [isDiffOpen, setIsDiffOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
@@ -91,7 +97,7 @@ function Main() {
         handleFinish();
       }
     }
-  }, [input.length, mode, status, handleFinish]);
+  }, [input.length, mode, status, handleFinish, passageText]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: trigger scroll on input change
   useEffect(() => {
@@ -137,11 +143,23 @@ function Main() {
         setWpm(currentWpm);
       }
     }
-  }, [input, timeElapsed, status]);
+  }, [input, timeElapsed, status, passageText]);
 
   const handleModeChange = (newMode: string) => {
     if (newMode !== mode) {
       setMode(newMode);
+      setStatus("idle");
+      setInput("");
+      setTimeElapsed(0);
+      setWpm(0);
+      setAccuracy(100);
+      setResultType(null);
+    }
+  };
+
+  const handleDifficultyChange = (newDiff: string) => {
+    if (newDiff !== difficulty) {
+      setDifficulty(newDiff);
       setStatus("idle");
       setInput("");
       setTimeElapsed(0);
@@ -347,7 +365,7 @@ function Main() {
                         key={diff}
                         type="button"
                         onClick={() => {
-                          setDifficulty(diff);
+                          handleDifficultyChange(diff);
                           setIsDiffOpen(false);
                         }}
                         className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
@@ -429,7 +447,7 @@ function Main() {
                     <button
                       key={diff}
                       type="button"
-                      onClick={() => setDifficulty(diff)}
+                      onClick={() => handleDifficultyChange(diff)}
                       className={cn(
                         "rounded-lg px-2 py-1 text-[15px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600",
                         difficulty === diff
