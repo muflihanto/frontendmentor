@@ -136,6 +136,41 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Difficulty Switcher", () => {
+    test("changes the passage text when difficulty is changed", async ({
+      page,
+    }) => {
+      // By default it's Hard, which starts with "The archaeological expedition"
+      const hardPassage = page
+        .locator("p")
+        .filter({ hasText: "The archaeological expedition" });
+      await expect(hardPassage).toBeVisible();
+
+      // Change to Easy
+      const desktopEasyBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Easy", exact: true });
+      if (await desktopEasyBtn.isVisible()) {
+        await desktopEasyBtn.click();
+      } else {
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Hard", exact: true })
+          .click();
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Easy", exact: true })
+          .click();
+      }
+
+      // Check the new passage text for Easy
+      const easyPassage = page
+        .locator("p")
+        .filter({ hasText: "The sun was warm and the sky was blue" });
+      await expect(easyPassage).toBeVisible();
+    });
+  });
+
   test.describe("Typing Functionality", () => {
     test.beforeEach(async ({ page }) => {
       await page.getByRole("button", { name: "Start Typing Test" }).click();
