@@ -93,11 +93,11 @@ function Main() {
 
   useEffect(() => {
     if (status === "active") {
-      if (mode === "Passage" && input.length >= passageText.length) {
+      if (input.length >= passageText.length) {
         handleFinish();
       }
     }
-  }, [input.length, mode, status, handleFinish, passageText]);
+  }, [input.length, status, handleFinish, passageText]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: trigger scroll on input change
   useEffect(() => {
