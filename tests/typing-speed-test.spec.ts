@@ -169,6 +169,46 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         .filter({ hasText: "The sun was warm and the sky was blue" });
       await expect(easyPassage).toBeVisible();
     });
+
+    test("resets test state when difficulty is changed during an active test", async ({
+      page,
+    }) => {
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      // Type a bit to change state
+      await page.keyboard.press("T");
+      await page.keyboard.press("h");
+
+      // Verify state changed (moved to 3rd character)
+      const activeChar = page.locator("#active-char");
+      await expect(activeChar).toHaveText("e");
+
+      // Change to Medium
+      const desktopMediumBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Medium", exact: true });
+      if (await desktopMediumBtn.isVisible()) {
+        await desktopMediumBtn.click();
+      } else {
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Hard", exact: true })
+          .click();
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Medium", exact: true })
+          .click();
+      }
+
+      // Test should reset to idle, passage should be blurred, Start button should appear
+      await expect(
+        page.getByRole("button", { name: "Start Typing Test" }),
+      ).toBeVisible();
+      const mediumPassage = page
+        .locator("p")
+        .filter({ hasText: "A programming language is a system" });
+      await expect(mediumPassage).toHaveClass(/blur-\[8px\]/);
+    });
   });
 
   test.describe("Typing Functionality", () => {
