@@ -45,7 +45,9 @@ function Main() {
   const [isDiffOpen, setIsDiffOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
 
-  const [status, setStatus] = useState<"idle" | "active" | "finished">("idle");
+  const [status, setStatus] = useState<"idle" | "active" | "finished">(
+    "finished",
+  );
   const [input, setInput] = useState("");
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
@@ -618,7 +620,7 @@ function Results({
           alt=""
           width={1440}
           height={326}
-          className="absolute -bottom-[82px] left-1/2 z-0 h-[200px] w-[1440px] max-w-none -translate-x-[35.5%] md:bottom-0 md:h-[326px] md:-translate-x-1/2"
+          className="absolute -bottom-[82px] left-1/2 z-0 h-[200px] w-[1440px] max-w-none -translate-x-[35.5%] md:bottom-0 md:h-auto md:w-[max(1440px,100vw)] md:-translate-x-1/2"
         />
       )}
       <div className="relative flex w-full flex-col items-center">
