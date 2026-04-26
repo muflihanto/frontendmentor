@@ -45,9 +45,8 @@ function Main() {
   const [isDiffOpen, setIsDiffOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
 
-  const [status, setStatus] = useState<"idle" | "active" | "finished">(
-    "finished",
-  );
+  const [status, setStatus] = useState<"idle" | "active" | "finished">("idle");
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
   const [input, setInput] = useState("");
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
@@ -62,13 +61,19 @@ function Main() {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (status === "active") {
+    if (status === "active" && hasStartedTyping) {
       interval = setInterval(() => {
         setTimeElapsed((prev) => prev + 1);
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [status]);
+  }, [status, hasStartedTyping]);
+
+  useEffect(() => {
+    if (status === "active" && !hasStartedTyping && input.length > 0) {
+      setHasStartedTyping(true);
+    }
+  }, [input, status, hasStartedTyping]);
 
   const handleFinish = useCallback(() => {
     let type: "baseline" | "newBest" | "complete" = "complete";
@@ -151,6 +156,7 @@ function Main() {
     if (newMode !== mode) {
       setMode(newMode);
       setStatus("idle");
+      setHasStartedTyping(false);
       setInput("");
       setTimeElapsed(0);
       setWpm(0);
@@ -163,6 +169,7 @@ function Main() {
     if (newDiff !== difficulty) {
       setDifficulty(newDiff);
       setStatus("idle");
+      setHasStartedTyping(false);
       setInput("");
       setTimeElapsed(0);
       setWpm(0);
@@ -173,6 +180,7 @@ function Main() {
 
   const handleStartTest = () => {
     setStatus("active");
+    setHasStartedTyping(false);
     setInput("");
     setTimeElapsed(0);
     setWpm(0);

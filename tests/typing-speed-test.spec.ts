@@ -556,8 +556,8 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.keyboard.press("h");
       await page.keyboard.press("e");
 
-      // Wait for WPM to update (it calculates based on time elapsed)
-      await page.waitForTimeout(100);
+      // Wait for WPM to update (it calculates based on time elapsed, needs > 1s)
+      await page.waitForTimeout(1100);
 
       // WPM should now be greater than 0
       const wpmText = await wpmLocator.textContent();
@@ -598,7 +598,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       for (const char of correctText) {
         await page.keyboard.press(char);
       }
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(1100);
 
       // WPM should have increased significantly
       const wpmText = await wpmLocator.textContent();
@@ -628,6 +628,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const initialTimeText = await timeLocator.textContent();
       const initialTime = parseInt(initialTimeText?.replace(":", "") ?? "0");
       expect(initialTime).toBe(60);
+
+      // Type a character to start the timer
+      await page.keyboard.press("T");
 
       // Wait for time to decrement by at least 1 second
       await page.waitForTimeout(1100);
