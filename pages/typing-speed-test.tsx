@@ -178,7 +178,7 @@ function Main() {
     }
   };
 
-  const handleStartTest = () => {
+  const handleStartTest = useCallback(() => {
     setStatus("active");
     setHasStartedTyping(false);
     setInput("");
@@ -188,7 +188,18 @@ function Main() {
     setTimeout(() => {
       inputRef.current?.focus();
     }, 10);
-  };
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleStartTest();
+      }
+    };
+
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, [handleStartTest]);
 
   const handleContainerClick = () => {
     if (status === "idle") {
