@@ -60,6 +60,13 @@ function Main() {
   const lastOffsetTopRef = useRef<number | null>(null);
 
   useEffect(() => {
+    const savedBest = localStorage.getItem("typing-test-best-wpm");
+    if (savedBest) {
+      setBestWpm(parseInt(savedBest, 10));
+    }
+  }, []);
+
+  useEffect(() => {
     let interval: NodeJS.Timeout;
     if (status === "active" && hasStartedTyping) {
       interval = setInterval(() => {
@@ -86,6 +93,7 @@ function Main() {
     setResultType(type);
     if (type !== "complete") {
       setBestWpm(wpm);
+      localStorage.setItem("typing-test-best-wpm", wpm.toString());
     }
     setStatus("finished");
   }, [bestWpm, wpm]);
