@@ -539,6 +539,34 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Verify the cursor was accurately bumped back to the first character index
       await expect(page.locator("#active-char")).toHaveText("T");
     });
+
+    test("instantly restarts the test when the 'Escape' key is pressed", async ({
+      page,
+    }) => {
+      // Type some characters to progress the test
+      await page.keyboard.press("T");
+      await page.keyboard.press("h");
+      await page.keyboard.press("e");
+
+      // Verify the active character has progressed to the space after "The"
+      await expect(page.locator("#active-char")).toHaveText(" ");
+
+      // Press the Escape shortcut
+      await page.keyboard.press("Escape");
+
+      // Verify the test has reset to the first character
+      await expect(page.locator("#active-char")).toHaveText("T");
+
+      // Verify stats have reset (Accuracy back to 100%)
+      const stats = page.locator("main > div").first();
+      await expect(stats.getByText("100%")).toBeVisible();
+
+      // Verify input is still focused for immediate typing
+      const isFocused = await page.evaluate(
+        () => document.activeElement?.tagName === "INPUT",
+      );
+      expect(isFocused).toBe(true);
+    });
   });
 
   test.describe("Stats Update While Typing", () => {
