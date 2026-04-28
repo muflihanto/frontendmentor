@@ -862,6 +862,21 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Local Storage Persistence", () => {
+    test("loads personal best from local storage on mount", async ({
+      page,
+    }) => {
+      // Set the local storage value before navigating
+      await page.addInitScript(() => {
+        window.localStorage.setItem("typing-test-best-wpm", "123");
+      });
+      await page.goto("/typing-speed-test");
+
+      // Verify the header displays the loaded personal best
+      await expect(page.getByText("123 WPM")).toBeVisible();
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
