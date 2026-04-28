@@ -875,6 +875,43 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Verify the header displays the loaded personal best
       await expect(page.getByText("123 WPM")).toBeVisible();
     });
+
+    test("saves personal best to local storage upon completion", async ({
+      page,
+    }) => {
+      await page.goto("/typing-speed-test");
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      // Type the first character to start the timer
+      await page.keyboard.press("T");
+
+      // Wait for timeElapsed to be >= 1s so calculated WPM > 0
+      await page.waitForTimeout(1100);
+
+      const passageText =
+        "The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. \"We've underestimated ancient peoples' navigational capabilities and their appetite for luxury goods,\" the lead researcher observed. \"Globalization isn't as modern as we assume.";
+
+      // Finish the passage to complete the test
+      await page
+        .locator('input[type="text"]')
+        .fill(passageText, { force: true });
+
+      await page.keyboard.press('"');
+
+      // Wait for the results screen to verify completion
+      await expect(
+        page.getByRole("heading", { name: "Baseline Established!" }),
+      ).toBeVisible();
+
+      // Retrieve the saved value from local storage natively
+      const savedWpm = await page.evaluate(() => {
+        return window.localStorage.getItem("typing-test-best-wpm");
+      });
+
+      // The saved WPM should not be null and should be populated with the achieved score
+      expect(savedWpm).not.toBeNull();
+      expect(parseInt(savedWpm!)).toBeGreaterThan(0);
+    });
   });
 
   /** Test if the page has a footer */
