@@ -11,6 +11,9 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Handling Paste Events](#handling-paste-events)
+      - [Mocking Timers in Playwright](#mocking-timers-in-playwright)
+      - [Input Element Attributes for Typing Tests](#input-element-attributes-for-typing-tests)
   - [Author](#author)
 
 ## Overview
@@ -111,6 +114,25 @@ test("automatically finishes the test when time hits zero", async ({
   ).toBeVisible();
 });
 ```
+
+#### Input Element Attributes for Typing Tests
+
+To ensure a fair and consistent typing experience, especially on mobile devices, I used several specific attributes on the `<input>` element. These attributes prevent the browser or operating system from interfering with the user's raw typing input:
+
+```tsx
+<input
+  // ... other props
+  autoComplete="off"
+  autoCorrect="off"
+  autoCapitalize="off"
+  spellCheck="false"
+/>
+```
+
+- **`autoComplete="off"`**: Prevents the browser from suggesting previously entered text.
+- **`autoCorrect="off"`**: Disables the device's automatic spelling correction, which is crucial since typing tests evaluate raw input accuracy.
+- **`autoCapitalize="off"`**: Stops mobile keyboards from automatically capitalizing the first letter of sentences, ensuring case sensitivity remains the user's responsibility.
+- **`spellCheck="false"`**: Removes the red squiggly lines under "misspelled" words or nonsense passages, preventing visual distractions.
 
 <!-- ### Continued development
 
