@@ -55,6 +55,13 @@ function Main() {
   const [resultType, setResultType] = useState<
     "baseline" | "newBest" | "complete" | null
   >(null);
+  const [caretStyle, setCaretStyle] = useState({
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+    opacity: 0,
+  });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
@@ -120,26 +127,37 @@ function Main() {
 
     if (status !== "active") {
       lastOffsetTopRef.current = null;
+      setCaretStyle((prev) => ({ ...prev, opacity: 0 }));
       return;
     }
 
-    const activeChar = document.getElementById("active-char");
-    if (!activeChar) return;
+    setTimeout(() => {
+      const activeChar = document.getElementById("active-char");
+      if (!activeChar) return;
 
-    const currentOffset = activeChar.offsetTop;
+      const currentOffset = activeChar.offsetTop;
 
-    // Track vertical position of invisible input to prevent native browser focus-scroll jumps
-    if (inputRef.current) {
-      inputRef.current.style.top = `${currentOffset}px`;
-    }
+      // Track vertical position of invisible input to prevent native browser focus-scroll jumps
+      if (inputRef.current) {
+        inputRef.current.style.top = `${currentOffset}px`;
+      }
 
-    // Scroll smoothly to center only when wrapping to a new line
-    const isNewLine = lastOffsetTopRef.current !== currentOffset;
+      // Scroll smoothly to center only when wrapping to a new line
+      const isNewLine = lastOffsetTopRef.current !== currentOffset;
 
-    if (isNewLine) {
-      activeChar.scrollIntoView({ behavior: "smooth", block: "center" });
-      lastOffsetTopRef.current = currentOffset;
-    }
+      if (isNewLine) {
+        activeChar.scrollIntoView({ behavior: "smooth", block: "center" });
+        lastOffsetTopRef.current = currentOffset;
+      }
+
+      setCaretStyle({
+        top: activeChar.offsetTop,
+        left: activeChar.offsetLeft,
+        width: activeChar.offsetWidth,
+        height: activeChar.offsetHeight,
+        opacity: 1,
+      });
+    }, 0);
   }, [input, status]);
 
   useEffect(() => {
@@ -246,12 +264,7 @@ function Main() {
         <span
           key={`${index}-${char}`}
           id={isCursor ? "active-char" : undefined}
-          className={cn(
-            "relative",
-            colorClass,
-            decorationClass,
-            isCursor && "rounded-[4px] bg-typing-speed-test-neutral-400/30",
-          )}
+          className={cn("relative", colorClass, decorationClass)}
         >
           {char}
         </span>
@@ -528,6 +541,16 @@ function Main() {
               }
             }}
           >
+            <div
+              className="pointer-events-none absolute rounded-[4px] bg-typing-speed-test-neutral-400/30 transition-all duration-100 ease-out"
+              style={{
+                top: caretStyle.top,
+                left: caretStyle.left,
+                width: caretStyle.width,
+                height: caretStyle.height,
+                opacity: caretStyle.opacity,
+              }}
+            />
             <p
               className={cn(
                 "text-[28px] leading-[1.575] tracking-[0.0235em] md:text-[39px] md:leading-[1.3875]",
