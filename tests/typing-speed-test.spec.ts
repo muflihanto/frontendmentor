@@ -136,6 +136,38 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Responsive Layout", () => {
+    test.describe("Mobile viewport (375px)", () => {
+      test.beforeEach(async ({ page }) => {
+        await page.setViewportSize({ width: 375, height: 667 });
+      });
+
+      test("shows the small logo and hides the large logo", async ({ page }) => {
+        const smallLogo = page.locator('img[src*="logo-small.svg"]');
+        const largeLogo = page.locator('img[src*="logo-large.svg"]');
+        
+        await expect(smallLogo).toBeVisible();
+        await expect(largeLogo).toBeHidden();
+      });
+
+      test("shows mobile dropdowns and hides desktop pills", async ({ page }) => {
+        // Desktop pills have specific labels like "Difficulty:" and "Mode:"
+        await expect(page.getByText("Difficulty:", { exact: true })).toBeHidden();
+        await expect(page.getByText("Mode:", { exact: true })).toBeHidden();
+        
+        // Mobile dropdowns use a down arrow icon next to the active button
+        const mobileDropdownIcons = page.locator('img[src*="icon-down-arrow.svg"]');
+        await expect(mobileDropdownIcons).toHaveCount(2); // One for difficulty, one for mode
+        await expect(mobileDropdownIcons.first()).toBeVisible();
+      });
+
+      test("shows 'Best:' label (short) in the header", async ({ page }) => {
+        await expect(page.getByText("Best:", { exact: true })).toBeVisible();
+        await expect(page.getByText("Personal best:", { exact: true })).toBeHidden();
+      });
+    });
+  });
+
   test.describe("Difficulty Switcher", () => {
     test("changes the passage text when difficulty is changed", async ({
       page,
