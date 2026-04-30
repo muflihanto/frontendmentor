@@ -166,6 +166,47 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         await expect(page.getByText("Personal best:", { exact: true })).toBeHidden();
       });
     });
+
+    test.describe("Desktop viewport (1280px)", () => {
+      test.beforeEach(async ({ page }) => {
+        await page.setViewportSize({ width: 1280, height: 720 });
+      });
+
+      test("shows the large logo and hides the small logo", async ({ page }) => {
+        const smallLogo = page.locator('img[src*="logo-small.svg"]');
+        const largeLogo = page.locator('img[src*="logo-large.svg"]');
+        
+        await expect(smallLogo).toBeHidden();
+        await expect(largeLogo).toBeVisible();
+      });
+
+      test("shows desktop pills and hides mobile dropdowns", async ({ page }) => {
+        // Desktop pills have "Difficulty:" and "Mode:" labels
+        await expect(page.getByText("Difficulty:", { exact: true })).toBeVisible();
+        await expect(page.getByText("Mode:", { exact: true })).toBeVisible();
+
+        // Mobile dropdown icons should be hidden
+        const mobileDropdownIcons = page.locator('img[src*="icon-down-arrow.svg"]');
+        await expect(mobileDropdownIcons.first()).toBeHidden();
+      });
+
+      test("shows 'Personal best:' label (full) in the header", async ({ page }) => {
+        await expect(page.getByText("Personal best:", { exact: true })).toBeVisible();
+        await expect(page.getByText("Best:", { exact: true })).toBeHidden();
+      });
+
+      test("difficulty and mode pills are all visible on desktop", async ({ page }) => {
+        // We can get the desktop container by looking for the one containing "Difficulty:"
+        const difficultyContainer = page.getByText("Difficulty:", { exact: true }).locator("..");
+        await expect(difficultyContainer.getByRole("button", { name: "Easy", exact: true })).toBeVisible();
+        await expect(difficultyContainer.getByRole("button", { name: "Medium", exact: true })).toBeVisible();
+        await expect(difficultyContainer.getByRole("button", { name: "Hard", exact: true })).toBeVisible();
+        
+        const modeContainer = page.getByText("Mode:", { exact: true }).locator("..");
+        await expect(modeContainer.getByRole("button", { name: "Timed (60s)", exact: true })).toBeVisible();
+        await expect(modeContainer.getByRole("button", { name: "Passage", exact: true })).toBeVisible();
+      });
+    });
   });
 
   test.describe("Difficulty Switcher", () => {
