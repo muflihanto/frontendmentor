@@ -359,6 +359,34 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .filter({ hasText: "The sun was warm and the sky was blue" });
         await expect(easyPassage).toBeVisible();
       });
+
+      test("resets test state when difficulty is changed via mobile dropdown during an active test", async ({
+        page,
+      }) => {
+        await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+        await page.keyboard.press("T");
+        await page.keyboard.press("h");
+
+        const activeChar = page.locator("#active-char");
+        await expect(activeChar).toHaveText("e");
+
+        const mobileContainer = page.locator(".md\\:hidden");
+        await mobileContainer
+          .getByRole("button", { name: "Hard", exact: true })
+          .click();
+        await mobileContainer
+          .getByRole("button", { name: "Medium", exact: true })
+          .click();
+
+        await expect(
+          page.getByRole("button", { name: "Start Typing Test" }),
+        ).toBeVisible();
+        const mediumPassage = page
+          .locator("p")
+          .filter({ hasText: "A programming language is a system" });
+        await expect(mediumPassage).toHaveClass(/blur-\[8px\]/);
+      });
     });
   });
 
