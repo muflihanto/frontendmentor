@@ -286,6 +286,7 @@ function Main() {
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-col px-4 pb-[0px] pt-4 md:max-w-7xl md:px-8 md:pt-8">
+      <h1 className="sr-only">Typing Speed Test</h1>
       <header className="flex w-full items-center justify-between">
         <Image
           src="/typing-speed-test/assets/images/logo-small.svg"
