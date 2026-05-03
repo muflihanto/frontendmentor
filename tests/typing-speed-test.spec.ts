@@ -747,6 +747,54 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       );
       expect(isFocused).toBe(true);
     });
+
+    test("pauses the test, stops the timer, and blurs text when the input loses focus", async ({
+      page,
+    }) => {
+      // Type the first character to ensure the timer has actively started
+      await page.keyboard.press("T");
+
+      const passage = page
+        .locator("p")
+        .filter({ hasText: "The archaeological expedition" });
+      const stats = page.locator("main > div").first();
+      const timeLocator = stats
+        .locator("p")
+        .filter({ hasText: /^Time:/ })
+        .locator("xpath=../p[2]");
+
+      // Verify the test is active and not blurred
+      await expect(passage).not.toHaveClass(/blur-\[8px\]/);
+      await expect(page.getByText("Paused", { exact: true })).not.toBeVisible();
+
+      // Blur the input to simulate losing focus
+      const input = page.locator('input[type="text"]');
+      await input.evaluate((node) => node.blur());
+
+      // Verify the paused UI overlay is shown
+      await expect(page.getByText("Paused", { exact: true })).toBeVisible();
+      await expect(page.getByText("Click the text to resume")).toBeVisible();
+      await expect(passage).toHaveClass(/blur-\[8px\]/);
+
+      // Verify the timer is paused by waiting 1.1s and checking that time hasn't changed
+      const timeWhilePaused = await timeLocator.textContent();
+      await page.waitForTimeout(1100);
+      const timeAfterWait = await timeLocator.textContent();
+      expect(timeAfterWait).toBe(timeWhilePaused);
+
+      // Resume the test by clicking the paused overlay (which bubbles up to the container)
+      await page.getByText("Paused", { exact: true }).click();
+
+      // Verify the test resumes to active state
+      await expect(page.getByText("Paused", { exact: true })).not.toBeVisible();
+      await expect(passage).not.toHaveClass(/blur-\[8px\]/);
+
+      // Verify the input is refocused
+      const isRefocused = await page.evaluate(
+        () => document.activeElement?.tagName === "INPUT",
+      );
+      expect(isRefocused).toBe(true);
+    });
   });
 
   test.describe("Stats Update While Typing", () => {
