@@ -48,6 +48,7 @@ function Main() {
   const [status, setStatus] = useState<"idle" | "active" | "finished">("idle");
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
   const [input, setInput] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
   const [wpm, setWpm] = useState(0);
@@ -75,13 +76,13 @@ function Main() {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (status === "active" && hasStartedTyping) {
+    if (status === "active" && hasStartedTyping && isFocused) {
       interval = setInterval(() => {
         setTimeElapsed((prev) => prev + 1);
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [status, hasStartedTyping]);
+  }, [status, hasStartedTyping, isFocused]);
 
   useEffect(() => {
     if (status === "active" && !hasStartedTyping && input.length > 0) {
@@ -188,6 +189,7 @@ function Main() {
       setWpm(0);
       setAccuracy(100);
       setResultType(null);
+      setIsFocused(false);
     }
   };
 
@@ -201,6 +203,7 @@ function Main() {
       setWpm(0);
       setAccuracy(100);
       setResultType(null);
+      setIsFocused(false);
     }
   };
 
@@ -543,7 +546,10 @@ function Main() {
             }}
           >
             <div
-              className="pointer-events-none absolute rounded-[4px] bg-typing-speed-test-neutral-400/30 transition-all duration-100 ease-out"
+              className={cn(
+                "pointer-events-none absolute rounded-[4px] bg-typing-speed-test-neutral-400/30 transition-all duration-100 ease-out",
+                !isFocused && status === "active" && "hidden",
+              )}
               style={{
                 top: caretStyle.top,
                 left: caretStyle.left,
@@ -555,7 +561,7 @@ function Main() {
             <p
               className={cn(
                 "text-[28px] leading-[1.575] tracking-[0.0235em] md:text-[39px] md:leading-[1.3875]",
-                status === "idle" &&
+                (status === "idle" || (status === "active" && !isFocused)) &&
                   "text-typing-speed-test-neutral-400 opacity-70 blur-[8px] md:blur-[10px]",
               )}
             >
@@ -577,12 +583,25 @@ function Main() {
               </div>
             )}
 
+            {status === "active" && !isFocused && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pt-[30px] md:pt-[0px]">
+                <p className="text-center text-[24px] font-semibold tracking-[-0.02875em] text-typing-speed-test-neutral-0">
+                  Paused
+                </p>
+                <p className="mt-[12px] text-center text-[18px] font-medium tracking-[-0.02875em] text-typing-speed-test-neutral-400">
+                  Click the text to resume
+                </p>
+              </div>
+            )}
+
             {status === "active" && (
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 onPaste={(e) => e.preventDefault()}
                 maxLength={passageText.length}
                 className="absolute left-0 top-0 h-0 w-0 opacity-0"
