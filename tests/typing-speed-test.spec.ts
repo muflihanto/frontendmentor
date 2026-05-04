@@ -1149,13 +1149,29 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     ).toBeVisible();
   });
 
-  test("should not have any automatically detectable accessibility issues", async ({
-    page,
-  }) => {
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .disableRules(["color-contrast"])
-      .analyze();
-    // console.log({ violations: accessibilityScanResults.violations });
-    expect(accessibilityScanResults.violations).toEqual([]);
+  test.describe("Accessibility", () => {
+    test("idle state should not have any automatically detectable accessibility issues", async ({
+      page,
+    }) => {
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
+
+    test("active state should not have accessibility issues", async ({ page }) => {
+      // 1. Trigger the active state
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      
+      // 2. Wait for the state to settle (e.g., ensure the Restart button is visible)
+      await expect(page.getByRole("button", { name: "Restart Test" })).toBeVisible();
+
+      // 3. Run the Axe scan
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
+        
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
   });
 });
