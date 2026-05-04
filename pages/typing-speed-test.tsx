@@ -609,6 +609,7 @@ function Main() {
                 autoCorrect="off"
                 autoCapitalize="off"
                 spellCheck="false"
+                aria-label="Typing test input"
               />
             )}
           </div>
