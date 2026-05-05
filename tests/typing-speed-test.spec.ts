@@ -1220,5 +1220,32 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       expect(accessibilityScanResults.violations).toEqual([]);
     });
+
+    test("mobile dropdowns should not have accessibility issues when open", async ({
+      page,
+    }) => {
+      // 1. Set to mobile viewport
+      await page.setViewportSize({ width: 375, height: 667 });
+
+      // 2. Open the Difficulty dropdown
+      await page
+        .locator(".md\\:hidden")
+        .getByRole("button", { name: "Hard", exact: true })
+        .click();
+
+      // 3. Ensure dropdown is open
+      await expect(
+        page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Easy", exact: true }),
+      ).toBeVisible();
+
+      // 4. Run the Axe scan
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
+
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
   });
 });
