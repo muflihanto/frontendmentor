@@ -1159,18 +1159,65 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       expect(accessibilityScanResults.violations).toEqual([]);
     });
 
-    test("active state should not have accessibility issues", async ({ page }) => {
+    test("active state should not have accessibility issues", async ({
+      page,
+    }) => {
       // 1. Trigger the active state
       await page.getByRole("button", { name: "Start Typing Test" }).click();
-      
+
       // 2. Wait for the state to settle (e.g., ensure the Restart button is visible)
-      await expect(page.getByRole("button", { name: "Restart Test" })).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: "Restart Test" }),
+      ).toBeVisible();
 
       // 3. Run the Axe scan
       const accessibilityScanResults = await new AxeBuilder({ page })
         .disableRules(["color-contrast"])
         .analyze();
-        
+
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
+
+    test("finished state should not have accessibility issues", async ({
+      page,
+    }) => {
+      // 1. Find visible Passage button to switch mode
+      const desktopPassageBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" });
+      if (await desktopPassageBtn.isVisible()) {
+        await desktopPassageBtn.click();
+      } else {
+        const mobileDropdown = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Timed (60s)" });
+        await mobileDropdown.click();
+        const mobilePassageBtn = page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Passage" });
+        await mobilePassageBtn.click();
+      }
+
+      // 2. Start the test
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      // 3. Instantly fill the passage to trigger the finished state
+      const passageText =
+        'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
+      await page
+        .locator('input[type="text"]')
+        .fill(passageText, { force: true });
+
+      // 4. Ensure the results screen rendered
+      await expect(
+        page.getByRole("heading", { name: "Baseline Established!" }),
+      ).toBeVisible();
+
+      // 5. Run the Axe scan
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
+
       expect(accessibilityScanResults.violations).toEqual([]);
     });
   });
