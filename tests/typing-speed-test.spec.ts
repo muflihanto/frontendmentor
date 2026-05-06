@@ -1233,11 +1233,11 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         .getByRole("button", { name: "Hard", exact: true })
         .click();
 
-      // 3. Ensure dropdown is open
+      // 3. Ensure dropdown is open (items have role="menuitem" after a11y improvements)
       await expect(
         page
           .locator(".md\\:hidden")
-          .getByRole("button", { name: "Easy", exact: true }),
+          .getByRole("menuitem", { name: "Easy", exact: true }),
       ).toBeVisible();
 
       // 4. Run the Axe scan
