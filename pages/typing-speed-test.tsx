@@ -63,6 +63,7 @@ function Main() {
     height: 0,
     opacity: 0,
   });
+  const [a11yErrorAnnouncement, setA11yErrorAnnouncement] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
@@ -222,13 +223,18 @@ function Main() {
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        handleStartTest();
+        if (isDiffOpen || isModeOpen) {
+          setIsDiffOpen(false);
+          setIsModeOpen(false);
+        } else {
+          handleStartTest();
+        }
       }
     };
 
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, [handleStartTest]);
+  }, [handleStartTest, isDiffOpen, isModeOpen]);
 
   const handleContainerClick = () => {
     if (status === "idle") {
@@ -386,6 +392,8 @@ function Main() {
               <div className="relative w-full">
                 <button
                   type="button"
+                  aria-haspopup="menu"
+                  aria-expanded={isDiffOpen}
                   onClick={() => {
                     setIsDiffOpen(!isDiffOpen);
                     setIsModeOpen(false);
@@ -405,11 +413,15 @@ function Main() {
                   />
                 </button>
                 {isDiffOpen && (
-                  <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
+                  <div
+                    role="menu"
+                    className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl"
+                  >
                     {["Easy", "Medium", "Hard"].map((diff) => (
                       <button
                         key={diff}
                         type="button"
+                        role="menuitem"
                         onClick={() => {
                           handleDifficultyChange(diff);
                           setIsDiffOpen(false);
@@ -435,6 +447,8 @@ function Main() {
               <div className="relative w-full">
                 <button
                   type="button"
+                  aria-haspopup="menu"
+                  aria-expanded={isModeOpen}
                   onClick={() => {
                     setIsModeOpen(!isModeOpen);
                     setIsDiffOpen(false);
@@ -454,11 +468,15 @@ function Main() {
                   />
                 </button>
                 {isModeOpen && (
-                  <div className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl">
+                  <div
+                    role="menu"
+                    className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl"
+                  >
                     {["Timed (60s)", "Passage"].map((m) => (
                       <button
                         key={m}
                         type="button"
+                        role="menuitem"
                         onClick={() => {
                           handleModeChange(m);
                           setIsModeOpen(false);
@@ -595,22 +613,46 @@ function Main() {
             )}
 
             {status === "active" && (
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                onPaste={(e) => e.preventDefault()}
-                maxLength={passageText.length}
-                className="absolute left-0 top-0 h-0 w-0 opacity-0"
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck="false"
-                aria-label="Typing test input"
-              />
+              <>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => {
+                    const newVal = e.target.value;
+                    if (newVal.length > input.length) {
+                      const lastIdx = newVal.length - 1;
+                      if (newVal[lastIdx] !== passageText[lastIdx]) {
+                        const expected =
+                          passageText[lastIdx] === " "
+                            ? "space"
+                            : passageText[lastIdx];
+                        const typed =
+                          newVal[lastIdx] === " " ? "space" : newVal[lastIdx];
+                        setA11yErrorAnnouncement(
+                          `Incorrect. Expected ${expected}, typed ${typed}.`,
+                        );
+                      } else {
+                        setA11yErrorAnnouncement("");
+                      }
+                    }
+                    setInput(newVal);
+                  }}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  onPaste={(e) => e.preventDefault()}
+                  maxLength={passageText.length}
+                  className="absolute left-0 top-0 h-0 w-0 opacity-0"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                  aria-label="Typing test input"
+                />
+                <div className="sr-only" aria-live="assertive">
+                  {a11yErrorAnnouncement}
+                </div>
+              </>
             )}
           </div>
 
@@ -685,6 +727,10 @@ function Results({
 
   return (
     <div className="relative mt-8 flex w-full flex-col items-center px-0 pb-[120px] md:static md:mt-[55px]">
+      <div className="sr-only" aria-live="polite">
+        {title} {subtitle} You typed at {wpm} words per minute with {accuracy}%
+        accuracy.
+      </div>
       {isNewBest && (
         <Image
           src="/typing-speed-test/assets/images/pattern-confetti.svg"
