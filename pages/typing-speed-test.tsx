@@ -262,7 +262,7 @@ function Main() {
               "underline decoration-typing-speed-test-red-500 underline-offset-4";
           } else {
             decorationClass =
-              "underline decoration-typing-speed-test-red-500 underline-offset-4";
+              "underline decoration-typing-speed-test-red-500 underline-offset-4 bg-typing-speed-test-red-500/20";
           }
         }
       }
