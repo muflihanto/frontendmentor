@@ -67,6 +67,26 @@ function Main() {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
+  const dropdownsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownsRef.current &&
+        !dropdownsRef.current.contains(event.target as Node)
+      ) {
+        setIsDiffOpen(false);
+        setIsModeOpen(false);
+      }
+    };
+
+    if (isDiffOpen || isModeOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDiffOpen, isModeOpen]);
 
   useEffect(() => {
     const savedBest = localStorage.getItem("typing-test-best-wpm");
@@ -388,7 +408,10 @@ function Main() {
             </div>
 
             {/* Mobile Dropdowns */}
-            <div className="relative z-20 mt-4 flex w-full gap-2 border-b border-typing-speed-test-neutral-800 pb-[15px] md:hidden">
+            <div
+              ref={dropdownsRef}
+              className="relative z-20 mt-4 flex w-full gap-2 border-b border-typing-speed-test-neutral-800 pb-[15px] md:hidden"
+            >
               <div className="relative w-full">
                 <button
                   type="button"
