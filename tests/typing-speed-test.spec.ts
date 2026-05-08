@@ -1221,6 +1221,30 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       expect(accessibilityScanResults.violations).toEqual([]);
     });
 
+    test("paused state should not have accessibility issues", async ({
+      page,
+    }) => {
+      // 1. Start the test
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      // 2. Type a character to ensure timer and active state begin
+      await page.keyboard.press("T");
+
+      // 3. Blur the input to trigger the paused state
+      const input = page.locator('input[type="text"]');
+      await input.evaluate((node) => node.blur());
+
+      // 4. Wait for the Paused overlay to become visible
+      await expect(page.getByText("Paused", { exact: true })).toBeVisible();
+
+      // 5. Run the Axe scan
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .disableRules(["color-contrast"])
+        .analyze();
+
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
+
     test("mobile dropdowns should not have accessibility issues when open", async ({
       page,
     }) => {
