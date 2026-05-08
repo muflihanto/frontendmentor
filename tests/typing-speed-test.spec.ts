@@ -90,7 +90,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       });
       await diffDropdownBtn.click();
 
-      const mediumOption = mobileContainer.getByRole("button", {
+      const mediumOption = mobileContainer.getByRole("menuitem", {
         name: "Medium",
         exact: true,
       });
@@ -103,7 +103,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toHaveCount(1);
       // "Easy" option from dropdown should be gone
       await expect(
-        mobileContainer.getByRole("button", { name: "Easy", exact: true }),
+        mobileContainer.getByRole("menuitem", { name: "Easy", exact: true }),
       ).not.toBeVisible();
     });
 
@@ -116,7 +116,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       });
       await modeDropdownBtn.click();
 
-      const passageOption = mobileContainer.getByRole("button", {
+      const passageOption = mobileContainer.getByRole("menuitem", {
         name: "Passage",
         exact: true,
       });
@@ -129,7 +129,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toHaveCount(1);
       // "Timed (60s)" option from dropdown should be gone
       await expect(
-        mobileContainer.getByRole("button", {
+        mobileContainer.getByRole("menuitem", {
           name: "Timed (60s)",
           exact: true,
         }),
@@ -283,7 +283,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .click();
         await page
           .locator(".md\\:hidden")
-          .getByRole("button", { name: "Easy", exact: true })
+          .getByRole("menuitem", { name: "Easy", exact: true })
           .click();
       }
 
@@ -320,7 +320,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .click();
         await page
           .locator(".md\\:hidden")
-          .getByRole("button", { name: "Medium", exact: true })
+          .getByRole("menuitem", { name: "Medium", exact: true })
           .click();
       }
 
@@ -352,7 +352,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .getByRole("button", { name: "Hard", exact: true })
           .click();
         await mobileContainer
-          .getByRole("button", { name: "Easy", exact: true })
+          .getByRole("menuitem", { name: "Easy", exact: true })
           .click();
 
         const easyPassage = page
@@ -377,7 +377,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .getByRole("button", { name: "Hard", exact: true })
           .click();
         await mobileContainer
-          .getByRole("button", { name: "Medium", exact: true })
+          .getByRole("menuitem", { name: "Medium", exact: true })
           .click();
 
         await expect(
@@ -585,7 +585,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .click();
         await page
           .locator(".md\\:hidden")
-          .getByRole("button", { name: "Passage" })
+          .getByRole("menuitem", { name: "Passage" })
           .click();
       }
 
@@ -686,7 +686,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .click();
         await page
           .locator(".md\\:hidden")
-          .getByRole("button", { name: "Passage" })
+          .getByRole("menuitem", { name: "Passage" })
           .click();
       }
 
@@ -1019,7 +1019,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         await mobileDropdown.click();
         const mobilePassageBtn = page
           .locator(".md\\:hidden")
-          .getByRole("button", { name: "Passage" });
+          .getByRole("menuitem", { name: "Passage" });
         await mobilePassageBtn.click();
       }
 
@@ -1194,7 +1194,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         await mobileDropdown.click();
         const mobilePassageBtn = page
           .locator(".md\\:hidden")
-          .getByRole("button", { name: "Passage" });
+          .getByRole("menuitem", { name: "Passage" });
         await mobilePassageBtn.click();
       }
 
