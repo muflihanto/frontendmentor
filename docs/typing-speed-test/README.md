@@ -14,6 +14,7 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
       - [Handling Paste Events](#handling-paste-events)
       - [Mocking Timers in Playwright](#mocking-timers-in-playwright)
       - [Input Element Attributes for Typing Tests](#input-element-attributes-for-typing-tests)
+      - [Automated Accessibility Testing with AxeBuilder](#automated-accessibility-testing-with-axebuilder)
   - [Author](#author)
 
 ## Overview
@@ -133,6 +134,34 @@ To ensure a fair and consistent typing experience, especially on mobile devices,
 - **`autoCorrect="off"`**: Disables the device's automatic spelling correction, which is crucial since typing tests evaluate raw input accuracy.
 - **`autoCapitalize="off"`**: Stops mobile keyboards from automatically capitalizing the first letter of sentences, ensuring case sensitivity remains the user's responsibility.
 - **`spellCheck="false"`**: Removes the red squiggly lines under "misspelled" words or nonsense passages, preventing visual distractions.
+
+#### Automated Accessibility Testing with AxeBuilder
+
+In this project, I integrated `@axe-core/playwright` to run automated accessibility checks across multiple interactive states of the application. Instead of just testing the initial load, I used multiple instances of `AxeBuilder` to verify that the app remains accessible as the user interacts with it.
+
+I wrote separate tests for the idle, active, paused, and finished states, as well as for the mobile dropdown menus. For example, here is how I tested the finished state:
+
+```typescript
+test("finished state should not have accessibility issues", async ({
+  page,
+}) => {
+  // ... (setup state by starting and finishing the test)
+
+  // Ensure the results screen rendered
+  await expect(
+    page.getByRole("heading", { name: "Baseline Established!" }),
+  ).toBeVisible();
+
+  // Run the Axe scan on the newly rendered state
+  const accessibilityScanResults = await new AxeBuilder({ page })
+    .disableRules(["color-contrast"])
+    .analyze();
+
+  expect(accessibilityScanResults.violations).toEqual([]);
+});
+```
+
+This approach ensured that dynamically rendered elements, like the results screen or the paused overlay, also complied with accessibility standards.
 
 <!-- ### Continued development
 
