@@ -732,6 +732,12 @@ function Results({
   isNewBest,
   onRestart,
 }: ResultsProps) {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
+
   const title = isBaseline
     ? "Baseline Established!"
     : isNewBest
@@ -812,7 +818,11 @@ function Results({
           </div>
         </div>
 
-        <h1 className="mt-7 text-center text-[24px] font-bold leading-none tracking-[0.015em] text-typing-speed-test-neutral-0 md:mt-8 md:text-[40px] md:tracking-normal">
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="mt-7 text-center text-[24px] font-bold leading-none tracking-[0.015em] text-typing-speed-test-neutral-0 outline-none md:mt-8 md:text-[40px] md:tracking-normal"
+        >
           {title}
         </h1>
         <p className="mt-[10px] text-center leading-5 tracking-[-0.035em] text-typing-speed-test-neutral-400 md:mt-[18px] md:text-[20px] md:tracking-[-0.0275em]">
