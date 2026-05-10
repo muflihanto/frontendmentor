@@ -613,6 +613,41 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toBeVisible();
     });
 
+    test("moves focus to the results heading when the test completes", async ({
+      page,
+    }) => {
+      const desktopPassageBtn = page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" });
+      if (await desktopPassageBtn.isVisible()) {
+        await desktopPassageBtn.click();
+      } else {
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("button", { name: "Timed (60s)" })
+          .click();
+        await page
+          .locator(".md\\:hidden")
+          .getByRole("menuitem", { name: "Passage" })
+          .click();
+      }
+
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      const input = page.locator('input[type="text"]');
+      const passageText =
+        'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."';
+
+      await input.fill(passageText.slice(0, -1), { force: true });
+      await page.keyboard.press(passageText.slice(-1));
+
+      const heading = page.getByRole("heading", {
+        name: "Baseline Established!",
+      });
+      await expect(heading).toBeVisible();
+      await expect(heading).toBeFocused();
+    });
+
     test("resets all stats and UI when 'Restart Test' is clicked during an active session", async ({
       page,
     }) => {
