@@ -68,6 +68,10 @@ function Main() {
   const inputRef = useRef<HTMLInputElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
   const dropdownsRef = useRef<HTMLDivElement>(null);
+  const diffTriggerRef = useRef<HTMLButtonElement>(null);
+  const modeTriggerRef = useRef<HTMLButtonElement>(null);
+  const diffMenuRef = useRef<HTMLDivElement>(null);
+  const modeMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -244,6 +248,8 @@ function Main() {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (isDiffOpen || isModeOpen) {
+          if (isDiffOpen) diffTriggerRef.current?.focus();
+          if (isModeOpen) modeTriggerRef.current?.focus();
           setIsDiffOpen(false);
           setIsModeOpen(false);
         } else {
@@ -255,6 +261,56 @@ function Main() {
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, [handleStartTest, isDiffOpen, isModeOpen]);
+
+  const handleDropdownKeyDown = (
+    e: React.KeyboardEvent,
+    menuRef: React.RefObject<HTMLDivElement>,
+    isOpen: boolean,
+    setIsOpen: (val: boolean) => void,
+  ) => {
+    if (!isOpen && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+      e.preventDefault();
+      setIsOpen(true);
+      setTimeout(() => {
+        const firstItem =
+          menuRef.current?.querySelector<HTMLButtonElement>(
+            '[role="menuitem"]',
+          );
+        firstItem?.focus();
+      }, 0);
+      return;
+    }
+
+    if (!isOpen || !menuRef.current) return;
+
+    const items = Array.from(
+      menuRef.current.querySelectorAll<HTMLButtonElement>('[role="menuitem"]'),
+    );
+    if (items.length === 0) return;
+
+    const currentIndex = items.indexOf(
+      document.activeElement as HTMLButtonElement,
+    );
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextIndex =
+        currentIndex < 0 ? 0 : (currentIndex + 1) % items.length;
+      items[nextIndex].focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      items[prevIndex].focus();
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      items[0].focus();
+    } else if (e.key === "End") {
+      e.preventDefault();
+      items[items.length - 1].focus();
+    } else if (e.key === "Tab") {
+      setIsOpen(false);
+    }
+  };
 
   const handleContainerClick = () => {
     if (status === "idle") {
@@ -414,7 +470,16 @@ function Main() {
             >
               <div className="relative w-full">
                 <button
+                  ref={diffTriggerRef}
                   type="button"
+                  onKeyDown={(e) =>
+                    handleDropdownKeyDown(
+                      e,
+                      diffMenuRef,
+                      isDiffOpen,
+                      setIsDiffOpen,
+                    )
+                  }
                   aria-haspopup="menu"
                   aria-expanded={isDiffOpen}
                   onClick={() => {
@@ -437,7 +502,16 @@ function Main() {
                 </button>
                 {isDiffOpen && (
                   <div
+                    ref={diffMenuRef}
                     role="menu"
+                    onKeyDown={(e) =>
+                      handleDropdownKeyDown(
+                        e,
+                        diffMenuRef,
+                        isDiffOpen,
+                        setIsDiffOpen,
+                      )
+                    }
                     className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl"
                   >
                     {["Easy", "Medium", "Hard"].map((diff) => (
@@ -469,7 +543,16 @@ function Main() {
 
               <div className="relative w-full">
                 <button
+                  ref={modeTriggerRef}
                   type="button"
+                  onKeyDown={(e) =>
+                    handleDropdownKeyDown(
+                      e,
+                      modeMenuRef,
+                      isModeOpen,
+                      setIsModeOpen,
+                    )
+                  }
                   aria-haspopup="menu"
                   aria-expanded={isModeOpen}
                   onClick={() => {
@@ -492,7 +575,16 @@ function Main() {
                 </button>
                 {isModeOpen && (
                   <div
+                    ref={modeMenuRef}
                     role="menu"
+                    onKeyDown={(e) =>
+                      handleDropdownKeyDown(
+                        e,
+                        modeMenuRef,
+                        isModeOpen,
+                        setIsModeOpen,
+                      )
+                    }
                     className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl"
                   >
                     {["Timed (60s)", "Passage"].map((m) => (
