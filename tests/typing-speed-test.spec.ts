@@ -168,10 +168,30 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.keyboard.press("ArrowUp");
       await expect(easyOption).toBeFocused();
 
+      // Press End to jump to the last item
+      await page.keyboard.press("End");
+      const hardOption = mobileContainer.getByRole("menuitem", {
+        name: "Hard",
+        exact: true,
+      });
+      await expect(hardOption).toBeFocused();
+
+      // Press Home to jump to the first item
+      await page.keyboard.press("Home");
+      await expect(easyOption).toBeFocused();
+
       // Press Escape to close and return focus to trigger
       await page.keyboard.press("Escape");
       await expect(easyOption).not.toBeVisible();
       await expect(diffDropdownBtn).toBeFocused();
+
+      // Re-open with ArrowUp to test Tab behavior
+      await page.keyboard.press("ArrowUp");
+      await expect(easyOption).toBeFocused();
+
+      // Press Tab to close the dropdown normally (focus leaves)
+      await page.keyboard.press("Tab");
+      await expect(easyOption).not.toBeVisible();
     });
   });
 
