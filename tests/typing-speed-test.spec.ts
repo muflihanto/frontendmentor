@@ -135,6 +135,44 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         }),
       ).not.toBeVisible();
     });
+
+    test("supports keyboard navigation for custom dropdowns", async ({
+      page,
+    }) => {
+      const mobileContainer = page.locator(".md\\:hidden");
+
+      const diffDropdownBtn = mobileContainer.getByRole("button", {
+        name: "Hard",
+        exact: true,
+      });
+
+      // Focus the button and press ArrowDown to open and focus first item
+      await diffDropdownBtn.focus();
+      await page.keyboard.press("ArrowDown");
+
+      const easyOption = mobileContainer.getByRole("menuitem", {
+        name: "Easy",
+        exact: true,
+      });
+      await expect(easyOption).toBeFocused();
+
+      // Press ArrowDown to move to next item
+      await page.keyboard.press("ArrowDown");
+      const mediumOption = mobileContainer.getByRole("menuitem", {
+        name: "Medium",
+        exact: true,
+      });
+      await expect(mediumOption).toBeFocused();
+
+      // Press ArrowUp to move back
+      await page.keyboard.press("ArrowUp");
+      await expect(easyOption).toBeFocused();
+
+      // Press Escape to close and return focus to trigger
+      await page.keyboard.press("Escape");
+      await expect(easyOption).not.toBeVisible();
+      await expect(diffDropdownBtn).toBeFocused();
+    });
   });
 
   test.describe("Responsive Layout", () => {
