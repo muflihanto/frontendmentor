@@ -1364,5 +1364,21 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       expect(accessibilityScanResults.violations).toEqual([]);
     });
+
+    test("announces incorrect keystrokes via live region", async ({ page }) => {
+      // 1. Start the test
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      const liveRegion = page.locator('.sr-only[aria-live="assertive"]');
+
+      // 2. Initial state: should be empty
+      await expect(liveRegion).toBeEmpty();
+
+      // 3. Type an incorrect character ("T" is expected, so type "x")
+      await page.keyboard.press("x");
+
+      // 4. Verify the live region correctly announces the error
+      await expect(liveRegion).toHaveText("Incorrect. Expected T, typed x.");
+    });
   });
 });
