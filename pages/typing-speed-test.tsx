@@ -166,6 +166,9 @@ function Main() {
       // Track vertical position of invisible input to prevent native browser focus-scroll jumps
       if (inputRef.current) {
         inputRef.current.style.top = `${currentOffset}px`;
+        inputRef.current.style.left = `${activeChar.offsetLeft}px`;
+        inputRef.current.style.width = `${activeChar.offsetWidth || 10}px`;
+        inputRef.current.style.height = `${activeChar.offsetHeight || 20}px`;
       }
 
       // Scroll smoothly to center only when wrapping to a new line
@@ -757,10 +760,10 @@ function Main() {
                   onBlur={() => setIsFocused(false)}
                   onPaste={(e) => e.preventDefault()}
                   maxLength={passageText.length}
-                  className="absolute left-0 top-0 h-0 w-0 opacity-0"
+                  className="absolute opacity-0"
                   autoComplete="off"
                   autoCorrect="off"
-                  autoCapitalize="off"
+                  autoCapitalize="none"
                   spellCheck="false"
                   aria-label="Typing test input"
                 />
