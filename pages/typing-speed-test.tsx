@@ -97,6 +97,16 @@ function Main() {
     if (savedBest) {
       setBestWpm(parseInt(savedBest, 10));
     }
+
+    const savedMode = localStorage.getItem("typing-test-mode");
+    if (savedMode) {
+      setMode(savedMode);
+    }
+
+    const savedDiff = localStorage.getItem("typing-test-difficulty");
+    if (savedDiff) {
+      setDifficulty(savedDiff);
+    }
   }, []);
 
   useEffect(() => {
@@ -210,6 +220,7 @@ function Main() {
   const handleModeChange = (newMode: string) => {
     if (newMode !== mode) {
       setMode(newMode);
+      localStorage.setItem("typing-test-mode", newMode);
       setStatus("idle");
       setHasStartedTyping(false);
       setInput("");
@@ -224,6 +235,7 @@ function Main() {
   const handleDifficultyChange = (newDiff: string) => {
     if (newDiff !== difficulty) {
       setDifficulty(newDiff);
+      localStorage.setItem("typing-test-difficulty", newDiff);
       setStatus("idle");
       setHasStartedTyping(false);
       setInput("");
