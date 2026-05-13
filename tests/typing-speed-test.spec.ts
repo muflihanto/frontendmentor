@@ -1233,6 +1233,53 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       expect(savedWpm).not.toBeNull();
       expect(parseInt(savedWpm!)).toBeGreaterThan(0);
     });
+
+    test("loads user preferences for mode and difficulty from local storage on mount", async ({
+      page,
+    }) => {
+      // Set the local storage values before navigating
+      await page.addInitScript(() => {
+        window.localStorage.setItem("typing-test-mode", "Passage");
+        window.localStorage.setItem("typing-test-difficulty", "Easy");
+      });
+      await page.goto("/typing-speed-test");
+
+      // Verify the preferences are applied to the UI (check mobile dropdown triggers)
+      const mobileDiffBtn = page.locator(".md\\:hidden > div > button").first();
+      await expect(mobileDiffBtn).toContainText("Easy");
+
+      const mobileModeBtn = page.locator(".md\\:hidden > div > button").nth(1);
+      await expect(mobileModeBtn).toContainText("Passage");
+    });
+
+    test("saves user preferences to local storage on change", async ({
+      page,
+    }) => {
+      await page.goto("/typing-speed-test");
+
+      // Change Mode to Passage (using desktop pills for simplicity)
+      await page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Passage" })
+        .click();
+
+      // Change Difficulty to Easy
+      await page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Easy" })
+        .click();
+
+      // Retrieve values from local storage
+      const savedMode = await page.evaluate(() =>
+        window.localStorage.getItem("typing-test-mode"),
+      );
+      const savedDiff = await page.evaluate(() =>
+        window.localStorage.getItem("typing-test-difficulty"),
+      );
+
+      expect(savedMode).toBe("Passage");
+      expect(savedDiff).toBe("Easy");
+    });
   });
 
   /** Test if the page has a footer */
