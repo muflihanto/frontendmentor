@@ -217,6 +217,20 @@ function Main() {
     }
   }, [input, timeElapsed, status, passageText]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (status === "active") {
+        e.preventDefault();
+        // The custom message is largely ignored by modern browsers, but required to trigger the prompt
+        e.returnValue =
+          "You have an active typing test. Are you sure you want to leave?";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [status]);
+
   const handleModeChange = (newMode: string) => {
     if (newMode !== mode) {
       setMode(newMode);
