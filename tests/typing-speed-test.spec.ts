@@ -1282,6 +1282,48 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
   });
 
+  test.describe("Accidental Navigation Prevention", () => {
+    test("prevents default and sets returnValue on beforeunload when attempting to leave during an active test", async ({
+      page,
+    }) => {
+      await page.goto("/typing-speed-test");
+      await page.getByRole("button", { name: "Start Typing Test" }).click();
+
+      // Dispatch beforeunload event manually to reliably test the listener logic
+      const eventDetails = await page.evaluate(() => {
+        const event = new Event("beforeunload", { cancelable: true });
+        window.dispatchEvent(event);
+        return {
+          defaultPrevented: event.defaultPrevented,
+        };
+      });
+
+      expect(eventDetails.defaultPrevented).toBe(true);
+    });
+
+    test("does not interfere with beforeunload when test is idle", async ({
+      page,
+    }) => {
+      await page.goto("/typing-speed-test");
+
+      // Need some interaction to simulate a real scenario
+      await page
+        .locator(".md\\:flex")
+        .getByRole("button", { name: "Easy" })
+        .click();
+
+      const eventDetails = await page.evaluate(() => {
+        const event = new Event("beforeunload", { cancelable: true });
+        window.dispatchEvent(event);
+        return {
+          defaultPrevented: event.defaultPrevented,
+        };
+      });
+
+      expect(eventDetails.defaultPrevented).toBe(false);
+    });
+  });
+
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
     await expect(
