@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import passagesData from "../public/typing-speed-test/data.json";
 import { cn } from "../utils/cn";
 import { sora } from "../utils/fonts/sora";
 
@@ -30,17 +31,16 @@ export default function TypingSpeedTest() {
   );
 }
 
-const passages = {
-  Easy: "The sun was warm and the sky was blue. It was a good day to go for a walk in the park. Dogs were playing and birds were singing. The cat sat on the mat. It was a very nice mat. The cat liked to sleep all day and play with its toys.",
-  Medium:
-    "A programming language is a system of notation for writing computer programs. Most programming languages are text-based formal languages, but they may also be graphical. They are a kind of computer language. The description of a programming language is usually split into the two components of syntax and semantics.",
-  Hard: 'The archaeological expedition unearthed artifacts that complicated prevailing theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all discovered in a single Mycenaean tomb—suggested commercial connections far more extensive than previously hypothesized. "We\'ve underestimated ancient peoples\' navigational capabilities and their appetite for luxury goods," the lead researcher observed. "Globalization isn\'t as modern as we assume."',
-};
+function getRandomPassage(diff: string) {
+  const list = passagesData[diff.toLowerCase() as keyof typeof passagesData];
+  if (!list) return "";
+  const randomIndex = Math.floor(Math.random() * list.length);
+  return list[randomIndex].text;
+}
 
 function Main() {
   const [difficulty, setDifficulty] = useState("Hard");
-  const passageText =
-    passages[difficulty as keyof typeof passages] || passages.Hard;
+  const [passageText, setPassageText] = useState(passagesData.hard[0].text);
   const [mode, setMode] = useState("Timed (60s)");
   const [isDiffOpen, setIsDiffOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
@@ -106,6 +106,9 @@ function Main() {
     const savedDiff = localStorage.getItem("typing-test-difficulty");
     if (savedDiff) {
       setDifficulty(savedDiff);
+      setPassageText(getRandomPassage(savedDiff));
+    } else {
+      setPassageText(getRandomPassage("Hard"));
     }
   }, []);
 
@@ -249,6 +252,7 @@ function Main() {
   const handleDifficultyChange = (newDiff: string) => {
     if (newDiff !== difficulty) {
       setDifficulty(newDiff);
+      setPassageText(getRandomPassage(newDiff));
       localStorage.setItem("typing-test-difficulty", newDiff);
       setStatus("idle");
       setHasStartedTyping(false);
@@ -262,6 +266,9 @@ function Main() {
   };
 
   const handleStartTest = useCallback(() => {
+    if (status !== "idle") {
+      setPassageText(getRandomPassage(difficulty));
+    }
     setStatus("active");
     setHasStartedTyping(false);
     setInput("");
@@ -271,7 +278,7 @@ function Main() {
     setTimeout(() => {
       inputRef.current?.focus();
     }, 10);
-  }, []);
+  }, [status, difficulty]);
 
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
