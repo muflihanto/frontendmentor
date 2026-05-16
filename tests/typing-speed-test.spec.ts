@@ -1097,9 +1097,10 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         page.getByRole("heading", { name: "Baseline Established!" }),
       ).toBeVisible();
       await expect(
-        page.getByText(
-          "You've set the bar. Now the real challenge begins—time to beat it.",
-        ),
+        page.locator("p").filter({
+          hasText:
+            "You've set the bar. Now the real challenge begins—time to beat it.",
+        }),
       ).toBeVisible();
     });
 
@@ -1147,10 +1148,13 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
 
+      const secondPassageText =
+        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+
       // Second run completes immediately as well, matching the WPM <= bestWpm condition
       await page
         .locator('input[type="text"]')
-        .fill(passageText, { force: true });
+        .fill(secondPassageText, { force: true });
     });
 
     test("shows standard complete heading and subtitle", async ({ page }) => {
@@ -1158,7 +1162,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         page.getByRole("heading", { name: "Test Complete!" }),
       ).toBeVisible();
       await expect(
-        page.getByText("Solid run. Keep pushing to beat your high score."),
+        page.locator("p").filter({
+          hasText: "Solid run. Keep pushing to beat your high score.",
+        }),
       ).toBeVisible();
     });
 
@@ -1201,18 +1207,19 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
 
+      const secondPassageText =
+        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+
+      // Type first char to start the timer (hasStartedTyping = true)
+      await page.keyboard.press(secondPassageText[0]);
+
       // Wait 1.1s so that timeElapsed becomes 1. This ensures calculated WPM > 0.
       await page.waitForTimeout(1100);
 
       // Second run completes, matching WPM (> 0) > bestWpm (0)
       await page
         .locator('input[type="text"]')
-        .fill(passageText.slice(0, -5), { force: true });
-
-      for (const char of passageText.slice(-5)) {
-        await page.keyboard.press(char);
-        await page.waitForTimeout(100);
-      }
+        .fill(secondPassageText, { force: true });
     });
 
     test("shows high score smashed heading and subtitle", async ({ page }) => {
@@ -1220,7 +1227,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         page.getByRole("heading", { name: "High Score Smashed!" }),
       ).toBeVisible();
       await expect(
-        page.getByText("You're getting faster. That was incredible typing."),
+        page.locator("p").filter({
+          hasText: "You're getting faster. That was incredible typing.",
+        }),
       ).toBeVisible();
     });
 
