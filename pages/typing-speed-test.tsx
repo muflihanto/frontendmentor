@@ -51,6 +51,8 @@ function Main() {
   const [isFocused, setIsFocused] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
+  const [totalKeystrokes, setTotalKeystrokes] = useState(0);
+  const [cumulativeErrors, setCumulativeErrors] = useState(0);
   const [wpm, setWpm] = useState(0);
   const [bestWpm, setBestWpm] = useState<number | null>(null);
   const [resultType, setResultType] = useState<
@@ -210,7 +212,14 @@ function Main() {
       }
 
       const acc =
-        input.length === 0 ? 100 : Math.round((correct / input.length) * 100);
+        totalKeystrokes === 0
+          ? 100
+          : Math.max(
+              0,
+              Math.round(
+                ((totalKeystrokes - cumulativeErrors) / totalKeystrokes) * 100,
+              ),
+            );
       setAccuracy(acc);
 
       if (timeElapsed > 0) {
@@ -218,7 +227,14 @@ function Main() {
         setWpm(currentWpm);
       }
     }
-  }, [input, timeElapsed, status, passageText]);
+  }, [
+    input,
+    timeElapsed,
+    status,
+    passageText,
+    totalKeystrokes,
+    cumulativeErrors,
+  ]);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -242,6 +258,8 @@ function Main() {
       setHasStartedTyping(false);
       setInput("");
       setTimeElapsed(0);
+      setTotalKeystrokes(0);
+      setCumulativeErrors(0);
       setWpm(0);
       setAccuracy(100);
       setResultType(null);
@@ -258,6 +276,8 @@ function Main() {
       setHasStartedTyping(false);
       setInput("");
       setTimeElapsed(0);
+      setTotalKeystrokes(0);
+      setCumulativeErrors(0);
       setWpm(0);
       setAccuracy(100);
       setResultType(null);
@@ -273,6 +293,8 @@ function Main() {
     setHasStartedTyping(false);
     setInput("");
     setTimeElapsed(0);
+    setTotalKeystrokes(0);
+    setCumulativeErrors(0);
     setWpm(0);
     setAccuracy(100);
     setTimeout(() => {
@@ -772,8 +794,10 @@ function Main() {
                   onChange={(e) => {
                     const newVal = e.target.value;
                     if (newVal.length > input.length) {
+                      setTotalKeystrokes((prev) => prev + 1);
                       const lastIdx = newVal.length - 1;
                       if (newVal[lastIdx] !== passageText[lastIdx]) {
+                        setCumulativeErrors((prev) => prev + 1);
                         const expected =
                           passageText[lastIdx] === " "
                             ? "space"
