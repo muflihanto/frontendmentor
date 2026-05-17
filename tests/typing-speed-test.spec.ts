@@ -594,8 +594,8 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         /text-typing-speed-test-neutral-400/,
       );
 
-      // Accuracy statistically jumps back up to 100% as the typing baseline is reset
-      await expect(stats.getByText("100%")).toBeVisible();
+      // Accuracy remains penalized because the mistake was already logged against the total keystrokes
+      await expect(stats.getByText("0%", { exact: true })).toBeVisible();
 
       // The active cursor should have correctly moved back to the first character
       await expect(page.locator("#active-char")).toHaveText(
