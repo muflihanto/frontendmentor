@@ -38,6 +38,32 @@ function getRandomPassage(diff: string) {
   return list[randomIndex].text;
 }
 
+function StatDisplay({
+  label,
+  value,
+  valueColorClass,
+}: {
+  label: string;
+  value: React.ReactNode;
+  valueColorClass: string;
+}) {
+  return (
+    <div className="flex flex-col items-center md:flex-row md:gap-3">
+      <p className="text-[15px] font-medium text-typing-speed-test-neutral-400 md:text-[20px] md:tracking-tight">
+        {label}
+      </p>
+      <p
+        className={cn(
+          "mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px]",
+          valueColorClass,
+        )}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
+
 function Main() {
   const [difficulty, setDifficulty] = useState("Hard");
   const [passageText, setPassageText] = useState(passagesData.hard[0].text);
@@ -458,57 +484,37 @@ function Main() {
           <div className="mt-[30px] flex flex-col border-b-0 border-typing-speed-test-neutral-800 pb-0 md:mt-[62px] md:flex-row md:items-center md:justify-between md:border-b md:pb-[14px]">
             {/* Stats */}
             <div className="grid w-full grid-cols-[1fr_0.4fr_1fr_0.4fr_1fr] items-center md:flex md:w-auto md:gap-6">
-              <div className="flex flex-col items-center md:flex-row md:gap-3">
-                <p className="text-[15px] font-medium text-typing-speed-test-neutral-400 md:text-[20px] md:tracking-tight">
-                  WPM:
-                </p>
-                <p
-                  className={cn(
-                    "mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px]",
-                    status === "active"
-                      ? "text-typing-speed-test-neutral-0"
-                      : "text-typing-speed-test-neutral-0",
-                  )}
-                >
-                  {status === "idle" ? "0" : wpm}
-                </p>
-              </div>
+              <StatDisplay
+                label="WPM:"
+                value={status === "idle" ? "0" : wpm}
+                valueColorClass="text-typing-speed-test-neutral-0"
+              />
               <div className="h-12 w-px place-self-center bg-typing-speed-test-neutral-500 md:h-8"></div>
-              <div className="flex flex-col items-center md:flex-row md:gap-3">
-                <p className="text-[15px] font-medium text-typing-speed-test-neutral-400 md:text-[20px] md:tracking-tight">
-                  Accuracy:
-                </p>
-                <p
-                  className={cn(
-                    "mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px]",
-                    status === "active" && accuracy < 100
-                      ? "text-typing-speed-test-red-500"
-                      : "text-typing-speed-test-neutral-0",
-                  )}
-                >
-                  {status === "idle" ? "100%" : `${accuracy}%`}
-                </p>
-              </div>
+              <StatDisplay
+                label="Accuracy:"
+                value={status === "idle" ? "100%" : `${accuracy}%`}
+                valueColorClass={
+                  status === "active" && accuracy < 100
+                    ? "text-typing-speed-test-red-500"
+                    : "text-typing-speed-test-neutral-0"
+                }
+              />
               <div className="h-12 w-px place-self-center bg-typing-speed-test-neutral-500 md:h-8"></div>
-              <div className="flex flex-col items-center md:flex-row md:gap-3">
-                <p className="text-[15px] font-medium text-typing-speed-test-neutral-400 md:text-[20px] md:tracking-tight">
-                  Time:
-                </p>
-                <p
-                  className={cn(
-                    "mt-1.5 text-2xl font-bold leading-none md:mt-0 md:text-[24px]",
-                    status === "active"
-                      ? "text-typing-speed-test-yellow-400"
-                      : "text-typing-speed-test-neutral-0",
-                  )}
-                >
-                  {mode === "Timed (60s)"
+              <StatDisplay
+                label="Time:"
+                value={
+                  mode === "Timed (60s)"
                     ? `0:${Math.max(0, 60 - timeElapsed)
                         .toString()
                         .padStart(2, "0")}`
-                    : `${Math.floor(timeElapsed / 60)}:${(timeElapsed % 60).toString().padStart(2, "0")}`}
-                </p>
-              </div>
+                    : `${Math.floor(timeElapsed / 60)}:${(timeElapsed % 60).toString().padStart(2, "0")}`
+                }
+                valueColorClass={
+                  status === "active"
+                    ? "text-typing-speed-test-yellow-400"
+                    : "text-typing-speed-test-neutral-0"
+                }
+              />
             </div>
 
             {/* Mobile Dropdowns */}
