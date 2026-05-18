@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import passagesData from "../public/typing-speed-test/data.json";
 import { cn } from "../utils/cn";
 import { sora } from "../utils/fonts/sora";
@@ -368,7 +368,7 @@ function Main() {
     }
   };
 
-  const renderPassage = () => {
+  const renderedPassage = useMemo(() => {
     const chars = passageText.split("");
     const typedChars = input.split("");
 
@@ -403,7 +403,7 @@ function Main() {
         </span>
       );
     });
-  };
+  }, [passageText, input, status]);
 
   let correctChars = 0;
   let incorrectChars = 0;
@@ -746,7 +746,7 @@ function Main() {
                   "text-typing-speed-test-neutral-400 opacity-70 blur-[8px] md:blur-[10px]",
               )}
             >
-              {status === "idle" ? passageText : renderPassage()}
+              {status === "idle" ? passageText : renderedPassage}
             </p>
 
             {status === "idle" && (
