@@ -64,6 +64,43 @@ function StatDisplay({
   );
 }
 
+function PillGroup({
+  label,
+  options,
+  activeOption,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  activeOption: string;
+  onChange: (option: string) => void;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-[16px] font-medium text-typing-speed-test-neutral-400">
+        {label}:
+      </span>
+      <div className="flex items-center gap-2">
+        {options.map((opt) => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChange(opt)}
+            className={cn(
+              "rounded-lg px-2 py-1 text-[15px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600",
+              activeOption === opt
+                ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
+                : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:border-typing-speed-test-blue-600 hover:text-typing-speed-test-blue-600",
+            )}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Main() {
   const [difficulty, setDifficulty] = useState("Hard");
   const [passageText, setPassageText] = useState(passagesData.hard[0].text);
@@ -671,53 +708,21 @@ function Main() {
 
             {/* Desktop Pills */}
             <div className="ml-auto hidden items-center gap-5 md:flex">
-              <div className="flex items-center gap-3">
-                <span className="text-[16px] font-medium text-typing-speed-test-neutral-400">
-                  Difficulty:
-                </span>
-                <div className="flex items-center gap-2">
-                  {["Easy", "Medium", "Hard"].map((diff) => (
-                    <button
-                      key={diff}
-                      type="button"
-                      onClick={() => handleDifficultyChange(diff)}
-                      className={cn(
-                        "rounded-lg px-2 py-1 text-[15px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600",
-                        difficulty === diff
-                          ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
-                          : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:border-typing-speed-test-blue-600 hover:text-typing-speed-test-blue-600",
-                      )}
-                    >
-                      {diff}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <PillGroup
+                label="Difficulty"
+                options={["Easy", "Medium", "Hard"]}
+                activeOption={difficulty}
+                onChange={handleDifficultyChange}
+              />
 
               <div className="h-8 w-px bg-typing-speed-test-neutral-500"></div>
 
-              <div className="flex items-center gap-3">
-                <span className="text-[16px] font-medium text-typing-speed-test-neutral-400">
-                  Mode:
-                </span>
-                <div className="flex items-center gap-2">
-                  {["Timed (60s)", "Passage"].map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => handleModeChange(m)}
-                      className={cn(
-                        "rounded-lg px-2 py-1 text-[15px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600",
-                        mode === m
-                          ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
-                          : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:border-typing-speed-test-blue-600 hover:text-typing-speed-test-blue-600",
-                      )}
-                    >
-                      {m}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <PillGroup
+                label="Mode"
+                options={["Timed (60s)", "Passage"]}
+                activeOption={mode}
+                onChange={handleModeChange}
+              />
             </div>
           </div>
 
