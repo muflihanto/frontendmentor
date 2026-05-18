@@ -250,20 +250,26 @@ function Main() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [status]);
 
+  const resetTestState = useCallback((newStatus: "idle" | "active") => {
+    setStatus(newStatus);
+    setHasStartedTyping(false);
+    setInput("");
+    setTimeElapsed(0);
+    setTotalKeystrokes(0);
+    setCumulativeErrors(0);
+    setWpm(0);
+    setAccuracy(100);
+    if (newStatus === "idle") {
+      setResultType(null);
+      setIsFocused(false);
+    }
+  }, []);
+
   const handleModeChange = (newMode: string) => {
     if (newMode !== mode) {
       setMode(newMode);
       localStorage.setItem("typing-test-mode", newMode);
-      setStatus("idle");
-      setHasStartedTyping(false);
-      setInput("");
-      setTimeElapsed(0);
-      setTotalKeystrokes(0);
-      setCumulativeErrors(0);
-      setWpm(0);
-      setAccuracy(100);
-      setResultType(null);
-      setIsFocused(false);
+      resetTestState("idle");
     }
   };
 
@@ -272,16 +278,7 @@ function Main() {
       setDifficulty(newDiff);
       setPassageText(getRandomPassage(newDiff));
       localStorage.setItem("typing-test-difficulty", newDiff);
-      setStatus("idle");
-      setHasStartedTyping(false);
-      setInput("");
-      setTimeElapsed(0);
-      setTotalKeystrokes(0);
-      setCumulativeErrors(0);
-      setWpm(0);
-      setAccuracy(100);
-      setResultType(null);
-      setIsFocused(false);
+      resetTestState("idle");
     }
   };
 
@@ -289,18 +286,11 @@ function Main() {
     if (status !== "idle") {
       setPassageText(getRandomPassage(difficulty));
     }
-    setStatus("active");
-    setHasStartedTyping(false);
-    setInput("");
-    setTimeElapsed(0);
-    setTotalKeystrokes(0);
-    setCumulativeErrors(0);
-    setWpm(0);
-    setAccuracy(100);
+    resetTestState("active");
     setTimeout(() => {
       inputRef.current?.focus();
     }, 10);
-  }, [status, difficulty]);
+  }, [status, difficulty, resetTestState]);
 
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
