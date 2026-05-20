@@ -84,6 +84,10 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
 
     test("can change difficulty via mobile dropdown", async ({ page }) => {
+      const initialPassageText =
+        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      expect(passagesData.hard.map((p) => p.text)).toContain(initialPassageText);
+
       const mobileContainer = page.locator(".md\\:hidden");
 
       const diffDropdownBtn = mobileContainer.getByRole("button", {
@@ -107,6 +111,11 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(
         mobileContainer.getByRole("menuitem", { name: "Easy", exact: true }),
       ).not.toBeVisible();
+
+      // Verify the passage text has changed and matches Medium difficulty list
+      const newPassageText =
+        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      expect(passagesData.medium.map((p) => p.text)).toContain(newPassageText);
     });
 
     test("can change mode via mobile dropdown", async ({ page }) => {
