@@ -101,6 +101,129 @@ function PillGroup({
   );
 }
 
+function Dropdown({
+  options,
+  activeOption,
+  isOpen,
+  setIsOpen,
+  onOpenClick,
+  onChange,
+  triggerRef,
+  menuRef,
+}: {
+  options: string[];
+  activeOption: string;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  onOpenClick: () => void;
+  onChange: (option: string) => void;
+  triggerRef: React.RefObject<HTMLButtonElement>;
+  menuRef: React.RefObject<HTMLDivElement>;
+}) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isOpen && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+      e.preventDefault();
+      setIsOpen(true);
+      setTimeout(() => {
+        const firstItem =
+          menuRef.current?.querySelector<HTMLButtonElement>(
+            '[role="menuitem"]',
+          );
+        firstItem?.focus();
+      }, 0);
+      return;
+    }
+
+    if (!isOpen || !menuRef.current) return;
+
+    const items = Array.from(
+      menuRef.current.querySelectorAll<HTMLButtonElement>('[role="menuitem"]'),
+    );
+    if (items.length === 0) return;
+
+    const currentIndex = items.indexOf(
+      document.activeElement as HTMLButtonElement,
+    );
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextIndex =
+        currentIndex < 0 ? 0 : (currentIndex + 1) % items.length;
+      items[nextIndex].focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      items[prevIndex].focus();
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      items[0].focus();
+    } else if (e.key === "End") {
+      e.preventDefault();
+      items[items.length - 1].focus();
+    } else if (e.key === "Tab") {
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <div className="relative w-full">
+      <button
+        ref={triggerRef}
+        type="button"
+        onKeyDown={handleKeyDown}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        onClick={onOpenClick}
+        className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+      >
+        {activeOption}
+        <Image
+          src="/typing-speed-test/assets/images/icon-down-arrow.svg"
+          alt=""
+          width={12}
+          height={8}
+          className={cn(
+            "h-auto w-3 transition-transform",
+            isOpen && "rotate-180",
+          )}
+        />
+      </button>
+      {isOpen && (
+        <div
+          ref={menuRef}
+          role="menu"
+          onKeyDown={handleKeyDown}
+          className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl"
+        >
+          {options.map((opt) => (
+            <button
+              key={opt}
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                onChange(opt);
+                setIsOpen(false);
+              }}
+              className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
+            >
+              {activeOption === opt ? (
+                <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
+                  <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
+                </div>
+              ) : (
+                <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
+              )}
+              <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
+                {opt}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Main() {
   const [difficulty, setDifficulty] = useState("Hard");
   const [passageText, setPassageText] = useState(passagesData.hard[0].text);
@@ -373,56 +496,6 @@ function Main() {
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, [handleStartTest, isDiffOpen, isModeOpen]);
 
-  const handleDropdownKeyDown = (
-    e: React.KeyboardEvent,
-    menuRef: React.RefObject<HTMLDivElement>,
-    isOpen: boolean,
-    setIsOpen: (val: boolean) => void,
-  ) => {
-    if (!isOpen && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
-      e.preventDefault();
-      setIsOpen(true);
-      setTimeout(() => {
-        const firstItem =
-          menuRef.current?.querySelector<HTMLButtonElement>(
-            '[role="menuitem"]',
-          );
-        firstItem?.focus();
-      }, 0);
-      return;
-    }
-
-    if (!isOpen || !menuRef.current) return;
-
-    const items = Array.from(
-      menuRef.current.querySelectorAll<HTMLButtonElement>('[role="menuitem"]'),
-    );
-    if (items.length === 0) return;
-
-    const currentIndex = items.indexOf(
-      document.activeElement as HTMLButtonElement,
-    );
-
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      const nextIndex =
-        currentIndex < 0 ? 0 : (currentIndex + 1) % items.length;
-      items[nextIndex].focus();
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      const prevIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
-      items[prevIndex].focus();
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      items[0].focus();
-    } else if (e.key === "End") {
-      e.preventDefault();
-      items[items.length - 1].focus();
-    } else if (e.key === "Tab") {
-      setIsOpen(false);
-    }
-  };
-
   const handleContainerClick = () => {
     if (status === "idle") {
       handleStartTest();
@@ -559,151 +632,33 @@ function Main() {
               ref={dropdownsRef}
               className="relative z-20 mt-4 flex w-full gap-2 border-b border-typing-speed-test-neutral-800 pb-[15px] md:hidden"
             >
-              <div className="relative w-full">
-                <button
-                  ref={diffTriggerRef}
-                  type="button"
-                  onKeyDown={(e) =>
-                    handleDropdownKeyDown(
-                      e,
-                      diffMenuRef,
-                      isDiffOpen,
-                      setIsDiffOpen,
-                    )
-                  }
-                  aria-haspopup="menu"
-                  aria-expanded={isDiffOpen}
-                  onClick={() => {
-                    setIsDiffOpen(!isDiffOpen);
-                    setIsModeOpen(false);
-                  }}
-                  className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
-                >
-                  {difficulty}
-                  <Image
-                    src="/typing-speed-test/assets/images/icon-down-arrow.svg"
-                    alt=""
-                    width={12}
-                    height={8}
-                    className={cn(
-                      "h-auto w-3 transition-transform",
-                      isDiffOpen && "rotate-180",
-                    )}
-                  />
-                </button>
-                {isDiffOpen && (
-                  <div
-                    ref={diffMenuRef}
-                    role="menu"
-                    onKeyDown={(e) =>
-                      handleDropdownKeyDown(
-                        e,
-                        diffMenuRef,
-                        isDiffOpen,
-                        setIsDiffOpen,
-                      )
-                    }
-                    className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl"
-                  >
-                    {["Easy", "Medium", "Hard"].map((diff) => (
-                      <button
-                        key={diff}
-                        type="button"
-                        role="menuitem"
-                        onClick={() => {
-                          handleDifficultyChange(diff);
-                          setIsDiffOpen(false);
-                        }}
-                        className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
-                      >
-                        {difficulty === diff ? (
-                          <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
-                            <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
-                          </div>
-                        ) : (
-                          <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
-                        )}
-                        <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
-                          {diff}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <Dropdown
+                options={["Easy", "Medium", "Hard"]}
+                activeOption={difficulty}
+                isOpen={isDiffOpen}
+                setIsOpen={setIsDiffOpen}
+                onOpenClick={() => {
+                  setIsDiffOpen(!isDiffOpen);
+                  setIsModeOpen(false);
+                }}
+                onChange={handleDifficultyChange}
+                triggerRef={diffTriggerRef}
+                menuRef={diffMenuRef}
+              />
 
-              <div className="relative w-full">
-                <button
-                  ref={modeTriggerRef}
-                  type="button"
-                  onKeyDown={(e) =>
-                    handleDropdownKeyDown(
-                      e,
-                      modeMenuRef,
-                      isModeOpen,
-                      setIsModeOpen,
-                    )
-                  }
-                  aria-haspopup="menu"
-                  aria-expanded={isModeOpen}
-                  onClick={() => {
-                    setIsModeOpen(!isModeOpen);
-                    setIsDiffOpen(false);
-                  }}
-                  className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
-                >
-                  {mode}
-                  <Image
-                    src="/typing-speed-test/assets/images/icon-down-arrow.svg"
-                    alt=""
-                    width={12}
-                    height={8}
-                    className={cn(
-                      "h-auto w-3 transition-transform",
-                      isModeOpen && "rotate-180",
-                    )}
-                  />
-                </button>
-                {isModeOpen && (
-                  <div
-                    ref={modeMenuRef}
-                    role="menu"
-                    onKeyDown={(e) =>
-                      handleDropdownKeyDown(
-                        e,
-                        modeMenuRef,
-                        isModeOpen,
-                        setIsModeOpen,
-                      )
-                    }
-                    className="absolute left-0 top-full mt-[11px] flex w-full flex-col divide-y divide-typing-speed-test-neutral-500 rounded-xl border border-typing-speed-test-neutral-500/20 bg-typing-speed-test-neutral-800 shadow-xl"
-                  >
-                    {["Timed (60s)", "Passage"].map((m) => (
-                      <button
-                        key={m}
-                        type="button"
-                        role="menuitem"
-                        onClick={() => {
-                          handleModeChange(m);
-                          setIsModeOpen(false);
-                        }}
-                        className="flex w-full items-center gap-3 px-2 py-1.5 transition-colors hover:bg-typing-speed-test-neutral-500/20"
-                      >
-                        {mode === m ? (
-                          <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-typing-speed-test-blue-400">
-                            <div className="h-2 w-2 rounded-full bg-typing-speed-test-blue-400"></div>
-                          </div>
-                        ) : (
-                          <div className="h-4 w-4 rounded-full border border-typing-speed-test-neutral-0"></div>
-                        )}
-                        <span className="text-[15px] font-medium text-typing-speed-test-neutral-0">
-                          {m}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <Dropdown
+                options={["Timed (60s)", "Passage"]}
+                activeOption={mode}
+                isOpen={isModeOpen}
+                setIsOpen={setIsModeOpen}
+                onOpenClick={() => {
+                  setIsModeOpen(!isModeOpen);
+                  setIsDiffOpen(false);
+                }}
+                onChange={handleModeChange}
+                triggerRef={modeTriggerRef}
+                menuRef={modeMenuRef}
+              />
             </div>
 
             {/* Desktop Pills */}
