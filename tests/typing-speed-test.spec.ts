@@ -1,6 +1,24 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import passagesData from "../public/typing-speed-test/data.json";
+
+async function switchToPassageMode(page: Page) {
+  const desktopPassageBtn = page
+    .locator(".md\\:flex")
+    .getByRole("button", { name: "Passage" });
+  if (await desktopPassageBtn.isVisible()) {
+    await desktopPassageBtn.click();
+  } else {
+    await page
+      .locator(".md\\:hidden")
+      .getByRole("button", { name: "Timed (60s)" })
+      .click();
+    await page
+      .locator(".md\\:hidden")
+      .getByRole("menuitem", { name: "Passage" })
+      .click();
+  }
+}
 
 test.describe("FrontendMentor Challenge - Typing speed test page", () => {
   /** Go to Typing speed test page before each test */
@@ -86,7 +104,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("can change difficulty via mobile dropdown", async ({ page }) => {
       const initialPassageText =
         (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
-      expect(passagesData.hard.map((p) => p.text)).toContain(initialPassageText);
+      expect(passagesData.hard.map((p) => p.text)).toContain(
+        initialPassageText,
+      );
 
       const mobileContainer = page.locator(".md\\:hidden");
 
@@ -690,21 +710,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     }) => {
       // Test suite starts in Timed (60s) mode via beforeEach, but we want Passage mode.
       // Switching mode now automatically resets the test to idle state.
-      const desktopPassageBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Passage" });
-      if (await desktopPassageBtn.isVisible()) {
-        await desktopPassageBtn.click();
-      } else {
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Timed (60s)" })
-          .click();
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Passage" })
-          .click();
-      }
+      await switchToPassageMode(page);
 
       // We must manually start the test after switching modes
       await page.getByRole("button", { name: "Start Typing Test" }).click();
@@ -733,21 +739,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("moves focus to the results heading when the test completes", async ({
       page,
     }) => {
-      const desktopPassageBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Passage" });
-      if (await desktopPassageBtn.isVisible()) {
-        await desktopPassageBtn.click();
-      } else {
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Timed (60s)" })
-          .click();
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Passage" })
-          .click();
-      }
+      await switchToPassageMode(page);
 
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
@@ -830,21 +822,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.getByRole("button", { name: "Restart Test" }).click();
 
       // Dynamically switch to Passage mode
-      const desktopPassageBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Passage" });
-      if (await desktopPassageBtn.isVisible()) {
-        await desktopPassageBtn.click();
-      } else {
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Timed (60s)" })
-          .click();
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Passage" })
-          .click();
-      }
+      await switchToPassageMode(page);
 
       // Manually start the test after switching modes
       await page.getByRole("button", { name: "Start Typing Test" }).click();
@@ -1074,22 +1052,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (Baseline)", () => {
     test.beforeEach(async ({ page }) => {
-      // Find visible Passage button. On desktop it's a direct button, on mobile it's in a dropdown.
-      const desktopPassageBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Passage" });
-      if (await desktopPassageBtn.isVisible()) {
-        await desktopPassageBtn.click();
-      } else {
-        const mobileDropdown = page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Timed (60s)" });
-        await mobileDropdown.click();
-        const mobilePassageBtn = page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Passage" });
-        await mobilePassageBtn.click();
-      }
+      await switchToPassageMode(page);
 
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
@@ -1127,22 +1090,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (Test Complete)", () => {
     test.beforeEach(async ({ page }) => {
-      // Find visible Passage button. On desktop it's a direct button, on mobile it's in a dropdown.
-      const desktopPassageBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Passage" });
-      if (await desktopPassageBtn.isVisible()) {
-        await desktopPassageBtn.click();
-      } else {
-        const mobileDropdown = page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Timed (60s)" });
-        await mobileDropdown.click();
-        const mobilePassageBtn = page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Passage" });
-        await mobilePassageBtn.click();
-      }
+      await switchToPassageMode(page);
 
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
@@ -1186,22 +1134,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (New Personal Best)", () => {
     test.beforeEach(async ({ page }) => {
-      // Find visible Passage button. On desktop it's a direct button, on mobile it's in a dropdown.
-      const desktopPassageBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Passage" });
-      if (await desktopPassageBtn.isVisible()) {
-        await desktopPassageBtn.click();
-      } else {
-        const mobileDropdown = page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Timed (60s)" });
-        await mobileDropdown.click();
-        const mobilePassageBtn = page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Passage" });
-        await mobilePassageBtn.click();
-      }
+      await switchToPassageMode(page);
 
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
@@ -1455,21 +1388,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       // 1. Find visible Passage button to switch mode
-      const desktopPassageBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Passage" });
-      if (await desktopPassageBtn.isVisible()) {
-        await desktopPassageBtn.click();
-      } else {
-        const mobileDropdown = page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Timed (60s)" });
-        await mobileDropdown.click();
-        const mobilePassageBtn = page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Passage" });
-        await mobilePassageBtn.click();
-      }
+      await switchToPassageMode(page);
 
       // 2. Start the test
       await page.getByRole("button", { name: "Start Typing Test" }).click();
