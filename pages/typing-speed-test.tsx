@@ -831,6 +831,23 @@ interface ResultsProps {
   onRestart: () => void;
 }
 
+function ResultCard({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
+      <span className="text-[20px] text-typing-speed-test-neutral-400">
+        {label}
+      </span>
+      {children}
+    </div>
+  );
+}
+
 function Results({
   wpm,
   accuracy,
@@ -939,18 +956,13 @@ function Results({
 
         <div className="relative z-10 mt-[23px] flex w-full flex-col items-center gap-4 md:mt-[54px]">
           <div className="flex w-full flex-col gap-4 md:flex-row md:justify-center md:gap-[20px]">
-            <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
-              <span className="text-[20px] text-typing-speed-test-neutral-400">
-                WPM:
-              </span>
+            <ResultCard label="WPM:">
               <span className="text-[24px] font-bold leading-none text-typing-speed-test-neutral-0">
                 {wpm}
               </span>
-            </div>
-            <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
-              <span className="text-[20px] text-typing-speed-test-neutral-400">
-                Accuracy:
-              </span>
+            </ResultCard>
+
+            <ResultCard label="Accuracy:">
               <span
                 className={cn(
                   "text-[24px] font-bold leading-none",
@@ -963,11 +975,9 @@ function Results({
               >
                 {accuracy}%
               </span>
-            </div>
-            <div className="flex h-[92px] flex-col justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-800 bg-typing-speed-test-neutral-900 px-6 pb-1 shadow-sm md:h-[92px] md:w-[160px]">
-              <span className="text-[20px] text-typing-speed-test-neutral-400">
-                Characters
-              </span>
+            </ResultCard>
+
+            <ResultCard label="Characters">
               <div className="flex items-end gap-[6px]">
                 <span className="text-[24px] font-bold leading-none tracking-tight text-typing-speed-test-green-500">
                   {correctChars}
@@ -979,7 +989,7 @@ function Results({
                   {incorrectChars}
                 </span>
               </div>
-            </div>
+            </ResultCard>
           </div>
 
           <button
