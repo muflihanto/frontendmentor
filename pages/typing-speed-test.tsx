@@ -8,6 +8,9 @@ import { sora } from "../utils/fonts/sora";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
+const FOCUS_CLASSES =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600";
+
 export default function TypingSpeedTest() {
   return (
     <>
@@ -87,7 +90,8 @@ function PillGroup({
             type="button"
             onClick={() => onChange(opt)}
             className={cn(
-              "rounded-lg px-2 py-1 text-[15px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600",
+              "rounded-lg px-2 py-1 text-[15px] transition-colors",
+              FOCUS_CLASSES,
               activeOption === opt
                 ? "border border-typing-speed-test-blue-600 bg-typing-speed-test-neutral-900 text-typing-speed-test-blue-600"
                 : "border border-typing-speed-test-neutral-500 text-typing-speed-test-neutral-0 hover:border-typing-speed-test-blue-600 hover:text-typing-speed-test-blue-600",
@@ -174,7 +178,10 @@ function Dropdown({
         aria-haspopup="menu"
         aria-expanded={isOpen}
         onClick={onOpenClick}
-        className="flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+        className={cn(
+          "flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800",
+          FOCUS_CLASSES,
+        )}
       >
         {activeOption}
         <Image
@@ -451,22 +458,28 @@ function Main() {
     }
   }, []);
 
-  const handleModeChange = (newMode: string) => {
-    if (newMode !== mode) {
-      setMode(newMode);
-      localStorage.setItem("typing-test-mode", newMode);
-      resetTestState("idle");
-    }
-  };
+  const handleModeChange = useCallback(
+    (newMode: string) => {
+      if (newMode !== mode) {
+        setMode(newMode);
+        localStorage.setItem("typing-test-mode", newMode);
+        resetTestState("idle");
+      }
+    },
+    [mode, resetTestState],
+  );
 
-  const handleDifficultyChange = (newDiff: string) => {
-    if (newDiff !== difficulty) {
-      setDifficulty(newDiff);
-      setPassageText(getRandomPassage(newDiff));
-      localStorage.setItem("typing-test-difficulty", newDiff);
-      resetTestState("idle");
-    }
-  };
+  const handleDifficultyChange = useCallback(
+    (newDiff: string) => {
+      if (newDiff !== difficulty) {
+        setDifficulty(newDiff);
+        setPassageText(getRandomPassage(newDiff));
+        localStorage.setItem("typing-test-difficulty", newDiff);
+        resetTestState("idle");
+      }
+    },
+    [difficulty, resetTestState],
+  );
 
   const handleStartTest = useCallback(() => {
     if (status !== "idle") {
@@ -720,7 +733,10 @@ function Main() {
                 <button
                   type="button"
                   onClick={handleStartTest}
-                  className="h-[56px] w-[220px] rounded-xl bg-typing-speed-test-blue-400 text-[20px] font-semibold tracking-[-0.02em] text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+                  className={cn(
+                    "h-[56px] w-[220px] rounded-xl bg-typing-speed-test-blue-400 text-[20px] font-semibold tracking-[-0.02em] text-typing-speed-test-neutral-0 hover:bg-typing-speed-test-blue-600",
+                    FOCUS_CLASSES,
+                  )}
                 >
                   Start Typing Test
                 </button>
@@ -792,7 +808,10 @@ function Main() {
               <button
                 type="button"
                 onClick={handleStartTest}
-                className="flex h-14 w-[180px] items-center justify-center gap-2 rounded-xl bg-typing-speed-test-neutral-800 p-2 text-center text-[20px] font-semibold text-typing-speed-test-neutral-0 transition hover:bg-typing-speed-test-neutral-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600"
+                className={cn(
+                  "flex h-14 w-[180px] items-center justify-center gap-2 rounded-xl bg-typing-speed-test-neutral-800 p-2 text-center text-[20px] font-semibold text-typing-speed-test-neutral-0 transition hover:bg-typing-speed-test-neutral-500",
+                  FOCUS_CLASSES,
+                )}
               >
                 Restart Test
                 <Image
@@ -996,7 +1015,8 @@ function Results({
             type="button"
             onClick={onRestart}
             className={cn(
-              "mt-[24px] flex h-[56px] items-center justify-center gap-[10px] rounded-xl bg-typing-speed-test-neutral-0 text-[20px] font-semibold tracking-[-0.015em] text-typing-speed-test-neutral-900 transition hover:bg-typing-speed-test-neutral-0/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-typing-speed-test-blue-600 md:mt-12",
+              "mt-[24px] flex h-[56px] items-center justify-center gap-[10px] rounded-xl bg-typing-speed-test-neutral-0 text-[20px] font-semibold tracking-[-0.015em] text-typing-speed-test-neutral-900 transition hover:bg-typing-speed-test-neutral-0/80 md:mt-12",
+              FOCUS_CLASSES,
               isBaseline ? "w-[215px]" : "w-[155px]",
             )}
           >
