@@ -243,10 +243,8 @@ function Main() {
   const [input, setInput] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
-  const [accuracy, setAccuracy] = useState(100);
   const [totalKeystrokes, setTotalKeystrokes] = useState(0);
   const [cumulativeErrors, setCumulativeErrors] = useState(0);
-  const [wpm, setWpm] = useState(0);
   const [bestWpm, setBestWpm] = useState<number | null>(null);
   const [resultType, setResultType] = useState<
     "baseline" | "newBest" | "complete" | null
@@ -259,6 +257,28 @@ function Main() {
     opacity: 0,
   });
   const [a11yErrorAnnouncement, setA11yErrorAnnouncement] = useState("");
+
+  const accuracy = useMemo(() => {
+    return totalKeystrokes === 0
+      ? 100
+      : Math.max(
+          0,
+          Math.round(
+            ((totalKeystrokes - cumulativeErrors) / totalKeystrokes) * 100,
+          ),
+        );
+  }, [totalKeystrokes, cumulativeErrors]);
+
+  const wpm = useMemo(() => {
+    if (timeElapsed <= 0) return 0;
+
+    let correct = 0;
+    for (let i = 0; i < input.length; i++) {
+      if (input[i] === passageText[i]) correct++;
+    }
+
+    return Math.round(correct / 5 / (timeElapsed / 60));
+  }, [input, passageText, timeElapsed]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
@@ -397,37 +417,7 @@ function Main() {
     }, 0);
   }, [input, status]);
 
-  useEffect(() => {
-    if (status === "active") {
-      let correct = 0;
-      for (let i = 0; i < input.length; i++) {
-        if (input[i] === passageText[i]) correct++;
-      }
-
-      const acc =
-        totalKeystrokes === 0
-          ? 100
-          : Math.max(
-              0,
-              Math.round(
-                ((totalKeystrokes - cumulativeErrors) / totalKeystrokes) * 100,
-              ),
-            );
-      setAccuracy(acc);
-
-      if (timeElapsed > 0) {
-        const currentWpm = Math.round(correct / 5 / (timeElapsed / 60));
-        setWpm(currentWpm);
-      }
-    }
-  }, [
-    input,
-    timeElapsed,
-    status,
-    passageText,
-    totalKeystrokes,
-    cumulativeErrors,
-  ]);
+  // Accuracy and WPM are now calculated dynamically as derived state using useMemo
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -450,8 +440,6 @@ function Main() {
     setTimeElapsed(0);
     setTotalKeystrokes(0);
     setCumulativeErrors(0);
-    setWpm(0);
-    setAccuracy(100);
     if (newStatus === "idle") {
       setResultType(null);
       setIsFocused(false);
