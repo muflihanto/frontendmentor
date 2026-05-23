@@ -385,7 +385,7 @@ function Main() {
       return;
     }
 
-    setTimeout(() => {
+    const handle = requestAnimationFrame(() => {
       const activeChar = document.getElementById("active-char");
       if (!activeChar) return;
 
@@ -414,7 +414,9 @@ function Main() {
         height: activeChar.offsetHeight,
         opacity: 1,
       });
-    }, 0);
+    });
+
+    return () => cancelAnimationFrame(handle);
   }, [input, status]);
 
   // Accuracy and WPM are now calculated dynamically as derived state using useMemo
