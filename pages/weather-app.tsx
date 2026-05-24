@@ -653,15 +653,11 @@ function Main({
                     value: `${weatherData.current.precipitation} ${precipLabel}`,
                   },
                 ].map((stat) => (
-                  <div
+                  <WeatherStatCard
                     key={stat.label}
-                    className="flex h-[118px] flex-col justify-between rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-5 pb-[19px] pt-4"
-                  >
-                    <p className="text-lg text-weather-app-neutral-200">
-                      {stat.label}
-                    </p>
-                    <p className="text-[32px] leading-none">{stat.value}</p>
-                  </div>
+                    label={stat.label}
+                    value={stat.value}
+                  />
                 ))}
               </div>
             </section>
@@ -770,7 +766,7 @@ function Main({
               </div>
             </div>
 
-            <ul className="mt-[17px] flex max-h-[592px] flex-col gap-4 overflow-y-auto scrollbar:w-1.5 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-weather-app-neutral-600 px-4 lg:mt-4 lg:px-6">
+            <ul className="mt-[17px] flex max-h-[592px] flex-col gap-4 overflow-y-auto px-4 scrollbar:w-1.5 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-weather-app-neutral-600 lg:mt-4 lg:px-6">
               {currentDayHourly.map((item) => (
                 <li
                   key={item.time}
@@ -796,6 +792,21 @@ function Main({
         </div>
       )}
     </main>
+  );
+}
+
+function WeatherStatCard({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="flex h-[118px] flex-col justify-between rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-5 pb-[19px] pt-4">
+      <p className="text-lg text-weather-app-neutral-200">{label}</p>
+      <p className="text-[32px] leading-none">{value}</p>
+    </div>
   );
 }
 
@@ -831,15 +842,11 @@ function MainSkeleton() {
           <div className="mt-5 grid grid-cols-2 gap-4 lg:mt-8 lg:grid-cols-4 lg:gap-6">
             {["Feels Like", "Humidity", "Wind", "Precipitation"].map(
               (label) => (
-                <div
+                <WeatherStatCard
                   key={label}
-                  className="flex h-[118px] flex-col justify-between rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-5 pb-[19px] pt-4"
-                >
-                  <p className="text-lg text-weather-app-neutral-200">
-                    {label}
-                  </p>
-                  <p className="text-[32px] leading-none text-white">&ndash;</p>
-                </div>
+                  label={label}
+                  value={<span className="text-white">&ndash;</span>}
+                />
               ),
             )}
           </div>
