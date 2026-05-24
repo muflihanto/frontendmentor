@@ -34,9 +34,22 @@ export default function TypingSpeedTest() {
   );
 }
 
-function getRandomPassage(diff: string) {
-  const list = passagesData[diff.toLowerCase() as keyof typeof passagesData];
-  if (!list) return "";
+type Difficulty = "Easy" | "Medium" | "Hard";
+
+function isDifficulty(value: string | null): value is Difficulty {
+  return value === "Easy" || value === "Medium" || value === "Hard";
+}
+
+const DIFFICULTY_KEYS: Record<Difficulty, "easy" | "medium" | "hard"> = {
+  Easy: "easy",
+  Medium: "medium",
+  Hard: "hard",
+};
+
+function getRandomPassage(diff: Difficulty) {
+  const key = DIFFICULTY_KEYS[diff];
+  const list = passagesData[key];
+  if (!list || list.length === 0) return "";
   const randomIndex = Math.floor(Math.random() * list.length);
   return list[randomIndex].text;
 }
@@ -232,7 +245,7 @@ function Dropdown({
 }
 
 function Main() {
-  const [difficulty, setDifficulty] = useState("Hard");
+  const [difficulty, setDifficulty] = useState<Difficulty>("Hard");
   const [passageText, setPassageText] = useState(passagesData.hard[0].text);
   const [mode, setMode] = useState("Timed (60s)");
   const [isDiffOpen, setIsDiffOpen] = useState(false);
@@ -319,7 +332,7 @@ function Main() {
     }
 
     const savedDiff = localStorage.getItem("typing-test-difficulty");
-    if (savedDiff) {
+    if (isDifficulty(savedDiff)) {
       setDifficulty(savedDiff);
       setPassageText(getRandomPassage(savedDiff));
     } else {
@@ -461,11 +474,13 @@ function Main() {
 
   const handleDifficultyChange = useCallback(
     (newDiff: string) => {
-      if (newDiff !== difficulty) {
-        setDifficulty(newDiff);
-        setPassageText(getRandomPassage(newDiff));
-        localStorage.setItem("typing-test-difficulty", newDiff);
-        resetTestState("idle");
+      if (isDifficulty(newDiff)) {
+        if (newDiff !== difficulty) {
+          setDifficulty(newDiff);
+          setPassageText(getRandomPassage(newDiff));
+          localStorage.setItem("typing-test-difficulty", newDiff);
+          resetTestState("idle");
+        }
       }
     },
     [difficulty, resetTestState],
