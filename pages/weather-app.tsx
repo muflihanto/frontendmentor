@@ -390,10 +390,9 @@ function Main({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Resets focused index when search query or results change
   useEffect(() => {
-    if (searchQuery !== undefined || geocodingResults !== undefined) {
-      setFocusedIndex(-1);
-    }
+    setFocusedIndex(-1);
   }, [geocodingResults, searchQuery]);
 
   useEffect(() => {
