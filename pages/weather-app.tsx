@@ -130,6 +130,11 @@ function Header({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const isCurrentlyMetric =
+    weatherUnits.temperature === "celsius" &&
+    weatherUnits.windSpeed === "kmh" &&
+    weatherUnits.precipitation === "mm";
+
   return (
     <header className="flex items-center justify-between">
       <div className="relative flex aspect-[197/40] h-7 items-center gap-2 lg:h-10">
@@ -184,11 +189,6 @@ function Header({
             <button
               type="button"
               onClick={() => {
-                const isCurrentlyMetric =
-                  weatherUnits.temperature === "celsius" &&
-                  weatherUnits.windSpeed === "kmh" &&
-                  weatherUnits.precipitation === "mm";
-
                 if (isCurrentlyMetric) {
                   onUpdateUnits({
                     temperature: "fahrenheit",
@@ -207,12 +207,7 @@ function Header({
               role="menuitem"
               className="my-1.5 w-full rounded-lg px-2 py-1.5 text-left font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0"
             >
-              Switch to{" "}
-              {weatherUnits.temperature === "celsius" &&
-              weatherUnits.windSpeed === "kmh" &&
-              weatherUnits.precipitation === "mm"
-                ? "Imperial"
-                : "Metric"}
+              Switch to {isCurrentlyMetric ? "Imperial" : "Metric"}
             </button>
 
             <fieldset className="m-0 min-w-0 border-none p-0 pb-[3px]">
@@ -224,48 +219,18 @@ function Header({
                 Temperature
               </p>
               <div className="flex flex-col gap-[3px]">
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={weatherUnits.temperature === "celsius"}
-                  onClick={() => onUpdateUnits({ temperature: "celsius" })}
-                  className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
-                    weatherUnits.temperature === "celsius" &&
-                      "bg-weather-app-neutral-700",
-                  )}
-                >
-                  <span className="text-weather-app-neutral-200">
-                    Celsius (°C)
-                  </span>
-                  {weatherUnits.temperature === "celsius" && (
-                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
-                      <title>Selected</title>
-                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
-                    </svg>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={weatherUnits.temperature === "fahrenheit"}
-                  onClick={() => onUpdateUnits({ temperature: "fahrenheit" })}
-                  className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
-                    weatherUnits.temperature === "fahrenheit" &&
-                      "bg-weather-app-neutral-700",
-                  )}
-                >
-                  <span className="text-weather-app-neutral-200">
-                    Fahrenheit (°F)
-                  </span>
-                  {weatherUnits.temperature === "fahrenheit" && (
-                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
-                      <title>Selected</title>
-                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
-                    </svg>
-                  )}
-                </button>
+                <UnitRadioButton
+                  label="Celsius (°C)"
+                  value="celsius"
+                  currentValue={weatherUnits.temperature}
+                  onClick={(val) => onUpdateUnits({ temperature: val })}
+                />
+                <UnitRadioButton
+                  label="Fahrenheit (°F)"
+                  value="fahrenheit"
+                  currentValue={weatherUnits.temperature}
+                  onClick={(val) => onUpdateUnits({ temperature: val })}
+                />
               </div>
             </fieldset>
 
@@ -278,37 +243,18 @@ function Header({
                 Wind Speed
               </p>
               <div className="flex flex-col gap-[3px]">
-                {[
-                  { value: "kmh", label: "km/h" },
-                  { value: "mph", label: "mph" },
-                ].map((unit) => (
-                  <button
-                    key={unit.value}
-                    type="button"
-                    role="menuitemradio"
-                    aria-checked={weatherUnits.windSpeed === unit.value}
-                    onClick={() =>
-                      onUpdateUnits({
-                        windSpeed: unit.value as WeatherUnits["windSpeed"],
-                      })
-                    }
-                    className={cn(
-                      "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
-                      weatherUnits.windSpeed === unit.value &&
-                        "bg-weather-app-neutral-700",
-                    )}
-                  >
-                    <span className="text-weather-app-neutral-200">
-                      {unit.label}
-                    </span>
-                    {weatherUnits.windSpeed === unit.value && (
-                      <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
-                        <title>Selected</title>
-                        <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
-                      </svg>
-                    )}
-                  </button>
-                ))}
+                <UnitRadioButton
+                  label="km/h"
+                  value="kmh"
+                  currentValue={weatherUnits.windSpeed}
+                  onClick={(val) => onUpdateUnits({ windSpeed: val })}
+                />
+                <UnitRadioButton
+                  label="mph"
+                  value="mph"
+                  currentValue={weatherUnits.windSpeed}
+                  onClick={(val) => onUpdateUnits({ windSpeed: val })}
+                />
               </div>
             </fieldset>
 
@@ -321,54 +267,60 @@ function Header({
                 Precipitation
               </p>
               <div className="flex flex-col gap-[3px]">
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={weatherUnits.precipitation === "mm"}
-                  onClick={() => onUpdateUnits({ precipitation: "mm" })}
-                  className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
-                    weatherUnits.precipitation === "mm" &&
-                      "bg-weather-app-neutral-700",
-                  )}
-                >
-                  <span className="text-weather-app-neutral-200">
-                    Millimeters (mm)
-                  </span>
-                  {weatherUnits.precipitation === "mm" && (
-                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
-                      <title>Selected</title>
-                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
-                    </svg>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={weatherUnits.precipitation === "inch"}
-                  onClick={() => onUpdateUnits({ precipitation: "inch" })}
-                  className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
-                    weatherUnits.precipitation === "inch" &&
-                      "bg-weather-app-neutral-700",
-                  )}
-                >
-                  <span className="text-weather-app-neutral-200">
-                    Inches (inch)
-                  </span>
-                  {weatherUnits.precipitation === "inch" && (
-                    <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
-                      <title>Selected</title>
-                      <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
-                    </svg>
-                  )}
-                </button>
+                <UnitRadioButton
+                  label="Millimeters (mm)"
+                  value="mm"
+                  currentValue={weatherUnits.precipitation}
+                  onClick={(val) => onUpdateUnits({ precipitation: val })}
+                />
+                <UnitRadioButton
+                  label="Inches (inch)"
+                  value="inch"
+                  currentValue={weatherUnits.precipitation}
+                  onClick={(val) => onUpdateUnits({ precipitation: val })}
+                />
               </div>
             </fieldset>
           </div>
         )}
       </div>
     </header>
+  );
+}
+
+interface UnitRadioButtonProps<T extends string> {
+  label: string;
+  value: T;
+  currentValue: T;
+  onClick: (value: T) => void;
+}
+
+function UnitRadioButton<T extends string>({
+  label,
+  value,
+  currentValue,
+  onClick,
+}: UnitRadioButtonProps<T>) {
+  const isChecked = value === currentValue;
+  return (
+    <button
+      type="button"
+      role="menuitemradio"
+      aria-checked={isChecked}
+      onClick={() => onClick(value)}
+      className={cn(
+        "flex h-10 w-full items-center justify-between rounded-lg px-2 pb-px font-medium transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:bg-weather-app-neutral-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0",
+        isChecked && "bg-weather-app-neutral-700",
+      )}
+    >
+      <span className="text-weather-app-neutral-200">{label}</span>
+      {isChecked && (
+        <svg className="h-3 w-3 fill-white" viewBox="0 0 12 9">
+          <title>Selected</title>
+          <path d="M10.6667 0L12 1.33333L4 9.33333L0 5.33333L1.33333 4L4 6.66667L10.6667 0Z" />
+        </svg>
+      )}
+    </button>
   );
 }
 
