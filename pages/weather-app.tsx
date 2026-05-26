@@ -361,6 +361,10 @@ function ApiError({ onRetry }: { onRetry: () => void }) {
   );
 }
 
+function cleanIconName(icon: string): string {
+  return icon.replace("icon-", "").replace(".webp", "");
+}
+
 function Main({
   weatherData,
   isLoading,
@@ -567,9 +571,7 @@ function Main({
                 <div className="mt-[13px] flex items-center justify-center gap-4 lg:mt-0">
                   <Image
                     src={`/weather-app/assets/images/${weatherData.current.icon}`}
-                    alt={weatherData.current.icon
-                      .replace("icon-", "")
-                      .replace(".webp", "")}
+                    alt={cleanIconName(weatherData.current.icon)}
                     width={120}
                     height={120}
                   />
@@ -720,7 +722,7 @@ function Main({
                   <div className="flex items-center gap-2">
                     <Image
                       src={`/weather-app/assets/images/${item.icon}`}
-                      alt={item.icon.replace("icon-", "").replace(".webp", "")}
+                      alt={cleanIconName(item.icon)}
                       width={40}
                       height={40}
                     />
