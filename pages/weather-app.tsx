@@ -395,16 +395,10 @@ function Main({
     setFocusedIndex(-1);
   }, [geocodingResults, searchQuery]);
 
-  useEffect(() => {
-    if (weatherData && !selectedDay) {
-      setSelectedDay(Object.keys(weatherData.hourly)[0]);
-    }
-  }, [weatherData, selectedDay]);
+  const firstDay = weatherData ? Object.keys(weatherData.hourly)[0] : null;
+  const activeDay = selectedDay ?? firstDay;
 
-  const currentDayHourly =
-    weatherData?.hourly[selectedDay ?? ""] ??
-    Object.values(weatherData?.hourly ?? {})[0] ??
-    [];
+  const currentDayHourly = weatherData?.hourly[activeDay ?? ""] ?? [];
 
   const speedLabel = {
     kmh: "km/h",
@@ -676,7 +670,7 @@ function Main({
                   }
                   className="flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 lg:w-[120px]"
                 >
-                  <span className="truncate">{selectedDay}</span>
+                  <span className="truncate">{activeDay}</span>
                   <Image
                     src="/weather-app/assets/images/icon-dropdown.svg"
                     alt=""
@@ -702,9 +696,9 @@ function Main({
                           setIsDropdownOpen(false);
                         }}
                         role="option"
-                        aria-selected={selectedDay === day}
+                        aria-selected={activeDay === day}
                         className={`h-[39px] w-full rounded-lg px-2 text-left transition-colors hover:bg-weather-app-neutral-700 focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-weather-app-neutral-0 ${
-                          selectedDay === day
+                          activeDay === day
                             ? "bg-weather-app-neutral-700 text-white"
                             : "text-weather-app-neutral-200"
                         }`}
