@@ -127,10 +127,11 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
     // Reload the page to trigger the error state
     await page.reload();
-    await page.waitForTimeout(10000);
 
-    // Verify error state is visible
-    await expect(page.getByText("Something went wrong")).toBeVisible();
+    // Verify error state is visible (wait up to 15 seconds)
+    await expect(page.getByText("Something went wrong")).toBeVisible({
+      timeout: 15000,
+    });
     await expect(
       page.getByText(/We couldn.*t connect to the server/),
     ).toBeVisible();
@@ -140,10 +141,11 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
     // Click retry
     await page.getByRole("button", { name: "Retry connection" }).click();
-    await page.waitForTimeout(3000);
 
-    // Verify it loads the dashboard again
-    await expect(page.getByText("How’s the sky looking today?")).toBeVisible();
+    // Verify it loads the dashboard again (wait up to 5 seconds for weather data to load)
+    await expect(page.getByText("Berlin, Germany")).toBeVisible({
+      timeout: 5000,
+    });
 
     // Verify error state is not visible
     await expect(page.getByText("Something went wrong")).not.toBeVisible();
