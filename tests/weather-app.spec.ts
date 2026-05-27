@@ -233,12 +233,15 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("daily forecast cards are displayed", async ({ page }) => {
-    await page.waitForSelector("text=Daily forecast", { state: "visible" });
+    // Wait for the daily forecast section to be visible
+    const forecastSection = page.locator(
+      'section:has(h2:has-text("Daily forecast"))',
+    );
+    await expect(forecastSection).toBeVisible();
 
-    // Check if at least 7 daily forecast cards are present
-    const heading = page.getByRole("heading", { name: "Daily forecast" });
-    const dailyCards = await heading.locator("+ div > div").count();
-    expect(dailyCards).toBe(7);
+    // Verify exactly 7 daily forecast cards are rendered
+    const dailyCards = forecastSection.getByRole("listitem");
+    await expect(dailyCards).toHaveCount(7);
   });
 
   test("can switch between hourly forecast days", async ({ page }) => {
