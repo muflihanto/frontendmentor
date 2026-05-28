@@ -245,27 +245,24 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("can switch between hourly forecast days", async ({ page }) => {
-    // Wait for hourly forecast section
+    // Wait for hourly forecast section to load
     await page.waitForSelector("text='12 AM'", { state: "visible" });
 
-    const dayOptionsToggle = page.locator(
-      'h2:has-text("Hourly forecast") + div button',
-    );
+    const dayOptionsToggle = page.getByRole("button", {
+      name: "Select day for hourly forecast",
+    });
 
     // Open day dropdown
     await dayOptionsToggle.click();
 
     // Select a different day
-    const dayOptions = await page
-      .locator('h2:has-text("Hourly forecast") + div div button')
-      .all();
+    const listbox = page.getByRole("listbox", { name: "Select a day" });
+    const dayOptions = await listbox.getByRole("option").all();
     if (dayOptions.length > 0) {
       await dayOptions[3].click();
 
       // Verify dropdown closed
-      await expect(
-        page.locator('h2:has-text("Hourly forecast") + div div button'),
-      ).toHaveCount(0);
+      await expect(listbox).not.toBeVisible();
     }
   });
 
