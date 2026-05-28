@@ -1,10 +1,17 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Weather App page", () => {
+  let searchInput: Locator;
+  let searchButton: Locator;
+  let unitsButton: Locator;
+
   /** Go to Weather App page before each test */
   test.beforeEach("Open", async ({ page }) => {
     await page.goto("/weather-app");
+    searchInput = page.getByPlaceholder("Search for a place...");
+    searchButton = page.getByRole("button", { name: "Search" });
+    unitsButton = page.getByLabel("Switch to Imperial/Metric");
   });
 
   /** Test if the page has a correct title */
@@ -42,9 +49,8 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("can search for a location and display results", async ({ page }) => {
-    const searchInput = page.getByPlaceholder("Search for a place...");
     await searchInput.fill("London");
-    await page.getByRole("button", { name: "Search" }).click();
+    await searchButton.click();
 
     // Wait for search results dropdown
     await page.waitForSelector("text=London", { state: "visible" });
@@ -57,9 +63,8 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("supports keyboard navigation in search results", async ({ page }) => {
-    const searchInput = page.getByPlaceholder("Search for a place...");
     await searchInput.fill("London");
-    await page.getByRole("button", { name: "Search" }).click();
+    await searchButton.click();
 
     // Wait for search results dropdown
     await page.waitForSelector("text=London", { state: "visible" });
@@ -104,18 +109,16 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("shows loading state while searching", async ({ page }) => {
-    const searchInput = page.getByPlaceholder("Search for a place...");
     await searchInput.fill("Paris");
-    await page.getByRole("button", { name: "Search" }).click();
+    await searchButton.click();
 
     // Check if loading indicator appears
     await expect(page.getByText("Search in progress")).toBeVisible();
   });
 
   test("displays no results message for invalid search", async ({ page }) => {
-    const searchInput = page.getByPlaceholder("Search for a place...");
     await searchInput.fill("xyzabc123");
-    await page.getByRole("button", { name: "Search" }).click();
+    await searchButton.click();
 
     // Wait for no results message
     await expect(page.getByText("No search result found!")).toBeVisible();
@@ -154,17 +157,12 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     ).not.toBeVisible();
   });
 
-  test("search input has proper accessibility attributes", async ({ page }) => {
-    const searchInput = page.getByPlaceholder("Search for a place...");
+  test("search input has proper accessibility attributes", async () => {
     await expect(searchInput).toHaveAttribute("type", "text");
-
-    const searchButton = page.getByRole("button", { name: "Search" });
     await expect(searchButton).toBeEnabled();
   });
 
   test("units dropdown opens and closes", async ({ page }) => {
-    const unitsButton = page.getByLabel("Switch to Imperial/Metric");
-
     // Dropdown should be closed initially
     await expect(
       page.getByRole("menuitem", { name: "Switch to Imperial", exact: true }),
@@ -185,7 +183,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
   test("can switch between metric and imperial units", async ({ page }) => {
     // Open units dropdown
-    await page.getByLabel("Switch to Imperial/Metric").click();
+    await unitsButton.click();
 
     // Switch to Imperial
     await page
@@ -196,7 +194,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(page.getByText(/mph/)).toBeVisible();
 
     // Open units dropdown again
-    await page.getByLabel("Switch to Imperial/Metric").click();
+    await unitsButton.click();
 
     // Switch back to Metric
     await page
@@ -209,7 +207,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 
   test("can individually change unit preferences", async ({ page }) => {
     // Open units dropdown
-    await page.getByLabel("Switch to Imperial/Metric").click();
+    await unitsButton.click();
 
     // Change Temperature to Fahrenheit
     await page.getByRole("menuitemradio", { name: "Fahrenheit (°F)" }).click();
