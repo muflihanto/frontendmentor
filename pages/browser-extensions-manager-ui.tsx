@@ -142,7 +142,7 @@ function ExtensionCard({
 
 function Main() {
   const [selectedTab, setSelectedTab] = useState<Tab>("All");
-  const [extensions, setExtensions] = useState<Extension[]>(
+  const [extensions, setExtensions] = useState<Extension[]>(() =>
     extensionsData.map((ext, index) => ({
       ...ext,
       id: `ext-${index}-${ext.name.toLowerCase().replace(/\s+/g, "-")}`, // Create a unique ID
