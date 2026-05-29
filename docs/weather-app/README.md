@@ -11,6 +11,9 @@ This is a solution to the [Weather app challenge on Frontend Mentor](https://www
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Accessible Search Combobox](#accessible-search-combobox)
+      - [Custom Scrollbar Styling](#custom-scrollbar-styling)
+      - [DRYing Up Playwright Locators](#drying-up-playwright-locators)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -65,6 +68,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 ### What I learned
 
 #### Accessible Search Combobox
+
 One of the key accessibility improvements in this project was implementing a custom search combobox using the `aria-activedescendant` pattern. This allows users to navigate through search results using the arrow keys while keeping the keyboard focus on the input field.
 
 The `aria-activedescendant` attribute on the input points to the `id` of the currently "visually focused" option in the listbox. Screen readers then announce the selected option as if it were truly focused.
@@ -104,6 +108,7 @@ The `aria-activedescendant` attribute on the input points to the `id` of the cur
 This pattern is cleaner than manually moving focus between the input and list items, as it maintains the user's ability to keep typing or clearing the input without losing their place.
 
 #### Custom Scrollbar Styling
+
 Another interesting problem I solved was customizing the scrollbar appearance for the hourly forecast section on Chromium-based browsers (especially Windows) without adding external dependencies. I implemented this by adding custom Tailwild CSS variants in `tailwind.config.ts`.
 
 ```ts
@@ -112,16 +117,43 @@ plugin(({ addVariant }) => {
   addVariant("scrollbar", ["&::-webkit-scrollbar"]);
   addVariant("scrollbar-track", ["&::-webkit-scrollbar-track"]);
   addVariant("scrollbar-thumb", ["&::-webkit-scrollbar-thumb"]);
-})
+});
 ```
 
 By defining these variants, I could style the scrollbar directly in the JSX using utility classes, ensuring it matches the application's dark theme:
 
 ```tsx
-<ul className="overflow-y-auto scrollbar:w-1.5 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-weather-app-neutral-600">
+<ul className="scrollbar:w-1.5 scrollbar-track:bg-transparent scrollbar-thumb:rounded-full scrollbar-thumb:bg-weather-app-neutral-600 overflow-y-auto">
   {/* forecast items */}
 </ul>
 ```
+
+#### DRYing Up Playwright Locators
+
+To improve test maintainability and follow DRY (Don't Repeat Yourself) principles, I refactored my Playwright test suite to avoid duplicate inline queries. Common locators such as the search input field, the search button, and the metric/imperial unit toggle button were promoted to suite-level `Locator` variables and initialized in the `beforeEach` hook:
+
+```ts
+test.describe("FrontendMentor Challenge - Weather App page", () => {
+  let searchInput: Locator;
+  let searchButton: Locator;
+  let unitsButton: Locator;
+
+  test.beforeEach("Open", async ({ page }) => {
+    await page.goto("/weather-app");
+    searchInput = page.getByPlaceholder("Search for a place...");
+    searchButton = page.getByRole("button", { name: "Search" });
+    unitsButton = page.getByLabel("Switch to Imperial/Metric");
+  });
+
+  test("can search for a location and display results", async () => {
+    await searchInput.fill("London");
+    await searchButton.click();
+    // ...
+  });
+});
+```
+
+This single source of truth makes the test suite highly resilient to future changes in label names, placeholders, or element selectors, and ensures a clean, declarative test structure.
 
 <!-- ### Continued development
 
