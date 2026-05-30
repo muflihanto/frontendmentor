@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import extensionsData from "../starter_files/browser-extensions-manager-ui/data.json";
 import { cn } from "../utils/cn";
@@ -229,17 +229,17 @@ function Main() {
     }
   }, [selectedTab, extensions]);
 
-  const handleRemove = (extensionId: string) => {
+  const handleRemove = useCallback((extensionId: string) => {
     setExtensions((prev) => prev.filter((ext) => ext.id !== extensionId));
-  };
+  }, []);
 
-  const handleToggle = (extensionId: string) => {
+  const handleToggle = useCallback((extensionId: string) => {
     setExtensions((prev) =>
       prev.map((ext) =>
         ext.id === extensionId ? { ...ext, isActive: !ext.isActive } : ext,
       ),
     );
-  };
+  }, []);
 
   return (
     <main
