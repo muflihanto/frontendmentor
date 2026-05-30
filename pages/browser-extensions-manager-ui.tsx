@@ -150,7 +150,7 @@ function Main() {
   );
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const onTabKeyDown = createTabKeyHandler();
+  const onTabKeyDown = useMemo(() => createTabKeyHandler(), []);
 
   useEffect(() => {
     const saved = localStorage.getItem("browser-extensions-theme");
