@@ -156,10 +156,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
     // Find the same extension and verify its state
     const extensionCard = page
-      .locator(`[role="tabpanel"] h2:has-text("${extensionName}")`)
-      .locator("..")
-      .locator("..")
-      .locator("..");
+      .locator('[role="tabpanel"] > div')
+      .filter({ has: page.locator('h2', { hasText: extensionName ?? "" }) });
     const toggleAfterReload = extensionCard.locator('[role="switch"]').first();
 
     await expect(toggleAfterReload).toHaveAttribute(
@@ -313,10 +311,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
     // Toggle it back on - should disappear from Inactive tab
     const inactiveCard = page
-      .locator(`[role="tabpanel"] h2:has-text("${extensionName}")`)
-      .locator("..")
-      .locator("..")
-      .locator("..");
+      .locator('[role="tabpanel"] > div')
+      .filter({ has: page.locator('h2', { hasText: extensionName ?? "" }) });
     await inactiveCard.locator('[role="switch"]').first().click();
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
