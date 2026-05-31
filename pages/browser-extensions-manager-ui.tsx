@@ -159,11 +159,6 @@ function Main() {
         ? saved === "dark"
         : window.matchMedia("(prefers-color-scheme: dark)").matches;
     setIsDark(prefersDark);
-    if (prefersDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
 
     const savedExtensions = localStorage.getItem("browser-extensions-state");
     if (savedExtensions) {
