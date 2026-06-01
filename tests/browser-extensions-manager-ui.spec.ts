@@ -1,7 +1,15 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Browser extensions manager UI page", () => {
+  // Common selectors to consolidate locators (DRY)
+  const getThemeToggle = (page: Page) =>
+    page.locator('header button[role="switch"]');
+  const getExtensionCards = (page: Page) =>
+    page.locator('[role="tabpanel"] > div');
+  const getTab = (page: Page, name: "All" | "Active" | "Inactive") =>
+    page.getByRole("tab", { name, exact: true });
+
   /** Go to Browser extensions manager UI page before each test */
   test.beforeEach("Open", async ({ page }) => {
     await page.goto("/browser-extensions-manager-ui");
@@ -23,13 +31,13 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test theme toggle button is visible */
   test("has theme toggle button", async ({ page }) => {
-    const themeButton = page.locator('[role="switch"][aria-checked]').first();
+    const themeButton = getThemeToggle(page);
     await expect(themeButton).toBeVisible();
   });
 
   /** Test theme toggle switches between dark and light mode */
   test("theme toggle switches dark/light mode", async ({ page }) => {
-    const themeButton = page.locator('header button[role="switch"]');
+    const themeButton = getThemeToggle(page);
 
     await expect(themeButton).toBeVisible();
 
@@ -45,7 +53,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test theme toggle can be operated with keyboard */
   test("theme toggle can be operated with keyboard", async ({ page }) => {
-    const themeButton = page.locator('header button[role="switch"]');
+    const themeButton = getThemeToggle(page);
 
     await themeButton.focus();
     await expect(themeButton).toBeFocused();
@@ -69,7 +77,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test theme preference persists after page reload */
   test("theme preference persists after page reload", async ({ page }) => {
-    const themeButton = page.locator('header button[role="switch"]');
+    const themeButton = getThemeToggle(page);
     await expect(themeButton).toBeVisible();
 
     // Get initial state and toggle to opposite
@@ -87,7 +95,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await page.reload();
 
     // Verify theme persisted after reload
-    const themeButtonAfterReload = page.locator('header button[role="switch"]');
+    const themeButtonAfterReload = getThemeToggle(page);
     await expect(themeButtonAfterReload).toHaveAttribute(
       "aria-checked",
       toggledAriaChecked,
@@ -96,7 +104,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test extension cards are displayed */
   test("displays extension cards", async ({ page }) => {
-    const extensionCards = page.locator('[role="tabpanel"] > div');
+    const extensionCards = getExtensionCards(page);
     await expect(extensionCards.first()).toBeVisible();
   });
 
@@ -104,7 +112,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test("extension toggle switches toggle aria-checked on click", async ({
     page,
   }) => {
-    const extensionCards = page.locator('[role="tabpanel"] > div');
+    const extensionCards = getExtensionCards(page);
     const count = await extensionCards.count();
     expect(count).toBeGreaterThan(0);
 
@@ -139,11 +147,11 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test("extension active/inactive state persists after page reload", async ({
     page,
   }) => {
-    const firstToggle = page
-      .locator('[role="tabpanel"] > div [role="switch"]')
+    const firstToggle = getExtensionCards(page)
+      .locator('[role="switch"]')
       .first();
-    const extensionName = await page
-      .locator('[role="tabpanel"] > div h2')
+    const extensionName = await getExtensionCards(page)
+      .locator("h2")
       .first()
       .textContent();
 
@@ -155,9 +163,9 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await page.reload();
 
     // Find the same extension and verify its state
-    const extensionCard = page
-      .locator('[role="tabpanel"] > div')
-      .filter({ has: page.locator('h2', { hasText: extensionName ?? "" }) });
+    const extensionCard = getExtensionCards(page).filter({
+      has: page.locator("h2", { hasText: extensionName ?? "" }),
+    });
     const toggleAfterReload = extensionCard.locator('[role="switch"]').first();
 
     await expect(toggleAfterReload).toHaveAttribute(
@@ -168,12 +176,9 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test tab filters work */
   test("tab filters filter extensions", async ({ page }) => {
-    const allTab = page.getByRole("tab", { name: "All", exact: true });
-    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
-    const inactiveTab = page.getByRole("tab", {
-      name: "Inactive",
-      exact: true,
-    });
+    const allTab = getTab(page, "All");
+    const activeTab = getTab(page, "Active");
+    const inactiveTab = getTab(page, "Inactive");
 
     await expect(allTab).toHaveAttribute("aria-selected", "true");
 
@@ -186,12 +191,9 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test keyboard navigation between tabs */
   test("keyboard navigation works for tabs", async ({ page }) => {
-    const allTab = page.getByRole("tab", { name: "All", exact: true });
-    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
-    const inactiveTab = page.getByRole("tab", {
-      name: "Inactive",
-      exact: true,
-    });
+    const allTab = getTab(page, "All");
+    const activeTab = getTab(page, "Active");
+    const inactiveTab = getTab(page, "Inactive");
 
     // Focus first tab
     await allTab.focus();
@@ -312,7 +314,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     // Toggle it back on - should disappear from Inactive tab
     const inactiveCard = page
       .locator('[role="tabpanel"] > div')
-      .filter({ has: page.locator('h2', { hasText: extensionName ?? "" }) });
+      .filter({ has: page.locator("h2", { hasText: extensionName ?? "" }) });
     await inactiveCard.locator('[role="switch"]').first().click();
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
