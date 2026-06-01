@@ -223,7 +223,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test("focus management works as expected", async ({ page }) => {
     // Test focus ring appears on tabbable elements
     const focusableElements = [
-      page.locator('header button[role="switch"]'),
+      getThemeToggle(page),
       page.getByRole("tab", { name: "All", exact: true }),
       page.locator('[role="tabpanel"] > div [role="switch"]').first(),
       page.locator('[role="tabpanel"] button:has-text("Remove")').first(),
@@ -477,7 +477,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test("theme toggle shows sun icon in dark mode and moon icon in light mode", async ({
     page,
   }) => {
-    const themeButton = page.locator('header button[role="switch"]');
+    const themeButton = getThemeToggle(page);
 
     // Helper to check visibility of a group by its href content
     const isGroupVisible = async (hrefPattern: string) => {
@@ -500,7 +500,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test.describe("hover states", () => {
     test.describe("light mode", () => {
       test("theme toggle button shows hover styles", async ({ page }) => {
-        const themeButton = page.locator('header button[role="switch"]');
+        const themeButton = getThemeToggle(page);
         await expect(themeButton).toHaveCSS(
           "background-color",
           "rgb(237, 237, 237)",
@@ -542,7 +542,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       test.use({ colorScheme: "dark" });
 
       test("theme toggle button shows dark hover styles", async ({ page }) => {
-        const themeButton = page.locator('header button[role="switch"]');
+        const themeButton = getThemeToggle(page);
         await expect(themeButton).toHaveCSS(
           "background-color",
           "rgb(47, 54, 75)",
@@ -590,7 +590,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test.describe("focus states", () => {
     test.describe("light mode", () => {
       test("theme toggle button shows focus styles", async ({ page }) => {
-        const themeButton = page.locator('header button[role="switch"]');
+        const themeButton = getThemeToggle(page);
         await expect(themeButton).toHaveCSS("outline-style", "none");
         await expect(themeButton).toHaveCSS("box-shadow", "none");
         await themeButton.focus();
@@ -631,7 +631,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       test.use({ colorScheme: "dark" });
 
       test("theme toggle button shows dark focus styles", async ({ page }) => {
-        const themeButton = page.locator('header button[role="switch"]');
+        const themeButton = getThemeToggle(page);
         await expect(themeButton).toHaveCSS("outline-style", "none");
         await themeButton.focus();
         await expect(themeButton).toHaveCSS("outline-style", "solid");
