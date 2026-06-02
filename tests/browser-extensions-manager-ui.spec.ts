@@ -225,7 +225,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     const focusableElements = [
       getThemeToggle(page),
       getTab(page, "All"),
-      page.locator('[role="tabpanel"] > div [role="switch"]').first(),
+      getExtensionCards(page).locator('[role="switch"]').first(),
       page.locator('[role="tabpanel"] button:has-text("Remove")').first(),
     ];
 
@@ -238,23 +238,21 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test("displays correct initial extension counts in tabs", async ({
     page,
   }) => {
-    const allExtensionsCount = await page
-      .locator('[role="tabpanel"] > div')
-      .count();
+    const allExtensionsCount = await getExtensionCards(page).count();
     expect(allExtensionsCount).toBe(12); // Based on data.json
 
     await getTab(page, "Active").click();
-    const activeCount = await page.locator('[role="tabpanel"] > div').count();
+    const activeCount = await getExtensionCards(page).count();
 
     await getTab(page, "Inactive").click();
-    const inactiveCount = await page.locator('[role="tabpanel"] > div').count();
+    const inactiveCount = await getExtensionCards(page).count();
 
     expect(activeCount + inactiveCount).toBe(allExtensionsCount);
   });
 
   /** Test extension card content is displayed correctly */
   test("extension card displays all required information", async ({ page }) => {
-    const firstCard = page.locator('[role="tabpanel"] > div').first();
+    const firstCard = getExtensionCards(page).first();
 
     // logo
     await expect(firstCard.locator("img")).toBeVisible();
@@ -283,12 +281,10 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
     // Go to Active tab and get first active extension
     await activeTab.click();
-    const initialActiveCount = await page
-      .locator('[role="tabpanel"] > div')
-      .count();
+    const initialActiveCount = await getExtensionCards(page).count();
     expect(initialActiveCount).toBeGreaterThan(0);
 
-    const firstActiveCard = page.locator('[role="tabpanel"] > div').first();
+    const firstActiveCard = getExtensionCards(page).first();
     const toggleButton = firstActiveCard.locator('[role="switch"]').first();
     const extensionName = await firstActiveCard.locator("h2").textContent();
     expect(extensionName).not.toBeNull();
@@ -296,9 +292,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     // Toggle it off - should disappear from Active tab
     await toggleButton.click();
     await expect(
-      page
-        .locator('[role="tabpanel"] > div')
-        .first(),
+      getExtensionCards(page).first(),
       // biome-ignore lint/style/noNonNullAssertion: TypeScript doesn't narrow after expect assertion, but we verified it's not null above
     ).not.toHaveText(extensionName!);
 
@@ -309,9 +303,9 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).toBeVisible();
 
     // Toggle it back on - should disappear from Inactive tab
-    const inactiveCard = page
-      .locator('[role="tabpanel"] > div')
-      .filter({ has: page.locator("h2", { hasText: extensionName ?? "" }) });
+    const inactiveCard = getExtensionCards(page).filter({
+      has: page.locator("h2", { hasText: extensionName ?? "" }),
+    });
     await inactiveCard.locator('[role="switch"]').first().click();
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
@@ -326,7 +320,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test remove button removes extension from list */
   test("remove button removes extension from list", async ({ page }) => {
-    const extensionCards = page.locator('[role="tabpanel"] > div');
+    const extensionCards = getExtensionCards(page);
     const initialCount = await extensionCards.count();
     expect(initialCount).toBeGreaterThan(0);
 
@@ -356,7 +350,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   /** Test that removed extensions are removed from all tabs */
   test("removed extension disappears from all tabs", async ({ page }) => {
     // Get first extension name from All tab
-    const firstCard = page.locator('[role="tabpanel"] > div').first();
+    const firstCard = getExtensionCards(page).first();
     const extensionName = await firstCard.locator("h2").textContent();
     expect(extensionName).not.toBeNull();
 
@@ -383,9 +377,9 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test remove button can be activated with keyboard */
   test("remove buttons can be activated with keyboard", async ({ page }) => {
-    const firstCard = page.locator('[role="tabpanel"] > div').first();
+    const firstCard = getExtensionCards(page).first();
     const extensionName = await firstCard.locator("h2").textContent();
-    const initialCount = await page.locator('[role="tabpanel"] > div').count();
+    const initialCount = await getExtensionCards(page).count();
 
     // Focus and activate remove button with Enter
     const removeButton = firstCard.locator("button:has-text('Remove')");
@@ -394,9 +388,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await page.keyboard.press("Enter");
 
     // Verify extension was removed
-    await expect(page.locator('[role="tabpanel"] > div')).toHaveCount(
-      initialCount - 1,
-    );
+    await expect(getExtensionCards(page)).toHaveCount(initialCount - 1);
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
     ).not.toBeVisible();
@@ -432,12 +424,12 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await page.goto("/browser-extensions-manager-ui");
 
     // Wait for UI to be stable
-    await expect(page.locator('[role="tabpanel"] > div').first()).toBeVisible();
+    await expect(getExtensionCards(page).first()).toBeVisible();
 
     // Verify that extensions are in default state (you may need to know initial active count)
     const activeTab = getTab(page, "Active");
     await activeTab.click();
-    const activeCount = await page.locator('[role="tabpanel"] > div').count();
+    const activeCount = await getExtensionCards(page).count();
     // Compare with expected default active count from data.json
     expect(activeCount).toBe(8);
 
