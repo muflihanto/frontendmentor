@@ -224,7 +224,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     // Test focus ring appears on tabbable elements
     const focusableElements = [
       getThemeToggle(page),
-      page.getByRole("tab", { name: "All", exact: true }),
+      getTab(page, "All"),
       page.locator('[role="tabpanel"] > div [role="switch"]').first(),
       page.locator('[role="tabpanel"] button:has-text("Remove")').first(),
     ];
@@ -243,10 +243,10 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       .count();
     expect(allExtensionsCount).toBe(12); // Based on data.json
 
-    await page.getByRole("tab", { name: "Active", exact: true }).click();
+    await getTab(page, "Active").click();
     const activeCount = await page.locator('[role="tabpanel"] > div').count();
 
-    await page.getByRole("tab", { name: "Inactive", exact: true }).click();
+    await getTab(page, "Inactive").click();
     const inactiveCount = await page.locator('[role="tabpanel"] > div').count();
 
     expect(activeCount + inactiveCount).toBe(allExtensionsCount);
@@ -278,11 +278,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test extension toggle affects tab filtering */
   test("toggling extension updates filtered tab view", async ({ page }) => {
-    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
-    const inactiveTab = page.getByRole("tab", {
-      name: "Inactive",
-      exact: true,
-    });
+    const activeTab = getTab(page, "Active");
+    const inactiveTab = getTab(page, "Inactive");
 
     // Go to Active tab and get first active extension
     await activeTab.click();
@@ -349,7 +346,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).not.toBeVisible();
 
     // Switch to All tab and verify it's still gone
-    const allTab = page.getByRole("tab", { name: "All", exact: true });
+    const allTab = getTab(page, "All");
     await allTab.click();
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
@@ -372,13 +369,13 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).not.toBeVisible();
 
     // Check Active tab
-    await page.getByRole("tab", { name: "Active", exact: true }).click();
+    await getTab(page, "Active").click();
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
     ).not.toBeVisible();
 
     // Check Inactive tab
-    await page.getByRole("tab", { name: "Inactive", exact: true }).click();
+    await getTab(page, "Inactive").click();
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
     ).not.toBeVisible();
@@ -438,7 +435,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(page.locator('[role="tabpanel"] > div').first()).toBeVisible();
 
     // Verify that extensions are in default state (you may need to know initial active count)
-    const activeTab = page.getByRole("tab", { name: "Active", exact: true });
+    const activeTab = getTab(page, "Active");
     await activeTab.click();
     const activeCount = await page.locator('[role="tabpanel"] > div').count();
     // Compare with expected default active count from data.json
@@ -513,10 +510,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       });
 
       test("tab buttons show hover styles", async ({ page }) => {
-        const activeTab = page.getByRole("tab", {
-          name: "Active",
-          exact: true,
-        });
+        const activeTab = getTab(page, "Active");
         await expect(activeTab).toHaveCSS("color", "rgb(9, 21, 62)");
         await activeTab.hover();
         await expect(activeTab).toHaveCSS("color", "rgb(84, 89, 105)");
@@ -555,10 +549,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       });
 
       test("tab buttons show dark hover styles", async ({ page }) => {
-        const activeTab = page.getByRole("tab", {
-          name: "Active",
-          exact: true,
-        });
+        const activeTab = getTab(page, "Active");
         await expect(activeTab).toHaveCSS(
           "background-color",
           "rgb(33, 38, 54)",
@@ -599,10 +590,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       });
 
       test("tab buttons show focus styles", async ({ page }) => {
-        const activeTab = page.getByRole("tab", {
-          name: "Active",
-          exact: true,
-        });
+        const activeTab = getTab(page, "Active");
         await expect(activeTab).toHaveCSS("outline-style", "none");
         await activeTab.focus();
         await expect(activeTab).toHaveCSS("outline-style", "solid");
@@ -639,10 +627,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
       });
 
       test("tab buttons show dark focus styles", async ({ page }) => {
-        const activeTab = page.getByRole("tab", {
-          name: "Active",
-          exact: true,
-        });
+        const activeTab = getTab(page, "Active");
         await expect(activeTab).toHaveCSS("outline-style", "none");
         await activeTab.focus();
         await expect(activeTab).toHaveCSS("outline-style", "solid");
