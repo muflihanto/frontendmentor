@@ -14,7 +14,8 @@ This is a solution to the [Weather app challenge on Frontend Mentor](https://www
       - [Accessible Search Combobox](#accessible-search-combobox)
       - [Custom Scrollbar Styling](#custom-scrollbar-styling)
       - [DRYing Up Playwright Locators](#drying-up-playwright-locators)
-      - [Network Interception & Connection Recovery Testing](#network-interception--connection-recovery-testing)
+      - [Network Interception \& Connection Recovery Testing](#network-interception--connection-recovery-testing)
+      - [Accessible Loading Skeleton States](#accessible-loading-skeleton-states)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -180,6 +181,33 @@ test("displays API error state and can retry", async ({ page }) => {
   // Verify it loads the dashboard again
   await expect(page.getByText("Berlin, Germany")).toBeVisible();
 });
+```
+
+#### Accessible Loading Skeleton States
+
+To make the skeleton loader readable and accessible to assistive tools, I used the semantic `role="status"` and `aria-busy="true"` attributes. This ensures screen readers announce the loading state and understand that the primary application container is changing content:
+
+```tsx
+function MainSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-busy="true"
+      aria-label="Loading weather data"
+      className="flex flex-col gap-8 lg:mt-4 lg:grid lg:grid-cols-[auto_384px] lg:items-start"
+    >
+      <div className="flex flex-col items-center gap-3">
+        {/* Animated bounce loading elements */}
+        <p
+          className="text-weather-app-neutral-200 text-lg font-medium"
+          aria-live="polite"
+        >
+          Loading...
+        </p>
+      </div>
+    </div>
+  );
+}
 ```
 
 <!-- ### Continued development
