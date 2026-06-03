@@ -14,6 +14,7 @@ This is a solution to the [Weather app challenge on Frontend Mentor](https://www
       - [Accessible Search Combobox](#accessible-search-combobox)
       - [Custom Scrollbar Styling](#custom-scrollbar-styling)
       - [DRYing Up Playwright Locators](#drying-up-playwright-locators)
+      - [Network Interception & Connection Recovery Testing](#network-interception--connection-recovery-testing)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -154,6 +155,32 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
 ```
 
 This single source of truth makes the test suite highly resilient to future changes in label names, placeholders, or element selectors, and ensures a clean, declarative test structure.
+
+#### Network Interception & Connection Recovery Testing
+
+To verify our UI handles connection failures and recovers gracefully, I wrote a Playwright test that intercepts API traffic using `page.route` to abort outgoing requests. It then checks the presence of the error dashboard, removes the interception with `page.unroute`, clicks the retry button, and confirms successful page recovery:
+
+```ts
+test("displays API error state and can retry", async ({ page }) => {
+  // Intercept the weather API call and abort it to simulate an error
+  await page.route("**/v1/forecast**", (route) => route.abort());
+
+  // Reload the page to trigger the error state
+  await page.reload();
+
+  // Verify error state is visible
+  await expect(page.getByText("Something went wrong")).toBeVisible();
+
+  // Now unroute to simulate successful retry
+  await page.unroute("**/v1/forecast**");
+
+  // Click retry
+  await page.getByRole("button", { name: "Retry connection" }).click();
+
+  // Verify it loads the dashboard again
+  await expect(page.getByText("Berlin, Germany")).toBeVisible();
+});
+```
 
 <!-- ### Continued development
 
