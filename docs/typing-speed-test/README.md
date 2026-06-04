@@ -23,6 +23,7 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
       - [Input Element Attributes for Typing Tests](#input-element-attributes-for-typing-tests)
       - [Automated Accessibility Testing with AxeBuilder](#automated-accessibility-testing-with-axebuilder)
       - [Accidental Navigation Protection \& Page Unload Interception](#accidental-navigation-protection--page-unload-interception)
+      - [Dynamic Caret Tracking \& Line-Wrap Scroll Syncing](#dynamic-caret-tracking--line-wrap-scroll-syncing)
   - [Author](#author)
 
 ## Overview
@@ -256,6 +257,36 @@ test("prevents default on beforeunload during active test", async ({
   });
   expect(eventDetails.defaultPrevented).toBe(true);
 });
+```
+
+#### Dynamic Caret Tracking & Line-Wrap Scroll Syncing
+
+To ensure the typing experience feels fluid, I computed the caret position dynamically by reading the `offsetTop` and `offsetLeft` bounds of the active character. To prevent performance lag, these updates are synchronized via `requestAnimationFrame`. Additionally, I implemented smart line-wrap scroll syncing that centers the container smoothly only when the user crosses to a new line:
+
+```tsx
+useEffect(() => {
+  const handle = requestAnimationFrame(() => {
+    const activeChar = document.getElementById("active-char");
+    if (!activeChar) return;
+
+    const currentOffset = activeChar.offsetTop;
+    const isNewLine = lastOffsetTopRef.current !== currentOffset;
+
+    if (isNewLine) {
+      activeChar.scrollIntoView({ behavior: "smooth", block: "center" });
+      lastOffsetTopRef.current = currentOffset;
+    }
+
+    setCaretStyle({
+      top: activeChar.offsetTop,
+      left: activeChar.offsetLeft,
+      width: activeChar.offsetWidth,
+      height: activeChar.offsetHeight,
+      opacity: 1,
+    });
+  });
+  return () => cancelAnimationFrame(handle);
+}, [input, status]);
 ```
 
 <!-- ### Continued development
