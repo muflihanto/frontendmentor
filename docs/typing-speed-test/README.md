@@ -22,6 +22,7 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
       - [Mocking Timers in Playwright](#mocking-timers-in-playwright)
       - [Input Element Attributes for Typing Tests](#input-element-attributes-for-typing-tests)
       - [Automated Accessibility Testing with AxeBuilder](#automated-accessibility-testing-with-axebuilder)
+      - [Accidental Navigation Protection \& Page Unload Interception](#accidental-navigation-protection--page-unload-interception)
   - [Author](#author)
 
 ## Overview
@@ -222,6 +223,40 @@ test("finished state should not have accessibility issues", async ({
 ```
 
 This approach ensured that dynamically rendered elements, like the results screen or the paused overlay, also complied with accessibility standards.
+
+#### Accidental Navigation Protection & Page Unload Interception
+
+To prevent users from losing active typing test progress, I set up a window `beforeunload` listener that triggers a confirmation dialog if they try to close or refresh the page during a test. I verified this in Playwright by programmatically dispatching a native `beforeunload` event and asserting its cancellation:
+
+```tsx
+// React page component
+useEffect(() => {
+  const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    if (status === "active") {
+      e.preventDefault();
+      e.returnValue =
+        "You have an active typing test. Are you sure you want to leave?";
+    }
+  };
+  window.addEventListener("beforeunload", handleBeforeUnload);
+  return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+}, [status]);
+```
+
+```ts
+// Playwright test spec
+test("prevents default on beforeunload during active test", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Start Typing Test" }).click();
+  const eventDetails = await page.evaluate(() => {
+    const event = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(event);
+    return { defaultPrevented: event.defaultPrevented };
+  });
+  expect(eventDetails.defaultPrevented).toBe(true);
+});
+```
 
 <!-- ### Continued development
 
