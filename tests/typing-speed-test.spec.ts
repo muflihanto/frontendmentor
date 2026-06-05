@@ -20,6 +20,10 @@ async function switchToPassageMode(page: Page) {
   }
 }
 
+async function getPassageText(page: Page, fallback = "") {
+  return (await page.locator("p.text-\\[28px\\]").textContent()) ?? fallback;
+}
+
 test.describe("FrontendMentor Challenge - Typing speed test page", () => {
   /** Go to Typing speed test page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -87,8 +91,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toBeVisible();
 
       // The passage should be blurred (opacity-70 blur-[8px])
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
       expect(passagesData.hard.map((p) => p.text)).toContain(passageText);
       const passage = page.locator("p").filter({ hasText: passageText });
       await expect(passage).toHaveClass(/blur-\[8px\]/);
@@ -102,8 +105,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
 
     test("can change difficulty via mobile dropdown", async ({ page }) => {
-      const initialPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const initialPassageText = await getPassageText(page);
       expect(passagesData.hard.map((p) => p.text)).toContain(
         initialPassageText,
       );
@@ -133,8 +135,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).not.toBeVisible();
 
       // Verify the passage text has changed and matches Medium difficulty list
-      const newPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const newPassageText = await getPassageText(page);
       expect(passagesData.medium.map((p) => p.text)).toContain(newPassageText);
     });
 
@@ -354,8 +355,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       // By default it's Hard, which starts with "The archaeological expedition"
-      const hardPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const hardPassageText = await getPassageText(page);
       expect(passagesData.hard.map((p) => p.text)).toContain(hardPassageText);
       const hardPassage = page
         .locator("p")
@@ -380,8 +380,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       }
 
       // Check the new passage text for Easy
-      const easyPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const easyPassageText = await getPassageText(page);
       expect(passagesData.easy.map((p) => p.text)).toContain(easyPassageText);
       const easyPassage = page
         .locator("p")
@@ -394,8 +393,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     }) => {
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
-      const initialPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "The";
+      const initialPassageText = await getPassageText(page, "The");
       // Type a bit to change state
       await page.keyboard.press(initialPassageText[0]);
       await page.keyboard.press(initialPassageText[1]);
@@ -425,8 +423,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(
         page.getByRole("button", { name: "Start Typing Test" }),
       ).toBeVisible();
-      const mediumPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const mediumPassageText = await getPassageText(page);
       expect(passagesData.medium.map((p) => p.text)).toContain(
         mediumPassageText,
       );
@@ -444,8 +441,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       test("changes the passage text when difficulty is changed via mobile dropdown", async ({
         page,
       }) => {
-        const hardPassageText =
-          (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+        const hardPassageText = await getPassageText(page);
         expect(passagesData.hard.map((p) => p.text)).toContain(hardPassageText);
         const hardPassage = page
           .locator("p")
@@ -460,8 +456,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .getByRole("menuitem", { name: "Easy", exact: true })
           .click();
 
-        const easyPassageText =
-          (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+        const easyPassageText = await getPassageText(page);
         expect(passagesData.easy.map((p) => p.text)).toContain(easyPassageText);
         const easyPassage = page
           .locator("p")
@@ -474,8 +469,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       }) => {
         await page.getByRole("button", { name: "Start Typing Test" }).click();
 
-        const initialPassageText =
-          (await page.locator("p.text-\\[28px\\]").textContent()) ?? "The";
+        const initialPassageText = await getPassageText(page, "The");
         await page.keyboard.press(initialPassageText[0]);
         await page.keyboard.press(initialPassageText[1]);
 
@@ -493,8 +487,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         await expect(
           page.getByRole("button", { name: "Start Typing Test" }),
         ).toBeVisible();
-        const mediumPassageText =
-          (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+        const mediumPassageText = await getPassageText(page);
         expect(passagesData.medium.map((p) => p.text)).toContain(
           mediumPassageText,
         );
@@ -514,8 +507,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("starts the test and focuses the invisible input", async ({
       page,
     }) => {
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       expect(passagesData.hard.map((p) => p.text)).toContain(
         currentPassageText,
       );
@@ -539,8 +531,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
 
     test("styles correctly typed characters", async ({ page }) => {
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T ";
+      const currentPassageText = await getPassageText(page, "T ");
       // Type first char (correct)
       await page.keyboard.press(currentPassageText[0]);
 
@@ -568,8 +559,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
     test("enforces case-sensitivity for typed characters", async ({ page }) => {
       // Type wrong case
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       const firstChar = currentPassageText.charAt(0);
       const wrongCaseChar =
         firstChar === firstChar.toUpperCase()
@@ -588,8 +578,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       const stats = page.locator("main > div").first();
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T ";
+      const currentPassageText = await getPassageText(page, "T ");
 
       // Before typo: initial accuracy is naturally 100%
       await expect(stats.getByText("100%")).toBeVisible();
@@ -660,8 +649,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       const input = page.locator('input[type="text"]');
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       // Type first character to ensure input top layout is stabilized after viewport resize
       await page.keyboard.press(currentPassageText[0]);
       await page.waitForTimeout(50);
@@ -716,8 +704,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
       const input = page.locator('input[type="text"]');
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
 
       // Instantly inject the entire passage minus the final character to bypass test wait times
       await input.fill(passageText.slice(0, -1), { force: true });
@@ -744,8 +731,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
       const input = page.locator('input[type="text"]');
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
 
       await input.fill(passageText.slice(0, -1), { force: true });
       await page.keyboard.press(passageText.slice(-1));
@@ -763,8 +749,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Let time advance slightly so WPM and timers can calculate deviations natively
       await page.waitForTimeout(1050);
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T h";
+      const currentPassageText = await getPassageText(page, "T h");
       // Type some correct and incorrect characters to alter stats and UI state actively
       await page.keyboard.press(currentPassageText[0]);
       await page.keyboard.press(currentPassageText[1]);
@@ -804,8 +789,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       );
 
       // Verify the cursor was accurately bumped back to the first character index
-      const newPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const newPassageText = await getPassageText(page, "T");
       await expect(page.locator("#active-char")).toHaveText(newPassageText[0]);
 
       // Assert the invisible input is successfully refocused so the user can immediately type
@@ -830,8 +814,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Let time advance slightly so WPM and timers calculate natively
       await page.waitForTimeout(1050);
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "Th";
+      const currentPassageText = await getPassageText(page, "Th");
       // Type some characters to push stats out of default baseline
       await page.keyboard.press(currentPassageText[0]);
       await page.keyboard.press(currentPassageText[1]);
@@ -853,16 +836,14 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(timeLocator).toHaveText("0:00");
 
       // Verify the cursor was accurately bumped back to the first character index
-      const newPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const newPassageText = await getPassageText(page, "T");
       await expect(page.locator("#active-char")).toHaveText(newPassageText[0]);
     });
 
     test("instantly restarts the test when the 'Escape' key is pressed", async ({
       page,
     }) => {
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "The ";
+      const currentPassageText = await getPassageText(page, "The ");
       // Type some characters to progress the test
       await page.keyboard.press(currentPassageText[0]);
       await page.keyboard.press(currentPassageText[1]);
@@ -877,8 +858,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.keyboard.press("Escape");
 
       // Verify the test has reset to the first character
-      const newPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const newPassageText = await getPassageText(page, "T");
       await expect(page.locator("#active-char")).toHaveText(newPassageText[0]);
 
       // Verify stats have reset (Accuracy back to 100%)
@@ -895,8 +875,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("pauses the test, stops the timer, and blurs text when the input loses focus", async ({
       page,
     }) => {
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       // Type the first character to ensure the timer has actively started
       await page.keyboard.press(currentPassageText[0]);
 
@@ -950,8 +929,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Get initial WPM (should be 0 before typing)
       const wpmLocator = page.locator("main > div").first().getByText(/^\d+$/);
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "The";
+      const currentPassageText = await getPassageText(page, "The");
       // Type correct characters to build up WPM
       await page.keyboard.press(currentPassageText[0]);
       await page.keyboard.press(currentPassageText[1]);
@@ -973,8 +951,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Initial accuracy should be 100%
       await expect(stats.getByText("100%")).toBeVisible();
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       // Type a correct character - accuracy should still be 100%
       await page.keyboard.press(currentPassageText[0]);
       await page.waitForTimeout(50);
@@ -996,9 +973,10 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         .filter({ hasText: /^WPM:/ })
         .locator("xpath=../p[2]");
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ??
-        "The archaeological";
+      const currentPassageText = await getPassageText(
+        page,
+        "The archaeological",
+      );
       // Type many correct characters
       const correctText = currentPassageText.slice(0, 18);
       for (const char of correctText) {
@@ -1035,8 +1013,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const initialTime = parseInt(initialTimeText?.replace(":", "") ?? "0");
       expect(initialTime).toBe(60);
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       // Type a character to start the timer
       await page.keyboard.press(currentPassageText[0]);
 
@@ -1056,8 +1033,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
 
       await page
         .locator('input[type="text"]')
@@ -1094,8 +1070,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
 
       // First run to set baseline (instant fill means 0 time elapsed, so 0 WPM)
       await page
@@ -1105,8 +1080,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
 
-      const secondPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const secondPassageText = await getPassageText(page);
 
       // Second run completes immediately as well, matching the WPM <= bestWpm condition
       await page
@@ -1138,8 +1112,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
 
       // First run to set baseline (instant fill means 0 time elapsed, so 0 WPM)
       await page
@@ -1149,8 +1122,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
 
-      const secondPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const secondPassageText = await getPassageText(page);
 
       // Type first char to start the timer (hasStartedTyping = true)
       await page.keyboard.press(secondPassageText[0]);
@@ -1226,16 +1198,14 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.goto("/typing-speed-test");
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       // Type the first character to start the timer
       await page.keyboard.press(currentPassageText[0]);
 
       // Wait for timeElapsed to be >= 1s so calculated WPM > 0
       await page.waitForTimeout(1100);
 
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
 
       // Finish the passage to complete the test
       await page
@@ -1394,8 +1364,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
       // 3. Instantly fill the passage to trigger the finished state
-      const passageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "";
+      const passageText = await getPassageText(page);
       await page
         .locator('input[type="text"]')
         .fill(passageText, { force: true });
@@ -1420,8 +1389,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.getByRole("button", { name: "Start Typing Test" }).click();
 
       // 2. Type a character to ensure timer and active state begin
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       await page.keyboard.press(currentPassageText[0]);
 
       // 3. Blur the input to trigger the paused state
@@ -1475,8 +1443,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // 2. Initial state: should be empty
       await expect(liveRegion).toBeEmpty();
 
-      const currentPassageText =
-        (await page.locator("p.text-\\[28px\\]").textContent()) ?? "T";
+      const currentPassageText = await getPassageText(page, "T");
       // 3. Type an incorrect character
       await page.keyboard.press("x");
 
