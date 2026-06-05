@@ -24,6 +24,28 @@ async function getPassageText(page: Page, fallback = "") {
   return (await page.locator("p.text-\\[28px\\]").textContent()) ?? fallback;
 }
 
+async function verifyPassageFromDifficulty(
+  page: Page,
+  difficulty: "easy" | "medium" | "hard",
+  options?: {
+    expectBlurred?: boolean;
+    expectNotBlurred?: boolean;
+    fallback?: string;
+  },
+) {
+  const text = await getPassageText(page, options?.fallback);
+  expect(passagesData[difficulty].map((p) => p.text)).toContain(text);
+  const passage = page.locator("p").filter({ hasText: text });
+  if (options?.expectBlurred) {
+    await expect(passage).toHaveClass(/blur-\[8px\]/);
+  } else if (options?.expectNotBlurred) {
+    await expect(passage).not.toHaveClass(/blur-\[8px\]/);
+  } else {
+    await expect(passage).toBeVisible();
+  }
+  return text;
+}
+
 test.describe("FrontendMentor Challenge - Typing speed test page", () => {
   /** Go to Typing speed test page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -91,10 +113,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toBeVisible();
 
       // The passage should be blurred (opacity-70 blur-[8px])
-      const passageText = await getPassageText(page);
-      expect(passagesData.hard.map((p) => p.text)).toContain(passageText);
-      const passage = page.locator("p").filter({ hasText: passageText });
-      await expect(passage).toHaveClass(/blur-\[8px\]/);
+      await verifyPassageFromDifficulty(page, "hard", { expectBlurred: true });
     });
   });
 
@@ -105,10 +124,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
 
     test("can change difficulty via mobile dropdown", async ({ page }) => {
-      const initialPassageText = await getPassageText(page);
-      expect(passagesData.hard.map((p) => p.text)).toContain(
-        initialPassageText,
-      );
+      await verifyPassageFromDifficulty(page, "hard");
 
       const mobileContainer = page.locator(".md\\:hidden");
 
@@ -135,8 +151,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).not.toBeVisible();
 
       // Verify the passage text has changed and matches Medium difficulty list
-      const newPassageText = await getPassageText(page);
-      expect(passagesData.medium.map((p) => p.text)).toContain(newPassageText);
+      await verifyPassageFromDifficulty(page, "medium");
     });
 
     test("can change mode via mobile dropdown", async ({ page }) => {
@@ -355,12 +370,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       // By default it's Hard, which starts with "The archaeological expedition"
-      const hardPassageText = await getPassageText(page);
-      expect(passagesData.hard.map((p) => p.text)).toContain(hardPassageText);
-      const hardPassage = page
-        .locator("p")
-        .filter({ hasText: hardPassageText });
-      await expect(hardPassage).toBeVisible();
+      await verifyPassageFromDifficulty(page, "hard");
 
       // Change to Easy
       const desktopEasyBtn = page
@@ -380,12 +390,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       }
 
       // Check the new passage text for Easy
-      const easyPassageText = await getPassageText(page);
-      expect(passagesData.easy.map((p) => p.text)).toContain(easyPassageText);
-      const easyPassage = page
-        .locator("p")
-        .filter({ hasText: easyPassageText });
-      await expect(easyPassage).toBeVisible();
+      await verifyPassageFromDifficulty(page, "easy");
     });
 
     test("resets test state when difficulty is changed during an active test", async ({
@@ -423,14 +428,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(
         page.getByRole("button", { name: "Start Typing Test" }),
       ).toBeVisible();
-      const mediumPassageText = await getPassageText(page);
-      expect(passagesData.medium.map((p) => p.text)).toContain(
-        mediumPassageText,
-      );
-      const mediumPassage = page
-        .locator("p")
-        .filter({ hasText: mediumPassageText });
-      await expect(mediumPassage).toHaveClass(/blur-\[8px\]/);
+      await verifyPassageFromDifficulty(page, "medium", {
+        expectBlurred: true,
+      });
     });
 
     test.describe("Mobile viewport", () => {
@@ -441,12 +441,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       test("changes the passage text when difficulty is changed via mobile dropdown", async ({
         page,
       }) => {
-        const hardPassageText = await getPassageText(page);
-        expect(passagesData.hard.map((p) => p.text)).toContain(hardPassageText);
-        const hardPassage = page
-          .locator("p")
-          .filter({ hasText: hardPassageText });
-        await expect(hardPassage).toBeVisible();
+        await verifyPassageFromDifficulty(page, "hard");
 
         const mobileContainer = page.locator(".md\\:hidden");
         await mobileContainer
@@ -456,12 +451,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
           .getByRole("menuitem", { name: "Easy", exact: true })
           .click();
 
-        const easyPassageText = await getPassageText(page);
-        expect(passagesData.easy.map((p) => p.text)).toContain(easyPassageText);
-        const easyPassage = page
-          .locator("p")
-          .filter({ hasText: easyPassageText });
-        await expect(easyPassage).toBeVisible();
+        await verifyPassageFromDifficulty(page, "easy");
       });
 
       test("resets test state when difficulty is changed via mobile dropdown during an active test", async ({
@@ -487,14 +477,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         await expect(
           page.getByRole("button", { name: "Start Typing Test" }),
         ).toBeVisible();
-        const mediumPassageText = await getPassageText(page);
-        expect(passagesData.medium.map((p) => p.text)).toContain(
-          mediumPassageText,
-        );
-        const mediumPassage = page
-          .locator("p")
-          .filter({ hasText: mediumPassageText });
-        await expect(mediumPassage).toHaveClass(/blur-\[8px\]/);
+        await verifyPassageFromDifficulty(page, "medium", {
+          expectBlurred: true,
+        });
       });
     });
   });
@@ -507,13 +492,12 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("starts the test and focuses the invisible input", async ({
       page,
     }) => {
-      const currentPassageText = await getPassageText(page, "T");
-      expect(passagesData.hard.map((p) => p.text)).toContain(
-        currentPassageText,
-      );
       // The passage should no longer be blurred
-      const passage = page.locator("p").filter({ hasText: currentPassageText });
-      await expect(passage).not.toHaveClass(/blur-\[8px\]/);
+      const currentPassageText = await verifyPassageFromDifficulty(
+        page,
+        "hard",
+        { expectNotBlurred: true, fallback: "T" },
+      );
 
       // Startup overlay should be hidden
       await expect(
