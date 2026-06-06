@@ -54,6 +54,17 @@ async function completePassage(page: Page) {
   return text;
 }
 
+function getStatsContainer(page: Page) {
+  return page.locator("main > div").first();
+}
+
+function getTimeLocator(page: Page) {
+  return getStatsContainer(page)
+    .locator("p")
+    .filter({ hasText: /^Time:/ })
+    .locator("xpath=../p[2]");
+}
+
 test.describe("FrontendMentor Challenge - Typing speed test page", () => {
   /** Go to Typing speed test page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -77,7 +88,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
 
     test("shows initial stats correctly", async ({ page }) => {
-      const stats = page.locator("main > div").first();
+      const stats = getStatsContainer(page);
 
       await expect(stats.getByText("WPM:")).toBeVisible();
       await expect(stats.getByText("0", { exact: true })).toBeVisible();
@@ -569,7 +580,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("reverts styling and moves active cursor back on backspace", async ({
       page,
     }) => {
-      const stats = page.locator("main > div").first();
+      const stats = getStatsContainer(page);
       const currentPassageText = await getPassageText(page, "T ");
 
       // Before typo: initial accuracy is naturally 100%
@@ -747,7 +758,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.keyboard.press(currentPassageText[1]);
       await page.keyboard.press("x"); // Mistake drastically drops accuracy
 
-      const stats = page.locator("main > div").first();
+      const stats = getStatsContainer(page);
 
       // Verify dynamic stats actively changed from their defaults
       await expect(stats.getByText("100%")).not.toBeVisible();
@@ -766,10 +777,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(stats.getByText("100%")).toBeVisible();
       await expect(stats.getByText("0", { exact: true })).toBeVisible(); // WPM
 
-      const timeLocator = stats
-        .locator("p")
-        .filter({ hasText: /^Time:/ })
-        .locator("xpath=../p[2]");
+      const timeLocator = getTimeLocator(page);
       await expect(timeLocator).toHaveText("0:60");
 
       // Verify passage character UI styling is completely sanitized of progress/mistakes
@@ -814,17 +822,14 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Trigger the active 'Restart Test' button
       await page.getByRole("button", { name: "Restart Test" }).click();
 
-      const stats = page.locator("main > div").first();
+      const stats = getStatsContainer(page);
 
       // Assert that all dynamic stats are completely wiped to default
       await expect(stats.getByText("100%")).toBeVisible();
       await expect(stats.getByText("0", { exact: true })).toBeVisible(); // WPM
 
       // CRITICAL DIFFERENCE: Passage mode counts UP from 0:00, not DOWN from 0:60
-      const timeLocator = stats
-        .locator("p")
-        .filter({ hasText: /^Time:/ })
-        .locator("xpath=../p[2]");
+      const timeLocator = getTimeLocator(page);
       await expect(timeLocator).toHaveText("0:00");
 
       // Verify the cursor was accurately bumped back to the first character index
@@ -854,7 +859,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(page.locator("#active-char")).toHaveText(newPassageText[0]);
 
       // Verify stats have reset (Accuracy back to 100%)
-      const stats = page.locator("main > div").first();
+      const stats = getStatsContainer(page);
       await expect(stats.getByText("100%")).toBeVisible();
 
       // Verify input is still focused for immediate typing
@@ -872,11 +877,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.keyboard.press(currentPassageText[0]);
 
       const passage = page.locator("p").filter({ hasText: currentPassageText });
-      const stats = page.locator("main > div").first();
-      const timeLocator = stats
-        .locator("p")
-        .filter({ hasText: /^Time:/ })
-        .locator("xpath=../p[2]");
+      const timeLocator = getTimeLocator(page);
 
       // Verify the test is active and not blurred
       await expect(passage).not.toHaveClass(/blur-\[8px\]/);
@@ -919,7 +920,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
     test("WPM updates as user types correct characters", async ({ page }) => {
       // Get initial WPM (should be 0 before typing)
-      const wpmLocator = page.locator("main > div").first().getByText(/^\d+$/);
+      const wpmLocator = getStatsContainer(page).getByText(/^\d+$/);
 
       const currentPassageText = await getPassageText(page, "The");
       // Type correct characters to build up WPM
@@ -938,7 +939,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("Accuracy starts at 100% and updates with correct/incorrect typing", async ({
       page,
     }) => {
-      const stats = page.locator("main > div").first();
+      const stats = getStatsContainer(page);
 
       // Initial accuracy should be 100%
       await expect(stats.getByText("100%")).toBeVisible();
@@ -959,7 +960,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("WPM and accuracy update incrementally as more characters are typed", async ({
       page,
     }) => {
-      const stats = page.locator("main > div").first();
+      const stats = getStatsContainer(page);
       const wpmLocator = stats
         .locator("p")
         .filter({ hasText: /^WPM:/ })
@@ -994,11 +995,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
 
     test("Time counts down in Timed mode", async ({ page }) => {
-      const stats = page.locator("main > div").first();
-      const timeLocator = stats
-        .locator("p")
-        .filter({ hasText: /^Time:/ })
-        .locator("xpath=../p[2]");
+      const timeLocator = getTimeLocator(page);
 
       // Get initial time - should be 60 seconds
       const initialTimeText = await timeLocator.textContent();
