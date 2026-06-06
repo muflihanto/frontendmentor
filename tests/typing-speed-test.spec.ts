@@ -46,6 +46,14 @@ async function verifyPassageFromDifficulty(
   return text;
 }
 
+async function completePassage(page: Page) {
+  await switchToPassageMode(page);
+  await page.getByRole("button", { name: "Start Typing Test" }).click();
+  const text = await getPassageText(page);
+  await page.locator('input[type="text"]').fill(text, { force: true });
+  return text;
+}
+
 test.describe("FrontendMentor Challenge - Typing speed test page", () => {
   /** Go to Typing speed test page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -1013,15 +1021,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (Baseline)", () => {
     test.beforeEach(async ({ page }) => {
-      await switchToPassageMode(page);
-
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
-
-      const passageText = await getPassageText(page);
-
-      await page
-        .locator('input[type="text"]')
-        .fill(passageText, { force: true });
+      await completePassage(page);
     });
 
     test("shows baseline heading and subtitle", async ({ page }) => {
@@ -1050,16 +1050,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (Test Complete)", () => {
     test.beforeEach(async ({ page }) => {
-      await switchToPassageMode(page);
-
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
-
-      const passageText = await getPassageText(page);
-
-      // First run to set baseline (instant fill means 0 time elapsed, so 0 WPM)
-      await page
-        .locator('input[type="text"]')
-        .fill(passageText, { force: true });
+      await completePassage(page);
 
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
@@ -1092,16 +1083,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (New Personal Best)", () => {
     test.beforeEach(async ({ page }) => {
-      await switchToPassageMode(page);
-
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
-
-      const passageText = await getPassageText(page);
-
-      // First run to set baseline (instant fill means 0 time elapsed, so 0 WPM)
-      await page
-        .locator('input[type="text"]')
-        .fill(passageText, { force: true });
+      await completePassage(page);
 
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
@@ -1341,17 +1323,8 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("finished state should not have accessibility issues", async ({
       page,
     }) => {
-      // 1. Find visible Passage button to switch mode
-      await switchToPassageMode(page);
-
-      // 2. Start the test
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
-
-      // 3. Instantly fill the passage to trigger the finished state
-      const passageText = await getPassageText(page);
-      await page
-        .locator('input[type="text"]')
-        .fill(passageText, { force: true });
+      // 1. Instantly complete passage to reach finished state
+      await completePassage(page);
 
       // 4. Ensure the results screen rendered
       await expect(
