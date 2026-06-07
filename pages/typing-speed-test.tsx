@@ -282,16 +282,23 @@ function Main() {
         );
   }, [totalKeystrokes, cumulativeErrors]);
 
+  const { correctChars, incorrectChars } = useMemo(() => {
+    let correct = 0;
+    let incorrect = 0;
+    for (let i = 0; i < input.length; i++) {
+      if (input[i] === passageText[i]) {
+        correct++;
+      } else {
+        incorrect++;
+      }
+    }
+    return { correctChars: correct, incorrectChars: incorrect };
+  }, [input, passageText]);
+
   const wpm = useMemo(() => {
     if (timeElapsed <= 0) return 0;
-
-    let correct = 0;
-    for (let i = 0; i < input.length; i++) {
-      if (input[i] === passageText[i]) correct++;
-    }
-
-    return Math.round(correct / 5 / (timeElapsed / 60));
-  }, [input, passageText, timeElapsed]);
+    return Math.round(correctChars / 5 / (timeElapsed / 60));
+  }, [correctChars, timeElapsed]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
@@ -558,15 +565,6 @@ function Main() {
       );
     });
   }, [passageText, input, status]);
-
-  let correctChars = 0;
-  let incorrectChars = 0;
-  if (status === "finished") {
-    for (let i = 0; i < input.length; i++) {
-      if (input[i] === passageText[i]) correctChars++;
-      else incorrectChars++;
-    }
-  }
 
   const isNewBest = resultType === "newBest";
   const isBaseline = resultType === "baseline";
