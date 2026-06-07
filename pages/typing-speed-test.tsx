@@ -262,13 +262,7 @@ function Main() {
   const [resultType, setResultType] = useState<
     "baseline" | "newBest" | "complete" | null
   >(null);
-  const [caretStyle, setCaretStyle] = useState({
-    top: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-    opacity: 0,
-  });
+
   const [a11yErrorAnnouncement, setA11yErrorAnnouncement] = useState("");
 
   const accuracy = useMemo(() => {
@@ -301,6 +295,7 @@ function Main() {
   }, [correctChars, timeElapsed]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const caretRef = useRef<HTMLDivElement>(null);
   const lastOffsetTopRef = useRef<number | null>(null);
   const dropdownsRef = useRef<HTMLDivElement>(null);
   const diffTriggerRef = useRef<HTMLButtonElement>(null);
@@ -401,7 +396,9 @@ function Main() {
 
     if (status !== "active") {
       lastOffsetTopRef.current = null;
-      setCaretStyle((prev) => ({ ...prev, opacity: 0 }));
+      if (caretRef.current) {
+        caretRef.current.style.opacity = "0";
+      }
       return;
     }
 
@@ -427,13 +424,13 @@ function Main() {
         lastOffsetTopRef.current = currentOffset;
       }
 
-      setCaretStyle({
-        top: activeChar.offsetTop,
-        left: activeChar.offsetLeft,
-        width: activeChar.offsetWidth,
-        height: activeChar.offsetHeight,
-        opacity: 1,
-      });
+      if (caretRef.current) {
+        caretRef.current.style.top = `${activeChar.offsetTop}px`;
+        caretRef.current.style.left = `${activeChar.offsetLeft}px`;
+        caretRef.current.style.width = `${activeChar.offsetWidth}px`;
+        caretRef.current.style.height = `${activeChar.offsetHeight}px`;
+        caretRef.current.style.opacity = "1";
+      }
     });
 
     return () => cancelAnimationFrame(handle);
@@ -709,16 +706,17 @@ function Main() {
             }}
           >
             <div
+              ref={caretRef}
               className={cn(
                 "pointer-events-none absolute rounded-[4px] bg-typing-speed-test-neutral-400/30 transition-all duration-100 ease-out",
                 !isFocused && status === "active" && "hidden",
               )}
               style={{
-                top: caretStyle.top,
-                left: caretStyle.left,
-                width: caretStyle.width,
-                height: caretStyle.height,
-                opacity: caretStyle.opacity,
+                top: 0,
+                left: 0,
+                width: 0,
+                height: 0,
+                opacity: 0,
               }}
             />
             <p
