@@ -2,22 +2,30 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 import passagesData from "../public/typing-speed-test/data.json";
 
-async function switchToPassageMode(page: Page) {
-  const desktopPassageBtn = page
+async function selectOption(
+  page: Page,
+  currentLabel: string,
+  targetLabel: string,
+) {
+  const desktopBtn = page
     .locator(".md\\:flex")
-    .getByRole("button", { name: "Passage" });
-  if (await desktopPassageBtn.isVisible()) {
-    await desktopPassageBtn.click();
+    .getByRole("button", { name: targetLabel, exact: true });
+  if (await desktopBtn.isVisible()) {
+    await desktopBtn.click();
   } else {
     await page
       .locator(".md\\:hidden")
-      .getByRole("button", { name: "Timed (60s)" })
+      .getByRole("button", { name: currentLabel, exact: true })
       .click();
     await page
       .locator(".md\\:hidden")
-      .getByRole("menuitem", { name: "Passage" })
+      .getByRole("menuitem", { name: targetLabel, exact: true })
       .click();
   }
+}
+
+async function switchToPassageMode(page: Page) {
+  await selectOption(page, "Timed (60s)", "Passage");
 }
 
 async function getPassageText(page: Page, fallback = "") {
@@ -392,21 +400,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await verifyPassageFromDifficulty(page, "hard");
 
       // Change to Easy
-      const desktopEasyBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Easy", exact: true });
-      if (await desktopEasyBtn.isVisible()) {
-        await desktopEasyBtn.click();
-      } else {
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Hard", exact: true })
-          .click();
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Easy", exact: true })
-          .click();
-      }
+      await selectOption(page, "Hard", "Easy");
 
       // Check the new passage text for Easy
       await verifyPassageFromDifficulty(page, "easy");
@@ -427,21 +421,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(activeChar).toHaveText(initialPassageText[2]);
 
       // Change to Medium
-      const desktopMediumBtn = page
-        .locator(".md\\:flex")
-        .getByRole("button", { name: "Medium", exact: true });
-      if (await desktopMediumBtn.isVisible()) {
-        await desktopMediumBtn.click();
-      } else {
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("button", { name: "Hard", exact: true })
-          .click();
-        await page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Medium", exact: true })
-          .click();
-      }
+      await selectOption(page, "Hard", "Medium");
 
       // Test should reset to idle, passage should be blurred, Start button should appear
       await expect(
