@@ -73,6 +73,13 @@ function getTimeLocator(page: Page) {
     .locator("xpath=../p[2]");
 }
 
+async function assertInputFocused(page: Page) {
+  const isFocused = await page.evaluate(
+    () => document.activeElement?.tagName === "INPUT",
+  );
+  expect(isFocused).toBe(true);
+}
+
 test.describe("FrontendMentor Challenge - Typing speed test page", () => {
   /** Go to Typing speed test page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -773,10 +780,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(page.locator("#active-char")).toHaveText(newPassageText[0]);
 
       // Assert the invisible input is successfully refocused so the user can immediately type
-      const isFocused = await page.evaluate(
-        () => document.activeElement?.tagName === "INPUT",
-      );
-      expect(isFocused).toBe(true);
+      await assertInputFocused(page);
     });
 
     test("resets all stats and UI when 'Restart Test' is clicked during an active session in Passage mode", async ({
@@ -843,10 +847,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(stats.getByText("100%")).toBeVisible();
 
       // Verify input is still focused for immediate typing
-      const isFocused = await page.evaluate(
-        () => document.activeElement?.tagName === "INPUT",
-      );
-      expect(isFocused).toBe(true);
+      await assertInputFocused(page);
     });
 
     test("pauses the test, stops the timer, and blurs text when the input loses focus", async ({
@@ -886,10 +887,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(passage).not.toHaveClass(/blur-\[8px\]/);
 
       // Verify the input is refocused
-      const isRefocused = await page.evaluate(
-        () => document.activeElement?.tagName === "INPUT",
-      );
-      expect(isRefocused).toBe(true);
+      await assertInputFocused(page);
     });
   });
 
