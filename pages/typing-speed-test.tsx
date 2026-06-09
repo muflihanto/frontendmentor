@@ -375,20 +375,14 @@ function Main() {
   }, [bestWpm, wpm]);
 
   useEffect(() => {
-    if (status === "active") {
-      if (mode === "Timed (60s)" && timeElapsed >= 60) {
-        handleFinish();
-      }
+    if (status !== "active") return;
+    if (
+      (mode === "Timed (60s)" && timeElapsed >= 60) ||
+      input.length >= passageText.length
+    ) {
+      handleFinish();
     }
-  }, [timeElapsed, mode, status, handleFinish]);
-
-  useEffect(() => {
-    if (status === "active") {
-      if (input.length >= passageText.length) {
-        handleFinish();
-      }
-    }
-  }, [input.length, status, handleFinish, passageText]);
+  }, [timeElapsed, mode, input.length, passageText, status, handleFinish]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: trigger scroll on input change
   useEffect(() => {
