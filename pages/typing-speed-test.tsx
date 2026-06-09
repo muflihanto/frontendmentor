@@ -809,13 +809,7 @@ function Main() {
                 )}
               >
                 Restart Test
-                <Image
-                  src="/typing-speed-test/assets/images/icon-restart.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="h-5 w-5 transition-transform hover:rotate-180"
-                />
+                <RestartIcon />
               </button>
             </div>
           )}
@@ -832,6 +826,24 @@ function Main() {
         />
       )}
     </main>
+  );
+}
+
+function RestartIcon({
+  className,
+  alt = "",
+}: {
+  className?: string;
+  alt?: string;
+}) {
+  return (
+    <Image
+      src="/typing-speed-test/assets/images/icon-restart.svg"
+      alt={alt}
+      width={16}
+      height={16}
+      className={cn("h-5 w-5 transition-transform hover:rotate-180", className)}
+    />
   );
 }
 
@@ -1016,13 +1028,7 @@ function Results({
             )}
           >
             {buttonText}
-            <Image
-              src="/typing-speed-test/assets/images/icon-restart.svg"
-              alt="Restart"
-              width={16}
-              height={16}
-              className="h-5 w-5 brightness-0 transition-transform hover:rotate-180"
-            />
+            <RestartIcon alt="Restart" className="brightness-0" />
           </button>
         </div>
       </div>
