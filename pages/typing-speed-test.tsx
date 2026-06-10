@@ -244,6 +244,17 @@ function Dropdown({
   );
 }
 
+function StatDivider({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "h-12 w-px place-self-center bg-typing-speed-test-neutral-500 md:h-8",
+        className,
+      )}
+    />
+  );
+}
+
 function Main() {
   const [difficulty, setDifficulty] = useState<Difficulty>("Hard");
   const [passageText, setPassageText] = useState(passagesData.hard[0].text);
@@ -606,7 +617,7 @@ function Main() {
                 value={status === "idle" ? "0" : wpm}
                 valueColorClass="text-typing-speed-test-neutral-0"
               />
-              <div className="h-12 w-px place-self-center bg-typing-speed-test-neutral-500 md:h-8"></div>
+              <StatDivider />
               <StatDisplay
                 label="Accuracy:"
                 value={status === "idle" ? "100%" : `${accuracy}%`}
@@ -616,7 +627,7 @@ function Main() {
                     : "text-typing-speed-test-neutral-0"
                 }
               />
-              <div className="h-12 w-px place-self-center bg-typing-speed-test-neutral-500 md:h-8"></div>
+              <StatDivider />
               <StatDisplay
                 label="Time:"
                 value={
@@ -677,7 +688,7 @@ function Main() {
                 onChange={handleDifficultyChange}
               />
 
-              <div className="h-8 w-px bg-typing-speed-test-neutral-500"></div>
+              <StatDivider className="place-self-[unset] h-8" />
 
               <PillGroup
                 label="Mode"
