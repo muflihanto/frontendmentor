@@ -259,8 +259,11 @@ function Main() {
   const [difficulty, setDifficulty] = useState<Difficulty>("Hard");
   const [passageText, setPassageText] = useState(passagesData.hard[0].text);
   const [mode, setMode] = useState("Timed (60s)");
-  const [isDiffOpen, setIsDiffOpen] = useState(false);
-  const [isModeOpen, setIsModeOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<"diff" | "mode" | null>(
+    null,
+  );
+  const isDiffOpen = openDropdown === "diff";
+  const isModeOpen = openDropdown === "mode";
 
   const [status, setStatus] = useState<"idle" | "active" | "finished">("idle");
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
@@ -320,18 +323,17 @@ function Main() {
         dropdownsRef.current &&
         !dropdownsRef.current.contains(event.target as Node)
       ) {
-        setIsDiffOpen(false);
-        setIsModeOpen(false);
+        setOpenDropdown(null);
       }
     };
 
-    if (isDiffOpen || isModeOpen) {
+    if (openDropdown !== null) {
       document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isDiffOpen, isModeOpen]);
+  }, [openDropdown]);
 
   useEffect(() => {
     const savedBest = localStorage.getItem("typing-test-best-wpm");
@@ -505,14 +507,31 @@ function Main() {
     }, 10);
   }, [status, difficulty, resetTestState]);
 
+  const closeAllDropdowns = useCallback(() => setOpenDropdown(null), []);
+  const openDiffDropdown = useCallback(
+    () => setOpenDropdown((prev) => (prev === "diff" ? null : "diff")),
+    [],
+  );
+  const openModeDropdown = useCallback(
+    () => setOpenDropdown((prev) => (prev === "mode" ? null : "mode")),
+    [],
+  );
+  const setDiffOpen = useCallback(
+    (open: boolean) => setOpenDropdown(open ? "diff" : null),
+    [],
+  );
+  const setModeOpen = useCallback(
+    (open: boolean) => setOpenDropdown(open ? "mode" : null),
+    [],
+  );
+
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (isDiffOpen || isModeOpen) {
+        if (openDropdown !== null) {
           if (isDiffOpen) diffTriggerRef.current?.focus();
           if (isModeOpen) modeTriggerRef.current?.focus();
-          setIsDiffOpen(false);
-          setIsModeOpen(false);
+          closeAllDropdowns();
         } else {
           handleStartTest();
         }
@@ -521,7 +540,13 @@ function Main() {
 
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, [handleStartTest, isDiffOpen, isModeOpen]);
+  }, [
+    handleStartTest,
+    openDropdown,
+    isDiffOpen,
+    isModeOpen,
+    closeAllDropdowns,
+  ]);
 
   const handleContainerClick = () => {
     if (status === "idle") {
@@ -654,11 +679,8 @@ function Main() {
                 options={["Easy", "Medium", "Hard"]}
                 activeOption={difficulty}
                 isOpen={isDiffOpen}
-                setIsOpen={setIsDiffOpen}
-                onOpenClick={() => {
-                  setIsDiffOpen(!isDiffOpen);
-                  setIsModeOpen(false);
-                }}
+                setIsOpen={setDiffOpen}
+                onOpenClick={openDiffDropdown}
                 onChange={handleDifficultyChange}
                 triggerRef={diffTriggerRef}
                 menuRef={diffMenuRef}
@@ -668,11 +690,8 @@ function Main() {
                 options={["Timed (60s)", "Passage"]}
                 activeOption={mode}
                 isOpen={isModeOpen}
-                setIsOpen={setIsModeOpen}
-                onOpenClick={() => {
-                  setIsModeOpen(!isModeOpen);
-                  setIsDiffOpen(false);
-                }}
+                setIsOpen={setModeOpen}
+                onOpenClick={openModeDropdown}
                 onChange={handleModeChange}
                 triggerRef={modeTriggerRef}
                 menuRef={modeMenuRef}
