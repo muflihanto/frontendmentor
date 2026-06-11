@@ -578,7 +578,8 @@ function Main() {
 
       return (
         <span
-          key={`${index}-${char}`}
+          // biome-ignore lint/suspicious/noArrayIndexKey: passage text is stable during a test
+          key={index}
           id={isCursor ? "active-char" : undefined}
           className={cn("relative", colorClass, decorationClass)}
         >
