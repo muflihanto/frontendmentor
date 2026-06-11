@@ -266,7 +266,7 @@ function Main() {
   const isModeOpen = openDropdown === "mode";
 
   const [status, setStatus] = useState<"idle" | "active" | "finished">("idle");
-  const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const hasStartedTypingRef = useRef(false);
   const [input, setInput] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
@@ -355,21 +355,16 @@ function Main() {
     }
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: hasStartedTypingRef is a ref read imperatively
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (status === "active" && hasStartedTyping && isFocused) {
+    if (status === "active" && hasStartedTypingRef.current && isFocused) {
       interval = setInterval(() => {
         setTimeElapsed((prev) => prev + 1);
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [status, hasStartedTyping, isFocused]);
-
-  useEffect(() => {
-    if (status === "active" && !hasStartedTyping && input.length > 0) {
-      setHasStartedTyping(true);
-    }
-  }, [input, status, hasStartedTyping]);
+  }, [status, input, isFocused]);
 
   const handleFinish = useCallback(() => {
     let type: "baseline" | "newBest" | "complete" = "complete";
@@ -461,7 +456,7 @@ function Main() {
 
   const resetTestState = useCallback((newStatus: "idle" | "active") => {
     setStatus(newStatus);
-    setHasStartedTyping(false);
+    hasStartedTypingRef.current = false;
     setInput("");
     setTimeElapsed(0);
     setTotalKeystrokes(0);
@@ -807,6 +802,9 @@ function Main() {
                       } else {
                         setA11yErrorAnnouncement("");
                       }
+                    }
+                    if (!hasStartedTypingRef.current && newVal.length > 0) {
+                      hasStartedTypingRef.current = true;
                     }
                     setInput(newVal);
                   }}
