@@ -210,77 +210,64 @@ function Header({
               Switch to {isCurrentlyMetric ? "Imperial" : "Metric"}
             </button>
 
-            <fieldset className="m-0 min-w-0 border-none p-0 pb-[3px]">
-              <legend className="sr-only">Temperature</legend>
-              <p
-                aria-hidden="true"
-                className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300"
+            {(
+              [
+                {
+                  legend: "Temperature",
+                  unitKey: "temperature",
+                  options: [
+                    { label: "Celsius (°C)", value: "celsius" },
+                    { label: "Fahrenheit (°F)", value: "fahrenheit" },
+                  ],
+                },
+                {
+                  legend: "Wind Speed",
+                  unitKey: "windSpeed",
+                  options: [
+                    { label: "km/h", value: "kmh" },
+                    { label: "mph", value: "mph" },
+                  ],
+                },
+                {
+                  legend: "Precipitation",
+                  unitKey: "precipitation",
+                  options: [
+                    { label: "Millimeters (mm)", value: "mm" },
+                    { label: "Inches (inch)", value: "inch" },
+                  ],
+                },
+              ] as const
+            ).map((fieldset, index) => (
+              <fieldset
+                key={fieldset.unitKey}
+                className={
+                  index === 0
+                    ? "m-0 min-w-0 border-none p-0 pb-[3px]"
+                    : "m-0 min-w-0 border-0 border-t border-solid border-weather-app-neutral-600 p-0 pb-[3px] pt-1"
+                }
               >
-                Temperature
-              </p>
-              <div className="flex flex-col gap-[3px]">
-                <UnitRadioButton
-                  label="Celsius (°C)"
-                  value="celsius"
-                  currentValue={weatherUnits.temperature}
-                  onClick={(val) => onUpdateUnits({ temperature: val })}
-                />
-                <UnitRadioButton
-                  label="Fahrenheit (°F)"
-                  value="fahrenheit"
-                  currentValue={weatherUnits.temperature}
-                  onClick={(val) => onUpdateUnits({ temperature: val })}
-                />
-              </div>
-            </fieldset>
-
-            <fieldset className="m-0 min-w-0 border-0 border-t border-solid border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
-              <legend className="sr-only">Wind Speed</legend>
-              <p
-                aria-hidden="true"
-                className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300"
-              >
-                Wind Speed
-              </p>
-              <div className="flex flex-col gap-[3px]">
-                <UnitRadioButton
-                  label="km/h"
-                  value="kmh"
-                  currentValue={weatherUnits.windSpeed}
-                  onClick={(val) => onUpdateUnits({ windSpeed: val })}
-                />
-                <UnitRadioButton
-                  label="mph"
-                  value="mph"
-                  currentValue={weatherUnits.windSpeed}
-                  onClick={(val) => onUpdateUnits({ windSpeed: val })}
-                />
-              </div>
-            </fieldset>
-
-            <fieldset className="m-0 min-w-0 border-0 border-t border-solid border-weather-app-neutral-600 p-0 pb-[3px] pt-1">
-              <legend className="sr-only">Precipitation</legend>
-              <p
-                aria-hidden="true"
-                className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300"
-              >
-                Precipitation
-              </p>
-              <div className="flex flex-col gap-[3px]">
-                <UnitRadioButton
-                  label="Millimeters (mm)"
-                  value="mm"
-                  currentValue={weatherUnits.precipitation}
-                  onClick={(val) => onUpdateUnits({ precipitation: val })}
-                />
-                <UnitRadioButton
-                  label="Inches (inch)"
-                  value="inch"
-                  currentValue={weatherUnits.precipitation}
-                  onClick={(val) => onUpdateUnits({ precipitation: val })}
-                />
-              </div>
-            </fieldset>
+                <legend className="sr-only">{fieldset.legend}</legend>
+                <p
+                  aria-hidden="true"
+                  className="mb-1 px-2 py-[3px] text-[14px] font-medium text-weather-app-neutral-300"
+                >
+                  {fieldset.legend}
+                </p>
+                <div className="flex flex-col gap-[3px]">
+                  {fieldset.options.map((option) => (
+                    <UnitRadioButton
+                      key={option.value}
+                      label={option.label}
+                      value={option.value}
+                      currentValue={weatherUnits[fieldset.unitKey]}
+                      onClick={(val) =>
+                        onUpdateUnits({ [fieldset.unitKey]: val })
+                      }
+                    />
+                  ))}
+                </div>
+              </fieldset>
+            ))}
           </div>
         )}
       </div>
