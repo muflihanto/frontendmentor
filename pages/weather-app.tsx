@@ -1,7 +1,7 @@
 // import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { cn } from "../utils/cn";
 import { bricolageGrotesque } from "../utils/fonts/bricolageGrotesque";
 import { dmSans } from "../utils/fonts/dmSans";
@@ -622,6 +622,28 @@ function WeatherDashboard({
 
   const showSkeleton = isLoading || !weatherData;
 
+  const stats = useMemo(
+    () => [
+      {
+        label: "Feels Like",
+        value: `${weatherData?.current.feelsLike}°`,
+      },
+      {
+        label: "Humidity",
+        value: `${weatherData?.current.humidity}%`,
+      },
+      {
+        label: "Wind",
+        value: `${weatherData?.current.windSpeed} ${speedLabel}`,
+      },
+      {
+        label: "Precipitation",
+        value: `${weatherData?.current.precipitation} ${precipLabel}`,
+      },
+    ],
+    [weatherData, speedLabel, precipLabel],
+  );
+
   return (
     <div
       {...(showSkeleton
@@ -693,24 +715,7 @@ function WeatherDashboard({
                     />
                   ),
                 )
-              : [
-                  {
-                    label: "Feels Like",
-                    value: `${weatherData?.current.feelsLike}°`,
-                  },
-                  {
-                    label: "Humidity",
-                    value: `${weatherData?.current.humidity}%`,
-                  },
-                  {
-                    label: "Wind",
-                    value: `${weatherData?.current.windSpeed} ${speedLabel}`,
-                  },
-                  {
-                    label: "Precipitation",
-                    value: `${weatherData?.current.precipitation} ${precipLabel}`,
-                  },
-                ].map((stat) => (
+              : stats.map((stat) => (
                   <WeatherStatCard
                     key={stat.label}
                     label={stat.label}
