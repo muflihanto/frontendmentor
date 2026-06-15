@@ -1,7 +1,7 @@
 // import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { cn } from "../utils/cn";
 import { bricolageGrotesque } from "../utils/fonts/bricolageGrotesque";
 import { dmSans } from "../utils/fonts/dmSans";
@@ -59,18 +59,21 @@ export default function WeatherApp() {
     }
   }, [geocodingResults, isGeocodingFetching, activeQuery]);
 
-  const updateWeatherUnits = (newUnits: Partial<WeatherUnits>) => {
+  const updateWeatherUnits = useCallback((newUnits: Partial<WeatherUnits>) => {
     setWeatherUnits((prev) => ({ ...prev, ...newUnits }));
-  };
+  }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      setActiveQuery(searchQuery);
-    }
-  };
+  const handleSearch = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (searchQuery.trim()) {
+        setActiveQuery(searchQuery);
+      }
+    },
+    [searchQuery],
+  );
 
-  const selectLocation = (res: LocationData) => {
+  const selectLocation = useCallback((res: LocationData) => {
     setLocation({
       name: `${res.name}, ${res.country}`,
       lat: res.latitude,
@@ -79,7 +82,18 @@ export default function WeatherApp() {
     setSearchQuery("");
     setActiveQuery("");
     setLastSearchFailed(false);
-  };
+  }, []);
+
+  const handleSearchChange = useCallback((val: string) => {
+    setSearchQuery(val);
+    if (val.length < 2) {
+      setActiveQuery("");
+    }
+  }, []);
+
+  const handleRetry = useCallback(() => {
+    void refetchWeather();
+  }, [refetchWeather]);
 
   return (
     <>
@@ -95,19 +109,14 @@ export default function WeatherApp() {
             onUpdateUnits={updateWeatherUnits}
           />
           {isWeatherError ? (
-            <ApiError onRetry={() => refetchWeather()} />
+            <ApiError onRetry={handleRetry} />
           ) : (
             <Main
               weatherData={weatherData}
               isLoading={isWeatherLoading}
               locationName={location.name}
               searchQuery={searchQuery}
-              onSearchChange={(val: string) => {
-                setSearchQuery(val);
-                if (val.length < 2) {
-                  setActiveQuery("");
-                }
-              }}
+              onSearchChange={handleSearchChange}
               onSearchSubmit={handleSearch}
               geocodingResults={geocodingResults}
               isGeocodingLoading={isGeocodingFetching}
