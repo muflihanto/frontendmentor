@@ -138,10 +138,13 @@ function Header({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const isCurrentlyMetric =
-    weatherUnits.temperature === "celsius" &&
-    weatherUnits.windSpeed === "kmh" &&
-    weatherUnits.precipitation === "mm";
+  const isCurrentlyMetric = useMemo(
+    () =>
+      weatherUnits.temperature === "celsius" &&
+      weatherUnits.windSpeed === "kmh" &&
+      weatherUnits.precipitation === "mm",
+    [weatherUnits],
+  );
 
   return (
     <header className="flex items-center justify-between">
@@ -605,10 +608,19 @@ function WeatherDashboard({
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const firstDay = weatherData ? Object.keys(weatherData.hourly)[0] : null;
-  const activeDay = selectedDay ?? firstDay;
+  const firstDay = useMemo(
+    () => (weatherData ? Object.keys(weatherData.hourly)[0] : null),
+    [weatherData],
+  );
+  const activeDay = useMemo(
+    () => selectedDay ?? firstDay,
+    [selectedDay, firstDay],
+  );
 
-  const currentDayHourly = weatherData?.hourly[activeDay ?? ""] ?? [];
+  const currentDayHourly = useMemo(
+    () => weatherData?.hourly[activeDay ?? ""] ?? [],
+    [weatherData, activeDay],
+  );
 
   const speedLabel = {
     kmh: "km/h",
