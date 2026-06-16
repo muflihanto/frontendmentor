@@ -206,27 +206,25 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("can individually change unit preferences", async ({ page }) => {
+    /** Click a menuitemradio and verify it becomes checked */
+    async function selectAndVerifyUnit(name: string) {
+      const radio = page.getByRole("menuitemradio", { name });
+      await radio.click();
+      await expect(radio).toHaveAttribute("aria-checked", "true");
+    }
+
     // Open units dropdown
     await unitsButton.click();
 
     // Change Temperature to Fahrenheit
-    await page.getByRole("menuitemradio", { name: "Fahrenheit (°F)" }).click();
-    await expect(
-      page.getByRole("menuitemradio", { name: "Fahrenheit (°F)" }),
-    ).toHaveAttribute("aria-checked", "true");
+    await selectAndVerifyUnit("Fahrenheit (°F)");
 
     // Change Wind Speed to mph
-    await page.getByRole("menuitemradio", { name: "mph" }).click();
-    await expect(
-      page.getByRole("menuitemradio", { name: "mph" }),
-    ).toHaveAttribute("aria-checked", "true");
+    await selectAndVerifyUnit("mph");
     await expect(page.getByText(/mph/)).toBeVisible();
 
     // Change Precipitation to inch
-    await page.getByRole("menuitemradio", { name: "Inches (inch)" }).click();
-    await expect(
-      page.getByRole("menuitemradio", { name: "Inches (inch)" }),
-    ).toHaveAttribute("aria-checked", "true");
+    await selectAndVerifyUnit("Inches (inch)");
     await expect(page.getByText(/\d+\sin/)).toBeVisible();
   });
 
