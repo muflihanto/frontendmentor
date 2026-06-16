@@ -145,8 +145,6 @@ function Header({
   weatherUnits: WeatherUnits;
   onUpdateUnits: (newUnits: Partial<WeatherUnits>) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
   const isCurrentlyMetric = useMemo(
     () =>
       weatherUnits.temperature === "celsius" &&
@@ -165,51 +163,52 @@ function Header({
           fill
         />
       </div>
-      <div className="relative">
-        <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-expanded={isOpen}
-          aria-haspopup="menu"
-          aria-controls={isOpen ? "units-menu" : undefined}
-          className={cn(
-            "flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium hover:bg-weather-app-neutral-700 lg:gap-[10px] lg:px-4 lg:py-[9px]",
-            focusRing,
-            "focus-visible:outline-2",
-          )}
-          aria-label="Switch to Imperial/Metric"
-          aria-describedby="units-description"
-        >
-          <svg
-            className="aspect-square w-[14px] lg:w-4"
-            role="graphics-symbol"
-            aria-hidden="true"
-            viewBox="0 0 16 16"
+      <Dropdown
+        panelId="units-menu"
+        panelRole="menu"
+        panelLabel="Unit settings"
+        panelClassName="mt-[10px]"
+        trigger={({ isOpen, toggle, panelId }) => (
+          <button
+            type="button"
+            onClick={toggle}
+            aria-expanded={isOpen}
+            aria-haspopup="menu"
+            aria-controls={isOpen ? panelId : undefined}
+            className={cn(
+              "flex items-center gap-[6px] rounded bg-weather-app-neutral-800 px-[9px] py-2 font-medium hover:bg-weather-app-neutral-700 lg:gap-[10px] lg:px-4 lg:py-[9px]",
+              focusRing,
+              "focus-visible:outline-2",
+            )}
+            aria-label="Switch to Imperial/Metric"
+            aria-describedby="units-description"
           >
-            <use href="/weather-app/assets/images/icon-units.svg#icon-units" />
-          </svg>
-          <span className="max-lg:text-[14px]">Units</span>
-          <span id="units-description" className="sr-only">
-            Opens a menu to switch between metric and imperial units for
-            temperature, wind speed, and precipitation.
-          </span>
-          <svg
-            className={`aspect-[13/8] h-[6px] transition-transform lg:h-2 ${isOpen ? "rotate-180" : ""}`}
-            role="graphics-symbol"
-            aria-hidden="true"
-            viewBox="0 0 13 8"
-          >
-            <use href="/weather-app/assets/images/icon-dropdown.svg#icon-dropdown" />
-          </svg>
-        </button>
-
-        {isOpen && (
-          <div
-            id="units-menu"
-            role="menu"
-            aria-label="Unit settings"
-            className="absolute right-0 top-full z-20 mt-[10px] flex w-[214px] flex-col rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] shadow-xl"
-          >
+            <svg
+              className="aspect-square w-[14px] lg:w-4"
+              role="graphics-symbol"
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+            >
+              <use href="/weather-app/assets/images/icon-units.svg#icon-units" />
+            </svg>
+            <span className="max-lg:text-[14px]">Units</span>
+            <span id="units-description" className="sr-only">
+              Opens a menu to switch between metric and imperial units for
+              temperature, wind speed, and precipitation.
+            </span>
+            <svg
+              className={`aspect-[13/8] h-[6px] transition-transform lg:h-2 ${isOpen ? "rotate-180" : ""}`}
+              role="graphics-symbol"
+              aria-hidden="true"
+              viewBox="0 0 13 8"
+            >
+              <use href="/weather-app/assets/images/icon-dropdown.svg#icon-dropdown" />
+            </svg>
+          </button>
+        )}
+      >
+        {({ close }) => (
+          <>
             <button
               type="button"
               onClick={() => {
@@ -226,7 +225,7 @@ function Header({
                     precipitation: "mm",
                   });
                 }
-                setIsOpen(false);
+                close();
               }}
               role="menuitem"
               className={cn(
@@ -295,9 +294,9 @@ function Header({
                 </div>
               </fieldset>
             ))}
-          </div>
+          </>
         )}
-      </div>
+      </Dropdown>
     </header>
   );
 }
@@ -335,6 +334,52 @@ function UnitRadioButton<T extends string>({
         </svg>
       )}
     </button>
+  );
+}
+
+function Dropdown({
+  trigger,
+  panelId,
+  panelRole,
+  panelLabel,
+  panelClassName,
+  children,
+}: {
+  trigger: (props: {
+    isOpen: boolean;
+    toggle: () => void;
+    panelId: string;
+  }) => React.ReactNode;
+  panelId: string;
+  panelRole: string;
+  panelLabel: string;
+  panelClassName?: string;
+  children: (props: { close: () => void }) => React.ReactNode;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      {trigger({
+        isOpen,
+        toggle: () => setIsOpen((prev) => !prev),
+        panelId,
+      })}
+      {isOpen && (
+        // biome-ignore lint/a11y/useAriaPropsSupportedByRole: role is dynamic (menu | listbox), aria-label is valid for both
+        <div
+          id={panelId}
+          role={panelRole}
+          aria-label={panelLabel}
+          className={cn(
+            "absolute right-0 top-full z-20 flex w-[214px] flex-col rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] shadow-xl",
+            panelClassName,
+          )}
+        >
+          {children({ close: () => setIsOpen(false) })}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -615,7 +660,6 @@ function WeatherDashboard({
   weatherUnits: WeatherUnits;
 }) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const firstDay = useMemo(
     () => (weatherData ? Object.keys(weatherData.hourly)[0] : null),
@@ -820,60 +864,57 @@ function WeatherDashboard({
                 />
               </div>
             ) : (
-              <>
-                <button
-                  type="button"
-                  aria-label="Select day for hourly forecast"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  aria-haspopup="listbox"
-                  aria-expanded={isDropdownOpen}
-                  aria-controls={
-                    isDropdownOpen ? "hourly-forecast-listbox" : undefined
-                  }
-                  className={cn(
-                    "flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none hover:bg-weather-app-neutral-700 lg:w-[120px]",
-                    focusRing,
-                  )}
-                >
-                  <span className="truncate">{activeDay}</span>
-                  <Image
-                    src="/weather-app/assets/images/icon-dropdown.svg"
-                    alt=""
-                    width={13}
-                    height={8}
-                    className={`transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
-                  />
-                </button>
-
-                {isDropdownOpen && (
-                  <div
-                    id="hourly-forecast-listbox"
-                    className="absolute right-0 top-full z-20 mt-[11px] flex w-[214px] flex-col gap-1 rounded-xl border border-weather-app-neutral-600 bg-weather-app-neutral-800 px-[7px] py-[7px] shadow-xl"
-                    role="listbox"
-                    aria-label="Select a day"
+              <Dropdown
+                panelId="hourly-forecast-listbox"
+                panelRole="listbox"
+                panelLabel="Select a day"
+                panelClassName="mt-[11px] gap-1 py-[7px]"
+                trigger={({ isOpen, toggle, panelId }) => (
+                  <button
+                    type="button"
+                    aria-label="Select day for hourly forecast"
+                    onClick={toggle}
+                    aria-haspopup="listbox"
+                    aria-expanded={isOpen}
+                    aria-controls={isOpen ? panelId : undefined}
+                    className={cn(
+                      "flex h-[36px] items-center justify-between gap-[12px] rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none outline-none hover:bg-weather-app-neutral-700 lg:w-[120px]",
+                      focusRing,
+                    )}
                   >
-                    {Object.keys(weatherData?.hourly).map((day) => (
-                      <button
-                        key={day}
-                        type="button"
-                        onClick={() => {
-                          setSelectedDay(day);
-                          setIsDropdownOpen(false);
-                        }}
-                        role="option"
-                        aria-selected={activeDay === day}
-                        className={`h-[39px] w-full rounded-lg px-2 text-left transition-colors hover:bg-weather-app-neutral-700 ${focusRing} ${
-                          activeDay === day
-                            ? "bg-weather-app-neutral-700 text-white"
-                            : "text-weather-app-neutral-200"
-                        }`}
-                      >
-                        {day}
-                      </button>
-                    ))}
-                  </div>
+                    <span className="truncate">{activeDay}</span>
+                    <Image
+                      src="/weather-app/assets/images/icon-dropdown.svg"
+                      alt=""
+                      width={13}
+                      height={8}
+                      className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
                 )}
-              </>
+              >
+                {({ close }) =>
+                  Object.keys(weatherData?.hourly).map((day) => (
+                    <button
+                      key={day}
+                      type="button"
+                      onClick={() => {
+                        setSelectedDay(day);
+                        close();
+                      }}
+                      role="option"
+                      aria-selected={activeDay === day}
+                      className={`h-[39px] w-full rounded-lg px-2 text-left transition-colors hover:bg-weather-app-neutral-700 ${focusRing} ${
+                        activeDay === day
+                          ? "bg-weather-app-neutral-700 text-white"
+                          : "text-weather-app-neutral-200"
+                      }`}
+                    >
+                      {day}
+                    </button>
+                  ))
+                }
+              </Dropdown>
             )}
           </div>
         </div>
