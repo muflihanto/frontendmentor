@@ -24,6 +24,17 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     });
   });
 
+  /** Fill the search input, click Search, and optionally wait for text to appear */
+  async function searchFor(query: string, waitForText?: string) {
+    await searchInput.fill(query);
+    await searchButton.click();
+    if (waitForText) {
+      await expect(
+        searchInput.page().getByText(waitForText).first(),
+      ).toBeVisible();
+    }
+  }
+
   /** Test if the page has a correct title */
   test("has title", async ({ page }) => {
     await expect(page).toHaveTitle("Frontend Mentor | Weather App");
@@ -59,11 +70,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("can search for a location and display results", async ({ page }) => {
-    await searchInput.fill("London");
-    await searchButton.click();
-
-    // Wait for search results dropdown
-    await page.waitForSelector("text=London", { state: "visible" });
+    await searchFor("London", "London");
 
     // Click on first result
     await page.getByText("London").first().click();
@@ -73,11 +80,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("supports keyboard navigation in search results", async ({ page }) => {
-    await searchInput.fill("London");
-    await searchButton.click();
-
-    // Wait for search results dropdown
-    await page.waitForSelector("text=London", { state: "visible" });
+    await searchFor("London", "London");
 
     // Focus input to receive keydown events
     await searchInput.focus();
@@ -119,8 +122,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   });
 
   test("shows loading state while searching", async ({ page }) => {
-    await searchInput.fill("Paris");
-    await searchButton.click();
+    await searchFor("Paris");
 
     // Check if loading indicator appears
     await expect(page.getByText("Search in progress")).toBeVisible();
