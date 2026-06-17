@@ -5,6 +5,8 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
   let searchInput: Locator;
   let searchButton: Locator;
   let unitsButton: Locator;
+  let switchToImperial: Locator;
+  let switchToMetric: Locator;
 
   /** Go to Weather App page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -12,6 +14,14 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     searchInput = page.getByPlaceholder("Search for a place...");
     searchButton = page.getByRole("button", { name: "Search" });
     unitsButton = page.getByLabel("Switch to Imperial/Metric");
+    switchToImperial = page.getByRole("menuitem", {
+      name: "Switch to Imperial",
+      exact: true,
+    });
+    switchToMetric = page.getByRole("menuitem", {
+      name: "Switch to Metric",
+      exact: true,
+    });
   });
 
   /** Test if the page has a correct title */
@@ -162,23 +172,17 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await expect(searchButton).toBeEnabled();
   });
 
-  test("units dropdown opens and closes", async ({ page }) => {
+  test("units dropdown opens and closes", async () => {
     // Dropdown should be closed initially
-    await expect(
-      page.getByRole("menuitem", { name: "Switch to Imperial", exact: true }),
-    ).not.toBeVisible();
+    await expect(switchToImperial).not.toBeVisible();
 
     // Open dropdown
     await unitsButton.click();
-    await expect(
-      page.getByRole("menuitem", { name: "Switch to Imperial", exact: true }),
-    ).toBeVisible();
+    await expect(switchToImperial).toBeVisible();
 
     // Close dropdown by clicking again
     await unitsButton.click();
-    await expect(
-      page.getByRole("menuitem", { name: "Switch to Imperial", exact: true }),
-    ).not.toBeVisible();
+    await expect(switchToImperial).not.toBeVisible();
   });
 
   test("can switch between metric and imperial units", async ({ page }) => {
@@ -186,9 +190,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await unitsButton.click();
 
     // Switch to Imperial
-    await page
-      .getByRole("menuitem", { name: "Switch to Imperial", exact: true })
-      .click();
+    await switchToImperial.click();
 
     // Verify wind speed unit changed to mph
     await expect(page.getByText(/mph/)).toBeVisible();
@@ -197,9 +199,7 @@ test.describe("FrontendMentor Challenge - Weather App page", () => {
     await unitsButton.click();
 
     // Switch back to Metric
-    await page
-      .getByRole("menuitem", { name: "Switch to Metric", exact: true })
-      .click();
+    await switchToMetric.click();
 
     // Verify wind speed unit changed back to km/h
     await expect(page.getByText(/km\/h/)).toBeVisible();
