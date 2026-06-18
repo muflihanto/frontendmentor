@@ -261,7 +261,11 @@ test("prevents default on beforeunload during active test", async ({
 
 #### Dynamic Caret Tracking & Line-Wrap Scroll Syncing
 
-To ensure the typing experience feels fluid, I computed the caret position dynamically by reading the `offsetTop` and `offsetLeft` bounds of the active character. To prevent performance lag, these updates are synchronized via `requestAnimationFrame`. Additionally, I implemented smart line-wrap scroll syncing that centers the container smoothly only when the user crosses to a new line:
+To ensure the typing experience feels fluid, I computed the caret position dynamically by reading the `offsetTop` and `offsetLeft` bounds of the active character. To prevent performance lag, these updates are synchronized via `requestAnimationFrame`. According to the MDN Web Docs, `requestAnimationFrame` tells the browser that you wish to perform an animation and requests that the browser calls a specified function to update an animation before the next repaint. This provides smoother visuals and better efficiency compared to traditional timeouts, as it syncs with the display's refresh rate and automatically pauses in background tabs.
+
+I also used `cancelAnimationFrame` to clean up the animation frame request when the component unmounts or dependencies change, preventing memory leaks and unnecessary background calculations.
+
+Additionally, I implemented smart line-wrap scroll syncing that centers the container smoothly only when the user crosses to a new line:
 
 ```tsx
 useEffect(() => {
@@ -291,14 +295,14 @@ useEffect(() => {
 
 <!-- ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
+- [MDN Web Docs: window.requestAnimationFrame()](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) - This resource explains how to optimize animations by syncing them with the display's refresh rate for smoother visuals.
+- [MDN Web Docs: window.cancelAnimationFrame()](https://developer.mozilla.org/en-US/docs/Web/API/window/cancelAnimationFrame) - This documentation details how to cancel an animation frame request to prevent memory leaks and unnecessary background processes.
 
-### AI Collaboration
+<!-- ### AI Collaboration
 
 Describe how you used AI tools (if any) during this project. This helps demonstrate your ability to work effectively with AI assistants.
 
