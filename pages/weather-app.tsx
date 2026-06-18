@@ -196,14 +196,7 @@ function Header({
               Opens a menu to switch between metric and imperial units for
               temperature, wind speed, and precipitation.
             </span>
-            <svg
-              className={`aspect-[13/8] h-[6px] transition-transform lg:h-2 ${isOpen ? "rotate-180" : ""}`}
-              role="graphics-symbol"
-              aria-hidden="true"
-              viewBox="0 0 13 8"
-            >
-              <use href="/weather-app/assets/images/icon-dropdown.svg#icon-dropdown" />
-            </svg>
+            <ChevronIcon isOpen={isOpen} className="h-[6px] w-auto lg:h-2" />
           </button>
         )}
       >
@@ -380,6 +373,24 @@ function Dropdown({
         </div>
       )}
     </div>
+  );
+}
+
+function ChevronIcon({
+  isOpen,
+  className,
+}: {
+  isOpen?: boolean;
+  className?: string;
+}) {
+  return (
+    <Image
+      src="/weather-app/assets/images/icon-dropdown.svg"
+      alt=""
+      width={13}
+      height={8}
+      className={cn("transition-transform", isOpen && "rotate-180", className)}
+    />
   );
 }
 
@@ -856,12 +867,7 @@ function WeatherDashboard({
             {showSkeleton ? (
               <div className="flex h-[36px] items-center justify-between rounded-lg bg-weather-app-neutral-600 px-[16px] leading-none lg:w-[67px]">
                 <span>&ndash;</span>
-                <Image
-                  src="/weather-app/assets/images/icon-dropdown.svg"
-                  alt=""
-                  width={13}
-                  height={8}
-                />
+                <ChevronIcon />
               </div>
             ) : (
               <Dropdown
@@ -883,13 +889,7 @@ function WeatherDashboard({
                     )}
                   >
                     <span className="truncate">{activeDay}</span>
-                    <Image
-                      src="/weather-app/assets/images/icon-dropdown.svg"
-                      alt=""
-                      width={13}
-                      height={8}
-                      className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
-                    />
+                    <ChevronIcon isOpen={isOpen} />
                   </button>
                 )}
               >
