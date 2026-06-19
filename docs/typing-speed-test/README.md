@@ -24,6 +24,7 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
       - [Automated Accessibility Testing with AxeBuilder](#automated-accessibility-testing-with-axebuilder)
       - [Accidental Navigation Protection \& Page Unload Interception](#accidental-navigation-protection--page-unload-interception)
       - [Dynamic Caret Tracking \& Line-Wrap Scroll Syncing](#dynamic-caret-tracking--line-wrap-scroll-syncing)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -126,7 +127,7 @@ This project provided my first opportunity to use the `onPaste` event in React. 
 />
 ```
 
-I also wrote a test using Playwright to ensure this functionality works correctly:
+I also wrote a test using Playwright to ensure this functionality works correctly. The test dispatches a synthetic `paste` event and then checks the `Event.defaultPrevented` property to verify that `preventDefault()` was called. According to the MDN Web Docs, `defaultPrevented` is a read-only boolean property on the `Event` interface that returns `true` if `preventDefault()` has been invoked on that event, and `false` otherwise. This only works when the event is created with `cancelable: true`, since `preventDefault()` has no effect on non-cancelable events:
 
 ```typescript
 test("prevents pasting text into the input field", async ({ page }) => {
@@ -227,7 +228,7 @@ This approach ensured that dynamically rendered elements, like the results scree
 
 #### Accidental Navigation Protection & Page Unload Interception
 
-To prevent users from losing active typing test progress, I set up a window `beforeunload` listener that triggers a confirmation dialog if they try to close or refresh the page during a test. I verified this in Playwright by programmatically dispatching a native `beforeunload` event and asserting its cancellation:
+To prevent users from losing active typing test progress, I set up a window `beforeunload` listener that triggers a confirmation dialog if they try to close or refresh the page during a test. The handler calls `e.preventDefault()` on the `BeforeUnloadEvent`, which signals to the browser that the page has unsaved state and should prompt for confirmation before navigating away:
 
 ```tsx
 // React page component
@@ -243,6 +244,10 @@ useEffect(() => {
   return () => window.removeEventListener("beforeunload", handleBeforeUnload);
 }, [status]);
 ```
+
+The `e.returnValue` assignment is a legacy mechanism for triggering the browser's confirmation dialog. According to the MDN Web Docs, setting `returnValue` to any truthy value (such as a non-empty string) was the original way to signal that the page should prompt the user before unloading. While the modern approach is to call `e.preventDefault()`, setting `returnValue` alongside it ensures compatibility with older browsers that do not yet support `preventDefault()` on `BeforeUnloadEvent`. It is important to note that modern browsers ignore the custom string and always display a generic, browser-defined message to prevent sites from using deceptive or manipulative text. Additionally, the dialog will generally only appear if the user has previously interacted with the page (e.g., clicked, typed, or tapped) — a browser security measure known as "sticky activation."
+
+I verified this in Playwright by dispatching a synthetic `beforeunload` event with `cancelable: true` and asserting that `event.defaultPrevented` returns `true`. This pattern follows the same `preventDefault()` / `defaultPrevented` mechanism used in the paste event test — the event must be cancelable for `preventDefault()` to take effect, and `defaultPrevented` serves as a reliable post-hoc check that the handler did its job. It is worth noting that `preventDefault()` does not stop event propagation; it only cancels the browser's default action. To stop propagation, `stopPropagation()` or `stopImmediatePropagation()` would be needed instead:
 
 ```ts
 // Playwright test spec
@@ -299,6 +304,10 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 ### Useful resources
 
+- [MDN Web Docs: Event.defaultPrevented](https://developer.mozilla.org/en-US/docs/Web/API/Event/defaultPrevented) - This documentation explains the read-only boolean property used to check whether `preventDefault()` was called on an event.
+- [MDN Web Docs: Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault) - This resource details how to cancel a browser's default action for cancelable events, and clarifies that it does not stop event propagation.
+- [MDN Web Docs: Event.cancelable](https://developer.mozilla.org/en-US/docs/Web/API/Event/cancelable) - This page explains the `cancelable` property, which determines whether an event's default action can be prevented.
+- [MDN Web Docs: BeforeUnloadEvent: returnValue](https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent/returnValue) - This documentation covers the legacy `returnValue` property used alongside `preventDefault()` for cross-browser beforeunload confirmation dialogs.
 - [MDN Web Docs: window.requestAnimationFrame()](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) - This resource explains how to optimize animations by syncing them with the display's refresh rate for smoother visuals.
 - [MDN Web Docs: window.cancelAnimationFrame()](https://developer.mozilla.org/en-US/docs/Web/API/window/cancelAnimationFrame) - This documentation details how to cancel an animation frame request to prevent memory leaks and unnecessary background processes.
 
