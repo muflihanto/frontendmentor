@@ -153,7 +153,14 @@ test("prevents pasting text into the input field", async ({ page }) => {
 
 #### Mocking Timers in Playwright
 
-Additionally, I learned how to use Playwright's clock mocking feature (`page.clock`) to reliably test time-dependent functionality, such as the 60-second timer in the typing test. This approach avoids using `waitForTimeout` with large values, significantly speeding up the test suite and preventing flakiness.
+Additionally, I learned how to use Playwright's Clock API (`page.clock`), introduced in Playwright v1.45, to reliably test time-dependent functionality such as the 60-second timer in the typing test. This approach avoids using `waitForTimeout` with large values, significantly speeding up the test suite and preventing flakiness.
+
+According to the Playwright documentation, `clock.install()` must be called before navigating to the page or performing any actions that trigger time-dependent functions. Once installed, it overrides native global functions including `Date`, `setTimeout`, `clearTimeout`, `setInterval`, `clearInterval`, `requestAnimationFrame`, and `performance`, giving the test full control over the passage of time.
+
+Playwright provides two primary methods for advancing time:
+
+- **`clock.runFor(ticks)`**: Runs the clock for a specific duration, firing all timers that become due during that interval. This is more reliable for React applications as it allows the microtask queue to flush between ticks.
+- **`clock.fastForward(ticks)`**: Jumps forward by a specific amount, firing due timers at most once. This is ideal for scenarios like simulating a user closing and reopening a laptop.
 
 ```typescript
 test("automatically finishes the test when time hits zero", async ({
@@ -310,6 +317,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 - [MDN Web Docs: BeforeUnloadEvent: returnValue](https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent/returnValue) - This documentation covers the legacy `returnValue` property used alongside `preventDefault()` for cross-browser beforeunload confirmation dialogs.
 - [MDN Web Docs: window.requestAnimationFrame()](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) - This resource explains how to optimize animations by syncing them with the display's refresh rate for smoother visuals.
 - [MDN Web Docs: window.cancelAnimationFrame()](https://developer.mozilla.org/en-US/docs/Web/API/window/cancelAnimationFrame) - This documentation details how to cancel an animation frame request to prevent memory leaks and unnecessary background processes.
+- [Playwright Docs: Clock](https://playwright.dev/docs/clock) - This guide covers Playwright's Clock API for mocking and controlling time in tests, including `install()`, `runFor()`, and `fastForward()`.
 
 <!-- ### AI Collaboration
 
