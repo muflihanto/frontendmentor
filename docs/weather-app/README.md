@@ -159,7 +159,13 @@ This single source of truth makes the test suite highly resilient to future chan
 
 #### Network Interception & Connection Recovery Testing
 
-To verify our UI handles connection failures and recovers gracefully, I wrote a Playwright test that intercepts API traffic using `page.route` to abort outgoing requests. It then checks the presence of the error dashboard, removes the interception with `page.unroute`, clicks the retry button, and confirms successful page recovery:
+To verify our UI handles connection failures and recovers gracefully, I wrote a Playwright test utilizing Playwright's network interception APIs:
+
+- `page.route(url, handler)`: Intercepts outgoing network requests that match a specific URL pattern (e.g., `**/v1/forecast**`).
+- `route.abort()`: Immediately terminates the intercepted request, allowing us to reliably simulate API failures and network drops.
+- `page.unroute(url)`: Removes the interception handler, restoring normal network behavior. This is crucial for verifying that our "retry" functionality successfully recovers when the network is available again.
+
+Here is how these APIs come together to verify the error dashboard and recovery:
 
 ```ts
 test("displays API error state and can retry", async ({ page }) => {
@@ -218,6 +224,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [Aria-activedescendant - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-activedescendant) - Documentation for the `aria-activedescendant` attribute.
 - [W3C WAI-ARIA Authoring Practices - Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) - Best practices for building accessible comboboxes.
+- [Playwright Network Interception](https://playwright.dev/docs/network) - Documentation for intercepting network requests in Playwright tests.
 
 <!-- ### AI Collaboration
 
