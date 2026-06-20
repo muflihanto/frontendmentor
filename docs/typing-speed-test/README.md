@@ -311,6 +311,10 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 ### Useful resources
 
+- [MDN Web Docs: HTML attribute: autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) - This page documents the `autocomplete` attribute used to prevent the browser from suggesting previously entered text.
+- [MDN Web Docs: HTML element: input (autocorrect)](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autocorrect) - This documentation covers the non-standard `autocorrect` attribute (supported largely in Safari) used to disable spelling correction.
+- [MDN Web Docs: Global attributes: autocapitalize](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autocapitalize) - This resource explains the `autocapitalize` attribute which controls automatic capitalization, especially on mobile devices.
+- [MDN Web Docs: Global attributes: spellcheck](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck) - This page covers the `spellcheck` attribute used to disable native spell checking and its red squiggly lines.
 - [MDN Web Docs: Event.defaultPrevented](https://developer.mozilla.org/en-US/docs/Web/API/Event/defaultPrevented) - This documentation explains the read-only boolean property used to check whether `preventDefault()` was called on an event.
 - [MDN Web Docs: Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault) - This resource details how to cancel a browser's default action for cancelable events, and clarifies that it does not stop event propagation.
 - [MDN Web Docs: Event.cancelable](https://developer.mozilla.org/en-US/docs/Web/API/Event/cancelable) - This page explains the `cancelable` property, which determines whether an event's default action can be prevented.
