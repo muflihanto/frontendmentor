@@ -75,6 +75,15 @@ One of the key accessibility improvements in this project was implementing a cus
 
 The `aria-activedescendant` attribute on the input points to the `id` of the currently "visually focused" option in the listbox. Screen readers then announce the selected option as if it were truly focused.
 
+Additionally, the `aria-autocomplete` attribute is crucial for informing assistive technologies about how the combobox provides predictions. Its acceptable values are:
+
+- `none`: No autocomplete prediction is provided.
+- `inline`: Suggested text is dynamically inserted directly into the input field.
+- `list`: A separate collection of values (like our dropdown listbox) is presented to the user.
+- `both`: A combination of both `inline` insertion and a `list` of suggestions.
+
+For this search implementation, we use `aria-autocomplete="list"` because the matched location results are presented in a separate dropdown list below the input field.
+
 ```tsx
 // Input implementation
 <input
@@ -227,6 +236,7 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 ### Useful resources
 
+- [aria-autocomplete - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-autocomplete) - Documentation for the `aria-autocomplete` attribute.
 - [Aria-activedescendant - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-activedescendant) - Documentation for the `aria-activedescendant` attribute.
 - [W3C WAI-ARIA Authoring Practices - Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) - Best practices for building accessible comboboxes.
 - [Playwright Network Interception](https://playwright.dev/docs/network) - Documentation for intercepting network requests in Playwright tests.
