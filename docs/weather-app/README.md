@@ -191,7 +191,12 @@ test("displays API error state and can retry", async ({ page }) => {
 
 #### Accessible Loading Skeleton States
 
-To make the skeleton loader readable and accessible to assistive tools, I used the semantic `role="status"` and `aria-busy="true"` attributes. This ensures screen readers announce the loading state and understand that the primary application container is changing content:
+To make the skeleton loader readable and accessible to assistive tools, I used several ARIA attributes to ensure screen readers announce the loading state and understand that the primary application container is changing content:
+
+- `role="status"`: Defines a live region containing advisory information for the user that is not important enough to justify an alert.
+- `aria-busy="true"`: Indicates an element is currently being modified and that assistive technologies may want to wait until the modifications are complete before exposing them to the user.
+- `aria-label="Loading weather data"`: Provides a clear, descriptive accessible name for the skeleton container.
+- `aria-live="polite"`: Ensures the screen reader will wait until the user is idle before announcing the content change (the "Loading..." text), preventing it from interrupting the user.
 
 ```tsx
 function MainSkeleton() {
@@ -225,6 +230,9 @@ Use this section to outline areas that you want to continue focusing on in futur
 - [Aria-activedescendant - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-activedescendant) - Documentation for the `aria-activedescendant` attribute.
 - [W3C WAI-ARIA Authoring Practices - Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) - Best practices for building accessible comboboxes.
 - [Playwright Network Interception](https://playwright.dev/docs/network) - Documentation for intercepting network requests in Playwright tests.
+- [ARIA live regions - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions) - Information on how to use ARIA live regions to improve accessibility for dynamic content.
+- [aria-busy - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-busy) - Documentation for the `aria-busy` attribute.
+- [role="status" - MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/status_role) - Documentation for the `status` role.
 
 <!-- ### AI Collaboration
 
