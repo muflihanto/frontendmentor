@@ -12,6 +12,16 @@ const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const ASSETS_BASE_URL = "/browser-extensions-manager-ui";
 
+const focusRing = [
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+  "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
+];
+
+const focusRing900 = [
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+  "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-900",
+];
+
 export default function BrowserExtensionsManagerUi() {
   return (
     <>
@@ -104,10 +114,9 @@ function ExtensionCard({
           className={cn(
             "h-[38px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-4 text-base font-medium tracking-tight text-browser-extensions-neutral-900 transition-colors lg:tracking-[-0.04rem]",
             "hover:border-browser-extensions-red-700 hover:bg-browser-extensions-red-700 hover:text-browser-extensions-neutral-0",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+            focusRing,
             "dark:border-browser-extensions-neutral-600 dark:bg-transparent dark:text-browser-extensions-neutral-0",
             "dark:hover:border-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-400 dark:hover:text-browser-extensions-neutral-900",
-            "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
           )}
           aria-label={`Remove ${extension.name} extension`}
         >
@@ -121,8 +130,7 @@ function ExtensionCard({
           onClick={onToggle}
           className={cn(
             "relative h-5 w-9 rounded-full transition-colors",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
-            "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
+            focusRing,
             extension.isActive
               ? "bg-browser-extensions-red-700 hover:bg-browser-extensions-red-500 dark:bg-browser-extensions-red-400 dark:hover:bg-browser-extensions-red-500"
               : "bg-browser-extensions-neutral-300 hover:bg-opacity-75 dark:bg-browser-extensions-neutral-600 dark:hover:bg-opacity-75",
@@ -270,9 +278,8 @@ function Main() {
             onClick={() => setIsDark(!isDark)}
             className={cn(
               "flex aspect-square w-12 items-center justify-center rounded-lg bg-browser-extensions-neutral-100 transition-colors hover:bg-browser-extensions-neutral-300",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+              focusRing,
               "dark:bg-browser-extensions-neutral-700 dark:hover:bg-browser-extensions-neutral-600",
-              "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-800",
             )}
           >
             <svg
@@ -325,10 +332,9 @@ function Main() {
                   onKeyDown={onTabKeyDown}
                   className={cn(
                     "h-[46px] rounded-full border border-browser-extensions-neutral-300 bg-browser-extensions-neutral-0 px-[19px] pb-0.5 text-xl tracking-[-0.01rem] text-browser-extensions-neutral-900 shadow-sm transition-all hover:border-browser-extensions-neutral-200 hover:text-browser-extensions-neutral-600 hover:shadow-none",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-browser-extensions-red-700 focus-visible:ring-offset-2",
+                    focusRing900,
                     "aria-selected:border-browser-extensions-red-700 aria-selected:bg-browser-extensions-red-700 aria-selected:text-browser-extensions-neutral-0 aria-selected:hover:border-browser-extensions-red-500 aria-selected:hover:bg-browser-extensions-red-500",
                     "dark:border-browser-extensions-neutral-700 dark:bg-browser-extensions-neutral-800 dark:text-browser-extensions-neutral-0 dark:hover:border-browser-extensions-neutral-800 dark:hover:bg-browser-extensions-neutral-600 dark:hover:shadow-lg",
-                    "dark:focus-visible:ring-browser-extensions-red-400 dark:focus-visible:ring-offset-browser-extensions-neutral-900",
                     "dark:aria-selected:border-browser-extensions-red-400 dark:aria-selected:bg-browser-extensions-red-400 dark:aria-selected:text-browser-extensions-neutral-900",
                     "dark:aria-selected:hover:border-browser-extensions-red-500 dark:aria-selected:hover:bg-browser-extensions-red-500",
                   )}
@@ -365,16 +371,19 @@ function Main() {
   );
 }
 
+const footerLinkStyles = cn(
+  "font-bold underline decoration-red-500 decoration-wavy hover:text-browser-extensions-red-700",
+  "dark:decoration-browser-extensions-red-400 dark:hover:text-browser-extensions-red-400",
+  "rounded-sm",
+  focusRing900,
+);
+
 function Footer() {
   return (
     <footer
       className={cn(
         "absolute bottom-3 w-full text-center text-[11px] text-browser-extensions-neutral-900",
         "dark:text-browser-extensions-neutral-0",
-        "[&_a:focus-visible]:rounded-sm [&_a:focus-visible]:outline-none [&_a:focus-visible]:ring-2 [&_a:focus-visible]:ring-browser-extensions-red-700 [&_a:focus-visible]:ring-offset-2",
-        "dark:[&_a:focus-visible]:ring-browser-extensions-red-400 dark:[&_a:focus-visible]:ring-offset-browser-extensions-neutral-900",
-        "[&_a:hover]:text-browser-extensions-red-700 dark:[&_a:hover]:text-browser-extensions-red-400",
-        "[&_a]:font-bold [&_a]:underline [&_a]:decoration-red-500 [&_a]:decoration-wavy dark:[&_a]:decoration-browser-extensions-red-400",
       )}
     >
       Challenge by{" "}
@@ -382,11 +391,17 @@ function Footer() {
         href="https://www.frontendmentor.io?ref=challenge"
         target="_blank"
         rel="noreferrer"
+        className={footerLinkStyles}
       >
         Frontend Mentor
       </a>
       . Coded by{" "}
-      <a href="https://github.com/muflihanto" target="_blank" rel="noreferrer">
+      <a
+        href="https://github.com/muflihanto"
+        target="_blank"
+        rel="noreferrer"
+        className={footerLinkStyles}
+      >
         Muflihanto
       </a>
       .
