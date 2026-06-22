@@ -62,7 +62,27 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 In this project, I implemented dynamic CSS variable styling using Tailwind's arbitrary property syntax to control multiple parts of an SVG independently. This technique allows for granular, theme-aware color management of distinct SVG paths within a single asset loaded via the `<use>` element.
 
-By defining multiple variables (e.g., `--logo-shape` and `--logo-text`), I can target different elements of the SVG logo—such as the icon and the typography—and style them with different colors that react to the theme toggle simultaneously.
+By defining multiple variables (e.g., `--logo-shape` and `--logo-text`), we can target different elements of the SVG logo—such as the icon and the typography—and style them with different colors that react to the theme toggle simultaneously.
+
+In the original SVG file (`logo.svg`), the paths utilize these CSS custom properties via the `fill` attribute:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" width="179" height="41" fill="none" viewBox="0 0 179 41" id="logo">
+  <!-- Uses --logo-shape for the main logo mark/icon -->
+  <g clip-path="url(#a)">
+    <path fill="var(--logo-shape)" fill-rule="evenodd" d="..." clip-rule="evenodd"/>
+  </g>
+  <!-- Uses --logo-text for the wordmark text -->
+  <path fill="var(--logo-text)" d="..." />
+  <defs>
+    <clipPath id="a">
+      <path fill="#fff" d="M0 0h40v41H0z"/>
+    </clipPath>
+  </defs>
+</svg>
+```
+
+Then in the React component, we can override these custom properties dynamically depending on the theme state using Tailwind:
 
 ```tsx
 <svg
