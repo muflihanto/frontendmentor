@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
 
 test.describe("FrontendMentor Challenge - Browser extensions manager UI page", () => {
   // Common selectors to consolidate locators (DRY)
@@ -9,6 +9,15 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     page.locator('[role="tabpanel"] > div');
   const getTab = (page: Page, name: "All" | "Active" | "Inactive") =>
     page.getByRole("tab", { name, exact: true });
+
+  async function toggleAndVerify(element: Locator) {
+    const checked = await element.getAttribute("aria-checked");
+    await element.click();
+    await expect(element).toHaveAttribute(
+      "aria-checked",
+      checked === "true" ? "false" : "true",
+    );
+  }
 
   /** Go to Browser extensions manager UI page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -41,14 +50,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
     await expect(themeButton).toBeVisible();
 
-    const initialAriaChecked = await themeButton.getAttribute("aria-checked");
-
-    await themeButton.click();
-
-    await expect(themeButton).toHaveAttribute(
-      "aria-checked",
-      initialAriaChecked === "true" ? "false" : "true",
-    );
+    await toggleAndVerify(themeButton);
   });
 
   /** Test theme toggle can be operated with keyboard */
@@ -82,14 +84,10 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
     // Get initial state and toggle to opposite
     const initialAriaChecked = await themeButton.getAttribute("aria-checked");
-    await themeButton.click();
+    await toggleAndVerify(themeButton);
 
     // Verify toggle happened
     const toggledAriaChecked = initialAriaChecked === "true" ? "false" : "true";
-    await expect(themeButton).toHaveAttribute(
-      "aria-checked",
-      toggledAriaChecked,
-    );
 
     // Reload page
     await page.reload();
@@ -122,24 +120,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
       await expect(toggleButton).toBeVisible();
 
-      const initialChecked = await toggleButton.getAttribute("aria-checked");
-      expect(initialChecked).not.toBeNull();
-
-      await toggleButton.click();
-
-      const toggledChecked = initialChecked === "true" ? "false" : "true";
-      await expect(toggleButton).toHaveAttribute(
-        "aria-checked",
-        toggledChecked,
-      );
-
-      await toggleButton.click();
-
-      await expect(toggleButton).toHaveAttribute(
-        "aria-checked",
-        // biome-ignore lint/style/noNonNullAssertion: TypeScript doesn't narrow after expect assertion, but we verified it's not null above
-        initialChecked!,
-      );
+      await toggleAndVerify(toggleButton);
+      await toggleAndVerify(toggleButton);
     }
   });
 
@@ -157,7 +139,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
     // Toggle the extension
     const initialChecked = await firstToggle.getAttribute("aria-checked");
-    await firstToggle.click();
+    await toggleAndVerify(firstToggle);
 
     // Reload page
     await page.reload();
