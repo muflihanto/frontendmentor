@@ -468,164 +468,119 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     expect(await isGroupVisible("icon-moon")).toBe(false);
   });
 
+  const hoverTests = [
+    {
+      name: "theme toggle button",
+      locator: getThemeToggle,
+      lightCssProp: "background-color",
+      lightDefault: "rgb(237, 237, 237)",
+      lightHover: "rgb(199, 199, 199)",
+      darkCssProp: "background-color",
+      darkDefault: "rgb(47, 54, 75)",
+      darkHover: "rgb(84, 89, 105)",
+    },
+    {
+      name: "tab buttons",
+      locator: (page: Page) => getTab(page, "Active"),
+      lightCssProp: "color",
+      lightDefault: "rgb(9, 21, 62)",
+      lightHover: "rgb(84, 89, 105)",
+      darkCssProp: "background-color",
+      darkDefault: "rgb(33, 38, 54)",
+      darkHover: "rgb(84, 89, 105)",
+    },
+    {
+      name: "remove button",
+      locator: (page: Page) =>
+        page.locator('[role="tabpanel"] button:has-text("Remove")').first(),
+      lightCssProp: "background-color",
+      lightDefault: "rgb(251, 253, 254)",
+      lightHover: "rgb(199, 34, 26)",
+      darkCssProp: "background-color",
+      darkDefault: "rgba(0, 0, 0, 0)",
+      darkHover: "rgb(242, 92, 84)",
+    },
+  ];
+
   test.describe("hover states", () => {
     test.describe("light mode", () => {
-      test("theme toggle button shows hover styles", async ({ page }) => {
-        const themeButton = getThemeToggle(page);
-        await expect(themeButton).toHaveCSS(
-          "background-color",
-          "rgb(237, 237, 237)",
-        );
-        await themeButton.hover();
-        await expect(themeButton).toHaveCSS(
-          "background-color",
-          "rgb(199, 199, 199)",
-        );
-      });
-
-      test("tab buttons show hover styles", async ({ page }) => {
-        const activeTab = getTab(page, "Active");
-        await expect(activeTab).toHaveCSS("color", "rgb(9, 21, 62)");
-        await activeTab.hover();
-        await expect(activeTab).toHaveCSS("color", "rgb(84, 89, 105)");
-      });
-
-      test("remove button shows hover styles", async ({ page }) => {
-        const removeButton = page
-          .locator('[role="tabpanel"] button:has-text("Remove")')
-          .first();
-        await expect(removeButton).toHaveCSS(
-          "background-color",
-          "rgb(251, 253, 254)",
-        );
-        await removeButton.hover();
-        await expect(removeButton).toHaveCSS(
-          "background-color",
-          "rgb(199, 34, 26)",
-        );
-      });
+      for (const t of hoverTests) {
+        test(`${t.name} shows hover styles`, async ({ page }) => {
+          const el = t.locator(page);
+          await expect(el).toHaveCSS(t.lightCssProp, t.lightDefault);
+          await el.hover();
+          await expect(el).toHaveCSS(t.lightCssProp, t.lightHover);
+        });
+      }
     });
 
     test.describe("dark mode", () => {
       test.use({ colorScheme: "dark" });
-
-      test("theme toggle button shows dark hover styles", async ({ page }) => {
-        const themeButton = getThemeToggle(page);
-        await expect(themeButton).toHaveCSS(
-          "background-color",
-          "rgb(47, 54, 75)",
-        );
-        await themeButton.hover();
-        await expect(themeButton).toHaveCSS(
-          "background-color",
-          "rgb(84, 89, 105)",
-        );
-      });
-
-      test("tab buttons show dark hover styles", async ({ page }) => {
-        const activeTab = getTab(page, "Active");
-        await expect(activeTab).toHaveCSS(
-          "background-color",
-          "rgb(33, 38, 54)",
-        );
-        await activeTab.hover();
-        await expect(activeTab).toHaveCSS(
-          "background-color",
-          "rgb(84, 89, 105)",
-        );
-      });
-
-      test("remove button shows dark hover styles", async ({ page }) => {
-        const removeButton = page
-          .locator('[role="tabpanel"] button:has-text("Remove")')
-          .first();
-        await expect(removeButton).toHaveCSS(
-          "background-color",
-          "rgba(0, 0, 0, 0)",
-        );
-        await removeButton.hover();
-        await expect(removeButton).toHaveCSS(
-          "background-color",
-          "rgb(242, 92, 84)",
-        );
-      });
+      for (const t of hoverTests) {
+        test(`${t.name} shows dark hover styles`, async ({ page }) => {
+          const el = t.locator(page);
+          await expect(el).toHaveCSS(t.darkCssProp, t.darkDefault);
+          await el.hover();
+          await expect(el).toHaveCSS(t.darkCssProp, t.darkHover);
+        });
+      }
     });
   });
 
+  const focusTests = [
+    {
+      name: "theme toggle button",
+      locator: getThemeToggle,
+      lightShadow: /rgb\(199, 34, 26\)/,
+      darkShadow: /rgb\(242, 92, 84\)/,
+    },
+    {
+      name: "tab buttons",
+      locator: (page: Page) => getTab(page, "Active"),
+    },
+    {
+      name: "remove button",
+      locator: (page: Page) =>
+        page.locator('[role="tabpanel"] button:has-text("Remove")').first(),
+    },
+    {
+      name: "extension toggle switch",
+      locator: (page: Page) =>
+        page.locator('[role="tabpanel"] [role="switch"]').first(),
+    },
+  ];
+
   test.describe("focus states", () => {
     test.describe("light mode", () => {
-      test("theme toggle button shows focus styles", async ({ page }) => {
-        const themeButton = getThemeToggle(page);
-        await expect(themeButton).toHaveCSS("outline-style", "none");
-        await expect(themeButton).toHaveCSS("box-shadow", "none");
-        await themeButton.focus();
-        await expect(themeButton).toHaveCSS("outline-style", "solid");
-        await expect(themeButton).toHaveCSS("box-shadow", /rgb\(199, 34, 26\)/);
-      });
-
-      test("tab buttons show focus styles", async ({ page }) => {
-        const activeTab = getTab(page, "Active");
-        await expect(activeTab).toHaveCSS("outline-style", "none");
-        await activeTab.focus();
-        await expect(activeTab).toHaveCSS("outline-style", "solid");
-      });
-
-      test("remove button shows focus styles", async ({ page }) => {
-        const removeButton = page
-          .locator('[role="tabpanel"] button:has-text("Remove")')
-          .first();
-        await expect(removeButton).toHaveCSS("outline-style", "none");
-        await removeButton.focus();
-        await expect(removeButton).toHaveCSS("outline-style", "solid");
-      });
-
-      test("extension toggle switch shows focus styles", async ({ page }) => {
-        const toggleSwitch = page
-          .locator('[role="tabpanel"] [role="switch"]')
-          .first();
-        await expect(toggleSwitch).toHaveCSS("outline-style", "none");
-        await toggleSwitch.focus();
-        await expect(toggleSwitch).toHaveCSS("outline-style", "solid");
-      });
+      for (const t of focusTests) {
+        test(`${t.name} shows focus styles`, async ({ page }) => {
+          const el = t.locator(page);
+          await expect(el).toHaveCSS("outline-style", "none");
+          if (t.lightShadow) {
+            await expect(el).toHaveCSS("box-shadow", "none");
+          }
+          await el.focus();
+          await expect(el).toHaveCSS("outline-style", "solid");
+          if (t.lightShadow) {
+            await expect(el).toHaveCSS("box-shadow", t.lightShadow);
+          }
+        });
+      }
     });
 
     test.describe("dark mode", () => {
       test.use({ colorScheme: "dark" });
-
-      test("theme toggle button shows dark focus styles", async ({ page }) => {
-        const themeButton = getThemeToggle(page);
-        await expect(themeButton).toHaveCSS("outline-style", "none");
-        await themeButton.focus();
-        await expect(themeButton).toHaveCSS("outline-style", "solid");
-        await expect(themeButton).toHaveCSS("box-shadow", /rgb\(242, 92, 84\)/);
-      });
-
-      test("tab buttons show dark focus styles", async ({ page }) => {
-        const activeTab = getTab(page, "Active");
-        await expect(activeTab).toHaveCSS("outline-style", "none");
-        await activeTab.focus();
-        await expect(activeTab).toHaveCSS("outline-style", "solid");
-      });
-
-      test("remove button shows dark focus styles", async ({ page }) => {
-        const removeButton = page
-          .locator('[role="tabpanel"] button:has-text("Remove")')
-          .first();
-        await expect(removeButton).toHaveCSS("outline-style", "none");
-        await removeButton.focus();
-        await expect(removeButton).toHaveCSS("outline-style", "solid");
-      });
-
-      test("extension toggle switch shows dark focus styles", async ({
-        page,
-      }) => {
-        const toggleSwitch = page
-          .locator('[role="tabpanel"] [role="switch"]')
-          .first();
-        await expect(toggleSwitch).toHaveCSS("outline-style", "none");
-        await toggleSwitch.focus();
-        await expect(toggleSwitch).toHaveCSS("outline-style", "solid");
-      });
+      for (const t of focusTests) {
+        test(`${t.name} shows dark focus styles`, async ({ page }) => {
+          const el = t.locator(page);
+          await expect(el).toHaveCSS("outline-style", "none");
+          await el.focus();
+          await expect(el).toHaveCSS("outline-style", "solid");
+          if (t.darkShadow) {
+            await expect(el).toHaveCSS("box-shadow", t.darkShadow);
+          }
+        });
+      }
     });
   });
 });
