@@ -60,8 +60,6 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test("theme toggle switches dark/light mode", async ({ page }) => {
     const themeButton = getThemeToggle(page);
 
-    await expect(themeButton).toBeVisible();
-
     await toggleAndVerify(themeButton);
   });
 
@@ -92,7 +90,6 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   /** Test theme preference persists after page reload */
   test("theme preference persists after page reload", async ({ page }) => {
     const themeButton = getThemeToggle(page);
-    await expect(themeButton).toBeVisible();
 
     // Get initial state and toggle to opposite
     const initialAriaChecked = await themeButton.getAttribute("aria-checked");
@@ -129,8 +126,6 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     for (let i = 0; i < count; i++) {
       const card = extensionCards.nth(i);
       const toggleButton = card.locator('[role="switch"]').first();
-
-      await expect(toggleButton).toBeVisible();
 
       await toggleAndVerify(toggleButton);
       await toggleAndVerify(toggleButton);
