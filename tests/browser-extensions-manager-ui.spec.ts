@@ -19,6 +19,18 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     );
   }
 
+  async function getFirstExtension(page: Page) {
+    const card = getExtensionCards(page).first();
+    const name = await card.locator("h2").textContent();
+    return { card, name: name ?? "" };
+  }
+
+  function findExtensionByName(page: Page, name: string) {
+    return getExtensionCards(page).filter({
+      has: page.locator("h2", { hasText: name }),
+    });
+  }
+
   /** Go to Browser extensions manager UI page before each test */
   test.beforeEach("Open", async ({ page }) => {
     await page.goto("/browser-extensions-manager-ui");
@@ -129,13 +141,9 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   test("extension active/inactive state persists after page reload", async ({
     page,
   }) => {
-    const firstToggle = getExtensionCards(page)
-      .locator('[role="switch"]')
-      .first();
-    const extensionName = await getExtensionCards(page)
-      .locator("h2")
-      .first()
-      .textContent();
+    const { card: firstCard, name: extensionName } =
+      await getFirstExtension(page);
+    const firstToggle = firstCard.locator('[role="switch"]').first();
 
     // Toggle the extension
     const initialChecked = await firstToggle.getAttribute("aria-checked");
@@ -145,9 +153,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await page.reload();
 
     // Find the same extension and verify its state
-    const extensionCard = getExtensionCards(page).filter({
-      has: page.locator("h2", { hasText: extensionName ?? "" }),
-    });
+    const extensionCard = findExtensionByName(page, extensionName);
     const toggleAfterReload = extensionCard.locator('[role="switch"]').first();
 
     await expect(toggleAfterReload).toHaveAttribute(
@@ -234,7 +240,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test extension card content is displayed correctly */
   test("extension card displays all required information", async ({ page }) => {
-    const firstCard = getExtensionCards(page).first();
+    const { card: firstCard, name: firstExtensionName } =
+      await getFirstExtension(page);
 
     // logo
     await expect(firstCard.locator("img")).toBeVisible();
@@ -246,7 +253,6 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     await expect(firstCard.locator("p")).toBeVisible();
 
     // Remove button
-    const firstExtensionName = await firstCard.locator("h2").textContent();
     await expect(firstCard.locator("button:has-text('Remove')")).toBeVisible();
     await expect(
       firstCard.locator("button:has-text('Remove')"),
@@ -266,17 +272,13 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     const initialActiveCount = await getExtensionCards(page).count();
     expect(initialActiveCount).toBeGreaterThan(0);
 
-    const firstActiveCard = getExtensionCards(page).first();
+    const { card: firstActiveCard, name: extensionName } =
+      await getFirstExtension(page);
     const toggleButton = firstActiveCard.locator('[role="switch"]').first();
-    const extensionName = await firstActiveCard.locator("h2").textContent();
-    expect(extensionName).not.toBeNull();
 
     // Toggle it off - should disappear from Active tab
     await toggleButton.click();
-    await expect(
-      getExtensionCards(page).first(),
-      // biome-ignore lint/style/noNonNullAssertion: TypeScript doesn't narrow after expect assertion, but we verified it's not null above
-    ).not.toHaveText(extensionName!);
+    await expect(getExtensionCards(page).first()).not.toHaveText(extensionName);
 
     // Go to Inactive tab and verify it appears there
     await inactiveTab.click();
@@ -285,9 +287,7 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     ).toBeVisible();
 
     // Toggle it back on - should disappear from Inactive tab
-    const inactiveCard = getExtensionCards(page).filter({
-      has: page.locator("h2", { hasText: extensionName ?? "" }),
-    });
+    const inactiveCard = findExtensionByName(page, extensionName);
     await inactiveCard.locator('[role="switch"]').first().click();
     await expect(
       page.locator(`[role="tabpanel"] h2:has-text("${extensionName}")`),
@@ -306,9 +306,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
     const initialCount = await extensionCards.count();
     expect(initialCount).toBeGreaterThan(0);
 
-    const firstCard = extensionCards.first();
-    const extensionName = await firstCard.locator("h2").textContent();
-    expect(extensionName).not.toBeNull();
+    const { card: firstCard, name: extensionName } =
+      await getFirstExtension(page);
 
     const removeButton = firstCard.locator("button:has-text('Remove')");
     await removeButton.click();
@@ -332,9 +331,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
   /** Test that removed extensions are removed from all tabs */
   test("removed extension disappears from all tabs", async ({ page }) => {
     // Get first extension name from All tab
-    const firstCard = getExtensionCards(page).first();
-    const extensionName = await firstCard.locator("h2").textContent();
-    expect(extensionName).not.toBeNull();
+    const { card: firstCard, name: extensionName } =
+      await getFirstExtension(page);
 
     // Remove the extension
     await firstCard.locator("button:has-text('Remove')").click();
@@ -359,8 +357,8 @@ test.describe("FrontendMentor Challenge - Browser extensions manager UI page", (
 
   /** Test remove button can be activated with keyboard */
   test("remove buttons can be activated with keyboard", async ({ page }) => {
-    const firstCard = getExtensionCards(page).first();
-    const extensionName = await firstCard.locator("h2").textContent();
+    const { card: firstCard, name: extensionName } =
+      await getFirstExtension(page);
     const initialCount = await getExtensionCards(page).count();
 
     // Focus and activate remove button with Enter
