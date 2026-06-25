@@ -75,10 +75,19 @@ const inputSchema = z.object({
 
 type Inputs = z.infer<typeof inputSchema>;
 
-const completedAtom = atom<boolean>(false);
-const previewUrlAtom = atom<string | null>(null);
-const submittedDataAtom = atom<Inputs | null>(null);
-const ticketNumberAtom = atom<number | null>(null);
+type TicketState = {
+  completed: boolean;
+  previewUrl: string | null;
+  submittedData: Inputs | null;
+  ticketNumber: number | null;
+};
+
+const ticketStateAtom = atom<TicketState>({
+  completed: false,
+  previewUrl: null,
+  submittedData: null,
+  ticketNumber: null,
+});
 
 export default function ConferenceTicketGenerator() {
   return (
@@ -215,10 +224,8 @@ function Form() {
   } = useFormContext<Inputs>();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [previewUrl, setPreviewUrl] = useAtom(previewUrlAtom);
-  const setIsCompleted = useSetAtom(completedAtom);
-  const setTicketNumber = useSetAtom(ticketNumberAtom);
-  const setSubmittedData = useSetAtom(submittedDataAtom);
+  const [ticketState, setTicketState] = useAtom(ticketStateAtom);
+  const { previewUrl } = ticketState;
 
   const [isDragging, setIsDragging] = useState(false);
 
@@ -231,26 +238,26 @@ function Form() {
         const validation = inputSchema.shape.avatar.safeParse(files);
         if (validation.success) {
           const url = URL.createObjectURL(files[0]);
-          setPreviewUrl(url);
+          setTicketState((prev) => ({ ...prev, previewUrl: url }));
         } else {
-          setPreviewUrl(null);
+          setTicketState((prev) => ({ ...prev, previewUrl: null }));
         }
       } else {
-        setPreviewUrl(null);
+        setTicketState((prev) => ({ ...prev, previewUrl: null }));
       }
       field.onChange(files);
       void trigger("avatar");
     },
-    [setPreviewUrl, trigger],
+    [setTicketState, trigger],
   );
 
   const handleRemoveImage = useCallback(() => {
-    setPreviewUrl(null);
+    setTicketState((prev) => ({ ...prev, previewUrl: null }));
     resetField("avatar");
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-  }, [setPreviewUrl, resetField]);
+  }, [setTicketState, resetField]);
 
   const handleChangeImage = useCallback(() => {
     inputRef.current?.click();
@@ -300,11 +307,14 @@ function Form() {
           timestamp.toString().slice(-4) + random.toString().padStart(3, "0")
         ).slice(0, 5),
       );
-      setTicketNumber(uniqueNumber);
-      setIsCompleted(true);
-      setSubmittedData(data);
+      setTicketState({
+        completed: true,
+        previewUrl,
+        submittedData: data,
+        ticketNumber: uniqueNumber,
+      });
     },
-    [setTicketNumber, setIsCompleted, setSubmittedData],
+    [previewUrl, setTicketState],
   );
 
   return (
@@ -483,10 +493,13 @@ function Main() {
     // },
   });
 
-  const isCompleted = useAtomValue(completedAtom);
-  const previewUrl = useAtomValue(previewUrlAtom);
-  const submittedData = useAtomValue(submittedDataAtom);
-  const ticketNumber = useAtomValue(ticketNumberAtom);
+  const ticketState = useAtomValue(ticketStateAtom);
+  const {
+    completed: isCompleted,
+    previewUrl,
+    submittedData,
+    ticketNumber,
+  } = ticketState;
 
   return (
     <FormProvider {...form}>
