@@ -7,6 +7,7 @@ import {
   type ComponentProps,
   type DragEvent,
   forwardRef,
+  useCallback,
   useRef,
   useState,
 } from "react";
@@ -221,93 +222,90 @@ function Form() {
 
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleFileChange = (
-    files: FileList | null,
-    field: ControllerRenderProps<Inputs, "avatar">,
-  ) => {
-    if (files && files.length > 0) {
-      const validation = z
-        .object({
-          avatar: inputSchema.shape.avatar,
-        })
-        .safeParse({ avatar: files });
-      if (validation.success) {
-        const url = URL.createObjectURL(files[0]);
-        setPreviewUrl(url);
+  const handleFileChange = useCallback(
+    (
+      files: FileList | null,
+      field: ControllerRenderProps<Inputs, "avatar">,
+    ) => {
+      if (files && files.length > 0) {
+        const validation = inputSchema.shape.avatar.safeParse(files);
+        if (validation.success) {
+          const url = URL.createObjectURL(files[0]);
+          setPreviewUrl(url);
+        } else {
+          setPreviewUrl(null);
+        }
       } else {
         setPreviewUrl(null);
       }
-    } else {
-      setPreviewUrl(null);
-    }
-    field.onChange(files);
-    void trigger("avatar");
-  };
+      field.onChange(files);
+      void trigger("avatar");
+    },
+    [setPreviewUrl, trigger],
+  );
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = useCallback(() => {
     setPreviewUrl(null);
     resetField("avatar");
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-  };
+  }, [setPreviewUrl, resetField]);
 
-  const handleChangeImage = () => {
+  const handleChangeImage = useCallback(() => {
     inputRef.current?.click();
-  };
+  }, []);
 
-  const handleDragEnter = (e: DragEvent) => {
+  const handleDragEnter = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
-  };
+  }, []);
 
-  const handleDragLeave = (e: DragEvent) => {
+  const handleDragLeave = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-  };
+  }, []);
 
-  const handleDragOver = (e: DragEvent) => {
+  const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-  };
+  }, []);
 
-  const handleDrop = (
-    e: DragEvent,
-    field: ControllerRenderProps<Inputs, "avatar">,
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(files[0]);
-
-      if (inputRef.current) {
-        inputRef.current.files = dataTransfer.files;
+  const handleDrop = useCallback(
+    (e: DragEvent, field: ControllerRenderProps<Inputs, "avatar">) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDragging(false);
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(files[0]);
+        if (inputRef.current) {
+          inputRef.current.files = dataTransfer.files;
+        }
+        handleFileChange(dataTransfer.files, field);
       }
+    },
+    [handleFileChange],
+  );
 
-      handleFileChange(dataTransfer.files, field);
-    }
-  };
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 1000);
-    const uniqueNumber = parseInt(
-      (
-        timestamp.toString().slice(-4) + random.toString().padStart(3, "0")
-      ).slice(0, 5),
-    );
-
-    setTicketNumber(uniqueNumber);
-    console.log(data);
-    setIsCompleted(true);
-    setSubmittedData(data);
-  };
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    (data) => {
+      const timestamp = Date.now();
+      const random = Math.floor(Math.random() * 1000);
+      const uniqueNumber = parseInt(
+        (
+          timestamp.toString().slice(-4) + random.toString().padStart(3, "0")
+        ).slice(0, 5),
+      );
+      setTicketNumber(uniqueNumber);
+      setIsCompleted(true);
+      setSubmittedData(data);
+    },
+    [setTicketNumber, setIsCompleted, setSubmittedData],
+  );
 
   return (
     <form
