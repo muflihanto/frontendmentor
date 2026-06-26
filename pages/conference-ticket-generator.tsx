@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import {
   type ComponentProps,
   type DragEvent,
   forwardRef,
+  memo,
   useCallback,
   useRef,
   useState,
@@ -169,35 +170,37 @@ function Ornament() {
   );
 }
 
-const Input = forwardRef<
-  HTMLInputElement,
-  ComponentProps<"input"> & { error?: FieldError; errorId?: string }
->(({ className, error, errorId, ...props }, ref) => {
-  return (
-    <>
-      <input
-        className={cn(
-          "mt-3 h-[54px] w-full rounded-[12px] border bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
-          error
-            ? "border-conference-ticket-generator-orange-500"
-            : "border-conference-ticket-generator-neutral-500",
-          className,
+const Input = memo(
+  forwardRef<
+    HTMLInputElement,
+    ComponentProps<"input"> & { error?: FieldError; errorId?: string }
+  >(({ className, error, errorId, ...props }, ref) => {
+    return (
+      <>
+        <input
+          className={cn(
+            "mt-3 h-[54px] w-full rounded-[12px] border bg-conference-ticket-generator-neutral-700/30 px-[14px] py-2 text-[18px] hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+            error
+              ? "border-conference-ticket-generator-orange-500"
+              : "border-conference-ticket-generator-neutral-500",
+            className,
+          )}
+          ref={ref}
+          aria-invalid={!!error}
+          aria-describedby={error && errorId ? errorId : undefined}
+          {...props}
+        />
+        {!!error && (
+          <FieldHint error={error} id={errorId} aria-live="assertive" />
         )}
-        ref={ref}
-        aria-invalid={!!error}
-        aria-describedby={error && errorId ? errorId : undefined}
-        {...props}
-      />
-      {!!error && (
-        <FieldHint error={error} id={errorId} aria-live="assertive" />
-      )}
-    </>
-  );
-});
+      </>
+    );
+  }),
+);
 
 Input.displayName = "Input";
 
-function FieldHint({
+const FieldHint = memo(function FieldHint({
   error,
   hint,
   id,
@@ -236,7 +239,7 @@ function FieldHint({
       <span>{message}</span>
     </output>
   );
-}
+});
 
 function Form() {
   const {
