@@ -189,29 +189,54 @@ const Input = forwardRef<
         {...props}
       />
       {!!error && (
-        <output
-          id={errorId}
-          aria-live="assertive"
-          className="mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] text-conference-ticket-generator-neutral-500"
-        >
-          <svg
-            viewBox="0 0 16 16"
-            className="w-4 text-conference-ticket-generator-orange-500"
-            role="graphics-symbol"
-            aria-hidden="true"
-          >
-            <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
-          </svg>
-          <span className="text-conference-ticket-generator-orange-500">
-            {error.message}
-          </span>
-        </output>
+        <FieldHint error={error} id={errorId} aria-live="assertive" />
       )}
     </>
   );
 });
 
 Input.displayName = "Input";
+
+function FieldHint({
+  error,
+  hint,
+  id,
+  "aria-live": ariaLive,
+}: {
+  error?: FieldError;
+  hint?: string;
+  id?: string;
+  "aria-live"?: "assertive" | "off";
+}) {
+  const message = error?.message ?? hint;
+  return (
+    <output
+      id={id}
+      aria-live={ariaLive}
+      className={cn(
+        "mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em]",
+        error
+          ? "text-conference-ticket-generator-orange-500"
+          : "text-conference-ticket-generator-neutral-500",
+      )}
+    >
+      <svg
+        viewBox="0 0 16 16"
+        className={cn(
+          "w-4",
+          error
+            ? "text-conference-ticket-generator-orange-500"
+            : "text-[#D1D0D5]",
+        )}
+        role="graphics-symbol"
+        aria-hidden="true"
+      >
+        <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
+      </svg>
+      <span>{message}</span>
+    </output>
+  );
+}
 
 function Form() {
   const {
@@ -413,24 +438,12 @@ function Form() {
             );
           }}
         />
-        <output
+        <FieldHint
           id="avatar-hint"
           aria-live="assertive"
-          className={`mt-3 flex items-center gap-2 text-xs tracking-[-0.0175em] ${errors.avatar ? "text-conference-ticket-generator-orange-500" : "text-conference-ticket-generator-neutral-500"}`}
-        >
-          <svg
-            viewBox="0 0 16 16"
-            className={`w-4 ${errors.avatar ? "text-conference-ticket-generator-orange-500" : "text-[#D1D0D5]"}`}
-            role="graphics-symbol"
-            aria-hidden="true"
-          >
-            <use href="/conference-ticket-generator/assets/images/icon-info.svg#icon-info" />
-          </svg>
-          <span>
-            {errors.avatar?.message ??
-              "Upload your photo (JPG or PNG, max size: 500KB)."}
-          </span>
-        </output>
+          error={errors.avatar}
+          hint="Upload your photo (JPG or PNG, max size: 500KB)."
+        />
       </div>
       <label htmlFor="fullname" className="mt-6 w-full">
         <p className="tracking-tight">Full Name</p>
