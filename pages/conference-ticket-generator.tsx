@@ -499,6 +499,78 @@ function Form() {
   );
 }
 
+const TicketPreview = memo(function TicketPreview({
+  submittedData,
+  previewUrl,
+  ticketNumber,
+}: {
+  submittedData: Inputs;
+  previewUrl: string | null;
+  ticketNumber: number;
+}) {
+  return (
+    <div
+      className="relative mt-[73px] flex aspect-[600/280] w-full max-w-[600px] items-center justify-between bg-[url('/conference-ticket-generator/assets/images/pattern-ticket.svg')] bg-cover px-4 py-4 md:px-6 md:py-6 lg:mt-[111px]"
+      id="ticket"
+    >
+      <div className="flex h-full flex-col items-start justify-between pt-1 md:pt-1.5">
+        <div className="flex items-start gap-px md:gap-5">
+          <Image
+            src="/conference-ticket-generator/assets/images/logo-mark.svg"
+            width={40}
+            height={40}
+            alt="Coding Conf Mark"
+            className="origin-top-left scale-[calc(29/40*100%)] lg:scale-100"
+          />
+          <div className="flex flex-col gap-[13px] md:gap-5">
+            <span className="text-[clamp(1.5rem,0.08rem+6.04vw,2.5rem)] font-medium leading-[18px] tracking-[-0.04em] md:font-bold md:leading-[32px] md:tracking-[-0.0275em]">
+              Coding Conf
+            </span>
+            <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300 md:text-[18px]">
+              Jan 31, 2025 / Austin, TX
+            </span>
+          </div>
+        </div>
+        <div className="flex gap-3 md:gap-4">
+          <div className="relative aspect-square w-[clamp(45px,8.906vw+0.725rem,80px)] origin-bottom-left overflow-hidden rounded-lg object-cover lg:rounded-xl">
+            <Image
+              src={
+                previewUrl ??
+                "/conference-ticket-generator/assets/images/default-avatar.png"
+              }
+              alt="Avatar preview"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="flex flex-col justify-between pb-[1px] pt-1 md:pb-[8px] md:pt-[10px]">
+            <div className="text-[clamp(1.125rem,0.0625rem+4.5vw,1.875rem)] leading-none md:tracking-[-0.035em]">
+              {submittedData.fullname}
+            </div>
+            <div className="flex items-center gap-[3px] md:gap-[9px]">
+              <div className="relative aspect-[22/23] h-[17px] md:h-[23px]">
+                <Image
+                  src="/conference-ticket-generator/assets/images/icon-github.svg"
+                  alt="Github"
+                  fill
+                  className="object-cover"
+                  role="graphics-symbol"
+                />
+              </div>
+              <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300 md:text-[20px] md:tracking-[-0.025em]">
+                {submittedData.username}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute right-[clamp(15px,calc(-22.5px+10vw),42px)] top-1/2 origin-top translate-x-1/2 rotate-90 text-[clamp(22px,calc(10px+3vw),30px)] tracking-[-0.035em] text-conference-ticket-generator-neutral-500">
+        #{ticketNumber.toString().padStart(5, "0")}
+      </div>
+    </div>
+  );
+});
+
 function Main() {
   const form = useForm<Inputs>({
     resolver: zodResolver(inputSchema),
@@ -546,65 +618,13 @@ function Main() {
               and will send updates in the run up to the event.
             </p>
 
-            <div
-              className="relative mt-[73px] flex aspect-[600/280] w-full max-w-[600px] items-center justify-between bg-[url('/conference-ticket-generator/assets/images/pattern-ticket.svg')] bg-cover px-4 py-4 md:px-6 md:py-6 lg:mt-[111px]"
-              id="ticket"
-            >
-              <div className="flex h-full flex-col items-start justify-between pt-1 md:pt-1.5">
-                <div className="flex items-start gap-px md:gap-5">
-                  <Image
-                    src="/conference-ticket-generator/assets/images/logo-mark.svg"
-                    width={40}
-                    height={40}
-                    alt="Coding Conf Mark"
-                    className="origin-top-left scale-[calc(29/40*100%)] lg:scale-100"
-                  />
-                  <div className="flex flex-col gap-[13px] md:gap-5">
-                    <span className="text-[clamp(1.5rem,0.08rem+6.04vw,2.5rem)] font-medium leading-[18px] tracking-[-0.04em] md:font-bold md:leading-[32px] md:tracking-[-0.0275em]">
-                      Coding Conf
-                    </span>
-                    <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300 md:text-[18px]">
-                      Jan 31, 2025 / Austin, TX
-                    </span>
-                  </div>
-                </div>
-                <div className="flex gap-3 md:gap-4">
-                  <div className="relative aspect-square w-[clamp(45px,8.906vw+0.725rem,80px)] origin-bottom-left overflow-hidden rounded-lg object-cover lg:rounded-xl">
-                    <Image
-                      src={
-                        previewUrl ??
-                        "/conference-ticket-generator/assets/images/default-avatar.png"
-                      }
-                      alt="Avatar preview"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-between pb-[1px] pt-1 md:pb-[8px] md:pt-[10px]">
-                    <div className="text-[clamp(1.125rem,0.0625rem+4.5vw,1.875rem)] leading-none md:tracking-[-0.035em]">
-                      {submittedData?.fullname}
-                    </div>
-                    <div className="flex items-center gap-[3px] md:gap-[9px]">
-                      <div className="relative aspect-[22/23] h-[17px] md:h-[23px]">
-                        <Image
-                          src="/conference-ticket-generator/assets/images/icon-github.svg"
-                          alt="Github"
-                          fill
-                          className="object-cover"
-                          role="graphics-symbol"
-                        />
-                      </div>
-                      <span className="text-[14px] leading-none text-conference-ticket-generator-neutral-300 md:text-[20px] md:tracking-[-0.025em]">
-                        {submittedData?.username}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute right-[clamp(15px,calc(-22.5px+10vw),42px)] top-1/2 origin-top translate-x-1/2 rotate-90 text-[clamp(22px,calc(10px+3vw),30px)] tracking-[-0.035em] text-conference-ticket-generator-neutral-500">
-                #{ticketNumber?.toString().padStart(5, "0") ?? "00000"}
-              </div>
-            </div>
+            {submittedData && ticketNumber !== null && (
+              <TicketPreview
+                submittedData={submittedData}
+                previewUrl={previewUrl}
+                ticketNumber={ticketNumber}
+              />
+            )}
           </>
         ) : (
           <>
