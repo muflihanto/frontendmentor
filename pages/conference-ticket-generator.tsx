@@ -1,20 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { atom, useAtom, useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import {
   type ComponentProps,
-  type DragEvent,
   forwardRef,
   memo,
   useCallback,
-  useRef,
-  useState,
 } from "react";
 import {
   Controller,
-  type ControllerRenderProps,
   type FieldError,
   FormProvider,
   type SubmitHandler,
@@ -24,35 +20,12 @@ import {
 import { z } from "zod";
 import { cn } from "../utils/cn";
 import { inconsolata } from "../utils/fonts/inconsolata";
+import { avatarSchema, ticketStateAtom, useAvatarUpload } from "../utils/useAvatarUpload";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 const inputSchema = z.object({
-  avatar: z
-    .custom<FileList | null>()
-    .transform((fileList) => (fileList ? fileList[0] : null))
-    .refine((file) => file instanceof File, {
-      message: "Avatar cannot be empty.",
-    })
-    .refine(
-      (file) => {
-        if (!file) return true;
-        const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-        return allowedTypes.includes(file.type);
-      },
-      {
-        message: "File must be JPG or PNG format.",
-      },
-    )
-    .refine(
-      (file) => {
-        if (!file) return true;
-        return file.size <= 500 * 1024;
-      },
-      {
-        message: "File too large. Please upload a photo under 500KB.",
-      },
-    ),
+  avatar: avatarSchema,
   fullname: z
     .string()
     .min(1, { message: "Fullname cannot be empty." })
@@ -75,20 +48,6 @@ const inputSchema = z.object({
 });
 
 type Inputs = z.infer<typeof inputSchema>;
-
-type TicketState = {
-  completed: boolean;
-  previewUrl: string | null;
-  submittedData: Inputs | null;
-  ticketNumber: number | null;
-};
-
-const ticketStateAtom = atom<TicketState>({
-  completed: false,
-  previewUrl: null,
-  submittedData: null,
-  ticketNumber: null,
-});
 
 export default function ConferenceTicketGenerator() {
   return (
@@ -246,85 +205,21 @@ function Form() {
     control,
     register,
     handleSubmit,
-    resetField,
-    trigger,
     formState: { errors },
   } = useFormContext<Inputs>();
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [ticketState, setTicketState] = useAtom(ticketStateAtom);
-  const { previewUrl } = ticketState;
+  const setTicketState = useSetAtom(ticketStateAtom);
 
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleFileChange = useCallback(
-    (
-      files: FileList | null,
-      field: ControllerRenderProps<Inputs, "avatar">,
-    ) => {
-      if (files && files.length > 0) {
-        const validation = inputSchema.shape.avatar.safeParse(files);
-        if (validation.success) {
-          const url = URL.createObjectURL(files[0]);
-          setTicketState((prev) => ({ ...prev, previewUrl: url }));
-        } else {
-          setTicketState((prev) => ({ ...prev, previewUrl: null }));
-        }
-      } else {
-        setTicketState((prev) => ({ ...prev, previewUrl: null }));
-      }
-      field.onChange(files);
-      void trigger("avatar");
-    },
-    [setTicketState, trigger],
-  );
-
-  const handleRemoveImage = useCallback(() => {
-    setTicketState((prev) => ({ ...prev, previewUrl: null }));
-    resetField("avatar");
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
-  }, [setTicketState, resetField]);
-
-  const handleChangeImage = useCallback(() => {
-    inputRef.current?.click();
-  }, []);
-
-  const handleDragEnter = useCallback((e: DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  }, []);
-
-  const handleDragLeave = useCallback((e: DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  }, []);
-
-  const handleDragOver = useCallback((e: DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, []);
-
-  const handleDrop = useCallback(
-    (e: DragEvent, field: ControllerRenderProps<Inputs, "avatar">) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(false);
-      const files = e.dataTransfer.files;
-      if (files && files.length > 0) {
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(files[0]);
-        if (inputRef.current) {
-          inputRef.current.files = dataTransfer.files;
-        }
-        handleFileChange(dataTransfer.files, field);
-      }
-    },
-    [handleFileChange],
-  );
+  const {
+    previewUrl,
+    isDragging,
+    inputRef,
+    handleFileChange,
+    handleRemoveImage,
+    handleChangeImage,
+    handleDrop,
+    dragHandlers,
+  } = useAvatarUpload();
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     (data) => {
@@ -406,9 +301,9 @@ function Form() {
                         handleChangeImage();
                       }
                     }}
-                    onDragEnter={handleDragEnter}
-                    onDragLeave={handleDragLeave}
-                    onDragOver={handleDragOver}
+                    onDragEnter={dragHandlers.onDragEnter}
+                    onDragLeave={dragHandlers.onDragLeave}
+                    onDragOver={dragHandlers.onDragOver}
                     onDrop={(e) => handleDrop(e, field)}
                   >
                     <div className="flex flex-col items-center justify-start gap-[15px]">
@@ -504,7 +399,7 @@ const TicketPreview = memo(function TicketPreview({
   previewUrl,
   ticketNumber,
 }: {
-  submittedData: Inputs;
+  submittedData: Omit<Inputs, "avatar"> & { avatar: File | null };
   previewUrl: string | null;
   ticketNumber: number;
 }) {
