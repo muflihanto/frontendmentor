@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import AxeBuilder from "@axe-core/playwright";
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
 
 export async function dragAndDropFile(
   page: Page,
@@ -53,10 +53,45 @@ export async function fillForm(
     avatarPath: path.join(__dirname, "assets/image-avatar.jpg"),
   };
   const data = { ...defaultData, ...overrides };
-  await page.getByLabel("Upload Avatar").setInputFiles(data.avatarPath);
-  await page.getByLabel("Full Name").fill(data.fullName);
-  await page.getByLabel("Email Address").fill(data.email);
-  await page.getByLabel("GitHub Username").fill(data.username);
+  const loc = createLocators(page);
+  await loc.avatar.setInputFiles(data.avatarPath);
+  await loc.fullName.fill(data.fullName);
+  await loc.email.fill(data.email);
+  await loc.username.fill(data.username);
+}
+
+/** Centralized locators for the conference ticket generator page */
+function createLocators(page: Page) {
+  const form = page.locator("form");
+  return {
+    form,
+    ticket: page.locator('div[id="ticket"]'),
+    // Form fields
+    avatar: form.getByLabel("Upload Avatar"),
+    fullName: form.getByLabel("Full Name"),
+    email: form.getByLabel("Email Address"),
+    username: form.getByLabel("GitHub Username"),
+    submit: form.getByRole("button", { name: "Generate My Ticket" }),
+    // Avatar-related
+    preview: form.getByRole("img", { name: "Avatar preview" }),
+    removeImage: form.locator("button", { hasText: "Remove image" }),
+    changeImage: form.locator("button", { hasText: "Change image" }),
+    avatarLabel: form.locator("label", {
+      hasText: "Drag and drop or click to upload",
+    }),
+    // Errors
+    errors: {
+      avatarEmpty: page.getByText("Avatar cannot be empty."),
+      fullNameEmpty: page.getByText("Fullname cannot be empty."),
+      emailEmpty: page.getByText("Email address cannot be empty."),
+      usernameEmpty: page.getByText("Username cannot be empty."),
+      emailInvalid: page.getByText("Please enter a valid email address."),
+      formatError: form.getByText("File must be JPG or PNG format."),
+      sizeError: form.getByText(
+        "File too large. Please upload a photo under 500KB.",
+      ),
+    },
+  };
 }
 
 test.describe("FrontendMentor Challenge - Conference ticket generator page", () => {
@@ -86,17 +121,15 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
   /** Test if the page has a form component */
   test("has form component", async ({ page }) => {
-    const form = page.locator("form");
-    await expect(form).toBeVisible();
+    const loc = createLocators(page);
+    await expect(loc.form).toBeVisible();
     // Upload avatar field
     await expect(
-      page.locator("label", { hasText: "Upload Avatar" }),
+      loc.form.locator("label", { hasText: "Upload Avatar" }),
     ).toBeVisible();
-    await expect(page.getByLabel("Upload Avatar")).toHaveCount(1);
-    await expect(page.getByLabel("Upload Avatar")).toBeHidden();
-    await expect(
-      page.locator("label", { hasText: "Drag and drop or click to upload" }),
-    ).toBeVisible();
+    await expect(loc.avatar).toHaveCount(1);
+    await expect(loc.avatar).toBeHidden();
+    await expect(loc.avatarLabel).toBeVisible();
     await expect(
       page.getByLabel("Drag and drop or click to upload"),
     ).toHaveCount(1);
@@ -104,30 +137,29 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       page.getByLabel("Drag and drop or click to upload"),
     ).toBeHidden();
     // Full name field
-    await expect(page.locator("label", { hasText: "Full Name" })).toBeVisible();
-    await expect(page.getByLabel("Full Name")).toBeVisible();
+    await expect(
+      loc.form.locator("label", { hasText: "Full Name" }),
+    ).toBeVisible();
+    await expect(loc.fullName).toBeVisible();
     // Email Address field
     await expect(
-      page.locator("label", { hasText: "Email Address" }),
+      loc.form.locator("label", { hasText: "Email Address" }),
     ).toBeVisible();
-    await expect(page.getByLabel("Email Address")).toBeVisible();
+    await expect(loc.email).toBeVisible();
     // GitHub Username field
     await expect(
-      page.locator("label", { hasText: "GitHub Username" }),
+      loc.form.locator("label", { hasText: "GitHub Username" }),
     ).toBeVisible();
-    await expect(page.getByLabel("GitHub Username")).toBeVisible();
+    await expect(loc.username).toBeVisible();
     // Submit button
-    await expect(
-      page.getByRole("button", { name: "Generate My Ticket" }),
-    ).toBeVisible();
+    await expect(loc.submit).toBeVisible();
   });
 
   /** Test if the page can handle form submission */
   test.describe("form submission", () => {
     /** Test if the form can handle valid input with avatar */
     test("should handle valid input correctly", async ({ page }) => {
-      const form = page.locator("form");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
       // Fill inputs
       await fillForm(page, {
         fullName: "Jonatan Kristof",
@@ -135,16 +167,15 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         username: "@jonatankristof0101",
       });
       // Submit
-      await submit.click();
+      await loc.submit.click();
       // Switch to ticket view
-      await expect(form).not.toBeVisible();
+      await expect(loc.form).not.toBeVisible();
       await expect(page.getByText("Congrats")).toBeVisible();
     });
 
     /** Test if the form can generate conference ticket */
     test("should generate conference ticket", async ({ page }) => {
-      const form = page.locator("form");
-      const ticket = page.locator('div[id="ticket"]');
+      const loc = createLocators(page);
       // input data
       const fullname = "Jonatan Kristof";
       const email = "jonatan@email.com";
@@ -152,12 +183,11 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       // Fill inputs
       await fillForm(page, { fullName: fullname, email, username });
 
-      const preview = form.getByRole("img", { name: "Avatar preview" });
-      const previewSrc = await preview.getAttribute("src");
+      const previewSrc = await loc.preview.getAttribute("src");
       // Submit
-      await page.getByRole("button", { name: "Generate My Ticket" }).click();
+      await loc.submit.click();
       // Switch to ticket view
-      await expect(form).not.toBeVisible();
+      await expect(loc.form).not.toBeVisible();
       await expect(
         page.getByRole("heading", { name: `Congrats, ${fullname}!` }),
       ).toBeVisible();
@@ -165,103 +195,76 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         page.getByText(`We've emailed your ticket to ${email}`),
       ).toBeVisible();
       await expect(
-        ticket.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
+        loc.ticket.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
       ).toBeVisible();
+      await expect(loc.ticket.getByRole("img", { name: "Avatar preview" })).toBeVisible();
       await expect(
-        ticket.getByRole("img", { name: "Avatar preview" }),
-      ).toBeVisible();
-      await expect(
-        ticket.getByRole("img", { name: "Avatar preview" }),
+        loc.ticket.getByRole("img", { name: "Avatar preview" }),
       ).toHaveAttribute("src", previewSrc ?? "");
-      await expect(ticket.getByText(`${fullname}${username}`)).toBeVisible();
-      await expect(ticket.getByText(/#\d+/)).toBeVisible();
+      await expect(loc.ticket.getByText(`${fullname}${username}`)).toBeVisible();
+      await expect(loc.ticket.getByText(/#\d+/)).toBeVisible();
     });
 
     /** Test if the form can handle empty input */
     test("should handle empty input correctly", async ({ page }) => {
-      const avatarError = page.getByText("Avatar cannot be empty.");
-      const fullNameError = page.getByText("Fullname cannot be empty.");
-      const emailError = page.getByText("Email address cannot be empty.");
-      const usernameError = page.getByText("Username cannot be empty.");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
-      await expect(avatarError).not.toBeVisible();
-      await expect(fullNameError).not.toBeVisible();
-      await expect(emailError).not.toBeVisible();
-      await expect(usernameError).not.toBeVisible();
+      await expect(loc.errors.avatarEmpty).not.toBeVisible();
+      await expect(loc.errors.fullNameEmpty).not.toBeVisible();
+      await expect(loc.errors.emailEmpty).not.toBeVisible();
+      await expect(loc.errors.usernameEmpty).not.toBeVisible();
 
-      await submit.click();
+      await loc.submit.click();
 
-      await expect(avatarError).toBeVisible();
-      await expect(fullNameError).toBeVisible();
-      await expect(emailError).toBeVisible();
-      await expect(usernameError).toBeVisible();
+      await expect(loc.errors.avatarEmpty).toBeVisible();
+      await expect(loc.errors.fullNameEmpty).toBeVisible();
+      await expect(loc.errors.emailEmpty).toBeVisible();
+      await expect(loc.errors.usernameEmpty).toBeVisible();
     });
 
     /** Test if the form can handle whitespace-only input */
     test("should handle whitespace-only input correctly", async ({ page }) => {
-      const form = page.locator("form");
-      const fullName = form.getByLabel("Full Name");
-      const email = form.getByLabel("Email Address");
-      const username = form.getByLabel("GitHub Username");
+      const loc = createLocators(page);
 
-      const fullNameError = page.getByText("Fullname cannot be empty.");
-      const emailError = page.getByText("Please enter a valid email address.");
-      const usernameError = page.getByText("Username cannot be empty.");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      await expect(loc.errors.fullNameEmpty).not.toBeVisible();
+      await expect(loc.errors.emailInvalid).not.toBeVisible();
+      await expect(loc.errors.usernameEmpty).not.toBeVisible();
 
-      await expect(fullNameError).not.toBeVisible();
-      await expect(emailError).not.toBeVisible();
-      await expect(usernameError).not.toBeVisible();
+      await loc.fullName.fill("   ");
+      await loc.email.fill("jonatan@email.com");
+      await loc.username.fill("   ");
 
-      await fullName.fill("   ");
-      await email.fill("jonatan@email.com");
-      await username.fill("   ");
+      await loc.submit.click();
 
-      await submit.click();
-
-      await expect(fullNameError).toBeVisible();
-      await expect(usernameError).toBeVisible();
+      await expect(loc.errors.fullNameEmpty).toBeVisible();
+      await expect(loc.errors.usernameEmpty).toBeVisible();
     });
 
     /** Test if the form can handle invalid input */
     test("should handle invalid input correctly", async ({ page }) => {
-      const form = page.locator("form");
-      const avatar = form.getByLabel("Upload Avatar");
-      const fullName = form.getByLabel("Full Name");
-      const email = form.getByLabel("Email Address");
-
-      const avatarError = page.getByText(
-        "File too large. Please upload a photo under 500KB.",
-      );
-      const fullNameError = page.getByText("Fullname cannot be empty.");
-      const emailError = page.getByText("Please enter a valid email address.");
-      const usernameError = page.getByText("Username cannot be empty.");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
-
+      const loc = createLocators(page);
       const filePath = path.join(__dirname, "assets/icon-github.png");
 
-      await expect(avatarError).not.toBeVisible();
-      await expect(fullNameError).not.toBeVisible();
-      await expect(emailError).not.toBeVisible();
-      await expect(usernameError).not.toBeVisible();
+      await expect(loc.errors.sizeError).not.toBeVisible();
+      await expect(loc.errors.fullNameEmpty).not.toBeVisible();
+      await expect(loc.errors.emailInvalid).not.toBeVisible();
+      await expect(loc.errors.usernameEmpty).not.toBeVisible();
 
-      await avatar.setInputFiles(filePath);
-      await fullName.fill("  \t\t  ");
-      await email.fill("jonatan");
+      await loc.avatar.setInputFiles(filePath);
+      await loc.fullName.fill("  \t\t  ");
+      await loc.email.fill("jonatan");
 
-      await submit.click();
+      await loc.submit.click();
 
-      await expect(avatarError).toBeVisible();
-      await expect(fullNameError).toBeVisible();
-      await expect(emailError).toBeVisible();
-      await expect(usernameError).toBeVisible();
+      await expect(loc.errors.sizeError).toBeVisible();
+      await expect(loc.errors.fullNameEmpty).toBeVisible();
+      await expect(loc.errors.emailInvalid).toBeVisible();
+      await expect(loc.errors.usernameEmpty).toBeVisible();
     });
 
     /** Test if the form can handle special characters in inputs */
     test("should handle special characters in inputs", async ({ page }) => {
-      const form = page.locator("form");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       const specialName = "José O'Brien-Smith";
       const specialEmail = "jose.o-brien+test@email-domain.co.uk";
@@ -272,9 +275,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         email: specialEmail,
         username: specialUsername,
       });
-      await submit.click();
+      await loc.submit.click();
 
-      await expect(form).not.toBeVisible();
+      await expect(loc.form).not.toBeVisible();
       await expect(
         page.getByRole("heading", { name: `Congrats, ${specialName}!` }),
       ).toBeVisible();
@@ -284,115 +287,90 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     test("should trim and auto-prepend @ for username input", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const ticket = page.locator('div[id="ticket"]');
-      const avatar = form.getByLabel("Upload Avatar");
-      const fullName = form.getByLabel("Full Name");
-      const email = form.getByLabel("Email Address");
-      const username = form.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       const trimmedName = "John Doe";
       const trimmedUsername = "johndoe"; // without @
 
       // input with trailing/leading whitespace
-      await avatar.setInputFiles(
+      await loc.avatar.setInputFiles(
         path.join(__dirname, "assets/image-avatar.jpg"),
       );
-      await fullName.fill(`  ${trimmedName}  `);
-      await email.fill("  john@email.com  ");
-      await username.fill(`  ${trimmedUsername}  `);
-      await username.blur();
+      await loc.fullName.fill(`  ${trimmedName}  `);
+      await loc.email.fill("  john@email.com  ");
+      await loc.username.fill(`  ${trimmedUsername}  `);
+      await loc.username.blur();
 
       // verify @ added after trim
-      await expect(username).toHaveValue("@johndoe");
+      await expect(loc.username).toHaveValue("@johndoe");
 
-      await submit.click();
+      await loc.submit.click();
 
       // ticket should shows trimmed values
-      await expect(form).not.toBeVisible();
-      await expect(ticket.getByText(`${trimmedName}@johndoe`)).toBeVisible();
+      await expect(loc.form).not.toBeVisible();
+      await expect(loc.ticket.getByText(`${trimmedName}@johndoe`)).toBeVisible();
     });
 
     /** Test if the avatar upload field works */
     test("should show avatar preview", async ({ page }) => {
-      const form = page.locator("form");
-      const avatarLabel = form.locator("label", {
-        hasText: "Drag and drop or click to upload",
-      });
+      const loc = createLocators(page);
       const fileChooserPromise = page.waitForEvent("filechooser");
-      await avatarLabel.click();
+      await loc.avatarLabel.click();
       const fileChooser = await fileChooserPromise;
       await fileChooser.setFiles(
         path.join(__dirname, "assets/image-avatar.jpg"),
       );
-      const preview = form.getByRole("img", { name: "Avatar preview" });
-      const removeImage = form.locator("button", { hasText: "Remove image" });
-      const changeImage = form.locator("button", { hasText: "Change image" });
-      await expect(preview).toBeVisible();
-      await expect(removeImage).toBeVisible();
-      await expect(changeImage).toBeVisible();
+      await expect(loc.preview).toBeVisible();
+      await expect(loc.removeImage).toBeVisible();
+      await expect(loc.changeImage).toBeVisible();
     });
 
     /** Test if the avatar upload field validation works */
     test("should trigger field validation on avatar change", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const avatarLabel = form.locator("label", {
-        hasText: "Drag and drop or click to upload",
-      });
-      const formatError = form.getByText("File must be JPG or PNG format.");
-      const sizeError = form.getByText(
-        "File too large. Please upload a photo under 500KB.",
-      );
+      const loc = createLocators(page);
       const fileChooserPromise = page.waitForEvent("filechooser");
 
       // initial check
-      await expect(formatError).not.toBeVisible();
-      await expect(sizeError).not.toBeVisible();
+      await expect(loc.errors.formatError).not.toBeVisible();
+      await expect(loc.errors.sizeError).not.toBeVisible();
 
       // unsupported format upload
-      await avatarLabel.click();
+      await loc.avatarLabel.click();
       let fileChooser = await fileChooserPromise;
       await fileChooser.setFiles(
         path.join(__dirname, "assets/image-avatar.webp"),
       );
-      await expect(formatError).toBeVisible();
-      await expect(sizeError).not.toBeVisible();
+      await expect(loc.errors.formatError).toBeVisible();
+      await expect(loc.errors.sizeError).not.toBeVisible();
 
       // too large file upload
-      await avatarLabel.click();
+      await loc.avatarLabel.click();
       fileChooser = await fileChooserPromise;
       await fileChooser.setFiles(
         path.join(__dirname, "assets/icon-github.png"),
       );
-      await expect(formatError).not.toBeVisible();
-      await expect(sizeError).toBeVisible();
+      await expect(loc.errors.formatError).not.toBeVisible();
+      await expect(loc.errors.sizeError).toBeVisible();
 
       // valid image upload
-      await avatarLabel.click();
+      await loc.avatarLabel.click();
       fileChooser = await fileChooserPromise;
       await fileChooser.setFiles(
         path.join(__dirname, "assets/image-avatar.jpg"),
       );
-      await expect(formatError).not.toBeVisible();
-      await expect(sizeError).not.toBeVisible();
-      await expect(
-        form.getByRole("img", { name: "Avatar preview" }),
-      ).toBeVisible();
+      await expect(loc.errors.formatError).not.toBeVisible();
+      await expect(loc.errors.sizeError).not.toBeVisible();
+      await expect(loc.preview).toBeVisible();
     });
 
     /** Test if the avatar upload field works */
     test("should be able to change and remove selected image", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const avatarLabel = form.getByText("Upload Avatar");
-      const avatarInput = form.getByLabel("Upload Avatar");
-      const preview = form.getByRole("img", { name: "Avatar preview" });
-      const removeImage = form.locator("button", { hasText: "Remove image" });
-      const changeImage = form.locator("button", { hasText: "Change image" });
+      const loc = createLocators(page);
+      const avatarLabel = loc.form.getByText("Upload Avatar");
 
       const imagePathOne = path.join(__dirname, "assets/image-avatar.jpg");
       const imagePathTwo = path.join(__dirname, "assets/default-avatar.png");
@@ -402,11 +380,11 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await avatarLabel.click();
       let fileChooser = await fileChooserPromise;
       await fileChooser.setFiles(imagePathOne);
-      await expect(preview).toBeVisible();
-      await expect(removeImage).toBeVisible();
-      await expect(changeImage).toBeVisible();
+      await expect(loc.preview).toBeVisible();
+      await expect(loc.removeImage).toBeVisible();
+      await expect(loc.changeImage).toBeVisible();
       expect(
-        await avatarInput.evaluate(
+        await loc.avatar.evaluate(
           (el) => (el as HTMLInputElement).files?.[0].name,
         ),
       ).toBe("image-avatar.jpg");
@@ -414,299 +392,257 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       // change image button check
       fileChooser = await fileChooserPromise;
       await fileChooser.setFiles(imagePathTwo);
-      await expect(preview).toBeVisible();
-      await expect(removeImage).toBeVisible();
-      await expect(changeImage).toBeVisible();
+      await expect(loc.preview).toBeVisible();
+      await expect(loc.removeImage).toBeVisible();
+      await expect(loc.changeImage).toBeVisible();
       expect(
-        await avatarInput.evaluate(
+        await loc.avatar.evaluate(
           (el) => (el as HTMLInputElement).files?.[0].name,
         ),
       ).toBe("default-avatar.png");
 
       // remove image button check
-      await removeImage.click();
-      await expect(preview).not.toBeVisible();
-      await expect(removeImage).not.toBeVisible();
-      await expect(changeImage).not.toBeVisible();
+      await loc.removeImage.click();
+      await expect(loc.preview).not.toBeVisible();
+      await expect(loc.removeImage).not.toBeVisible();
+      await expect(loc.changeImage).not.toBeVisible();
     });
 
     /** Test if the avatar field reject non-image file formats */
     test("should reject non-image file formats", async ({ page }) => {
-      const form = page.locator("form");
-      const avatar = form.getByLabel("Upload Avatar");
-      const formatError = form.getByText("File must be JPG or PNG format.");
+      const loc = createLocators(page);
 
       // try upload non-image file
       const filePath = path.join(__dirname, "assets/test-file.txt");
 
-      await avatar.setInputFiles(filePath);
-      await expect(formatError).toBeVisible();
+      await loc.avatar.setInputFiles(filePath);
+      await expect(loc.errors.formatError).toBeVisible();
     });
 
     /** Test if the form can handle rapid avatar changes */
     test("should handle rapid avatar changes", async ({ page }) => {
-      const form = page.locator("form");
-      const avatar = form.getByLabel("Upload Avatar");
-      const preview = form.getByRole("img", { name: "Avatar preview" });
+      const loc = createLocators(page);
 
       const file1 = path.join(__dirname, "assets/image-avatar.jpg");
       const file2 = path.join(__dirname, "assets/default-avatar.png");
 
       // upload rapidly several times
-      await avatar.setInputFiles(file1);
-      await avatar.setInputFiles(file2);
-      await avatar.setInputFiles(file1);
+      await loc.avatar.setInputFiles(file1);
+      await loc.avatar.setInputFiles(file2);
+      await loc.avatar.setInputFiles(file1);
 
       // preview should be visible with no errors
-      await expect(preview).toBeVisible();
-      await expect(
-        form.getByRole("img", { name: "Avatar preview" }),
-      ).toHaveAttribute("src", /blob:/);
+      await expect(loc.preview).toBeVisible();
+      await expect(loc.preview).toHaveAttribute("src", /blob:/);
     });
 
     /** Test if the avatar preview persists when other validation errors occur */
     test("should keep avatar preview when other validation errors occur", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const avatar = form.getByLabel("Upload Avatar");
-      const fullName = form.getByLabel("Full Name");
-      const email = form.getByLabel("Email Address");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
-      const preview = form.getByRole("img", { name: "Avatar preview" });
+      const loc = createLocators(page);
 
       const filePath = path.join(__dirname, "assets/image-avatar.jpg");
 
       // upload avatar
-      await avatar.setInputFiles(filePath);
-      await expect(preview).toBeVisible();
+      await loc.avatar.setInputFiles(filePath);
+      await expect(loc.preview).toBeVisible();
 
       // submit with other fields empty
-      await fullName.fill("");
-      await email.fill("");
-      await submit.click();
+      await loc.fullName.fill("");
+      await loc.email.fill("");
+      await loc.submit.click();
 
       // avatar preview should be visible
-      await expect(preview).toBeVisible();
-      await expect(page.getByText("Fullname cannot be empty.")).toBeVisible();
+      await expect(loc.preview).toBeVisible();
+      await expect(loc.errors.fullNameEmpty).toBeVisible();
     });
 
     /** Test if the email field validation works */
     test("should validate specific email formats", async ({ page }) => {
-      const form = page.locator("form");
-      const email = form.getByLabel("Email Address");
-      const fullName = form.getByLabel("Full Name");
-      const username = form.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
-      const emailError = page.getByText("Please enter a valid email address.");
+      const loc = createLocators(page);
 
       // fill valid name and username
-      await fullName.fill("John Doe");
-      await username.fill("@johndoe");
+      await loc.fullName.fill("John Doe");
+      await loc.username.fill("@johndoe");
 
       // test email without @
-      await email.fill("emailwithoutatsign.com");
-      await submit.click();
-      await expect(emailError).toBeVisible();
+      await loc.email.fill("emailwithoutatsign.com");
+      await loc.submit.click();
+      await expect(loc.errors.emailInvalid).toBeVisible();
 
       // test email without domain
-      await email.fill("email@");
-      await submit.click();
-      await expect(emailError).toBeVisible();
+      await loc.email.fill("email@");
+      await loc.submit.click();
+      await expect(loc.errors.emailInvalid).toBeVisible();
 
       // test email without local part
-      await email.fill("@domain.com");
-      await submit.click();
-      await expect(emailError).toBeVisible();
+      await loc.email.fill("@domain.com");
+      await loc.submit.click();
+      await expect(loc.errors.emailInvalid).toBeVisible();
 
       // test email with space
-      await email.fill("john doe@email.com");
-      await submit.click();
-      await expect(emailError).toBeVisible();
+      await loc.email.fill("john doe@email.com");
+      await loc.submit.click();
+      await expect(loc.errors.emailInvalid).toBeVisible();
     });
 
     /** Test if the username field should automatically prepend @ */
     test("should automatically prepend @ when user types username without it", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const username = form.getByLabel("GitHub Username");
+      const loc = createLocators(page);
 
       // fill username without @
-      await username.fill("testuser");
-      await username.blur();
+      await loc.username.fill("testuser");
+      await loc.username.blur();
 
       // verify @ automatically added
-      await expect(username).toHaveValue("@testuser");
+      await expect(loc.username).toHaveValue("@testuser");
     });
 
     /** Test if the username field should not duplicate @ */
     test("should not duplicate @ if user already typed it", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const username = form.getByLabel("GitHub Username");
+      const loc = createLocators(page);
 
       // fill username with @
-      await username.fill("@testuser");
-      await username.blur();
+      await loc.username.fill("@testuser");
+      await loc.username.blur();
 
       // verify @ not duplicated
-      await expect(username).toHaveValue("@testuser");
+      await expect(loc.username).toHaveValue("@testuser");
     });
 
     /** Test if the form handle username with and without @ symbol */
     test("should handle username with and without @ symbol", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const ticket = page.locator('div[id="ticket"]');
-      const avatar = page.getByLabel("Upload Avatar");
-      const fullName = page.getByLabel("Full Name");
-      const email = page.getByLabel("Email Address");
-      const username = page.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       // fill with username without @
-      await avatar.setInputFiles(
+      await loc.avatar.setInputFiles(
         path.join(__dirname, "assets/image-avatar.jpg"),
       );
-      await fullName.fill("John Doe");
-      await email.fill("john@email.com");
-      await username.fill("johndoe");
+      await loc.fullName.fill("John Doe");
+      await loc.email.fill("john@email.com");
+      await loc.username.fill("johndoe");
 
       // blur to trigger onChange handler
-      await username.blur();
+      await loc.username.blur();
 
       // verify that @ has been added to the field
-      await expect(username).toHaveValue("@johndoe");
+      await expect(loc.username).toHaveValue("@johndoe");
 
-      await submit.click();
+      await loc.submit.click();
 
-      await expect(form).not.toBeVisible();
+      await expect(loc.form).not.toBeVisible();
       await expect(page.getByText("Congrats")).toBeVisible();
 
       // verify the username in the ticket has @
-      await expect(ticket.getByText("John Doe@johndoe")).toBeVisible();
+      await expect(loc.ticket.getByText("John Doe@johndoe")).toBeVisible();
     });
 
     /** Test if the form auto-prepend @ even when validation errors occur */
     test("should auto-prepend @ even when validation errors occur", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const username = form.getByLabel("GitHub Username");
-      const submit = form.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       // fill only username
-      await username.fill("testuser");
-      await username.blur();
+      await loc.username.fill("testuser");
+      await loc.username.blur();
 
       // verify @ added
-      await expect(username).toHaveValue("@testuser");
+      await expect(loc.username).toHaveValue("@testuser");
 
       // submit to trigger validation errors
-      await submit.click();
+      await loc.submit.click();
 
       // username value should contain @
-      await expect(username).toHaveValue("@testuser");
-      await expect(page.getByText("Fullname cannot be empty.")).toBeVisible();
+      await expect(loc.username).toHaveValue("@testuser");
+      await expect(loc.errors.fullNameEmpty).toBeVisible();
     });
 
     /** Test if the form auto-prepend @ when navigating with Tab key */
     test("should auto-prepend @ when navigating with Tab key", async ({
       page,
     }) => {
-      const fullName = page.getByLabel("Full Name");
-      const username = page.getByLabel("GitHub Username");
+      const loc = createLocators(page);
 
       // tab to username field
-      await fullName.focus();
+      await loc.fullName.focus();
       await page.keyboard.press("Tab");
       await page.keyboard.press("Tab");
 
       // type without @
-      await username.fill("johndoe");
+      await loc.username.fill("johndoe");
 
       // tab to move focus
       await page.keyboard.press("Tab");
 
       // verify @ has been added
-      await expect(username).toHaveValue("@johndoe");
+      await expect(loc.username).toHaveValue("@johndoe");
     });
 
     /** Test if the error messages cleared when input is corrected */
     test("should clear error messages when input is corrected", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const fullName = form.getByLabel("Full Name");
-      const email = form.getByLabel("Email Address");
-      const username = form.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
-
-      const fullNameError = page.getByText("Fullname cannot be empty.");
-      const emailError = page.getByText("Email address cannot be empty.");
-      const usernameError = page.getByText("Username cannot be empty.");
+      const loc = createLocators(page);
 
       // submit empty form
-      await submit.click();
-      await expect(fullNameError).toBeVisible();
-      await expect(emailError).toBeVisible();
-      await expect(usernameError).toBeVisible();
+      await loc.submit.click();
+      await expect(loc.errors.fullNameEmpty).toBeVisible();
+      await expect(loc.errors.emailEmpty).toBeVisible();
+      await expect(loc.errors.usernameEmpty).toBeVisible();
 
       // fix input one by one
-      await fullName.fill("John Doe");
-      await expect(fullNameError).not.toBeVisible();
-      await expect(emailError).toBeVisible();
-      await expect(usernameError).toBeVisible();
+      await loc.fullName.fill("John Doe");
+      await expect(loc.errors.fullNameEmpty).not.toBeVisible();
+      await expect(loc.errors.emailEmpty).toBeVisible();
+      await expect(loc.errors.usernameEmpty).toBeVisible();
 
-      await email.fill("john@email.com");
-      await expect(emailError).not.toBeVisible();
-      await expect(usernameError).toBeVisible();
+      await loc.email.fill("john@email.com");
+      await expect(loc.errors.emailEmpty).not.toBeVisible();
+      await expect(loc.errors.usernameEmpty).toBeVisible();
 
-      await username.fill("@johndoe");
-      await expect(usernameError).not.toBeVisible();
+      await loc.username.fill("@johndoe");
+      await expect(loc.errors.usernameEmpty).not.toBeVisible();
     });
 
     /** Test if the page has correct tab navigation order */
     test("should have correct tab navigation order", async ({ page }) => {
-      const avatar = page.locator("label", {
-        hasText: "Drag and drop or click to upload",
-      });
-      const fullName = page.getByLabel("Full Name");
-      const email = page.getByLabel("Email Address");
-      const username = page.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       await page.keyboard.press("Tab");
-      await expect(avatar).toBeFocused();
+      await expect(loc.avatarLabel).toBeFocused();
 
       await page.keyboard.press("Tab");
-      await expect(fullName).toBeFocused();
+      await expect(loc.fullName).toBeFocused();
 
       await page.keyboard.press("Tab");
-      await expect(email).toBeFocused();
+      await expect(loc.email).toBeFocused();
 
       await page.keyboard.press("Tab");
-      await expect(username).toBeFocused();
+      await expect(loc.username).toBeFocused();
 
       await page.keyboard.press("Tab");
-      await expect(submit).toBeFocused();
+      await expect(loc.submit).toBeFocused();
     });
 
     /** Test if the form can be submitted with enter key */
     test("should submit form with Enter key", async ({ page }) => {
-      const form = page.locator("form");
-      const username = page.getByLabel("GitHub Username");
+      const loc = createLocators(page);
 
       await fillForm(page);
 
       // press Enter at the last field
-      await username.press("Enter");
+      await loc.username.press("Enter");
 
       // form submit
-      await expect(form).not.toBeVisible();
+      await expect(loc.form).not.toBeVisible();
       await expect(page.getByText("Congrats")).toBeVisible();
     });
 
@@ -714,7 +650,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     test("should generate unique ticket numbers for multiple submissions", async ({
       page,
     }) => {
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       // generate first ticket
       await fillForm(page, {
@@ -722,10 +658,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         email: "john@email.com",
         username: "@johndoe",
       });
-      await submit.click();
+      await loc.submit.click();
 
-      const ticket1 = page.locator('div[id="ticket"]');
-      const ticketNumber1 = await ticket1.getByText(/#\d+/).textContent();
+      const ticketNumber1 = await loc.ticket.getByText(/#\d+/).textContent();
 
       // reload page for new submission
       await page.reload();
@@ -736,10 +671,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         email: "jane@email.com",
         username: "@janesmith",
       });
-      await submit.click();
+      await loc.submit.click();
 
-      const ticket2 = page.locator('div[id="ticket"]');
-      const ticketNumber2 = await ticket2.getByText(/#\d+/).textContent();
+      const ticketNumber2 = await loc.ticket.getByText(/#\d+/).textContent();
 
       // ticket numbers must be different
       expect(ticketNumber1).not.toBe(ticketNumber2);
@@ -750,11 +684,10 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       test("should show avatar preview when image is dropped", async ({
         page,
       }) => {
-        const form = page.locator("form");
-        const preview = form.getByRole("img", { name: "Avatar preview" });
+        const loc = createLocators(page);
 
         // make sure preview not visible
-        await expect(preview).toHaveCount(0);
+        await expect(loc.preview).toHaveCount(0);
 
         // simulate drag-and-drop file to drop zone
         await dragAndDropFile(
@@ -765,17 +698,16 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         );
 
         // preview should visible
-        await expect(preview).toBeVisible();
+        await expect(loc.preview).toBeVisible();
       });
 
       /** Test if the format error is shown when dropping unsupported image type  */
       test("should show format error when dropping unsupported image type", async ({
         page,
       }) => {
-        const form = page.locator("form");
-        const formatError = form.getByText("File must be JPG or PNG format.");
+        const loc = createLocators(page);
 
-        await expect(formatError).not.toBeVisible();
+        await expect(loc.errors.formatError).not.toBeVisible();
 
         // simulate drag-and-drop unsupported image type file to drop zone
         await dragAndDropFile(
@@ -785,19 +717,16 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
           "image/webp",
         );
 
-        await expect(formatError).toBeVisible();
+        await expect(loc.errors.formatError).toBeVisible();
       });
 
       /** Test if the size error is shown when dropping too large image  */
       test("should show size error when dropping too large image", async ({
         page,
       }) => {
-        const form = page.locator("form");
-        const sizeError = form.getByText(
-          "File too large. Please upload a photo under 500KB.",
-        );
+        const loc = createLocators(page);
 
-        await expect(sizeError).not.toBeVisible();
+        await expect(loc.errors.sizeError).not.toBeVisible();
 
         // drop too large file
         await dragAndDropFile(
@@ -807,27 +736,24 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
           "image/png",
         );
 
-        await expect(sizeError).toBeVisible();
+        await expect(loc.errors.sizeError).toBeVisible();
       });
 
       /** Test if the drag-over styles are applied when dragging file over drop zone  */
       test("should apply drag-over styles when dragging file over drop zone", async ({
         page,
       }) => {
-        const form = page.locator("form");
-        const dropZone = form.locator("label", {
-          hasText: "Drag and drop or click to upload",
-        });
+        const loc = createLocators(page);
 
-        const defaultBorder = await dropZone.evaluate(
+        const defaultBorder = await loc.avatarLabel.evaluate(
           (el) => window.getComputedStyle(el).borderColor,
         );
 
         // trigger dragenter + dragover via JS
-        await dropZone.dispatchEvent("dragenter");
-        await dropZone.dispatchEvent("dragover");
+        await loc.avatarLabel.dispatchEvent("dragenter");
+        await loc.avatarLabel.dispatchEvent("dragover");
 
-        const dragBorder = await dropZone.evaluate(
+        const dragBorder = await loc.avatarLabel.evaluate(
           (el) => window.getComputedStyle(el).borderColor,
         );
 
@@ -838,19 +764,16 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       test("should reset drag-over styles when drag leaves drop zone", async ({
         page,
       }) => {
-        const form = page.locator("form");
-        const dropZone = form.locator("label", {
-          hasText: "Drag and drop or click to upload",
-        });
+        const loc = createLocators(page);
 
-        await dropZone.dispatchEvent("dragenter");
-        await dropZone.dispatchEvent("dragover");
-        const dragBorder = await dropZone.evaluate(
+        await loc.avatarLabel.dispatchEvent("dragenter");
+        await loc.avatarLabel.dispatchEvent("dragover");
+        const dragBorder = await loc.avatarLabel.evaluate(
           (el) => window.getComputedStyle(el).borderColor,
         );
 
-        await dropZone.dispatchEvent("dragleave");
-        const leaveBorder = await dropZone.evaluate(
+        await loc.avatarLabel.dispatchEvent("dragleave");
+        const leaveBorder = await loc.avatarLabel.evaluate(
           (el) => window.getComputedStyle(el).borderColor,
         );
 
@@ -862,12 +785,8 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
   /** Test if the page has hover effects on interactive elements */
   test("has hover effects on interactive elements", async ({ page }) => {
     // interactive elements
-    const form = page.locator("form");
-    const avatar = form.locator('label[for="avatar"]').nth(1);
-    const fullName = form.getByLabel("Full Name");
-    const email = form.getByLabel("Email Address");
-    const username = form.getByLabel("GitHub Username");
-    const submit = form.getByRole("button", { name: "Generate My Ticket" });
+    const loc = createLocators(page);
+    const avatar = loc.form.locator('label[for="avatar"]').nth(1);
     // text styles
     const defaultBg = "rgba(75, 72, 106, 0.3)";
     const hoverBg = "rgba(75, 72, 106, 0.7)";
@@ -884,23 +803,23 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       "rgba(75, 72, 106, 0.7)",
     );
     // fullName
-    await expect(fullName).toHaveCSS("background-color", defaultBg);
-    await fullName.hover();
-    await expect(fullName).toHaveCSS("background-color", hoverBg);
+    await expect(loc.fullName).toHaveCSS("background-color", defaultBg);
+    await loc.fullName.hover();
+    await expect(loc.fullName).toHaveCSS("background-color", hoverBg);
     // email
-    await expect(email).toHaveCSS("background-color", defaultBg);
-    await email.hover();
-    await expect(email).toHaveCSS("background-color", hoverBg);
+    await expect(loc.email).toHaveCSS("background-color", defaultBg);
+    await loc.email.hover();
+    await expect(loc.email).toHaveCSS("background-color", hoverBg);
     // username
-    await expect(username).toHaveCSS("background-color", defaultBg);
-    await username.hover();
-    await expect(username).toHaveCSS("background-color", hoverBg);
+    await expect(loc.username).toHaveCSS("background-color", defaultBg);
+    await loc.username.hover();
+    await expect(loc.username).toHaveCSS("background-color", hoverBg);
     // submit
-    await expect(submit).toHaveCSS("background-color", "rgb(245, 114, 97)");
-    await expect(submit).toHaveCSS("box-shadow", "none");
-    await submit.hover();
-    await expect(submit).toHaveCSS("background-color", "rgb(225, 97, 81)");
-    await expect(submit).toHaveCSS(
+    await expect(loc.submit).toHaveCSS("background-color", "rgb(245, 114, 97)");
+    await expect(loc.submit).toHaveCSS("box-shadow", "none");
+    await loc.submit.hover();
+    await expect(loc.submit).toHaveCSS("background-color", "rgb(225, 97, 81)");
+    await expect(loc.submit).toHaveCSS(
       "box-shadow",
       "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(245, 114, 97) 0px 4px 0px 0px",
     );
@@ -908,13 +827,8 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
   /** Test if the page has focus states on interactive elements */
   test("has focus states on interactive elements", async ({ page }) => {
-    // interactive elements
-    const form = page.locator("form");
-    const fullName = form.getByLabel("Full Name");
-    const email = form.getByLabel("Email Address");
-    const username = form.getByLabel("GitHub Username");
-    const submit = form.getByRole("button", { name: "Generate My Ticket" });
-    const textInputs = [fullName, email, username];
+    const loc = createLocators(page);
+    const textInputs = [loc.fullName, loc.email, loc.username];
 
     // text inputs
     for (const textInput of textInputs) {
@@ -930,56 +844,48 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     }
 
     // submit
-    await expect(submit).toHaveCSS("border-color", "rgb(229, 231, 235)");
-    await expect(submit).toHaveCSS("border-width", "0px");
-    await expect(submit).toHaveCSS("outline-color", "rgb(12, 8, 43)");
-    await expect(submit).toHaveCSS("outline-style", "none");
-    await expect(submit).toHaveCSS("outline-width", "0px");
-    await submit.focus();
-    await expect(submit).toHaveCSS("border-color", "rgb(12, 8, 43)");
-    await expect(submit).toHaveCSS("border-width", "3px");
-    await expect(submit).toHaveCSS("outline-color", "rgb(135, 132, 164)");
-    await expect(submit).toHaveCSS("outline-style", "solid");
-    await expect(submit).toHaveCSS("outline-width", "2px");
+    await expect(loc.submit).toHaveCSS("border-color", "rgb(229, 231, 235)");
+    await expect(loc.submit).toHaveCSS("border-width", "0px");
+    await expect(loc.submit).toHaveCSS("outline-color", "rgb(12, 8, 43)");
+    await expect(loc.submit).toHaveCSS("outline-style", "none");
+    await expect(loc.submit).toHaveCSS("outline-width", "0px");
+    await loc.submit.focus();
+    await expect(loc.submit).toHaveCSS("border-color", "rgb(12, 8, 43)");
+    await expect(loc.submit).toHaveCSS("border-width", "3px");
+    await expect(loc.submit).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(loc.submit).toHaveCSS("outline-style", "solid");
+    await expect(loc.submit).toHaveCSS("outline-width", "2px");
   });
 
   /** Test if avatar action buttons have focus states */
   test("has focus states on avatar action buttons", async ({ page }) => {
-    const form = page.locator("form");
-    const avatar = form.getByLabel("Upload Avatar");
+    const loc = createLocators(page);
 
     // upload avatar first to show action buttons
-    await avatar.setInputFiles(path.join(__dirname, "assets/image-avatar.jpg"));
-
-    const removeButton = form.getByRole("button", {
-      name: "Remove avatar image",
-    });
-    const changeButton = form.getByRole("button", {
-      name: "Change avatar image",
-    });
+    await loc.avatar.setInputFiles(path.join(__dirname, "assets/image-avatar.jpg"));
 
     // Remove button - initial state
-    await expect(removeButton).toHaveCSS("outline-style", "none");
-    await expect(removeButton).toHaveCSS("outline-width", "0px");
+    await expect(loc.removeImage).toHaveCSS("outline-style", "none");
+    await expect(loc.removeImage).toHaveCSS("outline-width", "0px");
 
     // Remove button - focused state
-    await removeButton.focus();
-    await expect(removeButton).toHaveCSS("outline-color", "rgb(135, 132, 164)");
-    await expect(removeButton).toHaveCSS("outline-offset", "2px");
-    await expect(removeButton).toHaveCSS("outline-style", "solid");
-    await expect(removeButton).toHaveCSS("outline-width", "2px");
+    await loc.removeImage.focus();
+    await expect(loc.removeImage).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(loc.removeImage).toHaveCSS("outline-offset", "2px");
+    await expect(loc.removeImage).toHaveCSS("outline-style", "solid");
+    await expect(loc.removeImage).toHaveCSS("outline-width", "2px");
 
     // Change button - initial state
-    await changeButton.evaluate((el) => (el as HTMLElement).blur());
-    await expect(changeButton).toHaveCSS("outline-style", "none");
-    await expect(changeButton).toHaveCSS("outline-width", "0px");
+    await loc.changeImage.evaluate((el) => (el as HTMLElement).blur());
+    await expect(loc.changeImage).toHaveCSS("outline-style", "none");
+    await expect(loc.changeImage).toHaveCSS("outline-width", "0px");
 
     // Change button - focused state
-    await changeButton.focus();
-    await expect(changeButton).toHaveCSS("outline-color", "rgb(135, 132, 164)");
-    await expect(changeButton).toHaveCSS("outline-offset", "2px");
-    await expect(changeButton).toHaveCSS("outline-style", "solid");
-    await expect(changeButton).toHaveCSS("outline-width", "2px");
+    await loc.changeImage.focus();
+    await expect(loc.changeImage).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(loc.changeImage).toHaveCSS("outline-offset", "2px");
+    await expect(loc.changeImage).toHaveCSS("outline-style", "solid");
+    await expect(loc.changeImage).toHaveCSS("outline-width", "2px");
   });
 
   /** Test if the page has a footer */
@@ -1016,18 +922,17 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
     /** Test if avatar buttons have proper aria-labels */
     test("should have aria-label on avatar buttons", async ({ page }) => {
-      const form = page.locator("form");
-      const avatar = form.getByLabel("Upload Avatar");
+      const loc = createLocators(page);
 
       // upload avatar first
-      await avatar.setInputFiles(
+      await loc.avatar.setInputFiles(
         path.join(__dirname, "assets/image-avatar.jpg"),
       );
 
-      const removeButton = form.getByRole("button", {
+      const removeButton = loc.form.getByRole("button", {
         name: "Remove avatar image",
       });
-      const changeButton = form.getByRole("button", {
+      const changeButton = loc.form.getByRole("button", {
         name: "Change avatar image",
       });
 
@@ -1047,46 +952,38 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     test("should have aria-invalid on text inputs when validation errors occur", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const fullName = form.getByLabel("Full Name");
-      const email = form.getByLabel("Email Address");
-      const username = form.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       // initially no aria-invalid
-      await expect(fullName).not.toHaveAttribute("aria-invalid", "true");
-      await expect(email).not.toHaveAttribute("aria-invalid", "true");
-      await expect(username).not.toHaveAttribute("aria-invalid", "true");
+      await expect(loc.fullName).not.toHaveAttribute("aria-invalid", "true");
+      await expect(loc.email).not.toHaveAttribute("aria-invalid", "true");
+      await expect(loc.username).not.toHaveAttribute("aria-invalid", "true");
 
       // submit empty form
-      await submit.click();
+      await loc.submit.click();
 
       // aria-invalid should be set
-      await expect(fullName).toHaveAttribute("aria-invalid", "true");
-      await expect(email).toHaveAttribute("aria-invalid", "true");
-      await expect(username).toHaveAttribute("aria-invalid", "true");
+      await expect(loc.fullName).toHaveAttribute("aria-invalid", "true");
+      await expect(loc.email).toHaveAttribute("aria-invalid", "true");
+      await expect(loc.username).toHaveAttribute("aria-invalid", "true");
     });
 
     /** Test if text inputs have aria-describedby when error occurs */
     test("should have aria-describedby on text inputs when validation errors occur", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const fullName = form.getByLabel("Full Name");
-      const email = form.getByLabel("Email Address");
-      const username = form.getByLabel("GitHub Username");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       // submit empty form
-      await submit.click();
+      await loc.submit.click();
 
       // check aria-describedby
-      await expect(fullName).toHaveAttribute(
+      await expect(loc.fullName).toHaveAttribute(
         "aria-describedby",
         "fullname-error",
       );
-      await expect(email).toHaveAttribute("aria-describedby", "email-error");
-      await expect(username).toHaveAttribute(
+      await expect(loc.email).toHaveAttribute("aria-describedby", "email-error");
+      await expect(loc.username).toHaveAttribute(
         "aria-describedby",
         "username-error",
       );
@@ -1101,16 +998,15 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     test("should use output elements with aria-live for error messages", async ({
       page,
     }) => {
-      const form = page.locator("form");
-      const submit = page.getByRole("button", { name: "Generate My Ticket" });
+      const loc = createLocators(page);
 
       // submit empty form
-      await submit.click();
+      await loc.submit.click();
 
       // check error outputs have aria-live
-      const fullnameError = form.locator("output#fullname-error");
-      const emailError = form.locator("output#email-error");
-      const usernameError = form.locator("output#username-error");
+      const fullnameError = loc.form.locator("output#fullname-error");
+      const emailError = loc.form.locator("output#email-error");
+      const usernameError = loc.form.locator("output#username-error");
 
       await expect(fullnameError).toHaveAttribute("aria-live", "assertive");
       await expect(emailError).toHaveAttribute("aria-live", "assertive");
@@ -1119,8 +1015,8 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
     /** Test if decorative icons are hidden from screen readers */
     test("should have aria-hidden on decorative icons", async ({ page }) => {
-      const form = page.locator("form");
-      const avatarHintIcon = form.locator("#avatar-hint svg");
+      const loc = createLocators(page);
+      const avatarHintIcon = loc.form.locator("#avatar-hint svg");
 
       await expect(avatarHintIcon).toHaveAttribute("aria-hidden", "true");
     });
