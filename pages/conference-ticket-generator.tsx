@@ -3,12 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import {
-  type ComponentProps,
-  forwardRef,
-  memo,
-  useCallback,
-} from "react";
+import { type ComponentProps, forwardRef, memo, useCallback } from "react";
 import {
   Controller,
   type FieldError,
@@ -19,8 +14,13 @@ import {
 } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "../utils/cn";
+import { generateTicketNumber } from "../utils/generateTicketNumber";
 import { inconsolata } from "../utils/fonts/inconsolata";
-import { avatarSchema, ticketStateAtom, useAvatarUpload } from "../utils/useAvatarUpload";
+import {
+  avatarSchema,
+  ticketStateAtom,
+  useAvatarUpload,
+} from "../utils/useAvatarUpload";
 
 const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
@@ -223,18 +223,11 @@ function Form() {
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     (data) => {
-      const timestamp = Date.now();
-      const random = Math.floor(Math.random() * 1000);
-      const uniqueNumber = parseInt(
-        (
-          timestamp.toString().slice(-4) + random.toString().padStart(3, "0")
-        ).slice(0, 5),
-      );
       setTicketState({
         completed: true,
         previewUrl,
         submittedData: data,
-        ticketNumber: uniqueNumber,
+        ticketNumber: generateTicketNumber(),
       });
     },
     [previewUrl, setTicketState],
