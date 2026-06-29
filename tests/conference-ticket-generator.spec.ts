@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import AxeBuilder from "@axe-core/playwright";
-import { expect, type Locator, type Page, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 export async function dragAndDropFile(
   page: Page,
@@ -197,11 +197,15 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
       await expect(
         loc.ticket.getByText("Coding ConfJan 31, 2025 / Austin, TX"),
       ).toBeVisible();
-      await expect(loc.ticket.getByRole("img", { name: "Avatar preview" })).toBeVisible();
+      await expect(
+        loc.ticket.getByRole("img", { name: "Avatar preview" }),
+      ).toBeVisible();
       await expect(
         loc.ticket.getByRole("img", { name: "Avatar preview" }),
       ).toHaveAttribute("src", previewSrc ?? "");
-      await expect(loc.ticket.getByText(`${fullname}${username}`)).toBeVisible();
+      await expect(
+        loc.ticket.getByText(`${fullname}${username}`),
+      ).toBeVisible();
       await expect(loc.ticket.getByText(/#\d+/)).toBeVisible();
     });
 
@@ -308,7 +312,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
       // ticket should shows trimmed values
       await expect(loc.form).not.toBeVisible();
-      await expect(loc.ticket.getByText(`${trimmedName}@johndoe`)).toBeVisible();
+      await expect(
+        loc.ticket.getByText(`${trimmedName}@johndoe`),
+      ).toBeVisible();
     });
 
     /** Test if the avatar upload field works */
@@ -652,7 +658,21 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     }) => {
       const loc = createLocators(page);
 
-      // generate first ticket
+      // Mock Date.now and Math.random via localStorage so values persist across
+      // page reloads. The init script reads from localStorage on each load.
+      await page.addInitScript(() => {
+        const time = Number(
+          localStorage.getItem("__mockDateNow") ?? "1000000000000",
+        );
+        const random = Number(
+          localStorage.getItem("__mockMathRandom") ?? "0.123",
+        );
+        Date.now = () => time;
+        Math.random = () => random;
+      });
+
+      // First submission with initial mock values
+      await page.goto("/conference-ticket-generator");
       await fillForm(page, {
         fullName: "John Doe",
         email: "john@email.com",
@@ -662,10 +682,14 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
       const ticketNumber1 = await loc.ticket.getByText(/#\d+/).textContent();
 
-      // reload page for new submission
-      await page.reload();
+      // Swap to different mock values (localStorage persists across reload)
+      await page.evaluate(() => {
+        localStorage.setItem("__mockDateNow", "2000000000000");
+        localStorage.setItem("__mockMathRandom", "0.456");
+      });
 
-      // generate second ticket
+      // Reload so generateTicketNumber picks up the new mock values
+      await page.reload();
       await fillForm(page, {
         fullName: "Jane Smith",
         email: "jane@email.com",
@@ -675,7 +699,7 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
       const ticketNumber2 = await loc.ticket.getByText(/#\d+/).textContent();
 
-      // ticket numbers must be different
+      // Ticket numbers must differ
       expect(ticketNumber1).not.toBe(ticketNumber2);
     });
 
@@ -862,7 +886,9 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
     const loc = createLocators(page);
 
     // upload avatar first to show action buttons
-    await loc.avatar.setInputFiles(path.join(__dirname, "assets/image-avatar.jpg"));
+    await loc.avatar.setInputFiles(
+      path.join(__dirname, "assets/image-avatar.jpg"),
+    );
 
     // Remove button - initial state
     await expect(loc.removeImage).toHaveCSS("outline-style", "none");
@@ -870,7 +896,10 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
     // Remove button - focused state
     await loc.removeImage.focus();
-    await expect(loc.removeImage).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(loc.removeImage).toHaveCSS(
+      "outline-color",
+      "rgb(135, 132, 164)",
+    );
     await expect(loc.removeImage).toHaveCSS("outline-offset", "2px");
     await expect(loc.removeImage).toHaveCSS("outline-style", "solid");
     await expect(loc.removeImage).toHaveCSS("outline-width", "2px");
@@ -882,7 +911,10 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
 
     // Change button - focused state
     await loc.changeImage.focus();
-    await expect(loc.changeImage).toHaveCSS("outline-color", "rgb(135, 132, 164)");
+    await expect(loc.changeImage).toHaveCSS(
+      "outline-color",
+      "rgb(135, 132, 164)",
+    );
     await expect(loc.changeImage).toHaveCSS("outline-offset", "2px");
     await expect(loc.changeImage).toHaveCSS("outline-style", "solid");
     await expect(loc.changeImage).toHaveCSS("outline-width", "2px");
@@ -982,7 +1014,10 @@ test.describe("FrontendMentor Challenge - Conference ticket generator page", () 
         "aria-describedby",
         "fullname-error",
       );
-      await expect(loc.email).toHaveAttribute("aria-describedby", "email-error");
+      await expect(loc.email).toHaveAttribute(
+        "aria-describedby",
+        "email-error",
+      );
       await expect(loc.username).toHaveAttribute(
         "aria-describedby",
         "username-error",
