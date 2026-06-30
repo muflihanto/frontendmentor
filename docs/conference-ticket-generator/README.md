@@ -213,7 +213,7 @@ await page.addInitScript(() => {
 });
 ```
 
-The `addInitScript` runs before any page JavaScript, so the overrides are in place before the application code calls these functions.
+This works because Playwright's `addInitScript` evaluates the script **after the document is created but before any of the page's own scripts run** — making it the ideal hook to amend the JavaScript environment before application code executes. The script re-runs on every navigation and whenever a child frame is attached, so the mocks stay active across page loads.
 
 To generate a second ticket with different values, I swapped the mock values via `page.evaluate()` (which modifies `localStorage` in the already-loaded page), then called `page.reload()` so the init script picks up the new values:
 
@@ -277,6 +277,8 @@ Use this section to outline areas that you want to continue focusing on in futur
 
 - [Forwarding Refs - React Legacy Docs](https://legacy.reactjs.org/docs/forwarding-refs.html) - Official React documentation explaining ref forwarding, including usage patterns for DOM components and higher-order components.
 - [Playwright drag and drop files](https://github.com/microsoft/playwright/issues/10667) - This helped me create drag and drop files simulation using playwright.
+- [Playwright `page.addInitScript()` API](https://playwright.dev/docs/api/class-page#page-add-init-script) - Official Playwright API reference for `addInitScript` which shows how to seed `Math.random` before the page loads.
+- [Playwright Mock Browser APIs guide](https://playwright.dev/docs/mock-browser-apis) - Official guide on mocking browser APIs using `addInitScript`, useful for overriding globals like `Date.now` and `Math.random` in a deterministic way.
 
 ## Author
 
