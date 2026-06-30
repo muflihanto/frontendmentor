@@ -209,16 +209,13 @@ const FieldHint = memo(function FieldHint({
   );
 });
 
-function Form() {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useFormContext<Inputs>();
-
-  const setTicketState = useSetAtom(ticketStateAtom);
-
+function AvatarUploadField({
+  field,
+  error,
+}: {
+  field: { onChange: (value: FileList | null) => void };
+  error?: FieldError;
+}) {
   const {
     previewUrl,
     isDragging,
@@ -229,6 +226,105 @@ function Form() {
     handleDrop,
     dragHandlers,
   } = useAvatarUpload();
+
+  return (
+    <>
+      {previewUrl ? (
+        <div className="mt-3 flex h-[126px] w-full flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30">
+          <Image
+            src={previewUrl}
+            alt="Avatar preview"
+            width={50}
+            height={50}
+            className="aspect-square rounded-xl border border-conference-ticket-generator-neutral-500 object-cover"
+          />
+          <div className="mt-4 flex gap-2">
+            <button
+              type="button"
+              onClick={handleRemoveImage}
+              aria-label="Remove avatar image"
+              className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-conference-ticket-generator-neutral-500"
+            >
+              Remove image
+            </button>
+            <button
+              type="button"
+              onClick={handleChangeImage}
+              aria-label="Change avatar image"
+              className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-conference-ticket-generator-neutral-500"
+            >
+              Change image
+            </button>
+          </div>
+        </div>
+      ) : (
+        <label
+          htmlFor="avatar"
+          className={cn(
+            "group mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
+            isDragging
+              ? "border-conference-ticket-generator-neutral-300 bg-conference-ticket-generator-neutral-700/70"
+              : "border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/70",
+          )}
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
+          tabIndex={0}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleChangeImage();
+            }
+          }}
+          onDragEnter={dragHandlers.onDragEnter}
+          onDragLeave={dragHandlers.onDragLeave}
+          onDragOver={dragHandlers.onDragOver}
+          onDrop={(e) => handleDrop(e, field)}
+        >
+          <div className="flex flex-col items-center justify-start gap-[15px]">
+            <svg
+              viewBox="0 0 30 30"
+              className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700 bg-opacity-50 p-[9px] group-hover:border-conference-ticket-generator-neutral-500 group-hover:bg-opacity-100"
+              role="graphics-symbol"
+              aria-hidden="true"
+            >
+              <use href="/conference-ticket-generator/assets/images/icon-upload.svg#icon-upload" />
+            </svg>
+            <p className="text-[18px] text-conference-ticket-generator-neutral-300">
+              Drag and drop or click to upload
+            </p>
+          </div>
+        </label>
+      )}
+      <input
+        type="file"
+        accept="image/*"
+        name="avatar"
+        id="avatar"
+        className="hidden"
+        ref={inputRef}
+        aria-invalid={!!error}
+        aria-describedby="avatar-hint"
+        onChange={(e) => handleFileChange(e.target.files, field)}
+      />
+      <FieldHint
+        id="avatar-hint"
+        aria-live="assertive"
+        error={error}
+        hint="Upload your photo (JPG or PNG, max size: 500KB)."
+      />
+    </>
+  );
+}
+
+function Form() {
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useFormContext<Inputs>();
+
+  const setTicketState = useSetAtom(ticketStateAtom);
+  const { previewUrl } = useAtomValue(ticketStateAtom);
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     (data) => {
@@ -255,94 +351,9 @@ function Form() {
         <Controller
           name="avatar"
           control={control}
-          render={({ field }) => {
-            return (
-              <>
-                {previewUrl ? (
-                  <div className="mt-3 flex h-[126px] w-full flex-col items-center justify-center rounded-lg border border-dashed border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30">
-                    <Image
-                      src={previewUrl}
-                      alt="Avatar preview"
-                      width={50}
-                      height={50}
-                      className="aspect-square rounded-xl border border-conference-ticket-generator-neutral-500 object-cover"
-                    />
-                    <div className="mt-4 flex gap-2">
-                      <button
-                        type="button"
-                        onClick={handleRemoveImage}
-                        aria-label="Remove avatar image"
-                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-conference-ticket-generator-neutral-500"
-                      >
-                        Remove image
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleChangeImage}
-                        aria-label="Change avatar image"
-                        className="rounded bg-conference-ticket-generator-neutral-700/50 px-2 py-[3px] text-xs tracking-[-0.02em] hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-conference-ticket-generator-neutral-500"
-                      >
-                        Change image
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <label
-                    htmlFor="avatar"
-                    className={cn(
-                      "group mt-3 flex h-[126px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-conference-ticket-generator-neutral-500",
-                      isDragging
-                        ? "border-conference-ticket-generator-neutral-300 bg-conference-ticket-generator-neutral-700/70"
-                        : "border-conference-ticket-generator-neutral-500 bg-conference-ticket-generator-neutral-700/30 hover:border-conference-ticket-generator-neutral-300 hover:bg-conference-ticket-generator-neutral-700/70",
-                    )}
-                    // biome-ignore lint/a11y/noNoninteractiveTabindex: onKeyDown handle interactivity
-                    tabIndex={0}
-                    onKeyDown={(e: React.KeyboardEvent) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        handleChangeImage();
-                      }
-                    }}
-                    onDragEnter={dragHandlers.onDragEnter}
-                    onDragLeave={dragHandlers.onDragLeave}
-                    onDragOver={dragHandlers.onDragOver}
-                    onDrop={(e) => handleDrop(e, field)}
-                  >
-                    <div className="flex flex-col items-center justify-start gap-[15px]">
-                      <svg
-                        viewBox="0 0 30 30"
-                        className="box-content w-[30px] rounded-xl border border-conference-ticket-generator-neutral-700 bg-conference-ticket-generator-neutral-700 bg-opacity-50 p-[9px] group-hover:border-conference-ticket-generator-neutral-500 group-hover:bg-opacity-100"
-                        role="graphics-symbol"
-                        aria-hidden="true"
-                      >
-                        <use href="/conference-ticket-generator/assets/images/icon-upload.svg#icon-upload" />
-                      </svg>
-                      <p className="text-[18px] text-conference-ticket-generator-neutral-300">
-                        Drag and drop or click to upload
-                      </p>
-                    </div>
-                  </label>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="avatar"
-                  id="avatar"
-                  className="hidden"
-                  ref={inputRef}
-                  aria-invalid={!!errors.avatar}
-                  aria-describedby="avatar-hint"
-                  onChange={(e) => handleFileChange(e.target.files, field)}
-                />
-                <FieldHint
-                  id="avatar-hint"
-                  aria-live="assertive"
-                  error={errors.avatar}
-                  hint="Upload your photo (JPG or PNG, max size: 500KB)."
-                />
-              </>
-            );
-          }}
+          render={({ field }) => (
+            <AvatarUploadField field={field} error={errors.avatar} />
+          )}
         />
       </div>
       <label htmlFor="fullname" className="mt-6 w-full">
