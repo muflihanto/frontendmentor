@@ -14,6 +14,7 @@ This is a solution to the [Conference ticket generator challenge on Frontend Men
       - [Avatar File Validation with Zod](#avatar-file-validation-with-zod)
       - [Handling File Input with Drag and Drop](#handling-file-input-with-drag-and-drop)
       - [Testing File Uploads with Playwright](#testing-file-uploads-with-playwright)
+      - [Mocking Math.random and Date.now in Playwright Tests](#mocking-mathrandom-and-datenow-in-playwright-tests)
       - [Using forwardRef for Reusable Input Components](#using-forwardref-for-reusable-input-components)
     - [Useful resources](#useful-resources)
   - [Author](#author)
@@ -198,6 +199,34 @@ export async function dragAndDropFile(
   await page.dispatchEvent(dropSelector, "drop", { dataTransfer });
 }
 ```
+
+#### Mocking Math.random and Date.now in Playwright Tests
+
+To test that unique ticket numbers are generated for different submissions, I needed deterministic control over `Math.random()` and `Date.now()`. Using Playwright's `addInitScript`, I injected a script that reads mock values from `localStorage` before the page loads:
+
+```ts
+await page.addInitScript(() => {
+  const time = Number(localStorage.getItem("__mockDateNow") ?? "1000000000000");
+  const random = Number(localStorage.getItem("__mockMathRandom") ?? "0.123");
+  Date.now = () => time;
+  Math.random = () => random;
+});
+```
+
+The `addInitScript` runs before any page JavaScript, so the overrides are in place before the application code calls these functions.
+
+To generate a second ticket with different values, I swapped the mock values via `page.evaluate()` (which modifies `localStorage` in the already-loaded page), then called `page.reload()` so the init script picks up the new values:
+
+```ts
+await page.evaluate(() => {
+  localStorage.setItem("__mockDateNow", "2000000000000");
+  localStorage.setItem("__mockMathRandom", "0.456");
+});
+
+await page.reload();
+```
+
+This approach keeps the test deterministic — no flaky `#\d+` assertions — while still exercising the real ticket-generation logic.
 
 #### Using forwardRef for Reusable Input Components
 
