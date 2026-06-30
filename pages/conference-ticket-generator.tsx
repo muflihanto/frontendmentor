@@ -132,8 +132,12 @@ function Ornament() {
 const Input = memo(
   forwardRef<
     HTMLInputElement,
-    ComponentProps<"input"> & { error?: FieldError; errorId?: string }
-  >(({ className, error, errorId, ...props }, ref) => {
+    ComponentProps<"input"> & {
+      error?: FieldError;
+      hint?: string;
+      errorId?: string;
+    }
+  >(({ className, error, hint, errorId, ...props }, ref) => {
     return (
       <>
         <input
@@ -149,8 +153,13 @@ const Input = memo(
           aria-describedby={error && errorId ? errorId : undefined}
           {...props}
         />
-        {!!error && (
-          <FieldHint error={error} id={errorId} aria-live="assertive" />
+        {(error ?? hint) && (
+          <FieldHint
+            error={error}
+            hint={hint}
+            id={errorId}
+            aria-live="assertive"
+          />
         )}
       </>
     );
@@ -325,15 +334,15 @@ function Form() {
                   aria-describedby="avatar-hint"
                   onChange={(e) => handleFileChange(e.target.files, field)}
                 />
+                <FieldHint
+                  id="avatar-hint"
+                  aria-live="assertive"
+                  error={errors.avatar}
+                  hint="Upload your photo (JPG or PNG, max size: 500KB)."
+                />
               </>
             );
           }}
-        />
-        <FieldHint
-          id="avatar-hint"
-          aria-live="assertive"
-          error={errors.avatar}
-          hint="Upload your photo (JPG or PNG, max size: 500KB)."
         />
       </div>
       <label htmlFor="fullname" className="mt-6 w-full">
