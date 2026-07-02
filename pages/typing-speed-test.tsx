@@ -40,6 +40,12 @@ function isDifficulty(value: string | null): value is Difficulty {
   return value === "Easy" || value === "Medium" || value === "Hard";
 }
 
+const STORAGE_KEYS = {
+  BEST_WPM: "typing-test-best-wpm",
+  MODE: "typing-test-mode",
+  DIFFICULTY: "typing-test-difficulty",
+} as const;
+
 const DIFFICULTY_KEYS: Record<Difficulty, "easy" | "medium" | "hard"> = {
   Easy: "easy",
   Medium: "medium",
@@ -336,17 +342,17 @@ function Main() {
   }, [openDropdown]);
 
   useEffect(() => {
-    const savedBest = localStorage.getItem("typing-test-best-wpm");
+    const savedBest = localStorage.getItem(STORAGE_KEYS.BEST_WPM);
     if (savedBest) {
       setBestWpm(parseInt(savedBest, 10));
     }
 
-    const savedMode = localStorage.getItem("typing-test-mode");
+    const savedMode = localStorage.getItem(STORAGE_KEYS.MODE);
     if (savedMode) {
       setMode(savedMode);
     }
 
-    const savedDiff = localStorage.getItem("typing-test-difficulty");
+    const savedDiff = localStorage.getItem(STORAGE_KEYS.DIFFICULTY);
     if (isDifficulty(savedDiff)) {
       setDifficulty(savedDiff);
       setPassageText(getRandomPassage(savedDiff));
@@ -382,7 +388,7 @@ function Main() {
     setResultType(type);
     if (type !== "complete") {
       setBestWpm(wpm);
-      localStorage.setItem("typing-test-best-wpm", wpm.toString());
+      localStorage.setItem(STORAGE_KEYS.BEST_WPM, wpm.toString());
     }
     setStatus("finished");
   }, [bestWpm, wpm]);
@@ -476,7 +482,7 @@ function Main() {
     (newMode: string) => {
       if (newMode !== mode) {
         setMode(newMode);
-        localStorage.setItem("typing-test-mode", newMode);
+        localStorage.setItem(STORAGE_KEYS.MODE, newMode);
         resetTestState("idle");
       }
     },
@@ -489,7 +495,7 @@ function Main() {
         if (newDiff !== difficulty) {
           setDifficulty(newDiff);
           setPassageText(getRandomPassage(newDiff));
-          localStorage.setItem("typing-test-difficulty", newDiff);
+          localStorage.setItem(STORAGE_KEYS.DIFFICULTY, newDiff);
           resetTestState("idle");
         }
       }
