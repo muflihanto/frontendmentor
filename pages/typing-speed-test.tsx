@@ -920,27 +920,39 @@ function Results({
     headingRef.current?.focus();
   }, []);
 
-  const title = isBaseline
-    ? "Baseline Established!"
-    : isNewBest
-      ? "High Score Smashed!"
-      : "Test Complete!";
-  const subtitle = isBaseline
-    ? "You've set the bar. Now the real challenge begins—time to beat it."
-    : isNewBest
-      ? "You're getting faster. That was incredible typing."
-      : "Solid run. Keep pushing to beat your high score.";
+  const RESULTS_CONFIG = {
+    baseline: {
+      title: "Baseline Established!",
+      subtitle:
+        "You've set the bar. Now the real challenge begins—time to beat it.",
+      buttonText: "Beat This Score",
+      icon: "/typing-speed-test/assets/images/icon-completed.svg",
+    },
+    newBest: {
+      title: "High Score Smashed!",
+      subtitle: "You're getting faster. That was incredible typing.",
+      buttonText: "Go Again",
+      icon: "/typing-speed-test/assets/images/icon-new-pb.svg",
+    },
+    complete: {
+      title: "Test Complete!",
+      subtitle: "Solid run. Keep pushing to beat your high score.",
+      buttonText: "Go Again",
+      icon: "/typing-speed-test/assets/images/icon-completed.svg",
+    },
+  };
 
-  const buttonText = isBaseline ? "Beat This Score" : "Go Again";
-  const icon = isNewBest
-    ? "/typing-speed-test/assets/images/icon-new-pb.svg"
-    : "/typing-speed-test/assets/images/icon-completed.svg";
+  const config = isBaseline
+    ? RESULTS_CONFIG.baseline
+    : isNewBest
+      ? RESULTS_CONFIG.newBest
+      : RESULTS_CONFIG.complete;
 
   return (
     <div className="relative mt-8 flex w-full flex-col items-center px-0 pb-[120px] md:static md:mt-[55px]">
       <div className="sr-only" aria-live="polite">
-        {title} {subtitle} You typed at {wpm} words per minute with {accuracy}%
-        accuracy.
+        {config.title} {config.subtitle} You typed at {wpm} words per minute
+        with {accuracy}% accuracy.
       </div>
       {isNewBest && (
         <Image
@@ -988,7 +1000,7 @@ function Results({
             )}
           >
             <Image
-              src={icon}
+              src={config.icon}
               alt="Completed"
               width={isNewBest ? 100 : 64}
               height={isNewBest ? 100 : 64}
@@ -1005,10 +1017,10 @@ function Results({
           tabIndex={-1}
           className="mt-7 text-center text-[24px] font-bold leading-none tracking-[0.015em] text-typing-speed-test-neutral-0 outline-none md:mt-8 md:text-[40px] md:tracking-normal"
         >
-          {title}
+          {config.title}
         </h1>
         <p className="mt-[10px] text-center leading-5 tracking-[-0.035em] text-typing-speed-test-neutral-400 md:mt-[18px] md:text-[20px] md:tracking-[-0.0275em]">
-          {subtitle}
+          {config.subtitle}
         </p>
 
         <div className="relative z-10 mt-[23px] flex w-full flex-col items-center gap-4 md:mt-[54px]">
@@ -1058,7 +1070,7 @@ function Results({
               isBaseline ? "w-[215px]" : "w-[155px]",
             )}
           >
-            {buttonText}
+            {config.buttonText}
             <RestartIcon alt="Restart" className="brightness-0" />
           </button>
         </div>
