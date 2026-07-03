@@ -28,6 +28,10 @@ async function switchToPassageMode(page: Page) {
   await selectOption(page, "Timed (60s)", "Passage");
 }
 
+async function startTest(page: Page) {
+  await page.getByRole("button", { name: "Start Typing Test" }).click();
+}
+
 async function getPassageText(page: Page, fallback = "") {
   return (await page.locator("p.text-\\[28px\\]").textContent()) ?? fallback;
 }
@@ -56,7 +60,7 @@ async function verifyPassageFromDifficulty(
 
 async function completePassage(page: Page) {
   await switchToPassageMode(page);
-  await page.getByRole("button", { name: "Start Typing Test" }).click();
+  await startTest(page);
   const text = await getPassageText(page);
   await page.locator('input[type="text"]').fill(text, { force: true });
   return text;
@@ -416,7 +420,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("resets test state when difficulty is changed during an active test", async ({
       page,
     }) => {
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       const initialPassageText = await getPassageText(page, "The");
       // Type a bit to change state
@@ -463,7 +467,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       test("resets test state when difficulty is changed via mobile dropdown during an active test", async ({
         page,
       }) => {
-        await page.getByRole("button", { name: "Start Typing Test" }).click();
+        await startTest(page);
 
         const initialPassageText = await getPassageText(page, "The");
         await page.keyboard.press(initialPassageText[0]);
@@ -492,7 +496,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Typing Functionality", () => {
     test.beforeEach(async ({ page }) => {
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
     });
 
     test("starts the test and focuses the invisible input", async ({
@@ -691,7 +695,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await switchToPassageMode(page);
 
       // We must manually start the test after switching modes
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       const input = page.locator('input[type="text"]');
       const passageText = await getPassageText(page);
@@ -718,7 +722,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     }) => {
       await switchToPassageMode(page);
 
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       const input = page.locator('input[type="text"]');
       const passageText = await getPassageText(page);
@@ -793,7 +797,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await switchToPassageMode(page);
 
       // Manually start the test after switching modes
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       // Let time advance slightly so WPM and timers calculate natively
       await page.waitForTimeout(1050);
@@ -893,7 +897,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Stats Update While Typing", () => {
     test.beforeEach(async ({ page }) => {
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
     });
 
     test("WPM updates as user types correct characters", async ({ page }) => {
@@ -1103,7 +1107,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.clock.install();
       await page.goto("/typing-speed-test");
 
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       // Start the timer by typing the first character
       await page.keyboard.press("T");
@@ -1137,7 +1141,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       await page.goto("/typing-speed-test");
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       const currentPassageText = await getPassageText(page, "T");
       // Type the first character to start the timer
@@ -1222,7 +1226,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       await page.goto("/typing-speed-test");
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       // Dispatch beforeunload event manually to reliably test the listener logic
       const eventDetails = await page.evaluate(() => {
@@ -1280,7 +1284,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       // 1. Trigger the active state
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       // 2. Wait for the state to settle (e.g., ensure the Restart button is visible)
       await expect(
@@ -1318,7 +1322,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       // 1. Start the test
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       // 2. Type a character to ensure timer and active state begin
       const currentPassageText = await getPassageText(page, "T");
@@ -1368,7 +1372,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
     test("announces incorrect keystrokes via live region", async ({ page }) => {
       // 1. Start the test
-      await page.getByRole("button", { name: "Start Typing Test" }).click();
+      await startTest(page);
 
       const liveRegion = page.locator('.sr-only[aria-live="assertive"]');
 
