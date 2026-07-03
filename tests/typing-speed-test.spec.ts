@@ -13,12 +13,11 @@ async function selectOption(
   if (await desktopBtn.isVisible()) {
     await desktopBtn.click();
   } else {
-    await page
-      .locator(".md\\:hidden")
+    const mobileContainer = getMobileContainer(page);
+    await mobileContainer
       .getByRole("button", { name: currentLabel, exact: true })
       .click();
-    await page
-      .locator(".md\\:hidden")
+    await mobileContainer
       .getByRole("menuitem", { name: targetLabel, exact: true })
       .click();
   }
@@ -64,6 +63,10 @@ async function completePassage(page: Page) {
   const text = await getPassageText(page);
   await page.locator('input[type="text"]').fill(text, { force: true });
   return text;
+}
+
+function getMobileContainer(page: Page) {
+  return page.locator(".md\\:hidden");
 }
 
 function getStatsContainer(page: Page) {
@@ -164,7 +167,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("can change difficulty via mobile dropdown", async ({ page }) => {
       await verifyPassageFromDifficulty(page, "hard");
 
-      const mobileContainer = page.locator(".md\\:hidden");
+      const mobileContainer = getMobileContainer(page);
 
       const diffDropdownBtn = mobileContainer.getByRole("button", {
         name: "Hard",
@@ -193,7 +196,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     });
 
     test("can change mode via mobile dropdown", async ({ page }) => {
-      const mobileContainer = page.locator(".md\\:hidden");
+      const mobileContainer = getMobileContainer(page);
 
       const modeDropdownBtn = mobileContainer.getByRole("button", {
         name: "Timed (60s)",
@@ -224,7 +227,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("supports keyboard navigation for custom dropdowns", async ({
       page,
     }) => {
-      const mobileContainer = page.locator(".md\\:hidden");
+      const mobileContainer = getMobileContainer(page);
 
       const diffDropdownBtn = mobileContainer.getByRole("button", {
         name: "Hard",
@@ -453,13 +456,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       }) => {
         await verifyPassageFromDifficulty(page, "hard");
 
-        const mobileContainer = page.locator(".md\\:hidden");
-        await mobileContainer
-          .getByRole("button", { name: "Hard", exact: true })
-          .click();
-        await mobileContainer
-          .getByRole("menuitem", { name: "Easy", exact: true })
-          .click();
+        await selectOption(page, "Hard", "Easy");
 
         await verifyPassageFromDifficulty(page, "easy");
       });
@@ -476,13 +473,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
         const activeChar = page.locator("#active-char");
         await expect(activeChar).toHaveText(initialPassageText[2]);
 
-        const mobileContainer = page.locator(".md\\:hidden");
-        await mobileContainer
-          .getByRole("button", { name: "Hard", exact: true })
-          .click();
-        await mobileContainer
-          .getByRole("menuitem", { name: "Medium", exact: true })
-          .click();
+        await selectOption(page, "Hard", "Medium");
 
         await expect(
           page.getByRole("button", { name: "Start Typing Test" }),
@@ -755,7 +746,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(stats.getByText("100%")).not.toBeVisible();
 
       // Verify the typing cursor progressed
-      await expect(page.locator("#active-char")).toHaveText(" ");
+      await expect(page.locator("#active-char")).toHaveText(
+        currentPassageText[3],
+      );
 
       // Verify incorrect formatting applied
       const chars = page.locator("p > span.relative");
@@ -1184,10 +1177,11 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.goto("/typing-speed-test");
 
       // Verify the preferences are applied to the UI (check mobile dropdown triggers)
-      const mobileDiffBtn = page.locator(".md\\:hidden > div > button").first();
+      const mobileContainer = getMobileContainer(page);
+      const mobileDiffBtn = mobileContainer.locator("> div > button").first();
       await expect(mobileDiffBtn).toContainText("Easy");
 
-      const mobileModeBtn = page.locator(".md\\:hidden > div > button").nth(1);
+      const mobileModeBtn = mobileContainer.locator("> div > button").nth(1);
       await expect(mobileModeBtn).toContainText("Passage");
     });
 
@@ -1350,16 +1344,14 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.setViewportSize({ width: 375, height: 667 });
 
       // 2. Open the Difficulty dropdown
-      await page
-        .locator(".md\\:hidden")
+      const mobileContainer = getMobileContainer(page);
+      await mobileContainer
         .getByRole("button", { name: "Hard", exact: true })
         .click();
 
       // 3. Ensure dropdown is open (items have role="menuitem" after a11y improvements)
       await expect(
-        page
-          .locator(".md\\:hidden")
-          .getByRole("menuitem", { name: "Easy", exact: true }),
+        mobileContainer.getByRole("menuitem", { name: "Easy", exact: true }),
       ).toBeVisible();
 
       // 4. Run the Axe scan
