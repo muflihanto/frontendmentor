@@ -24,6 +24,8 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
       - [Automated Accessibility Testing with AxeBuilder](#automated-accessibility-testing-with-axebuilder)
       - [Accidental Navigation Protection \& Page Unload Interception](#accidental-navigation-protection--page-unload-interception)
       - [Dynamic Caret Tracking \& Line-Wrap Scroll Syncing](#dynamic-caret-tracking--line-wrap-scroll-syncing)
+      - [Locator Getter Helpers (The `get...` Pattern)](#locator-getter-helpers-the-get-pattern)
+        - [Why this is useful:](#why-this-is-useful)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -304,6 +306,39 @@ useEffect(() => {
   return () => cancelAnimationFrame(handle);
 }, [input, status]);
 ```
+
+#### Locator Getter Helpers (The `get...` Pattern)
+
+To keep the test code clean, DRY (Don't Repeat Yourself), and resilient to layout changes, I established a pattern of using locator getter helpers in [tests/typing-speed-test.spec.ts](../../tests/typing-speed-test.spec.ts).
+
+Rather than writing inline, verbose locator chains multiple times throughout the spec, we define pure locator helper functions:
+
+- [getMobileContainer](../../tests/typing-speed-test.spec.ts#L68-L70): Selects the mobile-only viewport wrapper.
+- [getStatsContainer](../../tests/typing-speed-test.spec.ts#L72-L74): Locates the primary stats container card.
+- [getTimeLocator](../../tests/typing-speed-test.spec.ts#L76-L81): Navigates through the stats structure relative to the time label.
+
+```typescript
+function getMobileContainer(page: Page) {
+  return page.locator(".md\\:hidden");
+}
+
+function getStatsContainer(page: Page) {
+  return page.locator("main > div").first();
+}
+
+function getTimeLocator(page: Page) {
+  return getStatsContainer(page)
+    .locator("p")
+    .filter({ hasText: /^Time:/ })
+    .locator("xpath=../p[2]");
+}
+```
+
+##### Why this is useful:
+
+1. **DRY Implementation**: Minimizes duplication of complex CSS and XPath-like selector paths.
+2. **Locator Composition**: Helpers can build on top of other helpers (e.g., `getTimeLocator` leverages `getStatsContainer`).
+3. **Single Source of Truth**: If class names or DOM structures change during layout updates, we only update the selector logic in a single function rather than searching and replacing references throughout dozens of test suites.
 
 <!-- ### Continued development
 
