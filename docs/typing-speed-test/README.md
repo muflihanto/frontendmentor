@@ -26,6 +26,10 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
       - [Dynamic Caret Tracking \& Line-Wrap Scroll Syncing](#dynamic-caret-tracking--line-wrap-scroll-syncing)
       - [Locator Getter Helpers (The `get...` Pattern)](#locator-getter-helpers-the-get-pattern)
         - [Why this is useful:](#why-this-is-useful)
+      - [Centralized Configuration Objects (The `RESULTS_CONFIG` and `STORAGE_KEYS` Pattern)](#centralized-configuration-objects-the-results_config-and-storage_keys-pattern)
+        - [Storage Keys Configuration](#storage-keys-configuration)
+        - [Results Display Configuration](#results-display-configuration)
+        - [Why this is useful:](#why-this-is-useful-1)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -339,6 +343,55 @@ function getTimeLocator(page: Page) {
 1. **DRY Implementation**: Minimizes duplication of complex CSS and XPath-like selector paths.
 2. **Locator Composition**: Helpers can build on top of other helpers (e.g., `getTimeLocator` leverages `getStatsContainer`).
 3. **Single Source of Truth**: If class names or DOM structures change during layout updates, we only update the selector logic in a single function rather than searching and replacing references throughout dozens of test suites.
+
+#### Centralized Configuration Objects (The `RESULTS_CONFIG` and `STORAGE_KEYS` Pattern)
+
+To ensure consistency and ease of updates, I grouped related configurations and magic strings into read-only constant objects in [pages/typing-speed-test.tsx](../../pages/typing-speed-test.tsx).
+
+- [STORAGE_KEYS](../../pages/typing-speed-test.tsx#L43-L47): A centralized record of local storage keys used to persist high scores, mode, and difficulty preferences.
+- [RESULTS_CONFIG](../../pages/typing-speed-test.tsx#L929-L949): Configures the title, subtitle, button text, and icon assets based on the test completion state (e.g., establishing a baseline, achieving a new personal best, or general completion).
+
+##### Storage Keys Configuration
+
+```typescript
+const STORAGE_KEYS = {
+  BEST_WPM: "typing-test-best-wpm",
+  MODE: "typing-test-mode",
+  DIFFICULTY: "typing-test-difficulty",
+} as const;
+```
+
+##### Results Display Configuration
+
+```typescript
+const RESULTS_CONFIG = {
+  baseline: {
+    title: "Baseline Established!",
+    subtitle:
+      "You've set the bar. Now the real challenge begins—time to beat it.",
+    buttonText: "Beat This Score",
+    icon: "/typing-speed-test/assets/images/icon-completed.svg",
+  },
+  newBest: {
+    title: "High Score Smashed!",
+    subtitle: "You're getting faster. That was incredible typing.",
+    buttonText: "Go Again",
+    icon: "/typing-speed-test/assets/images/icon-new-pb.svg",
+  },
+  complete: {
+    title: "Test Complete!",
+    subtitle: "Solid run. Keep pushing to beat your high score.",
+    buttonText: "Go Again",
+    icon: "/typing-speed-test/assets/images/icon-completed.svg",
+  },
+};
+```
+
+##### Why this is useful:
+
+1. **Prevents Typo Bugs**: Referencing constants like `STORAGE_KEYS.BEST_WPM` instead of raw strings prevents silent local storage bugs due to typos.
+2. **Declarative Rendering**: Rather than cluttering the JSX template with verbose conditional logic or multiple `if/else` returns, the component maps state to the config object (e.g., `RESULTS_CONFIG[resultType]`) to pull all text and asset paths.
+3. **Maintainability**: Text copy, icon paths, and keys can be altered in one centralized place without having to inspect or modify the underlying rendering/storage logic.
 
 <!-- ### Continued development
 
