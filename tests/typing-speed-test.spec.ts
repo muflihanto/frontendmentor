@@ -96,6 +96,23 @@ function getTimeLocator(page: Page) {
     .locator("xpath=../p[2]");
 }
 
+async function expectAccuracy(page: Page, expected: number) {
+  const stats = getStatsContainer(page);
+  await expect(stats.getByText(`${expected}%`)).toBeVisible();
+}
+
+async function expectAccuracyNot(page: Page, expected: number) {
+  const stats = getStatsContainer(page);
+  await expect(stats.getByText(`${expected}%`)).not.toBeVisible();
+}
+
+async function expectWPM(page: Page, expected: number) {
+  const stats = getStatsContainer(page);
+  await expect(
+    stats.getByText(expected.toString(), { exact: true }),
+  ).toBeVisible();
+}
+
 async function assertInputFocused(page: Page) {
   const isFocused = await page.evaluate(
     () => document.activeElement?.tagName === "INPUT",
@@ -129,10 +146,10 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const stats = getStatsContainer(page);
 
       await expect(stats.getByText("WPM:")).toBeVisible();
-      await expect(stats.getByText("0", { exact: true })).toBeVisible();
+      await expectWPM(page, 0);
 
       await expect(stats.getByText("Accuracy:")).toBeVisible();
-      await expect(stats.getByText("100%")).toBeVisible();
+      await expectAccuracy(page, 100);
 
       await expect(stats.getByText("Time:")).toBeVisible();
       // Default mode is Timed (60s), so time should show 0:60
@@ -582,7 +599,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const currentPassageText = await getPassageText(page, "T ");
 
       // Before typo: initial accuracy is naturally 100%
-      await expect(stats.getByText("100%")).toBeVisible();
+      await expectAccuracy(page, 100);
 
       // Type "x" (incorrect)
       await page.keyboard.press("x");
@@ -594,7 +611,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(chars.nth(0)).toHaveClass(/text-typing-speed-test-red-500/);
 
       // Verification: 0 out of 1 characters correct guarantees 0% accuracy
-      await expect(stats.getByText("0%", { exact: true })).toBeVisible();
+      await expectAccuracy(page, 0);
 
       // The active cursor should have moved to the second character
       await expect(page.locator("#active-char")).toHaveText(
@@ -614,7 +631,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       );
 
       // Accuracy remains penalized because the mistake was already logged against the total keystrokes
-      await expect(stats.getByText("0%", { exact: true })).toBeVisible();
+      await expectAccuracy(page, 0);
 
       // The active cursor should have correctly moved back to the first character
       await expect(page.locator("#active-char")).toHaveText(
@@ -759,7 +776,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const stats = getStatsContainer(page);
 
       // Verify dynamic stats actively changed from their defaults
-      await expect(stats.getByText("100%")).not.toBeVisible();
+      await expectAccuracyNot(page, 100);
 
       // Verify the typing cursor progressed
       await expect(page.locator("#active-char")).toHaveText(
@@ -774,8 +791,8 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.getByRole("button", { name: "Restart Test" }).click();
 
       // Assert that all dynamic stats are completely wiped to default
-      await expect(stats.getByText("100%")).toBeVisible();
-      await expect(stats.getByText("0", { exact: true })).toBeVisible(); // WPM
+      await expectAccuracy(page, 100);
+      await expectWPM(page, 0);
 
       const timeLocator = getTimeLocator(page);
       await expect(timeLocator).toHaveText("0:60");
@@ -819,11 +836,9 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Trigger the active 'Restart Test' button
       await page.getByRole("button", { name: "Restart Test" }).click();
 
-      const stats = getStatsContainer(page);
-
       // Assert that all dynamic stats are completely wiped to default
-      await expect(stats.getByText("100%")).toBeVisible();
-      await expect(stats.getByText("0", { exact: true })).toBeVisible(); // WPM
+      await expectAccuracy(page, 100);
+      await expectWPM(page, 0);
 
       // CRITICAL DIFFERENCE: Passage mode counts UP from 0:00, not DOWN from 0:60
       const timeLocator = getTimeLocator(page);
@@ -856,8 +871,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(page.locator("#active-char")).toHaveText(newPassageText[0]);
 
       // Verify stats have reset (Accuracy back to 100%)
-      const stats = getStatsContainer(page);
-      await expect(stats.getByText("100%")).toBeVisible();
+      await expectAccuracy(page, 100);
 
       // Verify input is still focused for immediate typing
       await assertInputFocused(page);
@@ -930,22 +944,20 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("Accuracy starts at 100% and updates with correct/incorrect typing", async ({
       page,
     }) => {
-      const stats = getStatsContainer(page);
-
       // Initial accuracy should be 100%
-      await expect(stats.getByText("100%")).toBeVisible();
+      await expectAccuracy(page, 100);
 
       const currentPassageText = await getPassageText(page, "T");
       // Type a correct character - accuracy should still be 100%
       await page.keyboard.press(currentPassageText[0]);
       await page.waitForTimeout(50);
-      await expect(stats.getByText("100%")).toBeVisible();
+      await expectAccuracy(page, 100);
 
       // Type an incorrect character - accuracy should drop below 100%
       await page.keyboard.press("x");
       await page.waitForTimeout(50);
       // Now 1 correct out of 2 typed = 50%
-      await expect(stats.getByText("50%")).toBeVisible();
+      await expectAccuracy(page, 50);
     });
 
     test("WPM and accuracy update incrementally as more characters are typed", async ({
@@ -973,7 +985,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       expect(parseInt(wpmText ?? "0")).toBeGreaterThan(0);
 
       // Accuracy should still be 100% since all typed chars were correct
-      await expect(stats.getByText("100%")).toBeVisible();
+      await expectAccuracy(page, 100);
 
       // Type some incorrect characters
       await page.keyboard.press("z");
@@ -982,7 +994,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.waitForTimeout(100);
 
       // Accuracy should now be lower (not 100%)
-      await expect(stats.getByText("100%")).not.toBeVisible();
+      await expectAccuracyNot(page, 100);
     });
 
     test("Time counts down in Timed mode", async ({ page }) => {
