@@ -27,6 +27,10 @@ async function switchToPassageMode(page: Page) {
   await selectOption(page, "Timed (60s)", "Passage");
 }
 
+async function switchToTimedMode(page: Page) {
+  await selectOption(page, "Passage", "Timed (60s)");
+}
+
 async function startTest(page: Page) {
   await page.getByRole("button", { name: "Start Typing Test" }).click();
 }
@@ -57,11 +61,23 @@ async function verifyPassageFromDifficulty(
   return text;
 }
 
-async function completePassage(page: Page) {
-  await switchToPassageMode(page);
+async function completeTest(
+  page: Page,
+  options: { mode?: "Timed (60s)" | "Passage"; waitForTime?: number } = {},
+) {
+  const { mode = "Passage", waitForTime } = options;
+  if (mode === "Passage") {
+    await switchToPassageMode(page);
+  } else {
+    await switchToTimedMode(page);
+  }
   await startTest(page);
   const text = await getPassageText(page);
   await page.locator('input[type="text"]').fill(text, { force: true });
+  if (waitForTime) {
+    await page.clock.install();
+    await page.clock.runFor(waitForTime * 1000);
+  }
   return text;
 }
 
@@ -993,7 +1009,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (Baseline)", () => {
     test.beforeEach(async ({ page }) => {
-      await completePassage(page);
+      await completeTest(page);
     });
 
     test("shows baseline heading and subtitle", async ({ page }) => {
@@ -1022,7 +1038,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (Test Complete)", () => {
     test.beforeEach(async ({ page }) => {
-      await completePassage(page);
+      await completeTest(page);
 
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
@@ -1055,7 +1071,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
   test.describe("Results Screen (New Personal Best)", () => {
     test.beforeEach(async ({ page }) => {
-      await completePassage(page);
+      await completeTest(page);
 
       // Restart to begin the second run
       await page.getByRole("button", { name: "Beat This Score" }).click();
@@ -1096,18 +1112,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("automatically finishes the test when time hits zero", async ({
       page,
     }) => {
-      // Install the mock clock before navigating to the page
-      await page.clock.install();
-      await page.goto("/typing-speed-test");
-
-      await startTest(page);
-
-      // Start the timer by typing the first character
-      await page.keyboard.press("T");
-
-      // Advance the clock by 60 seconds. runFor() is often more reliable than fastForward()
-      // as it allows React's microtask queue to flush between ticks.
-      await page.clock.runFor(60000);
+      await completeTest(page, { mode: "Timed (60s)", waitForTime: 60 });
 
       // Verify completion
       await expect(
@@ -1297,7 +1302,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       page,
     }) => {
       // 1. Instantly complete passage to reach finished state
-      await completePassage(page);
+      await completeTest(page);
 
       // 4. Ensure the results screen rendered
       await expect(
