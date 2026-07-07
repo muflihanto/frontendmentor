@@ -23,6 +23,7 @@ overrides:
   ajv: 6.14.0
   picomatch@<2.3.2: 2.3.2
   yaml@>=2.0.0 <2.8.3: 2.8.3
+  turbo-stream@<3.0.0: 3.0.0
 
 importers:
 
@@ -3053,8 +3054,8 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
-  turbo-stream@2.4.1:
-    resolution: {integrity: sha512-v8kOJXpG3WoTN/+at8vK7erSzo6nW6CIaeOvNOkHQVDajfz1ZVeSxCbc6tOH4hrGZW7VUCV0TOXd8CPzYnYkrw==}
+  turbo-stream@3.0.0:
+    resolution: {integrity: sha512-cD7s7mh0XtUa+sE5Ej1ShRrWGKiAZ1X/l4clV7Dyg4A+u9jf2pbTTKDApeW0B7Za5o/tNCGzNTLFHBAVxeQC6g==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -4421,7 +4422,7 @@ snapshots:
       cookie: 0.7.2
       set-cookie-parser: 2.6.0
       source-map: 0.7.4
-      turbo-stream: 2.4.1
+      turbo-stream: 3.0.0
     optionalDependencies:
       typescript: 5.4.5
 
@@ -6618,7 +6619,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  turbo-stream@2.4.1: {}
+  turbo-stream@3.0.0: {}
 
   type-check@0.4.0:
     dependencies:
