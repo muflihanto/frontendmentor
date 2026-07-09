@@ -26,10 +26,12 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
       - [Dynamic Caret Tracking \& Line-Wrap Scroll Syncing](#dynamic-caret-tracking--line-wrap-scroll-syncing)
       - [Locator Getter Helpers (The `get...` Pattern)](#locator-getter-helpers-the-get-pattern)
         - [Why this is useful:](#why-this-is-useful)
+      - [Test Helper Functions for Repeated Tasks](#test-helper-functions-for-repeated-tasks)
+        - [Why this is useful:](#why-this-is-useful-1)
       - [Centralized Configuration Objects (The `RESULTS_CONFIG` and `STORAGE_KEYS` Pattern)](#centralized-configuration-objects-the-results_config-and-storage_keys-pattern)
         - [Storage Keys Configuration](#storage-keys-configuration)
         - [Results Display Configuration](#results-display-configuration)
-        - [Why this is useful:](#why-this-is-useful-1)
+        - [Why this is useful:](#why-this-is-useful-2)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -343,6 +345,37 @@ function getTimeLocator(page: Page) {
 1. **DRY Implementation**: Minimizes duplication of complex CSS and XPath-like selector paths.
 2. **Locator Composition**: Helpers can build on top of other helpers (e.g., `getTimeLocator` leverages `getStatsContainer`).
 3. **Single Source of Truth**: If class names or DOM structures change during layout updates, we only update the selector logic in a single function rather than searching and replacing references throughout dozens of test suites.
+
+#### Test Helper Functions for Repeated Tasks
+
+To keep the test suite concise, readable, and DRY in [tests/typing-speed-test.spec.ts](../../tests/typing-speed-test.spec.ts), I abstracted common workflows and viewport-dependent interactions into reusable helper functions:
+
+- [selectOption](../../tests/typing-speed-test.spec.ts#L5-L24): Handles responsive option selection (clicking desktop buttons vs. opening mobile dropdowns depending on viewport).
+- [startTest](../../tests/typing-speed-test.spec.ts#L34-L36): Clicks the overlay to begin the test.
+- [getPassageText](../../tests/typing-speed-test.spec.ts#L38-L40): Retrieves the target passage text.
+- [verifyPassageFromDifficulty](../../tests/typing-speed-test.spec.ts#L42-L62): Verifies the passage text and checks active status or blur styles.
+- [completeTest](../../tests/typing-speed-test.spec.ts#L64-L82): Simulates a full test run (starting, filling input, and mock-advancing time).
+
+##### Why this is useful:
+
+1. **DRY Workflows**: Repetitive sequences (like starting a test or switching modes) are defined in one place.
+2. **Encapsulates Viewport Differences**: Viewport selection differences are hidden inside the helpers, simplifying test files.
+3. **Improves Test Scannability**: Individual tests focus strictly on assertions rather than setup mechanics:
+
+   ```typescript
+   test("moves focus to the results heading when the test completes", async ({
+     page,
+   }) => {
+     // completeTest() handles switching mode, starting the test, typing the text, and clock mocking
+     await completeTest(page);
+
+     // The test body remains focused on the primary assertion rather than setup noise
+     const heading = page.getByRole("heading", {
+       name: "Baseline Established!",
+     });
+     await expect(heading).toBeFocused();
+   });
+   ```
 
 #### Centralized Configuration Objects (The `RESULTS_CONFIG` and `STORAGE_KEYS` Pattern)
 
