@@ -120,6 +120,13 @@ async function assertInputFocused(page: Page) {
   expect(isFocused).toBe(true);
 }
 
+async function runAxeScan(page: Page) {
+  const accessibilityScanResults = await new AxeBuilder({ page })
+    .disableRules(["color-contrast"])
+    .analyze();
+  expect(accessibilityScanResults.violations).toEqual([]);
+}
+
 test.describe("FrontendMentor Challenge - Typing speed test page", () => {
   /** Go to Typing speed test page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -1285,10 +1292,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
     test("idle state should not have any automatically detectable accessibility issues", async ({
       page,
     }) => {
-      const accessibilityScanResults = await new AxeBuilder({ page })
-        .disableRules(["color-contrast"])
-        .analyze();
-      expect(accessibilityScanResults.violations).toEqual([]);
+      await runAxeScan(page);
     });
 
     test("active state should not have accessibility issues", async ({
@@ -1303,11 +1307,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toBeVisible();
 
       // 3. Run the Axe scan
-      const accessibilityScanResults = await new AxeBuilder({ page })
-        .disableRules(["color-contrast"])
-        .analyze();
-
-      expect(accessibilityScanResults.violations).toEqual([]);
+      await runAxeScan(page);
     });
 
     test("finished state should not have accessibility issues", async ({
@@ -1322,11 +1322,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toBeVisible();
 
       // 5. Run the Axe scan
-      const accessibilityScanResults = await new AxeBuilder({ page })
-        .disableRules(["color-contrast"])
-        .analyze();
-
-      expect(accessibilityScanResults.violations).toEqual([]);
+      await runAxeScan(page);
     });
 
     test("paused state should not have accessibility issues", async ({
@@ -1347,11 +1343,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await expect(page.getByText("Paused", { exact: true })).toBeVisible();
 
       // 5. Run the Axe scan
-      const accessibilityScanResults = await new AxeBuilder({ page })
-        .disableRules(["color-contrast"])
-        .analyze();
-
-      expect(accessibilityScanResults.violations).toEqual([]);
+      await runAxeScan(page);
     });
 
     test("mobile dropdowns should not have accessibility issues when open", async ({
@@ -1372,11 +1364,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       ).toBeVisible();
 
       // 4. Run the Axe scan
-      const accessibilityScanResults = await new AxeBuilder({ page })
-        .disableRules(["color-contrast"])
-        .analyze();
-
-      expect(accessibilityScanResults.violations).toEqual([]);
+      await runAxeScan(page);
     });
 
     test("announces incorrect keystrokes via live region", async ({ page }) => {
