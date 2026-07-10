@@ -128,8 +128,7 @@ function Dropdown({
   options,
   activeOption,
   isOpen,
-  setIsOpen,
-  onOpenClick,
+  onToggle,
   onChange,
   triggerRef,
   menuRef,
@@ -137,8 +136,7 @@ function Dropdown({
   options: string[];
   activeOption: string;
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  onOpenClick: () => void;
+  onToggle: (open?: boolean) => void;
   onChange: (option: string) => void;
   triggerRef: React.RefObject<HTMLButtonElement>;
   menuRef: React.RefObject<HTMLDivElement>;
@@ -146,7 +144,7 @@ function Dropdown({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
       e.preventDefault();
-      setIsOpen(true);
+      onToggle(true);
       setTimeout(() => {
         const firstItem =
           menuRef.current?.querySelector<HTMLButtonElement>(
@@ -184,7 +182,7 @@ function Dropdown({
       e.preventDefault();
       items[items.length - 1].focus();
     } else if (e.key === "Tab") {
-      setIsOpen(false);
+      onToggle(false);
     }
   };
 
@@ -196,7 +194,7 @@ function Dropdown({
         onKeyDown={handleKeyDown}
         aria-haspopup="menu"
         aria-expanded={isOpen}
-        onClick={onOpenClick}
+        onClick={() => onToggle()}
         className={cn(
           "flex h-8 w-full items-center justify-center gap-2 rounded-lg border border-typing-speed-test-neutral-500 bg-transparent px-4 text-[15px] font-medium text-typing-speed-test-neutral-0 transition-colors hover:bg-typing-speed-test-neutral-800",
           FOCUS_CLASSES,
@@ -228,7 +226,7 @@ function Dropdown({
               role="menuitem"
               onClick={() => {
                 onChange(opt);
-                setIsOpen(false);
+                onToggle(false);
               }}
               className="flex w-full items-center gap-3 px-2 py-[6px] transition-colors hover:bg-typing-speed-test-neutral-500/20"
             >
@@ -514,20 +512,30 @@ function Main() {
   }, [status, difficulty, resetTestState]);
 
   const closeAllDropdowns = useCallback(() => setOpenDropdown(null), []);
-  const openDiffDropdown = useCallback(
-    () => setOpenDropdown((prev) => (prev === "diff" ? null : "diff")),
+  const toggleDiffOpen = useCallback(
+    (open?: boolean) =>
+      setOpenDropdown((prev) =>
+        open === true
+          ? "diff"
+          : open === false
+            ? null
+            : prev === "diff"
+              ? null
+              : "diff",
+      ),
     [],
   );
-  const openModeDropdown = useCallback(
-    () => setOpenDropdown((prev) => (prev === "mode" ? null : "mode")),
-    [],
-  );
-  const setDiffOpen = useCallback(
-    (open: boolean) => setOpenDropdown(open ? "diff" : null),
-    [],
-  );
-  const setModeOpen = useCallback(
-    (open: boolean) => setOpenDropdown(open ? "mode" : null),
+  const toggleModeOpen = useCallback(
+    (open?: boolean) =>
+      setOpenDropdown((prev) =>
+        open === true
+          ? "mode"
+          : open === false
+            ? null
+            : prev === "mode"
+              ? null
+              : "mode",
+      ),
     [],
   );
 
@@ -686,8 +694,7 @@ function Main() {
                 options={["Easy", "Medium", "Hard"]}
                 activeOption={difficulty}
                 isOpen={isDiffOpen}
-                setIsOpen={setDiffOpen}
-                onOpenClick={openDiffDropdown}
+                onToggle={toggleDiffOpen}
                 onChange={handleDifficultyChange}
                 triggerRef={diffTriggerRef}
                 menuRef={diffMenuRef}
@@ -697,8 +704,7 @@ function Main() {
                 options={["Timed (60s)", "Passage"]}
                 activeOption={mode}
                 isOpen={isModeOpen}
-                setIsOpen={setModeOpen}
-                onOpenClick={openModeDropdown}
+                onToggle={toggleModeOpen}
                 onChange={handleModeChange}
                 triggerRef={modeTriggerRef}
                 menuRef={modeMenuRef}
