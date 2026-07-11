@@ -93,7 +93,7 @@ function getTimeLocator(page: Page) {
   return getStatsContainer(page)
     .locator("p")
     .filter({ hasText: /^Time:/ })
-    .locator("xpath=../p[2]");
+    .locator("+ p");
 }
 
 async function expectAccuracy(page: Page, expected: number) {
@@ -974,7 +974,7 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const wpmLocator = stats
         .locator("p")
         .filter({ hasText: /^WPM:/ })
-        .locator("xpath=../p[2]");
+        .locator("+ p");
 
       const currentPassageText = await getPassageText(
         page,
