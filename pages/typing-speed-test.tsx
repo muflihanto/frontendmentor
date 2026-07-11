@@ -543,8 +543,8 @@ function Main() {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (openDropdown !== null) {
-          if (isDiffOpen) diffTriggerRef.current?.focus();
-          if (isModeOpen) modeTriggerRef.current?.focus();
+          if (openDropdown === "diff") diffTriggerRef.current?.focus();
+          if (openDropdown === "mode") modeTriggerRef.current?.focus();
           closeAllDropdowns();
         } else {
           handleStartTest();
@@ -554,13 +554,7 @@ function Main() {
 
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, [
-    handleStartTest,
-    openDropdown,
-    isDiffOpen,
-    isModeOpen,
-    closeAllDropdowns,
-  ]);
+  }, [handleStartTest, openDropdown, closeAllDropdowns]);
 
   const handleContainerClick = () => {
     if (status === "idle") {
