@@ -4,7 +4,7 @@ import passagesData from "../public/typing-speed-test/data.json";
 
 async function selectOption(
   page: Page,
-  currentLabel: string,
+  mobileCurrentLabel: string,
   targetLabel: string,
 ) {
   const desktopBtn = page
@@ -15,7 +15,7 @@ async function selectOption(
   } else {
     const mobileContainer = getMobileContainer(page);
     await mobileContainer
-      .getByRole("button", { name: currentLabel, exact: true })
+      .getByRole("button", { name: mobileCurrentLabel, exact: true })
       .click();
     await mobileContainer
       .getByRole("menuitem", { name: targetLabel, exact: true })
