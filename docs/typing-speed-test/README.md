@@ -32,6 +32,8 @@ This is a solution to the [Typing Speed Test challenge on Frontend Mentor](https
         - [Storage Keys Configuration](#storage-keys-configuration)
         - [Results Display Configuration](#results-display-configuration)
         - [Why this is useful:](#why-this-is-useful-2)
+      - [XPath Fragility \& the Adjacent-Sibling Alternative](#xpath-fragility--the-adjacent-sibling-alternative)
+        - [Why this is useful:](#why-this-is-useful-3)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -425,6 +427,38 @@ const RESULTS_CONFIG = {
 1. **Prevents Typo Bugs**: Referencing constants like `STORAGE_KEYS.BEST_WPM` instead of raw strings prevents silent local storage bugs due to typos.
 2. **Declarative Rendering**: Rather than cluttering the JSX template with verbose conditional logic or multiple `if/else` returns, the component maps state to the config object (e.g., `RESULTS_CONFIG[resultType]`) to pull all text and asset paths.
 3. **Maintainability**: Text copy, icon paths, and keys can be altered in one centralized place without having to inspect or modify the underlying rendering/storage logic.
+
+#### XPath Fragility & the Adjacent-Sibling Alternative
+
+While building the stats locators, I initially reached for a positional XPath to grab the numeric value sitting next to a label:
+
+```typescript
+function getTimeLocator(page: Page) {
+  return getStatsContainer(page)
+    .locator("p")
+    .filter({ hasText: /^Time:/ })
+    .locator("xpath=../p[2]");
+}
+```
+
+The problem with `xpath=../p[2]` is that it is **fragile**: it depends entirely on the value being the parent's _second_ `<p>` child. If anyone inserts another `<p>` before the value (or reorders the markup), the selector silently grabs the wrong node, and tests either fail or, worse, assert against the wrong data with no error. Positional selectors like `p[2]` couple the test to the exact DOM index rather than the logical relationship between label and value.
+
+I replaced it with the CSS adjacent-sibling combinator, which targets the element that immediately _follows_ the label in the markup:
+
+```typescript
+function getTimeLocator(page: Page) {
+  return getStatsContainer(page)
+    .locator("p")
+    .filter({ hasText: /^Time:/ })
+    .locator("+ p");
+}
+```
+
+##### Why this is useful:
+
+1. **Relationship over position**: `+ p` selects the `<p>` that directly follows the "Time:" label, so the locator stays correct even if extra siblings are added before the value.
+2. **Self-documenting intent**: It reads as "the value next to this label" rather than an opaque index, making the test easier to reason about.
+3. **Resilience to refactors**: Markup restructures that preserve the label → value adjacency keep the test green, reducing false-negative failures after harmless layout changes.
 
 <!-- ### Continued development
 
