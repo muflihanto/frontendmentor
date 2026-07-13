@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FormEventHandler } from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { useEffectOnce, useWindowSize } from "usehooks-ts";
 import { z } from "zod";
@@ -66,6 +67,44 @@ function FormNav({
         {submitLabel}
       </button>
     </div>
+  );
+}
+
+type FormFieldProps = {
+  id: string;
+  label: string;
+  placeholder: string;
+  type?: "text" | "email";
+  error?: string;
+  registration: UseFormRegisterReturn;
+};
+
+function FormField({
+  id,
+  label,
+  placeholder,
+  type = "text",
+  error,
+  registration,
+}: FormFieldProps) {
+  return (
+    <label htmlFor={id}>
+      <p className="flex justify-between text-[12px] text-multi-step-primary-blue-400 lg:text-[14px]">
+        <span>{label}</span>
+        {error !== undefined ? (
+          <span className="font-bold text-red-500">{error}</span>
+        ) : null}
+      </p>
+      <input
+        className={cn([
+          "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 bg-white px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
+          error && "border-red-500 focus-visible:border-red-500",
+        ])}
+        type={type}
+        placeholder={placeholder}
+        {...registration}
+      />
+    </label>
   );
 }
 
@@ -221,63 +260,28 @@ function PersonalInfoForm() {
         Please provide your name, email address, and phone number.
       </p>
       <fieldset className="mt-[19px] flex w-full flex-col gap-[13px] lg:mt-[35px] lg:gap-[21px]">
-        <label htmlFor="name">
-          <p className="flex justify-between text-[12px] text-multi-step-primary-blue-400 lg:text-[14px]">
-            <span>Name</span>
-            {errors.name !== undefined ? (
-              <span className="font-bold text-red-500">
-                {errors.name.message}
-              </span>
-            ) : null}
-          </p>
-          <input
-            className={cn([
-              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 bg-white px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg lg:text-[16px]", //
-              errors.name && "border-red-500 focus-visible:border-red-500",
-            ])}
-            type="text"
-            placeholder="e.g. Stephen King"
-            {...register("name")}
-          />
-        </label>
-        <label htmlFor="email">
-          <p className="flex justify-between text-[12px] text-multi-step-primary-blue-400 lg:text-[14px]">
-            <span>Email Address</span>
-            {errors.email !== undefined ? (
-              <span className="font-bold text-red-500">
-                {errors.email.message}
-              </span>
-            ) : null}
-          </p>
-          <input
-            className={cn([
-              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 bg-white px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg  lg:text-[16px]", //
-              errors.email && "border-red-500 focus-visible:border-red-500",
-            ])}
-            type="email"
-            placeholder="e.g. stephenking@lorem.com"
-            {...register("email")}
-          />
-        </label>
-        <label htmlFor="phone">
-          <p className="flex justify-between text-[12px] text-multi-step-primary-blue-400 lg:text-[14px]">
-            <span>Phone Number</span>
-            {errors.phone !== undefined ? (
-              <span className="font-bold text-red-500">
-                {errors.phone.message}
-              </span>
-            ) : null}
-          </p>
-          <input
-            className={cn([
-              "mt-[2px] h-[40px] w-full rounded border border-multi-step-neutral-400 bg-white px-[15px] pb-px text-[15px] font-medium text-multi-step-primary-blue-400 focus-visible:border-multi-step-primary-blue-300 focus-visible:outline focus-visible:outline-transparent lg:mt-[6px] lg:h-12 lg:rounded-lg  lg:text-[16px]", //
-              errors.phone && "border-red-500 focus-visible:border-red-500",
-            ])}
-            type="text"
-            placeholder="e.g. +1 234 567 890"
-            {...register("phone")}
-          />
-        </label>
+        <FormField
+          id="name"
+          label="Name"
+          placeholder="e.g. Stephen King"
+          error={errors.name?.message}
+          registration={register("name")}
+        />
+        <FormField
+          id="email"
+          label="Email Address"
+          type="email"
+          placeholder="e.g. stephenking@lorem.com"
+          error={errors.email?.message}
+          registration={register("email")}
+        />
+        <FormField
+          id="phone"
+          label="Phone Number"
+          placeholder="e.g. +1 234 567 890"
+          error={errors.phone?.message}
+          registration={register("phone")}
+        />
       </fieldset>
 
       <FormNav submitLabel="Next Step" />
