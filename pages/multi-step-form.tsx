@@ -25,6 +25,50 @@ type Queries = {
   completed?: 1 | 0;
 };
 
+type FormNavProps = {
+  goBackStep?: 1 | 2 | 3;
+  submitLabel: "Next Step" | "Confirm";
+  submitVariant?: "primary" | "accent";
+};
+
+function FormNav({
+  goBackStep,
+  submitLabel,
+  submitVariant = "primary",
+}: FormNavProps) {
+  return (
+    <div
+      className={cn([
+        "fixed bottom-0 left-0 flex h-[72px] w-full items-center bg-multi-step-neutral-100 p-4 lg:static lg:mt-auto lg:h-fit lg:p-0",
+        goBackStep ? "justify-between" : "justify-end",
+      ])}
+    >
+      {goBackStep && (
+        <Link
+          className="text-[14px] font-medium text-multi-step-neutral-500 hover:text-multi-step-primary-blue-400 lg:mb-[2px] lg:text-base"
+          href={{
+            pathname: "/multi-step-form",
+            query: { step: goBackStep },
+          }}
+        >
+          Go Back
+        </Link>
+      )}
+      <button
+        className={cn([
+          "flex h-10 w-[97px] items-center justify-center rounded text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base",
+          submitVariant === "primary"
+            ? "bg-multi-step-primary-blue-400"
+            : "bg-multi-step-primary-blue-300 hover:bg-opacity-60",
+        ])}
+        type="submit"
+      >
+        {submitLabel}
+      </button>
+    </div>
+  );
+}
+
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
 );
@@ -236,14 +280,7 @@ function PersonalInfoForm() {
         </label>
       </fieldset>
 
-      <div className="fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-end bg-multi-step-neutral-100 p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
-        <button
-          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
-          type="submit"
-        >
-          Next Step
-        </button>
-      </div>
+      <FormNav submitLabel="Next Step" />
     </form>
   );
 }
@@ -435,23 +472,7 @@ function PlanForm() {
         </p>
       </div>
 
-      <div className="fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between bg-multi-step-neutral-100 p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
-        <Link
-          className="text-[14px] font-medium text-multi-step-neutral-500 hover:text-multi-step-primary-blue-400 lg:mb-[2px] lg:text-base"
-          href={{
-            pathname: "/multi-step-form",
-            query: { step: 1 },
-          }}
-        >
-          Go Back
-        </Link>
-        <button
-          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
-          type="submit"
-        >
-          Next Step
-        </button>
-      </div>
+      <FormNav goBackStep={1} submitLabel="Next Step" />
     </form>
   );
 }
@@ -599,23 +620,7 @@ function AddOnsForm() {
         </label>
       </fieldset>
 
-      <div className="fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between bg-multi-step-neutral-100 p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
-        <Link
-          className="text-[14px] font-medium text-multi-step-neutral-500 hover:text-multi-step-primary-blue-400 lg:mb-[2px] lg:text-base"
-          href={{
-            pathname: "/multi-step-form",
-            query: { step: 2 },
-          }}
-        >
-          Go Back
-        </Link>
-        <button
-          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-400 text-[14px] font-medium text-multi-step-neutral-100 hover:brightness-[1.6] lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
-          type="submit"
-        >
-          Next Step
-        </button>
-      </div>
+      <FormNav goBackStep={2} submitLabel="Next Step" />
     </form>
   );
 }
@@ -726,23 +731,7 @@ function FinishingUp() {
         </p>
       </div>
 
-      <div className="fixed bottom-0 left-0 flex h-[72px] w-full items-center justify-between bg-multi-step-neutral-100 p-4 lg:static lg:mt-auto lg:h-fit lg:p-0">
-        <Link
-          className="text-[14px] font-medium text-multi-step-neutral-500 hover:text-multi-step-primary-blue-400 lg:mb-[2px] lg:text-base"
-          href={{
-            pathname: "/multi-step-form",
-            query: { step: 3 },
-          }}
-        >
-          Go Back
-        </Link>
-        <button
-          className="flex h-10 w-[97px] items-center justify-center rounded bg-multi-step-primary-blue-300 text-[14px] font-medium text-multi-step-neutral-100 hover:bg-opacity-60 lg:h-12 lg:w-[123px] lg:rounded-lg lg:pb-[2px] lg:text-base"
-          type="submit"
-        >
-          Confirm
-        </button>
-      </div>
+      <FormNav goBackStep={3} submitLabel="Confirm" submitVariant="accent" />
     </form>
   );
 }
