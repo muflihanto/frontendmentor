@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { atom, useAtom, useAtomValue } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -126,6 +126,31 @@ function FormHeading({ title, description }: FormHeadingProps) {
   );
 }
 
+type StepData = Partial<PersonalInfo & Plan & AddOns>;
+
+function useStepNavigation(step: number) {
+  const setFormsInput = useSetAtom(formsInputAtom);
+  const router = useRouter();
+
+  return (data: StepData) => {
+    setFormsInput((prev) => {
+      const prevStep = prev.completedStep;
+      return {
+        ...prev,
+        ...data,
+        completedStep:
+          !!prevStep && Number.parseInt(prevStep) > step
+            ? prevStep
+            : (String(step) as Queries["step"]),
+      };
+    });
+    void router.push({
+      pathname: "/multi-step-form",
+      query: { step: step + 1 },
+    });
+  };
+}
+
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
 );
@@ -231,8 +256,8 @@ export default function MultiStepForm() {
 }
 
 function PersonalInfoForm() {
-  const [formsInput, setFormsInput] = useAtom(formsInputAtom);
-  const router = useRouter();
+  const [formsInput] = useAtom(formsInputAtom);
+  const navigate = useStepNavigation(1);
   const {
     handleSubmit,
     formState: { errors },
@@ -246,24 +271,7 @@ function PersonalInfoForm() {
     },
   });
 
-  const onSubmit = handleSubmit(async (data) => {
-    setFormsInput((prev) => {
-      const prevStep = prev.completedStep;
-      return {
-        ...prev,
-        ...data,
-        completedStep:
-          !!prevStep && Number.parseInt(prevStep) > 1 ? prevStep : "1",
-      };
-    });
-    const step = (router.query as Queries).step;
-    await router.push({
-      pathname: "/multi-step-form",
-      query: {
-        step: step ? Number.parseInt(step) + 1 : 2,
-      },
-    });
-  });
+  const onSubmit = handleSubmit(navigate);
 
   return (
     <form
@@ -306,28 +314,14 @@ function PersonalInfoForm() {
 }
 
 function PlanForm() {
-  const [formsInput, setFormsInput] = useAtom(formsInputAtom);
-  const router = useRouter();
+  const [formsInput] = useAtom(formsInputAtom);
+  const navigate = useStepNavigation(2);
   const { handleSubmit, register } = useForm<Plan>({
     resolver: zodResolver(Plan),
     defaultValues: { plan: formsInput.plan },
   });
 
-  const onSubmit = handleSubmit(async (data) => {
-    setFormsInput((prev) => {
-      const prevStep = prev.completedStep;
-      return {
-        ...prev,
-        ...data,
-        completedStep:
-          !!prevStep && Number.parseInt(prevStep) > 2 ? prevStep : "2",
-      };
-    });
-    await router.push({
-      pathname: "/multi-step-form",
-      query: { step: 3 },
-    });
-  });
+  const onSubmit = handleSubmit(navigate);
   const [planType, setPlanType] = useAtom(planTypeAtom);
 
   return (
@@ -496,8 +490,8 @@ function PlanForm() {
 }
 
 function AddOnsForm() {
-  const [formsInput, setFormsInput] = useAtom(formsInputAtom);
-  const router = useRouter();
+  const [formsInput] = useAtom(formsInputAtom);
+  const navigate = useStepNavigation(3);
   const { handleSubmit, register } = useForm<AddOns>({
     resolver: zodResolver(AddOns),
     defaultValues: {
@@ -508,24 +502,7 @@ function AddOnsForm() {
   });
   const planType = useAtomValue(planTypeAtom);
 
-  const onSubmit = handleSubmit(async (data) => {
-    setFormsInput((prev) => {
-      const prevStep = prev.completedStep;
-      return {
-        ...prev,
-        ...data,
-        completedStep:
-          !!prevStep && Number.parseInt(prevStep) > 3 ? prevStep : "3",
-      };
-    });
-    const step = (router.query as Queries).step;
-    await router.push({
-      pathname: "/multi-step-form",
-      query: {
-        step: step ? Number.parseInt(step) + 1 : 2,
-      },
-    });
-  });
+  const onSubmit = handleSubmit(navigate);
 
   return (
     <form
