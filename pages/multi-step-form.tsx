@@ -108,6 +108,24 @@ function FormField({
   );
 }
 
+type FormHeadingProps = {
+  title: string;
+  description: string;
+};
+
+function FormHeading({ title, description }: FormHeadingProps) {
+  return (
+    <>
+      <h1 className="text-[24px] font-bold leading-none text-multi-step-primary-blue-400 lg:text-[32px]">
+        {title}
+      </h1>
+      <p className="mt-3 leading-[25px] text-multi-step-neutral-500 lg:mt-[11px]">
+        {description}
+      </p>
+    </>
+  );
+}
+
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
 );
@@ -253,12 +271,10 @@ function PersonalInfoForm() {
       className="mt-[18px] h-[376px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
       onSubmit={onSubmit}
     >
-      <h1 className="text-[24px] font-bold leading-none text-multi-step-primary-blue-400 lg:text-[32px]">
-        Personal info
-      </h1>
-      <p className="mt-3 leading-[25px] text-multi-step-neutral-500 lg:mt-[11px]">
-        Please provide your name, email address, and phone number.
-      </p>
+      <FormHeading
+        title="Personal info"
+        description="Please provide your name, email address, and phone number."
+      />
       <fieldset className="mt-[19px] flex w-full flex-col gap-[13px] lg:mt-[35px] lg:gap-[21px]">
         <FormField
           id="name"
@@ -323,12 +339,10 @@ function PlanForm() {
       ])}
       onSubmit={onSubmit}
     >
-      <h1 className="text-[24px] font-bold leading-none text-multi-step-primary-blue-400 lg:text-[32px]">
-        Select your plan
-      </h1>
-      <p className="mt-3 leading-[25px] text-multi-step-neutral-500 lg:mt-[11px]">
-        You have the option of monthly or yearly billing.
-      </p>
+      <FormHeading
+        title="Select your plan"
+        description="You have the option of monthly or yearly billing."
+      />
       <div className="mt-[22px] flex w-full flex-col gap-3 lg:mt-[38px] lg:flex-row lg:gap-[18px]">
         <label className="w-full cursor-pointer lg:h-full">
           <input
@@ -519,12 +533,10 @@ function AddOnsForm() {
       className="mt-[18px] h-[383px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
       onSubmit={onSubmit}
     >
-      <h1 className="text-[24px] font-bold leading-none text-multi-step-primary-blue-400 lg:text-[32px]">
-        Pick add-ons
-      </h1>
-      <p className="mt-3 leading-[25px] text-multi-step-neutral-500 lg:mt-[11px]">
-        Add-ons help enhance your gaming experience.
-      </p>
+      <FormHeading
+        title="Pick add-ons"
+        description="Add-ons help enhance your gaming experience."
+      />
       <fieldset className="mt-[22px] flex w-full flex-col gap-[12px] lg:mt-[38px] lg:gap-[16px]">
         <label className="w-full cursor-pointer">
           <input
@@ -657,12 +669,10 @@ function FinishingUp() {
       className="mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pb-[34px] pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
       onSubmit={onSubmit}
     >
-      <h1 className="text-[24px] font-bold leading-none text-multi-step-primary-blue-400 lg:text-[32px]">
-        Finishing up
-      </h1>
-      <p className="mt-3 leading-[25px] text-multi-step-neutral-500 lg:mt-[11px]">
-        Double-check everything looks OK before confirming.
-      </p>
+      <FormHeading
+        title="Finishing up"
+        description="Double-check everything looks OK before confirming."
+      />
 
       <div className="mt-[22px] w-full rounded-md bg-multi-step-neutral-200 px-4 pb-[18px] pt-[19px] lg:mt-[38px] lg:px-6 lg:pb-[26px] lg:pt-[17px]">
         <div className="flex items-center justify-between text-[14px]">
