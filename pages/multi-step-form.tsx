@@ -313,6 +313,45 @@ function PersonalInfoForm() {
   );
 }
 
+const plans = [
+  {
+    value: "Arcade",
+    label: "Arcade",
+    icon: "/multi-step-form/assets/images/icon-arcade.svg",
+  },
+  {
+    value: "Advanced",
+    label: "Advanced",
+    icon: "/multi-step-form/assets/images/icon-advanced.svg",
+  },
+  {
+    value: "Pro",
+    label: "Pro",
+    icon: "/multi-step-form/assets/images/icon-pro.svg",
+  },
+] as const;
+
+const addOns = [
+  {
+    field: "onlineService",
+    title: "Online service",
+    description: "Access to multiplayer games",
+    amount: 1,
+  },
+  {
+    field: "largerStorage",
+    title: "Larger storage",
+    description: "Extra 1TB of cloud save",
+    amount: 2,
+  },
+  {
+    field: "customizableProfile",
+    title: "Customizable profile",
+    description: "Custom theme on your profile",
+    amount: 2,
+  },
+] as const;
+
 function PlanForm() {
   const [formsInput] = useAtom(formsInputAtom);
   const navigate = useStepNavigation(2);
@@ -338,115 +377,40 @@ function PlanForm() {
         description="You have the option of monthly or yearly billing."
       />
       <div className="mt-[22px] flex w-full flex-col gap-3 lg:mt-[38px] lg:flex-row lg:gap-[18px]">
-        <label className="w-full cursor-pointer lg:h-full">
-          <input
-            {...register("plan", { required: true })}
-            type="radio"
-            className="peer hidden"
-            value="Arcade"
-          />
-          <div
-            className={cn([
-              "flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:flex-col lg:pt-[19px]", //
-              planType === "monthly"
-                ? "h-[77px] lg:h-[160px] lg:pb-[14px]"
-                : "h-[99px] lg:h-[183px] lg:pb-[16px]",
-            ])}
-          >
-            <Image
-              src="/multi-step-form/assets/images/icon-arcade.svg"
-              alt="Arcade Icon"
-              width={40}
-              height={40}
+        {plans.map(({ value, label, icon }) => (
+          <label key={value} className="w-full cursor-pointer lg:h-full">
+            <input
+              {...register("plan", { required: true })}
+              type="radio"
+              className="peer hidden"
+              value={value}
             />
-            <div className="ml-[14px] flex h-full flex-col lg:ml-0 lg:mt-auto lg:h-auto">
-              <h3 className="font-medium leading-[20px] text-multi-step-primary-blue-400">
-                Arcade
-              </h3>
-              <p className="mt-0.5 text-[14px] text-multi-step-neutral-500">
-                ${price[planType].Arcade}/{planType === "monthly" ? "mo" : "yr"}
-              </p>
-              {planType === "yearly" && (
-                <p className="mt-[3px] text-[12px] text-multi-step-primary-blue-400">
-                  2 months free
+            <div
+              className={cn([
+                "flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:flex-col lg:pt-[19px]", //
+                planType === "monthly"
+                  ? "h-[77px] lg:h-[160px] lg:pb-[14px]"
+                  : "h-[99px] lg:h-[183px] lg:pb-[16px]",
+              ])}
+            >
+              <Image src={icon} alt={`${label} Icon`} width={40} height={40} />
+              <div className="ml-[14px] flex h-full flex-col lg:ml-0 lg:mt-auto lg:h-auto">
+                <h3 className="font-medium leading-[20px] text-multi-step-primary-blue-400">
+                  {label}
+                </h3>
+                <p className="mt-0.5 text-[14px] text-multi-step-neutral-500">
+                  ${price[planType][value]}/
+                  {planType === "monthly" ? "mo" : "yr"}
                 </p>
-              )}
+                {planType === "yearly" && (
+                  <p className="mt-[3px] text-[12px] text-multi-step-primary-blue-400">
+                    2 months free
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        </label>
-        <label className="w-full cursor-pointer rounded lg:h-full">
-          <input
-            {...register("plan", { required: true })}
-            type="radio"
-            className="peer hidden"
-            value="Advanced"
-          />
-          <div
-            className={cn([
-              "flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:flex-col lg:pt-[19px]", //
-              planType === "monthly"
-                ? "h-[77px] lg:h-[160px] lg:pb-[14px]"
-                : "h-[99px] lg:h-[183px] lg:pb-[16px]",
-            ])}
-          >
-            <Image
-              src="/multi-step-form/assets/images/icon-advanced.svg"
-              alt="Advanced Icon"
-              width={40}
-              height={40}
-            />
-            <div className="ml-[14px] flex h-full flex-col lg:ml-0 lg:mt-auto lg:h-auto">
-              <h3 className="font-medium leading-[20px] text-multi-step-primary-blue-400">
-                Advanced
-              </h3>
-              <p className="mt-0.5 text-[14px] text-multi-step-neutral-500">
-                ${price[planType].Advanced}/
-                {planType === "monthly" ? "mo" : "yr"}
-              </p>
-              {planType === "yearly" && (
-                <p className="mt-[3px] text-[12px] text-multi-step-primary-blue-400">
-                  2 months free
-                </p>
-              )}
-            </div>
-          </div>
-        </label>
-        <label className="w-full cursor-pointer rounded lg:h-full">
-          <input
-            {...register("plan", { required: true })}
-            type="radio"
-            className="peer hidden"
-            value="Pro"
-          />
-          <div
-            className={cn([
-              "flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:flex-col lg:pt-[19px]", //
-              planType === "monthly"
-                ? "h-[77px] lg:h-[160px] lg:pb-[14px]"
-                : "h-[99px] lg:h-[183px] lg:pb-[16px]",
-            ])}
-          >
-            <Image
-              src="/multi-step-form/assets/images/icon-pro.svg"
-              alt="Arcade Icon"
-              width={40}
-              height={40}
-            />
-            <div className="ml-[14px] flex h-full flex-col lg:ml-0 lg:mt-auto lg:h-auto">
-              <h3 className="font-medium leading-[20px] text-multi-step-primary-blue-400">
-                Pro
-              </h3>
-              <p className="mt-0.5 text-[14px] text-multi-step-neutral-500">
-                ${price[planType].Pro}/{planType === "monthly" ? "mo" : "yr"}
-              </p>
-              {planType === "yearly" && (
-                <p className="mt-[3px] text-[12px] text-multi-step-primary-blue-400">
-                  2 months free
-                </p>
-              )}
-            </div>
-          </div>
-        </label>
+          </label>
+        ))}
       </div>
 
       <div className="mt-[38px] flex w-full items-center justify-center gap-6 text-[14px] font-medium leading-none lg:mt-[32px] lg:h-12 lg:rounded lg:bg-multi-step-neutral-200 lg:pr-3">
@@ -515,102 +479,41 @@ function AddOnsForm() {
         description="Add-ons help enhance your gaming experience."
       />
       <fieldset className="mt-[22px] flex w-full flex-col gap-[12px] lg:mt-[38px] lg:gap-[16px]">
-        <label className="w-full cursor-pointer">
-          <input
-            {...register("onlineService", { required: true })}
-            type="checkbox"
-            className="peer hidden"
-          />
-          <div
-            className={cn([
-              "flex h-[62px] w-full items-center rounded-lg border px-[15px] hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
-            ])}
-          >
-            <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
-              <Image
-                src="/multi-step-form/assets/images/icon-checkmark.svg"
-                alt="Checkmark Icon"
-                width={12}
-                height={9}
-              />
-            </div>
-            <div className="ml-[16px] flex flex-col lg:ml-[24px]">
-              <h3 className="text-[14px] font-medium leading-[18px] text-multi-step-primary-blue-400 lg:text-[16px] lg:leading-[22px]">
-                Online service
-              </h3>
-              <p className="mt-0 text-[12px] text-multi-step-neutral-500 lg:text-[14px] lg:leading-[24px]">
-                Access to multiplayer games
+        {addOns.map(({ field, title, description, amount }) => (
+          <label key={field} className="w-full cursor-pointer">
+            <input
+              {...register(field, { required: true })}
+              type="checkbox"
+              className="peer hidden"
+            />
+            <div
+              className={cn([
+                "flex h-[62px] w-full items-center rounded-lg border px-[15px] hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
+              ])}
+            >
+              <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
+                <Image
+                  src="/multi-step-form/assets/images/icon-checkmark.svg"
+                  alt="Checkmark Icon"
+                  width={12}
+                  height={9}
+                />
+              </div>
+              <div className="ml-[16px] flex flex-col lg:ml-[24px]">
+                <h3 className="text-[14px] font-medium leading-[18px] text-multi-step-primary-blue-400 lg:text-[16px] lg:leading-[22px]">
+                  {title}
+                </h3>
+                <p className="mt-0 text-[12px] text-multi-step-neutral-500 lg:text-[14px] lg:leading-[24px]">
+                  {description}
+                </p>
+              </div>
+              <p className="ml-auto text-[12px] text-multi-step-primary-blue-300 lg:text-[14px]">
+                +${amount}
+                {planType === "monthly" ? "/mo" : "0/yr"}
               </p>
             </div>
-            <p className="ml-auto text-[12px] text-multi-step-primary-blue-300 lg:text-[14px]">
-              +$1{planType === "monthly" ? "/mo" : "0/yr"}
-            </p>
-          </div>
-        </label>
-        <label className="w-full cursor-pointer">
-          <input
-            {...register("largerStorage", { required: true })}
-            type="checkbox"
-            className="peer hidden"
-          />
-          <div
-            className={cn([
-              "flex h-[62px] w-full items-center rounded-lg border px-[15px] hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
-            ])}
-          >
-            <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
-              <Image
-                src="/multi-step-form/assets/images/icon-checkmark.svg"
-                alt="Checkmark Icon"
-                width={12}
-                height={9}
-              />
-            </div>
-            <div className="ml-[16px] flex flex-col lg:ml-[24px]">
-              <h3 className="text-[14px] font-medium leading-[18px] text-multi-step-primary-blue-400 lg:text-[16px] lg:leading-[22px]">
-                Larger storage
-              </h3>
-              <p className="mt-0 text-[12px] text-multi-step-neutral-500 lg:text-[14px] lg:leading-[24px]">
-                Extra 1TB of cloud save
-              </p>
-            </div>
-            <p className="ml-auto text-[12px] text-multi-step-primary-blue-300 lg:text-[14px]">
-              +$2{planType === "monthly" ? "/mo" : "0/yr"}
-            </p>
-          </div>
-        </label>
-        <label className="w-full cursor-pointer">
-          <input
-            {...register("customizableProfile", { required: true })}
-            type="checkbox"
-            className="peer hidden"
-          />
-          <div
-            className={cn([
-              "flex h-[62px] w-full items-center rounded-lg border px-[15px] hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
-            ])}
-          >
-            <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
-              <Image
-                src="/multi-step-form/assets/images/icon-checkmark.svg"
-                alt="Checkmark Icon"
-                width={12}
-                height={9}
-              />
-            </div>
-            <div className="ml-[16px] flex flex-col lg:ml-[24px]">
-              <h3 className="text-[14px] font-medium leading-[18px] text-multi-step-primary-blue-400 lg:text-[16px] lg:leading-[22px]">
-                Customizable profile
-              </h3>
-              <p className="mt-0 text-[12px] text-multi-step-neutral-500 lg:text-[14px] lg:leading-[24px]">
-                Custom theme on your profile
-              </p>
-            </div>
-            <p className="ml-auto text-[12px] text-multi-step-primary-blue-300 lg:text-[14px]">
-              +$2{planType === "monthly" ? "/mo" : "0/yr"}
-            </p>
-          </div>
-        </label>
+          </label>
+        ))}
       </fieldset>
 
       <FormNav goBackStep={2} submitLabel="Next Step" />
