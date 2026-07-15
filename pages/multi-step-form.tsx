@@ -523,8 +523,8 @@ function AddOnsForm() {
 
 function FinishingUp() {
   const formsInput = useAtomValue(formsInputAtom);
-  const { customizableProfile, largerStorage, onlineService, plan } =
-    formsInput;
+  const { plan } = formsInput;
+  const selectedAddOns = addOns.filter((addOn) => formsInput[addOn.field]);
   const router = useRouter();
   const planType = useAtomValue(planTypeAtom);
 
@@ -574,43 +574,24 @@ function FinishingUp() {
             ${price[planType][plan]}/{planType === "monthly" ? "mo" : "yr"}
           </p>
         </div>
-        {(!!customizableProfile || !!largerStorage || !!onlineService) && (
+        {selectedAddOns.length > 0 && (
           <>
             <hr className="my-[11px] w-full border-t-multi-step-neutral-400 lg:mt-[23px]" />
             <div className="mt-4 space-y-[18px] lg:mt-[20px] lg:space-y-[22px]">
-              {onlineService && (
-                <div className="flex items-center justify-between text-[14px]">
+              {selectedAddOns.map(({ field, title }) => (
+                <div
+                  key={field}
+                  className="flex items-center justify-between text-[14px]"
+                >
                   <p className="leading-none text-multi-step-neutral-500">
-                    Online service
+                    {title}
                   </p>
                   <p className="font-medium leading-none text-multi-step-primary-blue-400">
-                    +${price[planType].onlineService}/
+                    +${price[planType][field]}/
                     {planType === "monthly" ? "mo" : "yr"}
                   </p>
                 </div>
-              )}
-              {largerStorage && (
-                <div className="flex items-center justify-between text-[14px]">
-                  <p className="leading-none text-multi-step-neutral-500">
-                    Larger storage
-                  </p>
-                  <p className="font-medium leading-none text-multi-step-primary-blue-400">
-                    +${price[planType].largerStorage}/
-                    {planType === "monthly" ? "mo" : "yr"}
-                  </p>
-                </div>
-              )}
-              {customizableProfile && (
-                <div className="flex items-center justify-between text-[14px]">
-                  <p className="leading-none text-multi-step-neutral-500">
-                    Customizable Profile
-                  </p>
-                  <p className="font-medium leading-none text-multi-step-primary-blue-400">
-                    +${price[planType].customizableProfile}/
-                    {planType === "monthly" ? "mo" : "yr"}
-                  </p>
-                </div>
-              )}
+              ))}
             </div>
           </>
         )}
