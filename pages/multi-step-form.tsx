@@ -26,6 +26,15 @@ type Queries = {
   completed?: 1 | 0;
 };
 
+const styles = {
+  formCard:
+    "mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none",
+  planCard:
+    "flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:flex-col lg:pt-[19px]",
+  addOnCard:
+    "flex h-[62px] w-full items-center rounded-lg border px-[15px] hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 [&_img]:opacity-0 peer-checked:[&_img]:opacity-100",
+} as const;
+
 type FormNavProps = {
   goBackStep?: 1 | 2 | 3;
   submitLabel: "Next Step" | "Confirm";
@@ -276,7 +285,7 @@ function PersonalInfoForm() {
   return (
     <form
       noValidate
-      className="mt-[18px] h-[376px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
+      className={cn([styles.formCard, "h-[376px]"])}
       onSubmit={onSubmit}
     >
       <FormHeading
@@ -367,7 +376,8 @@ function PlanForm() {
     <form
       noValidate
       className={cn([
-        "mb-[94px] mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pt-[33px] shadow-lg lg:mb-0 lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none", //
+        styles.formCard,
+        "mb-[94px] lg:mb-0",
         planType === "monthly" ? "h-[500px]" : "h-[567px]",
       ])}
       onSubmit={onSubmit}
@@ -387,7 +397,7 @@ function PlanForm() {
             />
             <div
               className={cn([
-                "flex w-full items-start rounded-lg border px-[15px] pb-[3px] pt-4 hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:flex-col lg:pt-[19px]", //
+                styles.planCard,
                 planType === "monthly"
                   ? "h-[77px] lg:h-[160px] lg:pb-[14px]"
                   : "h-[99px] lg:h-[183px] lg:pb-[16px]",
@@ -471,7 +481,7 @@ function AddOnsForm() {
   return (
     <form
       noValidate
-      className="mt-[18px] h-[383px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
+      className={cn([styles.formCard, "h-[383px]"])}
       onSubmit={onSubmit}
     >
       <FormHeading
@@ -486,11 +496,7 @@ function AddOnsForm() {
               type="checkbox"
               className="peer hidden"
             />
-            <div
-              className={cn([
-                "flex h-[62px] w-full items-center rounded-lg border px-[15px] hover:border-multi-step-primary-blue-300 peer-checked:border-multi-step-primary-blue-300 peer-checked:bg-multi-step-neutral-200 lg:h-[81px] lg:px-[23px] peer-checked:[&_.check-container]:border-transparent peer-checked:[&_.check-container]:bg-multi-step-primary-blue-300 [&_img]:opacity-0 peer-checked:[&_img]:opacity-100", //
-              ])}
-            >
+            <div className={styles.addOnCard}>
               <div className="check-container flex h-5 w-5 items-center justify-center rounded border bg-transparent">
                 <Image
                   src="/multi-step-form/assets/images/icon-checkmark.svg"
@@ -546,7 +552,7 @@ function FinishingUp() {
   return (
     <form
       noValidate
-      className="mt-[18px] w-[calc(100vw-32px)] max-w-md rounded-lg bg-multi-step-neutral-100 px-6 pb-[34px] pt-[33px] shadow-lg lg:mt-0 lg:flex lg:h-full lg:w-[450px] lg:max-w-none lg:flex-col lg:place-self-center lg:bg-transparent lg:p-0 lg:pb-4 lg:pt-[42px] lg:shadow-none"
+      className={cn([styles.formCard, "pb-[34px]"])}
       onSubmit={onSubmit}
     >
       <FormHeading
