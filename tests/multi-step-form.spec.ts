@@ -4,6 +4,31 @@ import { expect, test } from "@playwright/test";
 
 const pageUrl = "/multi-step-form";
 
+async function fillPersonalInfo(
+  page: Page,
+  name: string,
+  email: string,
+  phone: string,
+) {
+  await page.getByPlaceholder("e.g. Stephen King").fill(name);
+  await page.getByPlaceholder("e.g. stephenking@lorem.com").fill(email);
+  await page.getByPlaceholder("e.g. +1 234 567 890").fill(phone);
+}
+
+async function goToStep(page: Page, step: number) {
+  await page.getByRole("link", { name: String(step) }).click();
+}
+
+async function expectAllVisible(...locators: Locator[]) {
+  for (const locator of locators) {
+    await expect(locator).toBeVisible();
+  }
+}
+
+async function expectHeadingVisible(scope: Page | Locator, name: string) {
+  await expect(scope.getByRole("heading", { name })).toBeVisible();
+}
+
 test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
   /** Go to Multi-step form page before each test */
   test.beforeEach("Open", async ({ page }) => {
@@ -147,36 +172,35 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("can handle invalid inputs", async () => {
         await page.reload();
         // TODO: add more name validation
-        await step1Form.name.fill("     ");
-        await step1Form.email.fill("invalid email");
-        await step1Form.phone.fill("invalid phone");
+        await fillPersonalInfo(page, "     ", "invalid email", "invalid phone");
         await step1Form.nextStep.click();
-        await expect(form.getByText("This field is required")).toBeVisible();
-        await expect(form.getByText("Email invalid")).toBeVisible();
-        await expect(form.getByText("Invalid Number!")).toBeVisible();
+        await expectAllVisible(
+          form.getByText("This field is required"),
+          form.getByText("Email invalid"),
+          form.getByText("Invalid Number!"),
+        );
       });
       test("can handle valid inputs", async () => {
         await page.reload();
-        await step1Form.name.fill("Valid Name");
-        await step1Form.email.fill("email@example.com");
-        await step1Form.phone.fill("+12345678");
+        await fillPersonalInfo(
+          page,
+          "Valid Name",
+          "email@example.com",
+          "+12345678",
+        );
         await step1Form.nextStep.click();
         expect(page.url()).toContain("?step=2");
         await expect(
           form.getByRole("heading", { name: "Personal info" }),
         ).not.toBeVisible();
-        await expect(
-          form.getByRole("heading", { name: "Select your plan" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Select your plan");
       });
     });
 
     test.describe("step 2 form is working", () => {
       test("has all elements", async () => {
         expect(page.url()).toContain("?step=2");
-        await expect(
-          form.getByRole("heading", { name: "Select your plan" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Select your plan");
         await expect(
           form.getByText("You have the option of monthly or yearly billing."),
         ).toBeVisible();
@@ -191,9 +215,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         const toggle = form.getByText("MonthlyYearly");
         const nextStep = form.getByRole("button", { name: "Next Step" });
         const goBack = form.getByRole("link", { name: "Go Back" });
-        await expect(toggle.getByRole("button")).toBeVisible();
-        await expect(goBack).toBeVisible();
-        await expect(nextStep).toBeVisible();
+        await expectAllVisible(toggle.getByRole("button"), goBack, nextStep);
         step2Form = { toggle, goBack, nextStep, labels };
       });
       test("can change default selected option", async () => {
@@ -234,9 +256,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(step1Form.email).toHaveValue("email@example.com");
         await expect(step1Form.phone).toHaveValue("+12345678");
         await step1Form.nextStep.click();
-        await expect(
-          form.getByRole("heading", { name: "Select your plan" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Select your plan");
       });
       test("can go to step 3", async () => {
         await step2Form.labels[2].click();
@@ -246,18 +266,14 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         ).toHaveCSS("color", "rgb(2, 41, 90)");
         await step2Form.nextStep.click();
         expect(page.url()).toContain("?step=3");
-        await expect(
-          form.getByRole("heading", { name: "Pick add-ons" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Pick add-ons");
       });
     });
 
     test.describe("step 3 form is working", () => {
       test("has all elements", async () => {
         expect(page.url()).toContain("?step=3");
-        await expect(
-          form.getByRole("heading", { name: "Pick add-ons" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Pick add-ons");
         await expect(
           form.getByText("Add-ons help enhance your gaming experience."),
         ).toBeVisible();
@@ -280,8 +296,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         }
         const nextStep = form.getByRole("button", { name: "Next Step" });
         const goBack = form.getByRole("link", { name: "Go Back" });
-        await expect(goBack).toBeVisible();
-        await expect(nextStep).toBeVisible();
+        await expectAllVisible(goBack, nextStep);
         step3Form = { goBack, nextStep, labels };
       });
       test("can toggle all checkboxes", async () => {
@@ -297,9 +312,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("can go back to previous step", async () => {
         await step3Form.goBack.click();
         expect(page.url()).toContain("?step=2");
-        await expect(
-          form.getByRole("heading", { name: "Select your plan" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Select your plan");
         for (const loc of Object.values(step2Form)) {
           if (Array.isArray(loc)) {
             for (const lc of loc) await expect(lc).toBeVisible();
@@ -316,54 +329,44 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         );
         await step2Form.nextStep.click();
         expect(page.url()).toContain("?step=3");
-        await expect(
-          form.getByRole("heading", { name: "Pick add-ons" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Pick add-ons");
       });
       test("can go to step 4", async () => {
         await step3Form.labels[0].click();
         await step3Form.labels[1].click();
         await step2Form.nextStep.click();
         expect(page.url()).toContain("?step=4");
-        await expect(
-          form.getByRole("heading", { name: "Finishing up" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Finishing up");
       });
     });
 
     test.describe("step 4 form is working", () => {
       test("has all elements", async () => {
         expect(page.url()).toContain("?step=4");
-        await expect(
-          form.getByRole("heading", { name: "Finishing up" }),
-        ).toBeVisible();
-        await expect(
+        await expectHeadingVisible(form, "Finishing up");
+        await expectAllVisible(
           form.getByText("Double-check everything looks OK before confirming."),
-        ).toBeVisible();
-        await expect(form.getByText("Pro (Monthly)")).toBeVisible();
-        await expect(form.getByRole("link", { name: "Change" })).toBeVisible();
-        await expect(form.getByText("$15/mo")).toBeVisible();
-        await expect(form.getByText("Online service")).toBeVisible();
-        await expect(form.getByText("+$1/mo")).toBeVisible();
-        await expect(form.getByText("Larger storage")).toBeVisible();
-        await expect(form.getByText("+$2/mo")).toBeVisible();
-        await expect(form.getByText("Total (per month)")).toBeVisible();
-        await expect(form.getByText("+$18/mo")).toBeVisible();
-        const confirm = form.getByRole("button", { name: "Confirm" });
-        const goBack = form.getByRole("link", { name: "Go Back" });
-        await expect(goBack).toBeVisible();
-        await expect(confirm).toBeVisible();
+          form.getByText("Pro (Monthly)"),
+          form.getByRole("link", { name: "Change" }),
+          form.getByText("$15/mo"),
+          form.getByText("Online service"),
+          form.getByText("+$1/mo"),
+          form.getByText("Larger storage"),
+          form.getByText("+$2/mo"),
+          form.getByText("Total (per month)"),
+          form.getByText("+$18/mo"),
+          form.getByRole("button", { name: "Confirm" }),
+          form.getByRole("link", { name: "Go Back" }),
+        );
       });
       test("change button/link works", async () => {
         const link = page.getByRole("link", { name: "Change" });
         await link.click();
         expect(page.url()).toContain("?step=2");
-        await expect(
-          form.getByRole("heading", { name: "Select your plan" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Select your plan");
         for (const loc of Object.values(step2Form)) {
           if (Array.isArray(loc)) {
-            for (const lc of loc) await expect(lc).toBeVisible();
+            await expectAllVisible(...loc);
           } else {
             await expect(loc).toBeVisible();
           }
@@ -375,26 +378,20 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           "border-bottom-color",
           "rgb(71, 61, 255)",
         );
-        await page.getByRole("link", { name: "4" }).click();
+        await goToStep(page, 4);
         expect(page.url()).toContain("?step=4");
-        await expect(
-          form.getByRole("heading", { name: "Finishing up" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Finishing up");
       });
       test("can go back to previous step", async () => {
         await form.getByRole("link", { name: "Go Back" }).click();
         expect(page.url()).toContain("?step=3");
-        await expect(
-          form.getByRole("heading", { name: "Pick add-ons" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Pick add-ons");
         await expect(step3Form.labels[0].locator(">input")).toBeChecked();
         await expect(step3Form.labels[1].locator(">input")).toBeChecked();
         await expect(step3Form.labels[2].locator(">input")).not.toBeChecked();
         await step3Form.nextStep.click();
         expect(page.url()).toContain("?step=4");
-        await expect(
-          form.getByRole("heading", { name: "Finishing up" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Finishing up");
       });
     });
 
@@ -403,9 +400,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         const link = form.getByRole("link", { name: "Change" });
         await link.click();
         expect(page.url()).toContain("?step=2");
-        await expect(
-          form.getByRole("heading", { name: "Select your plan" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Select your plan");
         const planPriceEntries = Object.entries(planPrice) as [
           (typeof plans)[number],
           number,
@@ -428,9 +423,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("payment type affect add-on price", async () => {
         await step2Form.nextStep.click();
         expect(page.url()).toContain("?step=3");
-        await expect(
-          form.getByRole("heading", { name: "Pick add-ons" }),
-        ).toBeVisible();
+        await expectHeadingVisible(form, "Pick add-ons");
         for (const addOn of addOns) {
           const heading = page.getByRole("heading", {
             name: addOn.name,
@@ -446,18 +439,18 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("summary updated", async () => {
         await step3Form.nextStep.click();
         expect(page.url()).toContain("?step=4");
-        await expect(
-          form.getByRole("heading", { name: "Finishing up" }),
-        ).toBeVisible();
-        await expect(form.getByText("Pro (Yearly)")).toBeVisible();
-        await expect(form.getByRole("link", { name: "Change" })).toBeVisible();
-        await expect(form.getByText("$150/yr")).toBeVisible();
-        await expect(form.getByText("Online service")).toBeVisible();
-        await expect(form.getByText("+$10/yr")).toBeVisible();
-        await expect(form.getByText("Larger storage")).toBeVisible();
-        await expect(form.getByText("+$20/yr")).toBeVisible();
-        await expect(form.getByText("Total (per year)")).toBeVisible();
-        await expect(form.getByText("+$180/yr")).toBeVisible();
+        await expectHeadingVisible(form, "Finishing up");
+        await expectAllVisible(
+          form.getByText("Pro (Yearly)"),
+          form.getByRole("link", { name: "Change" }),
+          form.getByText("$150/yr"),
+          form.getByText("Online service"),
+          form.getByText("+$10/yr"),
+          form.getByText("Larger storage"),
+          form.getByText("+$20/yr"),
+          form.getByText("Total (per year)"),
+          form.getByText("+$180/yr"),
+        );
       });
     });
 
@@ -465,17 +458,13 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       test("thank you card is visible", async () => {
         await form.getByRole("button", { name: "Confirm" }).click();
         expect(page.url()).toContain("?step=4&completed=1");
-        await expect(
+        await expectAllVisible(
           page.getByRole("img", { name: "Thank You Illustration" }),
-        ).toBeVisible();
-        await expect(
           page.getByRole("heading", { name: "Thank you!" }),
-        ).toBeVisible();
-        await expect(
           page.getByText(
             "Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support, please feel free to email us at support@loremgaming.com.",
           ),
-        ).toBeVisible();
+        );
       });
     });
   });
