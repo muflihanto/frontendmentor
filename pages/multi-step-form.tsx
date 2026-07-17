@@ -160,6 +160,28 @@ function useStepNavigation(step: number) {
   };
 }
 
+function useStepGuard() {
+  const router = useRouter();
+  const formsInput = useAtomValue(formsInputAtom);
+
+  useEffectOnce(() => {
+    const step = (router.query as Queries).step;
+    if (!step) {
+      void router.push({
+        pathname: "/multi-step-form",
+        query: { step: 1 },
+      });
+    } else if (
+      Number.parseInt(step) > Number.parseInt(formsInput.completedStep ?? "1")
+    ) {
+      void router.push({
+        pathname: "/multi-step-form",
+        query: { step: Number.parseInt(formsInput.completedStep ?? "1") },
+      });
+    }
+  });
+}
+
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
 );
@@ -645,30 +667,7 @@ function Main() {
   const formsInput = useAtomValue(formsInputAtom);
   const steps = ["Your Info", "Select Plan", "Add-ons", "Summary"];
 
-  // useEffect(() => {
-  //   console.log((router.query as Queries).step);
-  // }, [router]);
-
-  // useEffect(() => {
-  //   console.log(formsInput);
-  // }, [formsInput]);
-
-  useEffectOnce(() => {
-    const step = (router.query as Queries).step;
-    if (!step) {
-      void router.push({
-        pathname: "/multi-step-form",
-        query: { step: 1 },
-      });
-    } else if (
-      Number.parseInt(step) > Number.parseInt(formsInput.completedStep ?? "1")
-    ) {
-      void router.push({
-        pathname: "/multi-step-form",
-        query: { step: Number.parseInt(formsInput.completedStep ?? "1") },
-      });
-    }
-  });
+  useStepGuard();
 
   return (
     <main className="relative flex min-h-screen flex-col items-center bg-multi-step-neutral-300 bg-[url('/multi-step-form/assets/images/bg-sidebar-mobile.svg')] bg-no-repeat pt-4 lg:grid lg:h-[600px] lg:min-h-0 lg:w-[940px] lg:grid-cols-[274px,auto] lg:gap-4 lg:rounded-xl lg:bg-white lg:bg-none lg:p-4 lg:shadow-xl lg:shadow-multi-step-neutral-500/20">
