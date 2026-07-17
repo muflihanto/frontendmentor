@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FormEventHandler } from "react";
+import { memo, useCallback, useMemo } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { useEffectOnce, useWindowSize } from "usehooks-ts";
@@ -556,20 +557,28 @@ function FinishingUp() {
   const router = useRouter();
   const planType = useAtomValue(planTypeAtom);
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    // console.log(formsInput);
-    void router.push({
-      pathname: "/multi-step-form",
-      query: { step: 4, completed: 1 },
-    });
-  };
+  const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      e.preventDefault();
+      // console.log(formsInput);
+      void router.push({
+        pathname: "/multi-step-form",
+        query: { step: 4, completed: 1 },
+      });
+    },
+    [router],
+  );
 
-  const total =
-    price[planType][formsInput.plan] +
-    (formsInput.onlineService ? price[planType].onlineService : 0) +
-    (formsInput.customizableProfile ? price[planType].customizableProfile : 0) +
-    (formsInput.largerStorage ? price[planType].largerStorage : 0);
+  const total = useMemo(
+    () =>
+      price[planType][formsInput.plan] +
+      (formsInput.onlineService ? price[planType].onlineService : 0) +
+      (formsInput.customizableProfile
+        ? price[planType].customizableProfile
+        : 0) +
+      (formsInput.largerStorage ? price[planType].largerStorage : 0),
+    [planType, formsInput],
+  );
 
   return (
     <form
@@ -639,7 +648,7 @@ function FinishingUp() {
   );
 }
 
-function ThankYou() {
+const ThankYou = memo(function ThankYou() {
   const { width } = useWindowSize();
 
   return (
@@ -660,7 +669,7 @@ function ThankYou() {
       </p>
     </div>
   );
-}
+});
 
 function Main() {
   const router = useRouter();
