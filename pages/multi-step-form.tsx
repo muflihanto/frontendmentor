@@ -368,21 +368,22 @@ const addOns = [
     field: "onlineService",
     title: "Online service",
     description: "Access to multiplayer games",
-    amount: 1,
   },
   {
     field: "largerStorage",
     title: "Larger storage",
     description: "Extra 1TB of cloud save",
-    amount: 2,
   },
   {
     field: "customizableProfile",
     title: "Customizable profile",
     description: "Custom theme on your profile",
-    amount: 2,
   },
 ] as const;
+
+function formatPrice(amount: number, planType: PlanType) {
+  return `+$${amount}/${planType === "monthly" ? "mo" : "yr"}`;
+}
 
 function PlanForm() {
   const [formsInput] = useAtom(formsInputAtom);
@@ -512,7 +513,7 @@ function AddOnsForm() {
         description="Add-ons help enhance your gaming experience."
       />
       <fieldset className="mt-[22px] flex w-full flex-col gap-[12px] lg:mt-[38px] lg:gap-[16px]">
-        {addOns.map(({ field, title, description, amount }) => (
+        {addOns.map(({ field, title, description }) => (
           <label key={field} className="w-full cursor-pointer">
             <input
               {...register(field, { required: true })}
@@ -537,8 +538,7 @@ function AddOnsForm() {
                 </p>
               </div>
               <p className="ml-auto text-[12px] text-multi-step-primary-blue-300 lg:text-[14px]">
-                +${amount}
-                {planType === "monthly" ? "/mo" : "0/yr"}
+                {formatPrice(price[planType][field], planType)}
               </p>
             </div>
           </label>
