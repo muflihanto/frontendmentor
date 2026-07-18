@@ -16,6 +16,7 @@ This is a solution to the [Conference ticket generator challenge on Frontend Men
       - [Testing File Uploads with Playwright](#testing-file-uploads-with-playwright)
       - [Mocking Math.random and Date.now in Playwright Tests](#mocking-mathrandom-and-datenow-in-playwright-tests)
       - [Using forwardRef for Reusable Input Components](#using-forwardref-for-reusable-input-components)
+      - [Using memo for Performance Optimization](#using-memo-for-performance-optimization)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -232,34 +233,19 @@ This approach keeps the test deterministic — no flaky `#\d+` assertions — wh
 
 I used React's `forwardRef` to create a reusable `Input` component that forwards refs to the underlying DOM `<input>` element. This is essential when using libraries like React Hook Form that need direct access to form elements for registration and focus management.
 
-```tsx
-const Input = forwardRef<
-  HTMLInputElement,
-  ComponentProps<"input"> & { error?: FieldError; errorId?: string }
->(({ className, error, errorId, ...props }, ref) => {
-  return (
-    <>
-      <input
-        className={cn(
-          "mt-3 h-[54px] w-full rounded-[12px] border bg-neutral-700/30 px-[14px] py-2 text-[18px]",
-          error ? "border-orange-500" : "border-neutral-500",
-          className,
-        )}
-        ref={ref}
-        aria-invalid={!!error}
-        aria-describedby={error && errorId ? errorId : undefined}
-        {...props}
-      />
-      {!!error && (
-        <output id={errorId} aria-live="assertive" className="mt-3 text-xs">
-          {error.message}
-        </output>
-      )}
-    </>
-  );
-});
+The `Input` component combines `forwardRef` with `memo` (see full component in [Using memo for Performance Optimization](#using-memo-for-performance-optimization)). The key `forwardRef` pattern is:
 
-Input.displayName = "Input";
+```tsx
+forwardRef<
+  HTMLInputElement,
+  ComponentProps<"input"> & {
+    error?: FieldError;
+    hint?: string;
+    errorId?: string;
+  }
+>(({ className, error, hint, errorId, ...props }, ref) => {
+  return <input ... ref={ref} {...props} />;
+});
 ```
 
 Key points about `forwardRef`:
@@ -268,6 +254,74 @@ Key points about `forwardRef`:
 - **Typing with TypeScript**: The generic `forwardRef<RefType, PropsType>` takes the ref type first and props type second.
 - **displayName**: Always set `displayName` when using `forwardRef` to improve debugging experience in React DevTools.
 - **Ref forwarding**: The `ref` parameter is passed as the second argument to the render function, separate from `props`.
+
+#### Using memo for Performance Optimization
+
+Three components in this page are wrapped with `React.memo` to prevent unnecessary re-renders:
+
+- **`Input`** (line 132) — A reusable form input wrapped with both `memo` and `forwardRef`. Since `Input` is used inside a form that re-renders on every keystroke (via React Hook Form's `useFormContext`), memoizing it ensures the DOM `<input>` element only re-renders when its props (like `error` or `className`) actually change.
+
+- **`FieldHint`** (line 171) — A hint/error message display component used below form fields. It is re-rendered conditionally alongside `Input` and the avatar upload area. Memoizing it prevents unnecessary DOM updates when the parent re-renders but the hint text hasn't changed.
+
+- **`TicketPreview`** (line 410) — A stateless presentation component that renders the generated ticket. It only depends on `submittedData`, `previewUrl`, and `ticketNumber` — all of which are stable after form submission. Memoizing it avoids re-computation and re-rendering of the ticket UI unless those props change.
+
+Key points about this pattern:
+
+- **`memo` checks props by reference**: By default, `React.memo` performs a shallow comparison of props. Pure function references and stable objects/arrays won't trigger re-renders. This works well with React Hook Form and Jotai, which produce new references only when values actually change.
+- **Combining `memo` with `forwardRef`**: The `Input` component demonstrates both patterns together — `memo(forwardRef(...))`. The outer `memo` wraps the inner `forwardRef` so the component is both ref-forwarding and memoized.
+- **Strategic placement**: Memoization is applied sparingly — only to leaf/child components that render frequently or are expensive to render. The parent `Form` and `Main` components are not memoized because they already own the state and need to re-render when it changes.
+
+```tsx
+const Input = memo(
+  forwardRef<
+    HTMLInputElement,
+    ComponentProps<"input"> & {
+      error?: FieldError;
+      hint?: string;
+      errorId?: string;
+    }
+  >(({ className, error, hint, errorId, ...props }, ref) => {
+    return (
+      <>
+        <input
+          className={cn(
+            "bg-conference-ticket-generator-neutral-700/30 hover:bg-conference-ticket-generator-neutral-700/70 focus-visible:outline-conference-ticket-generator-neutral-500 mt-3 h-[54px] w-full rounded-[12px] border px-[14px] py-2 text-[18px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px]",
+            error
+              ? "border-conference-ticket-generator-orange-500"
+              : "border-conference-ticket-generator-neutral-500",
+            className,
+          )}
+          ref={ref}
+          aria-invalid={!!error}
+          aria-describedby={error && errorId ? errorId : undefined}
+          {...props}
+        />
+        {(error ?? hint) && (
+          <FieldHint
+            error={error}
+            hint={hint}
+            id={errorId}
+            aria-live="assertive"
+          />
+        )}
+      </>
+    );
+  }),
+);
+Input.displayName = "Input";
+
+const TicketPreview = memo(function TicketPreview({
+  submittedData,
+  previewUrl,
+  ticketNumber,
+}: {
+  submittedData: Omit<Inputs, "avatar"> & { avatar: File | null };
+  previewUrl: string | null;
+  ticketNumber: number;
+}) {
+  // ... ticket rendering
+});
+```
 
 <!-- ### Continued development
 
