@@ -69,6 +69,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
     const addOns = [
       {
         name: "Online service",
+        field: "onlineService",
         description: "Access to multiplayer games",
         price: {
           monthly: 1,
@@ -77,6 +78,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       },
       {
         name: "Larger storage",
+        field: "largerStorage",
         description: "Extra 1TB of cloud save",
         price: {
           monthly: 2,
@@ -85,6 +87,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
       },
       {
         name: "Customizable profile",
+        field: "customizableProfile",
         description: "Custom theme on your profile",
         price: {
           monthly: 2,
@@ -277,6 +280,19 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await expect(
           form.getByText("Add-ons help enhance your gaming experience."),
         ).toBeVisible();
+        const planType: "monthly" | "yearly" = "monthly";
+        const price = {
+          monthly: {
+            onlineService: 1,
+            largerStorage: 2,
+            customizableProfile: 2,
+          },
+          yearly: {
+            onlineService: 10,
+            largerStorage: 20,
+            customizableProfile: 20,
+          },
+        };
         const labels: Locator[] = [];
         for (const addOn of addOns) {
           const heading = page.getByRole("heading", {
@@ -291,7 +307,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           await expect(label.locator("input")).toBeHidden();
           await expect(label.getByText(addOn.description)).toBeVisible();
           await expect(
-            label.getByText(`$${addOn.price.monthly}/mo`),
+            label.getByText(`+$${price[planType][addOn.field]}/mo`),
           ).toBeVisible();
         }
         const nextStep = form.getByRole("button", { name: "Next Step" });
@@ -424,6 +440,19 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
         await step2Form.nextStep.click();
         expect(page.url()).toContain("?step=3");
         await expectHeadingVisible(form, "Pick add-ons");
+        const planType: "monthly" | "yearly" = "yearly";
+        const price = {
+          monthly: {
+            onlineService: 1,
+            largerStorage: 2,
+            customizableProfile: 2,
+          },
+          yearly: {
+            onlineService: 10,
+            largerStorage: 20,
+            customizableProfile: 20,
+          },
+        };
         for (const addOn of addOns) {
           const heading = page.getByRole("heading", {
             name: addOn.name,
@@ -432,7 +461,7 @@ test.describe("FrontendMentor Challenge - Multi-step form Page", () => {
           await expect(heading).toBeVisible();
           const label = form.locator("label", { has: heading });
           await expect(
-            label.getByText(`+$${addOn.price.yearly}/yr`),
+            label.getByText(`+$${price[planType][addOn.field]}/yr`),
           ).toBeVisible();
         }
       });
