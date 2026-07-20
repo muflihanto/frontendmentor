@@ -79,23 +79,27 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
   /** Test if the form works */
   test("form works", async ({ page }) => {
-    await page.waitForTimeout(2000);
     const form = page.locator("form");
     const input = form.getByPlaceholder("Search for any IP address or domain");
     const map = page
       .locator("div")
       .filter({ hasText: "Leaflet | © OpenStreetMap contributors" })
       .nth(2);
-    const initialMapPosition = await map
-      .locator(".leaflet-proxy")
-      .getAttribute("style");
-    expect(initialMapPosition).toContain(
-      "translate3d(545886px, 382367px, 0px)",
-    );
     await expect(map).toBeVisible();
+    await expect
+      .poll(async () => {
+        const proxy = map.locator(".leaflet-proxy");
+        if ((await proxy.count()) === 0) return "";
+        return (await proxy.first().getAttribute("style")) ?? "";
+      })
+      .toContain("translate3d(545886px, 382367px, 0px)");
     await input.fill("8.8.8.8");
-    await form.getByRole("button").click();
-    await page.waitForTimeout(1000);
+    await Promise.all([
+      form.getByRole("button").click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
     const errorMessage = page.locator("text=Please enter a valid IP address");
     await expect(errorMessage).not.toBeVisible();
     await expect(input).toHaveValue("");
@@ -124,8 +128,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const form = page.locator("form");
     const input = form.getByPlaceholder("Search for any IP address or domain");
     await input.fill("8.8.8.8");
-    await form.getByRole("button").click();
-    await page.waitForTimeout(1000);
+    await Promise.all([
+      form.getByRole("button").click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
 
     // Check if the UI shows appropriate error state
     await expect(apiErrorBanner).toBeVisible();
