@@ -16,6 +16,7 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
       - [Converting Timezone Identifiers to UTC Offset](#converting-timezone-identifiers-to-utc-offset)
       - [Jotai's `useHydrateAtoms` for SSR Hydration](#jotais-usehydrateatoms-for-ssr-hydration)
       - [Discriminated Unions for API Responses](#discriminated-unions-for-api-responses)
+      - [`expect.poll` for Waiting on Asynchronous DOM States](#expectpoll-for-waiting-on-asynchronous-dom-states)
       - [Client-side Rendering for Leaflet Map with `next/dynamic`](#client-side-rendering-for-leaflet-map-with-nextdynamic)
     - [Useful resources](#useful-resources)
   - [Author](#author)
@@ -242,6 +243,37 @@ export type IpInfoResponse =
 ```
 
 By defining the response this way, TypeScript can automatically narrow the type when I check for the presence of the `bogon` property, ensuring I only access fields that actually exist on the returned object.
+
+#### `expect.poll` for Waiting on Asynchronous DOM States
+
+When testing Leaflet maps (or other async-rendered components), the map's internal DOM may not be immediately available. Playwright's `expect.poll` retries a custom assertion function until it passes, avoiding brittle `waitForTimeout` calls.
+
+```typescript
+test("map displays correct initial position", async ({ page }) => {
+  const map = page.locator(".leaflet-map-pane");
+  await expect
+    .poll(async () => {
+      const count = await map.count();
+      if (count === 0) return "";
+      const style = await map.first().getAttribute("style");
+      return style ?? "";
+    })
+    .toContain("translate3d");
+});
+```
+
+**How it works:**
+
+1. The poll function runs repeatedly (default interval ~200ms, timeout ~10s) until the assertion passes or times out.
+2. Each attempt checks if the map pane exists and retrieves its `style` attribute.
+3. Once the returned string contains `translate3d`, the assertion passes — confirming Leaflet has initialized and positioned the map tile layer.
+
+This pattern is ideal for:
+
+- Waiting for third-party libraries (Leaflet, Google Maps, etc.) to finish async initialization
+- Polling element attributes or text that change asynchronously outside of Playwright's auto-waiting
+- Replacing arbitrary `page.waitForTimeout()` calls with a retry-until-condition approach
+- Checking computed styles or layout values that depend on JS-driven rendering
 
 #### Client-side Rendering for Leaflet Map with `next/dynamic`
 
