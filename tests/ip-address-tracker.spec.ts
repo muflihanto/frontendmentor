@@ -182,11 +182,8 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     // Input should be disabled during loading
     await expect(input).toBeDisabled();
 
-    // Wait for loading to complete
-    await page.waitForTimeout(1500);
-
-    // Loading spinner should be gone
-    await expect(loadingSpinner).not.toBeVisible();
+    // Wait for loading to complete (spinner disappears)
+    await expect(loadingSpinner).toBeHidden();
 
     // Button should be enabled again
     await expect(submitButton).not.toBeDisabled();
@@ -228,9 +225,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
     // Even during loading, detail card should NOT show loading state
     await expect(loadingText).not.toBeVisible();
-
-    // Wait for loading to complete
-    await page.waitForTimeout(1500);
 
     // Should show the data instead
     const ipDisplay = page.locator("text=8.8.8.8").first();
@@ -294,9 +288,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     // During loading, should still show the previous data (8.8.8.8)
     const previousIpDisplay = page.locator("text=8.8.8.8").first();
     await expect(previousIpDisplay).toBeVisible();
-
-    // Wait for second request to complete
-    await page.waitForTimeout(1500);
 
     // Now should show new data
     const newIpDisplay = page.locator("text=1.1.1.1").first();
