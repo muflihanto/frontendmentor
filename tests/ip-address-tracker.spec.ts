@@ -312,8 +312,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const submitButton = page.locator('button[type="submit"]');
 
     await input.fill("8.8.8.8");
-    await submitButton.click();
-    await page.waitForTimeout(500);
+    await Promise.all([
+      submitButton.click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
 
     // Verify error is shown
     const apiErrorBanner = page.locator("text=Failed to fetch IP information");
@@ -341,8 +345,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
     // Make successful request
     await input.fill("8.8.8.8");
-    await submitButton.click();
-    await page.waitForTimeout(500);
+    await Promise.all([
+      submitButton.click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
 
     // Error should be cleared
     await expect(apiErrorBanner).not.toBeVisible();
@@ -362,8 +370,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const submitButton = page.locator('button[type="submit"]');
 
     await input.fill("8.8.8.8");
-    await submitButton.click();
-    await page.waitForTimeout(500);
+    await Promise.all([
+      submitButton.click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
 
     // Error should be visible
     const apiError = page.locator("text=Failed to fetch IP information");
@@ -395,8 +407,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const submitButton = page.locator('button[type="submit"]');
 
     await input.fill("8.8.8.8");
-    await submitButton.click();
-    await page.waitForTimeout(500);
+    await Promise.all([
+      submitButton.click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
 
     // Get positions of all important elements
     const apiError = page.locator("text=Failed to fetch IP information");
@@ -434,8 +450,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const submitButton = page.locator('button[type="submit"]');
 
     await input.fill("8.8.8.8");
-    await submitButton.click();
-    await page.waitForTimeout(500);
+    await Promise.all([
+      submitButton.click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
 
     // All layout elements should remain in exact same positions
     const finalFormPosition = await form.boundingBox();
@@ -457,7 +477,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const input = form.getByPlaceholder("Search for any IP address or domain");
     await input.fill("invalid.ip.address");
     await form.getByRole("button").click();
-    await page.waitForTimeout(500);
 
     await expect(input).toHaveValue("invalid.ip.address");
     await expect(initialAddress).toBeVisible();
@@ -474,9 +493,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     // Clear input and click submit
     await input.clear();
     await submitButton.click();
-
-    // Wait for error state to appear
-    await page.waitForTimeout(500);
 
     // Check input has error styling
     await expect(input).toHaveCSS("border-color", "rgb(239, 68, 68)");
@@ -507,9 +523,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await input.fill("invalid-ip");
     await submitButton.click();
 
-    // Wait for error state
-    await page.waitForTimeout(500);
-
     // Check enhanced error styling
     await expect(input).toHaveCSS("border-color", "rgb(239, 68, 68)");
 
@@ -533,9 +546,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     // First, trigger error with invalid input
     await input.fill("invalid-ip");
     await submitButton.click();
-
-    // Wait for error to appear
-    await page.waitForTimeout(500);
 
     // Verify error is visible
     const errorMessage = page.locator("text=Please enter a valid IP address");
@@ -561,7 +571,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     for (let i = 0; i < 3; i++) {
       await input.fill(`invalid${i}`);
       await submitButton.click();
-      await page.waitForTimeout(100);
     }
 
     // Error should persist and be visible
@@ -580,7 +589,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
     await input.fill("invalid-ip");
     await submitButton.click();
-    await page.waitForTimeout(500);
 
     const validationError = page.locator("#ip-address-error");
     await expect(validationError).toBeVisible();
@@ -606,7 +614,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
     await input.fill("invalid-ip");
     await submitButton.click();
-    await page.waitForTimeout(500);
 
     const validationError = page.locator("#ip-address-error");
     await expect(validationError).toBeVisible();
@@ -642,9 +649,9 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
       await input.fill("invalid-ip");
       await submitButton.click();
-      await page.waitForTimeout(500);
 
       const validationError = page.locator("#ip-address-error");
+      await expect(validationError).toBeVisible();
       const errorText = page.locator("#ip-address-error span");
 
       // Check text never wraps
@@ -659,7 +666,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
       // Clear for next test
       await input.fill("");
-      await page.waitForTimeout(100);
     }
   });
 
@@ -671,9 +677,9 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
     await input.fill("invalid-ip");
     await submitButton.click();
-    await page.waitForTimeout(500);
 
     const validationError = page.locator("#ip-address-error");
+    await expect(validationError).toBeVisible();
     const errorText = page.locator("#ip-address-error span");
 
     // Check dimensions
@@ -715,9 +721,9 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
       await input.fill("invalid-ip");
       await submitButton.click();
-      await page.waitForTimeout(500);
 
       const validationError = page.locator("#ip-address-error");
+      await expect(validationError).toBeVisible();
       const errorText = page.locator("#ip-address-error span");
 
       // Check exact height calculation with 16px line height
@@ -740,7 +746,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
       // Clear for next test
       await input.fill("");
-      await page.waitForTimeout(100);
     }
   });
 
@@ -751,7 +756,6 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     // Test validation error
     await input.fill("invalid-ip");
     await submitButton.click();
-    await page.waitForTimeout(500);
 
     const validationError = page.locator(
       "text=Please enter a valid IP address",
@@ -770,8 +774,12 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     });
 
     await input.fill("8.8.8.8");
-    await submitButton.click();
-    await page.waitForTimeout(500);
+    await Promise.all([
+      submitButton.click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getIpInfo"),
+      ),
+    ]);
 
     // Validation error should be gone, API error should show
     await expect(validationError).not.toBeVisible();
@@ -789,7 +797,10 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await input.fill("invalid-ip");
     await submitButton.click();
 
-    await page.waitForTimeout(500);
+    const validationError = page.locator(
+      "text=Please enter a valid IP address",
+    );
+    await expect(validationError).toBeVisible();
 
     // Check input has proper ARIA attributes
     await expect(input).toHaveAttribute("aria-invalid", "true");
@@ -815,7 +826,11 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     // Trigger error
     await input.fill("invalid-ip");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(500);
+
+    const validationError = page.locator(
+      "text=Please enter a valid IP address",
+    );
+    await expect(validationError).toBeVisible();
 
     // Verify error state
     await expect(input).toHaveAttribute("aria-invalid", "true");
@@ -849,10 +864,11 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     // Trigger error and check announcements
     await input.fill("invalid-ip");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(500);
+
+    const errorMessage = page.locator('div[role="alert"]');
+    await expect(errorMessage).toBeVisible();
 
     // Error should be properly associated
-    const errorMessage = page.locator('div[role="alert"]');
     const errorText = await errorMessage.textContent();
     expect(errorText).toContain("Please enter a valid IP address");
   });
@@ -867,7 +883,8 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await input.fill("invalid-ip");
     await page.keyboard.press("Enter");
 
-    await page.waitForTimeout(500);
+    const validationError = page.locator('div[role="alert"]');
+    await expect(validationError).toBeVisible();
 
     // Focus should remain on input or move to error message for screen readers
     const activeElement = await page.evaluate(
