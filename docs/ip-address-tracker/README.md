@@ -131,7 +131,12 @@ test("handles API errors gracefully", async ({ page }) => {
   const form = page.locator("form");
   const input = form.getByPlaceholder("Search for any IP address or domain");
   await input.fill("8.8.8.8");
-  await form.getByRole("button").click();
+  await Promise.all([
+    form.getByRole("button").click(),
+    page.waitForResponse((response) =>
+      response.url().includes("/api/getIpInfo"),
+    ),
+  ]);
 
   // Check if the UI shows appropriate error state
   await expect(apiErrorBanner).toBeVisible();
