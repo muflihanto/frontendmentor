@@ -13,6 +13,7 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
     - [What I learned](#what-i-learned)
       - [Mock Slow API Response in Playwright Tests](#mock-slow-api-response-in-playwright-tests)
       - [Mock API Failure in Playwright Tests](#mock-api-failure-in-playwright-tests)
+      - [`Promise.all` for Coordinating Click and API Response](#promiseall-for-coordinating-click-and-api-response)
       - [Converting Timezone Identifiers to UTC Offset](#converting-timezone-identifiers-to-utc-offset)
       - [Jotai's `useHydrateAtoms` for SSR Hydration](#jotais-usehydrateatoms-for-ssr-hydration)
       - [Discriminated Unions for API Responses](#discriminated-unions-for-api-responses)
@@ -148,6 +149,43 @@ This technique is useful for:
 - Testing error UI styling and accessibility
 - Ensuring the app doesn't crash on API failures
 - Testing error dismissal and recovery flows
+
+#### `Promise.all` for Coordinating Click and API Response
+
+Instead of waiting a fixed time after clicking a button, use `page.waitForResponse` in a `Promise.all` to wait for the exact API call. This avoids flaky timeouts and speeds up tests.
+
+```typescript
+test("form works", async ({ page }) => {
+  const input = page.locator('input[type="text"]');
+  const submitButton = page.locator('button[type="submit"]');
+
+  await input.fill("8.8.8.8");
+  await Promise.all([
+    submitButton.click(), // trigger the action
+    page.waitForResponse(
+      // wait for the exact API call
+      (response) => response.url().includes("/api/getIpInfo"),
+    ),
+  ]);
+
+  // Assertions run as soon as the response is received
+  await expect(page.getByText("8.8.8.8")).toBeVisible();
+});
+```
+
+**How it works:**
+
+1. `submitButton.click()` starts the form submission, which triggers an API request.
+2. `page.waitForResponse` registers a listener for any network response whose URL includes `/api/getIpInfo`.
+3. `Promise.all` resolves when both the click resolves **and** the matching response is received — no hard-coded delay.
+4. Assertions after the `Promise.all` run immediately, making tests faster and more reliable.
+
+This pattern is ideal for:
+
+- Replacing `await page.waitForTimeout(1000)` or similar fixed waits after form submissions
+- Testing both success and error flows without arbitrary delays
+- Coordinating multiple async actions that must complete before assertions
+- Ensuring tests are resilient to varying network speeds
 
 #### Converting Timezone Identifiers to UTC Offset
 
