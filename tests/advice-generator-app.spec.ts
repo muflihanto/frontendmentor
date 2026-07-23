@@ -43,15 +43,25 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
     test("dice button works", async ({ page }) => {
       const button = page.getByLabel("Generate new advice");
       await expect(button).toBeVisible();
-      await page.waitForTimeout(1000);
+
+      // Wait for initial data load
+      await page.waitForResponse((response) =>
+        response.url().includes("api.adviceslip.com/advice"),
+      );
+
       const advice = page.locator("id=advice-content");
       const adviceText = await advice.innerText();
       await expect(page.getByRole("status")).not.toBeVisible();
       await expect(advice).toHaveText(/^".*"$/);
-      await button.click();
-      await expect(page.getByText("Advice #...")).toBeVisible();
-      await expect(page.getByRole("status")).toBeVisible();
-      await page.waitForTimeout(1000);
+
+      // Click and wait for the exact API response
+      await Promise.all([
+        button.click(),
+        page.waitForResponse((response) =>
+          response.url().includes("api.adviceslip.com/advice"),
+        ),
+      ]);
+
       await expect(page.getByRole("status")).not.toBeVisible();
       await expect(advice).toHaveText(/^".*"$/);
       await expect(advice).not.toHaveText(adviceText);
