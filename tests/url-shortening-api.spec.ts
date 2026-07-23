@@ -112,7 +112,12 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
       await form
         .getByPlaceholder("Shorten a link here...")
         .fill("https://example.com");
-      await form.getByRole("button", { name: "Shorten It!" }).click();
+      await Promise.all([
+        form.getByRole("button", { name: "Shorten It!" }).click(),
+        page.waitForResponse((response) =>
+          response.url().includes("/api/getShortenUrl"),
+        ),
+      ]);
       await expect(form.getByText("Please add a link")).not.toBeVisible();
     });
   });
@@ -262,7 +267,6 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
       await expect(menuButton).toHaveAttribute("aria-expanded", "false");
       await expect(menuButton).not.toHaveAttribute("aria-controls");
       await menuButton.click();
-      await page.waitForTimeout(1000);
       await expect(menuButton).toHaveAttribute("aria-expanded", "true");
       await expect(menuButton).toHaveAttribute("aria-controls", "menu");
       navContainer = header.locator("div").nth(2);
@@ -355,7 +359,12 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     await form
       .getByPlaceholder("Shorten a link here...")
       .fill("https://example.com");
-    await form.getByRole("button", { name: "Shorten It!" }).click();
+    await Promise.all([
+      form.getByRole("button", { name: "Shorten It!" }).click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getShortenUrl"),
+      ),
+    ]);
 
     // Verify shortened URL appears
     const shortenedLink = page.getByText("https://shrt.co/abc123");
@@ -415,21 +424,36 @@ test.describe("FrontendMentor Challenge - Shortly URL shortening API Challenge P
     await form
       .getByPlaceholder("Shorten a link here...")
       .fill("https://example1.com");
-    await form.getByRole("button", { name: "Shorten It!" }).click();
+    await Promise.all([
+      form.getByRole("button", { name: "Shorten It!" }).click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getShortenUrl"),
+      ),
+    ]);
     await expect(page.getByText("https://shrt.co/abc123")).toBeVisible();
 
     // Shorten second URL
     await form
       .getByPlaceholder("Shorten a link here...")
       .fill("https://example2.com");
-    await form.getByRole("button", { name: "Shorten It!" }).click();
+    await Promise.all([
+      form.getByRole("button", { name: "Shorten It!" }).click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getShortenUrl"),
+      ),
+    ]);
     await expect(page.getByText("https://shrt.co/xyz456")).toBeVisible();
 
     // Shorten third URL
     await form
       .getByPlaceholder("Shorten a link here...")
       .fill("https://example3.com");
-    await form.getByRole("button", { name: "Shorten It!" }).click();
+    await Promise.all([
+      form.getByRole("button", { name: "Shorten It!" }).click(),
+      page.waitForResponse((response) =>
+        response.url().includes("/api/getShortenUrl"),
+      ),
+    ]);
     await expect(page.getByText("https://shrt.co/789mno")).toBeVisible();
 
     // Verify all shortened URLs are displayed in order (newest first)
