@@ -204,7 +204,6 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
     );
 
     await confirmOrderButton.click();
-    await page.waitForTimeout(1500);
     await expect(
       page.getByRole("heading", { name: "Order Confirmed" }),
     ).toBeVisible();
@@ -268,7 +267,6 @@ test.describe("FrontendMentor Challenge - Product list with cart page", () => {
 
     await confirmOrderButton.click();
 
-    await page.waitForTimeout(1500);
     await expect(
       page.getByRole("heading", { name: "Order Confirmed" }),
     ).toBeVisible();
