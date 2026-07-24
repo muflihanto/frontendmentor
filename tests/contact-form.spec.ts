@@ -174,14 +174,11 @@ test.describe("FrontendMentor Challenge - Contact form", () => {
   test("can handle empty input submit", async ({ page }) => {
     const submit = page.getByRole("button", { name: "Submit" });
     await submit.click();
-    await page.waitForTimeout(1500);
-    const required = await page.getByText("This field is required").all();
+    await expect(page.getByText("This field is required")).toHaveCount(4, {
+      timeout: 3000,
+    });
     const uncheckedQuery = page.getByText("Please select a query type");
     const uncheckedConsent = page.getByText("To submit this form, please");
-    expect(required).toHaveLength(4);
-    for (const req of required) {
-      await expect(req).toBeVisible();
-    }
     await expect(uncheckedQuery).toBeVisible();
     await expect(uncheckedConsent).toBeVisible();
   });
