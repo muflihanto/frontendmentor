@@ -65,8 +65,7 @@ test.describe("FrontendMentor Challenge - Chat app CSS illustration Page", () =>
       "She looks so happy! The time we discussed works. How long",
     );
     await expect(lastChat).not.toBeVisible({ timeout: 1000 });
-    await page.waitForTimeout(12000);
-    await expect(lastChat).toBeVisible();
+    await expect(lastChat).toBeVisible({ timeout: 15000 });
   });
 
   /** Test if the page has a footer */
