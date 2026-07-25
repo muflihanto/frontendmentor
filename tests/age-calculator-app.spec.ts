@@ -139,7 +139,6 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await expect(monthDiff).toBeVisible();
       await expect(dayDiff).toBeVisible();
       await submit.click();
-      await page.waitForTimeout(2000);
       await expect(yearDiff).not.toBeVisible();
       await expect(monthDiff).not.toBeVisible();
       await expect(dayDiff).not.toBeVisible();
@@ -153,7 +152,6 @@ test.describe("FrontendMentor Challenge - Age calculator app Page", () => {
       await expect(monthDiff).toBeVisible();
       await expect(dayDiff).toBeVisible();
       await submit.click();
-      await page.waitForTimeout(2000);
       await expect(yearDiff).not.toBeVisible();
       await expect(monthDiff).not.toBeVisible();
       await expect(dayDiff).not.toBeVisible();
