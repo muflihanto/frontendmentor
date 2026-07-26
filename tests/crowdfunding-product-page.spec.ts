@@ -107,7 +107,6 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const button = page.getByRole("button", { name: "Back this project" });
       await expect(button).toBeVisible();
       await button.click();
-      await page.waitForTimeout(1000);
       const modal = page
         .locator("div")
         .filter({
@@ -121,7 +120,6 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const button = page.getByRole("button", { name: "Back this project" });
       await expect(button).toBeVisible();
       await button.click();
-      await page.waitForTimeout(1000);
       await page.keyboard.press("Tab");
       const firstOption = page.locator("input").first();
       await expect(firstOption).toBeFocused();
@@ -129,7 +127,6 @@ test.describe("FrontendMentor Challenge - Crowdfunding product Page", () => {
       const continueButton = page.getByRole("button", { name: "Continue" });
       await expect(continueButton).toBeVisible();
       await continueButton.click();
-      await page.waitForTimeout(1000);
       const thankYouCard = page.getByText("Thanks for your support!Your");
       await expect(thankYouCard).toBeVisible();
       const gotItButton = thankYouCard.getByRole("button", { name: "Got it!" });
