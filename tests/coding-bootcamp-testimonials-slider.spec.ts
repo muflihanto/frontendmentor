@@ -59,8 +59,8 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
 
   /** Test if the testimonial slider works */
   test("testimonial slider works", async ({ page }) => {
-    const prev = page.getByRole("button", { name: "Previous" });
-    const next = page.getByRole("button", { name: "Next" });
+    const prev = page.getByRole("button", { name: "Previous Slide" });
+    const next = page.getByRole("button", { name: "Next Slide" });
     const testData = async ({
       name,
       occupation,
@@ -73,10 +73,8 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
     };
     await testData(data[0]);
     await next.click();
-    await page.waitForTimeout(100);
     await testData(data[1]);
     await prev.click();
-    await page.waitForTimeout(100);
     await testData(data[0]);
   });
 
@@ -86,12 +84,10 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
 
     // Press right arrow
     await page.keyboard.press("ArrowRight");
-    await page.waitForTimeout(100);
     await expect(page.getByText(data[1].name)).toBeVisible();
 
     // Press left arrow
     await page.keyboard.press("ArrowLeft");
-    await page.waitForTimeout(100);
     await expect(page.getByText(data[0].name)).toBeVisible();
   });
 
