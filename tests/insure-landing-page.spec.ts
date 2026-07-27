@@ -249,7 +249,6 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
       await expect(button).toHaveAttribute("aria-expanded", "false");
       await expect(button).not.toHaveAttribute("aria-controls", "mobilemenu");
       await button.click();
-      await page.waitForTimeout(500);
       await expect(button).toHaveAttribute("aria-expanded", "true");
       await expect(button).toHaveAttribute("aria-controls", "mobilemenu");
       const nav = header.getByRole("navigation");
@@ -261,7 +260,6 @@ test.describe("FrontendMentor Challenge - Insure landing Page", () => {
         await expect(nav.getByRole("link", { name: link })).toBeInViewport();
       }
       await button.click();
-      await page.waitForTimeout(500);
       await expect(button).toHaveAttribute("aria-expanded", "false");
       await expect(button).not.toHaveAttribute("aria-controls", "mobilemenu");
       await expect(nav).not.toBeVisible();
