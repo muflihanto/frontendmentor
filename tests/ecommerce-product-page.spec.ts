@@ -360,8 +360,8 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   test("has 'Lightbox' section", async ({ page }) => {
     const toggle = page.locator("div").nth(3).locator("button").nth(1);
     await toggle.click();
-    await page.waitForTimeout(1000);
     const overlay = page.locator(".fixed");
+    await expect(overlay).toBeVisible();
     const closeButton = overlay.locator("button").first();
     const prevButton = overlay.getByRole("button", { name: "Prev" });
     const nextButton = overlay.getByRole("button", { name: "Next" });
@@ -370,7 +370,6 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
       .nth(8)
       .getByRole("button")
       .all();
-    await expect(overlay).toBeVisible();
     await expect(overlay.getByRole("img", { name: "Product 1" })).toBeVisible();
     await expect(closeButton).toBeVisible();
     await expect(closeButton.locator("svg")).toHaveCSS(
@@ -398,8 +397,8 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   test("can navigate 'Lightbox' using product thumbnails", async ({ page }) => {
     const toggle = page.locator("div").nth(3).locator("button").nth(1);
     await toggle.click();
-    await page.waitForTimeout(1000);
     const overlay = page.locator(".fixed");
+    await expect(overlay).toBeVisible();
     let currentImage: Locator;
     const selectorButtons = await overlay
       .locator("div")
@@ -418,8 +417,8 @@ test.describe("FrontendMentor Challenge - E-commerce product Page", () => {
   test("can navigate 'Lightbox' using prev & next button", async ({ page }) => {
     const toggle = page.locator("div").nth(3).locator("button").nth(1);
     await toggle.click();
-    await page.waitForTimeout(1000);
     const overlay = page.locator(".fixed");
+    await expect(overlay).toBeVisible();
     let currentImage: Locator;
     const prevButton = overlay.getByRole("button", { name: "Prev" });
     const nextButton = overlay.getByRole("button", { name: "Next" });
