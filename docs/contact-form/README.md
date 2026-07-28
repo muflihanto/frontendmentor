@@ -11,6 +11,9 @@ This is a solution to the [Contact form challenge on Frontend Mentor](https://ww
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
+      - [Form Management](#form-management)
+      - [React Patterns](#react-patterns)
+      - [Testing](#testing)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -66,7 +69,12 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
-- Use TanStack from to build a type-safe form.
+#### Form Management
+
+- Use TanStack Form to build a type-safe form.
+
+#### React Patterns
+
 - Use react `cloneElement` to augment the props of a regular html element
 
   ```tsx
@@ -87,6 +95,25 @@ Then crop/optimize/edit your image however you like, add it to your project, and
   ```tsx
   // Output
   <input id={field.name} name={field.name} className="..." />
+  ```
+
+#### Testing
+
+- Replace `page.waitForTimeout()` with Playwright's built-in auto-waiting assertions like `toHaveCount()` for faster and more reliable tests. Instead of hard-coding a wait and then manually checking element state, the assertion retries automatically within the timeout, removing flakiness and unnecessary delays.
+
+  ```ts
+  // Before: brittle and slow
+  await page.waitForTimeout(1500);
+  const required = await page.getByText("This field is required").all();
+  expect(required).toHaveLength(4);
+  for (const req of required) {
+    await expect(req).toBeVisible();
+  }
+
+  // After: fast and resilient
+  await expect(page.getByText("This field is required")).toHaveCount(4, {
+    timeout: 3000,
+  });
   ```
 
 <!-- ### Continued development
