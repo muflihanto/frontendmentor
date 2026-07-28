@@ -99,6 +99,20 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 #### Testing
 
+- Playwright's auto-retrying assertions wait for the expected condition to be met before passing, retrying automatically until the timeout. This eliminates the need for manual `waitForTimeout` calls and makes tests more resilient:
+
+  ```ts
+  // Auto-retrying: re-checks until condition is met or timeout expires
+  await expect(
+    page.getByRole("heading", { name: "Message Sent!" }),
+  ).toBeVisible();
+  await expect(page.getByText("This field is required")).toHaveCount(4, {
+    timeout: 3000,
+  });
+  await expect(page.getByLabel("First Name*")).toHaveValue("");
+  await expect(page).toHaveTitle("Frontend Mentor | Contact form");
+  ```
+
 - Replace `page.waitForTimeout()` with Playwright's built-in auto-waiting assertions like `toHaveCount()` for faster and more reliable tests. Instead of hard-coding a wait and then manually checking element state, the assertion retries automatically within the timeout, removing flakiness and unnecessary delays.
 
   ```ts
@@ -125,6 +139,8 @@ Use this section to outline areas that you want to continue focusing on in futur
 ### Useful resources
 
 - [React Example: Zod](https://tanstack.com/form/latest/docs/framework/react/examples/zod) - This helped me build a form using TanStack Form and Zod Validator.
+- [Playwright Assertions](https://playwright.dev/docs/test-assertions) - Guide on auto-retrying assertions that wait until the expected condition is met, eliminating flaky tests.
+- [Playwright Auto-waiting](https://playwright.dev/docs/actionability) - Documentation on how Playwright auto-waits for actionability checks before performing actions.
 
 ## Author
 

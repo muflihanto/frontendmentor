@@ -14,6 +14,7 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
       - [Portals and Transitions](#portals-and-transitions)
       - [Next.js and Client-Side Portals](#nextjs-and-client-side-portals)
       - [Decorative SVGs and Accessibility](#decorative-svgs-and-accessibility)
+      - [Testing](#testing)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -127,6 +128,22 @@ The `svg-img-alt` rule requires SVGs with semantic roles to have text alternativ
 </button>
 ```
 
+#### Testing
+
+- Replace `page.waitForTimeout()` with Playwright's built-in auto-waiting assertions like `toBeVisible()` for faster and more reliable tests. Instead of hard-coding a wait for the lightbox overlay to appear, the assertion retries automatically within the default timeout, removing flakiness and unnecessary delays.
+
+  ```ts
+  // Before: brittle and slow
+  await toggle.click();
+  await page.waitForTimeout(1000);
+  const overlay = page.locator(".fixed");
+
+  // After: fast and resilient
+  await toggle.click();
+  const overlay = page.locator(".fixed");
+  await expect(overlay).toBeVisible();
+  ```
+
 <!-- ### Continued development
 
 Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
@@ -137,6 +154,8 @@ Use this section to outline areas that you want to continue focusing on in futur
 - [Next.js dynamic import (v14.2.35)](https://nextjs.org/docs/14/pages/building-your-application/optimizing/lazy-loading#nextdynamic) - Documentation for `next/dynamic` and the `ssr: false` option.
 - [Headless UI Transition Documentation (v1)](https://headlessui.com/v1/react/transition) - Guide on using the `Transition` component for enter/leave animations.
 - [Axe Rules: svg-img-alt](https://dequeuniversity.com/rules/axe/4.10/svg-img-alt) - Documentation on why SVGs with semantic roles need alternative text and how to handle decorative icons.
+- [Playwright Assertions](https://playwright.dev/docs/test-assertions) - Guide on auto-retrying assertions that wait until the expected condition is met, eliminating flaky tests.
+- [Playwright Auto-waiting](https://playwright.dev/docs/actionability) - Documentation on how Playwright auto-waits for actionability checks before performing actions.
 
 ## Author
 
