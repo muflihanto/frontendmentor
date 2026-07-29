@@ -10,6 +10,9 @@ This is a solution to the [Launch countdown timer challenge on Frontend Mentor](
     - [The challenge](#the-challenge)
   - [My process](#my-process)
     - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+      - [Testing](#testing)
+    - [Useful resources](#useful-resources)
   - [Author](#author)
 
 ## Overview
@@ -51,36 +54,27 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Framer Motion](https://www.framer.com/motion/) - Motion library for React
 
-<!-- ### What I learned
+### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Testing
 
-To see how you can add code snippets, see below:
+- CSS transition assertions like `toHaveCSS` auto-retry, so no `waitForTimeout` is needed after hover/unhover actions.
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
+  ```ts
+  // Before: explicit wait for transition
+  await link.hover();
+  await page.waitForTimeout(500);
+  await expect(icon).toHaveCSS("fill", "rgb(251, 96, 135)");
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+  // After: auto-retries until CSS matches
+  await link.hover();
+  await expect(icon).toHaveCSS("fill", "rgb(251, 96, 135)");
+  ```
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept. -->
+- [Playwright Assertions](https://playwright.dev/docs/test-assertions) - Guide on auto-retrying assertions that wait until the expected condition is met, eliminating flaky tests.
+- [Playwright Auto-waiting](https://playwright.dev/docs/actionability) - Documentation on how Playwright auto-waits for actionability checks before performing actions.
 
 ## Author
 

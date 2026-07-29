@@ -30,7 +30,6 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
     );
     const children = await timer.locator(">div").all();
     expect(children).toHaveLength(8);
-    await page.waitForTimeout(1000);
     for (const unit of units) {
       await expect(timer.getByText(unit)).toBeVisible();
       const flipCard = timer.locator(`id=${unit.toLowerCase()}`);
@@ -67,16 +66,15 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
       .locator("id=seconds")
       .getAttribute("aria-label");
 
-    // Wait for 2 seconds
-    await page.waitForTimeout(2000);
-
-    // Get new values
-    const newSeconds = await timer
-      .locator("id=seconds")
-      .getAttribute("aria-label");
-
-    // Verify at least seconds have changed (other units might not change in 2 seconds)
-    expect(initialSeconds).not.toBe(newSeconds);
+    // Poll until seconds value changes (passes as soon as the timer ticks)
+    await expect
+      .poll(
+        async () => {
+          return await timer.locator("id=seconds").getAttribute("aria-label");
+        },
+        { timeout: 5000 },
+      )
+      .not.toBe(initialSeconds);
   });
 
   /** Test if flip cards have correct styling on mobile and desktop */
@@ -114,11 +112,9 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
 
       // Hover test
       await link.hover();
-      await page.waitForTimeout(500);
       await expect(icon).toHaveCSS("fill", "rgb(251, 96, 135)"); // Hover color
 
       await page.mouse.move(0, 0);
-      await page.waitForTimeout(500);
       await expect(icon).toHaveCSS("fill", "rgb(131, 133, 169)"); // Initial color
     }
   });
