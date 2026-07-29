@@ -132,7 +132,6 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
         );
         await expect(link).toHaveCSS("color", "rgba(255, 255, 255, 0.75)");
         await link.hover();
-        await page.waitForTimeout(1000);
         await expect(link).toHaveCSS(
           "background-image",
           "linear-gradient(to top, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75))",
@@ -207,7 +206,6 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
       await expect(button).toHaveAttribute("aria-expanded", "false");
       await expect(button).toHaveAttribute("aria-controls", "menu");
       await button.click();
-      await page.waitForTimeout(500);
       const nav = header.getByRole("navigation");
       const links = ["About", "Careers", "Events", "Products", "Support"];
       await expect(nav).toBeVisible();
@@ -221,7 +219,6 @@ test.describe("FrontendMentor Challenge - Loopstudios landing Page", () => {
         // FIXME: nav link text is black in playwright test ui
       }
       await button.click();
-      await page.waitForTimeout(500);
       await expect(nav).not.toBeVisible();
       await expect(nav).not.toBeInViewport();
       await expect(button).toHaveAttribute("aria-expanded", "false");
