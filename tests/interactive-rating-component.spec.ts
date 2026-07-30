@@ -126,7 +126,6 @@ test.describe("FrontendMentor Challenge - Interactive rating component Page", ()
         await input.check();
         await expect(input).toHaveAttribute("aria-checked", "true");
         await submit.click();
-        await page.waitForTimeout(100);
         await expect(
           card.getByRole("img", { name: "Thank you illustration" }),
         ).toBeVisible();
@@ -165,8 +164,6 @@ test.describe("FrontendMentor Challenge - Interactive rating component Page", ()
       // Submit with Enter
       await page.keyboard.press("Tab"); // Focus submit button
       await page.keyboard.press("Enter");
-
-      await page.waitForTimeout(100);
 
       // Verify thank you state
       await expect(
