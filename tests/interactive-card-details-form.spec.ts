@@ -142,14 +142,12 @@ test.describe("FrontendMentor Challenge - Interactive card details form Page", (
         }
         const confirm = form.getByRole("button", { name: "Confirm" });
         await confirm.click();
-        await page.waitForTimeout(500);
         await expect(
           page.getByText("Thank you!We've added your card detailsContinue"),
         ).toBeVisible();
         const continueButton = page.getByRole("button", { name: "Continue" });
         await expect(continueButton).toBeVisible();
         await continueButton.click();
-        await page.waitForTimeout(500);
         await expect(
           page.getByText("Thank you!We've added your card detailsContinue"),
         ).not.toBeVisible();
