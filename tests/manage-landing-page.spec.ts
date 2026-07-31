@@ -258,7 +258,6 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
 
         // Resize to desktop
         await page.setViewportSize({ width: 1200, height: 800 });
-        await page.waitForTimeout(500); // Allow layout to adjust
 
         // Verify dots disappear on desktop
         await expect(dotsContainer).not.toBeVisible();
@@ -439,7 +438,6 @@ test.describe("FrontendMentor Challenge - Manage landing Page", () => {
       await expect(menuButton).toHaveAttribute("aria-expanded", "false");
       await expect(menuButton).not.toHaveAttribute("aria-controls");
       await menuButton.click();
-      await page.waitForTimeout(1000);
       await expect(menuButton).toHaveAttribute("aria-expanded", "true");
       await expect(menuButton).toHaveAttribute("aria-controls", "menu");
       navContainer = header.getByRole("navigation", { name: "Main menu" });
