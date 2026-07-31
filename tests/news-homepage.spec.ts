@@ -195,7 +195,6 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       await expect(button).toHaveAttribute("aria-expanded", "false");
       await expect(button).not.toHaveAttribute("aria-controls");
       await button.click();
-      await page.waitForTimeout(500);
       await expect(button).toHaveAttribute("aria-expanded", "true");
       await expect(button).toHaveAttribute("aria-controls", "mobilemenu");
       const nav = page.getByRole("navigation");
@@ -208,7 +207,6 @@ test.describe("FrontendMentor Challenge - News homepage Page", () => {
       }
       const closeButton = page.getByRole("button").nth(1);
       await closeButton.click();
-      await page.waitForTimeout(500);
       await expect(button).toHaveAttribute("aria-expanded", "false");
       await expect(button).not.toHaveAttribute("aria-controls");
       await expect(nav).not.toBeVisible();
