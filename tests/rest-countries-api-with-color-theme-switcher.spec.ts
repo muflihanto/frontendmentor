@@ -88,8 +88,7 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
         await linksContainer.getByRole("link").all();
       expect(await getCountries()).toHaveLength(data.length);
       await input.fill("indonesia");
-      await page.waitForTimeout(1000);
-      expect(await getCountries()).toHaveLength(1);
+      await expect(linksContainer.getByRole("link")).toHaveCount(1);
     });
   });
 
@@ -119,7 +118,6 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       });
       await indonesia.click();
       await page.waitForURL("**/indonesia");
-      await page.waitForTimeout(2000);
       await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
       await expect(
         page.getByRole("img", {
@@ -164,10 +162,9 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       await expect(back).toBeVisible();
       await back.click();
       await page.waitForURL(`**${pageUrl}`);
-      await page.waitForTimeout(2000);
-      const container = page.getByRole("list");
-      const countries = await container.getByRole("link").all();
-      expect(countries).toHaveLength(data.length);
+      await expect(page.getByRole("list").getByRole("link")).toHaveCount(
+        data.length,
+      );
     });
 
     test("can navigate to other countries using 'Border Countries' links", async () => {
@@ -176,12 +173,10 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       });
       await indonesia.click();
       await page.waitForURL("**/indonesia");
-      await page.waitForTimeout(2000);
       const malaysia = page.getByRole("link", { name: "Malaysia" });
       await expect(malaysia).toBeVisible();
       await malaysia.click();
       await page.waitForURL("**/malaysia");
-      await page.waitForTimeout(2000);
       await expect(
         page.getByRole("heading", { name: "Malaysia" }),
       ).toBeVisible();
@@ -235,7 +230,6 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       })
       .click();
     await page.waitForURL("**/indonesia");
-    await page.waitForTimeout(2000);
     await expect(
       page.getByRole("heading", { name: "Indonesia" }),
     ).toBeVisible();
