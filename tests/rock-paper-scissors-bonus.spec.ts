@@ -147,14 +147,10 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () 
       const paperButton = page.getByRole("button", { name: "Paper" });
       await paperButton.click();
 
-      // Wait for house choice to appear (mock would be better here)
-      await page.waitForTimeout(1500); // Wait for the 1s timeout in the code
-
-      // Check if we have a result (either win or lose)
-      const resultText = await page
-        .locator('h1:text-matches("win|lose", "i")')
-        .textContent();
-      expect(resultText).toMatch(/win|lose/);
+      // Wait until the result appears (auto-retries past the 1s timeout in the code)
+      await expect(
+        page.locator('h1:text-matches("win|lose", "i")'),
+      ).toBeVisible();
 
       // Verify play again button appears
       const playAgainButton = page.locator('button:has-text("PLAY AGAIN")');
@@ -179,8 +175,6 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () 
       const paperButton = page.getByRole("button", { name: "Paper" });
       await paperButton.click();
 
-      await page.waitForTimeout(1500); // Wait for results
-
       const playAgainButton = page.locator('button:has-text("PLAY AGAIN")');
       await playAgainButton.click();
 
@@ -200,7 +194,10 @@ test.describe("FrontendMentor Challenge - Rock, Paper, Scissors Bonus Page", () 
     const paperButton = page.getByRole("button", { name: "Paper" });
     await paperButton.click();
 
-    await page.waitForTimeout(1500); // Wait for results
+    // Wait until the result appears (auto-retries past the 1s timeout in the code)
+    await expect(
+      page.locator('h1:text-matches("win|lose", "i")'),
+    ).toBeVisible();
 
     // Get the new score
     const scoreAfterPlay = await page
