@@ -1,49 +1,26 @@
-// https://restcountries.com/v3.1/all?fields=name,flags,cca3,population,region,subregion,capital,topLevelDomain,currencies,languages,borders
+// The legacy REST Countries API (v1-v4) is deprecated and no longer returns
+// data, so all lookups are served from the local snapshot in
+// `public/rest-countries-api-with-color-theme-switcher/all.json`.
 
 import { useQuery } from "@tanstack/react-query";
-import ky from "ky-universal";
+import dataJson from "../public/rest-countries-api-with-color-theme-switcher/all.json";
 import type { Countries } from "./types";
 
-type Country = Countries[number];
-const filterKeys = [
-  "name",
-  "flags",
-  "cca3",
-  "population",
-  "region",
-  "subregion",
-  "capital",
-  "tld",
-  "currencies",
-  "languages",
-  "borders",
-] as const;
-type CountryFiltered = Pick<Country, (typeof filterKeys)[number]>;
-type CountriesFiltered = CountryFiltered[];
-const filterQuery = `fields=${filterKeys.join(",")}`;
+const data = dataJson as Countries;
 
-const fetchCountries = async (limit = 10) => {
-  const parsed: CountriesFiltered = await ky(
-    `https://restcountries.com/v3.1/all?${filterQuery}`,
-  ).json();
-
-  return parsed.filter((_, index) => index <= limit);
+const fetchCountries = (limit = 10) => {
+  return data.filter((_, index) => index <= limit);
 };
 
-const fetchCountry = async (name: string) => {
-  const parsed: CountriesFiltered = await ky(
-    `https://restcountries.com/v3.1/name/${name}?fullText=true&${filterQuery}`,
-  ).json();
-
-  return parsed;
+const fetchCountry = (name: string) => {
+  const matches = data.filter(
+    (country) => country.name.common.toLowerCase() === name.toLowerCase(),
+  );
+  return matches.length > 0 ? matches : undefined;
 };
 
-const fetchCountryBorders = async (countries: string[]) => {
-  const parsed: CountriesFiltered = await ky(
-    `https://restcountries.com/v3.1/alpha?codes=${countries.join(",")}&${filterQuery}`,
-  ).json();
-
-  return parsed;
+const fetchCountryBorders = (codes: string[]) => {
+  return data.filter((country) => codes.includes(country.cca3));
 };
 
 const useCountries = (limit: number) => {
@@ -58,10 +35,6 @@ const useCountry = (name: string) => {
     queryKey: ["country", name],
     queryFn: () => fetchCountry(name),
     enabled: name !== undefined,
-    retry: (count) => {
-      if (count >= 1) return false;
-      return true;
-    },
   });
 };
 
