@@ -181,6 +181,14 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
         page.getByRole("heading", { name: "Malaysia" }),
       ).toBeVisible();
     });
+
+    test("shows 'Country not found' message for an unknown country", async () => {
+      await page.goto(`${pageUrl}/atlantis`);
+      await expect(
+        page.getByRole("heading", { level: 1, name: "Country not found" }),
+      ).toBeVisible();
+      await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
+    });
   });
 
   test("interactive elements focus states behavior", async ({ page }) => {
