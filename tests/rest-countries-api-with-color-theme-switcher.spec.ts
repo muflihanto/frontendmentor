@@ -189,6 +189,22 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
       ).toBeVisible();
       await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
     });
+
+    test("back button returns to the countries list from 'Country not found' page", async () => {
+      const back = page.getByRole("button", { name: "Back" });
+      await expect(back).toBeVisible();
+      await back.click();
+      await page.waitForURL(`**${pageUrl}`);
+      await expect(page.getByRole("list").getByRole("link")).toHaveCount(
+        data.length,
+      );
+    });
+
+    test("country without borders shows no border countries links", async () => {
+      await page.goto(`${pageUrl}/japan`);
+      await expect(page.getByRole("heading", { name: "Japan" })).toBeVisible();
+      await expect(page.locator("main").getByRole("link")).toHaveCount(0);
+    });
   });
 
   test("interactive elements focus states behavior", async ({ page }) => {
