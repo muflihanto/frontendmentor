@@ -101,6 +101,55 @@ test.describe("FrontendMentor Challenge - Rest Countries Api With Color Theme Sw
     });
   });
 
+  /** Test error handling behavior */
+  test.describe("handles error states", () => {
+    test("searching for a non-existent country shows an empty list", async ({
+      page,
+    }) => {
+      const input = page.getByPlaceholder("Search for a country...");
+      await expect(page.getByRole("list").getByRole("link")).toHaveCount(
+        data.length,
+      );
+      await input.fill("atlantis");
+      await expect(
+        page
+          .getByRole("list", { name: "Filtered countries" })
+          .getByRole("link"),
+      ).toHaveCount(0);
+    });
+
+    test("region filter with a non-matching keyword shows an empty list", async ({
+      page,
+    }) => {
+      const container = page.locator("div").nth(2);
+      const input = page.getByPlaceholder("Search for a country...");
+      const filterButton = page.getByRole("button", {
+        name: "Filter by Region",
+      });
+      await filterButton.click();
+      const asiaOption = container
+        .getByLabel("Filter by Region", { exact: true })
+        .getByRole("option", { name: "Asia" });
+      await asiaOption.click();
+      await input.fill("atlantis");
+      await expect(
+        page
+          .getByRole("list", { name: "Filtered countries" })
+          .getByRole("link"),
+      ).toHaveCount(0);
+    });
+
+    test("clearing the search restores all countries", async ({ page }) => {
+      const input = page.getByPlaceholder("Search for a country...");
+      await input.fill("atlantis");
+      await expect(page.getByRole("list").getByRole("link")).toHaveCount(0);
+      await input.fill("");
+      await expect(page.getByRole("list").getByRole("link")).toHaveCount(
+        data.length,
+      );
+    });
+  });
+
   /** Test if country detail page works */
   test.describe("country detail page works", () => {
     test.describe.configure({ mode: "serial" });
