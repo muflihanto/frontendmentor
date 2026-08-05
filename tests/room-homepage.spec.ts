@@ -207,14 +207,12 @@ test.describe("FrontendMentor Challenge - Room homepage Page", () => {
         ).not.toBeVisible();
       }
       await menuButton.click();
-      await page.waitForTimeout(250);
       await expect(menuButton).toHaveAttribute("aria-expanded", "true");
       await expect(menuButton).toHaveAttribute("aria-controls", "menu");
       for (const { display } of links) {
         await expect(header.getByRole("link", { name: display })).toBeVisible();
       }
       await menuButton.click();
-      await page.waitForTimeout(250);
       await expect(menuButton).toHaveAttribute("aria-expanded", "false");
       await expect(menuButton).not.toHaveAttribute("aria-controls");
       for (const { display } of links) {
