@@ -240,7 +240,6 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Crew Page", () =
       const indexNum = Number(index);
       const { bio, name, role } = crews[indexNum];
       await button.click();
-      await page.waitForTimeout(500);
       await expect(section.getByRole("img", { name })).toBeVisible();
       await expect(section.getByRole("heading", { name: role })).toBeVisible();
       await expect(section.getByRole("heading", { name })).toBeVisible();
@@ -303,7 +302,6 @@ test.describe("FrontendMentor Challenge - Space Tourism Website Technology Page"
       await tab.click();
       await expect(tab).toHaveAttribute("aria-selected", "true");
       await expect(tabpanel).toHaveAccessibleName(`${indexNum + 1}`);
-      await page.waitForTimeout(500);
       await expect(section.getByRole("img", { name })).toBeVisible();
       await expect(section.getByRole("heading", { name })).toBeVisible();
       await expect(section.getByText(description)).toBeVisible();
