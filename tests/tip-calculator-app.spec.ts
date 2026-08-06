@@ -155,12 +155,10 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
   test("tip percentage buttons should have correct hover state", async ({
     page,
   }) => {
-    await page.waitForTimeout(500);
+    const tipButtons = page.getByText(/\d+%/);
+    await expect(tipButtons).toHaveCount(5);
 
-    const tipButtons = await page.getByText(/\d+%/).all();
-    expect(tipButtons).toHaveLength(5);
-
-    for (const button of tipButtons) {
+    for (const button of await tipButtons.all()) {
       // Check initial state
       await expect(button).toHaveCSS("background-color", "rgb(0, 73, 77)");
       await expect(button).toHaveCSS("color", "rgb(244, 250, 250)");
@@ -177,8 +175,6 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
 
   /** Test focus states for input fields */
   test("input fields should have correct focus state", async ({ page }) => {
-    await page.waitForTimeout(500);
-
     const billInput = page.getByLabel("Bill");
     const peopleInput = page.getByLabel("Number of People");
     const customTipInput = page.getByPlaceholder("Custom");
@@ -201,8 +197,6 @@ test.describe("FrontendMentor Challenge - Tip calculator app Page", () => {
 
   /** Test selected tip button state */
   test("selected tip button should have correct state", async ({ page }) => {
-    await page.waitForTimeout(500);
-
     const tipButton = page.locator('label[for="10%"]');
     const input = page.locator('input[value="10"]');
 
