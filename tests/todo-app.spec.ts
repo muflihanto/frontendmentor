@@ -366,7 +366,6 @@ test.describe("FrontendMentor Challenge - Todo app Page", () => {
 
     // Reload and verify dark mode persists
     await page.reload();
-    await page.waitForTimeout(1500);
     await expect(button).toHaveAttribute("aria-checked", "true");
     await expect(html).toHaveClass("dark");
     expect(await getBgImage()).toStrictEqual(
