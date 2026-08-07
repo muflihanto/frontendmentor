@@ -104,13 +104,14 @@ test.describe("FrontendMentor Challenge - Advice generator app Page", () => {
 
     // Check desktop view
     await page.setViewportSize({ width: 1440, height: 800 });
-    await page.waitForTimeout(300);
 
-    // Get the updated currentSrc property value
-    const desktopSrc = await mobileDivider.evaluate(
-      (el) => (el as HTMLImageElement).currentSrc,
-    );
-    expect(desktopSrc).toContain("pattern-divider-desktop.svg");
+    // Wait for the updated currentSrc property value
+    await expect(async () => {
+      const desktopSrc = await mobileDivider.evaluate(
+        (el) => (el as HTMLImageElement).currentSrc,
+      );
+      expect(desktopSrc).toContain("pattern-divider-desktop.svg");
+    }).toPass();
   });
 
   test("has proper ARIA attributes for accessibility", async ({ page }) => {
