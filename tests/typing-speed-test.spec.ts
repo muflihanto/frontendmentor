@@ -610,7 +610,6 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       // Type "x" (incorrect)
       await page.keyboard.press("x");
-      await page.waitForTimeout(50);
 
       const chars = page.locator("p > span.relative");
 
@@ -627,7 +626,6 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
 
       // Press Backspace to delete the mistake
       await page.keyboard.press("Backspace");
-      await page.waitForTimeout(50);
 
       // The first character should revert to its default untyped styling
       await expect(chars.nth(0)).not.toHaveClass(
@@ -677,7 +675,6 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const currentPassageText = await getPassageText(page, "T");
       // Type first character to ensure input top layout is stabilized after viewport resize
       await page.keyboard.press(currentPassageText[0]);
-      await page.waitForTimeout(50);
       const initialTop = await input.evaluate((node) => node.style.top);
 
       // Type a long string to force a line wrap on the narrow mobile bounds
@@ -695,7 +692,6 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       }
 
       // Wait for React layout engine to recalculate the wrapped offsetTop tracking
-      await page.waitForTimeout(100);
       const wrappedTop = await input.evaluate((node) => node.style.top);
 
       // Verify the tracking offsetTop genuinely shifted downwards to a new line
@@ -711,7 +707,6 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       // Inject deletion for the rest of the text to instantly return to the first line
       await input.fill(currentPassageText[0], { force: true });
 
-      await page.waitForTimeout(100);
       const revertedTop = await input.evaluate((node) => node.style.top);
 
       // Verify the autoscroll behavior cleanly rewinds by reverting the top offset to mathematical exact parity
@@ -957,12 +952,10 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       const currentPassageText = await getPassageText(page, "T");
       // Type a correct character - accuracy should still be 100%
       await page.keyboard.press(currentPassageText[0]);
-      await page.waitForTimeout(50);
       await expectAccuracy(page, 100);
 
       // Type an incorrect character - accuracy should drop below 100%
       await page.keyboard.press("x");
-      await page.waitForTimeout(50);
       // Now 1 correct out of 2 typed = 50%
       await expectAccuracy(page, 50);
     });
@@ -998,7 +991,6 @@ test.describe("FrontendMentor Challenge - Typing speed test page", () => {
       await page.keyboard.press("z");
       await page.keyboard.press("z");
       await page.keyboard.press("z");
-      await page.waitForTimeout(100);
 
       // Accuracy should now be lower (not 100%)
       await expectAccuracyNot(page, 100);
