@@ -91,7 +91,6 @@ test.describe("FrontendMentor Challenge - [Blogr] Page", () => {
       await expect(menuText).toHaveCSS("font-weight", "700");
       await expect(menuText).toHaveCSS("text-decoration-line", "underline");
       await menu.click();
-      await page.waitForTimeout(100);
       // collapsible menu works
       const popup = nav.getByLabel(group);
       await expect(menu).toHaveAttribute("aria-expanded", "true");
