@@ -75,20 +75,17 @@ This technique is useful for verifying that loading states are properly displaye
 
 To test responsive behavior within a single test case, `page.setViewportSize` can be used to change the browser's viewport dynamically. This is particularly useful when you need to verify that elements (like images using `srcset` or `<picture>`) respond correctly to size changes without restarting the browser context.
 
+When the image source is a DOM property like `currentSrc` (not a regular attribute), standard auto-retrying assertions like `toHaveAttribute` won't work. Instead, use `expect(...).toPass()` to poll the property value until it matches:
+
 ```js
-test("displays correct divider image based on viewport", async ({ page }) => {
-  // Set mobile view
-  await page.setViewportSize({ width: 375, height: 667 });
-  const mobileDivider = page.getByAltText("Line Divider");
-  // ... assertions for mobile ...
+await page.setViewportSize({ width: 1440, height: 800 });
 
-  // Switch to desktop view
-  await page.setViewportSize({ width: 1440, height: 800 });
-  // Small delay might be needed for layout/image source re-calculation
-  await page.waitForTimeout(300);
-
-  // ... assertions for desktop ...
-});
+await expect(async () => {
+  const desktopSrc = await mobileDivider.evaluate(
+    (el) => (el as HTMLImageElement).currentSrc,
+  );
+  expect(desktopSrc).toContain("pattern-divider-desktop.svg");
+}).toPass();
 ```
 
 **Comparison: `page.setViewportSize` vs `test.use({ viewport })`**
