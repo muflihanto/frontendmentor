@@ -23,7 +23,7 @@ const ProjectTracking = () => {
       <div className="absolute right-0 top-0 -z-10 h-[424px] w-[50vw] rounded-bl-[60px] bg-project-tracking-neutral-100 lg:h-[427px] lg:w-[calc(705/1440*100vw)]" />
       <div
         className={cn([
-          "App relative bg-white pb-[75.5px] font-barlow max-lg:mx-auto max-lg:max-w-screen-sm",
+          "App relative flex min-h-screen flex-col bg-white font-barlow max-lg:mx-auto max-lg:max-w-screen-sm",
           barlow.variable,
           barlowCondensed.variable,
         ])}
@@ -193,7 +193,7 @@ function Main() {
     <>
       <Header toggle={toggle} isMenuOpen={isMenuOpen} />
       <main
-        className="relative flex flex-col max-lg:gap-[87px] lg:mt-[51px] lg:flex-row-reverse lg:items-center lg:gap-7"
+        className="relative flex flex-1 flex-col max-lg:gap-[87px] lg:mt-[51px] lg:flex-row-reverse lg:items-center lg:gap-7"
         aria-labelledby="main-heading"
       >
         <Hero />
@@ -234,7 +234,7 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 left-0 mx-auto w-full text-center">
+    <footer className="mt-auto pb-3 pt-4 text-center">
       <p className="text-center text-[11px] text-project-tracking-neutral-400 [&_a:hover]:text-project-tracking-primary-red [&_a:hover]:decoration-project-tracking-primary-red/75 [&_a]:font-bold [&_a]:text-[hsl(228,45%,44%)] [&_a]:underline [&_a]:decoration-project-tracking-primary-red [&_a]:decoration-wavy">
         Challenge by{" "}
         <a
