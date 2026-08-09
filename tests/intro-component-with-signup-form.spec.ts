@@ -90,8 +90,6 @@ test.describe("FrontendMentor Challenge - Intro component with sign up form Page
       });
       await submit.click(); // Trigger errors
 
-      await page.waitForTimeout(500);
-
       const inputs = await page.locator("form input").all();
       for (const input of inputs) {
         await input.focus();
