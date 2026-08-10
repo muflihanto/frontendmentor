@@ -19,6 +19,7 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
       - [Discriminated Unions for API Responses](#discriminated-unions-for-api-responses)
       - [`expect.poll` for Waiting on Asynchronous DOM States](#expectpoll-for-waiting-on-asynchronous-dom-states)
       - [Client-side Rendering for Leaflet Map with `next/dynamic`](#client-side-rendering-for-leaflet-map-with-nextdynamic)
+      - [Stable Test Locators with `data-testid`](#stable-test-locators-with-data-testid)
     - [Useful resources](#useful-resources)
   - [Author](#author)
 
@@ -71,7 +72,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 When testing loading states that depend on API responses, you can use Playwright's `page.route()` to intercept requests and simulate slow network conditions. This allows you to verify loading spinners, disabled states, and other UI feedback during async operations.
 
-```js
+```typescript
 test("show loading state in button during API request", async ({ page }) => {
   // Mock slow API response
   await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
@@ -114,7 +115,7 @@ This technique is useful for:
 
 You can also use `page.route()` to simulate API errors and test how your application handles failure cases gracefully.
 
-```js
+```typescript
 test("handles API errors gracefully", async ({ page }) => {
   // Mock the API response with a 500 error
   await page.route("/api/getIpInfo*", async (route) => {
@@ -333,6 +334,42 @@ const GeoMap = dynamic(() => import("../components/ip-address-tracker/Map"), {
 ```
 
 This ensures that Leaflet only runs in the browser environment where the necessary DOM APIs are available.
+
+#### Stable Test Locators with `data-testid`
+
+When writing Playwright tests, avoid fragile index-based locators like `page.locator("div").nth(5)` — a small DOM change (adding or removing a wrapper element) will silently target the wrong node and break the test. Instead, attach a `data-testid` attribute to the target element and use `page.getByTestId()`.
+
+Before (brittle):
+
+```typescript
+const card = page.locator("div").nth(5);
+await expect(card.getByText("IP Address8.8.8.8")).toBeVisible();
+```
+
+After (stable):
+
+```typescript
+// In the component:
+<div data-testid="detail-card" className="...">
+  ...
+</div>
+
+// In the test:
+const card = page.getByTestId("detail-card");
+await expect(card.getByText("IP Address8.8.8.8")).toBeVisible();
+```
+
+**Why this matters:**
+
+- Index-based locators break whenever the DOM structure changes, even if the UI looks identical to users.
+- `data-testid` creates an explicit contract between the component and its tests, making the intent clear.
+- Tests become self-documenting: `getByTestId("detail-card")` tells you exactly what element is being targeted.
+
+**When to use `data-testid`:**
+
+- Targeting container elements that have no semantic HTML role (e.g., `<div>` wrappers).
+- Referencing the same element across multiple tests for consistency.
+- Avoiding coupling to implementation details like class names or DOM position.
 
 <!-- ### Continued development
 
