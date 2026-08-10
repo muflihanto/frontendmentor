@@ -297,7 +297,7 @@ function DetailCard({ detail }: { detail?: IpInfoResponse }) {
   }, [detail]);
 
   return (
-    <div className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-auto lg:min-h-[161px]">
+    <div data-testid="detail-card" className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-auto lg:min-h-[161px]">
       <ul className="flex flex-col items-center gap-[22px] py-[27px] pr-[2px] lg:flex-row lg:items-start lg:gap-[calc(22/1440*100vw)] lg:divide-x lg:py-[37px] lg:pr-[22px]">
         <ListItem>
           <ListHeading>IP Address</ListHeading>

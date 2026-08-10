@@ -34,7 +34,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
   /** Test if the page has an ip info card */
   test("has an ip info card", async ({ page }) => {
-    const card = page.locator("div").nth(5);
+    const card = page.getByTestId("detail-card");
     await expect(card.getByText("IP Address::ffff:127.0.0.1")).toBeVisible();
     await expect(card.getByText("Location-")).toBeVisible();
     await expect(card.getByText("Timezone-")).toBeVisible();
@@ -106,7 +106,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     expect(
       await map.locator(".leaflet-map-pane").getAttribute("style"),
     ).not.toContain("translate3d(545886px, 382367px, 0px)");
-    const card = page.locator("div").nth(5);
+    const card = page.getByTestId("detail-card");
     await expect(card.getByText("IP Address8.8.8.8")).toBeVisible();
     await expect(card.getByText("ISPGoogle LLC")).toBeVisible();
   });
@@ -419,7 +419,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const errorBox = await apiError.boundingBox();
     const inputBox = await input.boundingBox();
     const buttonBox = await submitButton.boundingBox();
-    const detailCard = page.locator('[class*="h-[294px]"]');
+    const detailCard = page.getByTestId("detail-card");
     const detailCardBox = await detailCard.boundingBox();
 
     // Error should not overlap with any important elements
@@ -433,7 +433,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
   test("API error should not affect any layout elements", async ({ page }) => {
     // Get initial positions
     const form = page.locator("form");
-    const detailCard = page.locator('[class*="h-[294px]"]');
+    const detailCard = page.getByTestId("detail-card");
     const initialFormPosition = await form.boundingBox();
     const initialCardPosition = await detailCard.boundingBox();
 
