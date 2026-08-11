@@ -1,11 +1,11 @@
 // import Image from "next/image";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import requestIp from "request-ip";
 import { z } from "zod";
@@ -21,12 +21,11 @@ const Layout = dynamic(
   { ssr: false },
 );
 
-const locAtom = atom("");
 const detailAtom = atom<IpInfoResponse | undefined>(undefined);
 export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
-  const loc = get(locAtom);
-  if (loc) {
-    const [lat, lng] = loc.split(",").map((data) => Number.parseFloat(data));
+  const detail = get(detailAtom);
+  if (detail !== undefined && "loc" in detail) {
+    const [lat, lng] = detail.loc.split(",").map(Number);
     return { lat, lng };
   }
   return { lat: 43.73155840383045, lng: 7.414983972724603 };
@@ -98,7 +97,6 @@ function Intro() {
     formState: { isSubmitSuccessful, errors },
   } = useForm<InputSchema>({ resolver: zodResolver(zInputSchema) });
   const [detail, setDetail] = useAtom(detailAtom);
-  const setLoc = useSetAtom(locAtom);
   const [apiError, setApiError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -123,12 +121,6 @@ function Intro() {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
-
-  useEffect(() => {
-    if (detail !== undefined && "loc" in detail) {
-      setLoc(detail.loc);
-    }
-  }, [detail, setLoc]);
 
   return (
     <div className="relative flex min-h-[300px] w-full flex-col items-center bg-[url('/ip-address-tracker/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat lg:min-h-[280px] lg:bg-[url('/ip-address-tracker/images/pattern-bg-desktop.png')]">
