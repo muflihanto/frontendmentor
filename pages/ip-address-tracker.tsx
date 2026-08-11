@@ -5,10 +5,11 @@ import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import requestIp from "request-ip";
 import { z } from "zod";
+import { getTimezoneOffset } from "../utils/timezone";
 import type { IpInfoResponse } from "./api/getIpInfo";
 
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
@@ -252,38 +253,6 @@ function Intro() {
   );
 }
 
-/**
- * convert TZ identifier string (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) to utc offset (ex: UTC +07:00)
- */
-function getTimezoneOffset(tz: string): string {
-  const d1 = new Date(Date.now());
-  d1.setMilliseconds(0); // for nice rounding
-  const d1OffsetHrs = (d1.getTimezoneOffset() / 60) * -1;
-
-  const d2LocaleStr = d1.toLocaleString("en-US", { timeZone: tz });
-  const d2 = new Date(d2LocaleStr);
-
-  const diffHrs = (d2.getTime() - d1.getTime()) / 1000 / 60 / 60;
-  const d2OffsetHrs = d1OffsetHrs + diffHrs;
-
-  let formattedOffset = "UTC ";
-  switch (true) {
-    case d2OffsetHrs < -9:
-      formattedOffset += `${d2OffsetHrs}`;
-      break;
-    case d2OffsetHrs < 0:
-      formattedOffset += `-0${d2OffsetHrs.toString()[1]}`;
-      break;
-    case d2OffsetHrs < 10:
-      formattedOffset += `+0${d2OffsetHrs}`;
-      break;
-    default:
-      formattedOffset += `+${d2OffsetHrs}`;
-  }
-
-  return `${formattedOffset}:00`;
-}
-
 function DetailCard({ detail }: { detail?: IpInfoResponse }) {
   const location = useMemo(() => {
     if (detail !== undefined && "country" in detail) {
@@ -297,7 +266,10 @@ function DetailCard({ detail }: { detail?: IpInfoResponse }) {
   }, [detail]);
 
   return (
-    <div data-testid="detail-card" className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-auto lg:min-h-[161px]">
+    <div
+      data-testid="detail-card"
+      className="mt-6 h-[294px] w-full overflow-hidden rounded-[16px] bg-white lg:mt-12 lg:h-auto lg:min-h-[161px]"
+    >
       <ul className="flex flex-col items-center gap-[22px] py-[27px] pr-[2px] lg:flex-row lg:items-start lg:gap-[calc(22/1440*100vw)] lg:divide-x lg:py-[37px] lg:pr-[22px]">
         <ListItem>
           <ListHeading>IP Address</ListHeading>
