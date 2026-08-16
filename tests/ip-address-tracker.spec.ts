@@ -1,6 +1,67 @@
 /** biome-ignore-all lint/style/noNonNullAssertion: - */
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+type IpInfoMock = {
+  ip: string;
+  city: string;
+  region: string;
+  country: string;
+  loc: string;
+  org: string;
+  postal: string;
+  timezone: string;
+};
+
+const IP_INFO_MOCKS: Record<string, IpInfoMock> = {
+  "8.8.8.8": {
+    ip: "8.8.8.8",
+    city: "Mountain View",
+    region: "California",
+    country: "US",
+    loc: "37.4056,-122.0775",
+    org: "AS15169 Google LLC",
+    postal: "94043",
+    timezone: "America/Los_Angeles",
+  },
+  "1.1.1.1": {
+    ip: "1.1.1.1",
+    city: "Los Angeles",
+    region: "California",
+    country: "US",
+    loc: "34.0522,-118.2437",
+    org: "AS13335 Cloudflare Inc",
+    postal: "90001",
+    timezone: "America/Los_Angeles",
+  },
+};
+
+async function mockApiSuccess(page: Page, ip = "8.8.8.8", delay = 0) {
+  await page.route(`**/api/getIpInfo?ip=${ip}`, async (route) => {
+    if (delay > 0) {
+      await page.waitForTimeout(delay);
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ data: IP_INFO_MOCKS[ip] }),
+    });
+  });
+}
+
+async function mockApiFailure(page: Page, ip = "8.8.8.8", status = 500) {
+  await page.route(`**/api/getIpInfo?ip=${ip}`, async (route) => {
+    await route.fulfill({
+      status,
+      contentType: "application/json",
+      body: JSON.stringify({ error: "API error" }),
+    });
+  });
+}
+
+async function mockApiSlow(page: Page, ip = "8.8.8.8", delay = 1000) {
+  await mockApiSuccess(page, ip, delay);
+}
 
 test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
   /** Go to IP Address Tracker page before each test */
@@ -113,14 +174,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
   /** Test if the page handles API errors gracefully */
   test("handles API errors gracefully", async ({ page }) => {
-    // Mock the API response
-    await page.route("/api/getIpInfo*", async (route) => {
-      await route.fulfill({
-        status: 500,
-        contentType: "application/json",
-        body: JSON.stringify({ error: "Server error" }),
-      });
-    });
+    await mockApiFailure(page);
 
     const apiErrorBanner = page.getByText("Failed to fetch IP information");
     await expect(apiErrorBanner).not.toBeVisible();
@@ -146,25 +200,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
   test("show loading state in button during API request", async ({ page }) => {
     // Mock slow API response
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await page.waitForTimeout(1000); // Simulate slow network
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: {
-            ip: "8.8.8.8",
-            city: "Mountain View",
-            region: "California",
-            country: "US",
-            loc: "37.4056,-122.0775",
-            org: "AS15169 Google LLC",
-            postal: "94043",
-            timezone: "America/Los_Angeles",
-          },
-        }),
-      });
-    });
+    await mockApiSlow(page);
 
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
@@ -193,25 +229,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     page,
   }) => {
     // Mock slow API response
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await page.waitForTimeout(1000);
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: {
-            ip: "8.8.8.8",
-            city: "Mountain View",
-            region: "California",
-            country: "US",
-            loc: "37.4056,-122.0775",
-            org: "AS15169 Google LLC",
-            postal: "94043",
-            timezone: "America/Los_Angeles",
-          },
-        }),
-      });
-    });
+    await mockApiSlow(page);
 
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
@@ -235,24 +253,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     page,
   }) => {
     // First successful request
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: {
-            ip: "8.8.8.8",
-            city: "Mountain View",
-            region: "California",
-            country: "US",
-            loc: "37.4056,-122.0775",
-            org: "AS15169 Google LLC",
-            postal: "94043",
-            timezone: "America/Los_Angeles",
-          },
-        }),
-      });
-    });
+    await mockApiSuccess(page);
 
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
@@ -261,25 +262,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await submitButton.click();
 
     // Now mock slow API for second request
-    await page.route("**/api/getIpInfo?ip=1.1.1.1", async (route) => {
-      await page.waitForTimeout(1000);
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: {
-            ip: "1.1.1.1",
-            city: "Los Angeles",
-            region: "California",
-            country: "US",
-            loc: "34.0522,-118.2437",
-            org: "AS13335 Cloudflare Inc",
-            postal: "90001",
-            timezone: "America/Los_Angeles",
-          },
-        }),
-      });
-    });
+    await mockApiSlow(page, "1.1.1.1");
 
     // Start second request
     await input.fill("1.1.1.1");
@@ -298,15 +281,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     page,
   }) => {
     // First mock failure
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await route.fulfill({
-        status: 500,
-        contentType: "application/json",
-        body: JSON.stringify({
-          error: "Internal server error",
-        }),
-      });
-    });
+    await mockApiFailure(page);
 
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
@@ -324,24 +299,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(apiErrorBanner).toBeVisible();
 
     // Now mock success
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: {
-            ip: "8.8.8.8",
-            city: "Mountain View",
-            region: "California",
-            country: "US",
-            loc: "37.4056,-122.0775",
-            org: "AS15169 Google LLC",
-            postal: "94043",
-            timezone: "America/Los_Angeles",
-          },
-        }),
-      });
-    });
+    await mockApiSuccess(page);
 
     // Make successful request
     await input.fill("8.8.8.8");
@@ -358,13 +316,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
 
   test("should be able to dismiss API error", async ({ page }) => {
     // Mock API failure
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await route.fulfill({
-        status: 500,
-        contentType: "application/json",
-        body: JSON.stringify({ error: "API error" }),
-      });
-    });
+    await mockApiFailure(page);
 
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
@@ -395,13 +347,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     page,
   }) => {
     // Mock API failure
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await route.fulfill({
-        status: 500,
-        contentType: "application/json",
-        body: JSON.stringify({ error: "API error" }),
-      });
-    });
+    await mockApiFailure(page);
 
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
@@ -438,13 +384,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     const initialCardPosition = await detailCard.boundingBox();
 
     // Mock API failure
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await route.fulfill({
-        status: 500,
-        contentType: "application/json",
-        body: JSON.stringify({ error: "API error" }),
-      });
-    });
+    await mockApiFailure(page);
 
     const input = page.locator('input[type="text"]');
     const submitButton = page.locator('button[type="submit"]');
@@ -763,15 +703,7 @@ test.describe("FrontendMentor Challenge - IP Address Tracker Page", () => {
     await expect(validationError).toBeVisible();
 
     // Fix validation error but trigger API error
-    await page.route("**/api/getIpInfo?ip=8.8.8.8", async (route) => {
-      await route.fulfill({
-        status: 500,
-        contentType: "application/json",
-        body: JSON.stringify({
-          error: "API error",
-        }),
-      });
-    });
+    await mockApiFailure(page);
 
     await input.fill("8.8.8.8");
     await Promise.all([
