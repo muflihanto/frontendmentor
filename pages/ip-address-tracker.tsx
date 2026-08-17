@@ -5,7 +5,13 @@ import { atom, useAtom, useAtomValue } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 import requestIp from "request-ip";
 import { z } from "zod";
@@ -100,21 +106,29 @@ function Intro() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onClick = handleSubmit(async (data) => {
-    setApiError(null);
-    setIsLoading(true);
+  const onSubmit = useCallback(
+    async (data: InputSchema) => {
+      setApiError(null);
+      setIsLoading(true);
 
-    try {
-      const response = await fetch(`/api/getIpInfo?ip=${data.ipAddress}`);
-      if (!response.ok) throw new Error("API request failed");
-      const result = (await response.json()) as { data: IpInfoResponse };
-      setDetail(result.data);
-    } catch (_error) {
-      setApiError("Failed to fetch IP information");
-    } finally {
-      setIsLoading(false);
-    }
-  });
+      try {
+        const response = await fetch(`/api/getIpInfo?ip=${data.ipAddress}`);
+        if (!response.ok) throw new Error("API request failed");
+        const result = (await response.json()) as { data: IpInfoResponse };
+        setDetail(result.data);
+      } catch (_error) {
+        setApiError("Failed to fetch IP information");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [setDetail],
+  );
+
+  const onClick = useMemo(
+    () => handleSubmit(onSubmit),
+    [handleSubmit, onSubmit],
+  );
 
   useEffect(() => {
     if (isSubmitSuccessful) {
