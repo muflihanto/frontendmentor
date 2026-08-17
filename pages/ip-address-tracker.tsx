@@ -6,6 +6,7 @@ import { useHydrateAtoms } from "jotai/utils";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import {
+  memo,
   type ReactNode,
   useCallback,
   useEffect,
@@ -259,7 +260,11 @@ function Intro() {
   );
 }
 
-function DetailCard({ detail }: { detail?: IpInfoResponse }) {
+const DetailCard = memo(function DetailCard({
+  detail,
+}: {
+  detail?: IpInfoResponse;
+}) {
   const location = useMemo(() => {
     if (detail !== undefined && "country" in detail) {
       const { country, city, postal } = detail;
@@ -304,7 +309,7 @@ function DetailCard({ detail }: { detail?: IpInfoResponse }) {
       </ul>
     </div>
   );
-}
+});
 
 function ListItem({ children }: { children: ReactNode }) {
   return (
