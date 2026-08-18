@@ -20,12 +20,69 @@ import { getTimezoneOffset } from "../utils/timezone";
 import type { IpInfoResponse } from "./api/getIpInfo";
 
 // const Slider = dynamic(() => import("../components/Slider"), { ssr: false });
+function SkeletonBar({ className }: { className: string }) {
+  return <div className={`animate-pulse rounded ${className}`} />;
+}
+
+function MapSkeleton() {
+  return (
+    <div className="relative left-1/2 flex h-[calc(100dvh-300px)] w-screen -translate-x-1/2 animate-pulse items-center justify-center bg-ip-address-100/30 max-lg:min-h-[528px] lg:h-[calc(100dvh-280px)]">
+      <svg
+        className="h-12 w-12 text-ip-address-100/70"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        role="graphics-symbol"
+        aria-label="Loading map"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+        />
+      </svg>
+    </div>
+  );
+}
+
 const GeoMap = dynamic(() => import("../components/ip-address-tracker/Map"), {
   ssr: false,
+  loading: () => (
+    <div className="z-[5]">
+      <MapSkeleton />
+    </div>
+  ),
 });
 const Layout = dynamic(
   () => import("../components/ip-address-tracker/Layout"),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[100dvh] bg-white">
+        <div className="relative flex min-h-[300px] w-full flex-col items-center bg-ip-address-200 lg:min-h-[280px]">
+          <div className="absolute left-1/2 top-0 z-10 flex w-[calc(100vw-48px)] max-w-[calc(640px-48px)] -translate-x-1/2 flex-col items-center pt-[28px] lg:max-w-[calc(100vw-330px)] lg:pt-[32px]">
+            <SkeletonBar className="h-[26px] w-[220px] bg-white/60 lg:h-[32px] lg:w-[260px]" />
+            <div className="mt-[31px] grid h-[58px] w-full grid-cols-[auto_58px] overflow-hidden rounded-[16px] lg:mt-[30px] lg:w-[555px]">
+              <SkeletonBar className="h-full bg-white/50" />
+              <SkeletonBar className="h-full bg-white/30" />
+            </div>
+            <div className="mt-6 h-[294px] w-full rounded-[16px] bg-white lg:mt-12 lg:min-h-[161px]">
+              <ul className="flex h-full flex-col justify-evenly px-[30px] lg:flex-row lg:items-center lg:gap-6 lg:px-[22px]">
+                {[0, 1, 2, 3].map((item) => (
+                  <li key={item} className="flex flex-col gap-[10px] lg:flex-1">
+                    <SkeletonBar className="h-[10px] w-16 bg-ip-address-100/40 lg:h-[13px]" />
+                    <SkeletonBar className="h-[20px] w-3/4 bg-ip-address-100/50 lg:h-[26px]" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <MapSkeleton />
+      </div>
+    ),
+  },
 );
 
 const detailAtom = atom<IpInfoResponse | undefined>(undefined);
