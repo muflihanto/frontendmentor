@@ -1,5 +1,6 @@
 // import Image from "next/image";
 
+import type { IncomingMessage } from "node:http";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
@@ -14,7 +15,6 @@ import {
   useState,
 } from "react";
 import { useForm } from "react-hook-form";
-import requestIp from "request-ip";
 import { z } from "zod";
 import { getTimezoneOffset } from "../utils/timezone";
 import type { IpInfoResponse } from "./api/getIpInfo";
@@ -43,12 +43,19 @@ export const coordAtom = atom<{ lat: number; lng: number }>((get) => {
 export const getServerSideProps: GetServerSideProps<{
   detail: IpInfoResponse;
 }> = async ({ req }) => {
-  const clientIp = requestIp.getClientIp(req);
+  const clientIp = getClientIp(req);
   const token = process.env.IPINFO_TOKEN;
   const res = await fetch(`https://ipinfo.io/${clientIp}/?token=${token}`);
   const detail = (await res.json()) as IpInfoResponse;
   return { props: { detail } };
 };
+
+function getClientIp(req: IncomingMessage): string {
+  const forwarded = req.headers["x-forwarded-for"];
+  const first = Array.isArray(forwarded) ? forwarded[0] : forwarded;
+  if (first) return first.split(",")[0].trim();
+  return req.socket.remoteAddress ?? "";
+}
 
 export default function IpAddressTracker({
   detail,
