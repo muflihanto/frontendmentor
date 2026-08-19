@@ -29,7 +29,7 @@ function Main() {
       <div className="relative aspect-square w-full overflow-hidden rounded-[10px]">
         <Image
           src="/qr-code-component/images/image-qr-code.png"
-          alt="QR code Image"
+          alt="QR code linking to Frontend Mentor"
           fill
           className="object-contain"
         />
