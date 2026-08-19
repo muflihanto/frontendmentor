@@ -43,6 +43,23 @@ test.describe("FrontendMentor Challenge - Results summary component Page", () =>
     ).toBeVisible();
   });
 
+  /** Test if the summary displays each score with its corresponding label */
+  const summaryScores = [
+    { label: "Reaction", score: "80" },
+    { label: "Memory", score: "92" },
+    { label: "Verbal", score: "61" },
+    { label: "Visual", score: "72" },
+  ];
+  for (const { label, score } of summaryScores) {
+    test(`summary shows ${label} with a score of ${score}`, async ({
+      page,
+    }) => {
+      const item = page.locator("li", { hasText: label });
+      await expect(item.getByText(score, { exact: true })).toBeVisible();
+      await expect(item).toContainText(`${score} / 100`);
+    });
+  }
+
   test("should not have any automatically detectable accessibility issues", async ({
     page,
   }) => {
