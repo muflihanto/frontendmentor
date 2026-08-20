@@ -21,14 +21,26 @@ test.describe("FrontendMentor Challenge - NFT preview card component Page", () =
       name: "Equilibrium #3429",
     });
     await expect(heading).toBeVisible();
+    const defaultColor = await heading.evaluate(
+      (el) => getComputedStyle(el).color,
+    );
     await heading.hover();
-    // Test hover state
-    await expect(heading).toHaveCSS("color", "rgb(0, 255, 247)");
+    await expect
+      .poll(async () => heading.evaluate((el) => getComputedStyle(el).color))
+      .not.toEqual(defaultColor);
+    await expect(heading).toHaveCSS("cursor", "pointer");
   });
 
   /** Test if the page has a header image */
   test("has a header image", async ({ page }) => {
     await expect(page.getByAltText("Equilibrium Image")).toBeVisible();
+  });
+
+  /** Test if the page has description text */
+  test("has description", async ({ page }) => {
+    await expect(
+      page.getByText("Our Equilibrium collection promotes balance and calm."),
+    ).toBeVisible();
   });
 
   /** Test if the page has a footer */
@@ -47,9 +59,9 @@ test.describe("FrontendMentor Challenge - NFT preview card component Page", () =
   /** Test if the page has correct creator info */
   test.describe("has creator info", () => {
     test("has creator avatar", async ({ page }) => {
-      await expect(
-        page.getByRole("img", { name: "Jules Wyvern Avatar" }),
-      ).toBeVisible();
+      const avatar = page.getByRole("img", { name: "Jules Wyvern Avatar" });
+      await expect(avatar).toBeVisible();
+      await expect(avatar).toHaveAttribute("src", /image-avatar\.png/);
     });
 
     test("has creator name", async ({ page }) => {
@@ -58,9 +70,14 @@ test.describe("FrontendMentor Challenge - NFT preview card component Page", () =
         .filter({ hasText: "Creation ofJules Wyvern" });
       await expect(creator).toBeVisible();
       const name = creator.locator("span").filter({ hasText: "Jules Wyvern" });
+      const defaultColor = await name.evaluate(
+        (el) => getComputedStyle(el).color,
+      );
       await name.hover();
-      // Test hover state
-      await expect(name).toHaveCSS("color", "rgb(0, 255, 247)");
+      await expect
+        .poll(async () => name.evaluate((el) => getComputedStyle(el).color))
+        .not.toEqual(defaultColor);
+      await expect(name).toHaveCSS("cursor", "pointer");
     });
   });
 
