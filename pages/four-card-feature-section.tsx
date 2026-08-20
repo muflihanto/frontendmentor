@@ -1,12 +1,13 @@
 import Head from "next/head";
 // import Image from "next/image";
 import type { FC, ReactNode } from "react";
+import type { CardVariant } from "../constants/four-card-feature-section";
+import { cards } from "../constants/four-card-feature-section";
 import { poppins } from "../utils/fonts/poppins";
 
 // import dynamic from "next/dynamic";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
-type CardVariant = "Supervisor" | "Team Builder" | "Karma" | "Calculator";
 type CardSubComponents = { Heading: typeof Heading; Body: typeof Body };
 type CardProps = { children: ReactNode; className?: string };
 
@@ -28,29 +29,6 @@ const FourCardFeature = () => {
 };
 
 function Main() {
-  const cards = {
-    Supervisor: {
-      p: "Monitors activity to identify project roadblocks",
-      cardStyle:
-        "before:bg-four-card-primary-cyan grid-area lg:row-start-2 lg:col-start-1 lg:place-self-center",
-    },
-    "Team Builder": {
-      p: "Scans our talent network to create the optimal team for your project",
-      cardStyle:
-        "before:bg-four-card-primary-red grid-area lg:row-start-1 lg:col-start-2 lg:place-self-end ",
-    },
-    Karma: {
-      p: "Regularly evaluates our talent to ensure quality",
-      cardStyle:
-        "before:bg-four-card-primary-orange grid-area lg:row-start-3 lg:col-start-2",
-    },
-    Calculator: {
-      p: "Uses data from past projects to provide better delivery estimates",
-      cardStyle:
-        "before:bg-four-card-primary-blue grid-area lg:row-start-2 lg:col-start-3 lg:place-self-center",
-    },
-  };
-
   return (
     <main
       className="flex max-w-[375px] flex-col items-center px-8 lg:max-w-none"

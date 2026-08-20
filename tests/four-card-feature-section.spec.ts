@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { cards } from "../constants/four-card-feature-section";
 
 test.describe("FrontendMentor Challenge - Four card feature section Page", () => {
   /** Go to Four card feature section page before each test */
@@ -34,22 +35,13 @@ test.describe("FrontendMentor Challenge - Four card feature section Page", () =>
   });
 
   test.describe("has four cards", () => {
-    const cards = {
-      Supervisor: "Monitors activity to identify project roadblocks",
-      "Team Builder":
-        "Scans our talent network to create the optimal team for your project",
-      Karma: "Regularly evaluates our talent to ensure quality",
-      Calculator:
-        "Uses data from past projects to provide better delivery estimates",
-    };
-
-    for (const card of Object.entries(cards)) {
-      test(`has a ${card[0]} card`.toLowerCase(), async ({ page }) => {
-        const cardParent = page.getByText(`${card[0]}${card[1]}`);
+    for (const [title, { p: description }] of Object.entries(cards)) {
+      test(`has a ${title} card`.toLowerCase(), async ({ page }) => {
+        const cardParent = page.getByText(`${title}${description}`);
         await expect(
-          cardParent.getByRole("heading", { name: card[0] }),
+          cardParent.getByRole("heading", { name: title }),
         ).toBeVisible();
-        await expect(cardParent.getByText(card[1])).toBeVisible();
+        await expect(cardParent.getByText(description)).toBeVisible();
         await expect(cardParent.locator("svg")).toBeVisible();
       });
     }
