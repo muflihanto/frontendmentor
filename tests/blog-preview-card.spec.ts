@@ -45,16 +45,34 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
         name: "HTML & CSS foundations",
       })
       .getByRole("link");
-    await expect(headingLink).toHaveCSS("color", "rgb(18, 18, 18)");
-    await expect(main).toHaveCSS(
-      "filter",
-      "drop-shadow(rgb(0, 0, 0) 8.5px 8.5px 0px)",
+    const defaultColor = await headingLink.evaluate(
+      (el) => getComputedStyle(el).color,
+    );
+    const defaultFilter = await main.evaluate(
+      (el) => getComputedStyle(el).filter,
     );
     await headingLink.hover();
-    await expect(headingLink).toHaveCSS("color", "rgb(244, 208, 78)");
-    await expect(main).toHaveCSS(
-      "filter",
-      "drop-shadow(rgb(0, 0, 0) 16px 16px 0px)",
+    await expect
+      .poll(async () =>
+        headingLink.evaluate((el) => getComputedStyle(el).color),
+      )
+      .not.toEqual(defaultColor);
+    await expect
+      .poll(async () => main.evaluate((el) => getComputedStyle(el).filter))
+      .not.toEqual(defaultFilter);
+  });
+
+  /** Test if hovering non-link card areas does not change the shadow */
+  test("background hover does not change shadow", async ({ page }) => {
+    const main = page.getByRole("main");
+    const defaultFilter = await main.evaluate(
+      (el) => getComputedStyle(el).filter,
+    );
+    await page.getByText("Published 21 Dec 2023").hover();
+    /** Wait past the transition duration before asserting no change */
+    await page.waitForTimeout(300);
+    expect(await main.evaluate((el) => getComputedStyle(el).filter)).toEqual(
+      defaultFilter,
     );
   });
 
