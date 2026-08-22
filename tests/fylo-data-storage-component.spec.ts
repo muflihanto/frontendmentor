@@ -64,6 +64,15 @@ test.describe("FrontendMentor Challenge - Fylo data storage component Page", () 
       // -0.5 to make < 1.58 tolerance
       expect(fillWidth).toBeCloseTo(81.5, -0.5);
     });
+    test("storage bar has accessible progressbar", async ({ page }) => {
+      const progressbar = page.getByRole("progressbar", {
+        name: "Storage usage",
+      });
+      await expect(progressbar).toBeVisible();
+      await expect(progressbar).toHaveAttribute("aria-valuenow", "815");
+      await expect(progressbar).toHaveAttribute("aria-valuemin", "0");
+      await expect(progressbar).toHaveAttribute("aria-valuemax", "1000");
+    });
   });
 
   /** Test if the page has a footer */

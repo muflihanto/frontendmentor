@@ -97,7 +97,14 @@ function Status() {
         <span className="text-[14px] font-bold">{storage.remaining} GB</span> of
         your storage
       </p>
-      <div className="justify-left mt-3 flex h-5 w-full items-center rounded-full bg-fylo-storage-neutral-400/50 px-[3px] pb-[2.5px] pt-[3.5px] lg:mr-[1px] lg:translate-y-[2px] lg:py-[2.75px]">
+      <div
+        role="progressbar"
+        aria-label="Storage usage"
+        aria-valuenow={storage.remaining}
+        aria-valuemin={0}
+        aria-valuemax={storage.maximum}
+        className="justify-left mt-3 flex h-5 w-full items-center rounded-full bg-fylo-storage-neutral-400/50 px-[3px] pb-[2.5px] pt-[3.5px] lg:mr-[1px] lg:translate-y-[2px] lg:py-[2.75px]"
+      >
         <div
           style={
             {
