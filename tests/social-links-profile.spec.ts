@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { socialLinks } from "../constants/social-links-profile";
 
 test.describe("FrontendMentor Challenge - Social links profile Page", () => {
   /** Go to Social links profile page before each test */
@@ -27,30 +28,8 @@ test.describe("FrontendMentor Challenge - Social links profile Page", () => {
       card.getByText('"Front-end developer and avid reader."'),
     ).toBeVisible();
     // has social links
-    const links = [
-      {
-        name: "GitHub",
-        href: "",
-      },
-      {
-        name: "Frontend Mentor",
-        href: "",
-      },
-      {
-        name: "LinkedIn",
-        href: "",
-      },
-      {
-        name: "Twitter",
-        href: "",
-      },
-      {
-        name: "Instagram",
-        href: "",
-      },
-    ];
     const linkContainer = card.locator("ul");
-    for (const { name } of links) {
+    for (const { name } of socialLinks) {
       const link = linkContainer.getByRole("link", { name });
       await expect(link).toBeVisible();
       const defaultColor = await link.evaluate(

@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { socialLinks } from "../constants/social-links-profile";
 import { inter } from "../utils/fonts/inter";
 
 export default function SocialLinksProfile() {
@@ -19,28 +20,6 @@ export default function SocialLinksProfile() {
 }
 
 function Main() {
-  const links = [
-    {
-      name: "GitHub",
-      href: "",
-    },
-    {
-      name: "Frontend Mentor",
-      href: "",
-    },
-    {
-      name: "LinkedIn",
-      href: "",
-    },
-    {
-      name: "Twitter",
-      href: "",
-    },
-    {
-      name: "Instagram",
-      href: "",
-    },
-  ];
   return (
     <main className="-mt-px flex h-[579px] w-[calc(100vw-48px)] max-w-[384px] flex-col items-center rounded-xl bg-social-links-netural-300 p-6 lg:h-[611px] lg:p-10">
       <div className="relative aspect-square w-[88px] overflow-hidden rounded-full">
@@ -61,7 +40,7 @@ function Main() {
         &quot;Front-end developer and avid reader.&quot;
       </p>
       <ul className="mt-[25px] flex w-full flex-col gap-4">
-        {links.map((el) => {
+        {socialLinks.map((el) => {
           return (
             <li key={el.name}>
               <a
