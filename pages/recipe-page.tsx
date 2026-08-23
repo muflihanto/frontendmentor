@@ -173,18 +173,25 @@ function Nutrition() {
         additional fillings.
       </p>
 
-      <ul className="mt-[12px] divide-y *:flex *:h-12 *:flex-row *:items-center">
-        {nutrients.map(({ name, value }, index) => {
-          return (
-            <li key={`${index}-${name}`} className="w-full pl-8 pr-4 *:flex-1">
-              <div className="text-recipe-neutral-500">{name}</div>
-              <div className="font-bold text-recipe-primary-dark-raspberry">
-                {value}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      <table className="mt-[12px] w-full border-collapse">
+        <tbody className="divide-y">
+          {nutrients.map(({ name, value }, index) => {
+            return (
+              <tr key={`${index}-${name}`} className="h-12">
+                <th
+                  scope="row"
+                  className="w-1/2 pl-8 pr-4 text-left font-normal text-recipe-neutral-500"
+                >
+                  {name}
+                </th>
+                <td className="w-1/2 pr-4 font-bold text-recipe-primary-dark-raspberry">
+                  {value}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </section>
   );
 }

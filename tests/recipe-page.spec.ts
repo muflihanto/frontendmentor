@@ -76,8 +76,19 @@ test.describe("FrontendMentor Challenge - Recipe Page", () => {
           "The table below shows nutritional values per serving without the additional fillings.",
         ),
       ).toBeVisible();
-      const listItem = await section.getByRole("listitem").all();
-      expect(listItem).toHaveLength(4);
+      const rows = await section.getByRole("row").all();
+      expect(rows).toHaveLength(4);
+      await expect(section.getByRole("table")).toBeVisible();
+      await expect(
+        section.getByRole("row", { name: "Calories 277kcal" }),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("row", { name: "Carbs 0g" }),
+      ).toBeVisible();
+      await expect(
+        section.getByRole("row", { name: "Protein 20g" }),
+      ).toBeVisible();
+      await expect(section.getByRole("row", { name: "Fat 22g" })).toBeVisible();
     });
   });
 
