@@ -41,7 +41,10 @@ function Header() {
 
 function Preparation() {
   return (
-    <section className="mt-[33px] rounded-lg bg-recipe-neutral-200 px-6 pb-[22px] pt-5 md:px-7 md:pb-[26px] md:pt-6">
+    <section
+      data-testid="preparation"
+      className="mt-[33px] rounded-lg bg-recipe-neutral-200 px-6 pb-[22px] pt-5 md:px-7 md:pb-[26px] md:pt-6"
+    >
       <h2 className="text-xl font-semibold text-recipe-primary-dark-raspberry">
         Preparation time
       </h2>
@@ -68,7 +71,7 @@ function Preparation() {
 
 function Ingredients() {
   return (
-    <section className="my-[27px]">
+    <section data-testid="ingredients" className="my-[27px]">
       <h2
         className={`font-young-serif text-[28px] text-recipe-primary-nutmeg ${youngSerif.className}`}
       >
@@ -95,7 +98,7 @@ function Ingredients() {
 
 function Instructions() {
   return (
-    <section className="my-[25px]">
+    <section data-testid="instructions" className="my-[25px]">
       <h2
         className={`font-young-serif text-[28px] text-recipe-primary-nutmeg ${youngSerif.className}`}
       >
@@ -161,7 +164,7 @@ function Nutrition() {
     },
   ];
   return (
-    <section className="my-[25px]">
+    <section data-testid="nutrition" className="my-[25px]">
       <h2
         className={`font-young-serif text-[28px] text-recipe-primary-nutmeg ${youngSerif.className}`}
       >

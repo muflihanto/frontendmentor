@@ -22,52 +22,69 @@ test.describe("FrontendMentor Challenge - Recipe Page", () => {
       ).toBeVisible();
     });
 
-    test("has main element", async ({ page }) => {
+    test("has main heading and intro", async ({ page }) => {
       const card = page.getByRole("main");
       await expect(card).toBeVisible();
       await expect(
         card.getByRole("heading", { level: 1, name: "Simple Omelette Recipe" }),
       ).toBeVisible();
-      await expect(
-        card.getByText(
-          " An easy and quick dish, perfect for any meal. This classic omelette combines beaten eggs cooked to perfection, optionally filled with your choice of cheese, vegetables, or meats.",
-        ),
-      ).toBeVisible();
+      await expect(card.getByText(/easy and quick dish/)).toBeVisible();
     });
+  });
 
-    test("has 'Preparation time' section", async ({ page }) => {
-      const section = page.locator("section").first();
+  test.describe("Preparation time section", () => {
+    test("is visible with heading", async ({ page }) => {
+      const section = page.getByTestId("preparation");
       await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
       await expect(
         section.getByRole("heading", { name: "Preparation time" }),
       ).toBeVisible();
-      const listItem = await section.getByRole("listitem").all();
-      expect(listItem).toHaveLength(3);
     });
 
-    test("has 'Ingredients' section", async ({ page }) => {
-      const section = page.locator("section").nth(1);
+    test("has 3 time items", async ({ page }) => {
+      const section = page.getByTestId("preparation");
+      await expect(section.getByRole("listitem")).toHaveCount(3);
+    });
+  });
+
+  test.describe("Ingredients section", () => {
+    test("is visible with heading", async ({ page }) => {
+      const section = page.getByTestId("ingredients");
       await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
       await expect(
         section.getByRole("heading", { name: "Ingredients" }),
       ).toBeVisible();
-      const listItem = await section.getByRole("listitem").all();
-      expect(listItem).toHaveLength(5);
     });
 
-    test("has 'Instructions' section", async ({ page }) => {
-      const section = page.locator("section").nth(2);
+    test("has 5 items", async ({ page }) => {
+      const section = page.getByTestId("ingredients");
+      await expect(section.getByRole("listitem")).toHaveCount(5);
+    });
+  });
+
+  test.describe("Instructions section", () => {
+    test("is visible with heading", async ({ page }) => {
+      const section = page.getByTestId("instructions");
       await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
       await expect(
         section.getByRole("heading", { name: "Instructions" }),
       ).toBeVisible();
-      const listItem = await section.getByRole("listitem").all();
-      expect(listItem).toHaveLength(6);
     });
 
-    test("has 'Nutrition' section", async ({ page }) => {
-      const section = page.locator("section").nth(3);
+    test("has 6 steps", async ({ page }) => {
+      const section = page.getByTestId("instructions");
+      await expect(section.getByRole("listitem")).toHaveCount(6);
+    });
+  });
+
+  test.describe("Nutrition section", () => {
+    test("is visible with heading and description", async ({ page }) => {
+      const section = page.getByTestId("nutrition");
       await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible();
       await expect(
         section.getByRole("heading", { name: "Nutrition" }),
       ).toBeVisible();
@@ -76,9 +93,16 @@ test.describe("FrontendMentor Challenge - Recipe Page", () => {
           "The table below shows nutritional values per serving without the additional fillings.",
         ),
       ).toBeVisible();
-      const rows = await section.getByRole("row").all();
-      expect(rows).toHaveLength(4);
+    });
+
+    test("has a table with 4 rows", async ({ page }) => {
+      const section = page.getByTestId("nutrition");
       await expect(section.getByRole("table")).toBeVisible();
+      await expect(section.getByRole("row")).toHaveCount(4);
+    });
+
+    test("has correct nutrition rows", async ({ page }) => {
+      const section = page.getByTestId("nutrition");
       await expect(
         section.getByRole("row", { name: "Calories 277kcal" }),
       ).toBeVisible();
