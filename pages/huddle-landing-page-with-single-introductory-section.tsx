@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { huddleSocialLinks } from "../constants/huddle-social-links";
 import { openSans } from "../utils/fonts/openSans";
 import { poppins } from "../utils/fonts/poppins";
 
@@ -84,34 +85,21 @@ function Footer() {
 
 function SocialMedia() {
   return (
-    <div className="mt-[64px] flex items-center justify-center gap-[10px] place-self-center lg:absolute lg:bottom-[40px] lg:right-[80px] lg:z-40 lg:mt-0 lg:gap-[16px] lg:place-self-start [&_a:hover]:border-huddle-intro-primary-magenta [&_a]:flex [&_a]:aspect-square [&_a]:w-[28px] [&_a]:items-center [&_a]:justify-center [&_a]:rounded-full [&_a]:border lg:[&_a]:w-10">
-      <a href="" className="group">
-        <svg
-          className="h-[14px] text-white group-hover:text-huddle-intro-primary-magenta lg:h-[18.5px]"
-          aria-label="Facebook"
-          role="graphics-symbol"
-        >
-          <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-facebook.svg#icon-facebook" />
-        </svg>
-      </a>
-      <a href="" className="group">
-        <svg
-          className="h-[13px] text-white group-hover:text-huddle-intro-primary-magenta lg:h-[17px]"
-          aria-label="Twitter"
-          role="graphics-symbol"
-        >
-          <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-twitter.svg#icon-twitter" />
-        </svg>
-      </a>
-      <a href="" className="group">
-        <svg
-          className="h-[15px] text-white group-hover:text-huddle-intro-primary-magenta lg:h-[20px]"
-          aria-label="Instagram"
-          role="graphics-symbol"
-        >
-          <use href="/huddle-landing-page-with-alternating-feature-blocks/images/icon-instagram.svg#icon-instagram" />
-        </svg>
-      </a>
+    <div
+      data-testid="social-links"
+      className="mt-[64px] flex items-center justify-center gap-[10px] place-self-center lg:absolute lg:bottom-[40px] lg:right-[80px] lg:z-40 lg:mt-0 lg:gap-[16px] lg:place-self-start [&_a:hover]:border-huddle-intro-primary-magenta [&_a]:flex [&_a]:aspect-square [&_a]:w-[28px] [&_a]:items-center [&_a]:justify-center [&_a]:rounded-full [&_a]:border lg:[&_a]:w-10"
+    >
+      {huddleSocialLinks.map(({ name, href, iconHref, iconClass }) => (
+        <a key={name} href={href} className="group" aria-label={name}>
+          <svg
+            className={`${iconClass} text-white group-hover:text-huddle-intro-primary-magenta`}
+            aria-label={name}
+            role="graphics-symbol"
+          >
+            <use href={iconHref} />
+          </svg>
+        </a>
+      ))}
     </div>
   );
 }

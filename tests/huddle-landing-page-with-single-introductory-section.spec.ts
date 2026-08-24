@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { huddleSocialLinks } from "../constants/huddle-social-links";
 
 test.describe("FrontendMentor Challenge - Huddle landing page with single introductory section", () => {
   /** Go to Huddle landing page with single introductory section before each test */
@@ -58,10 +59,12 @@ test.describe("FrontendMentor Challenge - Huddle landing page with single introd
 
   /** Test if the page has social media links */
   test("has social media links", async ({ page }) => {
-    const names = ["Facebook", "Twitter", "Instagram"];
-    const container = page.locator("div").nth(6);
-    expect(await container.getByRole("link").all()).toHaveLength(3);
-    for (const name of names) {
+    const container = page.getByTestId("social-links");
+    await expect(container).toBeVisible();
+    expect(await container.getByRole("link").all()).toHaveLength(
+      huddleSocialLinks.length,
+    );
+    for (const { name } of huddleSocialLinks) {
       const link = container.getByRole("link", { name });
       await expect(link).toBeVisible();
       const svg = link.locator("svg");
