@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { huddleSocialLinks } from "../constants/huddle-social-links";
+import { cn } from "../utils/cn";
 import { openSans } from "../utils/fonts/openSans";
 import { poppins } from "../utils/fonts/poppins";
 
@@ -91,16 +92,33 @@ function SocialMedia() {
     >
       {huddleSocialLinks.map(({ name, href, iconHref, iconClass }) => (
         <a key={name} href={href} className="group" aria-label={name}>
-          <svg
-            className={`${iconClass} text-white group-hover:text-huddle-intro-primary-magenta`}
-            aria-label={name}
-            role="graphics-symbol"
-          >
-            <use href={iconHref} />
-          </svg>
+          <Icon name={name} iconHref={iconHref} className={iconClass} />
         </a>
       ))}
     </div>
+  );
+}
+
+function Icon({
+  name,
+  iconHref,
+  className,
+}: {
+  name: string;
+  iconHref: string;
+  className?: string;
+}) {
+  return (
+    <svg
+      className={cn(
+        className,
+        "text-white group-hover:text-huddle-intro-primary-magenta",
+      )}
+      aria-label={name}
+      role="graphics-symbol"
+    >
+      <use href={iconHref} />
+    </svg>
   );
 }
 
