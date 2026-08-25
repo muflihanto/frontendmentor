@@ -47,8 +47,8 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
 
   /** Test if the page has hover effects on interactive elements */
   test("has hover effects on interactive elements", async ({ page }) => {
-    const prev = page.getByRole("button", { name: "Previous" });
-    const next = page.getByRole("button", { name: "Next" });
+    const prev = page.getByRole("button", { name: "Previous Slide" });
+    const next = page.getByRole("button", { name: "Next Slide" });
     await expect(prev.locator("svg")).toHaveCSS("color", "rgb(133, 133, 172)");
     await prev.hover();
     await expect(prev.locator("svg")).toHaveCSS("color", "rgb(74, 63, 219)");
@@ -98,7 +98,16 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
 
     const slides = page.locator("[aria-roledescription='slide']");
     await expect(slides).toHaveCount(1); // Only one slide visible at a time
-    await expect(slides.first()).toHaveAttribute("aria-label", /1 of 2/);
+    await expect(slides.first()).toHaveAttribute("aria-label", "1 of 2");
+
+    // Verify aria-label updates when slide changes
+    const next = page.getByRole("button", { name: "Next Slide" });
+    await next.click();
+    await expect(slides.first()).toHaveAttribute("aria-label", "2 of 2");
+
+    const prev = page.getByRole("button", { name: "Previous Slide" });
+    await prev.click();
+    await expect(slides.first()).toHaveAttribute("aria-label", "1 of 2");
 
     const buttons = page.getByRole("button", { name: /Slide/ });
     await expect(buttons).toHaveCount(2);
