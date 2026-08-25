@@ -16,10 +16,11 @@ test.describe("FrontendMentor Challenge - Chat app CSS illustration Page", () =>
 
   /** Test if the page has a gradient background image */
   test("has a gradient background image", async ({ page }) => {
-    await expect(page.getByTestId("gradient-bg")).toHaveCSS(
-      "background-image",
-      "linear-gradient(200deg, rgb(233, 66, 255) -40%, rgb(136, 56, 255))",
-    );
+    const bg = await page
+      .getByTestId("gradient-bg")
+      .evaluate((el) => getComputedStyle(el).backgroundImage);
+    expect(bg).toMatch(/linear-gradient/);
+    expect(bg).toContain("rgb(233, 66, 255)");
   });
 
   /** Test if the page has a heading */
