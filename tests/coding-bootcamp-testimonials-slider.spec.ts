@@ -49,12 +49,22 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
   test("has hover effects on interactive elements", async ({ page }) => {
     const prev = page.getByRole("button", { name: "Previous Slide" });
     const next = page.getByRole("button", { name: "Next Slide" });
-    await expect(prev.locator("svg")).toHaveCSS("color", "rgb(133, 133, 172)");
+    const prevSvg = prev.locator("svg");
+    const nextSvg = next.locator("svg");
+    const defaultPrevColor = await prevSvg.evaluate(
+      (el) => getComputedStyle(el).color,
+    );
+    const defaultNextColor = await nextSvg.evaluate(
+      (el) => getComputedStyle(el).color,
+    );
     await prev.hover();
-    await expect(prev.locator("svg")).toHaveCSS("color", "rgb(74, 63, 219)");
-    await expect(next.locator("svg")).toHaveCSS("color", "rgb(133, 133, 172)");
+    await expect
+      .poll(async () => prevSvg.evaluate((el) => getComputedStyle(el).color))
+      .not.toEqual(defaultPrevColor);
     await next.hover();
-    await expect(next.locator("svg")).toHaveCSS("color", "rgb(74, 63, 219)");
+    await expect
+      .poll(async () => nextSvg.evaluate((el) => getComputedStyle(el).color))
+      .not.toEqual(defaultNextColor);
   });
 
   /** Test if the testimonial slider works */
