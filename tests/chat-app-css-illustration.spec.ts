@@ -16,7 +16,7 @@ test.describe("FrontendMentor Challenge - Chat app CSS illustration Page", () =>
 
   /** Test if the page has a gradient background image */
   test("has a gradient background image", async ({ page }) => {
-    await expect(page.locator(".absolute").first()).toHaveCSS(
+    await expect(page.getByTestId("gradient-bg")).toHaveCSS(
       "background-image",
       "linear-gradient(200deg, rgb(233, 66, 255) -40%, rgb(136, 56, 255))",
     );
@@ -43,7 +43,7 @@ test.describe("FrontendMentor Challenge - Chat app CSS illustration Page", () =>
 
   /** Test if the page has non animated screen section elements */
   test("has non animated screen section elements", async ({ page }) => {
-    const container = page.locator("div").nth(6);
+    const container = page.getByTestId("phone-container");
     await expect(
       container.getByRole("img", { name: "Samuel Green Avatar" }),
     ).toBeVisible();
@@ -56,7 +56,7 @@ test.describe("FrontendMentor Challenge - Chat app CSS illustration Page", () =>
 
   /** Test if the page has animated screen section elements */
   test("has animated screen section elements", async ({ page }) => {
-    const container = page.locator("div").nth(6);
+    const container = page.getByTestId("phone-container");
     const firstChat = container.getByText(
       "That sounds great. I’d be happy with that.",
     );

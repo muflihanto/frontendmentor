@@ -43,6 +43,7 @@ function Main() {
       aria-labelledby="main-heading"
     >
       <div
+        data-testid="gradient-bg"
         className="absolute -left-[calc((2*var(--width))-50vw)] top-0 -z-10 h-[510px] w-[calc(2*var(--width))] rounded-b-full bg-gradient-to-b from-chat-app-primary-gradients-magenta from-[-70%] to-chat-app-primary-gradients-violet lg:left-[-90px] lg:h-[calc(700/800*100vh)] lg:w-[510px] lg:rounded-b-[255px] lg:bg-[linear-gradient(200deg,var(--tw-gradient-stops))] lg:from-[-40%]"
         style={
           {
@@ -50,7 +51,10 @@ function Main() {
           } as CSSProperties
         }
       />
-      <div className="my-[64px] flex h-[505px] items-center justify-center lg:my-0">
+      <div
+        data-testid="phone-container"
+        className="my-[64px] flex h-[505px] items-center justify-center lg:my-0"
+      >
         <div className="h-full w-[247px] overflow-hidden rounded-[30px] bg-chat-app-secondary-100 p-[10px] pt-[11px] shadow-2xl">
           <div className="grid h-full w-full grid-rows-[66px_auto] overflow-hidden rounded-[20px] bg-chat-app-secondary-200">
             <div className="relative flex h-full w-full items-center rounded-b-md bg-gradient-to-l from-chat-app-primary-gradients-magenta to-chat-app-primary-gradients-violet px-3 py-[8px] pt-[25px] shadow-lg before:absolute before:left-1/2 before:top-0 before:z-10 before:h-[18px] before:w-[130px] before:-translate-x-1/2 before:rounded-b-[14px] before:bg-chat-app-secondary-100">
