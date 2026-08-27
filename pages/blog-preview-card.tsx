@@ -24,7 +24,10 @@ export default function BlogPreviewCard() {
 
 function Main() {
   return (
-    <main className="relative z-0 m-6 mt-[23px] flex min-h-[500px] w-full max-w-[384px] flex-col justify-start rounded-[20px] border-[1.5px] border-blog-neutral-300 bg-blog-neutral-100 p-[23px] font-medium text-blog-neutral-300 drop-shadow-[8.5px_8.5px_0px_rgb(0,0,0)] transition-all has-[a:focus]:drop-shadow-[16px_16px_0px_rgb(0,0,0)] has-[a:hover]:drop-shadow-[16px_16px_0px_rgb(0,0,0)] sm:mt-[22px] sm:min-h-[522px]">
+    <main
+      data-testid="blog-card"
+      className="relative z-0 m-6 mt-[23px] flex min-h-[500px] w-full max-w-[384px] flex-col justify-start rounded-[20px] border-[1.5px] border-blog-neutral-300 bg-blog-neutral-100 p-[23px] font-medium text-blog-neutral-300 drop-shadow-[8.5px_8.5px_0px_rgb(0,0,0)] transition-all has-[a:focus]:drop-shadow-[16px_16px_0px_rgb(0,0,0)] has-[a:hover]:drop-shadow-[16px_16px_0px_rgb(0,0,0)] sm:mt-[22px] sm:min-h-[522px]"
+    >
       <header>
         <figure className="relative aspect-[278/200] w-full overflow-hidden rounded-xl sm:aspect-[336/201]">
           <Image
@@ -32,6 +35,7 @@ function Main() {
             src="/blog-preview-card/assets/images/illustration-article.svg"
             alt="Illustration Article"
             className="object-cover"
+            data-testid="blog-illustration"
           />
         </figure>
       </header>
@@ -42,6 +46,7 @@ function Main() {
       <h1 className="mt-[13px] text-xl font-extrabold sm:text-[24px]/[1.4]">
         <a
           href=""
+          data-testid="blog-heading-link"
           className="hover:text-blog-primary focus-visible:rounded focus-visible:text-blog-neutral-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-700"
         >
           HTML & CSS foundations
@@ -57,9 +62,12 @@ function Main() {
             src="/blog-preview-card/assets/images/image-avatar.webp"
             alt="Greg Hooper Avatar"
             fill
+            data-testid="author-avatar"
           />
         </span>
-        <span className="text-[14px] font-extrabold">Greg Hooper</span>
+        <span data-testid="author-name" className="text-[14px] font-extrabold">
+          Greg Hooper
+        </span>
       </div>
     </main>
   );

@@ -14,17 +14,17 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
 
   /** Test if the page has a correct illustration */
   test("has a correct illustration", async ({ page }) => {
-    const image = page.getByRole("img", { name: "Illustration Article" });
+    const image = page.getByTestId("blog-illustration");
     await expect(image).toBeVisible();
   });
 
   /** Test if the page has correct author info */
   test("has correct author info", async ({ page }) => {
-    const author = page.locator("div").filter({ hasText: /^Greg Hooper$/ });
-    const avatar = author.getByRole("img", { name: "Greg Hooper Avatar" });
-    const name = author.getByText("Greg Hooper");
+    const avatar = page.getByTestId("author-avatar");
+    const name = page.getByTestId("author-name");
     await expect(avatar).toBeVisible();
     await expect(name).toBeVisible();
+    await expect(name).toHaveText("Greg Hooper");
   });
 
   /** Test if the page has a heading */
@@ -38,13 +38,8 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
 
   /** Test hover states for interactive elements */
   test("hover states", async ({ page }) => {
-    const main = page.getByRole("main");
-    const headingLink = page
-      .getByRole("heading", {
-        level: 1,
-        name: "HTML & CSS foundations",
-      })
-      .getByRole("link");
+    const main = page.getByTestId("blog-card");
+    const headingLink = page.getByTestId("blog-heading-link");
     const defaultColor = await headingLink.evaluate(
       (el) => getComputedStyle(el).color,
     );
@@ -64,7 +59,7 @@ test.describe("FrontendMentor Challenge - Blog preview card Page", () => {
 
   /** Test if hovering non-link card areas does not change the shadow */
   test("background hover does not change shadow", async ({ page }) => {
-    const main = page.getByRole("main");
+    const main = page.getByTestId("blog-card");
     const defaultFilter = await main.evaluate(
       (el) => getComputedStyle(el).filter,
     );
