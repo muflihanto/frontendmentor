@@ -36,13 +36,21 @@ test.describe("FrontendMentor Challenge - Four card feature section Page", () =>
 
   test.describe("has four cards", () => {
     for (const [title, { p: description }] of Object.entries(cards)) {
+      const kebab = title.toLowerCase().replace(" ", "-");
       test(`has a ${title} card`.toLowerCase(), async ({ page }) => {
-        const cardParent = page.getByText(`${title}${description}`);
+        const card = page.getByTestId(`card-${kebab}`);
+        await expect(card).toBeVisible();
+        await expect(page.getByTestId(`card-heading-${kebab}`)).toBeVisible();
+        await expect(page.getByTestId(`card-heading-${kebab}`)).toHaveText(
+          title,
+        );
         await expect(
-          cardParent.getByRole("heading", { name: title }),
+          page.getByTestId(`card-description-${kebab}`),
         ).toBeVisible();
-        await expect(cardParent.getByText(description)).toBeVisible();
-        await expect(cardParent.locator("svg")).toBeVisible();
+        await expect(page.getByTestId(`card-description-${kebab}`)).toHaveText(
+          description,
+        );
+        await expect(page.getByTestId(`card-icon-${kebab}`)).toBeVisible();
       });
     }
   });

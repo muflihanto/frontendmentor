@@ -9,7 +9,11 @@ import { poppins } from "../utils/fonts/poppins";
 // const Slider = dynamic(() => import("../components/SliderTs"), { ssr: false });
 
 type CardSubComponents = { Heading: typeof Heading; Body: typeof Body };
-type CardProps = { children: ReactNode; className?: string };
+type CardProps = {
+  children: ReactNode;
+  className?: string;
+  variant?: CardVariant;
+};
 
 const FourCardFeature = () => {
   return (
@@ -54,9 +58,10 @@ function Main() {
             <Card
               key={`${index}-${variant}`}
               className={cards[variant].cardStyle}
+              variant={variant}
             >
-              <Card.Heading>{variant}</Card.Heading>
-              <Card.Body>{cards[variant].p}</Card.Body>
+              <Card.Heading variant={variant}>{variant}</Card.Heading>
+              <Card.Body variant={variant}>{cards[variant].p}</Card.Body>
               <Icon variant={variant} />
             </Card>
           );
@@ -66,9 +71,17 @@ function Main() {
   );
 }
 
-const Card: FC<CardProps> & CardSubComponents = ({ className, children }) => {
+const Card: FC<CardProps> & CardSubComponents = ({
+  className,
+  children,
+  variant,
+}) => {
+  const testId = variant
+    ? `card-${variant.toLowerCase().replace(" ", "-")}`
+    : undefined;
   return (
     <div
+      data-testid={testId}
       className={`relative flex h-[222px] flex-col overflow-hidden rounded-lg bg-white px-[28px] pb-[28px] pt-[31px] shadow-xl shadow-[hsla(180,51%,29%,0.13)] before:absolute before:left-0 before:top-0 before:h-1 before:w-full lg:row-span-2 lg:h-[250px] lg:px-[32px] lg:pb-[32px] lg:pt-[36px] ${className}`}
     >
       {children}
@@ -76,18 +89,36 @@ const Card: FC<CardProps> & CardSubComponents = ({ className, children }) => {
   );
 };
 
-const Heading: React.FC<{ children: ReactNode }> = ({ children }) => {
+const Heading: React.FC<{ children: ReactNode; variant?: CardVariant }> = ({
+  children,
+  variant,
+}) => {
+  const testId = variant
+    ? `card-heading-${variant.toLowerCase().replace(" ", "-")}`
+    : undefined;
   return (
-    <h2 className="text-[20px] font-semibold leading-none tracking-[-0.2px] text-four-card-neutral-300">
+    <h2
+      data-testid={testId}
+      className="text-[20px] font-semibold leading-none tracking-[-0.2px] text-four-card-neutral-300"
+    >
       {children}
     </h2>
   );
 };
 Card.Heading = Heading;
 
-const Body: React.FC<{ children: ReactNode }> = ({ children }) => {
+const Body: React.FC<{ children: ReactNode; variant?: CardVariant }> = ({
+  children,
+  variant,
+}) => {
+  const testId = variant
+    ? `card-description-${variant.toLowerCase().replace(" ", "-")}`
+    : undefined;
   return (
-    <p className="mt-2 px-[1px] text-[13px] leading-[23px] tracking-[0.1px] text-four-card-neutral-200 lg:mt-[13px] lg:px-0 lg:tracking-[0.05px]">
+    <p
+      data-testid={testId}
+      className="mt-2 px-[1px] text-[13px] leading-[23px] tracking-[0.1px] text-four-card-neutral-200 lg:mt-[13px] lg:px-0 lg:tracking-[0.05px]"
+    >
       {children}
     </p>
   );
@@ -98,6 +129,7 @@ const Icon: FC<{ variant: CardVariant }> = ({ variant }) => {
   const variantKebabCase = variant.toLowerCase().replace(" ", "-");
   return (
     <svg
+      data-testid={`card-icon-${variantKebabCase}`}
       viewBox="0 0 64 64"
       className="mt-auto h-[57px] self-end lg:h-[64px]"
       role="graphics-symbol"
