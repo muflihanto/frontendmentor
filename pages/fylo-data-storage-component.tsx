@@ -38,6 +38,7 @@ function NavLink(props: NavLinkProps) {
   return (
     <a
       href={props.href ?? ""}
+      data-testid={`nav-link-${props.variant}`}
       className="flex h-full w-full items-center justify-center"
     >
       <svg
@@ -56,18 +57,22 @@ function NavLink(props: NavLinkProps) {
 
 function Navigation() {
   return (
-    <header className="flex h-[201px] w-full max-w-[480px] flex-col items-start justify-center gap-[33px] rounded-[10px] rounded-tr-[100px] bg-fylo-storage-neutral-300 px-[41px] shadow-2xl shadow-fylo-storage-neutral-400/70 lg:max-w-none">
+    <header
+      data-testid="fylo-header"
+      className="flex h-[201px] w-full max-w-[480px] flex-col items-start justify-center gap-[33px] rounded-[10px] rounded-tr-[100px] bg-fylo-storage-neutral-300 px-[41px] shadow-2xl shadow-fylo-storage-neutral-400/70 lg:max-w-none"
+    >
       <div className="relative aspect-[135/40] h-10">
         <Image
           src="/fylo-data-storage-component/images/logo.svg"
           alt="Fylo Company Logo"
           className="object-contain"
           fill
+          data-testid="fylo-logo"
         />
       </div>
 
       <nav>
-        <ul className="flex gap-4">
+        <ul data-testid="fylo-nav-list" className="flex gap-4">
           {iconVariant.map((el) => {
             return (
               <li
@@ -91,13 +96,17 @@ function Status() {
   });
 
   return (
-    <div className="flex min-h-[160px] w-full max-w-[480px] flex-col items-start justify-start rounded-[10px] bg-fylo-storage-neutral-300 px-[32px] pt-[29px] text-fylo-storage-neutral-100 shadow-2xl shadow-fylo-storage-neutral-400/70 max-lg:relative lg:h-[154px] lg:min-h-0 lg:max-w-none lg:px-[39px] lg:pt-[37px]">
+    <div
+      data-testid="storage-status"
+      className="flex min-h-[160px] w-full max-w-[480px] flex-col items-start justify-start rounded-[10px] bg-fylo-storage-neutral-300 px-[32px] pt-[29px] text-fylo-storage-neutral-100 shadow-2xl shadow-fylo-storage-neutral-400/70 max-lg:relative lg:h-[154px] lg:min-h-0 lg:max-w-none lg:px-[39px] lg:pt-[37px]"
+    >
       <p className="w-full text-center text-[15px] tracking-[-.3px] lg:text-left lg:text-[14px] lg:tracking-[.1px]">
         You&lsquo;ve used{" "}
         <span className="text-[14px] font-bold">{storage.remaining} GB</span> of
         your storage
       </p>
       <div
+        data-testid="storage-progressbar"
         role="progressbar"
         aria-label="Storage usage"
         aria-valuenow={storage.remaining}
@@ -106,6 +115,7 @@ function Status() {
         className="justify-left mt-3 flex h-5 w-full items-center rounded-full bg-fylo-storage-neutral-400/50 px-[3px] pb-[2.5px] pt-[3.5px] lg:mr-[1px] lg:translate-y-[2px] lg:py-[2.75px]"
       >
         <div
+          data-testid="storage-fill"
           style={
             {
               "--bar-length": `${(storage.remaining / storage.maximum) * 100}%`,
@@ -121,6 +131,7 @@ function Status() {
         <span>{storage.maximum} GB</span>
       </p>
       <div
+        data-testid="storage-remaining"
         className="lg:-top absolute bottom-0 left-1/2 flex h-[72px] w-[179px] -translate-x-1/2 translate-y-1/2 items-center justify-center gap-[9px] rounded-[10px] bg-white font-bold leading-none lg:bottom-auto lg:left-auto lg:right-[39px] lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:before:absolute lg:before:-bottom-[--triangle-size] lg:before:right-0 lg:before:h-0 lg:before:w-0 lg:before:border-b-[length:--triangle-size] lg:before:border-r-[length:--triangle-size] lg:before:border-t-[length:--triangle-size] lg:before:border-transparent lg:before:border-r-white lg:before:content-['']"
         style={
           {
@@ -142,7 +153,9 @@ function Status() {
 function Main() {
   return (
     <main className="flex w-full flex-col items-center justify-center gap-4 pl-[25px] pr-[24px] lg:relative lg:mr-[1px] lg:grid lg:w-fit lg:grid-cols-[350px,538px] lg:grid-rows-1 lg:items-end lg:gap-[30px] lg:px-0">
-      <h1 className="sr-only">Data Storage Status</h1>
+      <h1 data-testid="storage-heading" className="sr-only">
+        Data Storage Status
+      </h1>
       <Navigation />
       <Status />
     </main>
