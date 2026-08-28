@@ -15,22 +15,23 @@ test.describe("FrontendMentor Challenge - Social links profile Page", () => {
 
   /** Test if the page has a main card */
   test("has a main card", async ({ page }) => {
-    const card = page.getByRole("main");
+    const card = page.getByTestId("profile-card");
     await expect(card).toBeVisible();
-    await expect(
-      card.getByRole("img", { name: "Jessica Randall's Avatar" }),
-    ).toBeVisible();
-    await expect(
-      card.getByRole("heading", { level: 1, name: "Jessica Randall" }),
-    ).toBeVisible();
-    await expect(card.getByText("London, United Kingdom")).toBeVisible();
-    await expect(
-      card.getByText('"Front-end developer and avid reader."'),
-    ).toBeVisible();
+    await expect(page.getByTestId("profile-avatar")).toBeVisible();
+    await expect(page.getByTestId("profile-name")).toBeVisible();
+    await expect(page.getByTestId("profile-name")).toHaveText(
+      "Jessica Randall",
+    );
+    await expect(page.getByTestId("profile-location")).toBeVisible();
+    await expect(page.getByTestId("profile-location")).toHaveText(
+      "London, United Kingdom",
+    );
+    await expect(page.getByTestId("profile-bio")).toBeVisible();
+    await expect(page.getByTestId("social-links-list")).toBeVisible();
     // has social links
-    const linkContainer = card.locator("ul");
     for (const { name } of socialLinks) {
-      const link = linkContainer.getByRole("link", { name });
+      const kebab = name.toLowerCase().replace(" ", "-");
+      const link = page.getByTestId(`social-link-${kebab}`);
       await expect(link).toBeVisible();
       const defaultColor = await link.evaluate(
         (el) => getComputedStyle(el).color,
