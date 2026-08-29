@@ -33,6 +33,7 @@ export default function HuddleLandingPageWithSingleIntroductorySection() {
 function Main() {
   return (
     <main
+      data-testid="main-content"
       className="w-[calc(100vw-72px)] max-w-[calc(375px-72px)] lg:w-[calc(100vw-160px)] lg:max-w-[calc(1440px-160px)]"
       aria-labelledby="main-heading"
     >
@@ -41,18 +42,23 @@ function Main() {
         <Mockup />
         <div className="lg:ml-[min(calc(58/1440*100vw),58px)] lg:self-start lg:pr-1 lg:pt-[39px]">
           <h1
+            data-testid="heading"
             className="text-center font-poppins text-[24px] font-semibold text-white lg:text-left lg:text-[40px]"
             id="main-heading"
           >
             Build The Community Your Fans Will Love
           </h1>
-          <p className="mt-[13px] text-center text-white/75 lg:mt-[20px] lg:text-left lg:text-[18px]">
+          <p
+            data-testid="description"
+            className="mt-[13px] text-center text-white/75 lg:mt-[20px] lg:text-left lg:text-[18px]"
+          >
             Huddle re-imagines the way we build communities. You have a voice,
             but so does your audience. Create connections with your users as you
             engage in genuine discussion.
           </p>
           <a
             href=""
+            data-testid="register-btn"
             className="mx-auto mt-6 flex h-[40px] w-[200px] items-center justify-center rounded-full bg-white pt-[2.2px] font-poppins text-[12px] text-huddle-intro-primary-violet shadow-md shadow-gray-800/40 hover:bg-huddle-intro-primary-magenta hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:ml-0 lg:h-[56px] lg:pt-0 lg:text-[18px]"
           >
             Register
@@ -66,7 +72,10 @@ function Main() {
 
 function Footer() {
   return (
-    <footer className="absolute bottom-3 z-20 w-full text-center text-[11px] text-white lg:bottom-10 lg:px-20 lg:text-left lg:text-[13px] [&_a:hover]:text-white [&_a:hover]:decoration-white [&_a]:font-bold [&_a]:text-huddle-intro-primary-magenta [&_a]:underline [&_a]:decoration-white/50 [&_a]:decoration-wavy">
+    <footer
+      data-testid="footer"
+      className="absolute bottom-3 z-20 w-full text-center text-[11px] text-white lg:bottom-10 lg:px-20 lg:text-left lg:text-[13px] [&_a:hover]:text-white [&_a:hover]:decoration-white [&_a]:font-bold [&_a]:text-huddle-intro-primary-magenta [&_a]:underline [&_a]:decoration-white/50 [&_a]:decoration-wavy"
+    >
       Challenge by{" "}
       <a
         href="https://www.frontendmentor.io?ref=challenge"
@@ -91,7 +100,13 @@ function SocialMedia() {
       className="mt-[64px] flex items-center justify-center gap-[10px] place-self-center lg:absolute lg:bottom-[40px] lg:right-[80px] lg:z-40 lg:mt-0 lg:gap-[16px] lg:place-self-start [&_a:hover]:border-huddle-intro-primary-magenta [&_a]:flex [&_a]:aspect-square [&_a]:w-[28px] [&_a]:items-center [&_a]:justify-center [&_a]:rounded-full [&_a]:border lg:[&_a]:w-10"
     >
       {huddleSocialLinks.map(({ name, href, iconHref, iconClass }) => (
-        <a key={name} href={href} className="group" aria-label={name}>
+        <a
+          key={name}
+          href={href}
+          data-testid={`social-${name.toLowerCase()}`}
+          className="group"
+          aria-label={name}
+        >
           <Icon name={name} iconHref={iconHref} className={iconClass} />
         </a>
       ))}
@@ -124,7 +139,10 @@ function Icon({
 
 function Mockup() {
   return (
-    <div className="relative mx-[.75px] my-[60px] aspect-[709/506] w-[301px] lg:m-0 lg:w-[calc(696/1440*100vw)] lg:origin-center lg:scale-[calc(696/683.25)]">
+    <div
+      data-testid="mockup"
+      className="relative mx-[.75px] my-[60px] aspect-[709/506] w-[301px] lg:m-0 lg:w-[calc(696/1440*100vw)] lg:origin-center lg:scale-[calc(696/683.25)]"
+    >
       <Image
         src="/huddle-landing-page-with-single-introductory-section/images/illustration-mockups.svg"
         alt="Huddle Illustration Mockup"
@@ -138,7 +156,10 @@ function Mockup() {
 
 function Logo() {
   return (
-    <div className="relative -ml-[2px] aspect-[198/49] w-[128px] lg:w-[200px] lg:scale-[calc(200/186)]">
+    <div
+      data-testid="logo"
+      className="relative -ml-[2px] aspect-[198/49] w-[128px] lg:w-[200px] lg:scale-[calc(200/186)]"
+    >
       <Image
         src="/huddle-landing-page-with-single-introductory-section/images/logo.svg"
         alt="Huddle Logo"
