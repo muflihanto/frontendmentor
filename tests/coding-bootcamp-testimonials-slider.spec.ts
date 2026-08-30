@@ -40,15 +40,18 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
   /** Test if the page has an initial testimonial */
   test("has an initial testimonial", async ({ page }) => {
     const { name, occupation, testimony, img } = data[0];
-    await expect(page.getByText(`${name}${occupation}`)).toBeVisible();
-    await expect(page.getByText(testimony)).toBeVisible();
+    await expect(page.getByTestId("author-name")).toHaveText(name);
+    await expect(page.getByTestId("author-occupation")).toHaveText(occupation);
+    await expect(page.getByTestId("testimony-text")).toHaveText(testimony);
     await expect(page.getByRole("img", { name: img.alt })).toBeVisible();
+    await expect(page.getByTestId("avatar-container")).toBeVisible();
+    await expect(page.getByTestId("testimony-container")).toBeVisible();
   });
 
   /** Test if the page has hover effects on interactive elements */
   test("has hover effects on interactive elements", async ({ page }) => {
-    const prev = page.getByRole("button", { name: "Previous Slide" });
-    const next = page.getByRole("button", { name: "Next Slide" });
+    const prev = page.getByTestId("prev-button");
+    const next = page.getByTestId("next-button");
     const prevSvg = prev.locator("svg");
     const nextSvg = next.locator("svg");
     const defaultPrevColor = await prevSvg.evaluate(
@@ -69,16 +72,19 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
 
   /** Test if the testimonial slider works */
   test("testimonial slider works", async ({ page }) => {
-    const prev = page.getByRole("button", { name: "Previous Slide" });
-    const next = page.getByRole("button", { name: "Next Slide" });
+    const prev = page.getByTestId("prev-button");
+    const next = page.getByTestId("next-button");
     const testData = async ({
       name,
       occupation,
       testimony,
       img,
     }: (typeof data)[0]) => {
-      await expect(page.getByText(`${name}${occupation}`)).toBeVisible();
-      await expect(page.getByText(testimony)).toBeVisible();
+      await expect(page.getByTestId("author-name")).toHaveText(name);
+      await expect(page.getByTestId("author-occupation")).toHaveText(
+        occupation,
+      );
+      await expect(page.getByTestId("testimony-text")).toHaveText(testimony);
       await expect(page.getByRole("img", { name: img.alt })).toBeVisible();
     };
     await testData(data[0]);
@@ -90,36 +96,39 @@ test.describe("FrontendMentor Challenge - Coding Bootcamp Testimonials Slider Pa
 
   /** Test keyboard navigation */
   test("can navigate with keyboard arrows", async ({ page }) => {
-    await expect(page.getByText(data[0].name)).toBeVisible();
+    await expect(page.getByTestId("author-name")).toHaveText(data[0].name);
 
-    // Press right arrow
+    // Press right arrow – ensure body has focus for key listener on document.body
+    await page.getByTestId("slider-container").click();
     await page.keyboard.press("ArrowRight");
-    await expect(page.getByText(data[1].name)).toBeVisible();
+    await expect(page.getByTestId("author-name")).toHaveText(data[1].name);
 
     // Press left arrow
     await page.keyboard.press("ArrowLeft");
-    await expect(page.getByText(data[0].name)).toBeVisible();
+    await expect(page.getByTestId("author-name")).toHaveText(data[0].name);
   });
 
   /** Test ARIA attributes */
   test("has proper ARIA attributes", async ({ page }) => {
-    const slider = page.locator("#testimonials-slider");
+    const slider = page.getByTestId("slider-container");
     await expect(slider).toHaveAttribute("aria-roledescription", "carousel");
 
-    const slides = page.locator("[aria-roledescription='slide']");
+    const slides = page.getByTestId("testimony-container");
     await expect(slides).toHaveCount(1); // Only one slide visible at a time
     await expect(slides.first()).toHaveAttribute("aria-label", "1 of 2");
 
     // Verify aria-label updates when slide changes
-    const next = page.getByRole("button", { name: "Next Slide" });
+    const next = page.getByTestId("next-button");
     await next.click();
     await expect(slides.first()).toHaveAttribute("aria-label", "2 of 2");
 
-    const prev = page.getByRole("button", { name: "Previous Slide" });
+    const prev = page.getByTestId("prev-button");
     await prev.click();
     await expect(slides.first()).toHaveAttribute("aria-label", "1 of 2");
 
-    const buttons = page.getByRole("button", { name: /Slide/ });
+    const sliderButtons = page.getByTestId("slider-buttons");
+    await expect(sliderButtons).toBeVisible();
+    const buttons = page.getByTestId("slider-container").getByRole("button");
     await expect(buttons).toHaveCount(2);
     for (const button of await buttons.all()) {
       await expect(button).toHaveAttribute("aria-controls", "slider-items");
