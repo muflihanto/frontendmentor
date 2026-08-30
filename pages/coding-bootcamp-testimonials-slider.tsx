@@ -72,7 +72,10 @@ function Footer() {
 
 function Avatar({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="relative aspect-square w-[253px] overflow-hidden rounded-sm shadow-[0px_40px_50px_-30px_hsla(240,38%,20%,.4),0px_0px_15px_hsla(240,38%,20%,.05)] lg:w-[540px]">
+    <div
+      data-testid="avatar-container"
+      className="relative aspect-square w-[253px] overflow-hidden rounded-sm shadow-[0px_40px_50px_-30px_hsla(240,38%,20%,.4),0px_0px_15px_hsla(240,38%,20%,.05)] lg:w-[540px]"
+    >
       <Image src={src} alt={alt} fill className="object-contain" />
     </div>
   );
@@ -104,11 +107,13 @@ const data = [
 function Testimony({ activeIndex }: { activeIndex: number }) {
   return (
     <div
+      data-testid="testimony-container"
       className="mx-auto mt-[17px] flex flex-col bg-[url('/coding-bootcamp-testimonials-slider/images/pattern-quotes.svg')] bg-[length:60px,50px] bg-[center_top_0px] bg-no-repeat px-[28px] pt-[25px] text-coding-primary-200 lg:z-10 lg:my-0 lg:ml-[0px] lg:mr-[-75px] lg:w-[632px] lg:bg-[length:120px,100px] lg:bg-[left_95px_top_0px] lg:px-0 lg:pb-[44px] lg:pt-[65px] [&_*]:text-center lg:[&_*]:text-left"
       aria-label={`${activeIndex + 1} of 2`}
       aria-roledescription="slide"
     >
       <p
+        data-testid="testimony-text"
         className="text-[18px] font-light leading-[24px] lg:text-[32px] lg:leading-[44px]"
         aria-label="Testimonial"
       >
@@ -116,12 +121,14 @@ function Testimony({ activeIndex }: { activeIndex: number }) {
       </p>
       <div className="mt-[19px] lg:mt-[36px] lg:flex lg:items-center lg:gap-[8px]">
         <p
+          data-testid="author-name"
           className="text-[15px] font-bold leading-[18px] lg:mt-0 lg:text-[20px] lg:leading-normal lg:tracking-[0.2px]"
           aria-label="Author Name"
         >
           {data[activeIndex].name}
         </p>
         <p
+          data-testid="author-occupation"
           className="text-[15px] font-medium text-coding-primary-100 lg:text-[20px]"
           aria-label="Author Occupation"
         >
@@ -155,8 +162,12 @@ function Main() {
 
   function SliderButton() {
     return (
-      <div className="relative top-[-20px] flex h-[40px] w-[80px] items-center justify-around rounded-full bg-white lg:left-[60px] lg:top-[-28px] lg:h-[56px] lg:w-[112px]">
+      <div
+        data-testid="slider-buttons"
+        className="relative top-[-20px] flex h-[40px] w-[80px] items-center justify-around rounded-full bg-white lg:left-[60px] lg:top-[-28px] lg:h-[56px] lg:w-[112px]"
+      >
         <button
+          data-testid="prev-button"
           onClick={() => {
             slide();
           }}
@@ -173,6 +184,7 @@ function Main() {
           </svg>
         </button>
         <button
+          data-testid="next-button"
           onClick={() => {
             slide();
           }}
@@ -194,6 +206,7 @@ function Main() {
 
   return (
     <div
+      data-testid="slider-container"
       className="flex flex-col items-center justify-center pt-[54px] lg:flex-row-reverse lg:justify-between lg:px-[165px] lg:pt-[113px]"
       id="testimonials-slider"
       aria-roledescription="carousel"
