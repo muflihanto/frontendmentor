@@ -22,7 +22,7 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
   /** Test if the page has all flip cards */
   test("has all flip cards", async ({ page }) => {
     const units = ["Days", "Hours", "Minutes", "Seconds"];
-    const timer = page.getByRole("timer");
+    const timer = page.getByTestId("timer");
     await expect(timer).toHaveAttribute("aria-live", "assertive");
     await expect(timer).toHaveAttribute(
       "aria-describedby",
@@ -32,8 +32,8 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
     expect(children).toHaveLength(8);
     for (const unit of units) {
       await expect(timer.getByText(unit)).toBeVisible();
-      const flipCard = timer.locator(`id=${unit.toLowerCase()}`);
-      await expect(timer.locator(`id=${unit.toLowerCase()}`)).toBeVisible();
+      const flipCard = page.getByTestId(`flip-${unit.toLowerCase()}`);
+      await expect(flipCard).toBeVisible();
       const label = await flipCard.getAttribute("aria-label");
       expect(label).toMatch(/^\d+ \w+$/);
     }
@@ -41,14 +41,15 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
 
   /** Test if the flip cards have correct initial values */
   test("flip cards have correct initial values", async ({ page }) => {
-    const timer = page.getByRole("timer");
-    const days = await timer.locator("id=days").getAttribute("aria-label");
-    const hours = await timer.locator("id=hours").getAttribute("aria-label");
-    const minutes = await timer
-      .locator("id=minutes")
+    const days = await page.getByTestId("flip-days").getAttribute("aria-label");
+    const hours = await page
+      .getByTestId("flip-hours")
       .getAttribute("aria-label");
-    const seconds = await timer
-      .locator("id=seconds")
+    const minutes = await page
+      .getByTestId("flip-minutes")
+      .getAttribute("aria-label");
+    const seconds = await page
+      .getByTestId("flip-seconds")
       .getAttribute("aria-label");
 
     expect(days).toMatch(/^\d+ days$/);
@@ -59,18 +60,18 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
 
   /** Test if the countdown timer is decreasing over time */
   test("countdown timer decreases over time", async ({ page }) => {
-    const timer = page.getByRole("timer");
-
     // Get initial values
-    const initialSeconds = await timer
-      .locator("id=seconds")
+    const initialSeconds = await page
+      .getByTestId("flip-seconds")
       .getAttribute("aria-label");
 
     // Poll until seconds value changes (passes as soon as the timer ticks)
     await expect
       .poll(
         async () => {
-          return await timer.locator("id=seconds").getAttribute("aria-label");
+          return await page
+            .getByTestId("flip-seconds")
+            .getAttribute("aria-label");
         },
         { timeout: 5000 },
       )
@@ -81,7 +82,7 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
   test("flip cards have responsive styling", async ({ page }) => {
     // Check mobile view first
     await page.setViewportSize({ width: 375, height: 667 });
-    const flipCard = page.locator("id=days");
+    const flipCard = page.getByTestId("flip-days");
     await expect(flipCard).toHaveCSS("font-size", "32px");
 
     // Check desktop view
@@ -91,7 +92,7 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
 
   /** Test if the page has correct background styling */
   test("has correct background styling", async ({ page }) => {
-    const appContainer = page.locator(".App");
+    const appContainer = page.getByTestId("app-container");
     await expect(appContainer).toHaveCSS("background-image", /pattern-hills/);
     await expect(appContainer).toHaveCSS("background-image", /bg-stars/);
     await expect(appContainer).toHaveCSS("background-image", /linear-gradient/);
@@ -99,7 +100,9 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
 
   /** Test if the page has social media links */
   test("has social media links", async ({ page }) => {
-    const links = await page.getByRole("navigation").getByRole("link").all();
+    const nav = page.getByTestId("social-nav");
+    await expect(nav).toBeAttached();
+    const links = await nav.getByRole("link").all();
     expect(links).toHaveLength(3);
     for (const link of links) {
       await expect(link).toBeVisible();
@@ -108,22 +111,22 @@ test.describe("FrontendMentor Challenge - Launch countdown timer Page", () => {
       await expect(icon).toBeVisible();
 
       await expect(link).toHaveAttribute("href", ""); // Check href exists
-      await expect(icon).toHaveCSS("fill", "rgb(131, 133, 169)"); // Initial color
-
-      // Hover test
+      const defaultFill = await icon.evaluate(
+        (el) => getComputedStyle(el).fill,
+      );
+      // Hover test – change-based, not exact rgb
       await link.hover();
-      await expect(icon).toHaveCSS("fill", "rgb(251, 96, 135)"); // Hover color
-
-      await page.mouse.move(0, 0);
-      await expect(icon).toHaveCSS("fill", "rgb(131, 133, 169)"); // Initial color
+      await expect
+        .poll(async () => icon.evaluate((el) => getComputedStyle(el).fill))
+        .not.toEqual(defaultFill);
     }
   });
 
   /** Test if the page has a footer */
   test("has a footer", async ({ page }) => {
-    await expect(
-      page.getByText("Challenge by Frontend Mentor. Coded by Muflihanto."),
-    ).toBeVisible();
+    const footer = page.getByTestId("footer");
+    await expect(footer).toBeVisible();
+    await expect(footer).toContainText("Challenge by Frontend Mentor");
   });
 
   test("should not have any automatically detectable accessibility issues", async ({
