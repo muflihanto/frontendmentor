@@ -15,6 +15,7 @@ export default function LaunchCountdownTimer() {
         <title>Frontend Mentor | Launch countdown timer</title>
       </Head>
       <div
+        data-testid="app-container"
         className={`App relative flex min-h-[100dvh] flex-col items-center justify-center bg-countdown-neutral-300 bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-130px),#2F2439_calc(100vh-130px),#2F2439_100%)] bg-[length:920px_auto,auto_auto,100%_100%] bg-[position:bottom_43px_right_-67.5px,top_center,center] bg-no-repeat font-red-hat-text md:bg-[url('/launch-countdown-timer/images/pattern-hills.svg'),url('/launch-countdown-timer/images/bg-stars.svg'),linear-gradient(rgb(30,31,41),#241c2b_calc(100vh-90px),#2F2439_calc(100vh-90px),#2F2439_100%)] md:bg-[length:100vw_auto,auto_auto,100%_100%] md:bg-[position:bottom_center,top_3px_center,center] ${redHatText.variable}`}
       >
         <Main />
@@ -94,6 +95,7 @@ function FlipCard({
     <>
       {/** biome-ignore lint/a11y/useSemanticElements: Countdown status requires live region announcement */}
       <div
+        data-testid={`flip-${label}`}
         className="flip-card relative flex flex-col items-center justify-center rounded bg-countdown-neutral-200 text-[32px] font-bold tracking-tight text-countdown-primary-red md:rounded-lg md:text-[78px]"
         role="status"
         aria-live="polite"
@@ -236,6 +238,7 @@ function CountdownTimer() {
 
   return (
     <div
+      data-testid="timer"
       className="mt-14 grid w-full grid-cols-[repeat(4,70px)] grid-rows-[var(--card-height),auto] justify-center gap-x-[16px] gap-y-3 md:mt-[106px] md:grid-cols-[repeat(4,147px)] md:gap-x-[33px] md:gap-y-[24px]"
       style={
         {
@@ -296,7 +299,7 @@ function CountdownTimer() {
 
 function SocialIcons() {
   return (
-    <nav>
+    <nav data-testid="social-nav">
       <ul className="absolute bottom-12 left-1/2 flex -translate-x-1/2 items-center gap-8 md:bottom-[72px]">
         {["facebook", "pinterest", "instagram"].map((el) => {
           return (
@@ -323,7 +326,7 @@ function SocialIcons() {
 
 function Footer() {
   return (
-    <footer className="contents">
+    <footer data-testid="footer" className="contents">
       <SocialIcons />
       <p className="absolute bottom-3 w-full text-center text-[11px] text-countdown-primary-blue [&_a]:font-bold">
         Challenge by{" "}
