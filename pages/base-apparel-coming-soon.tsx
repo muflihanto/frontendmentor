@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { josefin } from "../utils/fonts/josefin";
@@ -58,18 +57,13 @@ function Main() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<InputSchema>({ resolver: zodResolver(inputSchema) });
 
-  const onSubmit = handleSubmit((e) => {
-    console.log(e);
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+    reset();
   });
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-  }, [isSubmitSuccessful, reset]);
 
   return (
     <main className="flex flex-col items-center lg:w-[calc(100vw-min(45vw,61/80*100svh))] lg:items-start lg:px-[min(calc(165/1440*100vw),165px)]">
